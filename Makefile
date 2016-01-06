@@ -2,6 +2,7 @@ ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 SHELL := /bin/bash
 TOX_DIR := .tox
 VIRTUALENV_DIR ?= virtualenv
+ST2_VIRTUALENV_DIR = st2/virtualenv
 
 # Sphinx docs options
 SPHINXBUILD := sphinx-build
@@ -28,7 +29,7 @@ COMPONENTS_TEST_COMMA := $(subst $(space_char),$(comma),$(COMPONENTS_TEST))
 
 PYTHON_TARGET := 2.7
 
-REQUIREMENTS := test-requirements.txt requirements.txt
+REQUIREMENTS := requirements.txt st2/requirements.txt
 PIP_OPTIONS := $(ST2_PIP_OPTIONS)
 
 ifndef PIP_OPTIONS
@@ -39,16 +40,16 @@ endif
 all: requirements check tests docs
 
 .PHONY: docs
-docs: requirements .docs
+docs: requirements .requirements-st2 .docs
 
 .PHONY: .docs
 .docs:
 	@echo
-	@echo "====================docs===================="
+	@echo "==================== docs ===================="
 	@echo
-	. $(VIRTUALENV_DIR)/bin/activate; ./scripts/generate-runner-parameters-documentation.py
-	. $(VIRTUALENV_DIR)/bin/activate; ./scripts/generate-internal-triggers-table.py
-	. $(VIRTUALENV_DIR)/bin/activate; ./scripts/generate-available-permission-types-table.py
+	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-runner-parameters-documentation.py
+	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-internal-triggers-table.py
+	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-available-permission-types-table.py
 	@echo
 	. $(VIRTUALENV_DIR)/bin/activate; $(SPHINXBUILD) -W -b html $(DOC_SOURCE_DIR) $(DOC_BUILD_DIR)/html
 	@echo
@@ -82,14 +83,11 @@ distclean: clean
 .PHONY: requirements
 requirements: virtualenv
 	@echo
-	@echo "==================== requirements ===================="
+	@echo "==================== st2docs requirements ===================="
 	@echo
 
 	# Make sure we use latest version of pip
 	$(VIRTUALENV_DIR)/bin/pip install --upgrade pip
-
-	# Generate all requirements to support current CI pipeline.
-	$(VIRTUALENV_DIR)/bin/python scripts/fixate-requirements.py -s st2*/in-requirements.txt -f fixed-requirements.txt -o requirements.txt
 
 	# Install requirements
 	#
@@ -102,7 +100,7 @@ requirements: virtualenv
 virtualenv: $(VIRTUALENV_DIR)/bin/activate
 $(VIRTUALENV_DIR)/bin/activate:
 	@echo
-	@echo "==================== virtualenv ===================="
+	@echo "==================== st2docs virtualenv ===================="
 	@echo
 	test -d $(VIRTUALENV_DIR) || virtualenv --no-site-packages $(VIRTUALENV_DIR)
 
@@ -127,3 +125,24 @@ $(VIRTUALENV_DIR)/bin/activate:
 	echo '  functions -e old_deactivate' >> $(VIRTUALENV_DIR)/bin/activate.fish
 	echo 'end' >> $(VIRTUALENV_DIR)/bin/activate.fish
 	touch $(VIRTUALENV_DIR)/bin/activate.fish
+
+.PHONY: .clone-st2
+.clone-st2:
+	@echo
+	@echo "==================== cloning st2 ===================="
+	@echo
+	./scripts/clone-st2.sh
+
+PHONY: .virtualenv-st2
+.virtualenv-st2: .clone-st2
+	@echo
+	@echo "==================== st2 virtualenv ===================="
+	@echo
+	cd st2; make virtualenv
+
+PHONY: .requirements-st2
+.requirements-st2: .clone-st2
+	@echo
+	@echo "==================== st2 requirements ===================="
+	@echo
+	cd st2; make requirements
