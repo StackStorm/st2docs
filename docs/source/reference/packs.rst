@@ -106,45 +106,45 @@ If you would like to create a pack yourself then follow these *simple* steps. In
 
 The contents of ``pack.yaml`` should be as under.
 
-.. literalinclude:: /../../contrib/hello-st2/pack.yaml
+.. literalinclude:: /../../st2/contrib/hello-st2/pack.yaml
 
 2. Create the action. The following example simply echoes a greeting.
 
 Copy the following content to actions/greet.yaml
 
-.. literalinclude:: /../../contrib/hello-st2/actions/greet.yaml
+.. literalinclude:: /../../st2/contrib/hello-st2/actions/greet.yaml
 
 Copy the following content to actions/greet.sh
 
-.. literalinclude:: /../../contrib/hello-st2/actions/greet.sh
+.. literalinclude:: /../../st2/contrib/hello-st2/actions/greet.sh
 
 3. Create a sensor. The sample sensor below publishes an event to |st2| every 60 seconds.
 
 Copy the following content to sensors/sensor1.yaml
 
-.. literalinclude:: /../../contrib/hello-st2/sensors/sensor1.yaml
+.. literalinclude:: /../../st2/contrib/hello-st2/sensors/sensor1.yaml
 
 Copy the following content to sensors/sensor1.py
 
-.. literalinclude:: /../../contrib/hello-st2/sensors/sensor1.py
+.. literalinclude:: /../../st2/contrib/hello-st2/sensors/sensor1.py
 
 4. Create a rule. The sample rule below is triggered by event from the sensor and invokes the action from the samples above.
 
 Copy the following content to rules/rule1.yaml
 
-.. literalinclude:: /../../contrib/hello-st2/rules/rule1.yaml
+.. literalinclude:: /../../st2/contrib/hello-st2/rules/rule1.yaml
 
 5. Create an action alias. The sample action alias below aliases the greet action and makes it accessible from ChatOps.
 
 Copy the following content to aliases/alias1.yaml
 
-.. literalinclude:: /../../contrib/hello-st2/aliases/alias1.yaml
+.. literalinclude:: /../../st2/contrib/hello-st2/aliases/alias1.yaml
 
 6. Create a policy. The sample policy below limits concurrent operation of the greet action.
 
 Copy the following content to policies/policy1.yaml
 
-.. literalinclude:: /../../contrib/hello-st2/policies/policy1.yaml
+.. literalinclude:: /../../st2/contrib/hello-st2/policies/policy1.yaml
 
 7. Deploy this pack manually.
 

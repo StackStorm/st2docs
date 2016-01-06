@@ -17,7 +17,7 @@ import os
 import glob
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, '../../'))
+ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, '../../st2'))
 
 # Include Python modules for all the st2components
 st2_components_paths = glob.glob(ROOT_DIR + '/st2*')

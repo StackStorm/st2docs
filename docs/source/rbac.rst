@@ -103,10 +103,10 @@ the permission grants which are assigned to the user roles.
 
 For example, if user has the following two roles assigned to it:
 
-.. literalinclude:: ../../st2tests/st2tests/fixtures/rbac/roles/role_five.yaml
+.. literalinclude:: ../../st2/st2tests/st2tests/fixtures/rbac/roles/role_five.yaml
     :language: yaml
 
-.. literalinclude:: ../../st2tests/st2tests/fixtures/rbac/roles/role_six.yaml
+.. literalinclude:: ../../st2/st2tests/st2tests/fixtures/rbac/roles/role_six.yaml
     :language: yaml
 
 The effective user permission set which is used during RBAC checks is:
@@ -230,7 +230,7 @@ you will need **n** files.
 
 Example role definition (``/opt/stackstorm/rbac/roles/role_sample.yaml``) is shown below:
 
-.. literalinclude:: ../../st2tests/st2tests/fixtures/rbac/roles/role_sample.yaml
+.. literalinclude:: ../../st2/st2tests/st2tests/fixtures/rbac/roles/role_sample.yaml
     :language: yaml
 
 The example above contains a variety of permission grants with the corresponding explanation
@@ -245,7 +245,7 @@ which means that if you want to define assignments for **n** users, you will nee
 
 Example role definition (``/opt/stackstorm/rbac/assignments/user4.yaml``) is shown below:
 
-.. literalinclude:: ../../st2tests/st2tests/fixtures/rbac/assignments/user4.yaml
+.. literalinclude:: ../../st2/st2tests/st2tests/fixtures/rbac/assignments/user4.yaml
     :language: yaml
 
 In the example above we assign user with the username ``user4`` two roles -

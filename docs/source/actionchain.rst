@@ -15,7 +15,7 @@ ActionChain definition
 
 Following is sample ActionChain workflow definition named :github_st2:`echochain.yaml <contrib/examples/actions/chains/echochain.yaml>`:
 
-.. literalinclude:: /../../contrib/examples/actions/chains/echochain.yaml
+.. literalinclude:: /../../st2/contrib/examples/actions/chains/echochain.yaml
    :language: yaml
 
 Details:
@@ -38,7 +38,7 @@ in the ``entry_point``. The action definition metadata :github_st2:`echochain.me
 <contrib/examples/actions/echochain.meta.yaml>` for an ActionChain :github_st2:`echochain.yaml
 <contrib/examples/actions/chains/echochain.yaml>` looks like this:
 
-.. literalinclude:: /../../contrib/examples/actions/echochain.meta.yaml
+.. literalinclude:: /../../st2/contrib/examples/actions/echochain.meta.yaml
    :language: yaml
 
 
@@ -116,7 +116,7 @@ ActionChain execution under the ``published`` property is ``display_published`` 
 
 The :github_st2:`publish_data.yaml <contrib/examples/actions/chains/publish_data.yaml>` from `examples` shows a complete working examples of using ``vars`` and ``publish``.
 
-.. literalinclude:: /../../contrib/examples/actions/chains/publish_data.yaml
+.. literalinclude:: /../../st2/contrib/examples/actions/chains/publish_data.yaml
    :language: yaml
    :lines: 1-29
 
@@ -125,7 +125,7 @@ Passing data between worklows tasks
 
 Similar to how input to an ActionChain can be referenced in a task; the output of previous tasks can also be referenced. Below is a version of the previously seen `echochain`, :github_st2:`echochain_param.yaml <contrib/examples/actions/chains/echochain_param.yaml>` with input and data passing down the flow:
 
-.. literalinclude:: /../../contrib/examples/actions/chains/echochain_param.yaml
+.. literalinclude:: /../../st2/contrib/examples/actions/chains/echochain_param.yaml
    :language: yaml
 
 Details:

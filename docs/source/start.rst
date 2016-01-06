@@ -148,7 +148,7 @@ checks the criteria and if it matches, it runs an action. Easy enough. Let’s l
 Sample rule: :github_st2:`sample_rule_with_webhook.yaml
 <contrib/examples/rules/sample_rule_with_webhook.yaml>` :
 
-.. literalinclude:: /../../contrib/examples/rules/sample_rule_with_webhook.yaml
+.. literalinclude:: /../../st2/contrib/examples/rules/sample_rule_with_webhook.yaml
     :language: yaml
 
 The rule definition is a YAML with three sections: trigger, criteria, and action. This example is

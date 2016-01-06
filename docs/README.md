@@ -74,7 +74,7 @@ The docs are build with Sphinx. It's integrated with the main project Makefile.
     Sample rule: :github_st2:`sample-rule-with-webhook.yaml
     </contrib/examples/rules/sample-rule-with-webhook.yaml>` :
 
-    .. literalinclude:: /../../contrib/examples/rules/sample_rule_with_webhook.yaml
+    .. literalinclude:: /../../st2/contrib/examples/rules/sample_rule_with_webhook.yaml
         :language: json
 
 

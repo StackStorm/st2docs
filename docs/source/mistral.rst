@@ -12,11 +12,11 @@ Basic Workflow
 Let's start with a very basic workflow that calls a |st2| action and notifies |st2| when the workflow is done. The files used in this example is also located under :github_st2:`/usr/share/doc/st2/examples </contrib/examples>` if |st2| is already installed (and you can :ref:`deploy examples <start-deploy-examples>`).
 The first task is named **run-cmd** that executes a shell command on the local server where st2 is installed. A task can reference any registered |st2| action directly. In this example, the run-cmd task is calling **core.local** and passing the cmd as input. **core.local** is an action that comes installed with |st2|. When the workflow is invoked, |st2| will translate the workflow definition appropriately before sending it to Mistral. Let's save this as mistral-basic.yaml at **/opt/stackstorm/packs/examples/actions/workflows** where |st2| is installed.
 
-.. literalinclude:: /../../contrib/examples/actions/workflows/mistral-basic.yaml
+.. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-basic.yaml
 
 The following is the corresponding |st2| action metadata for example above. The |st2| pack for this workflow action is named "examples". Please note that the workflow is named fully qualified as "<pack>.<action>" in the definition above. The |st2| action runner is "mistral-v2". The entry point for the |st2| action refers to the YAML file of the workflow definition. Let's save this metadata as mistral-basic.yaml at /opt/stackstorm/packs/examples/actions/.
 
-.. literalinclude:: /../../contrib/examples/actions/mistral-basic.yaml
+.. literalinclude:: /../../st2/contrib/examples/actions/mistral-basic.yaml
 
 The following table list optional parameters that can be defined in the workflow action. In the example, these optional parameters are set to immutable. It is good practice to set them to immutable even if they are empty since these are mistral specific parameters for workflow author.
 
@@ -121,11 +121,11 @@ Stitching a more Complex Workflow
 +++++++++++++++++++++++++++++++++
 The following is a mock up of a more complex workflow. In this mock up running simple printf and sleep commands, the workflow demonstrates nested workflows, fork, and join.
 
-.. literalinclude:: /../../contrib/examples/actions/workflows/mistral-workbook-complex.yaml
+.. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-workbook-complex.yaml
 
 Since there are multiple workflows defined in this workbook, workflow author has to specify which workflow to execute in the metadata as shown in the workflow parameters below.
 
-.. literalinclude:: /../../contrib/examples/actions/mistral-workbook-complex.yaml
+.. literalinclude:: /../../st2/contrib/examples/actions/mistral-workbook-complex.yaml
 
 To test out this workflow, save the metadata file to /opt/stackstorm/packs/examples/actions/ and the workflow file to /opt/stackstorm/packs/examples/actions/workflows. Run ``st2 action create /opt/stackstorm/packs/examples/actions/mistral-workbook-complex.yaml`` to create the action and run ``st2 run examples.mistral-workbook-complex vm_name="vmtest1" -a`` to test.
 

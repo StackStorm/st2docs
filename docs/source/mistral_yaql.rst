@@ -1,8 +1,8 @@
 Mistral + YAQL
 ==============
-YAQL is typically used for simple conditional evaulation and data transformation in Mistral 
-workflows. There will be many cases where you did not author the actions but there's a need to 
-decide from the result of the action whether to continue or there's a need to transform the 
+YAQL is typically used for simple conditional evaulation and data transformation in Mistral
+workflows. There will be many cases where you did not author the actions but there's a need to
+decide from the result of the action whether to continue or there's a need to transform the
 result to another value or structure for the next action in the workflow.
 
 Here are use cases where YAQL can be applied in Mistral workflows.
@@ -24,14 +24,14 @@ that you can do with YAQL.
 .. note::
 
     Please refer to offical OpenStack documentation for Mistral and YAQL. The documentation here
-    is meant to help |st2| users get a quick start. 
+    is meant to help |st2| users get a quick start.
     `YAQL unit tests <https://github.com/openstack/yaql/tree/master/yaql/tests>`_ are also a great
     source of reference on how to use and what features are supported in YAQL especially to cover
     gaps in OpenStack YAQL documentation.
 
 Basics
 ++++++
-The following are statements in the workflow and task definition that accepts YAQL. 
+The following are statements in the workflow and task definition that accepts YAQL.
 
 * task action input
 * task concurrency
@@ -50,13 +50,13 @@ The following are statements in the workflow and task definition that accepts YA
 * task with-items
 * workflow output
 
-Each of the statement can take a string with one or more YAQL expressions. Each expression in the 
-string should be encapsulated with ``<% %>``. When evaluating a YAQL expression, Mistral also 
+Each of the statement can take a string with one or more YAQL expressions. Each expression in the
+string should be encapsulated with ``<% %>``. When evaluating a YAQL expression, Mistral also
 passes a JSON dictionary (aka context) to the YAQL engine. The context contains all the workflow
-inputs, published variables, and result of completed tasks up to this point of workflow 
-execution including the current task. The YAQL expression can refer to one or more variables in 
-the context. The reserved symbol ``$`` is used to reference the context. For example, given the 
-context ``{"ip": "127.0.0.1", "port": 8080}``, the string ``https://<% $.ip %>:<% $.port>/api`` 
+inputs, published variables, and result of completed tasks up to this point of workflow
+execution including the current task. The YAQL expression can refer to one or more variables in
+the context. The reserved symbol ``$`` is used to reference the context. For example, given the
+context ``{"ip": "127.0.0.1", "port": 8080}``, the string ``https://<% $.ip %>:<% $.port>/api``
 returns ``https://127.0.0.1:8080/api``. The following is the same example used in a workflow.
 
 .. code-block:: yaml
@@ -74,15 +74,15 @@ returns ``https://127.0.0.1:8080/api``. The following is the same example used i
                 input:
                     endpoint: https://<% $.ip %>:<% $.port>/api
 
-Certain statements in Mistral such as on-success and on-error can evaluate boolean logic. The 
-``on-condition`` related statements are used for transition from one task to another. If a 
+Certain statements in Mistral such as on-success and on-error can evaluate boolean logic. The
+``on-condition`` related statements are used for transition from one task to another. If a
 boolean logic is defined with these statements, it can be used to evaluate whether the transition
 should continue or not. Complex boolean logic using a combination of ``not``, ``and``, ``or``, and
-parentheses is possible. Take the following workflow as an example, execution of certain branch 
-in the workflow depends on the value of ``$.path``. If ``$.path = a``, then task ``a`` is executed. 
+parentheses is possible. Take the following workflow as an example, execution of certain branch
+in the workflow depends on the value of ``$.path``. If ``$.path = a``, then task ``a`` is executed.
 If ``$.path = b``, then task ``b``. Finally task ``c`` is executed if neither.
 
-.. literalinclude:: /../../contrib/examples/actions/workflows/mistral-branching.yaml
+.. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-branching.yaml
 
 The statement ``with-items`` in Mistral is used to execute an action over iteration of one or more
 list of items. The following is a sample Mistral workflow that iterate over the list of given names
@@ -142,9 +142,9 @@ will be returned by default.
 
 Lists
 +++++
-To create a list, use the ``list`` functions. For example, ``<% list(1, 2, 3) %>`` returns 
-``[1, 2, 3]`` and ``<% list(abc, def) %>`` returns ``['abc', 'def']``. List concatenation  
-can be done as ``<% list(abc, def) + list(ijk, xyz) %>`` which returns 
+To create a list, use the ``list`` functions. For example, ``<% list(1, 2, 3) %>`` returns
+``[1, 2, 3]`` and ``<% list(abc, def) %>`` returns ``['abc', 'def']``. List concatenation
+can be done as ``<% list(abc, def) + list(ijk, xyz) %>`` which returns
 ``['abc', 'def', 'ijk', 'xyz']``. Let's say this list is published to the context as ``list1``,
 items can also be access via index such as ``<% $.list1[0] %>`` which returns ``abc``.
 
@@ -237,14 +237,14 @@ documentation and git repo to explore more options.
 
 * ``float(value)`` converts value to float.
 * ``int(value)`` converts value to integer.
-* ``len(list)`` and ``len(string)`` returns the length of the list and string respectively. 
+* ``len(list)`` and ``len(string)`` returns the length of the list and string respectively.
 * ``max(a, b)`` returns the larger value between a and b.
 * ``min(a, b)`` returns the smaller value between a and b.
 * ``regex(expression).match(pattern)`` returns True if expression matches pattern.
 * ``regex(expresssion).search(pattern)`` returns first instance that matches pattern.
 * ``'some string'.toUpper()`` converts the string to all upper cases.
 * ``'some string'.toLower()`` converts the string to all lower cases.
-* ``['some', 'list'].contains(value)`` returns True if list contains value. 
+* ``['some', 'list'].contains(value)`` returns True if list contains value.
 
 **Mistral**
 

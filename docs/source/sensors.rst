@@ -38,12 +38,12 @@ Authoring a sensor
 Authoring a sensor involves authoring a python file and a yaml meta file
 that defines the sensor. An example meta file is shown below.
 
-.. literalinclude:: ../../contrib/examples/sensors/sample_sensor.yaml
+.. literalinclude:: ../../st2/contrib/examples/sensors/sample_sensor.yaml
 
 
 Corresponding simple sensor python implementation is shown below.
 
-.. literalinclude:: ../../contrib/examples/sensors/sample_sensor.py
+.. literalinclude:: ../../st2/contrib/examples/sensors/sample_sensor.py
 
 It shows a bare minimum version of how a sensor would look like. Your
 sensor should generate triggers of the form (python dict):
@@ -66,7 +66,7 @@ passed into the sensor on instantiation.
 If you want a sensor that polls an external system at regular intervals, you
 would use a PollingSensor instead of Sensor as the base class.
 
-.. literalinclude:: ../../contrib/examples/sensors/sample_polling_sensor.py
+.. literalinclude:: ../../st2/contrib/examples/sensors/sample_polling_sensor.py
 
 For a complete implementation of a sensor that actually injects triggers
 into the system, look at the `examples <#examples>`__ section.
