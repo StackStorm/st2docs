@@ -1,3 +1,4 @@
 st2
 virtualenv
 build
+*.py[cod]
