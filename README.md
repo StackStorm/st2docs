@@ -69,7 +69,7 @@ The docs are build with Sphinx. It's integrated with the main project Makefile.
     `st2contrib`_
     `st2incubator`_
 
-* The pattern to include an example from `/contrib/examples`: make example file name a reference on github. may say that it is deployed to `/usr/share/doc/st2/examples/`, and auto-include the file:
+* The pattern to include an example from `/st2/contrib/examples`: make example file name a reference on github. may say that it is deployed to `/usr/share/doc/st2/examples/`, and auto-include the file:
 
     Sample rule: :github_st2:`sample-rule-with-webhook.yaml
     </contrib/examples/rules/sample-rule-with-webhook.yaml>` :
@@ -90,12 +90,12 @@ pandoc - a super-tool to convert between formats. Sample for markdown conversion
 To make docs changes, without installing full development environment (e.g., on Mac or Windows:
 
 ```
-git clone git@github.com:StackStorm/st2.git
-cd st2/docs
+git clone git@github.com:StackStorm/st2docs.git
+cd st2docs
 virtualenv .venv
 . .venv/bin/activate
 pip install sphinx sphinx-autobuild
-sphinx-autobuild -H 0.0.0.0 -b html ./source/ ./build/html
+sphinx-autobuild -H 0.0.0.0 -b html ./docs/source/ ./docs/build/html
 
 ```
 
@@ -104,6 +104,3 @@ Edit, enjoy live updates.
 ## Misc
 
 It's ironic that I use Markdown to write about rST tricks.
-
-
-
