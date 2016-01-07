@@ -1,5 +1,3 @@
-.. _ref-ask-for-help:
-
 Ask for help!
 =============
 

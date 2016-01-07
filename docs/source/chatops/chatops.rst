@@ -79,6 +79,9 @@ variables:
    ``https://<host>:443/api``
 -  ``ST2_AUTH_URL`` - FQDN + port to StackStorm Auth endpoint:
    ``https://<host>:443/auth``
+   ``https://<host>/api``
+-  ``ST2_AUTH_URL`` - FQDN + port to StackStorm Auth endpoint:
+   ``https://<host>/auth``
 -  ``ST2_AUTH_USERNAME`` - StackStorm installation username
 -  ``ST2_AUTH_PASSWORD`` - StackStorm installation password
 

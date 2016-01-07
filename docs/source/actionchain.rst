@@ -67,7 +67,7 @@ For a user to provide input to an ActionChain the input parameters must be defin
 
    ---
       # ...
-      parameters:
+      params:
          input1:
             type: "string"
             required: true
@@ -83,7 +83,7 @@ The input parameter ``input1`` can now be referenced in the parameters field of 
          -
             name: "action1"
             ref: "core.local"
-            parameters:
+            params:
                action1_input: "{{input1}}"
       # ...
 
@@ -95,10 +95,9 @@ Variables
 ~~~~~~~~~
 
 ActionChain offers the convinience of named variables. Global vars are set at the top of the definition with the ``var`` keyword.
-Tasks publish new variables with the ``publish`` keyword. Variables are handy when you need to mash up
+Tasks publish new variables with the ``publish`` keyword. Variables handy when you need to mash up
 a reusable value from the input, globals, DataStore values, and results of multiple actions executions.
-All variables are referred with Jinja syntax. The cumulative published variables are also available in the result of an
-ActionChain execution under the ``published`` property is ``display_published`` property was supplied.
+All variables are referred with Jinja syntax.
 
 .. code-block:: yaml
 
@@ -154,13 +153,13 @@ and prints it to standard output.
             -
                 name: "task1"
                 ref: "core.local"
-                parameters:
+                params:
                     cmd: "date"
                 on-success: "task2"
             -
                 name: "task2"
                 ref: "mypack.workflow2"
-                parameters:
+                params:
                     date: "{{ task1.stdout }}"  # Here we pass result from "task1" as a "date" action parameter to the action "workflow2"
 
 ``workflow2.meta.yaml``
@@ -188,7 +187,7 @@ and prints it to standard output.
             -
                 name: "task1"
                 ref: "core.local"
-                parameters:
+                params:
                     cmd: "echo {{ date }}"  # Here we echo the variable "date" which was passed to the workflow as an action parameter
 
 The example above applies to a scenario where you have two related workflows
