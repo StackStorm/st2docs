@@ -45,7 +45,7 @@ Some packs can be installed and run "as is" without any configurations.
 
 This downloads the Sensu and Docker packs from the `StackStorm/st2contrib community repo on GitHub <https://github.com/StackStorm/st2contrib>`__ , places them as local content under ``/opt/stackstorm/packs``, registers with |st2| and loads the content.
 
-By default packs are installed from the |st2| community repo. Use ``repo_url`` parameter to install a pack from a fork of `st2contrib`_, or from a custom repo. The following example installs all the packs from `StackStorm/st2incubator <https://github.com/StackStorm/st2contrib>`__ - the repo where you find our experiments and work-in-progress:
+By default packs are installed from the |st2| community repo. Use ``repo_url`` parameter to install a pack from a fork of `st2contrib`_, or from a custom repo. The following example installs all the packs from `StackStorm/st2incubator <https://github.com/StackStorm/st2incubator>`__ - the repo where you find our experiments and work-in-progress:
 
 .. code-block:: bash
 
