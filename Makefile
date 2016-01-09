@@ -40,7 +40,7 @@ endif
 all: requirements check tests docs
 
 .PHONY: docs
-docs: requirements .requirements-st2 .docs
+docs: .clone-st2 requirements .requirements-st2 .docs
 
 .PHONY: .docs
 .docs:
