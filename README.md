@@ -1,8 +1,35 @@
+[![StackStorm](https://github.com/stackstorm/st2/raw/master/stackstorm_logo.png)](http://www.stackstorm.com)
+
+**StackStorm** is a platform for integration and automation across services and tools, taking actions in response to events. Learn more at [www.stackstorm.com](http://www.stackstorm.com/product).
+
+[![Build Status](https://api.travis-ci.org/StackStorm/st2docs.svg?branch=master)](https://travis-ci.org/StackStorm/st2)
+
 # Writing the Docs
 
+Product documentation for StackStorm is maintained in this repository. These docs are built usinh [sphinx](http://www.sphinx-doc.org/en/stable/).
+
+## Contributing
+* Fork this repo on github. (https://help.github.com/articles/fork-a-repo/)
+* Make changes to the docs using your favorite editor
+* To update docs for the latest i.e. unstable release of StackStorm base changes of the `master` branch.
+* To update docs for a released version of StackStorm pick the appropriate version branch(v1.2 etc) and make changes.
+* Push changes to your fork.
+* Create a pull request (https://help.github.com/articles/creating-a-pull-request/) against StackStorm/st2docs repository
+  to upstream the changes.
+* Wait for Travis to complete and one of the StackStorm team shall merge the change.
+
 ## Build and Run the Docs.
-The docs are build with Sphinx. It's integrated with the main project Makefile.
-`make livedocs` builds the docs and runs the doc site live at [http://localhost:8000](http://localhost:8000)
+
+Follows these steps to build the docs locally -
+
+```
+* git clone https://github.com/StackStorm/st2docs.git
+* cd st2docs
+* make docs
+```
+
+`make livedocs` builds the docs and runs the doc site live at [http://localhost:8000](http://localhost:8000) to
+validate changes locally prior to commiting any code.
 
 ## Sphinx Tricks
 
