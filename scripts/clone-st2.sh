@@ -10,10 +10,10 @@ docs_version=`cat version.txt`
 
 case $docs_version in
     *dev*)
-        REQUIRED_BRANCH='master'
+        REQUIRED_BRANCH="master"
         ;;
     *)
-        REQUIRED_BRANCH='v$docs_version'
+        REQUIRED_BRANCH="v$docs_version"
         ;;
 esac
 
