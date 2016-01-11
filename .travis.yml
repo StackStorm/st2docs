@@ -1,2 +1,6 @@
-install: true
+language: python
+python:
+  - 2.7
+install:
+  - pip install --upgrade pip
 script: make docs
