@@ -277,11 +277,14 @@ linux.rsync action.
 
 .. literalinclude:: /../../st2/contrib/linux/actions/rsync.yaml
 
-Not all attributes for the runner parameters can be overridden. Only ``default``, ``description``,
-``enum``, ``immutable``, and ``required`` attributes can be overridden. Overriding attributes such
-as ``type`` and ``position`` are not allowed because overriding them can potentially break the
-action since the runner will not be able to consume the type of value being passed (i.e. runner
-parameter is expecting an integer but a string is passed).
+Not all attributes for the runner parameters can be overridden. A list of attributes which can be
+overriden is included below.
+
+.. include:: _includes/runner_parameters_overridable_attributes.rst
+
+Overriding attributes such as ``type`` and ``position`` are not allowed because overriding them can
+potentially break the action since the runner will not be able to consume the type of value being
+passed (i.e. runner parameter is expecting an integer but a string is passed).
 
 Common environment variables available to the actions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
