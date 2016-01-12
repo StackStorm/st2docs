@@ -151,6 +151,8 @@ An execution triggered via chatops will contain variables such as ``action_conte
 client and ``user`` is the |st2| user configured in hubot. ``source_channel`` is the channel
 in which the chatops command was kicked off.
 
+If you are attempting to access this information from inside of an action-chain, you will need to reference the variables through the parent, like ``action_context.parent.api_user``
+
 Multiple formats in single alias
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
