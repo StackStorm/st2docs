@@ -295,24 +295,24 @@ How do I specify st2_ssl_cert and st2_ssl_key in answers.yaml file?
 
 If you have your own SSL cert and key and want to supply it with answers.yaml file, you can do so. This has been tested and reported as working by users.
 
-```
-st2_ssl_cert: ! '-----BEGIN CERTIFICATE-----
-  LINE 1
-  LINE 2
-  LINE 3
-  LINE 4
-  ....
-  -----END CERTIFICATE-----
-'
+.. yaml
+    st2_ssl_cert: ! '-----BEGIN CERTIFICATE-----
+      LINE 1
+      LINE 2
+      LINE 3
+      LINE 4
+      ....
+      -----END CERTIFICATE-----
+    '
 
-st2_ssl_key: ! '-----BEGIN RSA PRIVATE KEY-----
-  LINE 1
-  LINE 2
-  LINE 3
-  ....
-  -----END RSA PRIVATE KEY-----
-'
-```
+    st2_ssl_key: ! '-----BEGIN RSA PRIVATE KEY-----
+      LINE 1
+      LINE 2
+      LINE 3
+      ....
+      -----END RSA PRIVATE KEY-----
+    '
+
 
 Note the usage of ``!``. Other multi-line string markers in YAML might work (YMMV).
 
