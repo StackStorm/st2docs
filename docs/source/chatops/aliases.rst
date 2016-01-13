@@ -179,6 +179,9 @@ The above alias supports the following commands -
     !list sensors from examples
     !list sensors from examples limit=2
 
+
+Note: format lists are matched in the exact order they are listed in YAML, so they should be ordered by verbosity/greediness: `deploy {{ pack }} to {{ host }}` should come before `deploy {{ pack }}`. If `deploy {{ pack }}` is the first format string in the list, everything after "deploy" will always be mapped to `pack`, ignoring more detailed format strings that come after.
+
 "Display-representation" format objects
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
