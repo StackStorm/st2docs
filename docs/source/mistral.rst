@@ -56,6 +56,29 @@ Canceling Workflow Execution
 ++++++++++++++++++++++++++++
 An execution of a Mistral workflow can be cancelled by running ``st2 execution cancel <execution-id>``. Workflow tasks that are still running will not be canceled and will run to completion. No new tasks for the workflow will be scheduled.
 
+Rerunning Workflow Execution
+++++++++++++++++++++++++++++
+
+An execution of a Mistral workflow can be rerun on error. The execution either can be rerun from the
+beginning or from the task(s) that failed. The latter is useful for long running workflows with
+temporary service or network outages. Rerunning the workflow execution from the beginning is
+exactly like rerunning any |st2| execution with the command ``st2 execution re-run <execution-id>``.
+The rerun is a completely separate execution with a new execution ID in both |st2| and Mistral.
+Rerunning the workflow from where it errored is slightly different. To retain context, the original
+workflow execution is reuse in Mistral but a new |st2| execution will be created to stay consistent
+in |st2|. The re-run command has a new ``--task`` option that takes a list of task names to re-run.
+For example, given a workflow that fails at task3 and task4 on separate parallel branches, the
+command ``st2 execution re-run <execution-id> --task task3 task4`` will resume the Mistral workflow
+execution and rerun both task3 and task4 using original inputs. Both the workflow and task execution
+in Mistral has to be in an ``errored`` state for rerun.
+
+.. note::
+
+    Rerunning workflow execution from the task(s) that failed is currently an experimental
+    feature and subject to change. Rerunning task in nested subworkflow, defined in the
+    Mistral workbook and referenced in the main workflow or in another Mistral workflow,
+    is not currently supported.
+
 Publishing variables in mistral workflows
 +++++++++++++++++++++++++++++++++++++++++
 
