@@ -51,7 +51,7 @@ By default packs are installed from the |st2| community repo. Use ``repo_url`` p
 
     st2 run packs.install register=all repo_url=https://github.com/StackStorm/st2incubator.git
 
-If you are using a private repo to host your pack(s),
+If you are using a private repo to host your pack(s) on github,
 ``repo_url=https://username:password@github.com/username/repository.git`` should get you going.
 You can optionally pass ``subtree=True`` if the repo contains multiple packs within ``packs`` directory
 of repo root just like `StackStorm/st2contrib community repo on GitHub <https://github.com/StackStorm/st2contrib>`_.
