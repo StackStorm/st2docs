@@ -161,9 +161,9 @@ This section describes all the available operators which can be used in the crit
 ``iequals``      String trigger value equals the provided value case
                  insensitively.
 ``contains``     Trigger value contains the provided value. Keep in mind that
-                 the trigger value can be either string or an array (list).
+                 the trigger value can be either a string or an array (list).
 ``ncontains``    Trigger value does not contain the provided value. Keep in mind
-                 that the trigger value can be either string or an array (list).
+                 that the trigger value can be either a string or an array (list).
 ``icontains``    String trigger value contains the provided value case
                  insensitively.
 ``incontains``   String trigger value does not contain the provided string
