@@ -152,34 +152,36 @@ This section describes all the available operators which can be used in the crit
 ===============  ===============================================================
  Operator         Description
 ===============  ===============================================================
-``equals``       values are equal (for values of arbitrary type);
-``nequals``      values are not equal (for values of arbitrary type);
-``lessthan``     trigger value is less than the provided value;
-``greaterthan``  trigger value is greater than the provided value;
-``matchregex``   trigger value matches the provided regular expression
-                 pattern;
-``iequals``      string trigger value equals the provided value case
-                 insensitively;
-``contains``     string trigger value contains the provided value;
-``ncontains``    string trigger value does not contain the provided value;
-``icontains``    string trigger value contains the provided value case
-                 insensitively;
-``incontains``   string trigger value does not contain the provided string
-                 value case insensitively;
-``startswith``   beginning of the string trigger value matches the provided
-                 string value;
-``istartswith``  beginning of the string trigger value matches the provided
-                 string value case insensitively;
-``endswith``     end of the string trigger value matches the provided string
-                 value;
-``iendswith``    end of the string trigger value matches the provided string
-                 value case insensitively;
-``timediff_lt``  time difference between trigger value and current time is
-                 less than the provided value;
-``timediff_gt``  time difference between trigger value and current time is
+``equals``       Values are equal (for values of arbitrary type).
+``nequals``      Values are not equal (for values of arbitrary type).
+``lessthan``     Trigger value is less than the provided value.
+``greaterthan``  Trigger value is greater than the provided value.
+``matchregex``   Trigger value matches the provided regular expression
+                 pattern.
+``iequals``      String trigger value equals the provided value case
+                 insensitively.
+``contains``     Trigger value contains the provided value. Keep in mind that
+                 the trigger value can be either a string or an array (list).
+``ncontains``    Trigger value does not contain the provided value. Keep in mind
+                 that the trigger value can be either a string or an array (list).
+``icontains``    String trigger value contains the provided value case
+                 insensitively.
+``incontains``   String trigger value does not contain the provided string
+                 value case insensitively.
+``startswith``   Beginning of the string trigger value matches the provided
+                 string value.
+``istartswith``  Beginning of the string trigger value matches the provided
+                 string value case insensitively.
+``endswith``     End of the string trigger value matches the provided string
+                 value.
+``iendswith``    End of the string trigger value matches the provided string
+                 value case insensitively.
+``timediff_lt``  Time difference between trigger value and current time is
+                 less than the provided value.
+``timediff_gt``  Time difference between trigger value and current time is
                  greater than the provided value;
-``exists``       key exists in payload;
-``nexists``      key doesn't exist in payload.
+``exists``       Key exists in payload.
+``nexists``      Key doesn't exist in payload.
 ===============  ===============================================================
 
 Action
