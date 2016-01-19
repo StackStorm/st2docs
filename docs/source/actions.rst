@@ -543,6 +543,32 @@ For example:
         else:
             self.logger.error('Action failed...')
 
+Datastore
+~~~~~~~~~
+
+Actions can utilize the datastore to store data between executions.
+
+The datastore service provides the same methods available on the sensor service.
+More detail can be found in the :ref:`sensor datastore management documentation<ref-sensors-datastore-management-operations>`.
+
+Example storing a dict as JSON:
+
+.. sourcecode:: python
+
+    def run(self):
+      data = {'somedata': 'foobar'}
+
+      # Add a value to the datastore
+      self.datastore.set_value(name='cache', value=json.dumps(data))
+
+      # Retrieve a value
+      value = self.datastore.get_value('cache')
+      retrieved_data = json.loads(value)
+
+      # Delete a value
+      self.datastore.delete_value('cache')
+
+
 Pre-defined actions
 ^^^^^^^^^^^^^^^^^^^
 
