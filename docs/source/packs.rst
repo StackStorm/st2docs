@@ -51,6 +51,12 @@ By default packs are installed from the |st2| community repo. Use ``repo_url`` p
 
     st2 run packs.install register=all repo_url=https://github.com/StackStorm/st2incubator.git
 
+If you are using a private repo to host your pack(s) on github,
+``repo_url=https://username:password@github.com/username/repository.git`` should get you going.
+You can optionally pass ``subtree=True`` if the repo contains multiple packs within ``packs`` directory
+of repo root just like `StackStorm/st2contrib community repo on GitHub <https://github.com/StackStorm/st2contrib>`_.
+If the repo contains only one pack at the repo root, then use ``subtree=False``.
+
 To uninstall packs: ``st2 run packs.uninstall packs=docker,sensu``. This unloads and unregisters the content and deletes the packs from the disk.
 
 The integration packs often require configurations to adjust to the environment. e.g. you will need to specify SMTP server for email, a puppet master URL for Puppet, or a Keystone endpoint and tenant credentials for OpenStack. The installation process is:
