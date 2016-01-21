@@ -70,13 +70,15 @@ in |st2|. The re-run command has a new ``--task`` option that takes a list of ta
 For example, given a workflow that fails at task3 and task4 on separate parallel branches, the
 command ``st2 execution re-run <execution-id> --task task3 task4`` will resume the Mistral workflow
 execution and rerun both task3 and task4 using original inputs. Both the workflow and task execution
-in Mistral has to be in an ``errored`` state for rerun.
+in Mistral has to be in an ``errored`` state for rerun. If using a Mistral workbook, task of
+subworkflows can also be rerun. For example, if the main workflow has a task1 that calls subflow1
+and to rerun subtask1 of subflow1, the syntax for the st2 execution re-run command would be
+``st2 execution re-run <execution-id> --task task1.subtask1``.
 
 .. note::
 
     Rerunning workflow execution from the task(s) that failed is currently an experimental
-    feature and subject to change. Rerunning task in nested subworkflow, defined in the
-    Mistral workbook and referenced in the main workflow or in another Mistral workflow,
+    feature and subject to change. Rerunning subtask nested in another StackStorm action
     is not currently supported.
 
 Publishing variables in mistral workflows
