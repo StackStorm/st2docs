@@ -66,20 +66,27 @@ exactly like rerunning any |st2| execution with the command ``st2 execution re-r
 The rerun is a completely separate execution with a new execution ID in both |st2| and Mistral.
 Rerunning the workflow from where it errored is slightly different. To retain context, the original
 workflow execution is reuse in Mistral but a new |st2| execution will be created to stay consistent
-in |st2|. The re-run command has a new ``--task`` option that takes a list of task names to re-run.
+in |st2|. The re-run command has a new ``--tasks`` option that takes a list of task names to re-run.
 For example, given a workflow that fails at task3 and task4 on separate parallel branches, the
-command ``st2 execution re-run <execution-id> --task task3 task4`` will resume the Mistral workflow
+command ``st2 execution re-run <execution-id> --tasks task3 task4`` will resume the Mistral workflow
 execution and rerun both task3 and task4 using original inputs. Both the workflow and task execution
-in Mistral has to be in an ``errored`` state for rerun. If using a Mistral workbook, task of
-subworkflows can also be rerun. For example, if the main workflow has a task1 that calls subflow1
-and to rerun subtask1 of subflow1, the syntax for the st2 execution re-run command would be
-``st2 execution re-run <execution-id> --task task1.subtask1``.
+in Mistral has to be in an ``errored`` state for rerun.
+
+If using a Mistral workbook, task of subworkflows can also be rerun. For example, if the main
+workflow has a task1 that calls subflow1 and to rerun subtask1 of subflow1, the syntax for the st2
+execution re-run command would be ``st2 execution re-run <execution-id> --tasks task1.subtask1``.
+
+If the task to rerun is a with-items task, there is an option to rerun only failed iterations. For
+example, task1 is a with-items task with 5 items. Let's say 2 of the items failed. By specifying
+the ``st2 execution re-run --tasks task1 task2 --no-reset task1`` option, task1 will only re-run
+the 2 items that failed. If the ``--no-reset`` option is not provided, then all 5 items will be
+re-run.
 
 .. note::
 
     Rerunning workflow execution from the task(s) that failed is currently an experimental
-    feature and subject to change. Rerunning subtask nested in another StackStorm action
-    is not currently supported.
+    feature and subject to bug(s) and change(s). Please also note that erunning subtask nested
+    in another StackStorm action is not currently supported.
 
 Publishing variables in mistral workflows
 +++++++++++++++++++++++++++++++++++++++++
