@@ -84,7 +84,7 @@ and uploaded to StackStorm.
 
 
 Submitting debugging information to Plexxi
-===============================
+==========================================
 
 The enhancement work will allow submit_debug_info.py to be customized for specific deployments (Plexxi's as an example :-) by loading a set of overrides from a YAML file. The following config options can now be specified:
 
