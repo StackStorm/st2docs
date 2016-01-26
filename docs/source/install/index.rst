@@ -20,12 +20,9 @@ If you use configuration management tools, pick you poison. Or, run from source.
     :maxdepth: 1
 
     Big Picture <all_in_one>
-    Installation Guide <guide>
-    StackStorm Enterprise <enterprise>
     All-In-One Installer  <all_in_one>
+    Installation Guide [BETA]<guide>
+    StackStorm Enterprise <enterprise>
     Chef, Puppet, Salt, Ansible <puppet_chef_salt_ansible>
     Vagrant <vagrant>
-    Docker <docker>
-    sources
     Updates and Upgrades <upgrades>
-
