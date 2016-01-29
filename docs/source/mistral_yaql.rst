@@ -155,26 +155,26 @@ Let's take the following context as an example.
 .. code-block:: json
 
     {
-        'vms': [
+        "vms": [
             {
-                'name': 'vmweb1',
-                'region': 'us-east',
-                'role': 'web'
+                "name": "vmweb1",
+                "region": "us-east",
+                "role": "web"
             },
             {
-                'name': 'vmdb1',
-                'region': 'us-east',
-                'role': 'db'
+                "name": "vmdb1",
+                "region": "us-east",
+                "role": "db"
             },
             {
-                'name': 'vmweb2',
-                'region': 'us-west',
-                'role': 'web'
+                "name": "vmweb2",
+                "region": "us-west",
+                "role": "web"
             },
             {
-                'name': 'vmdb2',
-                'region': 'us-west',
-                'role': 'db'
+                "name": "vmdb2",
+                "region": "us-west",
+                "role": "db"
             }
         ]
     }
@@ -200,28 +200,28 @@ convert it to a dictionary.
 .. code-block:: json
 
     {
-        'vms': {
-            'vmweb1': {
-                'name': 'vmweb1',
-                'region': 'us-east',
-                'role': 'web'
+        "vms": {
+            "vmweb1": {
+                "name": "vmweb1",
+                "region": "us-east",
+                "role": "web"
             },
-            'vmdb1': {
-                'name': 'vmdb1',
-                'region': 'us-east',
-                'role': 'db'
+            "vmdb1": {
+                "name": "vmdb1",
+                "region": "us-east",
+                "role": "db"
             },
-            'vmweb2': {
-                'name': 'vmweb2',
-                'region': 'us-west',
-                'role': 'web'
+            "vmweb2": {
+                "name": "vmweb2",
+                "region": "us-west",
+                "role": "web"
             },
-            'vmdb2': {
-                'name': 'vmdb2',
-                'region': 'us-west',
-                'role': 'db'
+            "vmdb2": {
+                "name": "vmdb2",
+                "region": "us-west",
+                "role": "db"
             }
-        ]
+        }
     }
 
 Other YAQL Functions
