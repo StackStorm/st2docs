@@ -19,7 +19,7 @@ If you use configuration management tools, pick you poison. Or, run from source.
 .. toctree::
     :maxdepth: 1
 
-    Big Picture <all_in_one>
+    Reference Deployment <overview>
     All-In-One Installer  <all_in_one>
     Installation Guide [BETA]<guide>
     StackStorm Enterprise <enterprise>
