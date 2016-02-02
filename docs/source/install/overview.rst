@@ -40,7 +40,7 @@ st2client is the `st2` CLI and python bindings for StackStorm API. To configure 
 --------------------------------------
 * **nginx** provides SSL termination, redirects HTTP to HTTPS, serves WebUI as static HTML, and reverse-proxies REST API endpoints to st2* web services.
 
-* **StackStorm WebUI** (st2web and flow) are installed at ``/opt/statckstorm/static/webui`` and configured by `webui/confi.js`. They are are HTML5 applications, served as static HTML and calling StackStorm st2auth and st2api REST API endpoints. With ngnix proxying st2auth and st2api through 443 HTTPS port it's all good. Overwise proper CORS configuration is required both on st2 and `webui/config.js`. TODO:XXXX polish text here.
+* **StackStorm WebUI** (st2web and flow) are installed at ``/opt/statckstorm/static/webui`` and configured by `webui/config.js`. They are are HTML5 applications, served as static HTML and calling StackStorm st2auth and st2api REST API endpoints. With ngnix proxying st2auth and st2api through 443 HTTPS port it's all good. Overwise proper CORS configuration is required both on st2 and `webui/config.js`. TODO:XXXX polish text here.
 
 5. Chatops components
 ---------------------
