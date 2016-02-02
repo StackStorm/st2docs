@@ -1,7 +1,7 @@
 Ubuntu / Debian
 =================
 
-This guide provides step-by step instructions on installing StackStorm on a single box per :doc:`Reference deployment </install/overview>` on a Ubuntu/Debian.
+This guide provides step-by step instructions on installing StackStorm on a single box on a Ubuntu/Debian.
 
 .. contents::
 
