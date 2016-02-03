@@ -14,6 +14,12 @@ compromises, revoking public key for ``system_user`` from target boxes will revo
 for |st2| from target boxes. We also recommend adding ``system_user`` to a linux group and
 control permissions on target boxes as an additional security measure.
 
+.. note::
+
+    If you are changing ``system_user`` or ``ssh_key_file`` configuration values in |st2|
+    configuration file (usually /etc/st2/st2.conf), you must restart |st2| to pick up the
+    changes. You can just restart st2actionrunner component (E.g. service st2actionrunner restart).
+
 To validate remote actions are working correctly, you can use the following command.
 
 ::
