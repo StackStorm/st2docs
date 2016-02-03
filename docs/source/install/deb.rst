@@ -16,6 +16,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
 
   .. code-block:: bash
 
+    sudo apt-get update
     sudo apt-get install -y mongodb-server rabbitmq-server postgresql
 
 
@@ -67,8 +68,11 @@ To run local and remote shell actions, StackStorm uses a special system user (de
 For remote linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
 
 * Take these steps on all boxes where you run stackstorm remote actions, **including** ``localhost``.
+  You will need elevated priviledges to run this.
 
   .. code-block:: bash
+
+    sudo su
 
     # Create an SSH system user
     useradd stanley
@@ -102,8 +106,18 @@ For remote linux actions, SSH is used. It is advised to configure identity file 
     user = stanley
     ssh_key_file = /home/stanley/.ssh/stanley_rsa
 
-Check it all works
-~~~~~~~~~~~~~~~~~~
+Start Services
+~~~~~~~~~~~~~~
+* Start services ::
+
+    sudo st2ctl start
+
+* Register sensors and actions ::
+
+    st2ctl reload
+
+Verify
+~~~~~~
 
   .. code-block:: bash
 
@@ -124,6 +138,9 @@ Check it all works
 
     # Fire a remote comand via SSH (Requires passwordless SSH)
     st2 run core.remote hosts='localhost' -- uname -a
+
+    # Install a pack
+    st2 run packs.install packs=st2
 
 Use the supervisor script to manage |st2| services: ::
 
@@ -159,18 +176,25 @@ Reference deployment uses File Based auth provider for simplicity. Refer to :doc
 
   .. code-block:: bash
 
+      # Install htpasswd utility if you don't have it
+      sudo apt-get install apache2-utils
+      # Create a user record in a password file.
       sudo htpasswd -cb /etc/st2/htpasswd test Ch@ngeMe
 
 * Authenticate, export the token for st2 CLI, and check that it works:
 
   .. code-block:: bash
 
-      # Shortcut to authenticate and export the token
-      export ST2_AUTH_TOKEN=$(st2 auth test -p Ch@ngeMe -t)
+    # Get an auth token and use in CLI or API
+    st2 auth test
 
-      # Check that it works
-      st2 action list
+    # A shortcut to authenticate and export the token
+    export ST2_AUTH_TOKEN=$(st2 auth test -p Ch@ngeMe -t)
 
+    # Check that it works
+    st2 action list
+
+Check out :doc:`/cli` to learn convinient ways to authenticate via CLI.
 
 Install WebUI and setup SSL termination
 ---------------------------------------
@@ -198,6 +222,7 @@ The easiset way to add StackStorm ChatOps is to use `stackstorm/hubot <https://h
   * install docker
   * pull the image
   * run docker (list all the environment variables to pass, use ``--restart=always``)
+  * install and configure chatops pack (XXX where does this fit?)
 
 
 Alternatively, install it manually following instruction at :ref:`Chatops Configuration <chatops-configuration>`.
