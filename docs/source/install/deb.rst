@@ -106,8 +106,18 @@ For remote linux actions, SSH is used. It is advised to configure identity file 
     user = stanley
     ssh_key_file = /home/stanley/.ssh/stanley_rsa
 
-Check it all works
-~~~~~~~~~~~~~~~~~~
+Start Services
+~~~~~~~~~~~~~~
+* Start services ::
+
+    sudo st2ctl start
+
+* Register sensors and actions ::
+
+    st2ctl reload
+
+Verify
+~~~~~~
 
   .. code-block:: bash
 
@@ -128,6 +138,9 @@ Check it all works
 
     # Fire a remote comand via SSH (Requires passwordless SSH)
     st2 run core.remote hosts='localhost' -- uname -a
+
+    # Install a pack
+    st2 run packs.install packs=st2
 
 Use the supervisor script to manage |st2| services: ::
 
