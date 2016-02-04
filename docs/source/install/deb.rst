@@ -198,18 +198,32 @@ Check out :doc:`/cli` to learn convinient ways to authenticate via CLI.
 
 Install WebUI and setup SSL termination
 ---------------------------------------
+`NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS,
+provide SSL termination for HTTPS, and reverse-proxy st2auth and st2api API endpoints.
+To set it up: install `st2web` and `nginx`, generate certificates or place your existing
+certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's supplied site config file.
 
-.. todo:: Detail this section
+  .. code-block:: bash
 
-* install nginx
-* generate certificate (instructions, pointer to a script)
-* configure nginx - copy files to site-enabled, loosly explain what we are doing here:
+    # Install st2web and nginx
+    apt-get install st2web nginx
 
-    * http-https redirect
-    * SSL termination and HTTPS
-    * serve the client as static content
-    * serve API and AUTH off  HTTPS and reverse-proxy them so that less ports and no CORS issues
+    # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
+    mkdir -p /etc/ssl/st2
+    openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt \
+    -days XXX -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
+    Technology/CN=$(hostname)"
 
+    # Remove default site, if present
+    rm /etc/nginx/sites-enabled/default
+    # Copy and enable StackStorm's supplied config file
+    cp /opt/{????}/st2.conf /etc/nginx/sites-available/
+    ln -s /etc/nginx/sites-available/st2.conf /etc/nginx/sites-enabled/st2.conf
+
+    service nginx restart
+
+If you modify ports, or url paths in nginx configuration, make correspondent chagnes in st2web
+configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Set up ChatOps
 --------------
