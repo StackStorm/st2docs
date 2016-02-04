@@ -79,9 +79,11 @@ For remote linux actions, SSH is used. It is advised to configure identity file 
     mkdir -p /home/stanley/.ssh
     chmod 0700 /home/stanley/.ssh
 
-    # Generate ssh keys on StackStorm box and copy over public key into remote box.
+    # On StackStorm host, generate ssh keys
     ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
-    cp ${KEY_LOCATION}/stanley_rsa.pub /home/stanley/.ssh/stanley_rsa.pub
+
+    # On remote hosts, place the public key generated above to stanley user's home
+    # cp ${KEY_LOCATION}/stanley_rsa.pub /home/stanley/.ssh/stanley_rsa.pub
 
     # Authorize key-base acces
     cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys
@@ -98,7 +100,7 @@ For remote linux actions, SSH is used. It is advised to configure identity file 
 
     echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
 
-* Adjust configuration in ``/etc/st2/st2.conf``:
+* Adjust configuration in ``/etc/st2/st2.conf`` if you are using a different user or key path:
 
   .. sourcecode:: ini
 
@@ -201,7 +203,8 @@ Install WebUI and setup SSL termination
 `NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS,
 provide SSL termination for HTTPS, and reverse-proxy st2auth and st2api API endpoints.
 To set it up: install `st2web` and `nginx`, generate certificates or place your existing
-certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's supplied site config file.
+certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's supplied
+:github_st2:`site config file st2.conf<conf/nginx/st2.conf>`.
 
   .. code-block:: bash
 
@@ -217,7 +220,7 @@ certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's suppl
     # Remove default site, if present
     rm /etc/nginx/sites-enabled/default
     # Copy and enable StackStorm's supplied config file
-    cp /opt/{????}/st2.conf /etc/nginx/sites-available/
+    cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
     ln -s /etc/nginx/sites-available/st2.conf /etc/nginx/sites-enabled/st2.conf
 
     service nginx restart
