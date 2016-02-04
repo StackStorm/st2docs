@@ -72,33 +72,31 @@ For remote linux actions, SSH is used. It is advised to configure identity file 
 
   .. code-block:: bash
 
-    sudo su
-
     # Create an SSH system user
-    useradd stanley
-    mkdir -p /home/stanley/.ssh
-    chmod 0700 /home/stanley/.ssh
+    sudo useradd stanley
+    sudo mkdir -p /home/stanley/.ssh
+    sudo chmod 0700 /home/stanley/.ssh
 
     # On StackStorm host, generate ssh keys
-    ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
+    sudo ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
 
     # On remote hosts, place the public key generated above to stanley user's home
     # cp ${KEY_LOCATION}/stanley_rsa.pub /home/stanley/.ssh/stanley_rsa.pub
 
     # Authorize key-base acces
-    cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys
-    chmod 0600 /home/stanley/.ssh/authorized_keys
-    chown -R stanley:stanley /home/stanley
+    sudo cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys
+    sudo chmod 0600 /home/stanley/.ssh/authorized_keys
+    sudo chown -R stanley:stanley /home/stanley
 
     # Enable passwordless sudo
-    echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
+    sudo echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
 
 * Enable passwordless sudo on for system user on StackStorm host
   (required for local script actions, using ``local-shell-cmd`` and ``local-shell-script`` runners).
 
   .. code-block:: bash
 
-    echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
+    sudo echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
 
 * Adjust configuration in ``/etc/st2/st2.conf`` if you are using a different user or key path:
 
