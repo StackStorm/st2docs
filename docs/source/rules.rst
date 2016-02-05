@@ -385,6 +385,9 @@ Output:
     2015-12-11 14:35:57,462 INFO [-] === RULE DOES NOT MATCH ===
     1
 
+
+.. _ref-rule-tester-post-mortem-debug:
+
 ``st2-rule-tester`` further allows a kind of post-mortem debugging where you can answer the
 question ``Why did my rule not match the trigger that just fired?``. This means there is known ``Rule`` identifiable by its reference loaded in StackStorm and similarly a
 TriggerInstance with a known id.
