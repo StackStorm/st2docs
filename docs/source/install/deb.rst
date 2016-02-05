@@ -231,18 +231,67 @@ Set up ChatOps
 
 .. todo:: detail this section
 
+If you already have Hubot installed and working, you only have to install the ``hubot-stackstorm`` plugin and configure StackStorm env variables (below) to get started.
 
-The easiset way to add StackStorm ChatOps is to use `stackstorm/hubot <https://hub.docker.com/r/stackstorm/hubot/>`_ docker image:
+Otherwise, the easiest way to install Hubot and configure StackStorm ChatOps is to use `stackstorm/hubot <https://hub.docker.com/r/stackstorm/hubot/>`_ docker image. Make sure all the prerequisites are in order:
 
-  * install docker
-  * pull the image
-  * run docker (list all the environment variables to pass, use ``--restart=always``)
-  * install and configure chatops pack (XXX where does this fit?)
+  * You should have the ``chatops`` pack installed in StackStorm (it should be there by default), and the ``chatops.notify`` rule is enabled.
+  * If Docker is not installed, follow the instructions at the `Docker website <https://docs.docker.com/engine/installation/linux/ubuntulinux/>`_.
+  * Pull the ``stackstorm/hubot`` image: ``docker pull stackstorm/hubot``.
 
+To pass StackStorm credentials and your chat adapter settings to Hubot, you'll have to launch the container with environment variables necessary for Hubot to run.
 
-Alternatively, install it manually following instruction at :ref:`Chatops Configuration <chatops-configuration>`.
+Hubot settings (change those to suit your environment):
 
-Finally, if you already have Hubot installed and prefer to use it, here are the instructios on how to do it.
+  * ``HUBOT_ADAPTER=<adapter>``: your adapter (``slack``, ``hipchat``, ``irc``, ``yammer``, ``xmpp`` and ``flowdock`` are supported).
+  * ``NODE_TLS_REJECT_UNAUTHORIZED=0``: set if you don't have a valid SSL certificate.
+  * ``EXPRESS_PORT=8081``
+  * ``HUBOT_LOG_LEVEL=debug``
+  * ``HUBOT_NAME=hubot``
+  * ``HUBOT_ALIAS=!``
+
+StackStorm plugin for Hubot also requires you to set the following:
+
+  * ``ST2_AUTH_USERNAME``: username Hubot should use to launch StackStorm actions.
+  * ``ST2_AUTH_PASSWORD``: password for the user.
+  * ``ST2_WEBUI_URL``: public URL of your StackStorm instance. Hubot needs it to give users links to execution details.
+  * ``ST2_AUTH_URL``: StackStorm auth endpoint. Default is ``https://<hostname>:443/auth`` (don't use ``localhost`` because it will point to the Docker container).
+  * ``ST2_API``: StackStorm API endpoint. Default is ``https://<hostname>:443/api`` (no ``localhost``, same as above).
+
+Chat credentials are configured according to the adapter settings:
+
+  * Slack: `hubot-slack <https://github.com/slackhq/hubot-slack>`_.
+  * HipChat: `hubot-hipchat <https://github.com/hipchat/hubot-hipchat>`_.
+  * Yammer: `hubot-yammer <https://github.com/athieriot/hubot-yammer>`_.
+  * Flowdock: `hubot-flowdock <https://github.com/flowdock/hubot-flowdock>`_.
+  * IRC: `hubot-irc <https://github.com/nandub/hubot-irc>`_.
+  * XMPP: `hubot-xmpp <https://github.com/markstory/hubot-xmpp>`_.
+
+An example of the final startup script for the container:
+
+  .. code-block:: bash
+
+    # Terminate and clear a running instance
+    /usr/bin/docker rm stackstorm/hubot >/dev/null 2>&1
+
+    # Launch with env variables
+    /usr/bin/docker run                                          \
+      --name hubot --net bridge --detach=true                    \
+      -m 0b -p 8081:8080 --add-host aptwe:10.0.1.100             \
+      -e ST2_WEBUI_URL=https://aptwe                             \
+      -e ST2_AUTH_URL=https://aptwe:443/auth                     \
+      -e ST2_API=https://aptwe:443/api                           \
+      -e ST2_AUTH_USERNAME=chatops_bot                           \
+      -e ST2_AUTH_PASSWORD=x6hgOCD4mWGe9LuOzsXZg0cu4OkCOPNr      \
+      -e EXPRESS_PORT=8081                                       \
+      -e NODE_TLS_REJECT_UNAUTHORIZED=0                          \
+      -e HUBOT_ALIAS=!                                           \
+      -e HUBOT_LOG_LEVEL=debug                                   \
+      -e HUBOT_NAME=hubot                                        \
+      -e HUBOT_ADAPTER=yammer                                    \
+      -e HUBOT_YAMMER_ACCESS_TOKEN=2361395-RlgDFJSgVk3xsLFyOtjPA \
+      -e HUBOT_YAMMER_GROUPS=Bots                                \
+      stackstorm/hubot
 
 Upgrade to Enterprise Edition
 -----------------------------
