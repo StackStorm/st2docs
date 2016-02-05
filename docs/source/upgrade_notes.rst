@@ -79,7 +79,7 @@ To verify the upgrade, please follow the link to run the :doc:`self-verification
 
 Migrating to v1
 ~~~~~~~~~~~~~~~
-The :doc:`install/st2_deploy` will upgrade v0.13 to v1.1. However we encourage to switch to :doc:`install/all_in_one`. To migrate to new All-in-one deployment from the existing pre v1.1 installations:
+The `st2_deploy scripted installer <https://docs.stackstorm.com/1.1/install/st2_deploy.html>`_ will upgrade v0.13 to v1.1. However we encourage to switch to :doc:`install/all_in_one`. To migrate to new All-in-one deployment from the existing pre v1.1 installations:
 
     1. Install |st2| on a new clean box with :doc:`install/all_in_one`.
     2. Copy the content from the previous installation to `/opt/stackstorm/packs`
