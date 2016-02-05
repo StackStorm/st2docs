@@ -36,7 +36,7 @@ Install StackStorm components
   .. code-block:: bash
 
       sudo apt-get update
-      sudo apt-get install st2 st2mistral
+      sudo apt-get install -y st2 st2mistral
 
 
 If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or changed defauls,
@@ -177,7 +177,7 @@ Reference deployment uses File Based auth provider for simplicity. Refer to :doc
   .. code-block:: bash
 
       # Install htpasswd utility if you don't have it
-      sudo apt-get install apache2-utils
+      sudo apt-get install -y apache2-utils
       # Create a user record in a password file.
       sudo htpasswd -cb /etc/st2/htpasswd test Ch@ngeMe
 
@@ -207,7 +207,7 @@ certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's suppl
   .. code-block:: bash
 
     # Install st2web and nginx
-    apt-get install st2web nginx
+    apt-get install -y st2web nginx
 
     # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
     mkdir -p /etc/ssl/st2
