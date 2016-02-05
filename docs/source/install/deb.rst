@@ -2,6 +2,13 @@ Ubuntu / Debian
 =================
 
 This guide provides step-by step instructions on installing StackStorm on a single box on a Ubuntu/Debian.
+A script `st2bootstrap-deb.sh <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-deb.sh>`_,
+codifies the instructions below.
+
+.. warning :: Currently BETA! Please try, use and report bugs on
+   `github.com/StackStorm/st2-packages <https://github.com/StackStorm/st2-packages/issues/new>`_.
+   Soon, package-based installation will be
+   the preferred path to installing StackStorm. Support for CentOS/RHEL is coming.
 
 .. contents::
 
@@ -26,7 +33,9 @@ Setup repositories
   .. code-block:: bash
 
     wget -qO - https://bintray.com/user/downloadSubjectPublicKey?username=bintray | sudo apt-key add -
-    echo "deb https://dl.bintray.com/stackstorm/`lsb_release -cs`_staging stable main" | sudo tee /etc/apt/sources.list.d/st2-stable.list
+    # Modify to pick OS flavor from trusty, jessie, wheezy
+    echo "deb https://dl.bintray.com/stackstorm/trusty_staging stable main" | sudo tee /etc/apt/sources.list.d/st2-staging-stable.list
+
     sudo apt-get update
 
 
@@ -35,8 +44,7 @@ Install StackStorm components
 
   .. code-block:: bash
 
-      sudo apt-get update
-      sudo apt-get install st2 st2mistral
+      sudo apt-get install -y st2 st2mistral
 
 
 If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or changed defauls,
@@ -67,38 +75,31 @@ Configure SSH and SUDO
 To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
 For remote linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
 
-* Take these steps on all boxes where you run stackstorm remote actions, **including** ``localhost``.
-  You will need elevated priviledges to run this.
+* Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally. You will need elevated privileges to do this.
 
   .. code-block:: bash
 
-    # Create an SSH system user
-    sudo useradd stanley
-    sudo mkdir -p /home/stanley/.ssh
-    sudo chmod 0700 /home/stanley/.ssh
+    # Create an SSH system user (default `stanley` user may be already created)
+    useradd stanley
+    mkdir -p /home/stanley/.ssh
+    chmod 0700 /home/stanley/.ssh
 
     # On StackStorm host, generate ssh keys
-    sudo ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
-
-    # On remote hosts, place the public key generated above to stanley user's home
-    # cp ${KEY_LOCATION}/stanley_rsa.pub /home/stanley/.ssh/stanley_rsa.pub
+    ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
 
     # Authorize key-base acces
-    sudo cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys
-    sudo chmod 0600 /home/stanley/.ssh/authorized_keys
-    sudo chown -R stanley:stanley /home/stanley
+    cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys
+    chmod 0600 /home/stanley/.ssh/authorized_keys
+    chown -R stanley:stanley /home/stanley
 
     # Enable passwordless sudo
-    sudo echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
+    echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
 
-* Enable passwordless sudo on for system user on StackStorm host
-  (required for local script actions, using ``local-shell-cmd`` and ``local-shell-script`` runners).
+* Configure SSH access and enable passwordless sudo on the remote hosts which StackStorm would control
+  over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
+  To control Windows boxes, configure access for :doc:`Windows runners </config/windows_runners>`.
 
-  .. code-block:: bash
-
-    sudo echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
-
-* Adjust configuration in ``/etc/st2/st2.conf`` if you are using a different user or key path:
+* Adjust configuration in ``/etc/st2/st2.conf`` if you are using a different user or path to the key:
 
   .. sourcecode:: ini
 
@@ -159,7 +160,16 @@ But there is no joy without WebUI, no security without SSL termination, no fun w
 Configure Authentication
 ------------------------
 
-Reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication` to configure and use PAM or LDAP autentication backends. To set it up:
+Reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication` to configure and use PAM or LDAP autentication backends. To set up authentication with File Based provider:
+
+* Create a user with a password:
+
+  .. code-block:: bash
+
+    # Install htpasswd utility if you don't have it
+    sudo apt-get install -y apache2-utils
+    # Create a user record in a password file.
+    echo "Ch@ngeMe" | sudo htpasswd -i /etc/st2/htpasswd test
 
 * Enable and configure auth in ``/etc/st2/st2.conf``:
 
@@ -172,14 +182,9 @@ Reference deployment uses File Based auth provider for simplicity. Refer to :doc
     backend_kwargs = {"file_path": "/etc/st2/htpasswd"}
     # ...
 
-* Create a user with a password:
+* Restart the st2api service: ::
 
-  .. code-block:: bash
-
-      # Install htpasswd utility if you don't have it
-      sudo apt-get install apache2-utils
-      # Create a user record in a password file.
-      sudo htpasswd -cb /etc/st2/htpasswd test Ch@ngeMe
+    sudo st2ctl restart-component st2api
 
 * Authenticate, export the token for st2 CLI, and check that it works:
 
@@ -207,24 +212,26 @@ certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's suppl
   .. code-block:: bash
 
     # Install st2web and nginx
-    apt-get install st2web nginx
+    sudo apt-get install -y st2web nginx
 
     # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
-    mkdir -p /etc/ssl/st2
-    openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt \
+    sudo mkdir -p /etc/ssl/st2
+    sudo openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt \
     -days XXX -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
     Technology/CN=$(hostname)"
 
     # Remove default site, if present
-    rm /etc/nginx/sites-enabled/default
+    sudo rm /etc/nginx/sites-enabled/default
     # Copy and enable StackStorm's supplied config file
-    cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
-    ln -s /etc/nginx/sites-available/st2.conf /etc/nginx/sites-enabled/st2.conf
+    sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
+    sudo ln -s /etc/nginx/sites-available/st2.conf /etc/nginx/sites-enabled/st2.conf
 
-    service nginx restart
+    sudo service nginx restart
 
 If you modify ports, or url paths in nginx configuration, make correspondent chagnes in st2web
 configuration at ``/opt/stackstorm/static/webui/config.js``.
+
+Use your browser to connect to ``https://{ST2HOST}`` and login to the WebUI.
 
 Set up ChatOps
 --------------
