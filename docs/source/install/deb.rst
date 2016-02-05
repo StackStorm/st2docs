@@ -44,7 +44,7 @@ Install StackStorm components
 
   .. code-block:: bash
 
-      sudo apt-get install st2 st2mistral
+      sudo apt-get install -y st2 st2mistral
 
 
 If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or changed defauls,
@@ -160,7 +160,16 @@ But there is no joy without WebUI, no security without SSL termination, no fun w
 Configure Authentication
 ------------------------
 
-Reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication` to configure and use PAM or LDAP autentication backends. To set it up:
+Reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication` to configure and use PAM or LDAP autentication backends. To set up authentication with File Based provider:
+
+* Create a user with a password:
+
+  .. code-block:: bash
+
+    # Install htpasswd utility if you don't have it
+    sudo apt-get install -y apache2-utils
+    # Create a user record in a password file.
+    echo "Ch@ngeMe" | sudo htpasswd -i /etc/st2/htpasswd test
 
 * Enable and configure auth in ``/etc/st2/st2.conf``:
 
@@ -173,14 +182,9 @@ Reference deployment uses File Based auth provider for simplicity. Refer to :doc
     backend_kwargs = {"file_path": "/etc/st2/htpasswd"}
     # ...
 
-* Create a user with a password:
+* Restart the st2api service: ::
 
-  .. code-block:: bash
-
-      # Install htpasswd utility if you don't have it
-      sudo apt-get install apache2-utils
-      # Create a user record in a password file.
-      echo "Ch@ngeMe" | sudo htpasswd -i /etc/st2/htpasswd test
+    sudo st2ctl restart-component st2api
 
 * Authenticate, export the token for st2 CLI, and check that it works:
 
@@ -208,24 +212,26 @@ certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's suppl
   .. code-block:: bash
 
     # Install st2web and nginx
-    apt-get install st2web nginx
+    sudo apt-get install -y st2web nginx
 
     # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
-    mkdir -p /etc/ssl/st2
-    openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt \
+    sudo mkdir -p /etc/ssl/st2
+    sudo openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt \
     -days XXX -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
     Technology/CN=$(hostname)"
 
     # Remove default site, if present
-    rm /etc/nginx/sites-enabled/default
+    sudo rm /etc/nginx/sites-enabled/default
     # Copy and enable StackStorm's supplied config file
-    cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
-    ln -s /etc/nginx/sites-available/st2.conf /etc/nginx/sites-enabled/st2.conf
+    sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
+    sudo ln -s /etc/nginx/sites-available/st2.conf /etc/nginx/sites-enabled/st2.conf
 
-    service nginx restart
+    sudo service nginx restart
 
 If you modify ports, or url paths in nginx configuration, make correspondent chagnes in st2web
 configuration at ``/opt/stackstorm/static/webui/config.js``.
+
+Use your browser to connect to ``https://{ST2HOST}`` and login to the WebUI.
 
 Set up ChatOps
 --------------
