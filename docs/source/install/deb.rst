@@ -280,10 +280,10 @@ An example of the final startup script for the container:
     # Launch with env variables
     /usr/bin/docker run                                          \
       --name hubot --net bridge --detach=true                    \
-      -m 0b -p 8081:8080 --add-host aptwe:10.0.1.100             \
-      -e ST2_WEBUI_URL=https://aptwe                             \
-      -e ST2_AUTH_URL=https://aptwe:443/auth                     \
-      -e ST2_API=https://aptwe:443/api                           \
+      -m 0b -p 8081:8080 --add-host myhost:10.0.1.100            \
+      -e ST2_WEBUI_URL=https://myhost                            \
+      -e ST2_AUTH_URL=https://myhost:443/auth                    \
+      -e ST2_API=https://myhost:443/api                          \
       -e ST2_AUTH_USERNAME=chatops_bot                           \
       -e ST2_AUTH_PASSWORD=x6hgOCD4mWGe9LuOzsXZg0cu4OkCOPNr      \
       -e EXPRESS_PORT=8081                                       \
