@@ -293,6 +293,8 @@ An example of the final startup script for the container:
       -e HUBOT_YAMMER_GROUPS=Bots                                \
       stackstorm/hubot
 
+An `init script <https://gist.github.com/emedvedev/3236a3bf104b2f0184f1>`_ is also available. Replace the environment variables with your own values and save the script as ``/etc/init.d/docker-hubot`` to start the container at launch and control it with ``service docker-hubot``.
+
 Upgrade to Enterprise Edition
 -----------------------------
 Enterprise Edition is deployed as an addition on top of StackStorm. Detailed instructions coming up soon.
