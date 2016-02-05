@@ -180,7 +180,7 @@ Reference deployment uses File Based auth provider for simplicity. Refer to :doc
       # Install htpasswd utility if you don't have it
       sudo apt-get install apache2-utils
       # Create a user record in a password file.
-      sudo htpasswd -cb /etc/st2/htpasswd test Ch@ngeMe
+      echo "Ch@ngeMe" | sudo htpasswd -i /etc/st2/htpasswd test
 
 * Authenticate, export the token for st2 CLI, and check that it works:
 
