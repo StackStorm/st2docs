@@ -32,11 +32,9 @@ Setup repositories
 
   .. code-block:: bash
 
-    # Pick OS version from: trusty, jessie, wheezy
-    export DISTRO=trusty
     wget -qO - https://bintray.com/user/downloadSubjectPublicKey?username=bintray | sudo apt-key add -
-    echo "deb https://dl.bintray.com/stackstorm/${DISTRO}_staging stable main" | sudo tee /etc/apt/sources.list.d/st2-staging-stable.list
-    unset DISTRO
+    # Modify to pick OS flavor from trusty, jessie, wheezy
+    echo "deb https://dl.bintray.com/stackstorm/trusty_staging stable main" | sudo tee /etc/apt/sources.list.d/st2-staging-stable.list
 
     sudo apt-get update
 
