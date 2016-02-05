@@ -91,9 +91,17 @@ to check rules engine.
 3. Validate if rules for a trigger are being loaded
 ---------------------------------------------------
 
-By default, rules engine logs are stored in ``/var/log/st2rulesengine.log``
-file. You should inspect this file (``cat``, ``grep`` and ``tail`` are your
-friends) and look for a line similar to the one below.
+First begin by looking at the loaded rules and validate that there are rules that apply
+to the Trigger.
+
+The following command will list all the rules for a specific trigger.
+
+::
+    st2 rule list --trigger=test_pack.test_trigger
+
+If there are rules in this list then it tells us that there are rules in the system that actually match a given Trigger.
+
+In case nothing is returned and the result is surprising then it is worth looking into the rules engine logs. By default, rules engine logs are stored in ``/var/log/st2rulesengine.log`` file. You should inspect this file (``cat``, ``grep`` and ``tail`` are your friends) and look for a line similar to the one below.
 
 .. code-block:: bash
 
@@ -105,8 +113,9 @@ For example:
 
     2015-02-23 15:13:51,250 INFO [-] Found 1 rules defined for trigger st2.generic.actiontrigger
 
-If you don't see any rules being loaded, there is a mismatch in rule definition w.r.t trigger.
-Use the CLI to check the rule and validate the ``trigger ref`` is indeed right.
+If you don't see any rules being loaded, there is a mismatch in rule definition w.r.t trigger. See :ref:`st2-rule-tester<ref-rule-tester-post-mortem-debug>` usage for this specific case to see how to confirm the mismatch failure between rule and triggerinstance. `st2-rule-tester` will be able to validate both `trigger ref` and rule criteria.
+
+If this does not work then you can also use the CLI to check the rule and validate the ``trigger ref`` is indeed right by visual inspection.
 
 ::
 
