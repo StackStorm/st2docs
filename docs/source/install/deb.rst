@@ -2,6 +2,13 @@ Ubuntu / Debian
 =================
 
 This guide provides step-by step instructions on installing StackStorm on a single box on a Ubuntu/Debian.
+A script `st2bootstrap-deb.sh <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-deb.sh>`_,
+codifies the instructions below and is a master source of truth in case of inconsistencies: code wins over docs.
+
+.. warning :: Currently BETA! Please try, use and report bugs on
+   `github.com/StackStorm/st2-packages <https://github.com/StackStorm/st2-packages/issues/new>`_.
+   Soon, package-based installation will be
+   the preferred path to installing StackStorm. Support for CentOS/RHEL is coming.
 
 .. contents::
 
@@ -25,8 +32,11 @@ Setup repositories
 
   .. code-block:: bash
 
+    # Pick OS version from: trusty, jessie, wheezy
+    export DISTRO=trusty
     wget -qO - https://bintray.com/user/downloadSubjectPublicKey?username=bintray | sudo apt-key add -
-    echo "deb https://dl.bintray.com/stackstorm/`lsb_release -cs`_staging stable main" | sudo tee /etc/apt/sources.list.d/st2-stable.list
+    echo "deb https://dl.bintray.com/stackstorm/${DISTRO}_staging stable main" | sudo tee /etc/apt/sources.list.d/st2-staging-stable.list
+    unset DISTRO
     sudo apt-get update
 
 
@@ -67,38 +77,31 @@ Configure SSH and SUDO
 To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
 For remote linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
 
-* Take these steps on all boxes where you run stackstorm remote actions, **including** ``localhost``.
-  You will need elevated priviledges to run this.
+* Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally. You will need elevated priviledges to do this.
 
   .. code-block:: bash
 
-    # Create an SSH system user
-    sudo useradd stanley
-    sudo mkdir -p /home/stanley/.ssh
-    sudo chmod 0700 /home/stanley/.ssh
+    # Create an SSH system user (default `stanley` user may be already created)
+    useradd stanley
+    mkdir -p /home/stanley/.ssh
+    chmod 0700 /home/stanley/.ssh
 
     # On StackStorm host, generate ssh keys
-    sudo ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
-
-    # On remote hosts, place the public key generated above to stanley user's home
-    # cp ${KEY_LOCATION}/stanley_rsa.pub /home/stanley/.ssh/stanley_rsa.pub
+    ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
 
     # Authorize key-base acces
-    sudo cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys
-    sudo chmod 0600 /home/stanley/.ssh/authorized_keys
-    sudo chown -R stanley:stanley /home/stanley
+    cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys
+    chmod 0600 /home/stanley/.ssh/authorized_keys
+    chown -R stanley:stanley /home/stanley
 
     # Enable passwordless sudo
-    sudo echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
+    echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
 
-* Enable passwordless sudo on for system user on StackStorm host
-  (required for local script actions, using ``local-shell-cmd`` and ``local-shell-script`` runners).
+* Configure SSH access and enable passwordless sudo on the remote hosts which StackStorm would control
+  over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
+  To control Windows boxes, configure access for :doc:`Windows runners </config/windows_runners>`.
 
-  .. code-block:: bash
-
-    sudo echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
-
-* Adjust configuration in ``/etc/st2/st2.conf`` if you are using a different user or key path:
+* Adjust configuration in ``/etc/st2/st2.conf`` if you are using a different user or path to the key:
 
   .. sourcecode:: ini
 
