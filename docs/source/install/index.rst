@@ -46,8 +46,6 @@ Visit the setup URL output, ``https://<HOST>/setup`` and proceed to :ref:`all_in
 
 .. include:: __on_complete.rst
 
-.. note:: The :doc:`st2_deploy` which was a primary way to deploy up to v0.13 is available, although being deprecated by the new :doc:`all_in_one`
-
 .. rubric:: More Installations
 
 .. toctree::
@@ -56,7 +54,6 @@ Visit the setup URL output, ``https://<HOST>/setup`` and proceed to :ref:`all_in
     All-In-One Installer  <all_in_one>
     Ubuntu / Debian <deb>
     RedHat / CentOS <rpm>
-    Scripted Installer <st2_deploy>
     Vagrant <vagrant>
     Docker <docker>
     Puppet <puppet>
