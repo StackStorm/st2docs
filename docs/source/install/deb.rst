@@ -45,7 +45,6 @@ Install StackStorm components
 
   .. code-block:: bash
 
-      sudo apt-get update
       sudo apt-get install st2 st2mistral
 
 
