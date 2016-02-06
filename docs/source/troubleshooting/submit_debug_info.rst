@@ -173,7 +173,7 @@ To send debug information to MyCompany, simply invoke the command shown below:
 
 .. sourcecode:: bash
 
-    submit-debug-info.sh
+    st2-submit-debug-info
 
     This will submit the following information to MyCompany: logs, configs, content, system_info, shell_commands
     Are you sure you want to proceed? [y/n] y
@@ -191,7 +191,7 @@ For Example:
 
 .. sourcecode:: bash
 
-    submit-debug-info.sh --yes
+    st2-submit-debug-info --yes
 
     2016-01-19 06:25:09,024  INFO - Collecting files...
     2016-01-19 06:25:09,617  INFO - Creating tarball...
@@ -203,7 +203,7 @@ For Example:
 
 .. sourcecode:: bash
 
-    submit-debug-info.sh --exclude-shell-commands
+    st2-submit-debug-info --exclude-shell-commands
 
     This will submit the following information to MyCompany: logs, configs, content, system_info
     Are you sure you want to proceed? [y/n] y
@@ -217,7 +217,7 @@ For Example:
 
 .. sourcecode:: bash
 
-    submit-debug-info.sh --review
+    st2-submit-debug-info --review
 
     2016-01-19 06:19:04,911  INFO - Collecting files...
     2016-01-19 06:19:05,531  INFO - Creating tarball...
