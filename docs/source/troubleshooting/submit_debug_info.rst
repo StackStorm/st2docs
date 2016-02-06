@@ -54,7 +54,7 @@ For example:
     2015-02-10 16:45:37,193  INFO - Encrypting tarball...
     2015-02-10 16:45:43,926  INFO - Debug tarball successfully uploaded to StackStorm
 
-If you want to only send a specific information to StackStorm or exclude particular information
+If you want to only send specific information to StackStorm or exclude particular information
 you can use the ``--exclude-<content>`` flag.
 
 For example, if you want to only send us log files, you would run the command
@@ -183,11 +183,11 @@ To send debug information to MyCompany, simply invoke the command shown below:
     2016-01-19 06:12:43,949  INFO - Debug tarball successfully uploaded to MyCompany (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:12:18.tar.gz.asc)
     2016-01-19 06:12:43,949  INFO - When communicating with support, please let them know the tarball name - st2-debug-output-70386ae8e4fe-2016-01-19-06:12:18.tar.gz.asc
 
-We can pass through any command line arguments provided to st2-submit-debug-info
+We can pass through any command line arguments provided to st2-submit-debug-info.
 
 For Example:
 
-* To run it an non-interactive mode using '--yes' option.
+* To run it in a non-interactive mode use the '--yes' option.
 
 .. sourcecode:: bash
 
@@ -199,7 +199,7 @@ For Example:
     2016-01-19 06:25:13,727  INFO - Debug tarball successfully uploaded to MyCompany (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:25:09.tar.gz.asc)
     2016-01-19 06:25:13,727  INFO - When communicating with support, please let them know the tarball name - st2-debug-output-70386ae8e4fe-2016-01-19-06:25:09.tar.gz.asc
 
-* To send a specific information to MyCompany or exclude a particular information using ``--exclude-<content>`` flag.
+* To send specific information to MyCompany or to exclude particular information use the ``--exclude-<content>`` flag.
 
 .. sourcecode:: bash
 
@@ -213,7 +213,7 @@ For Example:
     2016-01-19 06:28:29,559  INFO - Debug tarball successfully uploaded to MyCompany (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:28:25.tar.gz.asc)
     2016-01-19 06:28:29,559  INFO - When communicating with support, please let them know the tarball name - st2-debug-output-70386ae8e4fe-2016-01-19-06:28:25.tar.gz.asc
 
-* To review the debugging information without encrypting and uploading to MyCompany
+* To review the debugging information without encrypting and uploading to MyCompany.
 
 .. sourcecode:: bash
 
