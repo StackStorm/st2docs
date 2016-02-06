@@ -126,8 +126,6 @@ Verify
 
     st2 -h
 
-    st2 action list --pack=core
-
     # List the actions from a 'core' pack
     st2 action list --pack=core
 
@@ -231,78 +229,139 @@ certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's suppl
 If you modify ports, or url paths in nginx configuration, make correspondent chagnes in st2web
 configuration at ``/opt/stackstorm/static/webui/config.js``.
 
-Use your browser to connect to ``https://{ST2HOST}`` and login to the WebUI.
+Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
 
-Set up ChatOps
---------------
+Setup ChatOps
+-------------
 
-.. todo:: detail this section
+If you already run Hubot instance, you only have to install the ``hubot-stackstorm`` plugin and configure StackStorm env variables, as described below. Otherwise, the easiest way to enable StackStorm Chatops
+:doc:`StackStorm ChatOps </chatops/index>` is to use Docker and run `stackstorm/hubot <https://hub.docker.com/r/stackstorm/hubot/>`_ docker image.
 
-If you already have Hubot installed and working, you only have to install the ``hubot-stackstorm`` plugin and configure StackStorm env variables (below) to get started.
+* Validate that ``chatops`` pack is installed, and a notification rule is enabled: ::
 
-Otherwise, the easiest way to install Hubot and configure StackStorm ChatOps is to use `stackstorm/hubot <https://hub.docker.com/r/stackstorm/hubot/>`_ docker image. Make sure all the prerequisites are in order:
+      st2 rule list --pack=chatops
 
-  * You should have the ``chatops`` pack installed in StackStorm (it should be there by default), and the ``chatops.notify`` rule is enabled.
-  * If Docker is not installed, follow the instructions at the `Docker website <https://docs.docker.com/engine/installation/linux/ubuntulinux/>`_.
-  * Pull the ``stackstorm/hubot`` image: ``docker pull stackstorm/hubot``.
+* Install docker: follow instructions on `Docker install <https://docs.docker.com/engine/installation/linux/ubuntulinux/>`_).
 
-To pass StackStorm credentials and your chat adapter settings to Hubot, you'll have to launch the container with environment variables necessary for Hubot to run.
+* Pull the StackStorm/hubot image: ::
 
-Hubot settings (change those to suit your environment):
+      docker pull stackstorm/hubot
 
-  * ``HUBOT_ADAPTER=<adapter>``: your adapter (``slack``, ``hipchat``, ``irc``, ``yammer``, ``xmpp`` and ``flowdock`` are supported).
-  * ``NODE_TLS_REJECT_UNAUTHORIZED=0``: set if you don't have a valid SSL certificate.
-  * ``EXPRESS_PORT=8081``
-  * ``HUBOT_LOG_LEVEL=debug``
-  * ``HUBOT_NAME=hubot``
-  * ``HUBOT_ALIAS=!``
+* Set a hostname or IP address that will be accessable form a docker container,
+  as $ST2_HOSTNAME environment variable: ::
 
-StackStorm plugin for Hubot also requires you to set the following:
+      export $ST2_HOSTNAME={MY_STACKSTORM_HOST_NAME}
 
-  * ``ST2_AUTH_USERNAME``: username Hubot should use to launch StackStorm actions.
-  * ``ST2_AUTH_PASSWORD``: password for the user.
-  * ``ST2_WEBUI_URL``: public URL of your StackStorm instance. Hubot needs it to give users links to execution details.
-  * ``ST2_AUTH_URL``: StackStorm auth endpoint. Default is ``https://<hostname>:443/auth`` (don't use ``localhost`` because it will point to the Docker container).
-  * ``ST2_API``: StackStorm API endpoint. Default is ``https://<hostname>:443/api`` (no ``localhost``, same as above).
+* Create ``st2hubot.env`` configuration file to keep all Chatops related settings in one place.
+  Copy the example below; **edit to use your password**. The example uses Slack; go to Slack
+  web admin interface, create a Bot, and copy the authentication token into ``HUBOT_SLACK_TOKEN``.
+  Or set environment variables under `Chat service adapter settings`, for other Chat services:
+  `Slack <https://github.com/slackhq/hubot-slack>`_,
+  `HipChat <https://github.com/hipchat/hubot-hipchat>`_,
+  `Yammer <https://github.com/athieriot/hubot-yammer>`_,
+  `Flowdock <https://github.com/flowdock/hubot-flowdock>`_,
+  `IRC <https://github.com/nandub/hubot-irc>`_ ,
+  `XMPP <https://github.com/markstory/hubot-xmpp>`_.
 
-Chat credentials are configured according to the adapter settings:
+  .. code-block :: bash
 
-  * Slack: `hubot-slack <https://github.com/slackhq/hubot-slack>`_.
-  * HipChat: `hubot-hipchat <https://github.com/hipchat/hubot-hipchat>`_.
-  * Yammer: `hubot-yammer <https://github.com/athieriot/hubot-yammer>`_.
-  * Flowdock: `hubot-flowdock <https://github.com/flowdock/hubot-flowdock>`_.
-  * IRC: `hubot-irc <https://github.com/nandub/hubot-irc>`_.
-  * XMPP: `hubot-xmpp <https://github.com/markstory/hubot-xmpp>`_.
+    if [ -z "$ST2_HOSTNAME" ]; then
+       echo "Please set ST2_HOSTNAME to an externally accessable FQDN or IP.";
+       return 1;
+    fi
 
-An example of the final startup script for the container:
+    #####################################################################
+    # Hubot settings
 
-  .. code-block:: bash
+    # set if you don’t have a valid SSL certificate.
+    NODE_TLS_REJECT_UNAUTHORIZED=0
+    # Hubot port - must be accessable from StackStorm
+    EXPRESS_PORT=8081
+    # Log level
+    HUBOT_LOG_LEVEL=debug
+    # Bot name
+    HUBOT_NAME=yourbot
+    #
+    HUBOT_ALIAS=?
 
-    # Terminate and clear a running instance
-    /usr/bin/docker rm stackstorm/hubot >/dev/null 2>&1
+    ######################################################################
+    # StackStorm settings
+
+    # StackStorm api endpoint. (Don’t use `localhost` as it would point to the Docker container).
+    ST2_API_URL=https://${ST2_HOSTNAME}/api
+    # StackStorm auth endpoint. (Don’t use `localhost` as it would point to the Docker container).
+    ST2_AUTH_URL=https://${ST2_HOSTNAME}/auth
+    # ST2 credentials
+    ST2_AUTH_USERNAME=test
+    ST2_AUTH_PASSWORD=Ch@ngeMe
+    # Public URL of StackStorm instance: used it to offer links to execution details in a chat.
+    ST2_WEBUI_URL=https://${ST2_HOSTNAME}
+
+    ######################################################################
+    # Chat service adapter settings
+
+    # For Slack, see https://github.com/slackhq/hubot-slack
+    # For other adapters, see correspondent settings https://hubot.github.com/docs/adapters/
+
+    # Hubot adapter plugin: slack, hipchat, irc, yammer, xmpp, flowdock
+    HUBOT_ADAPTER=slack
+    # Slack authentication token
+    HUBOT_SLACK_TOKEN=xoxb-CHANGE-ME-PLEASE
+
+* Use the script below to start the docker image. It is set up for Slack; for other Chats,
+  edit it to pass the environment variables as required for your Chat service adapter.
+
+  .. code-block :: bash
+
+    #!/bin/bash
+    # st2hubot-docker-run.sh - Conviniense script for running stackstorm-hubot docker container
+
+    ST2_CONTAINER=stackstorm-hubot
+
+    if [[ ! -z $(docker ps -a | grep $ST2_CONTAINER) ]];
+    then
+      echo "Terminating a previously running $ST2_CONTAINER instance..."
+      /usr/bin/docker rm --force $ST2_CONTAINER
+    fi
+
+    # Export hubot-stackstorm settings
+    . st2hubot.env || exit 1;
 
     # Launch with env variables
-    /usr/bin/docker run                                          \
-      --name hubot --net bridge --detach=true                    \
-      -m 0b -p 8081:8080 --add-host myhost:10.0.1.100            \
-      -e ST2_WEBUI_URL=https://myhost                            \
-      -e ST2_AUTH_URL=https://myhost:443/auth                    \
-      -e ST2_API=https://myhost:443/api                          \
-      -e ST2_AUTH_USERNAME=chatops_bot                           \
-      -e ST2_AUTH_PASSWORD=x6hgOCD4mWGe9LuOzsXZg0cu4OkCOPNr      \
-      -e EXPRESS_PORT=8081                                       \
-      -e NODE_TLS_REJECT_UNAUTHORIZED=0                          \
-      -e HUBOT_ALIAS=!                                           \
-      -e HUBOT_LOG_LEVEL=debug                                   \
-      -e HUBOT_NAME=hubot                                        \
-      -e HUBOT_ADAPTER=yammer                                    \
-      -e HUBOT_YAMMER_ACCESS_TOKEN=2361395-RlgDFJSgVk3xsLFyOtjPA \
-      -e HUBOT_YAMMER_GROUPS=Bots                                \
+    echo "Running $ST2_CONTAINER ..."
+    /usr/bin/docker run                                              \
+      --name $ST2_CONTAINER --net bridge --detach=true               \
+      -m 0b -p 8081:8080 --add-host $ST2_HOSTNAME:10.0.1.100         \
+      -e ST2_WEBUI_URL=$ST2_WEBUI_URL                                \
+      -e ST2_AUTH_URL=$ST2_AUTH_URL                                  \
+      -e ST2_API=$ST2_API_URL                                        \
+      -e ST2_AUTH_USERNAME=$ST2_AUTH_USERNAME                        \
+      -e ST2_AUTH_PASSWORD=$ST2_AUTH_PASSWORD                        \
+      -e EXPRESS_PORT=$EXPRESS_PORT                                  \
+      -e NODE_TLS_REJECT_UNAUTHORIZED=$NODE_TLS_REJECT_UNAUTHORIZED  \
+      -e HUBOT_ALIAS=$HUBOT_ALIAS                                    \
+      -e HUBOT_LOG_LEVEL=$HUBOT_LOG_LEVEL                            \
+      -e HUBOT_NAME=$HUBOT_NAME                                      \
+      -e HUBOT_ADAPTER=$HUBOT_ADAPTER                                \
+      -e HUBOT_SLACK_TOKEN=$HUBOT_SLACK_TOKEN                        \
       stackstorm/hubot
 
-An `init script <https://gist.github.com/emedvedev/3236a3bf104b2f0184f1>`_ is also available. Replace the environment variables with your own values and save the script as ``/etc/init.d/docker-hubot`` to start the container at launch and control it with ``service docker-hubot``.
+
+  Run the script, and ensure that hubot-stackstorm is running and there are no errors ::
+
+      ./st2hubot-docker-run.sh
+      docker inspect -f {{.State.Status}} stackstorm-hubot
+      docker logs stackstorm-hubot
+
+  To automatically start ``stackstorm-hubot``, use `restart policies
+  <https://docs.docker.com/engine/reference/run/#restart-policies-restart>`_,
+  or `integrate with a process manager <https://docs.docker.com/engine/admin/host_integration/>`_.
+  An `init script <https://gist.github.com/emedvedev/3236a3bf104b2f0184f1>`_ is  available; replace the environment variables with your values and save it as ``/etc/init.d/docker-hubot``
+  to start it at boot and control it with ``service docker-hubot``.
+
+* Go to your Chat room and begin Chatopsing. Read on :doc:`/chatops/index` section.
 
 Upgrade to Enterprise Edition
 -----------------------------
 Enterprise Edition is deployed as an addition on top of StackStorm. Detailed instructions coming up soon.
-If you are an Enterprise usercustomer, call support@stackstorm.com and we provide the instructions.
+If you are an Enterprise customer, reach out to support@stackstorm.com and we provide the instructions.
