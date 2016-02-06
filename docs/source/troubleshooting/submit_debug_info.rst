@@ -86,7 +86,7 @@ and uploaded to StackStorm.
 Customizing the debug information gathered
 ==========================================
 
-submit_debug_info.py can be customized for specific deployments by loading a set of overrides from
+st2-submit-debug-info can be customized for specific deployments by loading a set of overrides from
 a YAML file. The following config options are supported:
 
 * log_file_paths - an additional set of log files to gather
