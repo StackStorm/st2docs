@@ -2,10 +2,10 @@ Traces
 ======
 
 Traces are tracking entities that serve to gather all |st2| entities like ActionExecution,
-TriggerInstance and Rule that originate from an event. In the |st2| context an event could one
+TriggerInstance and Rule that originate from an event. In the |st2| context an event could be one
 of the following -
 
-* Event from an external system sent to StackStorm via a Sensor or Webhook.
+* Events from an external system sent to StackStorm via a Sensor or Webhook.
 * Action executed via UI, CLI or API.
 * Action executed via ChatOps.
 
