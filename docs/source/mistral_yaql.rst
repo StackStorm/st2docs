@@ -249,4 +249,5 @@ documentation and git repo to explore more options.
 **Mistral**
 
 * ``env()`` returns the environment variables passed to the workflow execution on invocation such as the StackStorm Action Execution ID ``st2_execution_id``. For example, the expression ``<% env().st2_action_api_url %>/actionexecutions/<% env().st2_execution_id %>`` returns the API endpoint for the current workflow execution in StackStorm as something like ``https://127.0.0.1:9101/v1/actionexecutions/874d3d5b3f024c1aa93225ef0bcfcf3a``.
+* To access infomation about the parent action like in an ActionChain with ``{{action_context.parent.source_channel}}``, ``{{action_context.parent.user`` or ``{{action_context.parent.api_user}}``. The following expressions can be used ``<% env().get('__actions').get('st2.action').st2_context.parent.api_user %>``, ``<% env().get('__actions').get('st2.action').st2_context.parent.source_channel %>`` or ``<% env().get('__actions').get('st2.action').st2_context.parent.user %>``.
 * ``task(task_name)`` returns the state, state_info, and result of task given task_name.
