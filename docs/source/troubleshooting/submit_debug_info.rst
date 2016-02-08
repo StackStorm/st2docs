@@ -167,20 +167,21 @@ Sample Config yaml file:
     shell_commands:
         cmd1: rpm -qa
     company_name:
-        name: MyCompany
+        name: StackStorm
 
-To send debug information to MyCompany, simply invoke the command shown below:
+To send debug information to StackStorm, simply invoke the command shown below passing it the path to
+the YAML config file:
 
 .. sourcecode:: bash
 
-    st2-submit-debug-info
+    st2-submit-debug-info --config <path to config file>
 
-    This will submit the following information to MyCompany: logs, configs, content, system_info, shell_commands
+    This will submit the following information to StackStorm: logs, configs, content, system_info, shell_commands
     Are you sure you want to proceed? [y/n] y
     2016-01-19 06:12:18,587  INFO - Collecting files...
     2016-01-19 06:12:19,602  INFO - Creating tarball...
     2016-01-19 06:12:19,708  INFO - Encrypting tarball...
-    2016-01-19 06:12:43,949  INFO - Debug tarball successfully uploaded to MyCompany (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:12:18.tar.gz.asc)
+    2016-01-19 06:12:43,949  INFO - Debug tarball successfully uploaded to StackStorm (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:12:18.tar.gz.asc)
     2016-01-19 06:12:43,949  INFO - When communicating with support, please let them know the tarball name - st2-debug-output-70386ae8e4fe-2016-01-19-06:12:18.tar.gz.asc
 
 We can pass through any command line arguments provided to st2-submit-debug-info.
@@ -191,33 +192,33 @@ For Example:
 
 .. sourcecode:: bash
 
-    st2-submit-debug-info --yes
+    st2-submit-debug-info --yes --config <path to config file>
 
     2016-01-19 06:25:09,024  INFO - Collecting files...
     2016-01-19 06:25:09,617  INFO - Creating tarball...
     2016-01-19 06:25:09,725  INFO - Encrypting tarball...
-    2016-01-19 06:25:13,727  INFO - Debug tarball successfully uploaded to MyCompany (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:25:09.tar.gz.asc)
+    2016-01-19 06:25:13,727  INFO - Debug tarball successfully uploaded to StackStorm (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:25:09.tar.gz.asc)
     2016-01-19 06:25:13,727  INFO - When communicating with support, please let them know the tarball name - st2-debug-output-70386ae8e4fe-2016-01-19-06:25:09.tar.gz.asc
 
-* To send specific information to MyCompany or to exclude particular information use the ``--exclude-<content>`` flag.
+* To send specific information to StackStorm or to exclude particular information use the ``--exclude-<content>`` flag.
 
 .. sourcecode:: bash
 
-    st2-submit-debug-info --exclude-shell-commands
+    st2-submit-debug-info --exclude-shell-commands --config <path to config file>
 
-    This will submit the following information to MyCompany: logs, configs, content, system_info
+    This will submit the following information to StackStorm: logs, configs, content, system_info
     Are you sure you want to proceed? [y/n] y
     2016-01-19 06:28:25,533  INFO - Collecting files...
     2016-01-19 06:28:25,895  INFO - Creating tarball...
     2016-01-19 06:28:26,002  INFO - Encrypting tarball...
-    2016-01-19 06:28:29,559  INFO - Debug tarball successfully uploaded to MyCompany (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:28:25.tar.gz.asc)
+    2016-01-19 06:28:29,559  INFO - Debug tarball successfully uploaded to StackStorm (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:28:25.tar.gz.asc)
     2016-01-19 06:28:29,559  INFO - When communicating with support, please let them know the tarball name - st2-debug-output-70386ae8e4fe-2016-01-19-06:28:25.tar.gz.asc
 
-* To review the debugging information without encrypting and uploading to MyCompany.
+* To review the debugging information without encrypting and uploading to StackStorm.
 
 .. sourcecode:: bash
 
-    st2-submit-debug-info --review
+    st2-submit-debug-info --review --config <path to config file>
 
     2016-01-19 06:19:04,911  INFO - Collecting files...
     2016-01-19 06:19:05,531  INFO - Creating tarball...
