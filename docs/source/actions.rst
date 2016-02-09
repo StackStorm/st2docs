@@ -215,15 +215,16 @@ In case of action chains and workflows (see :doc:`Workflow </workflows>`), every
 shown below:
 
 .. code-block:: yaml
-
+    
+    ...
     -
-    name: "c2"
-    ref: "core.local"
-    parameters:
+      name: "c2"
+      ref: "core.local"
+      parameters:
         cmd: "echo \"c2: parent exec is {{action_context.parent.execution_id}}.\""
-    on-success: "c3"
-    on-failure: "c4"
-
+      on-success: "c3"
+      on-failure: "c4"
+    ...
 
 .. note::
 
