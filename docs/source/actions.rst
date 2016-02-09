@@ -151,29 +151,29 @@ the Twilio web service.
 .. code-block:: yaml
 
     ---
-        name: "send_sms"
-        runner_type: "python-script"
-        description: "This sends a SMS using twilio."
-        enabled: true
-        entry_point: "send_sms.py"
-        parameters:
-            from_number:
-                type: "string"
-                description: "Your twilio 'from' number in E.164 format. Example +14151234567."
-                required: true
-                position: 0
-            to_number:
-                type: "string"
-                description: "Recipient number in E.164 format. Example +14151234567."
-                required: true
-                position: 1
-                secret: true
-            body:
-                type: "string"
-                description: "Body of the message."
-                required: true
-                position: 2
-                default: "Hello {% if system.user %} {{ system.user }} {% else %} dude {% endif %}!"
+    name: "send_sms"
+    runner_type: "python-script"
+    description: "This sends a SMS using twilio."
+    enabled: true
+    entry_point: "send_sms.py"
+    parameters:
+        from_number:
+            type: "string"
+            description: "Your twilio 'from' number in E.164 format. Example +14151234567."
+            required: true
+            position: 0
+        to_number:
+            type: "string"
+            description: "Recipient number in E.164 format. Example +14151234567."
+            required: true
+            position: 1
+            secret: true
+        body:
+            type: "string"
+            description: "Body of the message."
+            required: true
+            position: 2
+            default: "Hello {% if system.user %} {{ system.user }} {% else %} dude {% endif %}!"
 
 
 This action is using a Python runner (``python-script``), the class which
@@ -217,12 +217,12 @@ shown below:
 .. code-block:: yaml
 
     -
-      name: "c2"
-      ref: "core.local"
-      parameters:
-          cmd: "echo \"c2: parent exec is {{action_context.parent.execution_id}}.\""
-      on-success: "c3"
-      on-failure: "c4"
+    name: "c2"
+    ref: "core.local"
+    parameters:
+        cmd: "echo \"c2: parent exec is {{action_context.parent.execution_id}}.\""
+    on-success: "c3"
+    on-failure: "c4"
 
 
 .. note::
@@ -365,25 +365,25 @@ For example:
 .. code-block:: yaml
 
     ---
-        name: "my_script"
-        runner_type: "remote-shell-script"
-        description: "Script which prints arguments to stdout."
-        enabled: true
-        entry_point: "script.sh"
-        parameters:
-            key1:
-                type: "string"
-                required: true
-            key2:
-                type: "string"
-                required: true
-            key3:
-                type: "string"
-                required: true
-            kwarg_op:
-                type: "string"
-                immutable: true
-                default: "-"
+    name: "my_script"
+    runner_type: "remote-shell-script"
+    description: "Script which prints arguments to stdout."
+    enabled: true
+    entry_point: "script.sh"
+    parameters:
+        key1:
+            type: "string"
+            required: true
+        key2:
+            type: "string"
+            required: true
+        key3:
+            type: "string"
+            required: true
+        kwarg_op:
+            type: "string"
+            immutable: true
+            default: "-"
 
 In this case, arguments are passed to the script in the following format:
 
@@ -430,22 +430,22 @@ them in the metadata file:
 .. code-block:: yaml
 
     ---
-        name: "send_to_syslog.log"
-        runner_type: "remote-shell-script"
-        description: "Send a message to a provided syslog server."
-        enabled: true
-        entry_point: "send_to_syslog.sh"
-        parameters:
-            server:
-                type: "string"
-                description: "Address of the syslog server"
-                required: true
-                position: 0
-            message:
-                type: "string"
-                description: "Message to write"
-                required: true
-                position: 1
+    name: "send_to_syslog.log"
+    runner_type: "remote-shell-script"
+    description: "Send a message to a provided syslog server."
+    enabled: true
+    entry_point: "send_to_syslog.sh"
+    parameters:
+        server:
+            type: "string"
+            description: "Address of the syslog server"
+            required: true
+            position: 0
+        message:
+            type: "string"
+            description: "Message to write"
+            required: true
+            position: 1
 
 As you can see above, we declare two parameters - ``server`` and ``message``.
 Both of them declare a ``position`` attribute (0 for server and 1 for message),
@@ -470,17 +470,17 @@ Metadata file (``my_echo_action.yaml``):
 .. code-block:: yaml
 
     ---
-        name: "echo_action"
-        runner_type: "python-script"
-        description: "Print message to standard output."
-        enabled: true
-        entry_point: "my_echo_action.py"
-        parameters:
-            message:
-                type: "string"
-                description: "Message to print."
-                required: true
-                position: 0
+    name: "echo_action"
+    runner_type: "python-script"
+    description: "Print message to standard output."
+    enabled: true
+    entry_point: "my_echo_action.py"
+    parameters:
+        message:
+            type: "string"
+            description: "Message to print."
+            required: true
+            position: 0
 
 
 Action script file (``my_echo_action.py``):
