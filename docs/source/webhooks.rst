@@ -33,14 +33,15 @@ same way as other API requests. There are two possible authentication approaches
 and for webhooks it is recommended to use API keys. API keys do not expire while
 tokens have a fixed expiry.
 
-
 API key based
 ~~~~~~~~~~~~~
+
 * `Header` : ``St2-Api-Key``
 * `Query parameter` : ``?st2-api-key``
 
 Token based
 ~~~~~~~~~~~
+
 * `Header` : ``X-Auth-Token``
 * `Query parameter` : ``?x-auth-token``
 
@@ -49,6 +50,15 @@ Both methods above support providing the authentication material as a header or 
 A header is usually used with your scripts where you can control request headers while query
 parameter is used with 3rd party services such as Github where you can only specify a URL.
 
+Request body
+------------
+
+Request body or so called trigger payload can either be JSON or URL encoded form data. Body type
+is determined based on the value of ``Content-Type`` header (``application/json`` for JSON and
+``application/x-www-form-urlencoded`` for URL encoded form data).
+
+All the examples below assume JSON and as such, provide ``application/json`` for the
+``Content-Type`` header value.
 
 Using a generic st2 webhook
 ---------------------------
