@@ -210,7 +210,6 @@ By default, the logs can be found in ``/var/log/st2``.
 
     ...
 
-::
 
 * To configure logging with syslog, grab the configuration and follow
   instructions at :github_contrib:`st2contrib/extra/syslog <extra/syslog>`
