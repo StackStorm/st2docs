@@ -178,38 +178,37 @@ By default, the logs can be found in ``/var/log/st2``.
   ``/etc/st2reactor/logging.sensorcontainer.conf`` can be updated as follows where ``MySensor`` is
   the sensor in the ``mypack`` pack that will have its own log file:
 
-::
+  .. code-block:: ini
 
-    [loggers]
-    keys=root,MySensor
+      [loggers]
+      keys=root,MySensor
 
-    [handlers]
-    keys=consoleHandler, fileHandler, auditHandler, MySensorFileHandler, MySensorAuditHandler
+      [handlers]
+      keys=consoleHandler, fileHandler, auditHandler, MySensorFileHandler, MySensorAuditHandler
 
-    ...
+      ...
 
-    [logger_MySensor]
-    level=INFO
-    handlers=consoleHandler, MySensorFileHandler, MySensorAuditHandler
-    propagate=0
-    qualname=st2.SensorWrapper.mypack.MySensor
+      [logger_MySensor]
+      level=INFO
+      handlers=consoleHandler, MySensorFileHandler, MySensorAuditHandler
+      propagate=0
+      qualname=st2.SensorWrapper.mypack.MySensor
 
-    ...
+      ...
 
-    [handler_MySensorFileHandler]
-    class=handlers.RotatingFileHandler
-    level=INFO
-    formatter=verboseConsoleFormatter
-    args=("logs/mysensor.log",)
+      [handler_MySensorFileHandler]
+      class=handlers.RotatingFileHandler
+      level=INFO
+      formatter=verboseConsoleFormatter
+      args=("logs/mysensor.log",)
 
-    [handler_vSphereEventSensorAuditHandler]
-    class=handlers.RotatingFileHandler
-    level=AUDIT
-    formatter=gelfFormatter
-    args=("logs/mysensor.audit.log",)
+      [handler_vSphereEventSensorAuditHandler]
+      class=handlers.RotatingFileHandler
+      level=AUDIT
+      formatter=gelfFormatter
+      args=("logs/mysensor.audit.log",)
 
-    ...
-
+      ...
 
 * To configure logging with syslog, grab the configuration and follow
   instructions at :github_contrib:`st2contrib/extra/syslog <extra/syslog>`
