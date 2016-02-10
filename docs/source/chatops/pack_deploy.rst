@@ -14,8 +14,8 @@ can be done by running a single command
     @my_user: Successful deployment of *elasticsearch* *travis_ci* !
     > from https://github.com/StackStorm/st2contrib.git (branch: _master_).
 
-If you're adventurous and wish to install and then help development a pack that's 
-currenlty in st2incubator you can install a pack with the following command in ChatOPS:
+If you're adventurous and wish to install and then help develop a pack that's
+currently in st2incubator you can install one with the following command in ChatOPS:
 
 .. code-block:: bash
 
