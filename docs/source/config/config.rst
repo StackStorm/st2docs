@@ -186,15 +186,11 @@ By default, the logs can be found in ``/var/log/st2``.
       [handlers]
       keys=consoleHandler, fileHandler, auditHandler, MySensorFileHandler, MySensorAuditHandler
 
-      ...
-
       [logger_MySensor]
       level=INFO
       handlers=consoleHandler, MySensorFileHandler, MySensorAuditHandler
       propagate=0
       qualname=st2.SensorWrapper.mypack.MySensor
-
-      ...
 
       [handler_MySensorFileHandler]
       class=handlers.RotatingFileHandler
@@ -207,8 +203,6 @@ By default, the logs can be found in ``/var/log/st2``.
       level=AUDIT
       formatter=gelfFormatter
       args=("logs/mysensor.audit.log",)
-
-      ...
 
 * To configure logging with syslog, grab the configuration and follow
   instructions at :github_contrib:`st2contrib/extra/syslog <extra/syslog>`
