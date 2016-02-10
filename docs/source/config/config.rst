@@ -154,9 +154,11 @@ By default, the logs can be found in ``/var/log/st2``.
 
 * By default, log rotation is handled via logrotate. Default log rotation config
   (:github_st2:`logrotate.conf <conf/logrotate.conf>`) is included with all the
-  package based installations. If you want Python services instead of logrotate
-  to handle the log rotation for you, you can update the logging configs as
-  shown below:
+  package based installations. Note that ``handlers.RotatingFileHandler`` is used by
+  default in ``/etc/st2*/logging.conf``, but the ``maxBytes`` and ``backupCount`` args are not
+  specififed so no rotation is performed by default which then lets logrotate handle the rotation.
+  If you want Python services instead of logrotate to handle the log rotation for you, you can
+  update the logging configs as shown below:
 
   .. code-block:: ini
 
@@ -170,6 +172,44 @@ By default, the logs can be found in ``/var/log/st2``.
   MB) and a maximum of 5 old log files will be kept. For more information, see
   `RotatingFileHandler <https://docs.python.org/2/library/logging.handlers.html#rotatingfilehandler>`_
   docs.
+
+* Sensors run in their own process so it is recommended to not allow sensors to share the same
+  ``RotatingFileHandler``. To configure a seperate handler per sensor
+  ``/etc/st2reactor/logging.sensorcontainer.conf`` can be updated as follows where ``MySensor`` is
+  the sensor in the ``mypack`` pack that will have its own log file:
+
+::
+    [loggers]
+    keys=root,MySensor
+
+    [handlers]
+    keys=consoleHandler, fileHandler, auditHandler, MySensorFileHandler, MySensorAuditHandler
+
+    ...
+
+    [logger_MySensor]
+    level=INFO
+    handlers=consoleHandler, MySensorFileHandler, MySensorAuditHandler
+    propagate=0
+    qualname=st2.SensorWrapper.mypack.MySensor
+
+    ...
+
+    [handler_MySensorFileHandler]
+    class=handlers.RotatingFileHandler
+    level=INFO
+    formatter=verboseConsoleFormatter
+    args=("logs/mysensor.log",)
+
+    [handler_vSphereEventSensorAuditHandler]
+    class=handlers.RotatingFileHandler
+    level=AUDIT
+    formatter=gelfFormatter
+    args=("logs/mysensor.audit.log",)
+
+    ...
+
+::
 
 * To configure logging with syslog, grab the configuration and follow
   instructions at :github_contrib:`st2contrib/extra/syslog <extra/syslog>`
