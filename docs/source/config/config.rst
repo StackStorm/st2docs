@@ -179,6 +179,7 @@ By default, the logs can be found in ``/var/log/st2``.
   the sensor in the ``mypack`` pack that will have its own log file:
 
 ::
+
     [loggers]
     keys=root,MySensor
 
