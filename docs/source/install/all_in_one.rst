@@ -290,14 +290,14 @@ Example Answers File
       "hubot-hipchat": ">=2.12.0 < 3.0.0"
       "hubot-stackstorm": ">= 0.1.0 < 0.2.0"
 
-How do I specify st2_ssl_cert and st2_ssl_key in answers.yaml file?
-####################################################################
+How do I specify st2::ssl_public_key and st2::ssl_private_key in answers.yaml file?
+###################################################################################
 
 If you have your own SSL cert and key and want to supply it with answers.yaml file, you can do so. This has been tested and reported as working by users.
 
 .. sourcecode:: yaml
 
-    st2_ssl_cert: ! '-----BEGIN CERTIFICATE-----
+    st2::ssl_public_key: ! '-----BEGIN CERTIFICATE-----
       LINE 1
       LINE 2
       LINE 3
@@ -306,7 +306,7 @@ If you have your own SSL cert and key and want to supply it with answers.yaml fi
       -----END CERTIFICATE-----
     '
 
-    st2_ssl_key: ! '-----BEGIN RSA PRIVATE KEY-----
+    st2::ssl_private_key: ! '-----BEGIN RSA PRIVATE KEY-----
       LINE 1
       LINE 2
       LINE 3
