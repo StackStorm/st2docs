@@ -12,7 +12,7 @@ run the bootstrap script:
 
 ::
 
-    curl -sSL https://install.stackstorm.com/ | sudo sh -s -- -r v1.3.0
+    curl -sSL https://install.stackstorm.com/ | sudo sh -s -- -r v1.3.2
 
 
 For **Enterprise Edition**, enter your license key when prompted by graphical setup, or place it in the answer file for unattended installation. To receive a key, request a free trial or obtain a license at `stackstorm.com/product <stackstorm.com/product/#enterprise>`_. If no license provided, StackStorm Community will be installed.
