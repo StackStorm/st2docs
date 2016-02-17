@@ -38,3 +38,4 @@ Interested in learning more? Here are some things to get you started on your voy
     chatops
     Action Aliases <aliases>
     notifications
+    Pack Deployment <pack_deploy>

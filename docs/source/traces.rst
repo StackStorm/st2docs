@@ -1,21 +1,27 @@
 Traces
 ======
 
-Traces are tracking entities that serve to gather all |st2| entities, like ActionExecution,
-TriggerInstance and Rule, that are cascades from a shared origin.
+Traces are tracking entities that serve to gather all |st2| entities like ActionExecution,
+TriggerInstance and Rule that originate from an event. In the |st2| context an event could be one
+of the following -
+
+* Events from an external system sent to StackStorm via a Sensor or Webhook.
+* Action executed via UI, CLI or API.
+* Action executed via ChatOps.
 
 Examples
 --------
 
-Let us walk through a couple of canonical cases -
+Let us walk through a few canonical examples -
 
 External events
 ^^^^^^^^^^^^^^^
 
-TriggerInstance(ti1) dispatched by Sensor to |st2|, matched a Rule(r1) leading to an ActionExecution(ae1). On completion of ae1 an ActionTrigger TriggerInstance(ti2) is dispatched by |st2|.
+Sensors dispatch TriggerInstances into |st2| and Webhooks are also translated to TriggerInstances when posted to |st2|. Rules are written to match specific Triggers and compared against TriggerInstances.
 
-The trace created in this case contains all the entities from above since they cascade
-from the same origin i.e. TriggerInstance(ti1) dispatched into the system.
+In the canonical case, TriggerInstance(ti1) dispatched by Sensor to |st2|, matches a Rule(r1) leading to an ActionExecution(ae1). On completion of ae1 an ActionTrigger TriggerInstance(ti2) is dispatched by |st2|.
+
+The trace created in this case contains all the entities from above since they originate from the same event i.e. TriggerInstance(ti1) dispatched into |st2|.
 
 .. code-block:: bash
 
@@ -28,7 +34,7 @@ from the same origin i.e. TriggerInstance(ti1) dispatched into the system.
 Connected flows
 ^^^^^^^^^^^^^^^
 
-Since |st2| raises an internal ActionTrigger it is possible for rules to be used in conjunction with those on completion of executions.
+|st2| raises an internal Trigger called the ActionTrigger, it is possible for rules to be used in conjunction with those on completion of executions.
 
 ActionExecution(ae1) started by user, on completion of ae1 an ActionTrigger TriggerInstance(ti1) is dispatched, Rule(r1) matches and leads to ActionExecution(ae2) another ActionTrigger TriggerInstance(ti2) is dispatched but no rule matched.
 
@@ -48,17 +54,18 @@ from the same origin i.e. ActionExecution(ae1) dispatched into the system.
 Tracing Triggers and Executions
 -------------------------------
 
-It is possible for users to define identifying information for a Trace at injection points. There are 2 injection points for |st2| where a Trace can start -
+It is possible for users to define identifying information for a Trace at event injection points. The injection points for |st2| where a Trace can start are -
 
-* Dispatch a Trigger (more precisely this is dispatching a TriggerInstance)
-* Execute an Action (aka creation of an ActionExecution)
+* Dispatch a Trigger (more precisely this is dispatching a TriggerInstance) by a Sensor.
+* Webhook posted to |st2|.
+* Execute an Action (aka creation of an ActionExecution) via UI, CLI, API or Chat.
 
 What is a trace_tag and trace_id?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* ``trace-tag`` : User specified and therefore friendly way to tag a Trace. There is no requirement for this value to be unique and |st2| will not enforce this either. Whenever only a trace-tag is provided at one of the injection points a new Trace is started.
+* ``trace-tag`` : User specified and therefore friendly way to tag or identify a Trace. There is no requirement for this value to be unique and |st2| will not enforce this either. Whenever only a trace-tag is provided at one of the injection points a new Trace is started if one does not already exist.
 
-* ``trace-id`` : This is a |st2| defined value and is guaranteed to be unique. Users can specify this value at the injection point but a Trace with the specified trace-id must already exist.
+* ``trace-id`` : This is a |st2| defined value and is guaranteed to be unique. Users can specify this value at the injection points as all but a Trace with the specified trace-id must already exist.
 
 Dispatch a Trigger
 ^^^^^^^^^^^^^^^^^^
@@ -76,6 +83,19 @@ Here the Sensor is expected to supply a meaningful value for ``trace_tag`` e.g.
 
 * Commit SHA of a git commit for a git commit hook trigger.
 * Id of the event from a monitoring system, like Sensu or Nagios, that is relayed to |st2|.
+
+Webhook
+^^^^^^^
+
+Both custom webhooks and generic |st2| webhooks support supplying of trace-tag via a header.
+
+* `Header` : ``St2-Trace-Tag``
+
+In case of a custom webhook the `curl` command will be
+
+.. sourcecode:: bash
+
+    curl -X POST http://127.0.0.1:9101/v1/webhooks/sample -H "X-Auth-Token: matoken" -H "Content-Type: application/json" -H "St2-Trace-Tag: webhook-1" --data '{"key1": "value1"}'
 
 Execute an Action
 ^^^^^^^^^^^^^^^^^

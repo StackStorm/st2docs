@@ -116,6 +116,8 @@ For example:
     self._logger = self._sensor_service.get_logger(name=self.__class__.__name__)
     self._logger.debug('Polling 3rd party system for information')
 
+.. _ref-sensors-datastore-management-operations:
+
 Datastore management operations
 -------------------------------
 

@@ -13,7 +13,6 @@ If you use configuration management tools, pick you poison. Or, run from source.
 .. todo::  Eventually, promote an installer script here, just as it was before:
     ``curl -sSL https://install.stackstorm.com/ | sudo sh``
 
-
 .. rubric:: Installations
 
 .. toctree::

@@ -179,6 +179,9 @@ The above alias supports the following commands -
     !list sensors from examples
     !list sensors from examples limit=2
 
+
+Note: formats are matched in the exact order they are specified in a YAML array, and must be ordered from the most specific (first) to the most generic (last). `deploy {{ pack }} to {{ host }}` should come before `deploy {{ pack }}`, otherwise everything after "deploy" will always be mapped to `pack`, ignoring more specific format strings that come after.
+
 "Display-representation" format objects
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -256,10 +259,10 @@ Same as with `ack`, you can configure `result` to disable result messages or set
 
 To disable the result message, you can use the `enabled` flag same way as in `ack`.
 
-Plaintext/attachment (slack-only)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Plaintext messages (Slack and HipChat)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Slack uses attachments to format the result message. While we found attachments to be the best way to handle very long messages (which StackStorm execution results tend to be), sometimes you want part of your message — or all of it — in plaintext. Use `{~}` as a delimiter to do that:
+Result messages tend to be quite long, and Hubot will utilize extra formatting capabilities of some chat clients: Slack messages will be sent as attachments, and HipChat messages are formatted as code blocks. While this is a good fit in most cases, sometimes you want part of your message — or all of it — in plaintext. Use `{~}` as a delimiter to split a message into a plaintext/attachment pair:
 
 .. code-block:: yaml
 
