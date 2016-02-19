@@ -544,13 +544,19 @@ For example:
         else:
             self.logger.error('Action failed...')
 
-Datastore
-~~~~~~~~~
+Action Service
+~~~~~~~~~~~~~~
 
-Actions can utilize the datastore to store data between executions.
+Similar to sensors, ``action_service`` is available on each action instance
+after instantiation.
 
-The datastore service provides the same methods available on the sensor service.
-More detail can be found in the :ref:`sensor datastore management documentation<ref-sensors-datastore-management-operations>`.
+Action service provides different services to the actiona via public methods.
+Right now it supports datastore management methods. This allows actions to
+utilize datastore to store arbitrary data between executions.
+
+The action service provides the same datastore management methods as the ones
+available on the sensor service. You can find more details in the
+:ref:`sensor datastore management documentation<ref-sensors-datastore-management-operations>`.
 
 Example storing a dict as JSON:
 
@@ -560,15 +566,14 @@ Example storing a dict as JSON:
       data = {'somedata': 'foobar'}
 
       # Add a value to the datastore
-      self.datastore.set_value(name='cache', value=json.dumps(data))
+      self.action_service.set_value(name='cache', value=json.dumps(data))
 
       # Retrieve a value
-      value = self.datastore.get_value('cache')
+      value = self.action_service.get_value('cache')
       retrieved_data = json.loads(value)
 
       # Delete a value
-      self.datastore.delete_value('cache')
-
+      self.action_service.delete_value('cache')
 
 Pre-defined actions
 ^^^^^^^^^^^^^^^^^^^
