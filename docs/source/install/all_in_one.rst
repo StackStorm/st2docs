@@ -105,22 +105,29 @@ Visit the setup URL output on your command line by entering the address in your 
 Amazon Web Services (AWS)
 =========================
 
-We have currently performed testing and certified that StackStorm Installer works properly on the AMI Images listed in the [Supported Platforms](#supported-platforms) section. It is highly likely that the installer will also work on different AMIs if it is one of our Supported Operating Systems. However, if you run into issues, these are the AMIs that we use in our automated testing and should get you going with minimal fuss.
+We have currently performed testing and certified that StackStorm Installer works properly on the following AMI Images:
+
+* CentOS 6     - `ami-1255b321`
+* CentOS 7     - `ami-d440a6e7`
+* Ubuntu 14.04 - `ami-5189a661`
+
+It is highly likely that the installer will also work on different AMIs if it is one of our Supported Operating Systems. However, if you run into issues, these are AMIs that we use in our automated testing and should get you going with minimal fuss.
 
 We are constantly striving to ensure that we have compatability with as many platforms as we can. However, if you find an AMI that doesn't work, please let us know and we'll be glad to take a look. We also love Pull Requests from the community, and might have some goodies if you help us out!
 
-Getting started with AWS is easy! Follow the instructions below to provision a server with the appropriate security settings, and then run the All-in-one Installer script.
+
+Getting started with AWS is easy! Follow the instructions below to provision a server with the appropriate security settings, and then run the All-in-one installer script.
 
 #. From the AMI Community Marketplace, select the appropriate AMI image. Suggestions are recommended above.
-#. Select the instance type/size. For assistance in choosing an instance type, refer to the *Sizing the Server* section above.
-#. Select the desired VPC Settings.
-#. Select or create a Security Group. It is recommended that you leave the default settings. Port 443 must be available for the WebUI, port 9100 for |st2| authentication, and port 9101 for the |st2| API.
-#. Select or create a Key Pair.
-#. Review your settings, and then click Launch with 1-Click.
-#. Click **View Instances** to close the confirmation and return to the AWS Console.
+#. Select the instance type/size. For assistance in choosing an instance type, refer to the *Sizing the Server* section above. Click **Next: Configure instance details**.
+#. Set any configuration details. Click **Next: Add Storage**
+#. Set up any applicable tags for your instance. Click **Next: Configure Security Group**
+#. Setup a security group. It is recommended that you leave the default settings. Port 443 must be available for the WebUI, port 9100 for |st2| authentication, and port 9101 for the |st2| API
+#. Review your settings, and then click Launch.
+#. In the **Select an existing key pair or create a new key pair** dialog box, select **Choose an existing key pair** to select a new key pair that you already created or create a new key pair. Select the acknowledgment check box, and then click **Launch Instances**. This can take approximately 5-15 minutes to launch. A confirmation page will appear, letting you know that your instance is launching. Click **View Instances** to close the confirmation and return to the AWS Console.
 #. In your web browser, enter the |st2| setup URL. The format will be: https://**Public IP**/setup
 #. Run the BYOB installer command above.
-#. Once finished, proceed to the section *Running the installer*.
+#. Once finished, Proceed to the section *Running the installer*
 
 .. _all_in_one-running_the_setup:
 
