@@ -120,6 +120,10 @@ Once this rule is created, you can use this webhook by POST-ing data to
 ``/v1/webhooks/sample``. The request body needs to be JSON and can contain
 arbitrary data which you can match against in the rule criteria.
 
+Note that all trailing and leading ``/`` of the ``url`` parameter are ignored by
+|st2|. e.g. a value of ``/sample``, ``sample/``, ``/sample/`` and ``sample`` are
+all treated the same i.e. considered identical.
+
 POST-ing data to a custom webhook will cause a trigger with the following
 attributes to be dispatched:
 
