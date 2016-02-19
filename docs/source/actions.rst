@@ -189,7 +189,7 @@ Parameters in actions
 ~~~~~~~~~~~~~~~~~~~~~
 
 In the previous example, you probably noticed how you can access parameters from
-from key value store by using the ``system`` prefix in the template. You can also
+key value store by using the ``system`` prefix in the template. You can also
 get access variables from the context of the execution. For example:
 
 .. code-block:: yaml
