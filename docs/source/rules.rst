@@ -161,6 +161,11 @@ This section describes all the available operators which can be used in the crit
 ``nequals``      Values are not equal (for values of arbitrary type).
 ``lessthan``     Trigger value is less than the provided value.
 ``greaterthan``  Trigger value is greater than the provided value.
+``matchglob``    Trigger value matches the provided glob-like string. This
+                 operator provides support for Unix shell-style wildcards which
+                 means you can use characters such as ``*`` and ``?``. This
+                 operator is preferred over ``matchregex`` for simple string
+                 matches.
 ``matchregex``   Trigger value matches the provided regular expression
                  pattern.
 ``iequals``      String trigger value equals the provided value case
