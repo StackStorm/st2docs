@@ -125,8 +125,8 @@ You can find some sample tests on the links below.
 * Sensor - `test_sensor_docker_sensor <https://github.com/StackStorm/st2contrib/blob/master/packs/docker/tests/test_sensor_docker_sensor.py>`_
 * Action - `test_action_parse <https://github.com/StackStorm/st2contrib/blob/master/packs/csv/tests/test_action_parse.py>`_
 
-Continous Integration
----------------------
+Continuous Integration
+----------------------
 
 By default tests for all the packs are ran on every commit to ``st2contrib``
 repository.
