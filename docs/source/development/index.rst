@@ -15,7 +15,7 @@ IRC channel (`#stackstorm on freenode <http://webchat.freenode.net/?channels=sta
 assist you.
 
 For information on contributing an integration pack, please refer to the
-:doc:`Create and Contribute a Pack </packs>` page.
+:doc:`Create and Contribute a Pack </reference/packs>` page.
 
 For an overview of core |st2| code structure, please refer to
 :doc:`Code structure </development/code_structure>`.
