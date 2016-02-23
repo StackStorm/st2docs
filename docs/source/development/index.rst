@@ -59,7 +59,7 @@ Code style guide
   lint script - ``make flake8``
 
 Most StackStorm repositories use shared Flake8 and PyLint configuration files
-which you can get from the `lint-configs repo<https://github.com/StackStorm/lint-configs>`_.
+which you can get from the `lint-configs repo <https://github.com/StackStorm/lint-configs>`_.
 
 And most importantly, follow the existing style in the file you are editing and
 **be consistent**.
