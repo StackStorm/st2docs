@@ -11,7 +11,7 @@ We welcome and appreciate contributions of any kind (code, tests, documentation,
 examples, use cases, ...).
 
 If you need help or get stuck at any point during this process, stop by on our
-(`Slack Community<https://stackstorm.com/community-signup>`_) and we will do our best to
+(`Slack Community <https://stackstorm.com/community-signup>`_) and we will do our best to
 assist you.
 
 For information on contributing an integration pack, please refer to the
