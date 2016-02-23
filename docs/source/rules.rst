@@ -42,12 +42,17 @@ The generic form of a rule is:
 * The ``description`` of the rule
 * The ``enabled`` state of a rule (``true`` or ``false``)
 * The type of ``trigger`` emitted from sensors to monitor, which may consist of:
+
   * parameters associated with a sensor/trigger
+
 * An optional set of **criteria**, consisting of:
+
   * An attribute of the trigger payload
   * The ``type`` of criteria comparision
   * The ``pattern`` to match against
+
 * The ``action`` to execute when a rule is matched, consisting of:
+
   * The ``ref`` (action/workflow) to execute
   * An optional set of ``parameters`` to pass to the action execution.
 
