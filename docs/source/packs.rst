@@ -45,7 +45,7 @@ Some packs can be installed and run "as is" without any configurations.
 
 This downloads the Sensu and Docker packs from the `StackStorm/st2contrib community repo on GitHub <https://github.com/StackStorm/st2contrib>`__ , places them as local content under ``/opt/stackstorm/packs``, registers with |st2| and loads the content.
 
-By default packs are installed from the |st2| community repo. Use ``repo_url`` parameter to install a pack from a fork of `st2contrib`_, or from a custom repo. The following example installs all the packs from `StackStorm/st2incubator <https://github.com/StackStorm/st2incubator>`__ - the repo where you find our experiments and work-in-progress:
+By default packs are installed from the |st2| community repo. Use ``repo_url`` parameter to install a pack from a fork of `st2contrib  <https://github.com/StackStorm/st2contrib>`__, or from a custom repo. The following example installs all the packs from `StackStorm/st2incubator <https://github.com/StackStorm/st2incubator>`__ - the repo where you find our experiments and work-in-progress:
 
 .. code-block:: bash
 
@@ -109,7 +109,7 @@ See :doc:`/reference/packs` for details on how to pack your integrations and aut
 
 .. rubric:: What's Next?
 
-* Explore existing packs to many common products and tools from `StackStorm community <http://www.stackstorm.com/community/>`__ - `st2contrib <https://github.com/StackStorm/st2contrib>`_.
+* Explore existing packs to many common products and tools from `StackStorm community <http://www.stackstorm.com/community/>`__ - `st2contrib <https://github.com/StackStorm/st2contrib>`__.
 * Learn how to write a pack and contribute to community  - :doc:`/reference/packs`.
 * Learn how to write :ref:`custom sensors <ref-sensors-authoring-a-sensor>` and :ref:`custom actions <ref-actions-writing-custom>`.
 * Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with StackStorm.
