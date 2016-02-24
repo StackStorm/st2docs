@@ -30,13 +30,12 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
 Setup repositories
 ~~~~~~~~~~~~~~~~~~~
 
+The following script will detect your platform and architecture and setup the repo accordingly. It'll also install the GPG key for repo signing.
+Currently we support ``Ubuntu Trusty``, ``Debian Wheezy`` and ``Debian Jessie``.
+
   .. code-block:: bash
 
-    wget -qO - https://bintray.com/user/downloadSubjectPublicKey?username=bintray | sudo apt-key add -
-    # Modify to pick OS flavor from trusty, jessie, wheezy
-    echo "deb https://dl.bintray.com/stackstorm/trusty_staging stable main" | sudo tee /etc/apt/sources.list.d/st2-staging-stable.list
-
-    sudo apt-get update
+    curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
 
 
 Install StackStorm components
