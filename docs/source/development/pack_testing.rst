@@ -169,8 +169,8 @@ st2workroom), you can safely pass ``-x`` flag to the script since a virtual
 environment should already be created and all the necessary |st2| dependencies
 should be available in ``PYTHONPATH``.
 
-Continous Integration
----------------------
+Continuous Integration
+----------------------
 
 By default tests for all the packs are ran on every commit to ``st2`` and
 ``st2contrib`` repository.
