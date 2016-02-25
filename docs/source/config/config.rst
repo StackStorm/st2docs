@@ -68,7 +68,7 @@ To run actions on remote hosts, |st2| uses SSH. It is advised to configure ident
 
 |st2| ssh user and a path to SSH key are set in ``/etc/st2/st2.conf``. During installation, ``st2_deploy.sh`` script configures ssh on the local box for a user `stanley`.
 
-Follow these steps on a remote box to setup `stanley` user on remote boxes.
+Follow these steps on a remote box to setup `stanley` user on remote boxes. You will need elevated privileges (root) to do this.
 
 .. code-block:: bash
 
@@ -85,6 +85,7 @@ Follow these steps on a remote box to setup `stanley` user on remote boxes.
     chmod 0600 /home/stanley/.ssh/authorized_keys
     chown -R stanley:stanley /home/stanley
     echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
+    chmod 0440 /etc/sudoers.d/st2
 
     # ensure requiretty is not set to default in the /etc/sudoers file.
 

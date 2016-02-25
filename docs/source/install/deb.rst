@@ -75,7 +75,7 @@ Configure SSH and SUDO
 To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
 For remote linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
 
-* Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally. You will need elevated privileges to do this.
+* Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally. You will need elevated privileges (root) to do this.
 
   .. code-block:: bash
 
@@ -94,6 +94,7 @@ For remote linux actions, SSH is used. It is advised to configure identity file 
 
     # Enable passwordless sudo
     echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
+    chmod 0440 /etc/sudoers.d/st2
 
 * Configure SSH access and enable passwordless sudo on the remote hosts which StackStorm would control
   over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
