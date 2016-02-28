@@ -238,7 +238,7 @@ If you already run Hubot instance, you only have to install the ``hubot-stacksto
 
 * Validate that ``chatops`` pack is installed, and a notification rule is enabled: ::
 
-      st2 rule list --pack=chatops
+      ls /opt/stackstorm/packs/chatops && (st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml)
 
 * Install docker: follow instructions on `Docker install <https://docs.docker.com/engine/installation/linux/ubuntulinux/>`_.
 
@@ -249,7 +249,7 @@ If you already run Hubot instance, you only have to install the ``hubot-stacksto
 * Set a hostname or IP address that will be accessable form a docker container,
   as $ST2_HOSTNAME environment variable: ::
 
-      export $ST2_HOSTNAME={MY_STACKSTORM_HOST_NAME}
+      export ST2_HOSTNAME={MY_STACKSTORM_HOST_NAME}
 
 * Create ``st2hubot.env`` configuration file to keep all Chatops related settings in one place.
   Copy the example below; **edit to use your password**. The example uses Slack; go to Slack

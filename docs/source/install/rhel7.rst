@@ -1,5 +1,5 @@
-RHEL 7/ CentOS 7
-================
+RHEL 7 / CentOS 7
+=================
 
 This guide provides step-by step instructions on installing StackStorm on a single box on RHEL 7/CentOS 7.
 A script `st2bootstrap-el7.sh <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el7.sh>`_,
@@ -256,12 +256,12 @@ If you already run Hubot instance, you only have to install the ``hubot-stacksto
 
 * Validate that ``chatops`` pack is installed, and a notification rule is enabled: ::
 
-      st2 rule list --pack=chatops
+    ls /opt/stackstorm/packs/chatops && (st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml)
 
 * Install docker:
 
-    `Docker install for RHEL <https://docs.docker.com/engine/installation/linux/rhel/>`_.
-    `Docker install for CentOS <https://docs.docker.com/engine/installation/linux/centos/>`_.
+    `Docker install for RHEL 7 <https://docs.docker.com/engine/installation/linux/rhel/>`_.
+    `Docker install for CentOS 7 <https://docs.docker.com/engine/installation/linux/centos/>`_.
 
 * Pull the StackStorm/hubot image: ::
 
@@ -270,7 +270,7 @@ If you already run Hubot instance, you only have to install the ``hubot-stacksto
 * Set a hostname or IP address that will be accessable form a docker container,
   as $ST2_HOSTNAME environment variable: ::
 
-      export $ST2_HOSTNAME={MY_STACKSTORM_HOST_NAME}
+      export ST2_HOSTNAME={MY_STACKSTORM_HOST_NAME}
 
 * Create ``st2hubot.env`` configuration file to keep all Chatops related settings in one place.
   Copy the example below; **edit to use your password**. The example uses Slack; go to Slack
