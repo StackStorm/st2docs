@@ -156,7 +156,6 @@ Start Services
 * Start services ::
 
     sudo st2ctl start
-    sudo service mistral start
 
 * Register sensors and actions ::
 
