@@ -16,6 +16,32 @@ codifies the instructions below.
 Minimal installation
 --------------------
 
+Adjust SELinux policies
+~~~~~~~~~~~~~~~~~~~~~~~
+
+If your RHEL/CentOS box has SELinux enforced, please follow these instructions to adjust SELinux
+policies. This is needed for successful installation. If you are not happy with these policies,
+you may want to tweak them according to your security practices.
+
+* Check if SELinux is enforcing
+
+    .. code-block:: bash
+
+        getenforce
+
+* If previous command returns enforcing, then run the following commands to adjust SELinux policies:
+
+    .. code-block:: bash
+
+        # SELINUX management tools, not available for some minimal installations
+        sudo yum install -y policycoreutils-python
+
+        # Allow rabbitmq to use '25672' port, otherwise it will fail to start
+        sudo semanage port --list | grep -q 25672 || sudo semanage port -a -t amqp_port_t -p tcp 25672
+
+        # Allow network access for nginx
+        sudo setsebool -P httpd_can_network_connect 1
+
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
 
