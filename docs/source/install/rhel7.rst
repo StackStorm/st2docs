@@ -29,7 +29,7 @@ you may want to tweak them according to your security practices.
 
         getenforce
 
-* If previous command returns enforcing, then run the following commands to adjust SELinux policies:
+* If previous command returns 'Enforcing', then run the following commands to adjust SELinux policies:
 
     .. code-block:: bash
 
