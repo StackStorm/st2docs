@@ -42,6 +42,12 @@ you may want to tweak them according to your security practices.
         # Allow network access for nginx
         sudo setsebool -P httpd_can_network_connect 1
 
+    .. note ::
+
+      If you see messages like "SELinux: Could not downgrade policy file", it means
+      you are trying to adjust policy configurations when SELinux is disabled. You can
+      ignore this error.
+
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
 

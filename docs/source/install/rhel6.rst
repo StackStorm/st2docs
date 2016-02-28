@@ -29,7 +29,7 @@ you may want to tweak them according to your security practices.
 
         getenforce
 
-* If previous command returns enforcing, then run the following commands to adjust SELinux policies:
+* If previous command returns 'Enforcing', then run the following commands to adjust SELinux policies:
 
     .. code-block:: bash
 
@@ -37,10 +37,16 @@ you may want to tweak them according to your security practices.
         sudo yum install -y policycoreutils-python
 
         # Allow rabbitmq to use '25672' port, otherwise it will fail to start
-        sudo semanage port --list | grep -q 25672 || sudo semanage port -a -t amqp_port_t -p tcp 25672
+        sudo semanage port --list | grep 25672 || sudo semanage port -a -t amqp_port_t -p tcp 25672
 
         # Allow network access for nginx
         sudo setsebool -P httpd_can_network_connect 1
+
+    .. note ::
+
+      If you see messages like "SELinux: Could not downgrade policy file", it means
+      you are trying to adjust policy configurations when SELinux is disabled. You can
+      ignore this error.
 
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
