@@ -240,7 +240,7 @@ If you already run Hubot instance, you only have to install the ``hubot-stacksto
 
       st2 rule list --pack=chatops
 
-* Install docker: follow instructions on `Docker install <https://docs.docker.com/engine/installation/linux/ubuntulinux/>`_).
+* Install docker: follow instructions on `Docker install <https://docs.docker.com/engine/installation/linux/ubuntulinux/>`_.
 
 * Pull the StackStorm/hubot image: ::
 
