@@ -79,20 +79,21 @@ For remote linux actions, SSH is used. It is advised to configure identity file 
   .. code-block:: bash
 
     # Create an SSH system user (default `stanley` user may be already created)
-    useradd stanley
-    mkdir -p /home/stanley/.ssh
-    chmod 0700 /home/stanley/.ssh
+    sudo useradd stanley
+    sudo mkdir -p /home/stanley/.ssh
+    sudo chmod 0700 /home/stanley/.ssh
 
     # On StackStorm host, generate ssh keys
-    ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
+    sudo ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
 
     # Authorize key-base acces
-    cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys
-    chmod 0600 /home/stanley/.ssh/authorized_keys
-    chown -R stanley:stanley /home/stanley
+    sudo sh -c 'cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys'
+    sudo chmod 0600 /home/stanley/.ssh/authorized_keys
+    sudo chown -R stanley:stanley /home/stanley
 
     # Enable passwordless sudo
-    echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
+    sudo sh -c 'echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2'
+    sudo chmod 0440 /etc/sudoers.d/st2
 
 * Configure SSH access and enable passwordless sudo on the remote hosts which StackStorm would control
   over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
