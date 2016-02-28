@@ -1,20 +1,52 @@
-Ubuntu / Debian
+RHEL 6 / CentOS 6
 =================
 
-This guide provides step-by step instructions on installing StackStorm on a single box on a Ubuntu/Debian.
-A script `st2bootstrap-deb.sh <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-deb.sh>`_,
+This guide provides step-by step instructions on installing StackStorm on a single box on RHEL 6/CentOS 6.
+A script `st2bootstrap-el7.sh <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el6.sh>`_,
 codifies the instructions below.
 
 .. warning :: Currently BETA! Please try, use and report bugs on
    `github.com/StackStorm/st2-packages <https://github.com/StackStorm/st2-packages/issues/new>`_.
    Soon, package-based installation will be
-   the preferred path to installing StackStorm. Support for CentOS/RHEL is coming.
+   the preferred path to installing StackStorm.
 
 .. contents::
 
 
 Minimal installation
 --------------------
+
+Adjust SELinux policies
+~~~~~~~~~~~~~~~~~~~~~~~
+
+If your RHEL/CentOS box has SELinux enforced, please follow these instructions to adjust SELinux
+policies. This is needed for successful installation. If you are not happy with these policies,
+you may want to tweak them according to your security practices.
+
+* Check if SELinux is enforcing
+
+    .. code-block:: bash
+
+        getenforce
+
+* If previous command returns 'Enforcing', then run the following commands to adjust SELinux policies:
+
+    .. code-block:: bash
+
+        # SELINUX management tools, not available for some minimal installations
+        sudo yum install -y policycoreutils-python
+
+        # Allow rabbitmq to use '25672' port, otherwise it will fail to start
+        sudo semanage port --list | grep 25672 || sudo semanage port -a -t amqp_port_t -p tcp 25672
+
+        # Allow network access for nginx
+        sudo setsebool -P httpd_can_network_connect 1
+
+    .. note ::
+
+      If you see messages like "SELinux: Could not downgrade policy file", it means
+      you are trying to adjust policy configurations when SELinux is disabled. You can
+      ignore this error.
 
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
@@ -23,19 +55,37 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
 
   .. code-block:: bash
 
-    sudo apt-get update
-    sudo apt-get install -y mongodb-server rabbitmq-server postgresql
+    sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+    sudo yum -y install mongodb-server rabbitmq-server
+    sudo service mongod start
+    sudo service rabbitmq-server start
+    sudo chkconfig mongod on
+    sudo chkconfig rabbitmq-server on
+
+    # Install and configure postgres 9.4
+    sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-1.noarch.rpm
+    sudo yum -y install postgresql94-server postgresql94-contrib postgresql94-devel
+
+    # Setup postgresql at a first time
+    sudo service postgresql-9.4 initdb
+
+    # Make localhost connections to use an MD5-encrypted password for authentication
+    sudo sed -i "s/\(host.*all.*all.*127.0.0.1\/32.*\)ident/\1md5/" /var/lib/pgsql/9.4/data/pg_hba.conf
+    sudo sed -i "s/\(host.*all.*all.*::1\/128.*\)ident/\1md5/" /var/lib/pgsql/9.4/data/pg_hba.conf
+
+    # Start PostgreSQL service
+    sudo service postgresql-9.4 start
+    sudo chkconfig postgresql-9.4 on
 
 
 Setup repositories
 ~~~~~~~~~~~~~~~~~~~
 
 The following script will detect your platform and architecture and setup the repo accordingly. It'll also install the GPG key for repo signing.
-Currently we support ``Ubuntu Trusty``, ``Debian Wheezy`` and ``Debian Jessie``.
 
   .. code-block:: bash
 
-    curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
+    curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.rpm.sh | sudo bash
 
 
 Install StackStorm components
@@ -43,7 +93,7 @@ Install StackStorm components
 
   .. code-block:: bash
 
-      sudo apt-get install -y st2 st2mistral
+      sudo yum install -y st2 st2mistral
 
 
 If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or changed defauls,
@@ -94,6 +144,9 @@ For remote linux actions, SSH is used. It is advised to configure identity file 
     # Enable passwordless sudo
     sudo sh -c 'echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2'
     sudo chmod 0440 /etc/sudoers.d/st2
+
+    # Make sure `Defaults requiretty` is disabled in `/etc/sudoers`
+    sudo sed -i "s/^Defaults\s\+requiretty/# Defaults requiretty/g" /etc/sudoers
 
 * Configure SSH access and enable passwordless sudo on the remote hosts which StackStorm would control
   over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
@@ -165,9 +218,9 @@ Reference deployment uses File Based auth provider for simplicity. Refer to :doc
   .. code-block:: bash
 
     # Install htpasswd utility if you don't have it
-    sudo apt-get install -y apache2-utils
+    sudo yum -y install httpd-tools
     # Create a user record in a password file.
-    echo "Ch@ngeMe" | sudo htpasswd -i /etc/st2/htpasswd test
+    sudo htpasswd -bs /etc/st2/htpasswd test Ch@ngeMe
 
 * Enable and configure auth in ``/etc/st2/st2.conf``:
 
@@ -210,21 +263,23 @@ certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's suppl
   .. code-block:: bash
 
     # Install st2web and nginx
-    sudo apt-get install -y st2web nginx
+    sudo yum -y install st2web nginx
 
     # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
     sudo mkdir -p /etc/ssl/st2
+
     sudo openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt \
-    -days XXX -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
+    -days 365 -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
     Technology/CN=$(hostname)"
 
-    # Remove default site, if present
-    sudo rm /etc/nginx/sites-enabled/default
     # Copy and enable StackStorm's supplied config file
-    sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
-    sudo ln -s /etc/nginx/sites-available/st2.conf /etc/nginx/sites-enabled/st2.conf
+    sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
+
+    # Disable default_server configuration in existing /etc/nginx/nginx.conf
+    sudo sed -i 's/default_server//g' /etc/nginx/conf.d/default.conf
 
     sudo service nginx restart
+    sudo chkconfig nginx on
 
 If you modify ports, or url paths in nginx configuration, make correspondent chagnes in st2web
 configuration at ``/opt/stackstorm/static/webui/config.js``.
@@ -234,132 +289,7 @@ Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebU
 Setup ChatOps
 -------------
 
-If you already run Hubot instance, you only have to install the ``hubot-stackstorm`` plugin and configure StackStorm env variables, as described below. Otherwise, the easiest way to enable StackStorm Chatops
-:doc:`StackStorm ChatOps </chatops/index>` is to use Docker and run `stackstorm/hubot <https://hub.docker.com/r/stackstorm/hubot/>`_ docker image.
-
-* Validate that ``chatops`` pack is installed, and a notification rule is enabled: ::
-
-      ls /opt/stackstorm/packs/chatops && (st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml)
-
-* Install docker: follow instructions on `Docker install <https://docs.docker.com/engine/installation/linux/ubuntulinux/>`_.
-
-* Pull the StackStorm/hubot image: ::
-
-      docker pull stackstorm/hubot
-
-* Set a hostname or IP address that will be accessable form a docker container,
-  as $ST2_HOSTNAME environment variable: ::
-
-      export ST2_HOSTNAME={MY_STACKSTORM_HOST_NAME}
-
-* Create ``st2hubot.env`` configuration file to keep all Chatops related settings in one place.
-  Copy the example below; **edit to use your password**. The example uses Slack; go to Slack
-  web admin interface, create a Bot, and copy the authentication token into ``HUBOT_SLACK_TOKEN``.
-  Or set environment variables under `Chat service adapter settings`, for other Chat services:
-  `Slack <https://github.com/slackhq/hubot-slack>`_,
-  `HipChat <https://github.com/hipchat/hubot-hipchat>`_,
-  `Yammer <https://github.com/athieriot/hubot-yammer>`_,
-  `Flowdock <https://github.com/flowdock/hubot-flowdock>`_,
-  `IRC <https://github.com/nandub/hubot-irc>`_ ,
-  `XMPP <https://github.com/markstory/hubot-xmpp>`_.
-
-  .. code-block :: bash
-
-    if [ -z "$ST2_HOSTNAME" ]; then
-       echo "Please set ST2_HOSTNAME to an externally accessable FQDN or IP.";
-       return 1;
-    fi
-
-    #####################################################################
-    # Hubot settings
-
-    # set if you don’t have a valid SSL certificate.
-    NODE_TLS_REJECT_UNAUTHORIZED=0
-    # Hubot port - must be accessable from StackStorm
-    EXPRESS_PORT=8081
-    # Log level
-    HUBOT_LOG_LEVEL=debug
-    # Bot name
-    HUBOT_NAME=yourbot
-    #
-    HUBOT_ALIAS=?
-
-    ######################################################################
-    # StackStorm settings
-
-    # StackStorm api endpoint. (Don’t use `localhost` as it would point to the Docker container).
-    ST2_API_URL=https://${ST2_HOSTNAME}/api
-    # StackStorm auth endpoint. (Don’t use `localhost` as it would point to the Docker container).
-    ST2_AUTH_URL=https://${ST2_HOSTNAME}/auth
-    # ST2 credentials
-    ST2_AUTH_USERNAME=test
-    ST2_AUTH_PASSWORD=Ch@ngeMe
-    # Public URL of StackStorm instance: used it to offer links to execution details in a chat.
-    ST2_WEBUI_URL=https://${ST2_HOSTNAME}
-
-    ######################################################################
-    # Chat service adapter settings
-
-    # For Slack, see https://github.com/slackhq/hubot-slack
-    # For other adapters, see correspondent settings https://hubot.github.com/docs/adapters/
-
-    # Hubot adapter plugin: slack, hipchat, irc, yammer, xmpp, flowdock
-    HUBOT_ADAPTER=slack
-    # Slack authentication token
-    HUBOT_SLACK_TOKEN=xoxb-CHANGE-ME-PLEASE
-
-* Use the script below to start the docker image. It is set up for Slack; for other Chats,
-  edit it to pass the environment variables as required for your Chat service adapter.
-
-  .. code-block :: bash
-
-    #!/bin/bash
-    # st2hubot-docker-run.sh - Conviniense script for running stackstorm-hubot docker container
-
-    ST2_CONTAINER=stackstorm-hubot
-
-    if [[ ! -z $(docker ps -a | grep $ST2_CONTAINER) ]];
-    then
-      echo "Terminating a previously running $ST2_CONTAINER instance..."
-      /usr/bin/docker rm --force $ST2_CONTAINER
-    fi
-
-    # Export hubot-stackstorm settings
-    . st2hubot.env || exit 1;
-
-    # Launch with env variables
-    echo "Running $ST2_CONTAINER ..."
-    /usr/bin/docker run                                              \
-      --name $ST2_CONTAINER --net bridge --detach=true               \
-      -m 0b -p 8081:8080 --add-host $ST2_HOSTNAME:10.0.1.100         \
-      -e ST2_WEBUI_URL=$ST2_WEBUI_URL                                \
-      -e ST2_AUTH_URL=$ST2_AUTH_URL                                  \
-      -e ST2_API=$ST2_API_URL                                        \
-      -e ST2_AUTH_USERNAME=$ST2_AUTH_USERNAME                        \
-      -e ST2_AUTH_PASSWORD=$ST2_AUTH_PASSWORD                        \
-      -e EXPRESS_PORT=$EXPRESS_PORT                                  \
-      -e NODE_TLS_REJECT_UNAUTHORIZED=$NODE_TLS_REJECT_UNAUTHORIZED  \
-      -e HUBOT_ALIAS=$HUBOT_ALIAS                                    \
-      -e HUBOT_LOG_LEVEL=$HUBOT_LOG_LEVEL                            \
-      -e HUBOT_NAME=$HUBOT_NAME                                      \
-      -e HUBOT_ADAPTER=$HUBOT_ADAPTER                                \
-      -e HUBOT_SLACK_TOKEN=$HUBOT_SLACK_TOKEN                        \
-      stackstorm/hubot
-
-
-  Run the script, and ensure that hubot-stackstorm is running and there are no errors ::
-
-      ./st2hubot-docker-run.sh
-      docker inspect -f {{.State.Status}} stackstorm-hubot
-      docker logs stackstorm-hubot
-
-  To automatically start ``stackstorm-hubot``, use `restart policies
-  <https://docs.docker.com/engine/reference/run/#restart-policies-restart>`_,
-  or `integrate with a process manager <https://docs.docker.com/engine/admin/host_integration/>`_.
-  An `init script <https://gist.github.com/emedvedev/3236a3bf104b2f0184f1>`_ is  available; replace the environment variables with your values and save it as ``/etc/init.d/docker-hubot``
-  to start it at boot and control it with ``service docker-hubot``.
-
-* Go to your Chat room and begin Chatopsing. Read on :doc:`/chatops/index` section.
+.. warning :: Our current chatops installation story is docker based and docker cannot be installed on RHEL 6 / CentOS 6 because of 2.6 kernel. However, we are working on native chatops packages for these distros.
 
 Upgrade to Enterprise Edition
 -----------------------------

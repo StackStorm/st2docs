@@ -1,20 +1,52 @@
-Ubuntu / Debian
+RHEL 7 / CentOS 7
 =================
 
-This guide provides step-by step instructions on installing StackStorm on a single box on a Ubuntu/Debian.
-A script `st2bootstrap-deb.sh <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-deb.sh>`_,
+This guide provides step-by step instructions on installing StackStorm on a single box on RHEL 7/CentOS 7.
+A script `st2bootstrap-el7.sh <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el7.sh>`_,
 codifies the instructions below.
 
 .. warning :: Currently BETA! Please try, use and report bugs on
    `github.com/StackStorm/st2-packages <https://github.com/StackStorm/st2-packages/issues/new>`_.
    Soon, package-based installation will be
-   the preferred path to installing StackStorm. Support for CentOS/RHEL is coming.
+   the preferred path to installing StackStorm.
 
 .. contents::
 
 
 Minimal installation
 --------------------
+
+Adjust SELinux policies
+~~~~~~~~~~~~~~~~~~~~~~~
+
+If your RHEL/CentOS box has SELinux enforced, please follow these instructions to adjust SELinux
+policies. This is needed for successful installation. If you are not happy with these policies,
+you may want to tweak them according to your security practices.
+
+* Check if SELinux is enforcing
+
+    .. code-block:: bash
+
+        getenforce
+
+* If previous command returns 'Enforcing', then run the following commands to adjust SELinux policies:
+
+    .. code-block:: bash
+
+        # SELINUX management tools, not available for some minimal installations
+        sudo yum install -y policycoreutils-python
+
+        # Allow rabbitmq to use '25672' port, otherwise it will fail to start
+        sudo semanage port --list | grep -q 25672 || sudo semanage port -a -t amqp_port_t -p tcp 25672
+
+        # Allow network access for nginx
+        sudo setsebool -P httpd_can_network_connect 1
+
+    .. note ::
+
+      If you see messages like "SELinux: Could not downgrade policy file", it means
+      you are trying to adjust policy configurations when SELinux is disabled. You can
+      ignore this error.
 
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
@@ -23,19 +55,33 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
 
   .. code-block:: bash
 
-    sudo apt-get update
-    sudo apt-get install -y mongodb-server rabbitmq-server postgresql
+    sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    sudo yum -y install mongodb-server rabbitmq-server
+    sudo systemctl start mongod rabbitmq-server
+    sudo systemctl enable mongod rabbitmq-server
 
+    # Install and configure postgres
+    sudo yum -y install postgresql-server postgresql-contrib postgresql-devel
+
+    # Setup postgresql at a first time
+    sudo postgresql-setup initdb
+
+    # Make localhost connections to use an MD5-encrypted password for authentication
+    sudo sed -i "s/\(host.*all.*all.*127.0.0.1\/32.*\)ident/\1md5/" /var/lib/pgsql/data/pg_hba.conf
+    sudo sed -i "s/\(host.*all.*all.*::1\/128.*\)ident/\1md5/" /var/lib/pgsql/data/pg_hba.conf
+
+    # Start PostgreSQL service
+    sudo systemctl start postgresql
+    sudo systemctl enable postgresql
 
 Setup repositories
 ~~~~~~~~~~~~~~~~~~~
 
 The following script will detect your platform and architecture and setup the repo accordingly. It'll also install the GPG key for repo signing.
-Currently we support ``Ubuntu Trusty``, ``Debian Wheezy`` and ``Debian Jessie``.
 
   .. code-block:: bash
 
-    curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
+    curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.rpm.sh | sudo bash
 
 
 Install StackStorm components
@@ -43,7 +89,7 @@ Install StackStorm components
 
   .. code-block:: bash
 
-      sudo apt-get install -y st2 st2mistral
+      sudo yum install -y st2 st2mistral
 
 
 If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or changed defauls,
@@ -74,7 +120,7 @@ Configure SSH and SUDO
 To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
 For remote linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
 
-* Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally. You will need elevated privileges to do this.
+* Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally.
 
   .. code-block:: bash
 
@@ -94,6 +140,9 @@ For remote linux actions, SSH is used. It is advised to configure identity file 
     # Enable passwordless sudo
     sudo sh -c 'echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2'
     sudo chmod 0440 /etc/sudoers.d/st2
+
+    # Make sure `Defaults requiretty` is disabled in `/etc/sudoers`
+    sudo sed -i "s/^Defaults\s\+requiretty/# Defaults requiretty/g" /etc/sudoers
 
 * Configure SSH access and enable passwordless sudo on the remote hosts which StackStorm would control
   over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
@@ -165,7 +214,7 @@ Reference deployment uses File Based auth provider for simplicity. Refer to :doc
   .. code-block:: bash
 
     # Install htpasswd utility if you don't have it
-    sudo apt-get install -y apache2-utils
+    sudo yum -y install httpd-tools
     # Create a user record in a password file.
     echo "Ch@ngeMe" | sudo htpasswd -i /etc/st2/htpasswd test
 
@@ -210,21 +259,22 @@ certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's suppl
   .. code-block:: bash
 
     # Install st2web and nginx
-    sudo apt-get install -y st2web nginx
+    sudo yum install -y st2web nginx
 
     # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
     sudo mkdir -p /etc/ssl/st2
     sudo openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt \
-    -days XXX -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
+    -days 365 -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
     Technology/CN=$(hostname)"
 
-    # Remove default site, if present
-    sudo rm /etc/nginx/sites-enabled/default
     # Copy and enable StackStorm's supplied config file
-    sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
-    sudo ln -s /etc/nginx/sites-available/st2.conf /etc/nginx/sites-enabled/st2.conf
+    sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
 
-    sudo service nginx restart
+    # Disable default_server configuration in existing /etc/nginx/nginx.conf
+    sudo sed -i 's/default_server//g' /etc/nginx/nginx.conf
+
+    sudo systemctl restart nginx
+    sudo systemctl enable nginx
 
 If you modify ports, or url paths in nginx configuration, make correspondent chagnes in st2web
 configuration at ``/opt/stackstorm/static/webui/config.js``.
@@ -239,9 +289,12 @@ If you already run Hubot instance, you only have to install the ``hubot-stacksto
 
 * Validate that ``chatops`` pack is installed, and a notification rule is enabled: ::
 
-      ls /opt/stackstorm/packs/chatops && (st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml)
+    ls /opt/stackstorm/packs/chatops && (st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml)
 
-* Install docker: follow instructions on `Docker install <https://docs.docker.com/engine/installation/linux/ubuntulinux/>`_.
+* Install docker:
+
+    `Docker install for RHEL 7 <https://docs.docker.com/engine/installation/linux/rhel/>`_.
+    `Docker install for CentOS 7 <https://docs.docker.com/engine/installation/linux/centos/>`_.
 
 * Pull the StackStorm/hubot image: ::
 

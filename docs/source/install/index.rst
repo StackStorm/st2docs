@@ -53,7 +53,8 @@ Visit the setup URL output, ``https://<HOST>/setup`` and proceed to :ref:`all_in
 
     All-In-One Installer  <all_in_one>
     Ubuntu / Debian <deb>
-    RedHat / CentOS <rpm>
+    RHEL 7/ CentOS 7 <rhel7>
+    RHEL 6/ CentOS 6 <rhel6>
     Vagrant <vagrant>
     Docker <docker>
     Puppet <puppet>

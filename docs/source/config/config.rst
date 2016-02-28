@@ -72,19 +72,20 @@ Follow these steps on a remote box to setup `stanley` user on remote boxes.
 
 .. code-block:: bash
 
-    useradd stanley
-    mkdir -p /home/stanley/.ssh
-    chmod 0700 /home/stanley/.ssh
+    sudo useradd stanley
+    sudo mkdir -p /home/stanley/.ssh
+    sudo chmod 0700 /home/stanley/.ssh
 
     # generate ssh keys on StackStorm box and copy over public key into remote box.
-    ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
-    cp ${KEY_LOCATION}/stanley_rsa.pub /home/stanley/.ssh/stanley_rsa.pub
+    sudo ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
+    sudo cp ${KEY_LOCATION}/stanley_rsa.pub /home/stanley/.ssh/stanley_rsa.pub
 
     # authorize key-base acces.
-    cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys
-    chmod 0600 /home/stanley/.ssh/authorized_keys
-    chown -R stanley:stanley /home/stanley
-    echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
+    sudo sh -c 'cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys'
+    sudo chmod 0600 /home/stanley/.ssh/authorized_keys
+    sudo chown -R stanley:stanley /home/stanley
+    sudo sh -c 'echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2'
+    sudo chmod 0440 /etc/sudoers.d/st2
 
     # ensure requiretty is not set to default in the /etc/sudoers file.
 
@@ -96,7 +97,7 @@ To verify do the following from the |st2| box
     ssh -i /home/stanley/.ssh/stanley_rsa stanely@host.example.com
 
     # make sure that no password is prompted.
-    sudo su
+    sudo su stanley
 
 SSH Troubleshooting
 ~~~~~~~~~~~~~~~~~~~
@@ -206,7 +207,7 @@ There are a number of configurable options available under the mistral section i
 ::
 
     # Example with basic options. The v2_base_url is set to http://workflow.example.com:8989/v2.
-    # On connection error, the following configuration sets up the action runner to retry 
+    # On connection error, the following configuration sets up the action runner to retry
     # connecting to mistral for up to 10 minutes. The retries is setup to be exponential for
     # 5 minutes. So in this case, there will be two sets of exponential retries during
     # the 10 minutes.
