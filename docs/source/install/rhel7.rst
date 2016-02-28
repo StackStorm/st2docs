@@ -52,6 +52,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
     sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     sudo yum -y install mongodb-server rabbitmq-server
     sudo systemctl start mongod rabbitmq-server
+    sudo systemctl enable mongod rabbitmq-server
 
     # Install and configure postgres
     sudo yum -y install postgresql-server postgresql-contrib postgresql-devel
@@ -65,7 +66,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
 
     # Start PostgreSQL service
     sudo systemctl start postgresql
-
+    sudo systemctl enable postgresql
 
 Setup repositories
 ~~~~~~~~~~~~~~~~~~~
@@ -267,6 +268,7 @@ certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's suppl
     sudo sed -i 's/default_server//g' /etc/nginx/nginx.conf
 
     sudo systemctl restart nginx
+    sudo systemctl enable nginx
 
 If you modify ports, or url paths in nginx configuration, make correspondent chagnes in st2web
 configuration at ``/opt/stackstorm/static/webui/config.js``.

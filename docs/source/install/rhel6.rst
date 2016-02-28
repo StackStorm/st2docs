@@ -53,6 +53,8 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
     sudo yum -y install mongodb-server rabbitmq-server
     sudo service mongod start
     sudo service rabbitmq-server start
+    sudo chkconfig mongod on
+    sudo chkconfig rabbitmq-server on
 
     # Install and configure postgres 9.4
     sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-1.noarch.rpm
@@ -67,6 +69,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
 
     # Start PostgreSQL service
     sudo service postgresql-9.4 start
+    sudo chkconfig postgresql-9.4 on
 
 
 Setup repositories
@@ -270,6 +273,7 @@ certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's suppl
     sudo sed -i 's/default_server//g' /etc/nginx/conf.d/default.conf
 
     sudo service nginx restart
+    sudo chkconfig nginx on
 
 If you modify ports, or url paths in nginx configuration, make correspondent chagnes in st2web
 configuration at ``/opt/stackstorm/static/webui/config.js``.
