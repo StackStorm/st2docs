@@ -49,9 +49,6 @@ you may want to tweak them according to your security practices.
         # SELINUX management tools, not available for some minimal installations
         sudo yum install -y policycoreutils-python
 
-        # Allow rabbitmq to use '25672' port, otherwise it will fail to start
-        sudo semanage port --list | grep 25672 || sudo semanage port -a -t amqp_port_t -p tcp 25672
-
         # Allow network access for nginx
         sudo setsebool -P httpd_can_network_connect 1
 
