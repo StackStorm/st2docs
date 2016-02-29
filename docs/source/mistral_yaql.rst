@@ -259,6 +259,5 @@ Testing YAQL Expressions
 The best and fastest way to test YAQL expression on your data is to use the online YAQL evaluator
 at http://yaqluator.com/.
 
-This YAQL evaluator allows you to provide sample data and YAQL expression which you can evaluate
-in real time and see the result. This comes especially handy when working with more complex
-expressions.
+The website allows you to provide sample data and YAQL expression which you can evaluate in real
+time and see the result. This comes especially handy when working with more complex expressions.
