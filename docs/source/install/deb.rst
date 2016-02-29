@@ -8,7 +8,7 @@ codifies the instructions below.
 .. warning :: Currently BETA! Please try, use and report bugs on
    `github.com/StackStorm/st2-packages <https://github.com/StackStorm/st2-packages/issues/new>`_.
    Soon, package-based installation will be
-   the preferred path to installing StackStorm. Support for CentOS/RHEL is coming.
+   the preferred path to installing StackStorm.
 
 .. contents::
 
