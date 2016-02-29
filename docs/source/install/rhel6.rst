@@ -49,9 +49,6 @@ you may want to tweak them according to your security practices.
         # SELINUX management tools, not available for some minimal installations
         sudo yum install -y policycoreutils-python
 
-        # Allow rabbitmq to use '25672' port, otherwise it will fail to start
-        sudo semanage port --list | grep 25672 || sudo semanage port -a -t amqp_port_t -p tcp 25672
-
         # Allow network access for nginx
         sudo setsebool -P httpd_can_network_connect 1
 
@@ -77,10 +74,12 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
 
     # Install and configure postgres 9.4. Based on OS type install the ``redhat`` one or ``centos`` one.
     # RHEL:
-    if grep -q "Red Hat" /etc/redhat-release; then sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-2.noarch.rpm; fi
+    if grep -q "Red Hat" /etc/redhat-release; then sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-2.noarch.rpm; fi
 
     # CentOS:
-    if grep -q "CentOS" /etc/redhat-release; then sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-2.noarch.rpm; fi
+    if grep -q "CentOS" /etc/redhat-release; then sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-2.noarch.rpm; fi
+
+    sudo yum -y install postgresql94-server postgresql94-contrib postgresql94-devel
 
     # Setup postgresql at a first time
     sudo service postgresql-9.4 initdb
