@@ -42,12 +42,17 @@ The generic form of a rule is:
 * The ``description`` of the rule
 * The ``enabled`` state of a rule (``true`` or ``false``)
 * The type of ``trigger`` emitted from sensors to monitor, which may consist of:
+
   * parameters associated with a sensor/trigger
+
 * An optional set of **criteria**, consisting of:
+
   * An attribute of the trigger payload
   * The ``type`` of criteria comparision
   * The ``pattern`` to match against
+
 * The ``action`` to execute when a rule is matched, consisting of:
+
   * The ``ref`` (action/workflow) to execute
   * An optional set of ``parameters`` to pass to the action execution.
 
@@ -149,40 +154,45 @@ This section describes all the available operators which can be used in the crit
     **For Developers:** The criteria comparision functions are defined in
     :github_st2:`st2/st2common/st2common/operators.py </st2common/st2common/operators.py>`.
 
-===============  ===============================================================
- Operator         Description
-===============  ===============================================================
-``equals``       Values are equal (for values of arbitrary type).
-``nequals``      Values are not equal (for values of arbitrary type).
-``lessthan``     Trigger value is less than the provided value.
-``greaterthan``  Trigger value is greater than the provided value.
-``matchregex``   Trigger value matches the provided regular expression
-                 pattern.
-``iequals``      String trigger value equals the provided value case
-                 insensitively.
-``contains``     Trigger value contains the provided value. Keep in mind that
-                 the trigger value can be either a string or an array (list).
-``ncontains``    Trigger value does not contain the provided value. Keep in mind
-                 that the trigger value can be either a string or an array (list).
-``icontains``    String trigger value contains the provided value case
-                 insensitively.
-``incontains``   String trigger value does not contain the provided string
-                 value case insensitively.
-``startswith``   Beginning of the string trigger value matches the provided
-                 string value.
-``istartswith``  Beginning of the string trigger value matches the provided
-                 string value case insensitively.
-``endswith``     End of the string trigger value matches the provided string
-                 value.
-``iendswith``    End of the string trigger value matches the provided string
-                 value case insensitively.
-``timediff_lt``  Time difference between trigger value and current time is
-                 less than the provided value.
-``timediff_gt``  Time difference between trigger value and current time is
-                 greater than the provided value;
-``exists``       Key exists in payload.
-``nexists``      Key doesn't exist in payload.
-===============  ===============================================================
+================= =================================================================
+ Operator          Description
+================= =================================================================
+``equals``        Values are equal (for values of arbitrary type).
+``nequals``       Values are not equal (for values of arbitrary type).
+``lessthan``      Trigger value is less than the provided value.
+``greaterthan``   Trigger value is greater than the provided value.
+``matchwildcard`` Trigger value matches the provided wildcard-like string. This
+                  operator provides support for Unix shell-style wildcards which
+                  means you can use characters such as ``*`` and ``?``. This
+                  operator is preferred over ``matchregex`` for simple string
+                  matches.
+``matchregex``    Trigger value matches the provided regular expression
+                  pattern.
+``iequals``       String trigger value equals the provided value case
+                  insensitively.
+``contains``      Trigger value contains the provided value. Keep in mind that
+                  the trigger value can be either a string or an array (list).
+``ncontains``     Trigger value does not contain the provided value. Keep in mind
+                  that the trigger value can be either a string or an array (list).
+``icontains``     String trigger value contains the provided value case
+                  insensitively.
+``incontains``    String trigger value does not contain the provided string
+                  value case insensitively.
+``startswith``    Beginning of the string trigger value matches the provided
+                  string value.
+``istartswith``   Beginning of the string trigger value matches the provided
+                  string value case insensitively.
+``endswith``      End of the string trigger value matches the provided string
+                  value.
+``iendswith``     End of the string trigger value matches the provided string
+                  value case insensitively.
+``timediff_lt``   Time difference between trigger value and current time is
+                  less than the provided value.
+``timediff_gt``   Time difference between trigger value and current time is
+                  greater than the provided value;
+``exists``        Key exists in payload.
+``nexists``       Key doesn't exist in payload.
+================= =================================================================
 
 Action
 ------

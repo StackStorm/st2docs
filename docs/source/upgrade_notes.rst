@@ -3,6 +3,23 @@ Upgrade Notes
 
 |st2| In Development
 --------------------
+
+* ``matchregex`` rule criteria operator has been updated so now the dot character (``.``) also
+  matches a new line. This makes the existing criteria patterns which use dot character more greedy.
+  Previously, it didn't match new lines so some of the existing ``matchregex`` criteria patterns
+  which operate on multi line strings might be affected.
+
+  For example, let's say we have a following criteria pattern - ``.*stackstorm.*``. Previously,
+  the following string - ``test\nstackstorm\ntest`` would not match, but now it does.
+
+  If you are affected and you want to revert to the old behavior (less greedy matches), you can do
+  so by modifying criteria pattern regular expression so it's less greedy (e.g. by adding ``^`` and
+  / or ``$`` character or similar).
+
+|st2| 1.3
+---------
+
+
 * New ``abandoned`` action execution status has been introduced. State is applied to action execution
   when an actionrunner currently running some executions quits or is killed via TERM.This is therefore
   effectively a failure state as |st2| can no longer validate the state of this execution. Being a
