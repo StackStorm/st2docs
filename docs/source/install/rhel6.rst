@@ -2,13 +2,26 @@ RHEL 6 / CentOS 6
 =================
 
 This guide provides step-by step instructions on installing StackStorm on a single box on RHEL 6/CentOS 6.
-A script `st2bootstrap-el7.sh <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el6.sh>`_,
+A script `st2bootstrap-el6.sh <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el6.sh>`_,
 codifies the instructions below.
 
 .. warning :: Currently BETA! Please try, use and report bugs on
    `github.com/StackStorm/st2-packages <https://github.com/StackStorm/st2-packages/issues/new>`_.
    Soon, package-based installation will be
    the preferred path to installing StackStorm.
+
+.. warning ::
+
+    RHEL 6 doesn't seem to ship with libffi-devel which is a dependency for |st2|.
+    If that is the case, find a version of libffi-devel compatible with libffi on the box.
+    For example,
+
+    .. code :: bash
+
+      [ec2-user@ip-172-30-0-79 ~]$ rpm -qa libffi
+      libffi-3.0.5-3.2.el6.x86_64
+
+      sudo yum localinstall -y ftp://fr2.rpmfind.net/linux/centos/6.7/os/x86_64/Packages/libffi-devel-3.0.5-3.2.el6.x86_64.rpm
 
 .. contents::
 
@@ -62,9 +75,12 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
     sudo chkconfig mongod on
     sudo chkconfig rabbitmq-server on
 
-    # Install and configure postgres 9.4
-    sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-1.noarch.rpm
-    sudo yum -y install postgresql94-server postgresql94-contrib postgresql94-devel
+    # Install and configure postgres 9.4. Based on OS type install the ``redhat`` one or ``centos`` one.
+    # RHEL:
+    if grep -q "Red Hat" /etc/redhat-release; then sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-2.noarch.rpm; fi
+
+    # CentOS:
+    if grep -q "CentOS" /etc/redhat-release; then sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-2.noarch.rpm; fi
 
     # Setup postgresql at a first time
     sudo service postgresql-9.4 initdb
