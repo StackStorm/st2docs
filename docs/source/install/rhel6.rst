@@ -76,8 +76,11 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
     sudo chkconfig rabbitmq-server on
 
     # Install and configure postgres 9.4. Based on OS type install the ``redhat`` one or ``centos`` one.
-    sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-${os}-94-9.4-1.noarch.rpm
-    sudo yum -y install postgresql94-server postgresql94-contrib postgresql94-devel
+    # RHEL:
+    if grep -q "Red Hat" /etc/redhat-release; then sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-2.noarch.rpm; fi
+
+    # CentOS:
+    if grep -q "CentOS" /etc/redhat-release; then sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-2.noarch.rpm; fi
 
     # Setup postgresql at a first time
     sudo service postgresql-9.4 initdb
