@@ -1,11 +1,14 @@
-Installation Guide
-===================
-This guide provides step-by step instructions on installing StackStorm on a single box per :doc:`Reference deployment </install/overview>` on a Ubuntu/Debian or Redhat/CentOS.
-The scripts `st2bootstrap-deb.sh <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-deb.sh>`_, and `st2bootstrap-centos.sh <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-deb.sh>`_ codify the instructions below.
+Ubuntu / Debian
+===============
 
-.. warning :: Currently BETA! Note, however, that once it graduates BETA, the packaged base
-   installation is will be a primary way of installing |st2|. Please try, use and report bugs on
+This guide provides step-by step instructions on installing StackStorm on a single box on a Ubuntu/Debian.
+A script `st2bootstrap-deb.sh <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-deb.sh>`_,
+codifies the instructions below.
+
+.. warning :: Currently BETA! Please try, use and report bugs on
    `github.com/StackStorm/st2-packages <https://github.com/StackStorm/st2-packages/issues/new>`_.
+   Soon, package-based installation will be
+   the preferred path to installing StackStorm.
 
 .. contents::
 
@@ -18,62 +21,30 @@ Install Dependencies
 
 Install MongoDB, RabbitMQ, and PostgreSQL.
 
-  .. rst-class:: ubuntu
-
-    Ubuntu/Debian
-
   .. code-block:: bash
 
-    sudo apt get update
+    sudo apt-get update
     sudo apt-get install -y mongodb-server rabbitmq-server postgresql
-
-  .. rst-class:: centos
-
-    CentOS/RHEL
-
-  .. code-block:: bash
-
-    TBD
 
 
 Setup repositories
 ~~~~~~~~~~~~~~~~~~~
-The following script will detect your platform and architecture and setup the repo accordingly. It'll also install the GPG key for repo signing. Currently provide packages for ``Ubuntu Trusty``, ``Debian Wheezy``, ``Debian Jessie`` for Ubuntu/Debian, and ``CentOS/RHEL 6`` and ``CentOS/RHEL 7``.
 
-  .. rst-class:: ubuntu
-
-    Ubuntu/Debian
+The following script will detect your platform and architecture and setup the repo accordingly. It'll also install the GPG key for repo signing.
+Currently we support ``Ubuntu Trusty``, ``Debian Wheezy`` and ``Debian Jessie``.
 
   .. code-block:: bash
 
-    curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
+    curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
 
-  .. rst-class:: centos
-
-    CentOS/RHEL
-
-  .. code-block:: bash
-
-    curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.rpm.sh | sudo bash
 
 Install StackStorm components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  .. rst-class:: ubuntu
-
-    Ubuntu/Debian
 
   .. code-block:: bash
 
       sudo apt-get install -y st2 st2mistral
 
-  .. rst-class:: centos
-
-    CentOS/RHEL
-
-  .. code-block:: bash
-
-    TBD
 
 If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or changed defauls,
 please adjust the settings:
@@ -101,33 +72,31 @@ Setup Mistral Database
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
 To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
-For remote linux actions, SSH is used. It is advised to configure identity file based SSH access
-on all remote hosts. We also recommend configuring SSH access to ``localhost`` for running examples
-and testing.
+For remote linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
 
 * Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally. You will need elevated privileges to do this.
 
   .. code-block:: bash
 
     # Create an SSH system user (default `stanley` user may be already created)
-    useradd stanley
-    mkdir -p /home/stanley/.ssh
-    chmod 0700 /home/stanley/.ssh
+    sudo useradd stanley
+    sudo mkdir -p /home/stanley/.ssh
+    sudo chmod 0700 /home/stanley/.ssh
 
     # On StackStorm host, generate ssh keys
-    ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
+    sudo ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
 
     # Authorize key-base acces
-    cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys
-    chmod 0600 /home/stanley/.ssh/authorized_keys
-    chown -R stanley:stanley /home/stanley
+    sudo sh -c 'cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys'
+    sudo chmod 0600 /home/stanley/.ssh/authorized_keys
+    sudo chown -R stanley:stanley /home/stanley
 
     # Enable passwordless sudo
-    echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
+    sudo sh -c 'echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2'
+    sudo chmod 0440 /etc/sudoers.d/st2
 
 * Configure SSH access and enable passwordless sudo on the remote hosts which StackStorm would control
-  over SSH. Use the public key generated in the previous step; follow instructions at
-  :ref:`config-configure-ssh`.
+  over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
   To control Windows boxes, configure access for :doc:`Windows runners </config/windows_runners>`.
 
 * Adjust configuration in ``/etc/st2/st2.conf`` if you are using a different user or path to the key:
@@ -150,7 +119,6 @@ Start Services
 
 Verify
 ~~~~~~
-See that it all works:
 
   .. code-block:: bash
 
@@ -177,11 +145,11 @@ Use the supervisor script to manage |st2| services: ::
 
     st2ctl start|stop|status|restart|restart-component|reload|clean
 
+
 -----------------
 
-At this point you have a minimal working installation, and can happily play with StackStorm: follow
-:doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and installpacks
-from `st2contrib`_.
+At this point you have a minimal working installation, and can happily play with StackStorm:
+follow :doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs from `st2contrib`_.
 
 But there is no joy without WebUI, no security without SSL termination, no fun without ChatOps, and no money without Enterprise edition. Read on, move on!
 
