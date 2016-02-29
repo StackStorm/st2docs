@@ -12,16 +12,9 @@ codifies the instructions below.
 
 .. warning ::
 
-    RHEL 6 doesn't seem to ship with libffi-devel which is a dependency for |st2|.
-    If that is the case, find a version of libffi-devel compatible with libffi on the box.
-    For example,
-
-    .. code :: bash
-
-      [ec2-user@ip-172-30-0-79 ~]$ rpm -qa libffi
-      libffi-3.0.5-3.2.el6.x86_64
-
-      sudo yum localinstall -y ftp://fr2.rpmfind.net/linux/centos/6.7/os/x86_64/Packages/libffi-devel-3.0.5-3.2.el6.x86_64.rpm
+    Your RHEL 6 setup might not have *server-optional* repository enabled which is required
+    for *libffi-devel* dependency. Please consult the [documentation](https://access.redhat.com/solutions/265523)
+    and enable the repository.
 
 .. contents::
 
