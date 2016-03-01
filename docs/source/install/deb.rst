@@ -32,7 +32,6 @@ Setup repositories
 ~~~~~~~~~~~~~~~~~~~
 
 The following script will detect your platform and architecture and setup the repo accordingly. It'll also install the GPG key for repo signing.
-Currently we support ``Ubuntu Trusty``, ``Debian Wheezy`` and ``Debian Jessie``.
 
   .. code-block:: bash
 
