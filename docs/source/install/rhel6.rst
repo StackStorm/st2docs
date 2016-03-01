@@ -1,9 +1,9 @@
-Ubuntu / Debian
-===============
+RHEL 6 / CentOS 6
+=================
 
 This guide provides step-by step instructions on installing StackStorm on a single box per
-:doc:`Reference deployment </install/overview>` on a Ubuntu/Debian. A script `st2bootstrap-deb.sh
-<https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-deb.sh>`_, codifies the
+:doc:`Reference deployment </install/overview>` on RHEL 6/CentOS 6. A script `st2bootstrap-el6.sh
+<https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el6.sh>`_, codifies the
 instructions below.
 
 .. warning :: Currently BETA! Please try, use and report bugs on
@@ -11,11 +11,53 @@ instructions below.
    Soon, package-based installation will be
    the preferred path to installing StackStorm.
 
+.. warning ::
+
+    RHEL 6 doesn't seem to ship with libffi-devel which is a dependency for |st2|.
+    If that is the case, find a version of libffi-devel compatible with libffi on the box.
+    For example,
+
+    .. code :: bash
+
+      [ec2-user@ip-172-30-0-79 ~]$ rpm -qa libffi
+      libffi-3.0.5-3.2.el6.x86_64
+
+      sudo yum localinstall -y ftp://fr2.rpmfind.net/linux/centos/6.7/os/x86_64/Packages/libffi-devel-3.0.5-3.2.el6.x86_64.rpm
+
 .. contents::
 
 
 Minimal installation
 --------------------
+
+Adjust SELinux policies
+~~~~~~~~~~~~~~~~~~~~~~~
+
+If your RHEL/CentOS box has SELinux enforced, please follow these instructions to adjust SELinux
+policies. This is needed for successful installation. If you are not happy with these policies,
+you may want to tweak them according to your security practices.
+
+* Check if SELinux is enforcing
+
+    .. code-block:: bash
+
+        getenforce
+
+* If previous command returns 'Enforcing', then run the following commands to adjust SELinux policies:
+
+    .. code-block:: bash
+
+        # SELINUX management tools, not available for some minimal installations
+        sudo yum install -y policycoreutils-python
+
+        # Allow network access for nginx
+        sudo setsebool -P httpd_can_network_connect 1
+
+    .. note ::
+
+      If you see messages like "SELinux: Could not downgrade policy file", it means
+      you are trying to adjust policy configurations when SELinux is disabled. You can
+      ignore this error.
 
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
@@ -24,8 +66,32 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
 
   .. code-block:: bash
 
-    sudo apt-get update
-    sudo apt-get install -y mongodb-server rabbitmq-server postgresql
+    sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+    sudo yum -y install mongodb-server rabbitmq-server
+    sudo service mongod start
+    sudo service rabbitmq-server start
+    sudo chkconfig mongod on
+    sudo chkconfig rabbitmq-server on
+
+    # Install and configure postgres 9.4. Based on OS type install the ``redhat`` one or ``centos`` one.
+    # RHEL:
+    if grep -q "Red Hat" /etc/redhat-release; then sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-2.noarch.rpm; fi
+
+    # CentOS:
+    if grep -q "CentOS" /etc/redhat-release; then sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-2.noarch.rpm; fi
+
+    sudo yum -y install postgresql94-server postgresql94-contrib postgresql94-devel
+
+    # Setup postgresql at a first time
+    sudo service postgresql-9.4 initdb
+
+    # Make localhost connections to use an MD5-encrypted password for authentication
+    sudo sed -i "s/\(host.*all.*all.*127.0.0.1\/32.*\)ident/\1md5/" /var/lib/pgsql/9.4/data/pg_hba.conf
+    sudo sed -i "s/\(host.*all.*all.*::1\/128.*\)ident/\1md5/" /var/lib/pgsql/9.4/data/pg_hba.conf
+
+    # Start PostgreSQL service
+    sudo service postgresql-9.4 start
+    sudo chkconfig postgresql-9.4 on
 
 
 Setup repositories
@@ -35,7 +101,7 @@ The following script will detect your platform and architecture and setup the re
 
   .. code-block:: bash
 
-    curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
+    curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.rpm.sh | sudo bash
 
 
 Install StackStorm components
@@ -43,7 +109,7 @@ Install StackStorm components
 
   .. code-block:: bash
 
-      sudo apt-get install -y st2 st2mistral
+      sudo yum install -y st2 st2mistral
 
 
 If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or changed defauls,
@@ -71,10 +137,14 @@ Setup Mistral Database
 
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
-To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
-For remote linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
 
-* Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally. You will need elevated privileges to do this.
+To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
+For remote linux actions, SSH is used. It is advised to configure identity file based SSH access on
+all remote hosts. We also recommend configuring SSH access to localhost for running examples and
+testing.
+
+* Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so
+  that SSH-based action can be tried and tested locally. You will need elevated privileges to do this.
 
   .. code-block:: bash
 
@@ -94,6 +164,9 @@ For remote linux actions, SSH is used. It is advised to configure identity file 
     # Enable passwordless sudo
     sudo sh -c 'echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2'
     sudo chmod 0440 /etc/sudoers.d/st2
+
+    # Make sure `Defaults requiretty` is disabled in `/etc/sudoers`
+    sudo sed -i "s/^Defaults\s\+requiretty/# Defaults requiretty/g" /etc/sudoers
 
 * Configure SSH access and enable passwordless sudo on the remote hosts which StackStorm would control
   over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
@@ -148,10 +221,12 @@ Use the supervisor script to manage |st2| services: ::
 
 -----------------
 
-At this point you have a minimal working installation, and can happily play with StackStorm:
-follow :doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs from `st2contrib`_.
+At this point you have a minimal working installation, and can happily play with StackStorm: follow
+:doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs
+from `st2contrib`_.
 
-But there is no joy without WebUI, no security without SSL termination, no fun without ChatOps, and no money without Enterprise edition. Read on, move on!
+But there is no joy without WebUI, no security without SSL termination, no fun without ChatOps,
+and no money without Enterprise edition. Read on, move on!
 
 -----------------
 
@@ -165,9 +240,9 @@ Reference deployment uses File Based auth provider for simplicity. Refer to :doc
   .. code-block:: bash
 
     # Install htpasswd utility if you don't have it
-    sudo apt-get install -y apache2-utils
+    sudo yum -y install httpd-tools
     # Create a user record in a password file.
-    echo "Ch@ngeMe" | sudo htpasswd -i /etc/st2/htpasswd test
+    sudo htpasswd -bs /etc/st2/htpasswd test Ch@ngeMe
 
 * Enable and configure auth in ``/etc/st2/st2.conf``:
 
@@ -210,21 +285,23 @@ certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's suppl
   .. code-block:: bash
 
     # Install st2web and nginx
-    sudo apt-get install -y st2web nginx
+    sudo yum -y install st2web nginx
 
     # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
     sudo mkdir -p /etc/ssl/st2
+
     sudo openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt \
-    -days XXX -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
+    -days 365 -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
     Technology/CN=$(hostname)"
 
-    # Remove default site, if present
-    sudo rm /etc/nginx/sites-enabled/default
     # Copy and enable StackStorm's supplied config file
-    sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
-    sudo ln -s /etc/nginx/sites-available/st2.conf /etc/nginx/sites-enabled/st2.conf
+    sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
+
+    # Disable default_server configuration in existing /etc/nginx/nginx.conf
+    sudo sed -i 's/default_server//g' /etc/nginx/conf.d/default.conf
 
     sudo service nginx restart
+    sudo chkconfig nginx on
 
 If you modify ports, or url paths in nginx configuration, make correspondent chagnes in st2web
 configuration at ``/opt/stackstorm/static/webui/config.js``.
@@ -234,42 +311,9 @@ Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebU
 Setup ChatOps
 -------------
 
-If you already run Hubot instance, you only have to install the ``hubot-stackstorm`` plugin and configure StackStorm env variables, as described below. Otherwise, the easiest way to enable
-:doc:`StackStorm ChatOps </chatops/index>` is to use `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
-
-* Validate that ``chatops`` pack is installed, and a notification rule is enabled: ::
-
-      st2 rule list --pack=chatops
-
-* Install NodeJS v4: follow instructions on `NodeJS install <https://nodejs.org/en/download/package-manager/>`_.
-  In general case, it would only require you to add NodeSource v4 repo and install ``nodejs`` package: ::
-
-      curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-      sudo apt-get install -y nodejs
-
-* Install st2chatops package: ::
-
-      sudo apt-get install -y st2chatops
-
-* Edit ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to your st2
-  installation and chat service you are using.
-  By default it expects ``st2api`` and ``st2auth`` to be installed on the same host. If it's not the case, please update ``ST2_API`` and ``ST2_AUTH_URL`` variables or just point to correct host with ``ST2_HOSTNAME`` variable.
-  The example configuration uses Slack; go to Slack web admin interface, create a Bot, and copy the authentication token into ``HUBOT_SLACK_TOKEN``.
-  Or set environment variables under `Chat service adapter settings`, for other Chat services:
-  `Slack <https://github.com/slackhq/hubot-slack>`_,
-  `HipChat <https://github.com/hipchat/hubot-hipchat>`_,
-  `Yammer <https://github.com/athieriot/hubot-yammer>`_,
-  `Flowdock <https://github.com/flowdock/hubot-flowdock>`_,
-  `IRC <https://github.com/nandub/hubot-irc>`_ ,
-  `XMPP <https://github.com/markstory/hubot-xmpp>`_.
-
-* Start the service: ::
-
-      sudo service st2chatops start
-
-* Go to your Chat room and begin ChatOps-ing. Read on :doc:`/chatops/index` section.
+.. warning :: Our current chatops installation story is docker based and docker cannot be installed on RHEL 6 / CentOS 6 because of 2.6 kernel. However, we are working on native chatops packages for these distros.
 
 Upgrade to Enterprise Edition
 -----------------------------
 Enterprise Edition is deployed as an addition on top of StackStorm. Detailed instructions coming up soon.
-If you are an Enterprise customer, reach out to support@stackstorm.com and we walk you through.
+If you are an Enterprise customer, reach out to support@stackstorm.com and we provide the instructions.

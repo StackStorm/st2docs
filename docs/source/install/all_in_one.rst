@@ -1,6 +1,7 @@
 All-in-one Installer
 ********************
-|st2| provides an all-in-one installer aimed at assisting users with the initial setup and configuration.
+|st2| provides an all-in-one installer aimed at assisting users with the initial setup and
+configuration for quick and convinient evaluation.
 
 .. rubric:: TL;DR
 

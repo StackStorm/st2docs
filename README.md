@@ -120,14 +120,15 @@ pandoc - a super-tool to convert between formats. Sample for markdown conversion
 
 ## Running docs only
 
-To make docs changes, without installing full development environment (e.g., on Mac or Windows:
+To make docs changes, without installing full development environment (e.g., on Mac or Windows):
 
 ```bash
 git clone git@github.com:StackStorm/st2docs.git
 cd st2docs
-virtualenv .venv
-. .venv/bin/activate
-pip install sphinx sphinx-autobuild
+make docs
+# make docs will fail; ignore the failure: 
+# it will get st2 and set up virtualenv with sphinx/shinx-autobuild
+. virtualenv/bin/activate
 sphinx-autobuild -H 0.0.0.0 -b html ./docs/source/ ./docs/build/html
 ```
 
