@@ -9,9 +9,10 @@ Installation
 ------------
 
 If you installed StackStorm using packages or a deployment script, the CLI
-should already be available. On the other hand, if you used the run from
-sources method, see :ref:`setup-st2-cli` section for information how to
-install and set up the client.
+should already be available. It can also be installed with pip: ::
+
+    pip install st2client
+
 
 .. _cli-configuration:
 
