@@ -1,9 +1,10 @@
 RHEL 6 / CentOS 6
 =================
 
-This guide provides step-by step instructions on installing StackStorm on a single box on RHEL 6/CentOS 6.
-A script `st2bootstrap-el6.sh <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el6.sh>`_,
-codifies the instructions below.
+This guide provides step-by step instructions on installing StackStorm on a single box per
+:doc:`Reference deployment </install/overview>`on RHEL 6/CentOS 6. A script `st2bootstrap-el6.sh
+<https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el6.sh>`_, codifies the
+instructions below.
 
 .. warning :: Currently BETA! Please try, use and report bugs on
    `github.com/StackStorm/st2-packages <https://github.com/StackStorm/st2-packages/issues/new>`_.
@@ -136,10 +137,14 @@ Setup Mistral Database
 
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
-To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
-For remote linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
 
-* Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally. You will need elevated privileges to do this.
+To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
+For remote linux actions, SSH is used. It is advised to configure identity file based SSH access on
+all remote hosts. We also recommend configuring SSH access to localhost for running examples and
+testing.
+
+* Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so
+  that SSH-based action can be tried and tested locally. You will need elevated privileges to do this.
 
   .. code-block:: bash
 
@@ -216,10 +221,12 @@ Use the supervisor script to manage |st2| services: ::
 
 -----------------
 
-At this point you have a minimal working installation, and can happily play with StackStorm:
-follow :doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs from `st2contrib`_.
+At this point you have a minimal working installation, and can happily play with StackStorm: follow
+:doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs
+from `st2contrib`_.
 
-But there is no joy without WebUI, no security without SSL termination, no fun without ChatOps, and no money without Enterprise edition. Read on, move on!
+But there is no joy without WebUI, no security without SSL termination, no fun without ChatOps,
+and no money without Enterprise edition. Read on, move on!
 
 -----------------
 
