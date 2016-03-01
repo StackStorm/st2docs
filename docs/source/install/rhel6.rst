@@ -2,7 +2,7 @@ RHEL 6 / CentOS 6
 =================
 
 This guide provides step-by step instructions on installing StackStorm on a single box per
-:doc:`Reference deployment </install/overview>`on RHEL 6/CentOS 6. A script `st2bootstrap-el6.sh
+:doc:`Reference deployment </install/overview>` on RHEL 6/CentOS 6. A script `st2bootstrap-el6.sh
 <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el6.sh>`_, codifies the
 instructions below.
 

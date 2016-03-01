@@ -1,17 +1,11 @@
 Installation
 ============
 
-.. todo:: Explain installation paths.
+For a quick evaluation of StackStorm, get a clean box and fast-forward to All-In-One installer.
 
-For evaluation, get yourself a clean box and fast-forward to All-In-One installer.
+For package-based installation, start from :doc:`Overview <./overview>`, and proceed with
+the guides below.
 
-For package installation, follow the guide.
-
-If you use configuration management tools, pick you poison. Or, run from source.
-
-
-.. todo::  Eventually, promote an installer script here, just as it was before:
-    ``curl -sSL https://install.stackstorm.com/ | sudo sh``
 
 .. rubric:: Installations
 
@@ -25,5 +19,4 @@ If you use configuration management tools, pick you poison. Or, run from source.
     StackStorm Enterprise <enterprise>
     All-In-One Installer  <all_in_one>
     Chef, Puppet, Salt, Ansible <puppet_chef_salt_ansible>
-    Vagrant <vagrant>
     Updates and Upgrades <upgrades>
