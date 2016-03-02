@@ -357,5 +357,12 @@ If you already run Hubot instance, you only have to install the ``hubot-stacksto
 
 Upgrade to Enterprise Edition
 -----------------------------
-Enterprise Edition is deployed as an addition on top of StackStorm. Detailed instructions coming up soon.
-If you are an Enterprise customer, reach out to support@stackstorm.com and we provide the instructions.
+Enterprise Edition is deployed as an addition on top of StackStorm Community. You will need an active
+Enterprise subscription, and a license key to access StackStorm enterprise repositories.
+
+.. code-block:: bash
+
+    # Set up Enterprise repository access
+    curl -s https://{$ENTERPRISE_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise-staging/script.rpm.sh | sudo bash
+    # Install Enterprise editions
+    sudo yum install -y st2enterprise
