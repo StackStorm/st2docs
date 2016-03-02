@@ -110,16 +110,16 @@ Customizing the debug information gathered
 st2-submit-debug-info can be customized for specific deployments by loading a set of overrides from
 a YAML file. The following config options are supported:
 
-* log_file_paths - an additional set of log files to gather
-* st2_config_file_path - path to st2.conf
-* mistral_config_file_path - path to mistral.conf
-* s3_bucket_url - the S3 bucket to upload the archive to
-* gpg_key_fingerprint - gpg fingerprint to use when encrypting the archive
-* gpg_key - gpg key to use when encrypting the archive
-* shell_commands - a list of shell commands to execute and capture the output from
-* company_name - the company name to show in the interactive prompts and log messages
+* ``log_file_paths`` - an additional set of log files to gather
+* ``st2_config_file_path`` - path to st2.conf
+* ``mistral_config_file_path`` - path to mistral.conf
+* ``s3_bucket_url`` - the S3 bucket to upload the archive to
+* ``gpg_key_fingerprint`` - gpg fingerprint to use when encrypting the archive
+* ``gpg_key`` - gpg key to use when encrypting the archive
+* ``shell_commands`` - a list of shell commands to execute and capture the output from
+* ``company_name`` - the company name to show in the interactive prompts and log messages
 
-Sample Config yaml file:
+Sample config yaml file:
 
 .. literalinclude:: __debug_info_config.yaml
 
