@@ -311,7 +311,49 @@ Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebU
 Setup ChatOps
 -------------
 
-.. warning :: Our current chatops installation story is docker based and docker cannot be installed on RHEL 6 / CentOS 6 because of 2.6 kernel. However, we are working on native chatops packages for these distros.
+If you already run Hubot instance, you only have to install the ``hubot-stackstorm`` plugin and configure StackStorm env variables, as described below. Otherwise, the easiest way to enable
+:doc:`StackStorm ChatOps </chatops/index>` is to use `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
+
+* Validate that ``chatops`` pack is installed, and a notification rule is enabled: ::
+
+    # Ensure chatops pack is in place
+    ls /opt/stackstorm/packs/chatops
+    # Create notification rule if not yet enabled
+    st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml)
+
+* `Install NodeJS v4 <https://nodejs.org/en/download/package-manager/>`_: ::
+
+      curl -sL https://rpm.nodesource.com/setup_4.x | sudo -E bash -
+      sudo yum install -y nodejs
+
+* Review and edit ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to your
+  StackStorm   installation and Chat Service you are using. By default ``st2api`` and ``st2auth``
+  are expected to be on the same host. If it's not the case, please update ``ST2_API`` and
+  ``ST2_AUTH_URL`` variables or just point to correct host with ``ST2_HOSTNAME`` variable. Use
+  `ST2_WEBUI_URL` if an external address of your StackStorm host is different.
+
+  The example configuration uses Slack. In case of Slack, go to Slack web admin interface,
+  `create and configure a Bot <https://api.slack.com/bot-users>`_, invite a Bot to the rooms,
+  and copy the authentication token into ``HUBOT_SLACK_TOKEN`` variable.
+
+  If you are using other Chat Service, do appropriate bot configurations,
+  and set correspondent environment variables under
+  `Chat service adapter settings`:
+  `Slack <https://github.com/slackhq/hubot-slack>`_,
+  `HipChat <https://github.com/hipchat/hubot-hipchat>`_,
+  `Yammer <https://github.com/athieriot/hubot-yammer>`_,
+  `Flowdock <https://github.com/flowdock/hubot-flowdock>`_,
+  `IRC <https://github.com/nandub/hubot-irc>`_ ,
+  `XMPP <https://github.com/markstory/hubot-xmpp>`_.
+
+* Start the service: ::
+
+      sudo service st2chatops start
+
+      # Starting st2chatops on boot
+      sudo chkconfig st2chatops on
+
+* That's it! Go to your Chat room and begin ChatOps-ing. Read on :doc:`/chatops/index` section.
 
 Upgrade to Enterprise Edition
 -----------------------------

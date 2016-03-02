@@ -241,7 +241,7 @@ If you already run Hubot instance, you only have to install the ``hubot-stacksto
 
       st2 rule list --pack=chatops
 
-* `Install NodeJS v4 <https://nodejs.org/en/download/package-manager/>`_): ::
+* `Install NodeJS v4 <https://nodejs.org/en/download/package-manager/>`_: ::
 
       curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
       sudo apt-get install -y nodejs

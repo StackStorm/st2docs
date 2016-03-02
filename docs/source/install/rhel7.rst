@@ -294,10 +294,9 @@ If you already run Hubot instance, you only have to install the ``hubot-stacksto
     # Create notification rule if not yet enabled
     st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml)
 
-* `Install NodeJS v4 <https://nodejs.org/en/download/package-manager/>`_): ::
+* `Install NodeJS v4 <https://nodejs.org/en/download/package-manager/>`_: ::
 
       curl -sL https://rpm.nodesource.com/setup_4.x | sudo -E bash -
-      sudo yum install -y gcc-c++ make
       sudo yum install -y nodejs
 
 * Review and edit ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to your
@@ -324,7 +323,7 @@ If you already run Hubot instance, you only have to install the ``hubot-stacksto
 
       sudo systemctl start st2chatops
 
-      # Enable starting st2chatops on boot
+      # Start st2chatops on boot
       sudo systemctl enable st2chatops
 
 * That's it! Go to your Chat room and begin ChatOps-ing. Read on :doc:`/chatops/index` section.
