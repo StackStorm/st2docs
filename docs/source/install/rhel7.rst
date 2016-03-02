@@ -340,3 +340,5 @@ Enterprise subscription, and a license key to access StackStorm enterprise repos
     # Install Enterprise editions
     sudo yum install -y st2enterprise
 
+To learn more about StackStorm Enterprise, request a quote, or get an evaluation license go
+to `stackstorm.com/product <https://stackstorm.com/product/#enterprise/>`_.
