@@ -270,9 +270,14 @@ If you already run Hubot instance, you only have to install the ``hubot-stacksto
 
       sudo service st2chatops start
 
-* That's it! Go to your Chat room and begin ChatOps-ing. Read on :doc:`/chatops/index` section.
+* That's it! Go to your Chat room and begin ChatOpsing. Read on :doc:`/chatops/index` section.
 
 Upgrade to Enterprise Edition
 -----------------------------
-Enterprise Edition is deployed as an addition on top of StackStorm. Detailed instructions coming up soon.
-If you are an Enterprise customer, reach out to support@stackstorm.com and we walk you through.
+Enterprise Edition is deployed as an addition on top of StackStorm Community. You will need an active
+Enterprise subscription, and a license key to access StackStorm enterprise repositories.
+
+.. code-block:: bash
+
+    curl -s https://{$ENTERPRISE_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise-staging/script.deb.sh | sudo bash
+    sudo apt-get install -y st2enterprise
