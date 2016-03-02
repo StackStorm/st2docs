@@ -241,8 +241,7 @@ If you already run Hubot instance, you only have to install the ``hubot-stacksto
 
       st2 rule list --pack=chatops
 
-* Install NodeJS v4: follow instructions on `NodeJS install <https://nodejs.org/en/download/package-manager/>`_.
-  In general case, it would only require you to add NodeSource v4 repo and install ``nodejs`` package: ::
+* `Install NodeJS v4 <https://nodejs.org/en/download/package-manager/>`_): ::
 
       curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
       sudo apt-get install -y nodejs
@@ -251,11 +250,15 @@ If you already run Hubot instance, you only have to install the ``hubot-stacksto
 
       sudo apt-get install -y st2chatops
 
-* Edit ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to your st2
-  installation and chat service you are using.
-  By default it expects ``st2api`` and ``st2auth`` to be installed on the same host. If it's not the case, please update ``ST2_API`` and ``ST2_AUTH_URL`` variables or just point to correct host with ``ST2_HOSTNAME`` variable.
+* Review and edit ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to your
+  StackStorm   installation and Chat Service you are using. By default ``st2api`` and ``st2auth``
+  are expected to be on the same host. If it's not the case, please update ``ST2_API`` and
+  ``ST2_AUTH_URL`` variables or just point to correct host with ``ST2_HOSTNAME`` variable. Use
+  `ST2_WEBUI_URL` if an external address of your StackStorm host is different.
+
   The example configuration uses Slack; go to Slack web admin interface, create a Bot, and copy the authentication token into ``HUBOT_SLACK_TOKEN``.
-  Or set environment variables under `Chat service adapter settings`, for other Chat services:
+  If you are using other Chat Service, set correspondent environment variables under
+  `Chat service adapter settings`:
   `Slack <https://github.com/slackhq/hubot-slack>`_,
   `HipChat <https://github.com/hipchat/hubot-hipchat>`_,
   `Yammer <https://github.com/athieriot/hubot-yammer>`_,
@@ -267,7 +270,7 @@ If you already run Hubot instance, you only have to install the ``hubot-stacksto
 
       sudo service st2chatops start
 
-* Go to your Chat room and begin ChatOps-ing. Read on :doc:`/chatops/index` section.
+* That's it! Go to your Chat room and begin ChatOps-ing. Read on :doc:`/chatops/index` section.
 
 Upgrade to Enterprise Edition
 -----------------------------
