@@ -80,7 +80,28 @@ and uploaded to StackStorm.
 
     2015-02-10 17:43:49,016  INFO - Collecting files...
     2015-02-10 17:43:49,770  INFO - Creating tarball...
-    2015-02-10 17:43:49,912  INFO - Debug tarball successfully generated and can be reviewed at: /tmp/st2-debug-output-vagrant-ubuntu-trusty-64-2015-02-10-17:43:49.tar.gz
+    2015-02-10 17:43:49,912  INFO - Debug tarball successfully generated and can be reviewed at: /tmp/st2-debug-output-vagrant-ubuntu-trusty-64-2015-02-10-174349.tar.gz
+
+By default, the archive will be written to the /tmp directory. This can be controlled by using
+the ``--output`` option to specify the location/filename of the archive.
+
+.. sourcecode:: bash
+
+    st2-submit-debug-info --review --output my-st2-debug-file.tar.gz
+
+    2016-02-24 23:53:25,779  INFO - Collecting files...
+    2016-02-24 23:53:26,423  INFO - Creating tarball...
+    2016-02-24 23:53:26,526  INFO - Debug tarball successfully generated and can be reviewed at: my-st2-debug-file.tar.gz
+
+After review, the archive can be uploaded to StackStorm using the ``--existing-file`` option.
+
+.. sourcecode:: bash
+
+    st2-submit-debug-info --config /etc/st2debug/submit-debug-info.yaml --existing-file my-st2-debug-file.tar.gz
+
+    2016-02-24 23:56:13,019  INFO - Encrypting tarball...
+    2016-02-24 23:56:13,814  INFO - Debug tarball successfully uploaded to StackStorm (name=my-st2-debug-file.tar.gz.asc)
+    2016-02-24 23:56:13,814  INFO - When communicating with support, please let them know the tarball name - my-st2-debug-file.tar.gz.asc
 
 
 Customizing the debug information gathered
@@ -90,9 +111,11 @@ st2-submit-debug-info can be customized for specific deployments by loading a se
 a YAML file. The following config options are supported:
 
 * log_file_paths - an additional set of log files to gather
-* conf_file_paths - an additional set of config files to gather
-* s3_bucket - the S3 bucket to upload the archive to
-* gpg - gpg key and fingerprint to use when encrypting the archive
+* st2_config_file_path - path to st2.conf
+* mistral_config_file_path - path to mistral.conf
+* s3_bucket_url - the S3 bucket to upload the archive to
+* gpg_key_fingerprint - gpg fingerprint to use when encrypting the archive
+* gpg_key - gpg key to use when encrypting the archive
 * shell_commands - a list of shell commands to execute and capture the output from
 * company_name - the company name to show in the interactive prompts and log messages
 
@@ -102,72 +125,68 @@ Sample Config yaml file:
 
     ---
     log_file_paths: 
-        st2_log_files_path: /var/log/st2/*.log
-        mistral_log_files_path: /var/log/mistral*.log
-    conf_file_paths:
-        st2_config_file_path: /etc/st2/st2.conf
-        mistral_config_file_path: /etc/mistral/mistral.conf
-    s3_bucket:
-        url: https://st2debuginfo.s3.amazonaws.com/
-    gpg:
-        gpg_key_fingerprint: BDE989A1F308B18D29789C717064B11C82F62D6F
-        gpg_key : |
-            -----BEGIN PGP PUBLIC KEY BLOCK-----
-            Version: GnuPG v1
+        - /var/log/st2/*.log
+        - /var/log/mistral*.log
+    st2_config_file_path: /etc/st2/st2.conf
+    mistral_config_file_path: /etc/mistral/mistral.conf
+    s3_bucket_url: https://st2debuginfo.s3.amazonaws.com/
+    gpg_key_fingerprint: BDE989A1F308B18D29789C717064B11C82F62D6F
+    gpg_key : |
+        -----BEGIN PGP PUBLIC KEY BLOCK-----
+        Version: GnuPG v1
 
-            mQINBFTaXHIBEAC+IId30KtMKgKzaT+2Hc/svFkM46ZzG0+EF+0se5yBlOMiTJxl
-            Obfuj2CLAg1QnusfefOrSG3l6MwByaQvzHwUPWx7S0Fa0N2TSVFedb9bSYByUtd0
-            zwmtT6+t8zXI1/3RAVSTMXaadmEiRe/1id7ahQhMjdohb4Z7z0u9xqJ/pMBHPbCK
-            5UYIWuEMGcgbCXyZTIvMQ2Ud+YCpyEjnm3yGQDdO9IB6f+r4huWxkl81lQIGgQ6V
-            2FttRG0juvRQpJsAe4oQIYTxTWYrGj6I4qY/KJfx+ejw7xTrVmyOqVKosIXV9i4Z
-            znRJqaBRxdfFy/cs3zAn8IaUksDMRJPpFqxiuYVv+Le6gXer92/grdWr/D3cOMoU
-            m59n8+RwfFeQXhJiYoCRLIlBl1vxYEDnpiCIoMEjqaAeRVyyfbXuTvoW6noQCs96
-            kVJWwOYDfrxdq90gnBBfoAwl+R2XbOjdcON1jHA5NTgE/kcUE4u6f8IairWxW90g
-            kKk5oT16z+GJRmZ/qxhlNqv2PLOYCKuu/2mxo43QUm/wuBmM3LpztGZACr0ZPwMV
-            up8vEqcKF+vhkJtiAlLixkbCCbQD+7MgiBGbAg4hvNMbiK/O1vnN1YDbW+MkEQpe
-            Ne2yZL2fPEI1rXZkVssJ3TltBND58ds8fmAeTEue+nm+ljSh3sLDjWRIaQARAQAB
-            tENTdGFja1N0b3JtIChEZWJ1ZyB0YXJiYWxsIGVuY3J5cHRpb24ga2V5KSA8b3Bz
-            YWRtaW5Ac3RhY2tzdG9ybS5jb20+iQI3BBMBCAAhBQJU2lxyAhsDBQsJCAcDBRUK
-            CQgLBRYDAgEAAh4BAheAAAoJEHBksRyC9i1vFSAP/0uw9A6X17Mgm8mKtreVeeGV
-            W2rJ96lpECSyNo2SXPrkhZLuJVA80eCrknTOvEswl6qDE5mlRk5HqWSow0eaYjpb
-            u6NjbPdKk0VG10x/pdBPbNelF4/y/XZJhrojGNB2PxLi4xE4hRcZpmrU+3Ozicqu
-            psIV1AdNOIbDuhejlo9U30ayUdbpcaHWOokzGJv+eZcrzuwZk20bIaWwJXhzxzDp
-            CN5tY8SIEqjubtfUyljBQiAVzqR4GLrs1AMZgF1GCr6wlxvqjJzGclgQ6RbGBoFJ
-            lECvf96cgnPBUF4p8Rx11jCH0LapUJu6iv3e8eJsXohyq1zY4pcIOR5YS3Av8ExR
-            etTSt/23jBuHS5QkaUehrN5ZdAifb8J9Dh6WkrDCvX/rYYNA/3sHEk92M4aMjbZL
-            orLH1vWHSZwFyKw+/mQpqZYHHTjGst7GgU2HKIxQs6LVR6UA5et7EnhPQUZGVjzL
-            9phiT5A8T1R6OaVG/q/JUJXuBSajQATDXTq3eZgz7XkOE/EKYjtXZOpTCu/naMyY
-            W4myCd9qkLoGCH1NTk7FsEbCxrbvdhtCQ57pgQGrREXtL32Z0ENePtHw59Kws7Mi
-            H3ZACUowQ9yVbd2l6VlDmWPCEDyeEpotdFYxCClPQNiTxMrwtS/7B/2A3O7wPQke
-            NC0Rn6z/7JG5TvtZUpj9uQINBFTaXHIBEADI23i9KP5jw+SD1r/tZcoz50ccgydJ
-            AME3Nxw0oJHThiFUSgU3qp+S2ap6/Wofn+O5oG+8bgdFCVgrhQsixqMYOdbmeq+j
-            M3Vq9QXyGVkEu+5Ln5i3TVmmGmK1n5bvE/Cn5iL602Xeinhi1/1GdXrn5ncfccNb
-            X7eK6UIu+MaEk8CyNv3I3qyk0Xp6xyyh/XzeA9uMLkDvBD39PpHbygi5AVgx3gLX
-            YRV6DtegV4EH+BzeuDpssLsgW7JBDlsYORrEOqcs4cMVNEx3u9xXomcHl8Gqqlc9
-            RCotXvuGonAAz53+tnFpW4lPPa+VIA2WIoyDw8dLiUJ/hO76d5LWnv1LcQp3uPgi
-            3N55RWWV6J0OdRmq01N9TXWnptz6+GzyzAlgtJOtUi1Q3xfZ2vC9xISnCk+AxYMM
-            mUGOik5EU15tNWq1KPntBt7DFzj0cqbhv4Oan2aYnAKJJiaggKDaDv+AATJQCnT1
-            LTmzCBj5Q9AChHoATG3wV4iV1C5Qf6gpyU6xde3STvvNCy4xb+4SHZw13vfOubAk
-            eC3KjzKfKVuem+IZqxgdDn5+B3oVgMYJzDwoA0+CdflF2hYY7XYQ8G1wwPmf557Y
-            Pt4wMyQ89TLvM5A0PxYQWHg8E2Yi/jonsadWKfzzdy4+ANJoVfEi1J2QIXz83Ri+
-            wAEV1RlThyJzNQARAQABiQIfBBgBCAAJBQJU2lxyAhsMAAoJEHBksRyC9i1vp4QP
-            +gKhApqpy35TOouLu4tBxW/2Lsh0bYP9wwQEa8NipD2rZbDj+30+f2zlZ91JY4iJ
-            yZ3uxEYtHs9r0vazWkyxtQMJHaawl+7/P/qwX5SEAPCJs6ssJ1LS7FmJvhnlAfqt
-            DDFP0krcVnfwgUeYCKZ62LaAebFh/E7ppQJOQpp4AGHGhl2Z5uS+5NoSO2FoGv8I
-            KHFhEWYTIT/iUB+YEBp3DPuQLiimXvwD1bQILD11IbN5hrAfet8iB9zn9yIKO2Nh
-            LZWsCPO46RvOksAo0CNq5yguTKT6+uH64EDS5jETjRlEZaHEPAkmxv+esFw0mace
-            0L8J+DL3+b6g9RSaENL6Vf0WqJTITlKtE53bpGrvCKM6p4IoXvA5kyMpaDGHtwB2
-            nk27V1rHuyiEpYCCPNWF+RzsiLzsQj7pLHqs5Yc77etp6rkRn1LsSm3r7znlg5s2
-            jYROu6B8BPZQx3e2TDITk7mV8Q+opBCeardxV4rn1rs3XbngyZ/sZb7CD2GjiLZP
-            HU0CwBapHtULr1j4jq0zJTslOq1V2YuSgKB6efwo2jmA1ddEtrAO+hlofc2kPTBU
-            bn3L/cR40sHfCrqDGf/zbFSMX0zlEiYTfyoE0Md34NHI3eVqGCXzeFKgcmyrx5Nq
-            /tIP/4pYu2rmzVlWz6UhSBurvYw7CzUS8RN1BDvpVF+8
-            =asEc
-            -----END PGP PUBLIC KEY BLOCK-----
+        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
+        =asEc
+        -----END PGP PUBLIC KEY BLOCK-----
     shell_commands:
-        cmd1: rpm -qa
-    company_name:
-        name: StackStorm
+        - rpm -qa
+    company_name: StackStorm
 
 To send debug information to StackStorm, simply invoke the command shown below passing it the path to
 the YAML config file:
