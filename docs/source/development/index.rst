@@ -196,3 +196,10 @@ us to perform basic "static" analysis on the code.
 .. _`PEP8 Python Style Guide`: http://www.python.org/dev/peps/pep-0008/
 .. _irc`: http://webchat.freenode.net/?channels=stackstorm
 .. _`Docstring conventions`: https://libcloud.readthedocs.org/en/latest/development.html#docstring-conventions
+
+.. toctree::
+    :maxdepth: 1
+
+    Code Structure <code_structure>
+    testing
+    Pack Testing <pack_testing>
