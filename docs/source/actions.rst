@@ -215,7 +215,7 @@ In case of action chains and workflows (see :doc:`Workflow </workflows>`), every
 shown below:
 
 .. code-block:: yaml
-    
+
     ...
     -
       name: "c2"
@@ -401,10 +401,26 @@ value in the following format:
 
 If your script only uses positional arguments (which is usually the case for
 a lot of scripts out there), you simply need to declare parameters with correct
-value for the ``position`` attribute in the metadata file.
+value for the ``position`` attribute in the metadata file. Keep in mind that for
+positional arguments |st2| doesn't perform any special serialization for
+the parameter values which means you should only use ``type: "string"`` for all
+the arguments which are directly passed to the shell script.
 
-The ``immutable`` value defines whether the default value of a parameter can be overridden.
-This is particular important if you expose commands via chatops and do not like security related parameters to be manipulated by user input.
+In addition to that, if no value is provided for a particular positional
+parameter, |st2| will pass string ``None`` as a value for that parameter to the
+script.
+
+For example, if a second positional parameter is optional and user provides no
+value, the script will be called like this:
+
+::
+
+    script.sh value2 None value3
+
+
+The ``immutable`` value defines whether the default value of a parameter can be
+overridden. This is particular important if you expose commands via chatops and
+do not like security related parameters to be manipulated by user input.
 
 Example 1 - existing bash script with positional arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
