@@ -241,7 +241,7 @@ If you already run Hubot instance, you only have to install the ``hubot-stacksto
 
       st2 rule list --pack=chatops
 
-* `Install NodeJS v4 <https://nodejs.org/en/download/package-manager/>`_): ::
+* `Install NodeJS v4 <https://nodejs.org/en/download/package-manager/>`_: ::
 
       curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
       sudo apt-get install -y nodejs
@@ -281,3 +281,6 @@ Enterprise subscription, and a license key to access StackStorm enterprise repos
 
     curl -s https://{$ENTERPRISE_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.deb.sh | sudo bash
     sudo apt-get install -y st2enterprise
+
+To learn more about StackStorm Enterprise, request a quote, or get an evaluation license go
+to `stackstorm.com/product <https://stackstorm.com/product/#enterprise/>`_.
