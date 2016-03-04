@@ -36,6 +36,8 @@ share a dedicated Python virtualenv, and configured by /etc/st2/st2.conf.
       is available; see :doc:`/authentication`. Reference deployment uses `flat file auth backend <https://github.com/StackStorm/st2-auth-backend-flat-file>`_.
     * **st2api** is REST API web service endpoint, used by CLI and WebUI. It also serves webhooks
       for webhook triggers.
+    * **st2stream** is an event stream consumption HTTP endpoint where various useful events are posted.
+      These events are consumed by WebUI and hubot i.e. ChatOps to update with results etc.
 
 
 2. st2client
