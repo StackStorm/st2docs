@@ -336,7 +336,7 @@ Enterprise subscription, and a license key to access StackStorm enterprise repos
 .. code-block:: bash
 
     # Set up Enterprise repository access
-    curl -s https://{$ENTERPRISE_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.rpm.sh | sudo bash
+    curl -s https://${ENTERPRISE_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.rpm.sh | sudo bash
     # Install Enterprise editions
     sudo yum install -y st2enterprise
 
