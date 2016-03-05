@@ -6,13 +6,35 @@ This guide provides step-by step instructions on installing StackStorm on a sing
 <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-deb.sh>`_, codifies the
 instructions below.
 
-.. warning :: Currently BETA! Please try, use and report bugs on
-   `github.com/StackStorm/st2-packages <https://github.com/StackStorm/st2-packages/issues/new>`_.
-   Soon, package-based installation will be
-   the preferred path to installing StackStorm.
+.. warning :: Currently in BETA! Upgrades are being tested, but will be supprted only once packages graduate
+    from BETA, likely from 1.4 onwards. At that point, package-based installation will be
+    the preferred path to installing StackStorm.
+
+    Please try, use and report bugs on
+    `github.com/StackStorm/st2-packages <https://github.com/StackStorm/st2-packages/issues/new>`_.
+
 
 .. contents::
 
+
+Supported versions
+------------------
+
+We support Ubuntu 14.04, and continously testing on `Ubuntu Server 14.04 LTS (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B00JV9TBA6/ref=srh_res_product_title?ie=UTF8&sr=0-3&qid=1457037882965>`_
+and `puppetlabs/ubuntu-14.04-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/ubuntu-14.04-64-nocm>`_. Other Debian based distributions and versions will likely work with some tweaks, you are welcome to try and report successes to the `community <stackstorm-community.slack.com>`_.
+
+Sizing the server
+-----------------
+While the system can operate with less equipped servers, these are recommended
+for the best experience while testing or deploying |st2|.
+
++--------------------------------------+-----------------------------------+
+|            Testing                   |         Production                |
++======================================+===================================+
+|  * Dual CPU system                   | * Quad core CPU system            |
+|  * 1GB of RAM                        | * >16GB RAM                       |
+|  * Recommended EC2: **t2.medium**    | * Recommended EC2: **m4.xlarge**  |
++--------------------------------------+-----------------------------------+
 
 Minimal installation
 --------------------
