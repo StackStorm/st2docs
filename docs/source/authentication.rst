@@ -46,6 +46,9 @@ After the configuration change, restart all st2 components.
 
     st2ctl restart
 
+
+.. _ref-auth-backends:
+
 Auth Backends
 -------------
 The service can be configured with different backends (i.e. PAM, LDAP, etc.) to handle the
