@@ -6,29 +6,54 @@ This guide provides step-by step instructions on installing StackStorm on a sing
 <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el6.sh>`_, codifies the
 instructions below.
 
-.. warning :: Currently BETA! Please try, use and report bugs on
-   `github.com/StackStorm/st2-packages <https://github.com/StackStorm/st2-packages/issues/new>`_.
-   Soon, package-based installation will be
-   the preferred path to installing StackStorm.
+.. warning :: Currently in BETA! Upgrades are being tested, but will be supprted only once packages graduate
+    from BETA, likely from 1.4 onwards. At that point, package-based installation will be
+    the preferred path to installing StackStorm.
 
-.. warning ::
+    Please try, use and report bugs on
+    `github.com/StackStorm/st2-packages <https://github.com/StackStorm/st2-packages/issues/new>`_.
 
-    RHEL 6 doesn't seem to ship with libffi-devel which is a dependency for |st2|.
-    If that is the case, find a version of libffi-devel compatible with libffi on the box.
-    For example,
+.. contents::
 
-    .. code :: bash
+Supported platforms
+--------------------
 
-      [ec2-user@ip-172-30-0-79 ~]$ rpm -qa libffi
-      libffi-3.0.5-3.2.el6.x86_64
+We support RedHat 7 / CentOS 7 and continously testing on `Red Hat Enterprise Linux (RHEL) 7.2 (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B019NS7T5I/ref=srh_res_product_title?ie=UTF8&sr=0-2&qid=1457037671547>`_
+and `puppetlabs/centos-7.0-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/centos-7.0-64-nocm>`_. Other RPM based distributions and versions will likely work with some tweaks, you are welcome to try and report successes to the `community <stackstorm-community.slack.com>`_.
 
-      sudo yum localinstall -y ftp://fr2.rpmfind.net/linux/centos/6.7/os/x86_64/Packages/libffi-devel-3.0.5-3.2.el6.x86_64.rpm
+
+Sizing the server
+-----------------
+While the system can operate with less equipped servers, these are recommended
+for the best experience while testing or deploying |st2|.
+
++--------------------------------------+-----------------------------------+
+|            Testing                   |         Production                |
++======================================+===================================+
+|  * Dual CPU system                   | * Quad core CPU system            |
+|  * 1GB of RAM                        | * >16GB RAM                       |
+|  * Recommended EC2: **t2.medium**    | * Recommended EC2: **m4.xlarge**  |
++--------------------------------------+-----------------------------------+
 
 .. contents::
 
 
 Minimal installation
 --------------------
+
+Install libffi-devel package
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RHEL 6 may not ship with ``libffi-devel`` which is a dependency for |st2|.
+If that is the case, set up `server-optional` repository, following instructions at https://access.redhat.com/solutions/265523. Or, find a version of libffi-devel compatible with libffi on the box,
+and install this version of ``libffi-devel```. For example:
+
+.. code :: bash
+
+  [ec2-user@ip-172-30-0-79 ~]$ rpm -qa libffi
+  libffi-3.0.5-3.2.el6.x86_64
+
+  sudo yum localinstall -y ftp://fr2.rpmfind.net/linux/centos/6.7/os/x86_64/Packages/libffi-devel-3.0.5-3.2.el6.x86_64.rpm
 
 Adjust SELinux policies
 ~~~~~~~~~~~~~~~~~~~~~~~
