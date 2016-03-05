@@ -229,6 +229,7 @@ These settings are used to inform NGINX setup, SSL setup, and any network proxy 
 * :code:`st2::stanley::ssh_public_key`  - SSH Public Key for default remote SSH user. Must provide the actual key contents.
 * :code:`st2::stanley::ssh_private_key` - SSH Private Key for default remote SSH user. Must provide the actual key contents.
 
+.. _all_in_one-enterprise_configuration_values:
 
 |st2| Enterprise Configuration Values
 =====================================
