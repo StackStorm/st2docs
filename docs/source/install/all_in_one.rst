@@ -3,17 +3,24 @@ All-in-one Installer
 |st2| provides an all-in-one installer aimed at assisting users with the initial setup and
 configuration for quick and convinient evaluation.
 
+.. include:: __note_tested_env.rst
+
 .. rubric:: TL;DR
 
-That's OK! You're busy, we get it. How do you just get started? Get your own box, and run this command:
+That's OK! You're busy, we get it. How do you just get started? Get yourself a clean box, and run this command:
 
 ::
 
-   curl -sSL https://install.stackstorm.com/ | sudo sh
+   curl -sSL https://install.stackstorm.com/ | sudo sh -s -- -r v1.3.2
 
 If you're installing *Enterprise Edition*, enter your license key when prompted. With no enterprise key, StackStorm community will be installed.
 
-.. contents:: Want to learn more? Read on! We will make it worth your while.
+.. warning::
+
+	1. AIO installer will take over the box, install many tools, and change many configurations. Be aware: there is **no clean uninstall**. We suggest a dedicated clean virtual machine.
+	2. Our future direction is RPM/DEB based installations (currently in BETA). Consider trying it.
+
+.. contents:: Keep on reading for details on AIO installer while it is being run.
 
 What is it?
 ###########

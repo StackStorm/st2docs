@@ -66,8 +66,8 @@ it is restricted to localhost.
   and reverse-proxies REST API endpoints to st2* web services.
 
 * **StackStorm WebUI** (st2web, and flow, for Enterprise Edition) are installed at ``/opt/statckstorm/webui``
-  and configured via `webui/config.js`. `st2web` comes in it's own ``deb`` and ``rpm``, `Flow` is
-  deployed with st2enterprise. They are are HTML5 applications, served as static HTML,
+  and configured via ``webui/config.js``. `st2web` comes in it's own ``deb`` and ``rpm``. `Flow` is
+  deployed with ``st2enterprise`` package. They are HTML5 applications, served as static HTML,
   and calling StackStorm st2auth and st2api REST API endpoints. NGINX proxies st2auth and st2api
   requests through 443 HTTPS port to ``/api`` and ``/auth``.
 
@@ -80,7 +80,7 @@ Chat services <https://hubot.github.com/docs/adapters/>`_. They are packaged in 
 ``/opt/stackstorm/chatops/chatops.env``.
 
 ChatOps can be also enabled as a docker image `StackStorm/st2chatops <https://github.com/StackStorm/st2chatops>`_,
-or by installing ``hubot-stackstorm`` plugin on your existing Hubot instance.
+or by installing `hubot-stackstorm plugin <https://github.com/StackStorm/hubot-stackstorm>`_ on your existing Hubot instance.
 
 Dependencies
 ---------------
@@ -90,19 +90,7 @@ The required dependencies are RabbitMQ, MongoDB, and PostgreSQL. The optional de
   - Redis or Zookeeper for concurrency policies (see :doc:`/policies`).
   - LDAP for StackStorm Enterprise LDAP authentication.
 
-Sizing the Server
-------------------
 
-While the system can operate with less equipped servers, these are recommended
-for the best experience while testing or deploying StackStorm.
-
-+--------------------------------------+-----------------------------------+
-|            Testing                   |         Production                |
-+======================================+===================================+
-|  * Dual CPU system                   | * Quad core CPU system            |
-|  * 2GB of RAM                        | * >16GB RAM                       |
-|  * Recommended EC2: **m3.medium**    | * Recommended EC2: **m4.xlarge**  |
-+--------------------------------------+-----------------------------------+
 
 
 
