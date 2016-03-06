@@ -6,7 +6,7 @@ This guide provides step-by step instructions on installing StackStorm on a sing
 <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el6.sh>`_, codifies the
 instructions below.
 
-.. warning :: Currently in BETA! Upgrades are being tested, but will be supprted only once packages graduate
+.. warning :: Currently in BETA! Upgrades are being tested, but will be supported only once packages graduate
     from BETA, likely from 1.4 onwards. At that point, package-based installation will be
     the preferred path to installing StackStorm.
 
@@ -16,10 +16,10 @@ instructions below.
 .. contents::
 
 Supported platforms
---------------------
+-------------------
 
-We support RedHat 7 / CentOS 7 and continously testing on `Red Hat Enterprise Linux (RHEL) 7.2 (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B019NS7T5I/ref=srh_res_product_title?ie=UTF8&sr=0-2&qid=1457037671547>`_
-and `puppetlabs/centos-7.0-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/centos-7.0-64-nocm>`_. Other RPM based distributions and versions will likely work with some tweaks, you are welcome to try and report successes to the `community <stackstorm-community.slack.com>`_.
+We support RedHat 6 / CentOS 6 and test every release on `Red Hat Enterprise Linux (RHEL) 6 (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B00NQAYLWO/ref=srh_res_product_title?ie=UTF8&sr=0-2&qid=1457245309099>`_
+and `puppetlabs/centos-6.6-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/centos-6.6-64-nocm>`_. Other RPM based distributions and versions will likely work with some tweaks, you are welcome to try and report successes to the `community <stackstorm-community.slack.com>`_.
 
 
 Sizing the server
@@ -98,7 +98,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
     sudo chkconfig mongod on
     sudo chkconfig rabbitmq-server on
 
-    # Install and configure postgres 9.4. Based on OS type install the ``redhat`` one or ``centos`` one.
+    # Install and configure postgres 9.4. Based on the OS type, install the ``redhat`` one or ``centos`` one.
     # RHEL:
     if grep -q "Red Hat" /etc/redhat-release; then sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-2.noarch.rpm; fi
 

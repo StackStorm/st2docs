@@ -21,7 +21,7 @@ Supported versions
 ------------------
 
 We support Ubuntu 14.04, and continously testing on `Ubuntu Server 14.04 LTS (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B00JV9TBA6/ref=srh_res_product_title?ie=UTF8&sr=0-3&qid=1457037882965>`_
-and `puppetlabs/ubuntu-14.04-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/ubuntu-14.04-64-nocm>`_. Other Debian based distributions and versions will likely work with some tweaks, you are welcome to try and report successes to the `community <stackstorm-community.slack.com>`_.
+and `puppetlabs/ubuntu-14.04-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/ubuntu-14.04-64-nocm>`_. Other Debian based distributions and versions will likely work with some tweaks, you are welcome to try and report success to the `community <https://stackstorm.com/community-signup>`_.
 
 Sizing the server
 -----------------
@@ -225,7 +225,7 @@ Install WebUI and setup SSL termination
 ---------------------------------------
 `NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS,
 provide SSL termination for HTTPS, and reverse-proxy st2auth and st2api API endpoints.
-To set it up: install `st2web` and `nginx`, generate certificates or place your existing
+To set it up, install `st2web` and `nginx`, generate certificates or place your existing
 certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's supplied
 :github_st2:`site config file st2.conf<conf/nginx/st2.conf>`.
 
@@ -256,8 +256,8 @@ Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebU
 Setup ChatOps
 -------------
 
-If you already run Hubot instance, you only have to install the ``hubot-stackstorm`` plugin and configure StackStorm env variables, as described below. Otherwise, the easiest way to enable
-:doc:`StackStorm ChatOps </chatops/index>` is to use `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
+If you already run a Hubot instance, you only have to install the ``hubot-stackstorm`` plugin and configure StackStorm env variables, as described below. Otherwise, the easiest way to enable
+:doc:`StackStorm ChatOps </chatops/index>` is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
 
 * Validate that ``chatops`` pack is installed, and a notification rule is enabled: ::
 
@@ -273,7 +273,7 @@ If you already run Hubot instance, you only have to install the ``hubot-stacksto
       sudo apt-get install -y st2chatops
 
 * Review and edit ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to your
-  StackStorm   installation and Chat Service you are using. By default ``st2api`` and ``st2auth``
+  StackStorm installation and Chat Service you are using. By default ``st2api`` and ``st2auth``
   are expected to be on the same host. If it's not the case, please update ``ST2_API`` and
   ``ST2_AUTH_URL`` variables or just point to correct host with ``ST2_HOSTNAME`` variable. Use
   `ST2_WEBUI_URL` if an external address of your StackStorm host is different.
