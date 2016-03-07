@@ -20,7 +20,7 @@ instructions below.
 Supported versions
 ------------------
 
-We support Ubuntu 14.04, and continously testing on `Ubuntu Server 14.04 LTS (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B00JV9TBA6/ref=srh_res_product_title?ie=UTF8&sr=0-3&qid=1457037882965>`_
+We support Ubuntu 14.04, and test on `Ubuntu Server 14.04 LTS (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B00JV9TBA6/ref=srh_res_product_title?ie=UTF8&sr=0-3&qid=1457037882965>`_
 and `puppetlabs/ubuntu-14.04-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/ubuntu-14.04-64-nocm>`_. Other Debian based distributions and versions will likely work with some tweaks, you are welcome to try and report success to the `community <https://stackstorm.com/community-signup>`_.
 
 Sizing the server
@@ -256,7 +256,7 @@ Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebU
 Setup ChatOps
 -------------
 
-If you already run a Hubot instance, you only have to install the ``hubot-stackstorm`` plugin and configure StackStorm env variables, as described below. Otherwise, the easiest way to enable
+If you already run a Hubot instance, you only have to install the `hubot-stackstorm plugin <https://github.com/StackStorm/hubot-stackstorm>`_ and configure StackStorm env variables, as described below. Otherwise, the easiest way to enable
 :doc:`StackStorm ChatOps </chatops/index>` is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
 
 * Validate that ``chatops`` pack is installed, and a notification rule is enabled: ::

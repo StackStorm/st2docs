@@ -18,8 +18,8 @@ instructions below.
 Supported platforms
 -------------------
 
-We support RedHat 6 / CentOS 6 and test every release on `Red Hat Enterprise Linux (RHEL) 6 (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B00NQAYLWO/ref=srh_res_product_title?ie=UTF8&sr=0-2&qid=1457245309099>`_
-and `puppetlabs/centos-6.6-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/centos-6.6-64-nocm>`_. Other RPM based distributions and versions will likely work with some tweaks, you are welcome to try and report successes to the `community <stackstorm-community.slack.com>`_.
+We support RedHat 6 / CentOS 6 and test on `Red Hat Enterprise Linux (RHEL) 6 (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B00CFQWLS6/ref=srh_res_product_title?ie=UTF8&sr=0-8&qid=1457037733401>`_
+and `puppetlabs/centos-6.6-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/centos-6.6-64-nocm>`_. Other RPM based distributions and versions will likely work with some tweaks, you are welcome to try and report successes to the `community <https://stackstorm.com/community-signup>`_.
 
 
 Sizing the server
@@ -336,7 +336,7 @@ Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebU
 Setup ChatOps
 -------------
 
-If you already run Hubot instance, you only have to install the ``hubot-stackstorm`` plugin and configure StackStorm env variables, as described below. Otherwise, the easiest way to enable
+If you already run Hubot instance, you only have to install the `hubot-stackstorm plugin <https://github.com/StackStorm/hubot-stackstorm>`_ and configure StackStorm env variables, as described below. Otherwise, the easiest way to enable
 :doc:`StackStorm ChatOps </chatops/index>` is to use `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
 
 * Validate that ``chatops`` pack is installed, and a notification rule is enabled: ::
