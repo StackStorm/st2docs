@@ -72,7 +72,7 @@ st2rulesengine
 ~~~~~~~~~~~~~~
 This is a dual purpose process - its main function is to evaluate rules when it sees TriggerInstances and
 decide if an ActionExecution is to be requested. It needs access to MongoDB to locate rules and RabbitMQ
-to listen for TriggerInstances and request ActionExecutions. The auxillary purpose of this process is to
+to listen for TriggerInstances and request ActionExecutions. The auxiliary purpose of this process is to
 run all the defined timers. See `Timers <ref-rule-timers>` for specifics on setting up timers via rules.
 
 n st2rulesengine can run in active-active with only connections to MongoDB and RabbitMQ. All these will share the
@@ -82,7 +82,7 @@ in all but one of the st2rulesengine to avoid duplicate timer events, expect thi
 
 st2actionrunner
 ~~~~~~~~~~~~~~~
-All ActionExecutions are handled for execution by st2actionrunner. It manages the full lifecycle of an execution from
+All ActionExecutions are handled for execution by st2actionrunner. It manages the full life-cycle of an execution from
 scheduling to one of the terminal states.
 
 n st2actionrunner can run in active-active with only connections to MongoDB and RabbitMQ. Work gets naturally
@@ -96,20 +96,20 @@ st2resultstracker
 ~~~~~~~~~~~~~~~~~
 Tracks results of execution handed over to mistral. It requires access to MongoDB and RabbitMQ to perform its function.
 
-n st2resultstracker will co-operate with each other to perform work. At startup though there is a possibilty
+n st2resultstracker will co-operate with each other to perform work. At startup though there is a possibility
 of work however there will not be any negative consequences to this duplicate work. Specifically the jobs to track results
-also get stored in the DB incase there is no worker to take over the work and this pattern makes all result trackers
+also get stored in the DB in case there is no worker to take over the work and this pattern makes all result trackers
 pick up the same initial work set. Once this work set is exhausted all subsequents tasks are round-robined.
 
 st2notifier
 ~~~~~~~~~~~
 This is a dual purpose process - its main function is to generate ``st2.core.actiontrigger`` and ``st2.core.notifytrigger``
-based on the completion of ActionExecution. The auxillary purpose is to act as a backup scheduler for actions that may
+based on the completion of ActionExecution. The auxiliary purpose is to act as a backup scheduler for actions that may
 not have been scheduled.
 
-n st2notifiers can run in active-active requiring connections to RabbitMQ and MongoDB. For the auxillary purpose to function
+n st2notifiers can run in active-active requiring connections to RabbitMQ and MongoDB. For the auxiliary purpose to function
 in an HA deployment when more than 1 st2notifiers are running either Zookeeper or Redis is required to provide co-ordination
-much like for policies. It is also possible to designate a single st2notifier as provider of auxillary functions by
+much like for policies. It is also possible to designate a single st2notifier as provider of auxiliary functions by
 disabling the scheduler in all but 1 st2notifiers.
 
 st2garbagecollector
@@ -122,7 +122,7 @@ do any harm. Ideal configuration is active-passive but |st2| does not itself pro
 
 mistral-api
 ~~~~~~~~~~~
-Mistral api is served by this aptly named process. It needs access to Postgreql and RabbitMQ.
+Mistral api is served by this aptly named process. It needs access to PostgreSQL and RabbitMQ.
 
 n mistral-api can run and just like st2api in active-active configuration by using a loadbalancer to distribute at its
 front end. In typical single box deployment mistral-api is local to the box and |st2| communicates via a direct HTTP
@@ -132,10 +132,10 @@ via the loadbalancer.
 mistral-server
 ~~~~~~~~~~~~~~
 mistral-server is the worker engine for mistral i.e. the process which actually manages executions. |st2| plugin to
-mistral i.e. ``st2mistral`` communicates back to |st2| api. This process needs access to Postresql and RabbitMQ.
+mistral i.e. ``st2mistral`` communicates back to |st2| api. This process needs access to PostgreSQL and RabbitMQ.
 
 n mistral-server can run and co-ordinate work in an active-active configuration. In an HA deployment all communication
-with the |st2| API must be via the configuered loadbalancer.
+with the |st2| API must be via the configured loadbalancer.
 
 Required dependencies
 ---------------------
@@ -145,7 +145,7 @@ may not be suitable and would only serve as a suggestion.
 MongoDB
 ~~~~~~~
 |st2| uses this to cache Actions, Rules and Sensor metadata which already live in the filesystem. All the content should
-ideally be source-control managed in preferrably a git repository. |st2| also stores operation data like ActionExecution,
+ideally be source-control managed in preferably a git repository. |st2| also stores operation data like ActionExecution,
 TriggerInstance etc. MongoDB supports `replica set high-availability <https://docs.mongodb.org/v2.4/core/replica-set-high-availability/>` which we recommend to provide a safe failover.
 
 Loss of connectivity to a MongoDB cluster will cause downtime for |st2|. However, once a replica MongoDB is brought back it
@@ -153,7 +153,7 @@ should be quite possible to bring |st2| back to operational state by simply load
 
 PostgreSQL
 ~~~~~~~~~~
-Used primarily by ``mistral-api`` and ``mistral-server``. To deploy PostgreSQL in HA please see `documentation <http://www.postgresql.org/docs/9.4/static/high-availability.html>` provided by the Postgreql project.
+Used primarily by ``mistral-api`` and ``mistral-server``. To deploy PostgreSQL in HA please see `documentation <http://www.postgresql.org/docs/9.4/static/high-availability.html>` provided by the PostgreSQL project.
 
 The data stored in PostgreSQL is operational for mistral therefore starting from a brand new PostgreSQL in case of loss
 of a cluster will bring automation services back instantly. Certainly there will be downtime while a new DB cluster is provisioned.
@@ -173,10 +173,7 @@ Various |st2| features rely on a proper co-ordination backend in a distributed d
 
 Nginx and loadbalancer
 ~~~~~~~~~~~~~~~~~~~~~~~
-Each instance of ``st2api``, ``st2auth``, ``st2stream`` and ``mistral-api`` are required to be reverse proxied by an
-nginx server. This server will act as a reverse-proxy to terminate SSL connections, shield clients from internal port
-numbers of various services and only require ports 80 and 443 to be open on containers. Often it is best to deploy 1 set
-of all these services on a compute instance and share an nginx server.
+An Nginx server is required to reverse proxy each instance of ``st2api``, ``st2auth``, ``st2stream`` and ``mistral-api``. This server will terminate SSL connections, shield clients from internal port numbers of various services and only require ports 80 and 443 to be open on containers. Often it is best to deploy 1 set of all these services on a compute instance and share an Nginx server.
 
 There is also a need for a loadbalancer to frontend all the REST services. This results in an HA deployment for REST services as well as single endpoint for clients. Most deployment infrastructures will already have a loadbalancer solution which they would
 prefer to use so we do not provide any recommendations.
@@ -185,7 +182,7 @@ prefer to use so we do not provide any recommendations.
 Reference HA setup
 ------------------
 
-In this section we provide a highly opinionated and therefore prescriptive approach to deplooying |st2| in HA.
+In this section we provide a highly opinionated and therefore prescriptive approach to deploying |st2| in HA.
 
 .. insert an awesome diagram here
 
