@@ -8,11 +8,16 @@ StackStorm Enterprise Edition is installed as an addition to the Community Editi
 Learn more about StackStorm Enterprise, request a quote, or get an evaluation license at
 `stackstorm.com/product <https://stackstorm.com/product/#enterprise/>`_.
 
-To install StackStorm Enterprise, obtain your Enterprise license key and proceed to installation
-steps for :doc:`/install/deb`, :doc:`/install/rhel7`, or :doc:`/install/rhel6`.
-The last step of the instructions is ``st2enterprise``
+Using DEB/RPM
+-------------
 
+To install StackStorm Enterprise with ``DEB or RPM`` packages, obtain your Enterprise licensekey and
+proceed to installation steps for :doc:`/install/deb`, :doc:`/install/rhel7`, or
+:doc:`/install/rhel6`. The last step of the instructions is installing `st2enterprise`. Use your
+license key to get access to enterprise package repositories.
 
+Using AIO installer
+-------------------
 If you choose to use :doc:`/install/all_in_one` (recommended for evaluation on a clean box), you will be
 presented with a screen that prompts for a license key. Check the "Enable enterprise features" and
 input the license key in the field.
