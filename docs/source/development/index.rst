@@ -11,11 +11,11 @@ We welcome and appreciate contributions of any kind (code, tests, documentation,
 examples, use cases, ...).
 
 If you need help or get stuck at any point during this process, stop by on our
-IRC channel (`#stackstorm on freenode <http://webchat.freenode.net/?channels=stackstorm>`_) and we will do our best to
+(`Slack Community <https://stackstorm.com/community-signup>`_) and we will do our best to
 assist you.
 
 For information on contributing an integration pack, please refer to the
-:doc:`Create and Contribute a Pack </packs>` page.
+:doc:`Create and Contribute a Pack </reference/packs>` page.
 
 For an overview of core |st2| code structure, please refer to
 :doc:`Code structure </development/code_structure>`.
@@ -28,17 +28,17 @@ started with StackStorm development.
 
 The best and easiest approach is to use our Vagrant images which contains all
 the dependencies you need to get started. For more information, see
-:doc:`Using Vagrant </install/vagrant>`.
+`st2workroom / st2dev <https://github.com/StackStorm/st2workroom#st2dev>`_.
 
 Another approach is to install StackStorm and all the dependencies from source
 on a server or VM of your liking. For more information about this approach, see
-:doc:`Installing StackStorm from sources </install/sources>`.
+:doc:`Installing StackStorm from sources </development/sources>`.
 
 General contribution guidelines
 -------------------------------
 
 * Any non-trivial change must contain corresponding tests. For more
-  information, refer to the :doc:`Testing page </development/testing>`.
+  information, refer to the :doc:`Testing page</development/testing>` (or the :doc:`Pack Testing</development/pack_testing>` page for pack development).
 * All the functions and methods must contain Sphinx docstrings which are used
   to generate the API documentation. We follow the Apache Libcloud project
   docstrings conventions. For more information, refer to the
@@ -57,6 +57,9 @@ Code style guide
   For example, see one of the existing Python files with source code.
 * You can verify that your modifications don't break any rules by running the
   lint script - ``make flake8``
+
+Most StackStorm repositories use shared Flake8 and PyLint configuration files
+which you can get from the `lint-configs repo <https://github.com/StackStorm/lint-configs>`_.
 
 And most importantly, follow the existing style in the file you are editing and
 **be consistent**.
@@ -193,3 +196,10 @@ us to perform basic "static" analysis on the code.
 .. _`PEP8 Python Style Guide`: http://www.python.org/dev/peps/pep-0008/
 .. _irc`: http://webchat.freenode.net/?channels=stackstorm
 .. _`Docstring conventions`: https://libcloud.readthedocs.org/en/latest/development.html#docstring-conventions
+
+.. toctree::
+    :maxdepth: 1
+
+    Code Structure <code_structure>
+    testing
+    Pack Testing <pack_testing>
