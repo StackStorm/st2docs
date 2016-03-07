@@ -183,8 +183,7 @@ testing.
 
     # Authorize key-base acces
     sudo sh -c 'cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys'
-    sudo chmod 0600 /home/stanley/.ssh/authorized_keys
-    sudo chown -R stanley:stanley /home/stanley
+    sudo chown -R stanley:stanley /home/stanley/.ssh
 
     # Enable passwordless sudo
     sudo sh -c 'echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2'
