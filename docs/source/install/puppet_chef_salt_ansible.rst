@@ -1,5 +1,17 @@
-Puppet Module
-=============
+Installing StackStorm with configuration management tools
+#########################################################
+
+In this section we gathered the pointers to . Some are used internally by StackStorm, some
+are contributed by our users, some others are community contributions.
+Maintaining this section is a community effort, thus if you are Chef, Ansible, Puppet, or Salt expert,
+your contributions here are very welcome.
+
+.. contents::
+		:depth: 3
+
+Puppet
+======
+
 |st2| provides a supported Puppet module for use when deploying in an existing Puppet infrastructure. This module is designed to allow relative flexibility with the configuration methods and management techniques of the StackStorm application.
 
 This module aims to provide sane default configurations, but also stay out of your way in the event you need something more custom. To accomplish this, this module uses the Roles/Profiles pattern. Included in this module are several modules that come with sane defaults that you can use directly or use to compose your own site-specific profile for StackStorm installation.
@@ -149,3 +161,99 @@ In order to load packs via hiera, you will need to include the `::st2::packs` cl
         config:
         post_message_action:
             webhook_url: XXX
+
+Chef
+====
+
+We don't have documentation for Chef just quite yet. If you'd like to help us fill in this section, pull requests are gladly accepted. In the meantime, here are some resources that we do have to get you started. There, we have documentation on how to consume the cookbooks.
+
+   * StackStorm Cookbook: https://supermarket.chef.io/cookbooks/stackstorm
+   * OpenStack Mistral Cookbook: https://supermarket.chef.io/cookbooks/openstack-mistral
+
+
+Salt
+====
+
+We don't have a Salt States or Documentation for Salt just quite yet. If you'd like to help us fill in this section, pull requests are gladly accepted. In the meantime, here are some resources that we do have to get you started.
+
+   * Integrating SaltStack and StackStorm: http://stackstorm.com/2015/07/29/getting-started-with-stackstorm-and-saltstack/ - a blog post on how to integrate the two systems.
+
+Ansible
+=======
+
+Ansible playbooks to install |st2|.
+
+Allows you to deploy and further configure |st2| installation on local or remote machines with Ansible configuration management tool.
+Playbooks source code is available as GitHub repository `ansible-st2
+<https://github.com/StackStorm/ansible-st2>`_.
+
+---------------------------
+
+Supported platforms
+---------------------------
+* Ubuntu 12.04 LTS
+* Ubuntu 14.04 LTS
+
+Requirements
+---------------------------
+At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, MySQL, Mongo, OpenStack Mistral and dozens of Python dependencies.
+
+Installation
+---------------------------
+.. sourcecode:: bash
+
+    git clone https://github.com/StackStorm/ansible-st2.git
+    cd ansible-st2
+
+    ansible-playbook playbooks/st2express.yaml
+
+
+Variables
+---------------------------
+Below is the list of variables you can redefine in your playbook to customize st2 deployment:
+
++------------------------+-----------------+--------------------------------------------------------------------------+
+| Variable               | Default         | Description                                                              |
++========================+=================+==========================================================================+
+| ``st2_version``        | ``stable``      | StackStorm version to install. Latest ``stable``, ``unstable``           |
+|                        |                 | to get automatic updates or pin it to numeric version like ``0.12.1``.   |
++------------------------+-----------------+--------------------------------------------------------------------------+
+| ``st2_revision``       | ``current``     | StackStorm revision to install. ``current`` to get the                   |
+|                        |                 | latest build (autoupdating) or pin it to numeric build like ``6``.       |
++------------------------+-----------------+--------------------------------------------------------------------------+
+| ``st2_action_runners`` | ``# vCPUs``     | Number of action runner workers to start.                                |
+|                        |                 | Defaults to number of machine vCPUs, but not less than ``2``.            |
++------------------------+-----------------+--------------------------------------------------------------------------+
+| ``st2_system_user``    | ``stanley``     | System user on whose behalf st2 would work,                              |
+|                        |                 | including remote/local action runners.                                   |
++------------------------+-----------------+--------------------------------------------------------------------------+
+| ``st2_auth_username``  | ``testu``       | Username used by StackStorm standalone authentication.                   |
++------------------------+-----------------+--------------------------------------------------------------------------+
+| ``st2_auth_password``  | ``testp``       | Password used by StackStorm standalone authentication.                   |
++------------------------+-----------------+--------------------------------------------------------------------------+
+
+Examples
+---------------------------
+Install ``stable`` StackStorm with all its components on local machine:
+
+.. sourcecode:: bash
+
+    ansible-playbook playbooks/st2express.yaml -i 'localhost,' --connection=local
+
+
+.. note::
+
+    Keeping ``stable`` version is useful to update StackStorm by re-running playbook, since it will reinstall |st2| if there is new version available.
+    This is default behavior. If you don't want updates - consider pinning version numbers.
+
+Install specific numeric version of st2 with pinned revision number as well:
+
+.. sourcecode:: bash
+
+    ansible-playbook playbooks/st2express.yaml --extra-vars='st2_version=0.12.2 st2_revision=6'
+
+or latest unstable (development branch):
+
+.. sourcecode:: bash
+
+    ansible-playbook playbooks/st2express.yaml --extra-vars='st2_version=unstable'

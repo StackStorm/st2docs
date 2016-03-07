@@ -1,26 +1,59 @@
 RHEL 6 / CentOS 6
 =================
 
-This guide provides step-by step instructions on installing StackStorm on a single box on RHEL 6/CentOS 6.
-A script `st2bootstrap-el6.sh <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el6.sh>`_,
-codifies the instructions below.
+This guide provides step-by step instructions on installing StackStorm on a single box per
+:doc:`Reference deployment </install/overview>` on RHEL 6/CentOS 6. A script `st2bootstrap-el6.sh
+<https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el6.sh>`_, codifies the
+instructions below.
 
-.. warning :: Currently BETA! Please try, use and report bugs on
-   `github.com/StackStorm/st2-packages <https://github.com/StackStorm/st2-packages/issues/new>`_.
-   Soon, package-based installation will be
-   the preferred path to installing StackStorm.
+.. warning :: Currently in BETA! Upgrades are being tested, but will be supported only once packages graduate
+    from BETA, likely from 1.4 onwards. At that point, package-based installation will be
+    the preferred path to installing StackStorm.
 
-.. warning ::
+    Please try, use and report bugs on
+    `github.com/StackStorm/st2-packages <https://github.com/StackStorm/st2-packages/issues/new>`_.
 
-    Your RHEL 6 setup might not have *server-optional* repository enabled which is required
-    for *libffi-devel* dependency. Please consult the [documentation](https://access.redhat.com/solutions/265523)
-    and enable the repository.
+.. contents::
+
+Supported platforms
+-------------------
+
+We support RedHat 6 / CentOS 6 and test on `Red Hat Enterprise Linux (RHEL) 6 (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B00CFQWLS6/ref=srh_res_product_title?ie=UTF8&sr=0-8&qid=1457037733401>`_
+and `puppetlabs/centos-6.6-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/centos-6.6-64-nocm>`_. Other RPM based distributions and versions will likely work with some tweaks, you are welcome to try and report successes to the `community <https://stackstorm.com/community-signup>`_.
+
+
+Sizing the server
+-----------------
+While the system can operate with less equipped servers, these are recommended
+for the best experience while testing or deploying |st2|.
+
++--------------------------------------+-----------------------------------+
+|            Testing                   |         Production                |
++======================================+===================================+
+|  * Dual CPU system                   | * Quad core CPU system            |
+|  * 1GB of RAM                        | * >16GB RAM                       |
+|  * Recommended EC2: **t2.medium**    | * Recommended EC2: **m4.xlarge**  |
++--------------------------------------+-----------------------------------+
 
 .. contents::
 
 
 Minimal installation
 --------------------
+
+Install libffi-devel package
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RHEL 6 may not ship with ``libffi-devel`` which is a dependency for |st2|.
+If that is the case, set up `server-optional` repository, following instructions at https://access.redhat.com/solutions/265523. Or, find a version of libffi-devel compatible with libffi on the box,
+and install this version of ``libffi-devel```. For example:
+
+.. code :: bash
+
+  [ec2-user@ip-172-30-0-79 ~]$ rpm -qa libffi
+  libffi-3.0.5-3.2.el6.x86_64
+
+  sudo yum localinstall -y ftp://fr2.rpmfind.net/linux/centos/6.7/os/x86_64/Packages/libffi-devel-3.0.5-3.2.el6.x86_64.rpm
 
 Adjust SELinux policies
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -65,7 +98,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
     sudo chkconfig mongod on
     sudo chkconfig rabbitmq-server on
 
-    # Install and configure postgres 9.4. Based on OS type install the ``redhat`` one or ``centos`` one.
+    # Install and configure postgres 9.4. Based on the OS type, install the ``redhat`` one or ``centos`` one.
     # RHEL:
     if grep -q "Red Hat" /etc/redhat-release; then sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-2.noarch.rpm; fi
 
@@ -129,10 +162,14 @@ Setup Mistral Database
 
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
-To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
-For remote linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
 
-* Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally. You will need elevated privileges to do this.
+To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
+For remote linux actions, SSH is used. It is advised to configure identity file based SSH access on
+all remote hosts. We also recommend configuring SSH access to localhost for running examples and
+testing.
+
+* Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so
+  that SSH-based action can be tried and tested locally. You will need elevated privileges to do this.
 
   .. code-block:: bash
 
@@ -209,10 +246,12 @@ Use the supervisor script to manage |st2| services: ::
 
 -----------------
 
-At this point you have a minimal working installation, and can happily play with StackStorm:
-follow :doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs from `st2contrib`_.
+At this point you have a minimal working installation, and can happily play with StackStorm: follow
+:doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs
+from `st2contrib`_.
 
-But there is no joy without WebUI, no security without SSL termination, no fun without ChatOps, and no money without Enterprise edition. Read on, move on!
+But there is no joy without WebUI, no security without SSL termination, no fun without ChatOps,
+and no money without Enterprise edition. Read on, move on!
 
 -----------------
 
@@ -297,9 +336,61 @@ Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebU
 Setup ChatOps
 -------------
 
-.. warning :: Our current chatops installation story is docker based and docker cannot be installed on RHEL 6 / CentOS 6 because of 2.6 kernel. However, we are working on native chatops packages for these distros.
+If you already run Hubot instance, you only have to install the `hubot-stackstorm plugin <https://github.com/StackStorm/hubot-stackstorm>`_ and configure StackStorm env variables, as described below. Otherwise, the easiest way to enable
+:doc:`StackStorm ChatOps </chatops/index>` is to use `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
+
+* Validate that ``chatops`` pack is installed, and a notification rule is enabled: ::
+
+    # Ensure chatops pack is in place
+    ls /opt/stackstorm/packs/chatops
+    # Create notification rule if not yet enabled
+    st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml)
+
+* `Install NodeJS v4 <https://nodejs.org/en/download/package-manager/>`_: ::
+
+      curl -sL https://rpm.nodesource.com/setup_4.x | sudo -E bash -
+      sudo yum install -y nodejs
+
+* Review and edit ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to your
+  StackStorm   installation and Chat Service you are using. By default ``st2api`` and ``st2auth``
+  are expected to be on the same host. If it's not the case, please update ``ST2_API`` and
+  ``ST2_AUTH_URL`` variables or just point to correct host with ``ST2_HOSTNAME`` variable. Use
+  `ST2_WEBUI_URL` if an external address of your StackStorm host is different.
+
+  The example configuration uses Slack. In case of Slack, go to Slack web admin interface,
+  `create and configure a Bot <https://api.slack.com/bot-users>`_, invite a Bot to the rooms,
+  and copy the authentication token into ``HUBOT_SLACK_TOKEN`` variable.
+
+  If you are using other Chat Service, do appropriate bot configurations,
+  and set correspondent environment variables under
+  `Chat service adapter settings`:
+  `Slack <https://github.com/slackhq/hubot-slack>`_,
+  `HipChat <https://github.com/hipchat/hubot-hipchat>`_,
+  `Yammer <https://github.com/athieriot/hubot-yammer>`_,
+  `Flowdock <https://github.com/flowdock/hubot-flowdock>`_,
+  `IRC <https://github.com/nandub/hubot-irc>`_ ,
+  `XMPP <https://github.com/markstory/hubot-xmpp>`_.
+
+* Start the service: ::
+
+      sudo service st2chatops start
+
+      # Starting st2chatops on boot
+      sudo chkconfig st2chatops on
+
+* That's it! Go to your Chat room and begin ChatOps-ing. Read on :doc:`/chatops/index` section.
 
 Upgrade to Enterprise Edition
 -----------------------------
-Enterprise Edition is deployed as an addition on top of StackStorm. Detailed instructions coming up soon.
-If you are an Enterprise customer, reach out to support@stackstorm.com and we provide the instructions.
+Enterprise Edition is deployed as an addition on top of StackStorm Community. You will need an active
+Enterprise subscription, and a license key to access StackStorm enterprise repositories.
+
+.. code-block:: bash
+
+    # Set up Enterprise repository access
+    curl -s https://${ENTERPRISE_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.rpm.sh | sudo bash
+    # Install Enterprise editions
+    sudo yum install -y st2enterprise
+
+To learn more about StackStorm Enterprise, request a quote, or get an evaluation license go
+to `stackstorm.com/product <https://stackstorm.com/product/#enterprise/>`_.

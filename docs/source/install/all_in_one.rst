@@ -1,10 +1,13 @@
 All-in-one Installer
 ********************
-|st2| provides an all-in-one installer aimed at assisting users with the initial setup and configuration.
+|st2| provides an all-in-one installer aimed at assisting users with the initial setup and
+configuration for quick and convinient evaluation.
+
+.. include:: __note_tested_env.rst
 
 .. rubric:: TL;DR
 
-That's OK! You're busy, we get it. How do you just get started? Get your own box, and run this command:
+That's OK! You're busy, we get it. How do you just get started? Get yourself a clean box, and run this command:
 
 ::
 
@@ -12,7 +15,12 @@ That's OK! You're busy, we get it. How do you just get started? Get your own box
 
 If you're installing *Enterprise Edition*, enter your license key when prompted. With no enterprise key, StackStorm community will be installed.
 
-.. contents:: Want to learn more? Read on! We will make it worth your while.
+.. warning::
+
+	1. AIO installer will take over the box, install many tools, and change many configurations. Be aware: there is **no clean uninstall**. We suggest a dedicated clean virtual machine.
+	2. Our future direction is RPM/DEB based installations (currently in BETA). Consider trying it.
+
+.. contents:: Keep on reading for details on AIO installer while it is being run.
 
 What is it?
 ###########
@@ -94,7 +102,7 @@ Bring Your Own Box
 
 ::
 
-   curl -sSL https://install.stackstorm.com/ | sudo sh -s -- -r v1.3.2
+   curl -sSL https://install.stackstorm.com/ | sudo sh
 
 You will need elevated privileges in order to run this script. This will boot up a fresh |st2| installation along with the Mistral workflow engine on Ubuntu 14.04 LTS. While loading, some console output in red is expected and can be safely ignored. Once completed, you will see the following console output.
 
@@ -228,6 +236,7 @@ These settings are used to inform NGINX setup, SSL setup, and any network proxy 
 * :code:`st2::stanley::ssh_public_key`  - SSH Public Key for default remote SSH user. Must provide the actual key contents.
 * :code:`st2::stanley::ssh_private_key` - SSH Private Key for default remote SSH user. Must provide the actual key contents.
 
+.. _all_in_one-enterprise_configuration_values:
 
 |st2| Enterprise Configuration Values
 =====================================
@@ -290,14 +299,14 @@ Example Answers File
       "hubot-hipchat": ">=2.12.0 < 3.0.0"
       "hubot-stackstorm": ">= 0.1.0 < 0.2.0"
 
-How do I specify st2_ssl_cert and st2_ssl_key in answers.yaml file?
-####################################################################
+How do I specify st2::ssl_public_key and st2::ssl_private_key in answers.yaml file?
+###################################################################################
 
 If you have your own SSL cert and key and want to supply it with answers.yaml file, you can do so. This has been tested and reported as working by users.
 
 .. sourcecode:: yaml
 
-    st2_ssl_cert: ! '-----BEGIN CERTIFICATE-----
+    st2::ssl_public_key: ! '-----BEGIN CERTIFICATE-----
       LINE 1
       LINE 2
       LINE 3
@@ -306,7 +315,7 @@ If you have your own SSL cert and key and want to supply it with answers.yaml fi
       -----END CERTIFICATE-----
     '
 
-    st2_ssl_key: ! '-----BEGIN RSA PRIVATE KEY-----
+    st2::ssl_private_key: ! '-----BEGIN RSA PRIVATE KEY-----
       LINE 1
       LINE 2
       LINE 3
@@ -344,7 +353,7 @@ The answers file is formatted in standard YAML. Below, we will discuss the vario
 
 ::
 
-   curl -sSL https://install.stackstorm.com/ | sudo sh -s -- -r v1.3.2 -a <answers_file>.yaml
+   curl -sSL https://install.stackstorm.com/ | sudo sh -s -- -a <answers_file>.yaml
 
 
 If you have already installed using this method, you can find and update your answers file at `/opt/puppet/hieradata/answers.yaml`
