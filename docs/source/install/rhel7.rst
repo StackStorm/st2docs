@@ -5,7 +5,7 @@ This guide provides step-by step instructions on installing StackStorm on a sing
 A script `st2bootstrap-el7.sh <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el7.sh>`_,
 codifies the instructions below.
 
-.. warning :: Currently in BETA! Upgrades are being tested, but will be supprted only once packages graduate
+.. warning :: Currently in BETA! Upgrades are being tested, but will be supported only once packages graduate
     from BETA, likely from 1.4 onwards. At that point, package-based installation will be
     the preferred path to installing StackStorm.
 
@@ -17,8 +17,8 @@ codifies the instructions below.
 Supported platforms
 --------------------
 
-We support RedHat 7 / CentOS 7 and continously testing on `Red Hat Enterprise Linux (RHEL) 7.2 (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B019NS7T5I/ref=srh_res_product_title?ie=UTF8&sr=0-2&qid=1457037671547>`_
-and `puppetlabs/centos-7.0-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/centos-7.0-64-nocm>`_. Other RPM based distributions and versions will likely work with some tweaks, you are welcome to try and report successes to the `community <stackstorm-community.slack.com>`_.
+We support RedHat 7 / CentOS 7 and test on `Red Hat Enterprise Linux (RHEL) 7.2 (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B019NS7T5I/ref=srh_res_product_title?ie=UTF8&sr=0-2&qid=1457037671547>`_
+and `puppetlabs/centos-7.0-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/centos-7.0-64-nocm>`_. Other RPM based distributions and versions will likely work with some tweaks, you are welcome to try and report successes to the `community <https://stackstorm.com/community-signup>`_.
 
 Sizing the server
 -----------------
@@ -304,7 +304,7 @@ Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebU
 Setup ChatOps
 -------------
 
-If you already run Hubot instance, you only have to install the ``hubot-stackstorm`` plugin and configure StackStorm env variables, as described below. Otherwise, the easiest way to enable
+If you already run Hubot instance, you only have to install the `hubot-stackstorm <https://github.com/StackStorm/hubot-stackstorm>`_ plugin and configure StackStorm env variables, as described below. Otherwise, the easiest way to enable
 :doc:`StackStorm ChatOps </chatops/index>` is to use `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
 
 * Validate that ``chatops`` pack is installed, and a notification rule is enabled: ::
