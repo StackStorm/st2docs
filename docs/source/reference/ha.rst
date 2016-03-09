@@ -211,7 +211,7 @@ In practice ``MongoDB``, ``PostgreSQL`` and ``RabbitMQ`` are often in standalone
 The 2 shared components i.e. ``st2chatops`` and ``st2web`` are placed here for sake of convenience and could be placed anywhere
 with the right configuration.
 
-Nginx acting as the loadbalancer can easily be switched out for Amazon ELB, HAProxy or any other of your choosing. In that case ``st2web`` which is being served off this nginx will also need a new home.
+Nginx acting as the loadbalancer can easily be switched out for Amazon ELB, HAProxy or any other of your choosing. In that case ``st2web`` which is being served off this Nginx will also need a new home.
 
 ``st2chatops`` which use ``hubot`` is not easily deployed in HA. Using something like `keepalived <http://www.keepalived.org/>`
 to maintain st2chatops in active-passive configuration would be an option.
@@ -260,7 +260,7 @@ Install required dependencies
 
 7. Setup st2web and SSL termination. Follow :ref:`ref-install-webui-ssl-deb`.
 
-8. Configuration for nginx as loadbalancer for controller box can be found `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-shared_st2_nginx-conf>`. With this configuration nginx will loadbalance all requests between
+8. Configuration for Nginx as loadbalancer for controller box can be found `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-shared_st2_Nginx-conf>`. With this configuration Nginx will loadbalance all requests between
 the two blueprint boxes ``st2-multi-node-1`` and ``st2-multi-node-2``. This includes requests to ``st2api``, ``st2auth`` and ``mistral-api``. Nginx also serves as the webserver for st2web.
 
 9. Install st2chatops following from :ref:`ref-setup-chatops-deb`
@@ -296,6 +296,6 @@ above support the capbility of being turned on-off individually therefore each b
 
 6. Configure authentication as per :ref:`ref-config-auth-deb`
 
-7. Use nginx config for the blueprint boxes from `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2_nginx-conf>`. In this config nginx will act as the SSL termination endpoint for all the REST endpoints exposed by ``st2api``, ``st2auth`` and ``mistral-api``.
+7. Use Nginx config for the blueprint boxes from `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2_Nginx-conf>`. In this config Nginx will act as the SSL termination endpoint for all the REST endpoints exposed by ``st2api``, ``st2auth`` and ``mistral-api``.
 
 8. See :doc:`/reference/sensor_partitioning` to dcide on how to partition sensors that suit your requirements.
