@@ -319,6 +319,10 @@ If you already run Hubot instance, you only have to install the `hubot-stackstor
       curl -sL https://rpm.nodesource.com/setup_4.x | sudo -E bash -
       sudo yum install -y nodejs
 
+* Install st2chatops package: ::
+
+      sudo yum install -y st2chatops
+
 * Review and edit ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to your
   StackStorm   installation and Chat Service you are using. By default ``st2api`` and ``st2auth``
   are expected to be on the same host. If it's not the case, please update ``ST2_API`` and
