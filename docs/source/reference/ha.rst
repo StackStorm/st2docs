@@ -15,6 +15,8 @@ HA deployment specific details.
 .. figure :: /_static/images/st2-deployment-big-picture.png
     :align: center
 
+.. source https://docs.google.com/drawings/d/1X6u8BB9bnWkW8C81ERBvjIKRfo9mDos4XEKeDv6YiF0/edit
+
 Components
 ----------
 
@@ -187,7 +189,12 @@ has 3 independent boxes which we categorize as controller box and blueprint box.
 ``st2-multi-node-1`` and ``st2-multi-node-2``. For the sake of reference we will be using Ubuntu 14.04 as the base operating
 system.
 
-.. insert an awesome diagram here
+.. figure :: /_static/images/st2-deployment-multi-node.png
+    :align: center
+
+    StackStorm HA reference deployment.
+
+.. source https://docs.google.com/drawings/d/1_BJa9ZtBjFa1Dxx6cPiFlmpTS9AsNzkkvp_vuyVV3bw/edit
 
 Controller box
 ^^^^^^^^^^^^^^
@@ -290,3 +297,5 @@ above support the capbility of being turned on-off individually therefore each b
 6. Configure authentication as per :ref:`ref-config-auth-deb`
 
 7. Use nginx config for the blueprint boxes from `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2_nginx-conf>`. In this config nginx will act as the SSL termination endpoint for all the REST endpoints exposed by ``st2api``, ``st2auth`` and ``mistral-api``.
+
+8. See :doc:`/reference/sensor_partitioning` to dcide on how to partition sensors that suit your requirements.
