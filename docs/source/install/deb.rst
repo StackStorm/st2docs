@@ -27,7 +27,6 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
     sudo apt-get update
     sudo apt-get install -y mongodb-server rabbitmq-server postgresql
 
-
 Setup repositories
 ~~~~~~~~~~~~~~~~~~~
 
@@ -199,6 +198,8 @@ Reference deployment uses File Based auth provider for simplicity. Refer to :doc
 
 Check out :doc:`/cli` to learn convinient ways to authenticate via CLI.
 
+.. _ref-install-webui-ssl-deb:
+
 Install WebUI and setup SSL termination
 ---------------------------------------
 `NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS,
@@ -230,6 +231,9 @@ If you modify ports, or url paths in nginx configuration, make correspondent cha
 configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
+
+
+.. _ref-setup-chatops-deb:
 
 Setup ChatOps
 -------------

@@ -19,7 +19,7 @@ Components
 ----------
 
 st2api
-~~~~~~
+^^^^^^
 This process host the REST API endpoints that serve requests from  WebUI, CLI and ChatOps. It maintains
 connections to MongoDB to store and retrieve information. It also connects to RabbitMQ to push various
 kind of messages onto the message bus. It is a gunicorn managed process which by default listens on
@@ -29,7 +29,7 @@ n st2api processes can be behind a loadbalancer in an active-active configuratio
 processes can be deployed on separate compute instances.
 
 st2auth
-~~~~~~~
+^^^^^^^
 All authentication is managed by this process. This process needs connection to MongoDB and an authentication
 backend. See `Authentication backends<ref-sensors-authoring-a-sensor>` for more information. It is a gunicorn
 managed process which by default listens on port ``9102`` and is front-ended by Nginx acting as a reverse proxy.
@@ -41,7 +41,7 @@ all st2auth process should see the same identities, via some provider if applica
 predictably.
 
 st2stream
-~~~~~~~~~
+^^^^^^^^^
 This process exposes a server-sent event stream. Requires access to both MongoDB and RabbitMQ. It is also a
 gunicorn managed process, listens on port ``9102`` by default and is front-ended by Nginx acting as a reverse
 proxy. Clients like WebUI and ChatOps maintain a persistent connection with an st2stream process and receive
@@ -53,7 +53,7 @@ process goes down. It would be the responsibility of the client to reconnect to 
 via the loadbalancer.
 
 st2sensorcontainer
-~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^
 st2sensorcontainer manages the sensors to be run on a node. It will start, stop and restart based on policy
 sensor running on a node. In this case node is same as a compute instance i.e. Virtual Machine and somewhere
 down the line could be a container.
@@ -69,7 +69,7 @@ likely to be an enhancement to StackStorm in future releases.
 
 
 st2rulesengine
-~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^
 This is a dual purpose process - its main function is to evaluate rules when it sees TriggerInstances and
 decide if an ActionExecution is to be requested. It needs access to MongoDB to locate rules and RabbitMQ
 to listen for TriggerInstances and request ActionExecutions. The auxiliary purpose of this process is to
@@ -81,7 +81,7 @@ function in each of the RulesEngine is not HA compatible. In the interim it is p
 in all but one of the st2rulesengine to avoid duplicate timer events, expect this to be fixed in a future |st2| release.
 
 st2actionrunner
-~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^
 All ActionExecutions are handled for execution by st2actionrunner. It manages the full life-cycle of an execution from
 scheduling to one of the terminal states.
 
@@ -93,7 +93,7 @@ layer. See :doc:`Policies </policies>`. Using a default file based co-ordination
 in a single box deployment.
 
 st2resultstracker
-~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^
 Tracks results of execution handed over to mistral. It requires access to MongoDB and RabbitMQ to perform its function.
 
 n st2resultstracker will co-operate with each other to perform work. At startup though there is a possibility
@@ -102,7 +102,7 @@ also get stored in the DB in case there is no worker to take over the work and t
 pick up the same initial work set. Once this work set is exhausted all subsequents tasks are round-robined.
 
 st2notifier
-~~~~~~~~~~~
+^^^^^^^^^^^
 This is a dual purpose process - its main function is to generate ``st2.core.actiontrigger`` and ``st2.core.notifytrigger``
 based on the completion of ActionExecution. The auxiliary purpose is to act as a backup scheduler for actions that may
 not have been scheduled.
@@ -113,7 +113,7 @@ much like for policies. It is also possible to designate a single st2notifier as
 disabling the scheduler in all but 1 st2notifiers.
 
 st2garbagecollector
-~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^
 Cleans up old executions and other operations data based on setup configurations. By default this process does nothing
 and needs to be setup to perform any work.
 
@@ -121,7 +121,7 @@ By design it is a singleton process. Running multiple in active-active will not 
 do any harm. Ideal configuration is active-passive but |st2| does not itself provide ability to run this in active-passive.
 
 mistral-api
-~~~~~~~~~~~
+^^^^^^^^^^^
 Mistral api is served by this aptly named process. It needs access to PostgreSQL and RabbitMQ.
 
 n mistral-api can run and just like st2api in active-active configuration by using a loadbalancer to distribute at its
@@ -130,7 +130,7 @@ connection however for HA setup we recommend putting mistral-api behind a loadba
 via the loadbalancer.
 
 mistral-server
-~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^
 mistral-server is the worker engine for mistral i.e. the process which actually manages executions. |st2| plugin to
 mistral i.e. ``st2mistral`` communicates back to |st2| api. This process needs access to PostgreSQL and RabbitMQ.
 
@@ -143,7 +143,7 @@ Some HA recommendations for the dependencies required by |st2| components. Depen
 may not be suitable and would only serve as a suggestion.
 
 MongoDB
-~~~~~~~
+^^^^^^^
 |st2| uses this to cache Actions, Rules and Sensor metadata which already live in the filesystem. All the content should
 ideally be source-control managed in preferably a git repository. |st2| also stores operation data like ActionExecution,
 TriggerInstance etc. MongoDB supports `replica set high-availability <https://docs.mongodb.org/v2.4/core/replica-set-high-availability/>` which we recommend to provide a safe failover.
@@ -152,27 +152,27 @@ Loss of connectivity to a MongoDB cluster will cause downtime for |st2|. However
 should be quite possible to bring |st2| back to operational state by simply loading the content. Easy access to old ActionExecutions will be lost but all the data of old ActionExecution will still be available in audit logs.
 
 PostgreSQL
-~~~~~~~~~~
+^^^^^^^^^^
 Used primarily by ``mistral-api`` and ``mistral-server``. To deploy PostgreSQL in HA please see `documentation <http://www.postgresql.org/docs/9.4/static/high-availability.html>` provided by the PostgreSQL project.
 
 The data stored in PostgreSQL is operational for mistral therefore starting from a brand new PostgreSQL in case of loss
 of a cluster will bring automation services back instantly. Certainly there will be downtime while a new DB cluster is provisioned.
 
 RabbitMQ
-~~~~~~~~
+^^^^^^^^
 RabbitMQ is the communication hub for |st2| to co-ordinate and distribute work. See `RabbitMQ documentation <https://www.rabbitmq.com/ha.html>` to understand HA deployment strategies.
 
 Our recommendation is to mirror all the Queues and Exchanges so that loss of 1 server still retains functionality.
 
 Zookeeper/Redis
-~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^
 Various |st2| features rely on a proper co-ordination backend in a distributed deployment to work correctly.
 
 `This <http://zookeeper.apache.org/doc/trunk/zookeeperStarted.html#sc_RunningReplicatedZooKeeper>` shows how to run a replicated zookeeper setup. See `this <http://redis.io/topics/sentinel>` to understand Redis deployments using sentinel.
 
 
 Nginx and loadbalancer
-~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 An Nginx server is required to reverse proxy each instance of ``st2api``, ``st2auth``, ``st2stream`` and ``mistral-api``. This server will terminate SSL connections, shield clients from internal port numbers of various services and only require ports 80 and 443 to be open on containers. Often it is best to deploy 1 set of all these services on a compute instance and share an Nginx server.
 
 There is also a need for a loadbalancer to frontend all the REST services. This results in an HA deployment for REST services as well as single endpoint for clients. Most deployment infrastructures will already have a loadbalancer solution which they would
@@ -182,19 +182,85 @@ prefer to use so we do not provide any recommendations.
 Reference HA setup
 ------------------
 
-In this section we provide a highly opinionated and therefore prescriptive approach to deploying |st2| in HA.
+In this section we provide a highly opinionated and therefore prescriptive approach to deploying |st2| in HA. This deployment
+has 3 independent boxes which we categorize as controller box and blueprint box. Let call these boxes ``st2-multi-node-cntl``,
+``st2-multi-node-1`` and ``st2-multi-node-2``. For the sake of reference we will be using Ubuntu 14.04 as the base operating
+system.
 
 .. insert an awesome diagram here
 
-Shared/Controller box
-~~~~~~~~~~~~~~~~~~~~~
-This box contains shared services.
+Controller box
+^^^^^^^^^^^^^^
+This box runs all the shared required dependencies and some |st2| components.
+
+* Nginx as loadbalancer
+* MongoDB
+* PostgreSQL
+* RabbitMQ
+* st2chatops
+* st2web
+
+In practice ``MongoDB``, ``PostgreSQL`` and ``RabbitMQ`` are often in standalone clusters managed outside of |st2|.
+The 2 shared components i.e. ``st2chatops`` and ``st2web`` are placed here for sake of convenience and could be placed anywhere
+with the right configuration.
+
+Nginx acting as the loadbalancer can easily be switched out for Amazon ELB, HAProxy or any other of your choosing. In that case ``st2web`` which is being served off this nginx will also need a new home.
+
+``st2chatops`` which use ``hubot`` is not easily deployed in HA. Using something like `keepalived <http://www.keepalived.org/>`
+to maintain st2chatops in active-passive configuration would be an option.
+
+Following are the steps to provision a controller box on Ubuntu 14.04.
+
+Install required dependencies
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Install ``MongoDB``, ``PostgreSQL`` and ``RabbitMQ``.
+
+  .. code-block:: bash
+
+        sudo apt-get install -y mongodb-server rabbitmq-server postgresql
+
+
+2. Fix listen address in `/etc/postgresql/9.3/main/postgresql.conf` and have PostgreSQL listen an interface that has an
+   IP address reachable for ``st2-multi-node-1`` and ``st2-multi-node-2``.
+
+3. To `/etc/postgresql/9.3/main/pg_hba.conf` add ACL rule. Here the subnet to allow access is `10.0.3.1/24`.3
+
+  .. code-block:: bash
+
+        host       all  all  10.0.3.1/24  trust
+
+4. restart PostgreSQL
+
+  .. code-block:: bash
+
+         service postgresql restart
+
+5. Create Mistral DB in PostgreSQL.
+
+  .. code-block:: bash
+
+        cat << EHD | sudo -u postgres psql
+        CREATE ROLE mistral WITH CREATEDB LOGIN ENCRYPTED PASSWORD 'StackStorm';
+        CREATE DATABASE mistral OWNER mistral;
+        EHD
+
+6. Add stable |st2| repos.
+
+  .. code-block:: bash
+
+        curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
+
+7. Setup st2web and SSL termination. Follow :ref:`ref-install-webui-ssl-deb`.
+
+8. Configuration for nginx as loadbalancer for controller box can be found `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-shared_st2_nginx-conf>`. With this configuration nginx will loadbalance all requests between
+the two blueprint boxes ``st2-multi-node-1`` and ``st2-multi-node-2``. This includes requests to ``st2api``, ``st2auth`` and ``mistral-api``. Nginx also serves as the webserver for st2web.
+
+9. Install st2chatops following from :ref:`ref-setup-chatops-deb`
 
 Blueprint box
-~~~~~~~~~~~~~
+^^^^^^^^^^^^^
 This box is a repeatable |st2| image which is mostly equivalent to the single-box reference deployment with a few changes. Deploy
-as many of these boxes for HA and also achieve horizontal scale. Note that with service level granularity different instances
-of a blueprint box can have different services enabled.
-
-
+as many of these boxes for HA and also to achieve horizontal scaling. Note that with service level granularity different instances
+of a blueprint box can have different services enabled but it will need to be managed outside of a tool like ``st2ctl``.
 
