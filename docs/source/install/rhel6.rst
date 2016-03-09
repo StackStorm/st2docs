@@ -267,7 +267,7 @@ Reference deployment uses File Based auth provider for simplicity. Refer to :doc
     # Install htpasswd utility if you don't have it
     sudo yum -y install httpd-tools
     # Create a user record in a password file.
-    sudo htpasswd -bs /etc/st2/htpasswd test Ch@ngeMe
+    sudo htpasswd -bs /etc/st2/htpasswd st2admin Ch@ngeMe
 
 * Enable and configure auth in ``/etc/st2/st2.conf``:
 
@@ -289,10 +289,10 @@ Reference deployment uses File Based auth provider for simplicity. Refer to :doc
   .. code-block:: bash
 
     # Get an auth token and use in CLI or API
-    st2 auth test
+    st2 auth st2admin
 
     # A shortcut to authenticate and export the token
-    export ST2_AUTH_TOKEN=$(st2 auth test -p Ch@ngeMe -t)
+    export ST2_AUTH_TOKEN=$(st2 auth st2admin -p Ch@ngeMe -t)
 
     # Check that it works
     st2 action list
