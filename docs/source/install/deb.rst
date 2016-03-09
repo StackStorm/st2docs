@@ -68,6 +68,8 @@ Setup Mistral Database
     # Register mistral actions
     /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
 
+.. _ref-config-ssh-sudo-deb:
+
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
 To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
@@ -153,6 +155,8 @@ follow :doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, e
 But there is no joy without WebUI, no security without SSL termination, no fun without ChatOps, and no money without Enterprise edition. Read on, move on!
 
 -----------------
+
+.. _ref-config-auth-deb:
 
 Configure Authentication
 ------------------------

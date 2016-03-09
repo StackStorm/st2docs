@@ -260,7 +260,33 @@ the two blueprint boxes ``st2-multi-node-1`` and ``st2-multi-node-2``. This incl
 
 Blueprint box
 ^^^^^^^^^^^^^
-This box is a repeatable |st2| image which is mostly equivalent to the single-box reference deployment with a few changes. Deploy
-as many of these boxes for HA and also to achieve horizontal scaling. Note that with service level granularity different instances
-of a blueprint box can have different services enabled but it will need to be managed outside of a tool like ``st2ctl``.
+This box is a repeatable |st2| image that is essentially the single-box reference deployment with a few changes. The aim is
+to Deploy as many of these boxes for desired HA objectives and also get some horizontal scaling. |st2| processes outlined
+above support the capbility of being turned on-off individually therefore each box can also be made to offer different services.
 
+1.  Add stable |st2| repos.
+
+  .. code-block:: bash
+
+        curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
+
+2. Install all |st2| components and mistral.
+
+  .. code-block:: bash
+
+        `sudo apt-get install -y st2 st2mistral`
+
+3. Update Mistral connection to PostgreSQL in `/etc/mistral/mistral.conf` by changing `database.connection` property.
+
+4. Update Mistral connection to RabbitMQ in `/etc/mistral/mistral.conf` by changing `default.transport_url` property.
+
+4. Setup users as per :ref:`ref-config-ssh-sudo-deb`. Make sure that user configuration on all boxes running ``st2auth`` is
+   identical. This ensures consistent authentication from the entire |st2| install since the request to authenticate a user
+   can be forwarded by the loadbalancer to any of the ``st2auth`` processes.
+
+5. Use `shared st2 config <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2-conf>` and replace `/etc/st2/st2.conf`.
+   This config points to the controller node or configuration values of ``database``, ``messaging`` and ``mistral``.
+
+6. Configure authentication as per :ref:`ref-config-auth-deb`
+
+7. Use nginx config for the blueprint boxes from `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2_nginx-conf>`. In this config nginx will act as the SSL termination endpoint for all the REST endpoints exposed by ``st2api``, ``st2auth`` and ``mistral-api``.
