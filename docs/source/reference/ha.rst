@@ -33,7 +33,7 @@ processes can be deployed on separate compute instances.
 st2auth
 ^^^^^^^
 All authentication is managed by this process. This process needs connection to MongoDB and an authentication
-backend. See `Authentication backends<ref-sensors-authoring-a-sensor>` for more information. It is a gunicorn
+backend. See `Authentication backends <ref-auth-backends>` for more information. It is a gunicorn
 managed process which by default listens on port ``9102`` and is front-ended by Nginx acting as a reverse proxy.
 
 n st2auth processes can be behind a loadbalancer in an active-active configuration. Each of these processes
@@ -148,21 +148,21 @@ MongoDB
 ^^^^^^^
 |st2| uses this to cache Actions, Rules and Sensor metadata which already live in the filesystem. All the content should
 ideally be source-control managed in preferably a git repository. |st2| also stores operation data like ActionExecution,
-TriggerInstance etc. MongoDB supports `replica set high-availability <https://docs.mongodb.org/v2.4/core/replica-set-high-availability/>` which we recommend to provide a safe failover.
+TriggerInstance etc. MongoDB supports `replica set high-availability <https://docs.mongodb.org/v2.4/core/replica-set-high-availability/>`__ which we recommend to provide a safe failover.
 
 Loss of connectivity to a MongoDB cluster will cause downtime for |st2|. However, once a replica MongoDB is brought back it
 should be quite possible to bring |st2| back to operational state by simply loading the content. Easy access to old ActionExecutions will be lost but all the data of old ActionExecution will still be available in audit logs.
 
 PostgreSQL
 ^^^^^^^^^^
-Used primarily by ``mistral-api`` and ``mistral-server``. To deploy PostgreSQL in HA please see `documentation <http://www.postgresql.org/docs/9.4/static/high-availability.html>` provided by the PostgreSQL project.
+Used primarily by ``mistral-api`` and ``mistral-server``. To deploy PostgreSQL in HA please see `documentation <http://www.postgresql.org/docs/9.4/static/high-availability.html>`__ provided by the PostgreSQL project.
 
 The data stored in PostgreSQL is operational for mistral therefore starting from a brand new PostgreSQL in case of loss
 of a cluster will bring automation services back instantly. Certainly there will be downtime while a new DB cluster is provisioned.
 
 RabbitMQ
 ^^^^^^^^
-RabbitMQ is the communication hub for |st2| to co-ordinate and distribute work. See `RabbitMQ documentation <https://www.rabbitmq.com/ha.html>` to understand HA deployment strategies.
+RabbitMQ is the communication hub for |st2| to co-ordinate and distribute work. See `RabbitMQ documentation <https://www.rabbitmq.com/ha.html>`__ to understand HA deployment strategies.
 
 Our recommendation is to mirror all the Queues and Exchanges so that loss of 1 server still retains functionality.
 
@@ -170,7 +170,7 @@ Zookeeper/Redis
 ^^^^^^^^^^^^^^^
 Various |st2| features rely on a proper co-ordination backend in a distributed deployment to work correctly.
 
-`This <http://zookeeper.apache.org/doc/trunk/zookeeperStarted.html#sc_RunningReplicatedZooKeeper>` shows how to run a replicated zookeeper setup. See `this <http://redis.io/topics/sentinel>` to understand Redis deployments using sentinel.
+`This <http://zookeeper.apache.org/doc/trunk/zookeeperStarted.html#sc_RunningReplicatedZooKeeper>`__ shows how to run a replicated zookeeper setup. See `this <http://redis.io/topics/sentinel>`__ to understand Redis deployments using sentinel.
 
 
 Nginx and loadbalancer
@@ -213,7 +213,7 @@ with the right configuration.
 
 Nginx acting as the loadbalancer can easily be switched out for Amazon ELB, HAProxy or any other of your choosing. In that case ``st2web`` which is being served off this Nginx will also need a new home.
 
-``st2chatops`` which use ``hubot`` is not easily deployed in HA. Using something like `keepalived <http://www.keepalived.org/>`
+``st2chatops`` which use ``hubot`` is not easily deployed in HA. Using something like `keepalived <http://www.keepalived.org/>`__
 to maintain st2chatops in active-passive configuration would be an option.
 
 Following are the steps to provision a controller box on Ubuntu 14.04.
@@ -258,12 +258,12 @@ Install required dependencies
 
         curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
 
-7. Setup st2web and SSL termination. Follow :ref:`ref-install-webui-ssl-deb`.
+7. Setup st2web and SSL termination. Follow :ref:`install webui and setup ssl<ref-install-webui-ssl-deb>`.
 
-8. Configuration for Nginx as loadbalancer for controller box can be found `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-shared_st2_Nginx-conf>`. With this configuration Nginx will loadbalance all requests between
+8. Configuration for Nginx as loadbalancer for controller box can be found `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-shared_st2_Nginx-conf>`__. With this configuration Nginx will loadbalance all requests between
 the two blueprint boxes ``st2-multi-node-1`` and ``st2-multi-node-2``. This includes requests to ``st2api``, ``st2auth`` and ``mistral-api``. Nginx also serves as the webserver for st2web.
 
-9. Install st2chatops following from :ref:`ref-setup-chatops-deb`
+9. Install st2chatops following from :ref:`setup chatops<ref-setup-chatops-deb>`.
 
 Blueprint box
 ^^^^^^^^^^^^^
@@ -287,15 +287,15 @@ above support the capbility of being turned on-off individually therefore each b
 
 4. Update Mistral connection to RabbitMQ in `/etc/mistral/mistral.conf` by changing `default.transport_url` property.
 
-4. Setup users as per :ref:`ref-config-ssh-sudo-deb`. Make sure that user configuration on all boxes running ``st2auth`` is
+4. Setup users as per :ref:`here<ref-config-ssh-sudo-deb>`. Make sure that user configuration on all boxes running ``st2auth`` is
    identical. This ensures consistent authentication from the entire |st2| install since the request to authenticate a user
    can be forwarded by the loadbalancer to any of the ``st2auth`` processes.
 
-5. Use `shared st2 config <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2-conf>` and replace `/etc/st2/st2.conf`.
+5. Use `shared st2 config <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2-conf>`__ and replace `/etc/st2/st2.conf`.
    This config points to the controller node or configuration values of ``database``, ``messaging`` and ``mistral``.
 
-6. Configure authentication as per :ref:`ref-config-auth-deb`
+6. Configure authentication as per :ref:`this documentation<ref-config-auth-deb>`.
 
-7. Use Nginx config for the blueprint boxes from `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2_Nginx-conf>`. In this config Nginx will act as the SSL termination endpoint for all the REST endpoints exposed by ``st2api``, ``st2auth`` and ``mistral-api``.
+7. Use Nginx config for the blueprint boxes from `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2_Nginx-conf>`__. In this config Nginx will act as the SSL termination endpoint for all the REST endpoints exposed by ``st2api``, ``st2auth`` and ``mistral-api``.
 
 8. See :doc:`/reference/sensor_partitioning` to dcide on how to partition sensors that suit your requirements.
