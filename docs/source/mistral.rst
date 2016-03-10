@@ -24,7 +24,7 @@ The following table list optional parameters that can be defined in the workflow
 | options    | description                                            |
 +============+========================================================+
 | workflow   | If definition is a workbook containing many workflows, |
-|            | this specifics the main workflow to execute.           |
+|            | this specifies the main workflow to execute.           |
 +------------+--------------------------------------------------------+
 | task       | If the type of workflow is "reverse" , this specifies  |
 |            | the task to invoke.                                    |
