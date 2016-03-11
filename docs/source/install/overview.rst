@@ -77,7 +77,7 @@ StackStorm Chatops components are `Hubot <https://hubot.github.com/>`_, `StackSt
 <https://github.com/StackStorm/hubot-stackstorm>`_, and plugins for connecting to `different
 Chat services <https://hubot.github.com/docs/adapters/>`_. They are packaged in ``st2chatops``
 ``deb`` and ``rpm``, installed at ``/opt/stackstorm/chatops/`` and configured in
-``/opt/stackstorm/chatops/chatops.env``.
+``/opt/stackstorm/chatops/st2chatops.env``.
 
 ChatOps can be also enabled as a docker image `StackStorm/st2chatops <https://github.com/StackStorm/st2chatops>`_,
 or by installing `hubot-stackstorm plugin <https://github.com/StackStorm/hubot-stackstorm>`_ on your existing Hubot instance.
