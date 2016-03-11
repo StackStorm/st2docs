@@ -148,21 +148,25 @@ MongoDB
 ^^^^^^^
 |st2| uses this to cache Actions, Rules and Sensor metadata which already live in the filesystem. All the content should
 ideally be source-control managed in preferably a git repository. |st2| also stores operation data like ActionExecution,
-TriggerInstance etc. MongoDB supports `replica set high-availability <https://docs.mongodb.org/v2.4/core/replica-set-high-availability/>`__ which we recommend to provide a safe failover.
+TriggerInstance etc. MongoDB supports `replica set high-availability <https://docs.mongodb.org/v2.4/core/replica-set-high-availability/>`__
+which we recommend to provide a safe failover.
 
 Loss of connectivity to a MongoDB cluster will cause downtime for |st2|. However, once a replica MongoDB is brought back it
-should be quite possible to bring |st2| back to operational state by simply loading the content. Easy access to old ActionExecutions will be lost but all the data of old ActionExecution will still be available in audit logs.
+should be quite possible to bring |st2| back to operational state by simply loading the content. Easy access to old
+ActionExecutions will be lost but all the data of old ActionExecution will still be available in audit logs.
 
 PostgreSQL
 ^^^^^^^^^^
-Used primarily by ``mistral-api`` and ``mistral-server``. To deploy PostgreSQL in HA please see `documentation <http://www.postgresql.org/docs/9.4/static/high-availability.html>`__ provided by the PostgreSQL project.
+Used primarily by ``mistral-api`` and ``mistral-server``. To deploy PostgreSQL in HA please see
+`documentation <http://www.postgresql.org/docs/9.4/static/high-availability.html>`__ provided by the PostgreSQL project.
 
 The data stored in PostgreSQL is operational for mistral therefore starting from a brand new PostgreSQL in case of loss
 of a cluster will bring automation services back instantly. Certainly there will be downtime while a new DB cluster is provisioned.
 
 RabbitMQ
 ^^^^^^^^
-RabbitMQ is the communication hub for |st2| to co-ordinate and distribute work. See `RabbitMQ documentation <https://www.rabbitmq.com/ha.html>`__ to understand HA deployment strategies.
+RabbitMQ is the communication hub for |st2| to co-ordinate and distribute work. See
+`RabbitMQ documentation <https://www.rabbitmq.com/ha.html>`__ to understand HA deployment strategies.
 
 Our recommendation is to mirror all the Queues and Exchanges so that loss of 1 server still retains functionality.
 
@@ -170,16 +174,42 @@ Zookeeper/Redis
 ^^^^^^^^^^^^^^^
 Various |st2| features rely on a proper co-ordination backend in a distributed deployment to work correctly.
 
-`This <http://zookeeper.apache.org/doc/trunk/zookeeperStarted.html#sc_RunningReplicatedZooKeeper>`__ shows how to run a replicated zookeeper setup. See `this <http://redis.io/topics/sentinel>`__ to understand Redis deployments using sentinel.
+`This <http://zookeeper.apache.org/doc/trunk/zookeeperStarted.html#sc_RunningReplicatedZooKeeper>`__ shows
+how to run a replicated zookeeper setup. See `this <http://redis.io/topics/sentinel>`__ to understand Redis
+deployments using sentinel.
 
 
 Nginx and loadbalancer
 ^^^^^^^^^^^^^^^^^^^^^^^
-An Nginx server is required to reverse proxy each instance of ``st2api``, ``st2auth``, ``st2stream`` and ``mistral-api``. This server will terminate SSL connections, shield clients from internal port numbers of various services and only require ports 80 and 443 to be open on containers. Often it is best to deploy 1 set of all these services on a compute instance and share an Nginx server.
+An Nginx server is required to reverse proxy each instance of ``st2api``, ``st2auth``, ``st2stream`` and ``mistral-api``.
+This server will terminate SSL connections, shield clients from internal port numbers of various services and only require
+ports 80 and 443 to be open on containers. Often it is best to deploy 1 set of all these services on a compute instance
+and share an Nginx server.
 
-There is also a need for a loadbalancer to frontend all the REST services. This results in an HA deployment for REST services as well as single endpoint for clients. Most deployment infrastructures will already have a loadbalancer solution which they would
-prefer to use so we do not provide any recommendations.
+There is also a need for a loadbalancer to frontend all the REST services. This results in an HA deployment for REST
+services as well as single endpoint for clients. Most deployment infrastructures will already have a loadbalancer
+solution which they would prefer to use so we do not provide any recommendations.
 
+Sharing Content
+---------------
+In an HA setup with ``st2apu``, ``st2actionrunner`` and ``st2sensorcontainer`` each running on multiple boxes
+the question of managing distributed content is crucial. |st2| does not provide a built-in solution to distributing
+content on various boxes. Instead it relieas on management of |st2| content from outside and here are a few strategies.
+
+Read-Write NFS mounts
+^^^^^^^^^^^^^^^^^^^^^
+If content folders i.e. ``/opt/stackstorm/packs`` and ``/opt/stackstorm/virtualenvs`` are placed on read-write NFS
+mounts then writing from any |st2| node will be visible to other nodes. Special care needs to be take in case
+of ``/opt/stackstorm/virtualenvs`` since that has symlinks to system libraries. If care is not taken to provision
+all host boxes in an identical manner it could leads to unpredicatble behavior. Although possible to implement in
+this manner it is certainly not ideal and perhaps managing the ``virtualenvs`` on every host box individually would
+be a more robust approach.
+
+Content management
+^^^^^^^^^^^^^^^^^^
+Managing pack installation using a content management tool of your choice. Assuming that the list of packs to be deployed
+will be static in deployments then deploying content to |st2| nodes via CM tools could be a sub-step of an overall
+|st2| deployment. This is perhaps the better of the two approaches to end up with a predicatble HA deployment of |st2|.
 
 Reference HA setup
 ------------------
@@ -211,7 +241,8 @@ In practice ``MongoDB``, ``PostgreSQL`` and ``RabbitMQ`` are often in standalone
 The 2 shared components i.e. ``st2chatops`` and ``st2web`` are placed here for sake of convenience and could be placed anywhere
 with the right configuration.
 
-Nginx acting as the loadbalancer can easily be switched out for Amazon ELB, HAProxy or any other of your choosing. In that case ``st2web`` which is being served off this Nginx will also need a new home.
+Nginx acting as the loadbalancer can easily be switched out for Amazon ELB, HAProxy or any other of your choosing. In that case
+``st2web`` which is being served off this Nginx will also need a new home.
 
 ``st2chatops`` which use ``hubot`` is not easily deployed in HA. Using something like `keepalived <http://www.keepalived.org/>`__
 to maintain st2chatops in active-passive configuration would be an option.
@@ -260,8 +291,10 @@ Install required dependencies
 
 7. Setup st2web and SSL termination. Follow :ref:`install webui and setup ssl<ref-install-webui-ssl-deb>`.
 
-8. Configuration for Nginx as loadbalancer for controller box can be found `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-shared_st2_Nginx-conf>`__. With this configuration Nginx will loadbalance all requests between
-the two blueprint boxes ``st2-multi-node-1`` and ``st2-multi-node-2``. This includes requests to ``st2api``, ``st2auth`` and ``mistral-api``. Nginx also serves as the webserver for st2web.
+8. Configuration for Nginx as loadbalancer for controller box can be found
+`here <https://gist.github.com/manasdk/fce14029900e533a385d#file-shared_st2_Nginx-conf>`__. With this configuration
+Nginx will loadbalance all requests between the two blueprint boxes ``st2-multi-node-1`` and ``st2-multi-node-2``.
+This includes requests to ``st2api``, ``st2auth`` and ``mistral-api``. Nginx also serves as the webserver for st2web.
 
 9. Install st2chatops following from :ref:`setup chatops<ref-setup-chatops-deb>`.
 
@@ -296,6 +329,11 @@ above support the capbility of being turned on-off individually therefore each b
 
 6. Configure authentication as per :ref:`this documentation<ref-config-auth-deb>`.
 
-7. Use Nginx config for the blueprint boxes from `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2_Nginx-conf>`__. In this config Nginx will act as the SSL termination endpoint for all the REST endpoints exposed by ``st2api``, ``st2auth`` and ``mistral-api``.
+7. Use Nginx config for the blueprint boxes from `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2_Nginx-conf>`__.
+In this config Nginx will act as the SSL termination endpoint for all the REST endpoints exposed by ``st2api``, ``st2auth`` and
+``mistral-api``.
 
 8. See :doc:`/reference/sensor_partitioning` to dcide on how to partition sensors that suit your requirements.
+
+9. All content should be synced by choosing a suitable strategy as outlined above. This is cruicial to obtain predicatable
+   outcomes.
