@@ -461,6 +461,7 @@ can use the ``re-emit`` command for that.
 
   st2 triggerinstance re-emit 556e135232ed35569ff23238
 
+.. _ref-rule-timers:
 
 Timers
 ------

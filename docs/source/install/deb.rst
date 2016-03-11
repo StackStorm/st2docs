@@ -49,7 +49,6 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
     sudo apt-get update
     sudo apt-get install -y mongodb-server rabbitmq-server postgresql
 
-
 Setup repositories
 ~~~~~~~~~~~~~~~~~~~
 
@@ -90,6 +89,8 @@ Setup Mistral Database
     /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
     # Register mistral actions
     /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
+
+.. _ref-config-ssh-sudo-deb:
 
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -177,6 +178,8 @@ But there is no joy without WebUI, no security without SSL termination, no fun w
 
 -----------------
 
+.. _ref-config-auth-deb:
+
 Configure Authentication
 ------------------------
 
@@ -221,6 +224,8 @@ Reference deployment uses File Based auth provider for simplicity. Refer to :doc
 
 Check out :doc:`/cli` to learn convinient ways to authenticate via CLI.
 
+.. _ref-install-webui-ssl-deb:
+
 Install WebUI and setup SSL termination
 ---------------------------------------
 `NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS,
@@ -252,6 +257,9 @@ If you modify ports, or url paths in nginx configuration, make correspondent cha
 configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
+
+
+.. _ref-setup-chatops-deb:
 
 Setup ChatOps
 -------------

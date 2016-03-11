@@ -20,20 +20,27 @@ in this section, this is your target "reference deployment".
 st2 services provide main |st2| functionality. They are located at ``/opt/stackstorm/st2``,
 share a dedicated Python virtualenv, and configured by /etc/st2/st2.conf.
 
-    * **st2sensorcontainer** runs sensor from ``/opt/stackstorm/packs``.
-    * **st2rulesengine** is evaluating triggers against the rules, and send action execution requests.
+    * **st2sensorcontainer** runs sensor from ``/opt/stackstorm/packs``. It manages the sensors to
+      be run on a node. It will start, stop and restart based on policy sensor running on a node.
+    * **st2rulesengine** its main function is to evaluate rules when it sees TriggerInstances and
+      decide if an ActionExecution is to be requested. It needs access to MongoDB to locate rules
+      and RabbitMQ to listen for TriggerInstances and request ActionExecutions. The auxiliary purpose
+      of this process is to run all the defined timers.
     * **st2actionrunners** run actions from packs under ``/opt/stackstorm/packs`` via a variety of
       :doc:`/runners`. Runners may require some runner-specific configurations: SSH needs to be
       configured for running remote actions based on `remote-shell-runner` and `remote-command-runner`,
       windows prerequisites must be in place to run Windows runners. See :doc:`Runners </runners>`
       for details.
-    * **st2resultstracker** is keeping track of long-running workflow executions, calling Mistral
+    * **st2resultstracker** keeps track of long-running workflow executions, calling Mistral
       API endpoint.
-    * **st2notifier** service supports :doc:`/chatops/notifications`.
+    * **st2notifier** main function is to generate ``st2.core.actiontrigger`` and ``st2.core.notifytrigger``
+      based on the completion of ActionExecution. The auxiliary purpose is to act as a backup scheduler
+      for actions that may not have been scheduled.
     * **st2garbagecollector** is an optional service to periodically delete old execution history
       data from the database, per settings in ``/etc/st2/st2.conf``.
     * **st2auth** is an authentication service with the REST endpoint. A variety of auth backends
-      is available; see :doc:`/authentication`. Reference deployment uses `flat file auth backend <https://github.com/StackStorm/st2-auth-backend-flat-file>`_.
+      is available; see :doc:`/authentication`. Reference deployment uses
+      `flat file auth backend <https://github.com/StackStorm/st2-auth-backend-flat-file>`_.
     * **st2api** is REST API web service endpoint, used by CLI and WebUI. It also serves webhooks
       for webhook triggers.
     * **st2stream** is an event stream consumption HTTP endpoint where various useful events are posted.
@@ -92,6 +99,6 @@ The required dependencies are RabbitMQ, MongoDB, and PostgreSQL. The optional de
 
 
 
-
-
-
+Multi-box/HA deployment
+-----------------------
+For specific information on multi-box deployments to achieve HA or horizontal scale see :doc:`/reference/ha`.
