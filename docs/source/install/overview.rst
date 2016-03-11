@@ -111,6 +111,6 @@ for the best experience while testing or deploying StackStorm.
 |  * Recommended EC2: **m3.medium**    | * Recommended EC2: **m4.xlarge**  |
 +--------------------------------------+-----------------------------------+
 
-
-
-
+Multi-box/HA deployment
+-----------------------
+For specific information on multi-box deployments to achieve HA or horizontal scale see :doc:`/reference/ha`.

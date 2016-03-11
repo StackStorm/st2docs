@@ -35,7 +35,7 @@ processes can be deployed on separate compute instances.
 st2auth
 ^^^^^^^
 All authentication is managed by this process. This process needs connection to MongoDB and an authentication
-backend. See `Authentication backends <ref-auth-backends>` for more information. It is a Python WSGI app running
+backend. See :ref:`authentication backends <ref-auth-backends>` for more information. It is a Python WSGI app running
 under gunicorn managed process which by default listens on port ``9102`` and is front-ended by Nginx acting
 as a reverse proxy.
 
@@ -80,7 +80,7 @@ st2rulesengine
 This is a dual purpose process - its main function is to evaluate rules when it sees TriggerInstances and
 decide if an ActionExecution is to be requested. It needs access to MongoDB to locate rules and RabbitMQ
 to listen for TriggerInstances and request ActionExecutions. The auxiliary purpose of this process is to
-run all the defined timers. See `Timers <ref-rule-timers>` for specifics on setting up timers via rules.
+run all the defined timers. See :ref:`timers <ref-rule-timers>` for specifics on setting up timers via rules.
 
 Multiple st2rulesengine can run in active-active with only connections to MongoDB and RabbitMQ. All these will
 share the TriggerInstance load and naturally pick up more work if one or more of the process becomes unavailable.
