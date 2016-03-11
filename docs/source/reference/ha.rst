@@ -6,7 +6,9 @@ High availability deployment
 |st2| has been systematically built with High availability(HA) as a goal. The exact deployment
 steps to achieve HA depend on the specifics of the infrastructure in which |st2| is deployed. This
 guide covers a brief explanation on various |st2| services, how they interact and the external
-services necessary for |st2| to function.
+services necessary for |st2| to function. As the the description that follows outlines, |st2|
+components also scale horizontally thus increasing the system throughput while achieving higher
+availability.
 
 In the section :doc:`/install/overview` a detailed picture and explanation on how single-box deployments
 work is provided. Repeating the picture here to keep context and use as a reference to layer on some
@@ -24,19 +26,20 @@ st2api
 ^^^^^^
 This process host the REST API endpoints that serve requests from  WebUI, CLI and ChatOps. It maintains
 connections to MongoDB to store and retrieve information. It also connects to RabbitMQ to push various
-kind of messages onto the message bus. It is a gunicorn managed process which by default listens on
-port ``9101`` and is front-ended by Nginx acting as a reverse proxy.
+kind of messages onto the message bus. It is a Python WSGI app running under gunicorn managed process
+which by default listens on port ``9101`` and is front-ended by Nginx acting as a reverse proxy.
 
-n st2api processes can be behind a loadbalancer in an active-active configuration. Each of these
+Multiple st2api processes can be behind a loadbalancer in an active-active configuration. Each of these
 processes can be deployed on separate compute instances.
 
 st2auth
 ^^^^^^^
 All authentication is managed by this process. This process needs connection to MongoDB and an authentication
-backend. See `Authentication backends <ref-auth-backends>` for more information. It is a gunicorn
-managed process which by default listens on port ``9102`` and is front-ended by Nginx acting as a reverse proxy.
+backend. See `Authentication backends <ref-auth-backends>` for more information. It is a Python WSGI app running
+under gunicorn managed process which by default listens on port ``9102`` and is front-ended by Nginx acting
+as a reverse proxy.
 
-n st2auth processes can be behind a loadbalancer in an active-active configuration. Each of these processes
+Multiple st2auth processes can be behind a loadbalancer in an active-active configuration. Each of these processes
 can be deployed on separate compute instances. If using the PAM authentication backend special care has to be
 taken to guarantee that all boxes on which an instance of st2auth runs should have the same users. Generally,
 all st2auth process should see the same identities, via some provider if applicable, for the system to work
@@ -49,10 +52,12 @@ gunicorn managed process, listens on port ``9102`` by default and is front-ended
 proxy. Clients like WebUI and ChatOps maintain a persistent connection with an st2stream process and receive
 update from the st2stream server.
 
-n st2stream process can be behind a loadbalance in an active-active configuration. Since clients maintain
+Multiple st2stream process can be behind a loadbalances in an active-active configuration. Since clients maintain
 a persistent connection with a specific instance the client will loose event momentarily if an st2stream
 process goes down. It would be the responsibility of the client to reconnect to an alternate stream connection
-via the loadbalancer.
+via the loadbalancer. Note that this is in contrast with ``st2api`` where each connection from a client is
+short-lived. Take the long-lived nature of connection made to this process when configuring appropriate timeouts
+for loadbalancer, wsgi app server like gunicorn etc.
 
 st2sensorcontainer
 ^^^^^^^^^^^^^^^^^^
@@ -77,17 +82,18 @@ decide if an ActionExecution is to be requested. It needs access to MongoDB to l
 to listen for TriggerInstances and request ActionExecutions. The auxiliary purpose of this process is to
 run all the defined timers. See `Timers <ref-rule-timers>` for specifics on setting up timers via rules.
 
-n st2rulesengine can run in active-active with only connections to MongoDB and RabbitMQ. All these will share the
-TriggerInstance load and naturally pick up more work if one or more of the process becomes unavailable. The timer
-function in each of the RulesEngine is not HA compatible. In the interim it is possible to disable the timer
-in all but one of the st2rulesengine to avoid duplicate timer events, expect this to be fixed in a future |st2| release.
+Multiple st2rulesengine can run in active-active with only connections to MongoDB and RabbitMQ. All these will
+share the TriggerInstance load and naturally pick up more work if one or more of the process becomes unavailable.
+The timer function in each of the RulesEngine is not HA compatible. In the interim it is possible to disable the
+timer in all but one of the st2rulesengine to avoid duplicate timer events, expect this to be fixed in a future
+|st2| release.
 
 st2actionrunner
 ^^^^^^^^^^^^^^^
 All ActionExecutions are handled for execution by st2actionrunner. It manages the full life-cycle of an execution from
 scheduling to one of the terminal states.
 
-n st2actionrunner can run in active-active with only connections to MongoDB and RabbitMQ. Work gets naturally
+Multiple st2actionrunner can run in active-active with only connections to MongoDB and RabbitMQ. Work gets naturally
 distributed across runners via RabbitMQ. Adding more st2actionrunner increases the ability of |st2| to execute actions.
 
 In a proper distributed setup it is recommended to setup Zookeeper or Redis to provide a distributed co-ordination
@@ -98,10 +104,11 @@ st2resultstracker
 ^^^^^^^^^^^^^^^^^
 Tracks results of execution handed over to mistral. It requires access to MongoDB and RabbitMQ to perform its function.
 
-n st2resultstracker will co-operate with each other to perform work. At startup though there is a possibility
-of work however there will not be any negative consequences to this duplicate work. Specifically the jobs to track results
-also get stored in the DB in case there is no worker to take over the work and this pattern makes all result trackers
-pick up the same initial work set. Once this work set is exhausted all subsequents tasks are round-robined.
+Multiple st2resultstracker will co-operate with each other to perform work. At startup though there is a possibility
+of extra work however there will no negative consequences of this duplication. Specifically the jobs to track results
+also get stored in the DB in case there are no workers to take over the work, this pattern makes all result trackers
+pick up the same work set on startup. Once this work set is exhausted all subsequent tasks are round-robined. If needed
+st2resulttracker processes could be started in a staggered manner to avoid extra work.
 
 st2notifier
 ^^^^^^^^^^^
@@ -109,15 +116,14 @@ This is a dual purpose process - its main function is to generate ``st2.core.act
 based on the completion of ActionExecution. The auxiliary purpose is to act as a backup scheduler for actions that may
 not have been scheduled.
 
-n st2notifiers can run in active-active requiring connections to RabbitMQ and MongoDB. For the auxiliary purpose to function
-in an HA deployment when more than 1 st2notifiers are running either Zookeeper or Redis is required to provide co-ordination
-much like for policies. It is also possible to designate a single st2notifier as provider of auxiliary functions by
-disabling the scheduler in all but 1 st2notifiers.
+Multiple st2notifiers can run in active-active requiring connections to RabbitMQ and MongoDB. For the auxiliary purpose to
+function in an HA deployment when more than 1 st2notifiers are running either Zookeeper or Redis is required to provide co-ordination much like for policies. It is also possible to designate a single st2notifier as provider of auxiliary functions
+by disabling the scheduler in all but 1 st2notifiers.
 
 st2garbagecollector
 ^^^^^^^^^^^^^^^^^^^
-Cleans up old executions and other operations data based on setup configurations. By default this process does nothing
-and needs to be setup to perform any work.
+Optional service that cleans up old executions and other operations data based on setup configurations. By default
+this process does nothing and needs to be setup to perform any work.
 
 By design it is a singleton process. Running multiple in active-active will not yield much benefit and also will not
 do any harm. Ideal configuration is active-passive but |st2| does not itself provide ability to run this in active-passive.
@@ -126,7 +132,7 @@ mistral-api
 ^^^^^^^^^^^
 Mistral api is served by this aptly named process. It needs access to PostgreSQL and RabbitMQ.
 
-n mistral-api can run and just like st2api in active-active configuration by using a loadbalancer to distribute at its
+Multiple mistral-api can run and just like st2api in active-active configuration by using a loadbalancer to distribute at its
 front end. In typical single box deployment mistral-api is local to the box and |st2| communicates via a direct HTTP
 connection however for HA setup we recommend putting mistral-api behind a loadbalancer and setting up |st2| to communicate
 via the loadbalancer.
@@ -136,7 +142,7 @@ mistral-server
 mistral-server is the worker engine for mistral i.e. the process which actually manages executions. |st2| plugin to
 mistral i.e. ``st2mistral`` communicates back to |st2| api. This process needs access to PostgreSQL and RabbitMQ.
 
-n mistral-server can run and co-ordinate work in an active-active configuration. In an HA deployment all communication
+Multiple mistral-server can run and co-ordinate work in an active-active configuration. In an HA deployment all communication
 with the |st2| API must be via the configured loadbalancer.
 
 Required dependencies
