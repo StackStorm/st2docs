@@ -484,8 +484,8 @@ below, you can find some examples on how to use timers in the rule definitions.
 core.st2.IntervalTimer
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Available attributes: ``unit``, ``delta``.
-Supported values for ``unit`` attribute: ``seconds``, ``minutes``, ``hours``, ``days``,
+Available parameters:``unit``, ``delta``.
+Supported values for ``unit`` parameter: ``seconds``, ``minutes``, ``hours``, ``days``,
 ``weeks``.
 
 Run action every 30 seconds
@@ -542,7 +542,7 @@ Run action every 2 weeks
 core.st2.DateTimer
 ~~~~~~~~~~~~~~~~~~
 
-Available attributes: ``timezone``, ``date``.
+Available parameters: ``timezone``, ``date``.
 
 Run action on a specific date
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -567,10 +567,10 @@ core.st2.CronTimer
 This timer supports cron-like expressions. For a full list of supported expressions, please see
 http://apscheduler.readthedocs.org/en/3.0/modules/triggers/cron.html#api.
 
-By default, if no value is provided for a particular attribute, ``*`` is assumed, which means
+By default, if no value is provided for a particular parameter, ``*`` is assumed, which means
 fire on every value.
 
-Available attributes: ``timezone``, ``year``, ``month``, ``day``, ``week``, ``day_of_week``,
+Available parameter ``timezone``, ``year``, ``month``, ``day``, ``week``, ``day_of_week``,
 ``hour``, ``minute``, ``second``.
 
 Run action every sunday at midnight
