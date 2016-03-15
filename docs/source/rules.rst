@@ -573,7 +573,7 @@ fire on every value.
 Available parameter ``timezone``, ``year``, ``month``, ``day``, ``week``, ``day_of_week``,
 ``hour``, ``minute``, ``second``.
 
-Run action every sunday at midnight
+Run action every Sunday at midnight
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
@@ -613,7 +613,7 @@ Run action every day at midnight
   action:
     ...
 
-As noted above, ``*`` is assumed if no value is provided for a particular attribute which means
+As noted above, ``*`` is assumed if no value is provided for a particular parameter, which means
 the following is equivalent to the above.
 
 .. code-block:: yaml
@@ -632,8 +632,8 @@ the following is equivalent to the above.
   action:
     ...
 
-Run action Monday through Friday at midnight
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Run action Monday through Friday (every day except weekends) at midnight
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -644,7 +644,7 @@ Run action Monday through Friday at midnight
     type: "core.st2.CronTimer"
     parameters:
         timezone: "UTC"
-        day_of_week: "1-5"
+        day_of_week: "0-4"
         hour: 0
         minute: 0
         second: 0
@@ -652,6 +652,24 @@ Run action Monday through Friday at midnight
   action:
     ...
 
+Run action every full hour every day of the week
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: yaml
+
+  ---
+  ...
+
+  trigger:
+    type: "core.st2.CronTimer"
+    parameters:
+        timezone: "UTC"
+        hour: "*"
+        minute: 0
+        second: 0
+
+  action:
+    ...
 
 -------------------------------
 
