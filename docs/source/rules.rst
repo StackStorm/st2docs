@@ -564,6 +564,12 @@ Run action on a specific date
 core.st2.CronTimer
 ~~~~~~~~~~~~~~~~~~
 
+This timer supports cron-like expressions. For a full list of supported expressions, please see
+http://apscheduler.readthedocs.org/en/3.0/modules/triggers/cron.html#api.
+
+By default, if no value is provided for a particular attribute, ``*`` is assumed, which means
+fire on every value.
+
 Available attributes: ``timezone``, ``year``, ``month``, ``day``, ``week``, ``day_of_week``,
 ``hour``, ``minute``, ``second``.
 
@@ -586,6 +592,66 @@ Run action every sunday at midnight
 
   action:
     ...
+
+Run action every day at midnight
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: yaml
+
+  ---
+  ...
+
+  trigger:
+    type: "core.st2.CronTimer"
+    parameters:
+        timezone: "UTC"
+        day_of_week: "*"
+        hour: 0
+        minute: 0
+        second: 0
+
+  action:
+    ...
+
+As noted above, ``*`` is assumed if no value is provided for a particular attribute which means
+the following is equivalent to the above.
+
+.. code-block:: yaml
+
+  ---
+  ...
+
+  trigger:
+    type: "core.st2.CronTimer"
+    parameters:
+        timezone: "UTC"
+        hour: 0
+        minute: 0
+        second: 0
+
+  action:
+    ...
+
+Run action Monday through Friday at midnight
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: yaml
+
+  ---
+  ...
+
+  trigger:
+    type: "core.st2.CronTimer"
+    parameters:
+        timezone: "UTC"
+        day_of_week: "1-5"
+        hour: 0
+        minute: 0
+        second: 0
+
+  action:
+    ...
+
 
 -------------------------------
 
