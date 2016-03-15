@@ -484,8 +484,8 @@ below, you can find some examples on how to use timers in the rule definitions.
 core.st2.IntervalTimer
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Available attributes: ``unit``, ``delta``.
-Supported values for ``unit`` attribute: ``seconds``, ``minutes``, ``hours``, ``days``,
+Available parameters:``unit``, ``delta``.
+Supported values for ``unit`` parameter: ``seconds``, ``minutes``, ``hours``, ``days``,
 ``weeks``.
 
 Run action every 30 seconds
@@ -542,7 +542,7 @@ Run action every 2 weeks
 core.st2.DateTimer
 ~~~~~~~~~~~~~~~~~~
 
-Available attributes: ``timezone``, ``date``.
+Available parameters: ``timezone``, ``date``.
 
 Run action on a specific date
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -564,10 +564,16 @@ Run action on a specific date
 core.st2.CronTimer
 ~~~~~~~~~~~~~~~~~~
 
-Available attributes: ``timezone``, ``year``, ``month``, ``day``, ``week``, ``day_of_week``,
+This timer supports cron-like expressions. For a full list of supported expressions, please see
+http://apscheduler.readthedocs.org/en/3.0/modules/triggers/cron.html#api.
+
+By default, if no value is provided for a particular parameter, ``*`` is assumed, which means
+fire on every value.
+
+Available parameter ``timezone``, ``year``, ``month``, ``day``, ``week``, ``day_of_week``,
 ``hour``, ``minute``, ``second``.
 
-Run action every sunday at midnight
+Run action every Sunday at midnight
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
@@ -581,6 +587,84 @@ Run action every sunday at midnight
         timezone: "UTC"
         day_of_week: 6
         hour: 0
+        minute: 0
+        second: 0
+
+  action:
+    ...
+
+Run action every day at midnight
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: yaml
+
+  ---
+  ...
+
+  trigger:
+    type: "core.st2.CronTimer"
+    parameters:
+        timezone: "UTC"
+        day_of_week: "*"
+        hour: 0
+        minute: 0
+        second: 0
+
+  action:
+    ...
+
+As noted above, ``*`` is assumed if no value is provided for a particular parameter, which means
+the following is equivalent to the above.
+
+.. code-block:: yaml
+
+  ---
+  ...
+
+  trigger:
+    type: "core.st2.CronTimer"
+    parameters:
+        timezone: "UTC"
+        hour: 0
+        minute: 0
+        second: 0
+
+  action:
+    ...
+
+Run action Monday through Friday (every day except weekends) at midnight
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: yaml
+
+  ---
+  ...
+
+  trigger:
+    type: "core.st2.CronTimer"
+    parameters:
+        timezone: "UTC"
+        day_of_week: "0-4"
+        hour: 0
+        minute: 0
+        second: 0
+
+  action:
+    ...
+
+Run action every full hour every day of the week
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: yaml
+
+  ---
+  ...
+
+  trigger:
+    type: "core.st2.CronTimer"
+    parameters:
+        timezone: "UTC"
+        hour: "*"
         minute: 0
         second: 0
 
