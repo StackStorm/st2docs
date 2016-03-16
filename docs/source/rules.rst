@@ -164,10 +164,17 @@ This section describes all the available operators which can be used in the crit
 ``matchwildcard`` Trigger value matches the provided wildcard-like string. This
                   operator provides support for Unix shell-style wildcards which
                   means you can use characters such as ``*`` and ``?``. This
-                  operator is preferred over ``matchregex`` for simple string
+                  operator is preferred over ``regex`` for simple string
                   matches.
+``regex``         Trigger value matches the provided regular expression
+                  pattern. This operator behaves like
+                  ``re.search('pattern', trigger_value)``.
+``iregex``        Trigger value matches the provided regular expression
+                  pattern case insensitively. This operator behaves like
+                  ``re.search('pattern', trigger_value, re.IGNORECASE)``.
 ``matchregex``    Trigger value matches the provided regular expression
-                  pattern.
+                  pattern. This operator is deprecated in favor of ``regex`` and
+                  ``iregex``
 ``iequals``       String trigger value equals the provided value case
                   insensitively.
 ``contains``      Trigger value contains the provided value. Keep in mind that
