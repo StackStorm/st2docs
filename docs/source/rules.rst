@@ -23,7 +23,7 @@ Rules are defined in YAML; JSON is supported for backward compatibility. Rule de
 
         criteria:                              # optional
             trigger.payload_parameter_name1:
-                type: "matchregex"
+                type: "regex"
                 pattern : "^value$"
             trigger.payload_parameter_name2:
                 type: "iequals"
@@ -104,7 +104,7 @@ Rule criteria are the rule(s) needed to be matched against (Logical ``AND``). Cr
         # more variables
         criteria:
             trigger.payload_parameter_name1:
-                type: "matchregex"
+                type: "regex"
                 pattern : "^value$"
             trigger.payload_parameter_name2:
                 type: "iequals"
@@ -114,7 +114,7 @@ Rule criteria are the rule(s) needed to be matched against (Logical ``AND``). Cr
 ``type`` specifies which criteria comparison operator to use and ``pattern`` specifies a pattern
 which gets passed to the operator function.
 
-In the ``matchregex`` case, ``pattern`` is a regular expression pattern which the trigger value
+In the ``regex`` case, ``pattern`` is a regular expression pattern which the trigger value
 needs to match.
 
 A list of all the available criteria operators is described below. If you are missing some
