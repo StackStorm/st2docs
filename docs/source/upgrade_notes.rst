@@ -15,12 +15,12 @@ Upgrade Notes
   If you are affected and you want to revert to the old behavior (less greedy matches), you can do
   so by modifying criteria pattern regular expression so it's less greedy (e.g. by adding ``^`` and
   / or ``$`` character or similar).
-  
+
   ``matchregex`` is now deprecated in favor of ``regex`` and ``iregex`` operators.
-  
-* ``regex`` and ``iregex` been added to the rule criteria operators list.  These behave like
-  ``re.search('pattern',trigger_value)`` and ``re.search('pattern',trigger_value, re.IGNORECASE)``
-  respectively.  They do not have the DOTALL modifier. To match newline characters, they must be 
+
+* ``regex`` and ``iregex`` been added to the rule criteria operators list. These behave like
+  ``re.search('pattern', trigger_value)`` and ``re.search('pattern',trigger_value, re.IGNORECASE)``
+  in Python.  They do not have the DOTALL modifier. To match newline characters, they must be
   explicit in the search pattern.
 
 |st2| 1.3
