@@ -67,7 +67,7 @@ Install StackStorm components
       sudo apt-get install -y st2 st2mistral
 
 
-If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or changed defauls,
+If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or changed defaults,
 please adjust the settings:
 
     * RabbitMQ connection at ``/etc/st2/st2.conf`` and ``/etc/mistral/mistral.conf``
@@ -222,7 +222,7 @@ Reference deployment uses File Based auth provider for simplicity. Refer to :doc
     # Check that it works
     st2 action list
 
-Check out :doc:`/cli` to learn convinient ways to authenticate via CLI.
+Check out :doc:`/cli` to learn convenient ways to authenticate via CLI.
 
 .. _ref-install-webui-ssl-deb:
 
@@ -253,7 +253,7 @@ certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's suppl
 
     sudo service nginx restart
 
-If you modify ports, or url paths in nginx configuration, make correspondent chagnes in st2web
+If you modify ports, or url paths in nginx configuration, make correspondent changes in st2web
 configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.

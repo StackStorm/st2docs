@@ -1,7 +1,7 @@
 All-in-one Installer
 ********************
 |st2| provides an all-in-one installer aimed at assisting users with the initial setup and
-configuration for quick and convinient evaluation.
+configuration for quick and convenient evaluation.
 
 .. include:: __note_tested_env.rst
 
@@ -71,7 +71,7 @@ Pre-Requisites
 Before getting started, it is necessary to do a bit of pre-planning to integrate |st2| into an environment. Below is a checklist of items to prepare before running the installer.
 
 #. A server. See below for the list of pre-bundled options - including a VMDK for VMware environments and an AMI image which can be great for trying us out on AWS, or bring your own.
-#. Hostname and IP of new server. IP must be externally addressible from the target install box.
+#. Hostname and IP of new server. IP must be externally addressable from the target install box.
 #. Admin Password.
 #. Administrative SSH Public/Private Keys *(Optional)*
 #. SSL Certificates *(Optional)*
@@ -108,7 +108,7 @@ You will need elevated privileges in order to run this script. This will boot up
 
 .. include:: /_includes/install/ok.rst
 
-Visit the setup URL output on your command line by entering the address in your web browser. From there, proceed to the section *Running the Setup*
+Visit the setup URL output on your command line by entering the address in your web browser. From there, proceed to the section *Running the Setup*.
 
 Amazon Web Services (AWS)
 =========================
@@ -121,7 +121,7 @@ We have currently performed testing and certified that StackStorm Installer work
 
 It is highly likely that the installer will also work on different AMIs if it is one of our Supported Operating Systems. However, if you run into issues, these are AMIs that we use in our automated testing and should get you going with minimal fuss.
 
-We are constantly striving to ensure that we have compatability with as many platforms as we can. However, if you find an AMI that doesn't work, please let us know and we'll be glad to take a look. We also love Pull Requests from the community, and might have some goodies if you help us out!
+We are constantly striving to ensure that we have compatibility with as many platforms as we can. However, if you find an AMI that doesn't work, please let us know and we'll be glad to take a look. We also love Pull Requests from the community, and might have some goodies if you help us out!
 
 
 Getting started with AWS is easy! Follow the instructions below to provision a server with the appropriate security settings, and then run the All-in-one installer script.
@@ -362,7 +362,7 @@ If you have already installed using this method, you can find and update your an
 Known Issues
 ############
 
-We currently do our best to detect the environment that you are in to provide a seemless experience. However, given the variety of platforms, environments, installed packages, netwwork settings and other variations, you may run into a case where we haven't found or explored yet. If you find this, please let us know. Even better, we love when our community submits Pull Requests!
+We currently do our best to detect the environment that you are in to provide a seamless experience. However, given the variety of platforms, environments, installed packages, network settings and other variations, you may run into a case where we haven't found or explored yet. If you find this, please let us know. Even better, we love when our community submits Pull Requests!
 
 Some known issues listed below. For more possible troubles and workarounds, check `StackStorm Support Knowledge Base <https://stackstorm.reamaze.com/>`_.
 
@@ -377,7 +377,7 @@ During installation, you may receive an error about ``ruby-devel`` packages miss
 
 When either attempting to connect to the WebUI or CLI, you may see ``500 Internal Error`` alerts. This has to do with the installer not automatically detecting the correct interfaces for StackStorm. While we work on a permanent fix, you can quickly get up and going by doing the following.
 
-* On your system, run ``ifconfig`` and pick a network interface that is externally excessible. Make note of the interface name. (e.g.: ``eth0``)
+* On your system, run ``ifconfig`` and pick a network interface that is externally accessible. Make note of the interface name. (e.g.: ``eth0``)
 * Open or create the file ``/opt/puppet/hieradata/answers.yaml``, and add a new line to tell the installer what interface to use.
 
 ::
@@ -390,7 +390,7 @@ When either attempting to connect to the WebUI or CLI, you may see ``500 Interna
 Installation fails! Oh No!
 ==========================
 
-As much as it pains us to say, sometimes the installation fails. Right now, the most likely cause for this is an upstream provider having a poor time at the moment of your install. We are actively working to reduce the upstream failure potiential. Best thing to do if something comes up is to simply run ``update-system``
+As much as it pains us to say, sometimes the installation fails. Right now, the most likely cause for this is an upstream provider having a poor time at the moment of your install. We are actively working to reduce the upstream failure potential. Best thing to do if something comes up is to simply run ``update-system``.
 
 Nginx fails to start w/ Self-signed SSL
 =========================================
@@ -410,4 +410,4 @@ In some cases, we have seen the automatic SSL generation create a mis-match betw
     update-system
 
 
-This should automatically generate new self-signed SSL certificates, and allow nginx to start
+This should automatically generate new self-signed SSL certificates, and allow nginx to start.
