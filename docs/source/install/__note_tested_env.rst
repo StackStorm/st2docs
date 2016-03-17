@@ -1,5 +1,5 @@
 
-.. note:: For the best evaluation experience, run StackStorm Installer on one of the environments, which we continiously test and ceritfy:
+.. note:: For the best evaluation experience, run StackStorm Installer on one of the environments, which we continuously test and certify:
 
     +---------------------+--------------+------------------------------------+
     |                     | **AWS AMI**  |    **Vagrant box**                 |
