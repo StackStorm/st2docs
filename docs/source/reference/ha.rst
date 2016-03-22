@@ -36,7 +36,7 @@ st2auth
 ^^^^^^^
 All authentication is managed by this process. This process needs connection to MongoDB and an authentication
 backend. See :ref:`authentication backends <ref-auth-backends>` for more information. It is a Python WSGI app running
-under gunicorn managed process which by default listens on port ``9102`` and is front-ended by Nginx acting
+under gunicorn managed process which by default listens on port ``9100`` and is front-ended by Nginx acting
 as a reverse proxy.
 
 Multiple st2auth processes can be behind a loadbalancer in an active-active configuration. Each of these processes
