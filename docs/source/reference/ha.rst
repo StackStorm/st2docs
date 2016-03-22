@@ -320,7 +320,7 @@ above support the capbility of being turned on-off individually therefore each b
 
   .. code-block:: bash
 
-        `sudo apt-get install -y st2 st2mistral`
+        sudo apt-get install -y st2 st2mistral
 
 3. Update Mistral connection to PostgreSQL in `/etc/mistral/mistral.conf` by changing `database.connection` property.
 
