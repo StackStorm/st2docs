@@ -326,7 +326,7 @@ above support the capbility of being turned on-off individually therefore each b
 
 4. Update Mistral connection to RabbitMQ in `/etc/mistral/mistral.conf` by changing `default.transport_url` property.
 
-4. Setup users as per :ref:`here<ref-config-ssh-sudo-deb>`. Make sure that user configuration on all boxes running ``st2auth`` is
+4. Setup users as per :ref:`here<ref-config-auth-deb>`. Make sure that user configuration on all boxes running ``st2auth`` is
    identical. This ensures consistent authentication from the entire |st2| install since the request to authenticate a user
    can be forwarded by the loadbalancer to any of the ``st2auth`` processes.
 
