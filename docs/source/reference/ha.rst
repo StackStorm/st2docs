@@ -265,22 +265,31 @@ Install required dependencies
         sudo apt-get install -y mongodb-server rabbitmq-server postgresql
 
 
-2. Fix listen address in `/etc/postgresql/9.3/main/postgresql.conf` and have PostgreSQL listen an interface that has an
-   IP address reachable for ``st2-multi-node-1`` and ``st2-multi-node-2``.
+2. Fix listen address in ``/etc/postgresql/9.3/main/postgresql.conf`` and have PostgreSQL listen an interface that has an
+   IP address reachable from ``st2-multi-node-1`` and ``st2-multi-node-2``.
 
-3. To `/etc/postgresql/9.3/main/pg_hba.conf` add ACL rule. Here the subnet to allow access is `10.0.3.1/24`.3
+3. Fix ``bind_ip`` in ``/etc/mongodb.conf`` to bind MongoDB to an interface that has an IP address reachable
+   from ``st2-multi-node-1`` and ``st2-multi-node-2``.
+
+4. Restart MongoDB.
+
+   .. code-block:: bash
+
+        service mongodb restart
+
+5. To ``/etc/postgresql/9.3/main/pg_hba.conf`` add an ACL rule. Here the subnet to allow access is ``10.0.3.1/24``
 
   .. code-block:: bash
 
         host       all  all  10.0.3.1/24  trust
 
-4. restart PostgreSQL
+6. restart PostgreSQL
 
   .. code-block:: bash
 
          service postgresql restart
 
-5. Create Mistral DB in PostgreSQL.
+7. Create Mistral DB in PostgreSQL.
 
   .. code-block:: bash
 
@@ -289,20 +298,17 @@ Install required dependencies
         CREATE DATABASE mistral OWNER mistral;
         EHD
 
-6. Add stable |st2| repos.
+8. Add stable |st2| repos.
 
   .. code-block:: bash
 
         curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
 
-7. Setup st2web and SSL termination. Follow :ref:`install webui and setup ssl<ref-install-webui-ssl-deb>`.
+9. Setup st2web and SSL termination. Follow :ref:`install webui and setup ssl<ref-install-webui-ssl-deb>`.
 
-8. Configuration for Nginx as loadbalancer for controller box can be found
-`here <https://gist.github.com/manasdk/fce14029900e533a385d#file-shared_st2_Nginx-conf>`__. With this configuration
-Nginx will loadbalance all requests between the two blueprint boxes ``st2-multi-node-1`` and ``st2-multi-node-2``.
-This includes requests to ``st2api``, ``st2auth`` and ``mistral-api``. Nginx also serves as the webserver for st2web.
+10. Configuration for Nginx as loadbalancer for controller box can be found `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-shared_st2_Nginx-conf>`__. With this configuration Nginx will loadbalance all requests between the two blueprint boxes ``st2-multi-node-1`` and ``st2-multi-node-2``. This includes requests to ``st2api``, ``st2auth`` and ``mistral-api``. Nginx also serves as the webserver for st2web.
 
-9. Install st2chatops following from :ref:`setup chatops<ref-setup-chatops-deb>`.
+11. Install st2chatops following from :ref:`setup chatops<ref-setup-chatops-deb>`.
 
 Blueprint box
 ^^^^^^^^^^^^^
@@ -322,24 +328,26 @@ above support the capbility of being turned on-off individually therefore each b
 
         sudo apt-get install -y st2 st2mistral
 
-3. Update Mistral connection to PostgreSQL in `/etc/mistral/mistral.conf` by changing `database.connection` property.
+3. Install Nginx.
 
-4. Update Mistral connection to RabbitMQ in `/etc/mistral/mistral.conf` by changing `default.transport_url` property.
+  .. code-block:: bash
 
-4. Setup users as per :ref:`here<ref-config-auth-deb>`. Make sure that user configuration on all boxes running ``st2auth`` is
+        sudo apt-get install -y nginx
+
+4. Update Mistral connection to PostgreSQL in ``/etc/mistral/mistral.conf`` by changing ``atabase.connection`` property.
+
+5. Update Mistral connection to RabbitMQ in ``/etc/mistral/mistral.conf`` by changing ``default.transport_url`` property.
+
+6. Setup users as per :ref:`here<ref-config-auth-deb>`. Make sure that user configuration on all boxes running ``st2auth`` is
    identical. This ensures consistent authentication from the entire |st2| install since the request to authenticate a user
    can be forwarded by the loadbalancer to any of the ``st2auth`` processes.
 
-5. Use `shared st2 config <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2-conf>`__ and replace `/etc/st2/st2.conf`.
-   This config points to the controller node or configuration values of ``database``, ``messaging`` and ``mistral``.
+7. Use `shared st2 config <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2-conf>`__ and replace ``/etc/st2/st2.conf``. This config points to the controller node or configuration values of ``database``, ``messaging`` and ``mistral``.
 
-6. Configure authentication as per :ref:`this documentation<ref-config-auth-deb>`.
+8. Configure authentication as per :ref:`this documentation<ref-config-auth-deb>`.
 
-7. Use Nginx config for the blueprint boxes from `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2_Nginx-conf>`__.
-In this config Nginx will act as the SSL termination endpoint for all the REST endpoints exposed by ``st2api``, ``st2auth`` and
-``mistral-api``.
+9. Use Nginx config for the blueprint boxes from `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2_Nginx-conf>`__. In this config Nginx will act as the SSL termination endpoint for all the REST endpoints exposed by ``st2api``, ``st2auth`` and ``mistral-api``.
 
-8. See :doc:`/reference/sensor_partitioning` to dcide on how to partition sensors that suit your requirements.
+10. See :doc:`/reference/sensor_partitioning` to decide on how to partition sensors that suit your requirements.
 
-9. All content should be synced by choosing a suitable strategy as outlined above. This is cruicial to obtain predicatable
-   outcomes.
+11. All content should be synced by choosing a suitable strategy as outlined above. This is cruicial to obtain predicatable outcomes.
