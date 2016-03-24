@@ -416,8 +416,8 @@ a string into an array). For working with objects, you can use a tool such as
 `jq`_.
 
 In addition to that, if no value is provided for a particular positional
-parameter, |st2| will pass an empty string ```` as a value for that parameter to the
-script.
+parameter, |st2| will pass an empty string ``""`` as a value for that parameter
+to the script.
 
 For example, if a second positional parameter is optional and user provides no
 value, the script will be called like this:
