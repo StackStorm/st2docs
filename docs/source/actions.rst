@@ -399,6 +399,8 @@ value in the following format:
 
     script.sh value2 value1 value3
 
+.. _ref-positional-parameters-serialization:
+
 If your script only uses positional arguments (which is usually the case for
 a lot of scripts out there), you simply need to declare parameters with correct
 value for the ``position`` attribute in the metadata file. Positional arguments

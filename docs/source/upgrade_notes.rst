@@ -24,19 +24,12 @@ Upgrade Notes
   explicit in the search pattern.
 
 * To make working with non-string positional parameters in the local and remote runner script
-  actions easier, a simple new rules for parameter value serialization which are described below
-  have been established. Previously all the values were serialized as Python literals which made
-  all the parameters which type was not ``string`` very hard to parse and use in the script actions.
+  actions easier, a simple new rules for parameter value serialization have been established.
+  Previously all the values were serialized as Python literals which made all the parameters
+  which type was not ``string`` very hard to parse and use in the script actions.
 
-  * ``string``, ``integer``, ``float`` - Value is serialized as is a string. Same as before.
-  * ``boolean`` - Value is serialized as a string ``1`` (previously ``True``) and ``0`` (previously
-    ``False``).
-  * ``list`` - Value is serialized as a comma delimited string (``foo,bar,baz``). Previously it was
-    serialized as Python list literal.
-  * ``object`` - Value is serialized as JSON. Previously it was serialized as Python object
-    literal.
-  * ``None`` - Value is serialized as an empty string (``""``). Previously it was serialized as a
-    string ``None``.
+  More information about new positional parameter serialization rules can be found in the
+  :ref:`documentation<ref-positional-parameters-serialization>`.
 
 |st2| 1.3
 ---------
