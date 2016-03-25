@@ -399,28 +399,43 @@ value in the following format:
 
     script.sh value2 value1 value3
 
+.. _ref-positional-parameters-serialization:
+
 If your script only uses positional arguments (which is usually the case for
 a lot of scripts out there), you simply need to declare parameters with correct
-value for the ``position`` attribute in the metadata file. Keep in mind that for
-positional arguments |st2| doesn't perform any special serialization for
-the parameter values which means you should only use ``type: "string"`` for all
-the arguments which are directly passed to the shell script.
+value for the ``position`` attribute in the metadata file. Positional arguments
+which are serialized based on the simple rules described below:
+
+1. ``string``, ``integer``, ``float`` - Serialized as a string.
+2. ``boolean`` - Serialized as a string ``1`` (true) or ``0`` (``false``).
+3. ``lists`` - Serialized as a comma delimited string (e.g. ``foo,bar,baz``).
+4. ``objects`` - Serialized as JSON.
+
+Using this simple serialization format allows users to easily utilize those
+values in their scripts by using standard bash functionality (``-z`` for check
+if a value is provided, ``-eq`` for comparison to 1/0 and ``IFS`` for splitting
+a string into an array). For working with objects, you can use a tool such as
+`jq`_.
 
 In addition to that, if no value is provided for a particular positional
-parameter, |st2| will pass string ``None`` as a value for that parameter to the
-script.
+parameter, |st2| will pass an empty string ``""`` as a value for that parameter
+to the script.
 
 For example, if a second positional parameter is optional and user provides no
 value, the script will be called like this:
 
 ::
 
-    script.sh value2 None value3
+    script.sh value2 "" value3
 
 
 The ``immutable`` value defines whether the default value of a parameter can be
 overridden. This is particular important if you expose commands via chatops and
 do not like security related parameters to be manipulated by user input.
+
+document serialization for pos args
+iFS for lists
+jq for JSON for objects
 
 Example 1 - existing bash script with positional arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -630,3 +645,4 @@ To see other available predefined actions, run the command below.
 * Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - on creating actions, and other practical examples of automating with StackStorm.
 
 .. _JSON Schema: http://json-schema.org/documentation.html
+.. _jq: https://stedolan.github.io/jq/

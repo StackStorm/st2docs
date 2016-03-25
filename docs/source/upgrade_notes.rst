@@ -23,6 +23,14 @@ Upgrade Notes
   in Python.  They do not have the DOTALL modifier. To match newline characters, they must be
   explicit in the search pattern.
 
+* To make working with non-string positional parameters in the local and remote runner script
+  actions easier, a simple new rules for parameter value serialization have been established.
+  Previously all the values were serialized as Python literals which made all the parameters
+  which type was not ``string`` very hard to parse and use in the script actions.
+
+  More information about new positional parameter serialization rules can be found in the
+  :ref:`documentation<ref-positional-parameters-serialization>`.
+
 |st2| 1.3
 ---------
 
