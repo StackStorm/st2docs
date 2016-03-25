@@ -407,7 +407,7 @@ value for the ``position`` attribute in the metadata file. Positional arguments
 which are serialized based on the simple rules described below:
 
 1. ``string``, ``integer``, ``float`` - Serialized as a string.
-2. ``boolean`` - Serialized as a string ``1`` (true) or ``0`` (``false``).
+2. ``boolean`` - Serialized as a string ``1`` (true) or ``0`` (false).
 3. ``lists`` - Serialized as a comma delimited string (e.g. ``foo,bar,baz``).
 4. ``objects`` - Serialized as JSON.
 
