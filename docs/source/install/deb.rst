@@ -200,7 +200,7 @@ Reference deployment uses File Based auth provider for simplicity. Refer to :doc
 
     [auth]
     # ...
-    enabled = True
+    enable = True
     backend = flat_file
     backend_kwargs = {"file_path": "/etc/st2/htpasswd"}
     # ...
