@@ -22,7 +22,7 @@ and provide the usual action meta data.
     runs them one after another, passing data from one action to another,
     until it succeeds or fails. **Use ActionChain when you want speed and simplicity**.
 
-*   `Mistral :doc:`Mistral` is a dedicated
+*   :doc:`Mistral <mistral>` is a dedicated
     workflow service, originated in OpenStack, integrated and bundled with |st2|. With Mistral
     runner, you can define complex workflow logic with nested workflows,
     forks, joins, and policies for error handling, retries, and delays.
