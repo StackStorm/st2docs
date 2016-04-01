@@ -258,6 +258,8 @@ and no money without Enterprise edition. Read on, move on!
 Configure Authentication
 ------------------------
 
+.. include:: __pam_auth_backend_requirements.rst
+
 Reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication` to configure and use PAM or LDAP autentication backends. To set up authentication with File Based provider:
 
 * Create a user with a password:
