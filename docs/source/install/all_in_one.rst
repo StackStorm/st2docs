@@ -1,5 +1,13 @@
 All-in-one Installer
 ********************
+
+.. note::
+
+    All-in-one Installer has been deprecated and replaced with packages which are now preferred
+    way of installing |st2|.
+    For more more information, please see distribution-specific package based installation
+    instructions - :doc:`deb`, :doc:`rhel6`, :doc:`rhel7`.
+
 |st2| provides an all-in-one installer aimed at assisting users with the initial setup and
 configuration for quick and convenient evaluation.
 
