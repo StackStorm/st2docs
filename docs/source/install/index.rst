@@ -1,10 +1,8 @@
 Installation
 ============
 
-For a quick evaluation of StackStorm, get a clean box and fast-forward to :doc:`all_in_one`.
-
-For package-based installation, start from :doc:`Overview <./overview>`, and proceed with
-the guide for your Linux distribution.
+For a quick evaluation of |st2| and package-based installation, start from
+:doc:`Overview <./overview>`, and proceed with the guide for your Linux distribution.
 
 
 .. rubric:: Installations
