@@ -1,13 +1,18 @@
 Installing StackStorm with configuration management tools
 #########################################################
 
+.. note::
+
+    Some of the installation methods described on this page might be out of date. If you experience
+    issues, please follow distribution-specific package based installation instructions.
+
 In this section we gathered the pointers to . Some are used internally by StackStorm, some
 are contributed by our users, some others are community contributions.
 Maintaining this section is a community effort, thus if you are Chef, Ansible, Puppet, or Salt expert,
 your contributions here are very welcome.
 
 .. contents::
-		:depth: 3
+    :depth: 3
 
 Puppet
 ======
