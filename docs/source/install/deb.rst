@@ -1,21 +1,14 @@
 Ubuntu / Debian
 ===============
 
+.. include:: __packages_beta_warning.rst
+
 This guide provides step-by step instructions on installing StackStorm on a single box per
 :doc:`Reference deployment </install/overview>` on a Ubuntu/Debian. A script `st2bootstrap-deb.sh
 <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-deb.sh>`_, codifies the
 instructions below.
 
-.. warning :: Currently in BETA! Upgrades are being tested, but will be supprted only once packages graduate
-    from BETA, likely from 1.4 onwards. At that point, package-based installation will be
-    the preferred path to installing StackStorm.
-
-    Please try, use and report bugs on
-    `github.com/StackStorm/st2-packages <https://github.com/StackStorm/st2-packages/issues/new>`_.
-
-
 .. contents::
-
 
 Supported versions
 ------------------
