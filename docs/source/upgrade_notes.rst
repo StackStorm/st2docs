@@ -31,6 +31,12 @@ Upgrade Notes
   More information about new positional parameter serialization rules can be found in the
   :ref:`documentation<ref-positional-parameters-serialization>`.
 
+* The list of required and optional configuration arguments for the LDAP auth backend has changed.
+  The LDAP auth backend supports other login name such as sAMAccountName. This requires a separate
+  service account for the LDAP backend to query for the DN related to the login name for bind to
+  validate the user password. Also, users must be in one or more groups specified in group_dns to
+  be granted access. 
+
 |st2| 1.3
 ---------
 
