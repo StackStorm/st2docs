@@ -103,11 +103,13 @@ A simple examples is show below:
             input:
                 cmd: "hostname"
             publish:
-                hostname: <% $.get_hostname.stdout %>
+                hostname: <% task(get_hostname).result.stdout %>
 
 In the above example, get_hostname is a core.local action which runs the command hostname.
 core.local action produces an output consisting of fields ``stdout``, ``stderr``, ``exit_code`` etc.
-We just want to publish the variable ``stdout`` from it so rest of tasks can consume.
+We just want to publish the variable ``stdout`` from it so rest of tasks can consume. To reference
+the result of the task, use the task function, which returns a dictionary containing attributes for
+the task such as id, state, result, and additional info.
 
 Another example is shown below:
 
@@ -124,11 +126,14 @@ Another example is shown below:
               metadata:
                 asg: <% $.asg %>
             publish:
-              ipv4_address: '<% $.create_new_node.result.public_ips[1] %>'
-              ipv6_address: '<% $.create_new_node.result.public_ips[0] %>'
+              ipv4_address: '<% task(create_new_node).result.result.public_ips[1] %>'
+              ipv6_address: '<% task(create_new_node).result.result.public_ips[0] %>'
 
-In the above example, action rackspace.create_vm produces a results object. We just want to publish
-the IP addresses from ``public_ips`` list field in results object.
+In the above example, action rackspace.create_vm is a python action that produces a result object.
+We just want to publish the IP addresses from ``public_ips`` list field from the result object.
+Please note that ``result.result`` is not a typo. Python action post output to a key named
+``result`` for the st2 action execution and mistral task function puts the result of the python
+action in ``result`` of its output dictionary.  
 
 Such published variables are accessible as input parameters to other tasks in the workflow. An
 example of using ``ipv4_address`` from the above example in another task is shown below:
