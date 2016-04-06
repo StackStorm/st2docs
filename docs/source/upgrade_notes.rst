@@ -37,6 +37,10 @@ Upgrade Notes
   validate the user password. Also, users must be in one or more groups specified in group_dns to
   be granted access. 
 
+* Mistral has deprecated the use of task name (i.e. ``$.task1``) to reference task result. It is
+  replaced with a ``task`` function that returns attributes of the task such as id, state, result,
+  and additional information (i.e. ``task(task1).result``).
+
 |st2| 1.3
 ---------
 
