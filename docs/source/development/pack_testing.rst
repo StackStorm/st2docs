@@ -20,6 +20,7 @@ Test files should follow the following naming conventions:
 * ``test_sensor_<sensor name>.py`` for sensor tests. For example, if the sensor
   is named ``GithubEvents``, the file should be named
   ``test_sensor_github_events.py``.
+* ``test_action_aliases.py`` for all the action aliases tests.
 
 General Testing Conventions
 ---------------------------
@@ -47,6 +48,9 @@ Base Test Classes
   cases. This class provides utility methods for making action testing easier
   such as returning an action class with ``action_service`` correctly
   populated, etc.
+* ``st2tests.BaseActionAliasTestCase`` - Base class for all the action aliases
+  test cases. This class provides utility functions for testing the action
+  alias.
 
 Mock Classes
 ~~~~~~~~~~~~
@@ -120,13 +124,27 @@ Action tests:
 
 .. sourcecode:: python
 
-    class MyActionActionTestBase(BaseActionTestCase):
+    class MyActionActionTestCase(BaseActionTestCase):
         action_cls = MyAction
 
         def test_method(self):
             action = self.get_action_instance(config={'foo': 'bar'})
             result = action.run()
             # ...
+
+Action alias tests:
+
+.. sourcecode:: python
+
+    class MyActionAliasTestCase(BaseActionTestCase):
+        action_alias_name = 'my_alias'
+
+        def test_method(self):
+            action_alias_db = self.action_alias_db
+
+As you can see, when testing aliases you need to specify name of the alias
+which is to be tested and this alias is automatically retrieved from disk
+and available via ``self.action_alias_db`` instance variable.
 
 Sample Tests
 ------------
@@ -135,6 +153,7 @@ You can find some sample tests on the links below.
 
 * Sensor - `test_sensor_docker_sensor <https://github.com/StackStorm/st2contrib/blob/master/packs/docker/tests/test_sensor_docker_sensor.py>`_
 * Action - `test_action_parse <https://github.com/StackStorm/st2contrib/blob/master/packs/csv/tests/test_action_parse.py>`_
+* Action Aliases - `test_action_aliases<https://github.com/StackStorm/st2/blob/master/contrib/packs/tests/test_action_aliases.py>`_
 
 Running Tests
 -------------
