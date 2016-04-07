@@ -153,7 +153,7 @@ You can find some sample tests on the links below.
 
 * Sensor - `test_sensor_docker_sensor <https://github.com/StackStorm/st2contrib/blob/master/packs/docker/tests/test_sensor_docker_sensor.py>`_
 * Action - `test_action_parse <https://github.com/StackStorm/st2contrib/blob/master/packs/csv/tests/test_action_parse.py>`_
-* Action Aliases - `test_action_aliases<https://github.com/StackStorm/st2/blob/master/contrib/packs/tests/test_action_aliases.py>`_
+* Action Aliases - `test_action_aliases <https://github.com/StackStorm/st2/blob/master/contrib/packs/tests/test_action_aliases.py>`_
 
 Running Tests
 -------------
