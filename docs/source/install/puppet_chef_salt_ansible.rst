@@ -1,3 +1,5 @@
+:orphan:
+
 Installing StackStorm with configuration management tools
 #########################################################
 

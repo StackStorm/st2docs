@@ -1,3 +1,5 @@
+:orphan:
+
 All-in-one Installer
 ********************
 

@@ -15,6 +15,4 @@ For a quick evaluation of |st2| and package-based installation, start from
     RHEL 7 / CentOS 7 <rhel7>
     RHEL 6 / CentOS 6 <rhel6>
     StackStorm Enterprise <enterprise>
-    All-In-One Installer  <all_in_one>
-    Chef, Puppet, Salt, Ansible <puppet_chef_salt_ansible>
     Updates and Upgrades <upgrades>
