@@ -6,6 +6,7 @@
 * ``sudo`` (boolean) - The remote command will be executed with sudo.
 * ``kwarg_op`` (string) - Operator to use in front of keyword args i.e. "--" or "-".
 * ``bastion_host`` (string) - The host SSH connections will be proxied through. Note: This connection is made using the same parameters as the final connection, and is only used in ParamikoSSHRunner.
+* ``passphrase`` (string) - Passphrase for the private key, if needed.
 * ``password`` (string) - Password used to log in. If not provided, private key from the config file is used.
 * ``parallel`` (boolean) - Default to parallel execution.
 * ``cmd`` (string) - Arbitrary Linux command to be executed on the remote host(s).
