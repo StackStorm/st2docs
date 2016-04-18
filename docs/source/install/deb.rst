@@ -118,6 +118,9 @@ For remote linux actions, SSH is used. It is advised to configure identity file 
     sudo sh -c 'echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2'
     sudo chmod 0440 /etc/sudoers.d/st2
 
+    # Make sure `Defaults requiretty` is disabled in `/etc/sudoers`
+    sudo sed -i -r "s/^Defaults\s+\+requiretty/# Defaults requiretty/g" /etc/sudoers
+
 * Configure SSH access and enable passwordless sudo on the remote hosts which StackStorm would control
   over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
   To control Windows boxes, configure access for :doc:`Windows runners </config/windows_runners>`.
