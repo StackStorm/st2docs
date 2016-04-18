@@ -28,6 +28,7 @@ Contents:
     rbac
     reference/index
     troubleshooting/index
+    proxy
     development/index
     changelog
     upgrade_notes
