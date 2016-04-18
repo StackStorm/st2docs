@@ -112,7 +112,7 @@ Install StackStorm components
       sudo yum install -y st2 st2mistral
 
 
-If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or changed defauls,
+If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or changed defaults,
 please adjust the settings:
 
     * RabbitMQ connection at ``/etc/st2/st2.conf`` and ``/etc/mistral/mistral.conf``
