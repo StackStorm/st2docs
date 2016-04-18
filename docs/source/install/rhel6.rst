@@ -191,7 +191,7 @@ testing.
     sudo chmod 0440 /etc/sudoers.d/st2
 
     # Make sure `Defaults requiretty` is disabled in `/etc/sudoers`
-    sudo sed -i "s/^Defaults\s\+requiretty/# Defaults requiretty/g" /etc/sudoers
+    sudo sed -i -r "s/^Defaults\s+\+requiretty/# Defaults +requiretty/g" /etc/sudoers
 
 * Configure SSH access and enable passwordless sudo on the remote hosts which StackStorm would control
   over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
