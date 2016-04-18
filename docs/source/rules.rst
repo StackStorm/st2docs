@@ -231,6 +231,24 @@ The rules engine is able to interpolate variables by leveraging Jinja templating
                 foo: "bar"
                 baz: "{{trigger.payload_parameter_1}}"
 
+.. note::
+
+    If a value of trigger attribute can be ``null`` and ``None`` is also a valid value of the action
+    parameter in question, you need to use ``use_none`` Jinja template filter to make sure that
+    ``null`` / ``None`` values are correctly serialized when invoking an action.
+
+    .. code-block:: yaml
+
+            action:
+                ref: "action_ref"
+                parameters:
+                    foo: "bar"
+                    baz: "{{trigger.payload_parameter_1|use_none}}"
+
+    This workaround is required because of the limitation of our current templating system Jinja
+    which doesn't support non-string types and we are forced to perform type casting based on the
+    action parameters definition before invoking an action.
+
 
 Managing Rules
 --------------
