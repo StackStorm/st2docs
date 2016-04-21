@@ -24,14 +24,3 @@ If |st2| has been installed from `rpm/deb`, use the standard upgrade procedure f
 .. warning:: New packages are still in BETA. While we are testing upgrades, we will only commit
    to supporting it from v1.4 forward.
 
-
-All-In-One Installer in-place upgrade
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-All-In-One Installer wiring is complex, and while we did the best effort to ensure that the basic upgrade works, there are few things that we know may break. Here is the procedure that works in most common cases:
-
-1. Remove ``st2::version`` and ``st2::revision``, if present, from ``/opt/puppet/hieradata/answers.json`` or ``/opt/puppet/hieradata/answers.yaml`` depending on which is present on your system. This step is a no-op in most installations.
-2. Run ``update-system`` and answer ``Y`` when prompted to overwrite existing version.
-3. StackStorm service need a restart to pick up new code. Do this by running ``st2ctl restart`` after ``update-system`` completes.
-4. Run self verification, and your own validation.
-5. If self verification passes we are all good. Cleanup the packs installed by self verification by running the command st2 run packs.uninstall packs=examples, tests, fixtures, asserts
-6. In case of failures on any of the tests find us on StackStorm community on Slack and ask about the errors. During 9am-6am PST Mon-Fri you will find a StackStorm team member hanging out and answering questions. You can also reach us at support@stackstorm.com.
