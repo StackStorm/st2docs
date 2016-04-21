@@ -29,6 +29,34 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 
 The ``username`` and ``password`` properties are optional.
 
+StackStorm also supports SSL/TLS to encrypt connections. A few extra properties need be added to
+the configuration apart from the ones outlined above.
+
+In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
+
+.. code-block:: bash
+
+    [database]
+    ...
+    ssl = <True or False>
+    ssl_keyfile = <Path to key file>
+    ssl_certfile = <Path to certificate>
+    ssl_cert_reqs = <One of none, optional or required>
+    ssl_ca_certs = <Path to certificate form mongod>
+    ssl_match_hostname = <True or False>
+
+* ``ssl`` - Enable or disable connection over TLS/SSL or not. Default is False.
+* ``ssl_keyfile`` - Private keyfile used to identify the local connection against MongoDB. If specified ssl is assumed to be True.
+* ``ssl_certfile`` - Certificate file used to identify the localconnection. If specified ssl is assumed to be True.
+* ``ssl_cert_reqs`` - Specifies whether a certificate is required from the other side of the connection, and whether it will be validated if provided.
+* ``ssl_ca_certs`` - Certificates file containing a set of concatenated CA certificates, which are used to validate certificates passed from MongoDB.
+* ``ssl_match_hostname`` - Enable or disable hostname matching. Not recommended to disable and defaults to True.
+
+.. note:: Only certain distributions of MongoDB support SSL/TLS.
+
+    * MonogoDB enterprise vesions have SSL/TLS support.
+    * Build MongoDB from source to enable SSL/TLS support. See https://github.com/mongodb/mongo/wiki/Build-Mongodb-From-Source for more information.
+
 Configure RabbitMQ
 ------------------
 
@@ -239,7 +267,7 @@ There are a number of configurable options available under the mistral section i
 ::
 
     # Example with basic options. The v2_base_url is set to http://workflow.example.com:8989/v2.
-    # On connection error, the following configuration sets up the action runner to retry 
+    # On connection error, the following configuration sets up the action runner to retry
     # connecting to mistral for up to 10 minutes. The retries is setup to be exponential for
     # 5 minutes. So in this case, there will be two sets of exponential retries during
     # the 10 minutes.
