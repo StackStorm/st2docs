@@ -1,8 +1,6 @@
 RHEL 6 / CentOS 6
 =================
 
-.. include:: __packages_beta_warning.rst
-
 This guide provides step-by step instructions on installing StackStorm on a single box per
 :doc:`Reference deployment </install/overview>` on RHEL 6/CentOS 6. A script `st2bootstrap-el6.sh
 <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el6.sh>`_, codifies the
@@ -253,7 +251,7 @@ Configure Authentication
 ------------------------
 
 Reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication`
-to configure and use PAM or LDAP autentication backends. 
+to configure and use PAM or LDAP autentication backends.
 
 .. include:: __pam_auth_backend_requirements.rst
 

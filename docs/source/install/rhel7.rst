@@ -1,8 +1,6 @@
 RHEL 7 / CentOS 7
 =================
 
-.. include:: __packages_beta_warning.rst
-
 This guide provides step-by step instructions on installing StackStorm on a single box on RHEL 7/CentOS 7.
 A script `st2bootstrap-el7.sh <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el7.sh>`_,
 codifies the instructions below.
@@ -222,7 +220,7 @@ Configure Authentication
 ------------------------
 
 Reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication`
-to configure and use PAM or LDAP autentication backends. 
+to configure and use PAM or LDAP autentication backends.
 
 .. include:: __pam_auth_backend_requirements.rst
 
