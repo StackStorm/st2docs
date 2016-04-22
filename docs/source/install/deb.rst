@@ -47,7 +47,7 @@ The following script will detect your platform and architecture and setup the re
 
   .. code-block:: bash
 
-    curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
+    curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
 
 Install StackStorm components
