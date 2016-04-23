@@ -1,9 +1,9 @@
 Ubuntu / Debian
 ===============
 
-This guide provides step-by step instructions on installing StackStorm on a single box per
-:doc:`Reference deployment </install/overview>` on a Ubuntu/Debian. A script `st2bootstrap-deb.sh
-<https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-deb.sh>`_, codifies the
+This guide provides step-by step instructions for installing StackStorm on a single box per
+:doc:`Reference deployment </install/overview>` on a Ubuntu/Debian system. The script `st2bootstrap-deb.sh
+<https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-deb.sh>`_ codifies the
 instructions below.
 
 .. contents::
@@ -12,7 +12,7 @@ Supported versions
 ------------------
 
 We support Ubuntu 14.04, and test on `Ubuntu Server 14.04 LTS (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B00JV9TBA6/ref=srh_res_product_title?ie=UTF8&sr=0-3&qid=1457037882965>`_
-and `puppetlabs/ubuntu-14.04-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/ubuntu-14.04-64-nocm>`_. Other Debian based distributions and versions will likely work with some tweaks, you are welcome to try and report success to the `community <https://stackstorm.com/community-signup>`_.
+and `puppetlabs/ubuntu-14.04-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/ubuntu-14.04-64-nocm>`_. Other Debian based distributions and versions will likely work with some tweaks. You are welcome to try - please report success to the `community <https://stackstorm.com/community-signup>`_.
 
 Sizing the server
 -----------------
@@ -43,7 +43,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
 Setup repositories
 ~~~~~~~~~~~~~~~~~~~
 
-The following script will detect your platform and architecture and setup the repo accordingly. It'll also install the GPG key for repo signing.
+The following script will detect your platform and architecture and setup the repo accordingly. It will also install the GPG key for repo signing.
 
   .. code-block:: bash
 
@@ -86,7 +86,7 @@ Setup Mistral Database
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
 To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
-For remote linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
+For remote Linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
 
 * Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally. You will need elevated privileges to do this.
 

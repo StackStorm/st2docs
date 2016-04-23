@@ -1,7 +1,7 @@
 Roadmap
 =======
 
-StackStorm is still under active development. We welcome community feedback to  refine directions, and encourage contributions. Below are key next items we see as top priorities.
+StackStorm is still under active development. We welcome community feedback to refine directions, and encourage contributions. Below are key next items we see as top priorities.
 
 * **Complete DEB/RPM for st2 components:** Build self-sustaining RPM/DEB packages for all the StackStorm components, Mistral, Hubot and the other dependencies for a fast and reliable installation.
 * **Docker based installer:** Complete the vision of OS independent, layered docker-based installer, to increase reliability, modularity, and speed of deployment.

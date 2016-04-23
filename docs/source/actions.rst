@@ -18,8 +18,8 @@ implemented as actions:
 * run nagios check
 
 Actions can be executed when a :doc:`Rule </rules>` with a matching criteria is triggered.
-Multiple Actions can be stringed together into a :doc:`Workflow </workflows>`. And each action can
-be executed directly from the clients via CLI, API, or UI.
+Multiple Actions can be strung together into a :doc:`Workflow </workflows>`. Actions can
+also be executed directly from the clients via CLI, API, or UI.
 
 Managing and Running Actions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -110,7 +110,7 @@ Currently the system provides the following runners:
    :doc:`CloudSlang </cloudslang>` section of documentation.
 
    Note: This runner is currently in an experimental phase which means that there might be
-   bugs and the external user facing API might change.
+   bugs and the external user-facing API might change.
 
 Runners come with their own set of input parameters and when an action
 picks a runner\_type it also inherits the runner parameters.
@@ -130,7 +130,7 @@ language, as long as it follows some simple conventions described below:
 
 1. Script should exit with ``0`` status code on success and non-zero on error
    (e.g. ``1``)
-2. All the log messages should be printed to standard error
+2. All log messages should be printed to standard error
 
 Action metadata
 ~~~~~~~~~~~~~~~

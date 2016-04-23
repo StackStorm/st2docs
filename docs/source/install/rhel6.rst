@@ -157,7 +157,7 @@ Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
 
 To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
-For remote linux actions, SSH is used. It is advised to configure identity file based SSH access on
+For remote Linux actions, SSH is used. It is advised to configure identity file based SSH access on
 all remote hosts. We also recommend configuring SSH access to localhost for running examples and
 testing.
 

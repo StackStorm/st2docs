@@ -1,7 +1,7 @@
 Overview: Single-box Reference Deployment
 ==========================================
 
-First, let's review what are the StackStorm components, what is their role, and how they are wired
+First, let's review what the main StackStorm components are, their role, and how they are wired
 together when StackStorm is deployed on a single box. As you follow the installation instructions
 in this section, this is your target "reference deployment".
 
@@ -17,24 +17,24 @@ in this section, this is your target "reference deployment".
 
 1. st2 services
 ----------------
-st2 services provide main |st2| functionality. They are located at ``/opt/stackstorm/st2``,
-share a dedicated Python virtualenv, and configured by /etc/st2/st2.conf.
+st2 services provide the main |st2| functionality. They are located at ``/opt/stackstorm/st2``,
+share a dedicated Python virtualenv, and are configured by /etc/st2/st2.conf.
 
-    * **st2sensorcontainer** runs sensor from ``/opt/stackstorm/packs``. It manages the sensors to
-      be run on a node. It will start, stop and restart based on policy sensor running on a node.
-    * **st2rulesengine** its main function is to evaluate rules when it sees TriggerInstances and
-      decide if an ActionExecution is to be requested. It needs access to MongoDB to locate rules
-      and RabbitMQ to listen for TriggerInstances and request ActionExecutions. The auxiliary purpose
-      of this process is to run all the defined timers.
+    * **st2sensorcontainer** runs sensors from ``/opt/stackstorm/packs``. It manages the sensors to
+      be run on a node. It will start, stop and restart based on policy the sensors running on a node.
+    * **st2rulesengine** evaluates rules when it sees TriggerInstances and decides if an ActionExecution
+      is to be requested. It needs access to MongoDB to locate rules and RabbitMQ to listen for 
+      TriggerInstances and request ActionExecutions. The auxiliary purpose of this process is to 
+      run all the defined timers.
     * **st2actionrunners** run actions from packs under ``/opt/stackstorm/packs`` via a variety of
-      :doc:`/runners`. Runners may require some runner-specific configurations: SSH needs to be
-      configured for running remote actions based on `remote-shell-runner` and `remote-command-runner`,
-      windows prerequisites must be in place to run Windows runners. See :doc:`Runners </runners>`
+      :doc:`/runners`. Runners may require some runner-specific configurations, e.g. SSH needs to be
+      configured for running remote actions based on `remote-shell-runner` and `remote-command-runner`.
+      Windows prerequisites must be in place to run Windows runners. See :doc:`Runners </runners>`
       for details.
-    * **st2resultstracker** keeps track of long-running workflow executions, calling Mistral
+    * **st2resultstracker** keeps track of long-running workflow executions, calling the Mistral
       API endpoint.
-    * **st2notifier** main function is to generate ``st2.core.actiontrigger`` and ``st2.core.notifytrigger``
-      based on the completion of ActionExecution. The auxiliary purpose is to act as a backup scheduler
+    * **st2notifier** generates ``st2.core.actiontrigger`` and ``st2.core.notifytrigger`` based 
+      on the completion of ActionExecution. The auxiliary purpose is to act as a backup scheduler
       for actions that may not have been scheduled.
     * **st2garbagecollector** is an optional service to periodically delete old execution history
       data from the database, per settings in ``/etc/st2/st2.conf``.
@@ -50,8 +50,8 @@ share a dedicated Python virtualenv, and configured by /etc/st2/st2.conf.
 2. st2client
 -------------
 
-``st2client`` is the  CLI and python bindings for StackStorm API. To configure CLI to point to the right
-API, authenticate options, suppressing insecure warnings for self-signed certificates and other
+``st2client`` is the CLI and Python bindings for StackStorm API. To configure CLI to point to the right
+API, authentication options, suppressing insecure warnings for self-signed certificates and other
 conveniences see :doc:`/cli`. ``st2client`` is packaged with ``st2``, or can be installed
 independently.
 
@@ -59,8 +59,8 @@ independently.
 --------------
 
 :doc:`/mistral` is a workflow service component that StackStorm uses for long-running workflows. It
-is packaged as ``st2mistral`` ``.deb`` or ``.rpm``, installed under ``/opt/stackstorm/mistral``,
-runs in a dedicated Python virtualenv, and configured by ``/etc/mistral/mistral.conf``. ``mistral-
+is packaged as ``st2mistral`` ``deb`` or ``rpm``, installed under ``/opt/stackstorm/mistral``,
+runs in a dedicated Python virtualenv, and is configured by ``/etc/mistral/mistral.conf``. ``mistral-
 server`` runs workflow logic and calling actions, reaching out to st2api for action execution
 requests. ``st2mistral`` is a mistral plugin with stackstorm extensions. ``mistral-api`` is an
 internal end-point accessed by ``st2actionrunner`` and ``st2notifier``. In a single-box deployment
@@ -73,7 +73,7 @@ it is restricted to localhost.
   and reverse-proxies REST API endpoints to st2* web services.
 
 * **StackStorm WebUI** (st2web, and flow, for Enterprise Edition) are installed at ``/opt/statckstorm/webui``
-  and configured via ``webui/config.js``. `st2web` comes in it's own ``deb`` and ``rpm``. `Flow` is
+  and configured via ``webui/config.js``. `st2web` comes in its own ``deb`` and ``rpm``. `Flow` is
   deployed with ``st2enterprise`` package. They are HTML5 applications, served as static HTML,
   and calling StackStorm st2auth and st2api REST API endpoints. NGINX proxies st2auth and st2api
   requests through 443 HTTPS port to ``/api`` and ``/auth``.
