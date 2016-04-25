@@ -130,3 +130,80 @@ related syntax.
         }
     }
 
+Securing secrets in key value store (admin only)
+------------------------------------------------
+
+.. note::
+
+    This guide and the corresponding implementation is alpha quality. We are working on the feature
+    and feedback is welcome. Unless the feature matures and deployment issues identified and fixed,
+    no guarantee is made w.r.t ``security`` of the credentials stored in key value store.
+
+Key value store now allows users to store encrypted credentials via a global symmetric key set
+by the StackStorm admin. It goes without saying that admin can decrypt the credentials if they
+wants to.
+
+To generate a symmetric crypto key (AES256 used for both encryption and decryption) as an admin,
+please run
+
+.. code-block:: bash
+
+    /opt/stackstorm/st2/tools/st2-generate-symmetric-crypto-key.py --key-path /path/to/key/file.json
+
+It is recommended that the key is placed in a private location such as /etc/st2/keys/ and
+permissions are appropriately modified so only StackStorm API process owner (usually ``st2``) and
+admin can read/write to that file.
+
+Once the key is generated, |st2| needs to be made aware of the key. To do this, edit st2
+configuration file (usually /etc/st2/st2.conf) and add the following lines:
+
+[keyvalue]
+encryption_key_path=/path/to/key/file.json
+
+Now as an admin, you are all set with configuring |st2| server side.
+
+Storing secrets in key value store
+----------------------------------
+
+Please note that if an admin has not setup encryption keys, you will not be allowed to save
+secrets in the key value store. Contact your |st2| admin to setup encryption keys as per the section
+above.
+
+To save a secret in key value store:
+
+.. code-block:: bash
+
+    st2 key set api_token SECRET_TOKEN --encrypt
+
+By default, getting a key tagged as secret (via --encrypt) will always return encrypted values only.
+To get plain text, please run with command --decrypt flag.
+
+.. code-block:: bash
+
+    st2 key get api_token --decrypt
+
+.. note::
+
+    RBAC is still being worked on for this feature. For now, anyone with access to the encryption
+    key (including admin) will be able to decrypt the secrets.
+
+Security notes
+--------------
+
+|st2| wishes to discuss security details and be transparent about the implementation and limitations
+of the security practices to attract more eyes to it and therefore build better quality into
+security implementations. For the key value store, we have settled on AES256 symmetric encryption
+for simplicity. We use python library keyczar for doing this.
+
+We have made a trade off that |st2| admin is allowed to decrypt the secrets in key value store.
+This made our implementation simpler. We are looking into how to let users pass their own keys
+for encryption every time they want to consume a secret from key value store. This requires more
+UX thought and also moves the responsibility of storing keys to the users.
+Your ideas are welcome here.
+
+Please note that the global encryption key still disables users with direct access to databases
+to still see only encrypted secret in database. Still the onus is on |st2| admin to restrict
+access to database via network daemons only and not allow physical access to the box (or run
+databases on different boxes as st2). Note that several layers of security needs to be in place
+that is beyond the scope of this document. While we can help people with deployment questions
+on stackstorm slack community, please follow your own best security practices guide.
