@@ -1,9 +1,9 @@
 RHEL 6 / CentOS 6
 =================
 
-This guide provides step-by step instructions on installing StackStorm on a single box per
-:doc:`Reference deployment </install/overview>` on RHEL 6/CentOS 6. A script `st2bootstrap-el6.sh
-<https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el6.sh>`_, codifies the
+This guide provides step-by step instructions for installing StackStorm on a single RHEL 6/CentOS 6 system per
+the :doc:`Reference deployment </install/overview>`. The script `st2bootstrap-el6.sh
+<https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el6.sh>`_ codifies the
 instructions below.
 
 .. contents::
@@ -17,8 +17,8 @@ and `puppetlabs/centos-6.6-64-nocm Vagrant box <https://atlas.hashicorp.com/pupp
 
 Sizing the server
 -----------------
-While the system can operate with less equipped servers, these are recommended
-for the best experience while testing or deploying |st2|.
+While the system can operate with lower specs, these are the recommendations
+for the best experience while testing or deploying |st2|:
 
 +--------------------------------------+-----------------------------------+
 |            Testing                   |         Production                |
@@ -38,8 +38,8 @@ Install libffi-devel package
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 RHEL 6 may not ship with ``libffi-devel`` which is a dependency for |st2|.
-If that is the case, set up `server-optional` repository, following instructions at https://access.redhat.com/solutions/265523. Or, find a version of libffi-devel compatible with libffi on the box,
-and install this version of ``libffi-devel```. For example:
+If that is the case, set up `server-optional` repository, following instructions at https://access.redhat.com/solutions/265523. 
+Or, find a version of libffi-devel compatible with libffi on the box, and install this version of ``libffi-devel```. For example:
 
 .. code :: bash
 
@@ -51,11 +51,11 @@ and install this version of ``libffi-devel```. For example:
 Adjust SELinux policies
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-If your RHEL/CentOS box has SELinux enforced, please follow these instructions to adjust SELinux
+If your RHEL/CentOS box has SELinux in Enforcing mode, please follow these instructions to adjust SELinux
 policies. This is needed for successful installation. If you are not happy with these policies,
 you may want to tweak them according to your security practices.
 
-* Check if SELinux is enforcing
+* Check if SELinux is enforcing:
 
     .. code-block:: bash
 
@@ -157,7 +157,7 @@ Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
 
 To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
-For remote linux actions, SSH is used. It is advised to configure identity file based SSH access on
+For remote Linux actions, SSH is used. It is advised to configure identity file based SSH access on
 all remote hosts. We also recommend configuring SSH access to localhost for running examples and
 testing.
 
@@ -174,7 +174,7 @@ testing.
     # On StackStorm host, generate ssh keys
     sudo ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
 
-    # Authorize key-base acces
+    # Authorize key-based access
     sudo sh -c 'cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys'
     sudo chown -R stanley:stanley /home/stanley/.ssh
 
@@ -250,8 +250,8 @@ and no money without Enterprise edition. Read on, move on!
 Configure Authentication
 ------------------------
 
-Reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication`
-to configure and use PAM or LDAP autentication backends.
+The reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication`
+to configure and use PAM or LDAP authentication backends.
 
 .. include:: __pam_auth_backend_requirements.rst
 
@@ -325,7 +325,7 @@ certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's suppl
     sudo service nginx restart
     sudo chkconfig nginx on
 
-If you modify ports, or url paths in nginx configuration, make correspondent chagnes in st2web
+If you modify ports, or url paths in the nginx configuration, make the corresponding changes in st2web
 configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
@@ -354,8 +354,8 @@ If you already run Hubot instance, you only have to install the `hubot-stackstor
 
 
 * Review and edit ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to your
-  StackStorm   installation and Chat Service you are using. By default ``st2api`` and ``st2auth``
-  are expected to be on the same host. If it's not the case, please update ``ST2_API`` and
+  |st2| installation and Chat Service you are using. By default ``st2api`` and ``st2auth``
+  are expected to be on the same host. If that is not the case, please update ``ST2_API`` and
   ``ST2_AUTH_URL`` variables or just point to correct host with ``ST2_HOSTNAME`` variable. Use
   `ST2_WEBUI_URL` if an external address of your StackStorm host is different.
 
@@ -363,8 +363,8 @@ If you already run Hubot instance, you only have to install the `hubot-stackstor
   `create and configure a Bot <https://api.slack.com/bot-users>`_, invite a Bot to the rooms,
   and copy the authentication token into ``HUBOT_SLACK_TOKEN`` variable.
 
-  If you are using other Chat Service, do appropriate bot configurations,
-  and set correspondent environment variables under
+  If you are using a different Chat Service, make the appropriate bot configurations,
+  and set corresponding environment variables under
   `Chat service adapter settings`:
   `Slack <https://github.com/slackhq/hubot-slack>`_,
   `HipChat <https://github.com/hipchat/hubot-hipchat>`_,
@@ -380,7 +380,7 @@ If you already run Hubot instance, you only have to install the `hubot-stackstor
       # Starting st2chatops on boot
       sudo chkconfig st2chatops on
 
-* That's it! Go to your Chat room and begin ChatOps-ing. Read on :doc:`/chatops/index` section.
+* That's it! Go to your Chat room and begin ChatOps-ing. Read more in the :doc:`/chatops/index` section.
 
 Upgrade to Enterprise Edition
 -----------------------------
