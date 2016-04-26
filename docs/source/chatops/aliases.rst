@@ -109,7 +109,7 @@ Using example -
       - "google {{query=StackStorm}}"
 
 In this case the query has a default value assigned which will be used if not value is provided by user.
-Therefore,  simple ``google`` instead of ``google StackStorm`` would still result in assumption of the
+Therefore, simple ``google`` instead of ``google StackStorm`` would still result in assumption of the
 default value much like how an Action default parameter values are interpretted.
 
 Regular expressions
