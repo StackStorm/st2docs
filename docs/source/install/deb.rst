@@ -1,8 +1,8 @@
 Ubuntu / Debian
 ===============
 
-This guide provides step-by step instructions for installing StackStorm on a single box per
-:doc:`Reference deployment </install/overview>` on a Ubuntu/Debian system. The script `st2bootstrap-deb.sh
+This guide provides step-by step instructions for installing StackStorm on a single Ubuntu/Debian system per
+the :doc:`Reference deployment </install/overview>`. The script `st2bootstrap-deb.sh
 <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-deb.sh>`_ codifies the
 instructions below.
 
@@ -16,8 +16,8 @@ and `puppetlabs/ubuntu-14.04-64-nocm Vagrant box <https://atlas.hashicorp.com/pu
 
 Sizing the server
 -----------------
-While the system can operate with less equipped servers, these are recommended
-for the best experience while testing or deploying |st2|.
+While the system can operate with lower specs, these are the recommendations
+for the best experience while testing or deploying |st2|:
 
 +--------------------------------------+-----------------------------------+
 |            Testing                   |         Production                |
@@ -58,7 +58,7 @@ Install StackStorm components
       sudo apt-get install -y st2 st2mistral
 
 
-If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or changed defaults,
+If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or have changed defaults,
 please adjust the settings:
 
     * RabbitMQ connection at ``/etc/st2/st2.conf`` and ``/etc/mistral/mistral.conf``
@@ -92,7 +92,7 @@ For remote Linux actions, SSH is used. It is advised to configure identity file 
 
   .. code-block:: bash
 
-    # Create an SSH system user (default `stanley` user may be already created)
+    # Create an SSH system user (default `stanley` user may already exist)
     sudo useradd stanley
     sudo mkdir -p /home/stanley/.ssh
     sudo chmod 0700 /home/stanley/.ssh
@@ -100,7 +100,7 @@ For remote Linux actions, SSH is used. It is advised to configure identity file 
     # On StackStorm host, generate ssh keys
     sudo ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
 
-    # Authorize key-base acces
+    # Authorize key-based access
     sudo sh -c 'cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys'
     sudo chown -R stanley:stanley /home/stanley/.ssh
 
@@ -176,8 +176,8 @@ But there is no joy without WebUI, no security without SSL termination, no fun w
 Configure Authentication
 ------------------------
 
-Reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication`
-to configure and use PAM or LDAP autentication backends.
+The reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication`
+to configure and use PAM or LDAP authentication backends.
 
 .. include:: __pam_auth_backend_requirements.rst
 
@@ -251,7 +251,7 @@ certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's suppl
 
     sudo service nginx restart
 
-If you modify ports, or url paths in nginx configuration, make correspondent changes in st2web
+If you modify ports, or url paths in the nginx configuration, make the corresponding changes in st2web
 configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
@@ -280,12 +280,12 @@ If you already run a Hubot instance, you only have to install the `hubot-stackst
 
 * Review and edit ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to your
   StackStorm installation and Chat Service you are using. By default ``st2api`` and ``st2auth``
-  are expected to be on the same host. If it's not the case, please update ``ST2_API`` and
+  are expected to be on the same host. If that is not the case, please update ``ST2_API`` and
   ``ST2_AUTH_URL`` variables or just point to correct host with ``ST2_HOSTNAME`` variable. Use
   `ST2_WEBUI_URL` if an external address of your StackStorm host is different.
 
   The example configuration uses Slack; go to Slack web admin interface, create a Bot, and copy the authentication token into ``HUBOT_SLACK_TOKEN``.
-  If you are using other Chat Service, set correspondent environment variables under
+  If you are using a different Chat Service, set corresponding environment variables under
   `Chat service adapter settings`:
   `Slack <https://github.com/slackhq/hubot-slack>`_,
   `HipChat <https://github.com/hipchat/hubot-hipchat>`_,
@@ -298,7 +298,7 @@ If you already run a Hubot instance, you only have to install the `hubot-stackst
 
       sudo service st2chatops start
 
-* That's it! Go to your Chat room and begin ChatOpsing. Read on :doc:`/chatops/index` section.
+* That's it! Go to your Chat room and begin ChatOpsing. Read more in the :doc:`/chatops/index` section.
 
 Upgrade to Enterprise Edition
 -----------------------------
