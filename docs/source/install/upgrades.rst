@@ -4,11 +4,11 @@ Updates and Upgrades
 
 Safe way: Migrate
 ~~~~~~~~~~~~~~~~~
-The safe and reliable way to transition |st2| to newer versions to provision a
+The safe and reliable way to transition |st2| to newer versions is to provision a
 new |st2| instance, and roll over the content. Thanks to the "Infrastructure as code" approach, all |st2| content and artifacts are simple files, and should be kept under source control.
 The recommended upgrade path to move from v1.2 to v1.3 is as follows :
 1. Install StackStorm ``VERSION_NEW`` on a brand new instance.
-2. Package all your pack from the old ``VERSION_OLD`` instance and place them under some SCM like git (you should have done it long ago).
+2. Package all your packs from the old ``VERSION_OLD`` instance and place them under some SCM like git (you should have done it long ago).
 3. Save your key-value pairs from the st2 datastore: ``st2 key list -j > kv_file.json``
 4. Grab packs from the SCM.
 5. If the SCM is git then it is possible to use st2 run packs.install packs=<pack-list> repo_url=<repo-url>

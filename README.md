@@ -8,13 +8,13 @@ actions in response to events. Learn more at [www.stackstorm.com](http://www.sta
 # Writing the Docs
 
 Product documentation for StackStorm is maintained in this repository. These docs are built using
-[sphinx](http://www.sphinx-doc.org/en/stable/).
+[Sphinx](http://www.sphinx-doc.org/en/stable/).
 
 ## Contributing
 
-* Fork this repo on github. (https://help.github.com/articles/fork-a-repo/)
-* Make changes to the docs using your favorite editor
-* To update docs for the latest i.e. unstable release of StackStorm base changes of the `master` branch.
+* Fork this repo on GitHub (https://help.github.com/articles/fork-a-repo/).
+* Make changes to the docs using your favorite editor.
+* To update docs for the latest - i.e. unstable - release of StackStorm, base your changes off the `master` branch.
 * To update docs for a released version of StackStorm pick the appropriate version branch (v1.2 etc) and make changes.
 * Push changes to your fork.
 * Create a pull request (https://help.github.com/articles/creating-a-pull-request/) against StackStorm/st2docs repository
@@ -23,11 +23,11 @@ Product documentation for StackStorm is maintained in this repository. These doc
 
 ## Build and Run the Docs.
 
-Follows these steps to build the docs locally -
+Follows these steps to build the docs locally:
 
 ```bash
- git clone https://github.com/StackStorm/st2docs.git
- cd st2docs
+git clone https://github.com/StackStorm/st2docs.git
+cd st2docs
 make docs
 ```
 
@@ -39,7 +39,7 @@ validate changes locally prior to committing any code.
 
 ## Sphinx Tricks
 
-* If the whole section belongs Enterprise Edition, put the following note:
+* If the whole section belongs in the Enterprise Edition, put the following note:
     ```
     .. note::
 
@@ -72,7 +72,7 @@ validate changes locally prior to committing any code.
 
          .. _sensors-examples:
 
-    and point to it as from this, or from other documensts as:
+    and point to it as from this, or from other documents as:
 
            :ref:`sensors-examples`
            :ref:`My examples <sensors-examples>`

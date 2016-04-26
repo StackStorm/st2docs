@@ -1,9 +1,10 @@
 RHEL 7 / CentOS 7
 =================
 
-This guide provides step-by step instructions on installing StackStorm on a single box on RHEL 7/CentOS 7.
-A script `st2bootstrap-el7.sh <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el7.sh>`_,
-codifies the instructions below.
+This guide provides step-by step instructions for installing StackStorm on a single RHEL 7/CentOS 7 system per
+the :doc:`Reference deployment </install/overview>`. The script `st2bootstrap-el7.sh 
+<https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el7.sh>`_ codifies the 
+instructions below.
 
 .. contents::
 
@@ -11,12 +12,12 @@ Supported platforms
 --------------------
 
 We support RedHat 7 / CentOS 7 and test on `Red Hat Enterprise Linux (RHEL) 7.2 (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B019NS7T5I/ref=srh_res_product_title?ie=UTF8&sr=0-2&qid=1457037671547>`_
-and `puppetlabs/centos-7.0-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/centos-7.0-64-nocm>`_. Other RPM based distributions and versions will likely work with some tweaks, you are welcome to try and report successes to the `community <https://stackstorm.com/community-signup>`_.
+and `puppetlabs/centos-7.0-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/centos-7.0-64-nocm>`_. Other RPM based distributions and versions will likely work with some tweaks. You are welcome to try - please report success to the `community <https://stackstorm.com/community-signup>`_.
 
 Sizing the server
 -----------------
-While the system can operate with less equipped servers, these are recommended
-for the best experience while testing or deploying |st2|.
+While the system can operate with lower specs, these are the recommendations
+for the best experience while testing or deploying |st2|:
 
 +--------------------------------------+-----------------------------------+
 |            Testing                   |         Production                |
@@ -32,11 +33,11 @@ Minimal installation
 Adjust SELinux policies
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-If your RHEL/CentOS box has SELinux enforced, please follow these instructions to adjust SELinux
+If your RHEL/CentOS box has SELinux in Enforcing mode, please follow these instructions to adjust SELinux
 policies. This is needed for successful installation. If you are not happy with these policies,
 you may want to tweak them according to your security practices.
 
-* Check if SELinux is enforcing
+* Check if SELinux is enforcing:
 
     .. code-block:: bash
 
@@ -105,7 +106,7 @@ Install StackStorm components
       sudo yum install -y st2 st2mistral
 
 
-If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or changed defaults,
+If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or changed the defaults,
 please adjust the settings:
 
     * RabbitMQ connection at ``/etc/st2/st2.conf`` and ``/etc/mistral/mistral.conf``
@@ -131,7 +132,7 @@ Setup Mistral Database
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
 To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
-For remote linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
+For remote Linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
 
 * Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally.
 
@@ -145,7 +146,7 @@ For remote linux actions, SSH is used. It is advised to configure identity file 
     # On StackStorm host, generate ssh keys
     sudo ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
 
-    # Authorize key-base acces
+    # Authorize key-based access
     sudo sh -c 'cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys'
     sudo chown -R stanley:stanley /home/stanley/.ssh
 
@@ -219,8 +220,8 @@ But there is no joy without WebUI, no security without SSL termination, no fun w
 Configure Authentication
 ------------------------
 
-Reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication`
-to configure and use PAM or LDAP autentication backends.
+The reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication`
+to configure and use PAM or LDAP authentication backends.
 
 .. include:: __pam_auth_backend_requirements.rst
 
@@ -293,7 +294,7 @@ certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's suppl
     sudo systemctl restart nginx
     sudo systemctl enable nginx
 
-If you modify ports, or url paths in nginx configuration, make correspondent chagnes in st2web
+If you modify ports, or url paths in the nginx configuration, make the corresponding changes in st2web
 configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
@@ -330,8 +331,8 @@ If you already run Hubot instance, you only have to install the `hubot-stackstor
   `create and configure a Bot <https://api.slack.com/bot-users>`_, invite a Bot to the rooms,
   and copy the authentication token into ``HUBOT_SLACK_TOKEN`` variable.
 
-  If you are using other Chat Service, do appropriate bot configurations,
-  and set correspondent environment variables under
+  If you are using a different Chat Service, make the appropriate bot configurations,
+  and set corresponding environment variables under
   `Chat service adapter settings`:
   `Slack <https://github.com/slackhq/hubot-slack>`_,
   `HipChat <https://github.com/hipchat/hubot-hipchat>`_,
@@ -347,7 +348,7 @@ If you already run Hubot instance, you only have to install the `hubot-stackstor
       # Start st2chatops on boot
       sudo systemctl enable st2chatops
 
-* That's it! Go to your Chat room and begin ChatOps-ing. Read on :doc:`/chatops/index` section.
+* That's it! Go to your Chat room and begin ChatOps-ing. Read more in the :doc:`/chatops/index` section.
 
 Upgrade to Enterprise Edition
 -----------------------------

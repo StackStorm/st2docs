@@ -24,7 +24,7 @@ Components
 
 st2api
 ^^^^^^
-This process host the REST API endpoints that serve requests from  WebUI, CLI and ChatOps. It maintains
+This process host the REST API endpoints that serve requests from WebUI, CLI and ChatOps. It maintains
 connections to MongoDB to store and retrieve information. It also connects to RabbitMQ to push various
 kind of messages onto the message bus. It is a Python WSGI app running under gunicorn managed process
 which by default listens on port ``9101`` and is front-ended by Nginx acting as a reverse proxy.
