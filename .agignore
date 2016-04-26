@@ -1,0 +1,6 @@
+st2/
+virtualenv/
+docs/build/
+docs/source/_themes/
+docs/source/_includes/
+docs/source/_static/
