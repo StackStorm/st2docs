@@ -332,7 +332,7 @@ and non-zero on error. This is important since the exit code is used by |st2| to
 determine if the script has finished successfully.
 
 2. Add a metadata file
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 You need to add a metadata file which describes the script name, description,
 entry point, which runner to use and script parameters (if any).
