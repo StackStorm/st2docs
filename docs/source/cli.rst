@@ -221,7 +221,7 @@ Example command usage:
 
     0280826688c74bb9bd541c26631df298
 
-Example usage inside a bash script:
+Example usage inside a Bash script:
 
 .. sourcecode:: bash
 

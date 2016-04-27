@@ -108,7 +108,7 @@ Deployment Options
 Bring Your Own Box
 ==================
 
-|st2| provides a bash-based bootstrap script that is used to bootstrap a computer with |st2|. It is highly recommended to run this script on a clean base OS. To get started, run the following command.
+|st2| provides a Bash-based bootstrap script that is used to bootstrap a computer with |st2|. It is highly recommended to run this script on a clean base OS. To get started, run the following command.
 
 ::
 

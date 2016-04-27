@@ -12,7 +12,7 @@ Windows Runners Configuration
 Pre-requisites
 --------------
 
-Server which is running action runner service which is used for executing
+The server which is running the action runner service used for executing
 Windows runners actions needs to have the following dependencies installed:
 
 * ``smbclient`` >= 4.1 - Command line Samba client (``smbclient`` package on
@@ -22,7 +22,7 @@ Windows runners actions needs to have the following dependencies installed:
 
 Samba client is available in standard APT and Yum repositories and winexe is
 available in our repositories. Both of those dependencies are installed by
-default when using ``st2_deploy.sh`` script or a pupped based installation.
+default when using ``st2_deploy.sh`` script or a Puppet-based installation.
 
 Installing on Ubuntu
 ~~~~~~~~~~~~~~~~~~~~
@@ -53,9 +53,9 @@ Windows runners have been tested on the following versions of Windows:
 * Windows Server 2008
 * Windows server 2012
 
-Underlying library we use to talk to the Windows hosts also supports other
-versions (2000 / XP / 2003 / Vista / 2008), but we haven't tested our
-runners with those versions so we can't guarantee that runners will work there.
+The underlying library we use to talk to the Windows hosts also supports other
+versions (2000 / XP / 2003 / Vista ), but we haven't tested our
+runners with those versions, so we can't guarantee it will work.
 
 Configuring your Window Server for remote access
 ------------------------------------------------
