@@ -57,6 +57,16 @@ Configuration example for Redis. ::
     [coordination]
     url = redis://password@host:port
 
+Some of these coordination backends also require corresponding client libraries to be installed
+in |st2| virtualenv. We do not ship these libraries by default. As an example, to install the client
+library in |st2| virtualenv, run
+
+.. sourcecode:: bash
+
+    sudo su
+    source /opt/stackstorm/st2/bin/activate
+    pip install redis
+
 Retry
 -----
 
