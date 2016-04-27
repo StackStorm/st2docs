@@ -4,7 +4,7 @@ Roadmap
 StackStorm is still under active development. We welcome community feedback to refine directions, and encourage contributions. Below are key next items we see as top priorities.
 
 * **Complete DEB/RPM for st2 components:** Build self-sustaining RPM/DEB packages for all the StackStorm components, Mistral, Hubot and the other dependencies for a fast and reliable installation.
-* **Docker based installer:** Complete the vision of OS independent, layered docker-based installer, to increase reliability, modularity, and speed of deployment.
+* **Docker based installer:** Complete the vision of OS independent, layered Docker-based installer, to increase reliability, modularity, and speed of deployment.
 * **Migrate away from MongoDB:** Now that the models are stable, replace Mongo, to reduce operational overhead, improve performance, and simplify licensing.
 * **At-scale refinements:** Ensure event handling reliability, event storm resilience/throttling. Complete support for multi-node deployment of sensor containers and rule engines for resilience and throughput.
 * **Content management, revised for multi-node deployments:** provide platform support for content deployment to worker nodes with better integration with git/GitHub, to simplify development and deployment of "automation as code" at scale.

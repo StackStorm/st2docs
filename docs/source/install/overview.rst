@@ -86,7 +86,7 @@ Chat services <https://hubot.github.com/docs/adapters/>`_. They are packaged in 
 ``deb`` and ``rpm``, installed at ``/opt/stackstorm/chatops/`` and configured in
 ``/opt/stackstorm/chatops/st2chatops.env``.
 
-ChatOps can be also enabled as a docker image `StackStorm/st2chatops <https://github.com/StackStorm/st2chatops>`_,
+ChatOps can be also enabled as a Docker image `StackStorm/st2chatops <https://github.com/StackStorm/st2chatops>`_,
 or by installing `hubot-stackstorm plugin <https://github.com/StackStorm/hubot-stackstorm>`_ on your existing Hubot instance.
 
 Dependencies
