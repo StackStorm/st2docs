@@ -251,7 +251,7 @@ Configure Authentication
 ------------------------
 
 The reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication`
-to configure and use PAM or LDAP autentication backends.
+to configure and use PAM or LDAP authentication backends.
 
 .. include:: __pam_auth_backend_requirements.rst
 
