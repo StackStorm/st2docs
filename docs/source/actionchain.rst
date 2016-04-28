@@ -122,7 +122,7 @@ The :github_st2:`publish_data.yaml <contrib/examples/actions/chains/publish_data
    :lines: 1-29
 
 Passing data between workflow's tasks
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Similar to, how input to an ActionChain can be referenced in a task; the output of previous tasks can also be referenced. Below is a version of the previously seen `echochain`, :github_st2:`echochain_param.yaml <contrib/examples/actions/chains/echochain_param.yaml>` with input and data passing down the flow:
 
