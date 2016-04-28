@@ -2,8 +2,8 @@ RHEL 7 / CentOS 7
 =================
 
 This guide provides step-by step instructions for installing StackStorm on a single RHEL 7/CentOS 7 system per
-the :doc:`Reference deployment </install/overview>`. The script `st2bootstrap-el7.sh 
-<https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el7.sh>`_ codifies the 
+the :doc:`Reference deployment </install/overview>`. The script `st2bootstrap-el7.sh
+<https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el7.sh>`_ codifies the
 instructions below.
 
 .. contents::
@@ -347,6 +347,10 @@ If you already run Hubot instance, you only have to install the `hubot-stackstor
 
       # Start st2chatops on boot
       sudo systemctl enable st2chatops
+
+* Reload st2 packs to make sure ``chatops.notify`` rule is registered: ::
+
+      sudo st2ctl reload --register-all
 
 * That's it! Go to your Chat room and begin ChatOps-ing. Read more in the :doc:`/chatops/index` section.
 

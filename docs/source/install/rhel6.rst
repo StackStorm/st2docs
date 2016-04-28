@@ -38,7 +38,7 @@ Install libffi-devel package
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 RHEL 6 may not ship with ``libffi-devel`` which is a dependency for |st2|.
-If that is the case, set up `server-optional` repository, following instructions at https://access.redhat.com/solutions/265523. 
+If that is the case, set up `server-optional` repository, following instructions at https://access.redhat.com/solutions/265523.
 Or, find a version of libffi-devel compatible with libffi on the box, and install this version of ``libffi-devel```. For example:
 
 .. code :: bash
@@ -379,6 +379,10 @@ If you already run Hubot instance, you only have to install the `hubot-stackstor
 
       # Starting st2chatops on boot
       sudo chkconfig st2chatops on
+
+* Reload st2 packs to make sure ``chatops.notify`` rule is registered: ::
+
+      sudo st2ctl reload --register-all
 
 * That's it! Go to your Chat room and begin ChatOps-ing. Read more in the :doc:`/chatops/index` section.
 

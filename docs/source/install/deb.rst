@@ -298,6 +298,10 @@ If you already run a Hubot instance, you only have to install the `hubot-stackst
 
       sudo service st2chatops start
 
+* Reload st2 packs to make sure ``chatops.notify`` rule is registered: ::
+
+      sudo st2ctl reload --register-all
+
 * That's it! Go to your Chat room and begin ChatOpsing. Read more in the :doc:`/chatops/index` section.
 
 Upgrade to Enterprise Edition
