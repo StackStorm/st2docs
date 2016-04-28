@@ -2,8 +2,8 @@ RHEL 7 / CentOS 7
 =================
 
 This guide provides step-by step instructions for installing StackStorm on a single RHEL 7/CentOS 7 system per
-the :doc:`Reference deployment </install/overview>`. The script `st2bootstrap-el7.sh 
-<https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el7.sh>`_ codifies the 
+the :doc:`Reference deployment </install/overview>`. The script `st2bootstrap-el7.sh
+<https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el7.sh>`_ codifies the
 instructions below.
 
 .. contents::
@@ -274,7 +274,21 @@ To set it up: install `st2web` and `nginx`, generate certificates or place your 
 certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's supplied
 :github_st2:`site config file st2.conf<conf/nginx/st2.conf>`.
 
+StackStorm depends on Nginx version >=1.7.5; since RHEL7 has an older version
+in the package repositories at the time of writing, you will have to include
+the official Nginx repository into the list:
+
   .. code-block:: bash
+
+    # Add key and repo for the latest stable nginx
+    sudo rpm --import http://nginx.org/keys/nginx_signing.key
+    sudo sh -c "cat <<EOT > /etc/yum.repos.d/nginx.repo
+    [nginx]
+    name=nginx repo
+    baseurl=http://nginx.org/packages/rhel/7/x86_64/
+    gpgcheck=1
+    enabled=1
+    EOT"
 
     # Install st2web and nginx
     sudo yum install -y st2web nginx
