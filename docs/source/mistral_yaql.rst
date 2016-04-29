@@ -6,14 +6,14 @@ workflows. There will be many cases where you did not author the actions but the
 decide from the result of the action whether to continue or there's a need to transform the
 result to another value or structure for the next action in the workflow.
 
-Here are use cases where YAQL can be applied in Mistral workflows.
+Here are use cases where YAQL can be applied in Mistral workflows:
 
 * Define input values that are passed to tasks.
 * Define output values published from tasks and workflows.
 * Define conditions that determine transitions between tasks.
 
-Knowing where YAQL can be applied in Mistral workflows, the following are some cool stuffs
-that you can do with YAQL.
+Knowing where YAQL can be applied in Mistral workflows, the following are some cool things
+that you can do with YAQL:
 
 * Select values for a key from a list of dictionary.
 * Filter the list where one or more fields match condition(s).
@@ -32,7 +32,7 @@ that you can do with YAQL.
 
 Basics
 ++++++
-The following are statements in the workflow and task definition that accepts YAQL.
+The following are statements in the workflow and task definition that accepts YAQL:
 
 * task action input
 * task concurrency
@@ -51,14 +51,14 @@ The following are statements in the workflow and task definition that accepts YA
 * task with-items
 * workflow output
 
-Each of the statement can take a string with one or more YAQL expressions. Each expression in the
+Each of the statements can take a string with one or more YAQL expressions. Each expression in the
 string should be encapsulated with ``<% %>``. When evaluating a YAQL expression, Mistral also
 passes a JSON dictionary (aka context) to the YAQL engine. The context contains all the workflow
 inputs, published variables, and result of completed tasks up to this point of workflow
 execution including the current task. The YAQL expression can refer to one or more variables in
 the context. The reserved symbol ``$`` is used to reference the context. For example, given the
 context ``{"ip": "127.0.0.1", "port": 8080}``, the string ``https://<% $.ip %>:<% $.port>/api``
-returns ``https://127.0.0.1:8080/api``. The following is the same example used in a workflow.
+returns ``https://127.0.0.1:8080/api``. The following is the same example used in a workflow:
 
 .. code-block:: yaml
 
@@ -79,14 +79,14 @@ Certain statements in Mistral such as on-success and on-error can evaluate boole
 ``on-condition`` related statements are used for transition from one task to another. If a
 boolean logic is defined with these statements, it can be used to evaluate whether the transition
 should continue or not. Complex boolean logic using a combination of ``not``, ``and``, ``or``, and
-parentheses is possible. Take the following workflow as an example, execution of certain branch
+parentheses is possible. Take the following workflow as an example: Execution of certain branch
 in the workflow depends on the value of ``$.path``. If ``$.path = a``, then task ``a`` is executed.
 If ``$.path = b``, then task ``b``. Finally task ``c`` is executed if neither.
 
 .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-branching.yaml
 
 The statement ``with-items`` in Mistral is used to execute an action over iteration of one or more
-list of items. The following is a sample Mistral workflow that iterate over the list of given names
+list of items. The following is a sample Mistral workflow that iterates over the list of given names
 to invoke the action to create individual VM.
 
 .. code-block:: yaml
@@ -104,8 +104,8 @@ to invoke the action to create individual VM.
                 input:
                     name: <% $.name %>
 
-``with-items`` can take more than one lists as the following example illustrates. In this case,
-a list of VMs and IP addresses are passed as inputs and then iterated thru step by step together.
+``with-items`` can take more than one list as the following example illustrates. In this case,
+a list of VMs and IP addresses are passed as inputs and then iterated through step by step together.
 
 .. code-block:: yaml
 
@@ -126,19 +126,19 @@ a list of VMs and IP addresses are passed as inputs and then iterated thru step 
                     name: <% $.name %>
                     ip: <% $.ip %>
 
-The sections below go thru additional YAQL examples on how to work with lists and dictionaries
-that can be used in more advanced ``with-items`` use cases.
+The sections below contain additional YAQL examples of how to work with lists and dictionaries,
+that can be used in more advanced ``with-items`` use-cases.
 
 Dictionaries
 ++++++++++++
 To create a dictionary, use the ``dict`` function. For example, ``<% dict(a=>123, b=>true) %>``
 returns ``{'a': 123, 'b': True}``. Let's say this dictionary is published to the context as
-``dict1``, the keys function returns ``<% $.dict1.keys() %>`` returns ``['a', 'b']`` and
+``dict1``, the keys function ``<% $.dict1.keys() %>`` returns ``['a', 'b']`` and
 ``<% $.dict1.values() %>`` returns the values ``[123, true]``. Concatenating dictionaries
 can be done as ``<% dict(a=>123, b=>true) + dict(c=>xyz) %>`` which returns
-``{'a': 123, 'b': True, 'c': 'xyz'}``. Specific key-value pair can be accessed by key name
+``{'a': 123, 'b': True, 'c': 'xyz'}``. A specific key-value pair can be accessed by key name
 such as ``<% $.dict1.get(b) %>`` which returns ``True``. Given the alternative
-``<% $.dict1.get(b, false) %>`` and lets say the key ``b`` does not exist, then ``False``
+``<% $.dict1.get(b, false) %>``, if the key ``b`` does not exist, then ``False``
 will be returned by default.
 
 Lists
@@ -146,12 +146,12 @@ Lists
 To create a list, use the ``list`` functions. For example, ``<% list(1, 2, 3) %>`` returns
 ``[1, 2, 3]`` and ``<% list(abc, def) %>`` returns ``['abc', 'def']``. List concatenation
 can be done as ``<% list(abc, def) + list(ijk, xyz) %>`` which returns
-``['abc', 'def', 'ijk', 'xyz']``. Let's say this list is published to the context as ``list1``,
-items can also be access via index such as ``<% $.list1[0] %>`` which returns ``abc``.
+``['abc', 'def', 'ijk', 'xyz']``. If this list is published to the context as ``list1``,
+items can also be accessed via index such as ``<% $.list1[0] %>`` which returns ``abc``.
 
 Queries
 +++++++
-Let's take the following context as an example.
+Let's take the following context as an example:
 
 .. code-block:: json
 
@@ -180,7 +180,7 @@ Let's take the following context as an example.
         ]
     }
 
-The following YAQL expressions are some sample queries that YAQL is capable of.
+The following YAQL expressions are some sample queries that YAQL is capable of:
 
 * ``<% $.vms.select($.name) %>`` returns the list of VM names ``['vmweb1', 'vmdb1', 'vmweb2', 'vmdb2']``.
 * ``<% $.vms.select([$.name, $.role]) %>`` returns a list of names and roles as ``[['vmweb1', 'web'], ['vmdb1', 'db'], ['vmweb2', 'web'], ['vmdb2', 'db']]``.
@@ -190,7 +190,7 @@ The following YAQL expressions are some sample queries that YAQL is capable of.
 
 List to Dictionary
 ++++++++++++++++++
-Now there're cases when it's easier to work with dictionaries instead of list (i.e. random
+There are cases where it is easier to work with dictionaries rather than lists (e.g. random
 access of a value with the key). Let's take the same list of VM records from above and convert
 it to a dictionary where VM name is the key and the value is the record. YAQL can convert a list
 of lists to a dictionary where each list contains the key and value. For example, the expression
@@ -228,7 +228,7 @@ convert it to a dictionary.
 Other YAQL Functions
 ++++++++++++++++++++
 YAQL has a list of built-in functions to work with strings, dictionaries, lists, and etc. Some
-of these are pass thru to python built-in functions (i.e. int, float, pow, regex, round, etc.).
+of these are pass thru to Python built-in functions (i.e. int, float, pow, regex, round, etc.).
 Mistral includes additional workflow related functions to the list. For example, the call to
 function ``<% len(foobar) %>`` to get the length of the string ``foobar`` returns the value
 ``6``. The following is a curated list of commonly used functions. Please visit the YAQL
@@ -260,4 +260,4 @@ The best and fastest way to test YAQL expression on your data is to use the onli
 at http://yaqluator.com/.
 
 The website allows you to provide sample data and YAQL expression which you can evaluate in real
-time and see the result. This comes especially handy when working with more complex expressions.
+time and see the result. This is especially handy when working with more complex expressions.
