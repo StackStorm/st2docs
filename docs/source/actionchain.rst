@@ -21,7 +21,7 @@ Following is sample ActionChain workflow definition named :github_st2:`echochain
 Details:
 
 * ``chain`` is the array property that contains tasks, which incapsulate action invocation.
-* Tasks are named action execution specifications, seperated by ``-``. The name is scoped to an ActionChain and is used as a reference to a task.
+* Tasks are named action execution specifications provided in form of a list. The name is scoped to an ActionChain and is used as a reference to a task.
 * ``ref`` property of an task points to an Action registered in |st2|.
 * ``on-success`` is the link to a task to invoke next on a successful action execution. If not provided, the ActionChain will terminate with status set to `success`.
 * ``on-failure`` is an optional link to a task to invoke next on a failed action execution. If not provided, the ActionChain will terminate with the status set to `error`.
