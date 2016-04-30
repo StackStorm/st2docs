@@ -8,7 +8,7 @@ map trigger payload to action inputs.
 Rule Structure
 --------------
 
-Rules are defined in YAML; JSON is supported for backward compatibility. Rule definition structure, as well as required and optional elements are listed below:
+Rules are defined in YAML ( JSON is supported for backward compatibility). Rule definition structure, as well as required and optional elements are listed below:
 
 .. code-block:: yaml
 
@@ -232,11 +232,11 @@ The rules engine is able to interpolate variables by leveraging `Jinja templatin
 
 .. note::
 
-    If a value of trigger attribute can be ``null`` and ``None`` is also a valid value of the action
-    parameter in question, you need to use the ``use_none`` Jinja template filter to make sure that
+    Value of trigger attribute can be ``null`` and ``None``. It is also a valid value of the action
+    parameter in question. You need to use the ``use_none`` Jinja template filter to make sure that
     ``null`` / ``None`` values are correctly serialized when invoking an action.
 
-    .. code-block:: yaml
+.. code-block:: yaml
 
             action:
                 ref: "action_ref"
@@ -244,9 +244,9 @@ The rules engine is able to interpolate variables by leveraging `Jinja templatin
                     foo: "bar"
                     baz: "{{trigger.payload_parameter_1|use_none}}"
 
-    This workaround is required because of the limitation of our current templating system Jinja
-    which doesn't support non-string types. We are forced to perform type casting based on the
-    action parameters definition before invoking an action.
+This workaround is required because of the limitation of our current templating system Jinja
+which doesn't support non-string types. We are forced to perform type casting based on the
+action parameters definition before invoking an action.
 
 
 Managing Rules
@@ -456,15 +456,15 @@ did not match or one of the criteria.
 If you are debugging and would like to see the list of trigger instances sent to |st2|,
 you can use the CLI to do so:
 
-..  code-block:: bash
+.. code-block:: bash
 
-  st2 triggerinstance list
+  st2 trigger-instance list
 
 You can also filter trigger instances by trigger:
 
 .. code-block:: bash
 
-  st2 triggerinstance list --trigger=core.f9e09284-b2b1-4127-aedd-dcde7a752819
+  st2 trigger-instance list --trigger=core.f9e09284-b2b1-4127-aedd-dcde7a752819
 
 
 Also, you can get trigger instances within a time range by using ``timestamp_gt`` and ``timestamp_lt`` filter
@@ -472,21 +472,21 @@ options:
 
 .. code-block:: bash
 
-  st2 triggerinstance list --trigger="core.f9e09284-b2b1-4127-aedd-dcde7a752819" -timestamp_gt=2015-06-01T12:00:00Z -timestamp_lt=2015-06-02T12:00:00Z
+  st2 trigger-instance list --trigger="core.f9e09284-b2b1-4127-aedd-dcde7a752819" -timestamp_gt=2015-06-01T12:00:00Z -timestamp_lt=2015-06-02T12:00:00Z
 
 Note that you can also specify one of ``timestamp_lt`` or ``timestamp_gt`` too. You can
 get details about a trigger instance by using ``get``.
 
 .. code-block:: bash
 
-  st2 triggerinstance get 556e135232ed35569ff23238
+  st2 trigger-instance get 556e135232ed35569ff23238
 
 Something that might be useful in debugging a rule is to re-send a trigger instance into |st2|. You
 can use the ``re-emit`` command for that.
 
 .. code-block:: bash
 
-  st2 triggerinstance re-emit 556e135232ed35569ff23238
+  st2 trigger-instance re-emit 556e135232ed35569ff23238
 
 .. _ref-rule-timers:
 
