@@ -8,7 +8,8 @@ map trigger payload to action inputs.
 Rule Structure
 --------------
 
-Rules are defined in YAML ( JSON is supported for backward compatibility). Rule definition structure, as well as required and optional elements are listed below:
+Rules are defined in YAML. Rule definition structure, as well as required and optional elements are
+listed below:
 
 .. code-block:: yaml
 
@@ -56,7 +57,6 @@ The generic form of a rule is:
   * The ``ref`` (action/workflow) to execute.
   * An optional set of ``parameters`` to pass to the action execution.
 
-
 Trigger
 -------
 
@@ -96,7 +96,7 @@ To learn more about Sensors/Triggers, take a look at the :doc:`sensors` page.
 Criteria
 --------
 
-Rule criteria are the rule(s) needed to be matched against (Logical ``AND``). Criteria in the rule is expressed as:
+Rule criteria are the rule(s) needed to be matched against (logical ``AND``). Criteria in the rule is expressed as:
 
 .. code-block:: yaml
 
@@ -109,6 +109,11 @@ Rule criteria are the rule(s) needed to be matched against (Logical ``AND``). Cr
                 type: "iequals"
                 pattern : "watchevent"
 
+.. note::
+
+    You can achieve logical ``OR`` behavior (either one of multiple criteria expressions needs to
+    match for the action execution to be triggered) by creating multiple independent rules (one per
+    criteria expression).
 
 ``type`` specifies which criteria comparison operator to use and ``pattern`` specifies a pattern
 which gets passed to the operator function.
