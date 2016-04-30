@@ -2,44 +2,43 @@ Webhooks
 ========
 
 Webhooks allow you to integrate external systems with |st2| using HTTP
-webhooks. Unlike sensors which use "pull" approach, webhooks use "push"
+webhooks. Unlike sensors which use a "pull" approach, webhooks use a "push"
 approach. This means they work by you pushing triggers directly to the |st2|
-API using HTTP POST request.
+API using HTTP POST requests.
 
-What is a difference between sensors and webhooks?
---------------------------------------------------
+What is the difference between sensors and webhooks?
+----------------------------------------------------
 
-Sensors integrate with external systems and services using poll approach
+Sensors integrate with external systems and services using a poll approach
 (sensors periodically reach out to an external system to retrieve data you are
-interested in) and webhooks use push approach (your systems push data to the
+interested in) and webhooks use a push approach (your systems push data to the
 |st2| API when an event you are interested in occurs).
 
-Sensors are a preferred way of integration since they offer a more granular and
+Sensors are the preferred integration method since they offer a more granular and
 tighter integration.
 
-On the other hand, webhooks come handy when you have an existing script or
+On the other hand, webhooks come in handy when you have an existing script or
 software which you can easily modify to send a webhook to the |st2| API when an
 event you are interested in occurs.
 
 Another example where webhooks come handy is when you want to consume events
-from a 3rd party services which already offer webhooks integration - an example
-of such service includes Github.
+from a 3rd party service which already offer webhooks integration - e.g. GitHub
 
 Authentication
 --------------
 
 All the requests to the /webhooks endpoints needs to be authenticated in the
-same way as other API requests. There are two possible authentication approaches
-and for webhooks it is recommended to use API keys. API keys do not expire while
-tokens have a fixed expiry.
+same way as other API requests. There are two possible authentication approaches - API
+keys and tokens. API keys are recommended for webhooks, as they do not expire. Tokens
+have a fixed expiry.
 
-API key based
+API key-based
 ~~~~~~~~~~~~~
 
 * `Header` : ``St2-Api-Key``
 * `Query parameter` : ``?st2-api-key``
 
-Token based
+Token-based
 ~~~~~~~~~~~
 
 * `Header` : ``X-Auth-Token``
@@ -48,13 +47,13 @@ Token based
 
 Both methods above support providing the authentication material as a header or query parameter.
 A header is usually used with your scripts where you can control request headers while query
-parameter is used with 3rd party services such as Github where you can only specify a URL.
+parameters are used with 3rd party services such as GitHub where you can only specify a URL.
 
 Request body
 ------------
 
-Request body or so called trigger payload can either be JSON or URL encoded form data. Body type
-is determined based on the value of ``Content-Type`` header (``application/json`` for JSON and
+The request body or so called trigger payload can be either JSON or URL encoded form data. The body type
+is determined based on the value of the ``Content-Type`` header (``application/json`` for JSON and
 ``application/x-www-form-urlencoded`` for URL encoded form data).
 
 All the examples below assume JSON and as such, provide ``application/json`` for the
@@ -66,13 +65,13 @@ Using a generic st2 webhook
 By default, a generic webhook with a name ``st2`` is already registered. This
 webhook allows you to push arbitrary triggers to the API.
 
-Body of this request needs to be JSON and contain the following attributes:
+The body of this request needs to be JSON and must contain the following attributes:
 
 * ``trigger`` - Name of the trigger (e.g. ``mypack.mytrigger``)
 * ``payload`` - Object with a trigger payload.
 
-Here is an example which shows how to send data to the generic webhook using
-cURL and how to match on this data inside the rule criteria.
+This example shows how to send data to the generic webhook using
+cURL, and how to match this data using rule criteria:
 
 .. sourcecode:: bash
 
@@ -105,7 +104,7 @@ Registering a custom webhook
 |st2| also supports registering custom webhooks. You can do that by specifying
 ``core.st2.webhook`` trigger inside a rule definition.
 
-Here is an excerpt from a rule which registers a new webhook named ``sample``.
+Here is an excerpt from a rule which registers a new webhook named ``sample``:
 
 .. sourcecode:: yaml
 
@@ -131,8 +130,8 @@ attributes to be dispatched:
 * ``trigger.headers`` - Dictionary containing the request headers.
 * ``trigger.body`` - Dictionary containing the request body.
 
-Here is an example which shows how to send data to a custom webhook using
-cURL and how to match on this data inside the rule criteria.
+This example shows how to send data to a custom webhook using
+cURL and how to match on this data using rule criteria:
 
 .. sourcecode:: bash
 
@@ -161,7 +160,7 @@ Rule:
 Listing registered webhooks
 ---------------------------
 
-To list all the registered webhooks you can use the CLI as shown below:
+To list all registered webhooks, run:
 
 ::
 
