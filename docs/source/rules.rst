@@ -96,7 +96,7 @@ To learn more about Sensors/Triggers, take a look at the :doc:`sensors` page.
 Criteria
 --------
 
-Rule criteria are the rule(s) needed to be matched against (Logical ``AND``). Criteria in the rule is expressed as:
+Rule criteria are the rule(s) needed to be matched against (logical ``AND``). Criteria in the rule is expressed as:
 
 .. code-block:: yaml
 
@@ -109,6 +109,11 @@ Rule criteria are the rule(s) needed to be matched against (Logical ``AND``). Cr
                 type: "iequals"
                 pattern : "watchevent"
 
+.. note::
+
+    You can achieve logical ``OR`` behavior (e.g. either one of multiple criteria expressions need
+    to match for the action execution to be triggered) by creating multiple rules (one per criteria
+    expression).
 
 ``type`` specifies which criteria comparison operator to use and ``pattern`` specifies a pattern
 which gets passed to the operator function.
