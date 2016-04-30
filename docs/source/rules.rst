@@ -111,9 +111,9 @@ Rule criteria are the rule(s) needed to be matched against (logical ``AND``). Cr
 
 .. note::
 
-    You can achieve logical ``OR`` behavior (e.g. either one of multiple criteria expressions need
-    to match for the action execution to be triggered) by creating multiple rules (one per criteria
-    expression).
+    You can achieve logical ``OR`` behavior (either one of multiple criteria expressions needs to
+    match for the action execution to be triggered) by creating multiple independent rules (one per
+    criteria expression).
 
 ``type`` specifies which criteria comparison operator to use and ``pattern`` specifies a pattern
 which gets passed to the operator function.
