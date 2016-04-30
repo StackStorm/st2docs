@@ -8,7 +8,8 @@ map trigger payload to action inputs.
 Rule Structure
 --------------
 
-Rules are defined in YAML ( JSON is supported for backward compatibility). Rule definition structure, as well as required and optional elements are listed below:
+Rules are defined in YAML. Rule definition structure, as well as required and optional elements are
+listed below:
 
 .. code-block:: yaml
 
@@ -55,7 +56,6 @@ The generic form of a rule is:
 
   * The ``ref`` (action/workflow) to execute.
   * An optional set of ``parameters`` to pass to the action execution.
-
 
 Trigger
 -------
