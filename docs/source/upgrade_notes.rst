@@ -1,8 +1,8 @@
 Upgrade Notes
 =============
 
-|st2| In Development
---------------------
+|st2| v1.4
+----------
 
 * ``matchregex`` rule criteria operator has been updated so now the dot character (``.``) also
   matches a new line. This makes the existing criteria patterns which use dot character more greedy.
@@ -41,8 +41,8 @@ Upgrade Notes
   replaced with a ``task`` function that returns attributes of the task such as id, state, result,
   and additional information (i.e. ``task(task1).result``).
 
-|st2| 1.3
----------
+|st2| v1.3
+----------
 
 
 * New ``abandoned`` action execution status has been introduced. State is applied to action execution
@@ -51,8 +51,8 @@ Upgrade Notes
   failure state any code that checks for an action failure should be updated to check for ``abandoned``
   state in addition to ``failed`` and ``timeout``.
 
-|st2| 1.2
----------
+|st2| v1.2
+----------
 
 * Refactor retries in the Mistral action runner to use exponential backoff. Configuration options
   for Mistral have changed. The options ``max_attempts`` and ``retry_wait`` are deprecated. Please
@@ -116,8 +116,8 @@ To upgrade a pre-1.2.0 StackStorm instance provisioned with the :doc:`install/al
 
 To verify the upgrade, please follow the link to run the :doc:`self-verification script <troubleshooting/self_verification>`.
 
-|st2| 1.1
----------
+|st2| v1.1
+----------
 
 Migrating to v1
 ~~~~~~~~~~~~~~~
@@ -157,8 +157,8 @@ Changes
   OpenStack Mitaka release cycle.
 
 
-|st2| 0.11
--------------
+|st2| v 0.11
+------------
 
 * Rules now have to be part of a pack. If you don't specify a pack,
   pack name is assumed to be `default`. A migration script
@@ -166,8 +166,8 @@ Changes
   on installation. The migration script
   is run as part of st2_deploy.sh when you upgrade from versions < 0.9 to 0.11.
 
-|st2| 0.9
----------
+|st2| v0.9
+----------
 
 * Process names for all |st2| services now start with "st2". sensor_container now runs as
   st2sensorcontainer, rules_engine runs as st2rulesengine, actionrunner now runs as
