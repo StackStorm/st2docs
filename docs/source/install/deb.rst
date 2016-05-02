@@ -232,7 +232,19 @@ To set it up, install `st2web` and `nginx`, generate certificates or place your 
 certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's supplied
 :github_st2:`site config file st2.conf<conf/nginx/st2.conf>`.
 
+StackStorm depends on Nginx version >=1.7.5; since Ubuntu 14 has an older version
+in the package repositories at the time of writing, you will have to include
+the official Nginx repository into the source list:
+
   .. code-block:: bash
+
+    # Add key and repo for the latest stable nginx
+    sudo apt-key adv --fetch-keys http://nginx.org/keys/nginx_signing.key
+    sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/nginx.list
+    deb http://nginx.org/packages/ubuntu/ trusty nginx
+    deb-src http://nginx.org/packages/ubuntu/ trusty nginx
+    EOT"
+    sudo apt-get update
 
     # Install st2web and nginx
     sudo apt-get install -y st2web nginx
