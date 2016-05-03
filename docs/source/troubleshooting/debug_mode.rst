@@ -7,7 +7,6 @@ shown below and restarting all the services using ``st2ctl restart``.
 
 .. sourcecode:: ini
 
-    ...
     [system]
     debug = True
 
