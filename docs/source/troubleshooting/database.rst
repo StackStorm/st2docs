@@ -10,7 +10,7 @@ If some of the API requests are slow you receive back "too much data" error, thi
 by an inefficient database query or a missing index.
 
 To troubleshoot this issue, you should start the offending service (e.g. ``st2api``) with the
-``--debug`` / ``--profile`` flag.
+``--debug`` and ``--profile`` flag.
 
 When this flag is used the service runs in the profiling mode meaning all the executed MongoDB
 queries and related profiling information (which indexes were used, how many records / rows were
