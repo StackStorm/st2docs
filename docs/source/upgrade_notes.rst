@@ -7,6 +7,37 @@ Upgrade Notes
 * Old and deprecated Fabric based remote runner has been removed. This means
   ``ssh_runner.use_paramiko_ssh_runner`` config option is now obsolete and has no affect.
 
+* For security reasons, ``sudo`` parameter has been removed from the local runner
+  (``local-shell-command``, ``local-shell-script``) actions. If your actions use local
+  runner and they override ``sudo`` parameter and make it immutable you need to update
+  your actions and remove this parameter as shown below:
+
+  Before:
+
+  .. sourcecode:: yaml
+
+      ---
+      name: dummy_action
+      runner_type: local-shell-script
+      description: "Dummy action."
+      enabled: true
+      entry_point": my_action.py
+      parameters:
+        sudo:
+          immutable: true
+
+  After (removing ``sudo`` parameter):
+
+  .. sourcecode:: yaml
+
+      ---
+      name: dummy_action
+      runner_type: local-shell-script
+      description: "Dummy action."
+      enabled: true
+      entry_point": my_action.py
+
+
 |st2| v1.4
 ----------
 
