@@ -2,7 +2,8 @@
 
     If a value you specify for the ``private_key`` parameter is a path to the private key file, you
     need to make sure that the user under which action runner process is running (``stanley`` by
-    default) has read access to this key file.
+    default) has read access to this key file. This private key file also needs be deployed and
+    present on all the servers where action runner component is running.
 
     In addition to that, if you utilize path to the private key file functionality, you are strongly
     encouraged to disable local runner in the config. If you don't do that, any |st2| user which has
