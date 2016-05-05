@@ -1,6 +1,12 @@
 Upgrade Notes
 =============
 
+|st2| in development
+--------------------
+
+* Old and deprecated Fabric based remote runner has been removed. This means
+  ``ssh_runner.use_paramiko_ssh_runner`` config option is now obsolete and has no affect.
+
 |st2| v1.4
 ----------
 
@@ -155,7 +161,6 @@ Changes
   the function call ``task(task1).result``, replaces ``$.task1`` when referencing result of task1.
   The old reference style will be fully deprecated in the next major release of Mistral, the
   OpenStack Mitaka release cycle.
-
 
 |st2| v 0.11
 ------------
