@@ -34,6 +34,8 @@ where |st2| components are running.
 Runner parameters
 ^^^^^^^^^^^^^^^^^
 
+.. include:: _includes/sudo_parameter_removal_notice.rst
+
 .. include:: _includes/runner_parameters/local_shell_cmd.rst
 
 Local script runner (local-shell-script)
@@ -45,6 +47,8 @@ character is stripped from `stdout` and `stderr` fields in the output.
 
 Runner parameters
 ^^^^^^^^^^^^^^^^^
+
+.. include:: _includes/sudo_parameter_removal_notice.rst
 
 .. include:: _includes/runner_parameters/local_shell_script.rst
 
