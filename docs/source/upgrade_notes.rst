@@ -37,6 +37,9 @@ Upgrade Notes
       enabled: true
       entry_point": my_action.py
 
+  Note: Removing sudo parameter and paswordles sudo requirement for the system user under which
+  |st2| action runner component is running also means that local runner actions can now only run as
+  user under which action runner component is running.
 
 |st2| v1.4
 ----------
