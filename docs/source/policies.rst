@@ -3,9 +3,9 @@ Policies
 
 .. note::
 
-    Policy is currently an experimental feature and may subject to bugs and design changes.
+    Policy is currently an experimental feature and may be subject to bugs and design changes.
 
-To list the types of policy that is available for configuration, run the command ``st2 policy-type list``.
+To list the types of policy that are available for configuration, run the command ``st2 policy-type list``.
 
 Policy configuration files are expected to be located under the ``policies`` folder in related packs, similar to actions and rules. Policies can be loaded into |st2| via ``st2ctl reload --register-policies``. Once policies are loaded into |st2|, run the command ``st2 policy list`` to view the list of policies in effect.
 
@@ -14,7 +14,7 @@ Concurrency
 
 The concurrency policy enforces the number of executions that can run simultaneously for a specified action. There are two forms of concurrency policy: ``action.concurrency`` and ``action.concurrency.attr``.
 
-The ``action.concurrency`` policy basically limites the concurrenct executions for the action. The following is an example of a policy file with concurrency defined for ``demo.my_action``. Please note that the resource_ref and policy_type are the fully qualified name for the action and policy type respectively. The ``threshold`` parameter defines how many concurrency instances allowed. In this example, no more than 10 instances of ``demo.my_action`` can be run simultaneously. Any execution requests passed threshold will be postponed.
+The ``action.concurrency`` policy limits the concurrent executions for the action. The following is an example of a policy file with concurrency defined for ``demo.my_action``. Please note that the resource_ref and policy_type are the fully qualified name for the action and policy type respectively. The ``threshold`` parameter defines how many concurrent instances are allowed. In this example, no more than 10 instances of ``demo.my_action`` can be run simultaneously. Any execution requests above this threshold will be postponed.
 
 .. sourcecode:: YAML
 
@@ -44,15 +44,19 @@ The ``action.concurrency.attr`` policy limits the executions for the action by i
 
     The concurrency policy type is not enabled by default and requires a backend service such as ZooKeeper or Redis to work.
 
-Let's assume ZooKeeper or Redis is running on the same network where |st2| is installed. To enable the concurrency policy type in |st2|, provide the url to connect to the backend service in the coordination section of ``/etc/st2/st2.conf``. The following are examples for ZooKeeper and Redis.
+Let's assume ZooKeeper or Redis is running on the same network where |st2| is installed. To enable the concurrency policy type in |st2|, provide the url to connect to the backend service in the coordination section of ``/etc/st2/st2.conf``. The following are examples for ZooKeeper and Redis:
 
-Configuration example for ZooKeeper. ::
+ZooKeeper: 
+
+::
 
     [coordination]
     url = kazoo://username:password@host:port
 
 
-Configuration example for Redis. ::
+Redis: 
+
+::
 
     [coordination]
     url = redis://password@host:port
@@ -64,8 +68,8 @@ Retry policy (``action.retry``) allows you to automatically retry (re-run) an ac
 particular failure condition is met. Right now we support retrying actions which have failed or
 timed out.
 
-The example below shows how to automatically retry ``core.http`` action for up to two times if it
-times out.
+The example below shows how to automatically retry the ``core.http`` action up to two times if it
+times out:
 
 .. literalinclude:: /../../st2/contrib/hello-st2/policies/retry_core_http_on_timeout.yaml
 
