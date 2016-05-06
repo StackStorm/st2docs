@@ -1,13 +1,13 @@
 Action Alias
 ============
 
-Action Alias is a simplified and more human readable representation
-of actions in StackStorm which are useful in text based interfaces, notably ChatOps.
+Action Aliases are a simplified and more human readable representation
+of actions in StackStorm. They are useful in text based interfaces, notably ChatOps.
 
 Action Alias Structure
 ^^^^^^^^^^^^^^^^^^^^^^
 
-Action aliases are content like actions, rules and sensors. They are also defined in yaml
+Action aliases are content like actions, rules and sensors. They are also defined in YAML
 files and deployed via packs.
 
 e.g.
@@ -37,19 +37,19 @@ Property description
 Location
 ~~~~~~~~
 
-Action Aliases are supplied in packs as yaml files.
+Action Aliases are supplied in packs as YAML files.
 
 .. code-block:: bash
 
     packs/my_pack$ ls
     actions  aliases  rules  sensors
 
-Each alias is a single yaml file with the alias and supporting multiple formats.
+Each alias is a single YAML file with the alias and supporting multiple formats.
 
 Listing
 ~~~~~~~
 
-To list all currently registered action aliases, use -
+To list all currently registered action aliases, use:
 
 .. code-block:: bash
 
@@ -58,7 +58,7 @@ To list all currently registered action aliases, use -
 Loading
 ~~~~~~~
 
-When a pack is registered the aliases are not automatically loaded. To load all aliases use -
+When a pack is registered the aliases are not automatically loaded. To load all aliases use:
 
 .. code-block:: bash
 
@@ -67,7 +67,7 @@ When a pack is registered the aliases are not automatically loaded. To load all 
 Removing
 ~~~~~~~~
 
-When you like to remove an action alias, use -
+To remove an action alias, use:
 
 .. code-block:: bash
 
@@ -78,7 +78,7 @@ When you like to remove an action alias, use -
 Supported formats
 ^^^^^^^^^^^^^^^^^
 
-Aliases support following format structures.
+Aliases support the following format structures:
 
 Basic
 ~~~~~
@@ -89,9 +89,9 @@ Basic
       - "google {{query}}"
 
 
-In this case if user were to provide ``google StackStorm``, via a ChatOps interface, the aliasing mechanism
+In this case if the user were to provide ``google StackStorm``, via a ChatOps interface, the aliasing mechanism
 would interpret ``query = StackStorm``. The action ``google.get_search_results`` would be called with the
-parameters -
+parameters:
 
 .. code-block:: yaml
 
@@ -108,9 +108,9 @@ Using example -
     formats:
       - "google {{query=StackStorm}}"
 
-In this case the query has a default value assigned which will be used if not value is provided by user.
-Therefore, simple ``google`` instead of ``google StackStorm`` would still result in assumption of the
-default value much like how an Action default parameter values are interpretted.
+In this case the query has a default value assigned which will be used if no value is provided by the user.
+Therefore, a simple ``google`` instead of ``google StackStorm`` would result in assigning the
+default value, in a similar manner to how Action default parameter values are interpreted.
 
 Regular expressions
 ~~~~~~~~~~~~~~~~~~~
@@ -136,7 +136,7 @@ Using example -
 
 It is possible to supply extra key value parameters like ``google StackStorm limit=10``. In this case even
 though ``limit`` does not appear in any alias format it will still be extracted and supplied for execution.
-In this the action google.get_search_results would be called with the parameters -
+In this case the action google.get_search_results would be called with the parameters:
 
 .. code-block:: yaml
 
@@ -147,16 +147,15 @@ In this the action google.get_search_results would be called with the parameters
 Additional ChatOps parameters passed to the command
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-An execution triggered via chatops will contain variables such as ``action_context.api_user``, ``action_context.user`` and ``action_context.source_channel``. ``api_user`` is the user who's kicking off the chatops command from
-client and ``user`` is the |st2| user configured in hubot. ``source_channel`` is the channel
-in which the chatops command was kicked off.
+An execution triggered via ChatOps will contain variables such as ``action_context.api_user``, ``action_context.user`` and ``action_context.source_channel``. ``api_user`` is the user who runs the ChatOps command from the client and ``user`` is the |st2| user configured in hubot. ``source_channel`` is the channel
+in which the ChatOps command was kicked off.
 
-If you are attempting to access this information from inside of an action-chain, you will need to reference the variables through the parent, like ``action_context.parent.api_user``
+If you are attempting to access this information from inside an action-chain, you will need to reference the variables through the parent, e.g. ``action_context.parent.api_user``
 
 Multiple formats in single alias
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A single alias file allow multiple formats to be specified for a single alias e.g.
+A single alias file allow multiple formats to be specified for a single alias e.g.:
 
 .. code-block:: yaml
 
@@ -169,7 +168,7 @@ A single alias file allow multiple formats to be specified for a single alias e.
         - "list sensors from {{ pack }}"
         - "sensors list"
 
-The above alias supports the following commands -
+The above alias supports the following commands:
 
 .. code-block:: bash
 
@@ -185,7 +184,7 @@ Note: formats are matched in the exact order they are specified in a YAML array,
 "Display-representation" format objects
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-By default, every format string is exposed in Hubot help as is. This is not always desirable in case you want to make a complicated regex, have ten very similar format strings to "humanize" the input, or hide one of the strings for any other reason.
+By default, every format string is exposed in Hubot help as-is. This is not always desirable in cases where you want to make a complicated regex, have ten very similar format strings to "humanize" the input, or hide one of the strings for any other reason.
 
 In this case, instead of having a string in `formats`, you can write an object with a `display` parameter (a string that will show up in help) and a `representation` list (matches that Hubot will actually look for):
 
@@ -214,7 +213,7 @@ You can use both strings and display-representation objects in `formats` at the 
       - "find me some {{query}}"
       - "find me some {{query}} in {{engine}}"
 
-Acknowledgement options
+Acknowledgment options
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 Hubot will acknowledge every ChatOps command with a random message containing StackStorm execution ID and a link to the Web UI. It's possible to customize this message in your alias definition:
@@ -232,7 +231,7 @@ The `format` parameter will customize your message, and the `append_url` flag co
     ack:
       format: "Executing `{{ actionalias.ref }}`, your ID is `{{ execution.id[:2] }}..{{ execution.id[-2:] }}`"
 
-The `enabled` parameter controls whether the message will be sent. It defaults to `true`, and setting it to `false` will disable the acknowledgement message altogether:
+The `enabled` parameter controls whether the message will be sent. It defaults to `true`, and setting it to `false` will disable the acknowledgment message altogether:
 
 .. code-block:: yaml
 
@@ -242,7 +241,7 @@ The `enabled` parameter controls whether the message will be sent. It defaults t
 Result options
 ^^^^^^^^^^^^^^
 
-Same as with `ack`, you can configure `result` to disable result messages or set a custom format so that Hubot would output a nicely formatted list, filter strings, or switch the message text depending on execution status:
+Similar to `ack`, you can configure `result` to disable result messages or set a custom format so that Hubot will output a nicely formatted list, filter strings, or switch the message text depending on execution status:
 
 .. code-block:: yaml
 
@@ -257,7 +256,7 @@ Same as with `ack`, you can configure `result` to disable result messages or set
         couldn't find anything, sorry!
         {% endif %}
 
-To disable the result message, you can use the `enabled` flag same way as in `ack`.
+To disable the result message, you can use the `enabled` flag in the same way as in `ack`.
 
 Plaintext messages (Slack and HipChat)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
