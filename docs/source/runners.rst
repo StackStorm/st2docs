@@ -60,6 +60,8 @@ Runner parameters
 
 .. include:: _includes/runner_parameters/remote_shell_cmd.rst
 
+.. include:: _includes/private_key_path_notice.rst
+
 Remote script runner (remote-shell-script)
 ------------------------------------------
 
@@ -72,12 +74,7 @@ Runner parameters
 
 .. include:: _includes/runner_parameters/remote_shell_script.rst
 
-.. note::
-
-    Prior to v0.13, remote script runner and remote command runner used Fabric to remote to boxes.
-    In 0.13 Fabric was replaced with Paramiko with eventlets.
-    If you need to use the old Fabric-based implementation instead, 
-    set ``use_paramiko_ssh_runner = False`` in ``[ssh_runner]`` section in ``/etc/st2/st2.conf``.
+.. include:: _includes/private_key_path_notice.rst
 
 Windows command runner (windows-cmd)
 ------------------------------------
