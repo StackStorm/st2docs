@@ -1,19 +1,19 @@
 Notifications
 =============
 
-If you read through :ref:`ref-chatops` section, you are familiar with notifications.
-Even without chatops, notifications can be used to post messages to external systems
-like chat clients, send emails etc. Notifications require an action that is registered with
+If you read through the :ref:`ref-chatops` section, you are familiar with notifications.
+Even without ChatOps, notifications can be used to post messages to external systems
+like Chat clients, send emails etc. Notifications require an action that is registered with
 st2 (For example, ``slack`` pack contains a
 `post_message <https://github.com/StackStorm/st2contrib/blob/master/packs/slack/actions/post_message.yaml>`_ action.)
 and a notification rule to go with it. Notifications are implemented as triggers and rules and actions.
-A speical ``core.st2.notifytrigger`` is emitted by the system on completion of every action
+A special ``core.st2.notifytrigger`` is emitted by the system on completion of every action
 and a rule to match the trigger to a notify action results in notifications being sent out.
 
 How to setup a notification for a simple action?
 ------------------------------------------------
 
-This is the easiest case. You can do this by specifying a ``notify`` section in the YAML meta
+This is the easiest case. You can do this by specifying a ``notify`` section in the YAML metadata
 while registering the action. For example:
 
 ::
@@ -40,7 +40,7 @@ while registering the action. For example:
 Above is the same action as a ``local-shell-cmd`` action but with notify. As you can see, there
 is a notify section with ``on-complete`` section. You can also specify `on-success`
 and ``on-failure`` sections with different messages. These subsections are all optional but at
-least one is required for any meaningful notification. For sake of clarity, an ``on-success`` case
+least one is required for any meaningful notification. For the sake of clarity, an ``on-success`` case
 is presented below.
 
 
@@ -56,8 +56,8 @@ is presented below.
         - slack
         message: '"@channel: Woohoo!"'
 
-Also, when the notification triggers are sent out, the message supplied along with a ``data``
-field containing the results of the execution are sent out. The rule can use these two fields -
+When the notification triggers are sent out, the message is supplied along with a ``data``
+field containing the results of the execution. The rule can use these two fields -
 ``message`` and ``data`` - and send it out as part of the action.
 
 How to write a rule for notification?
@@ -94,11 +94,11 @@ you could pass ``data: "{{data}}"`` as a parameter.
 Jinja templating in ``message`` and ``data``
 --------------------------------------------
 
-As of release 1.2, Jinja templating is supported for both ``message`` and ``data``. The jinja
-context available for use are parameters of action and runner ({{action_parameters.cmd}}),
-keys in execution results ({{action_results.stdout}}, {{action_results.stderr}} for example),
-anything in action context ({{action_context.user}})
-and anything in key-value store ({{system.foo}}). Some examples are shown below.
+As of release 1.2, Jinja templating is supported for both ``message`` and ``data``. The Jinja
+contexts available for use are parameters of action and runner (``{{action_parameters.cmd}}``),
+keys in execution results (``{{action_results.stdout}}``, ``{{action_results.stderr}}`` for example),
+anything in action context (``{{action_context.user}}``)
+and anything in key-value store (``{{system.foo}}``). Some examples are shown below:
 
 ::
 
@@ -115,11 +115,11 @@ and anything in key-value store ({{system.foo}}). Some examples are shown below.
       cmd: "{{action_parameters.cmd}}"
       stdout: "{{action_results.stdout}}"
 
-How do I setup notifications in action chain?
----------------------------------------------
+How do I setup notifications in an action chain?
+------------------------------------------------
 
-The procedure here is the same if you want the same notify for all tasks in the chain. You would
-register an action meta with notify section. For example:
+The procedure here is the same if you want the same notify for all tasks in the chain.
+Register an action metadata with a notify section. For example:
 
 ::
 
@@ -143,16 +143,16 @@ register an action meta with notify section. For example:
         routes:
           - "slack"
 
-This is mostly useless because you want to control the message in each of the tasks. See section
+This is mostly useless because you want to control the message in each of the tasks. See the section
 below.
 
 How do I setup different notifications for different tasks in the chain?
 ------------------------------------------------------------------------
 
-The ``notify`` subsection is the same format as you have seen in examples above. You basically
-place the subsection in action chain tasks. If you have a notify section for the action meta
-and there is a notify section in the task, the task one will override. The relevant section of chain
-action with task notify is shown below.
+The ``notify`` subsection is the same format as seen in examples above.
+Place the subsection in action chain tasks. If there is notify section for the action metadata, 
+and a notify section in the task, the task section will override the default. The relevant section of chain
+action with task notify is shown below:
 
 ::
 
@@ -178,13 +178,13 @@ action with task notify is shown below.
         timeout: 180
       on-success: "make_tests"
 
-How do I setup notifications for mistral?
+How do I setup notifications for Mistral?
 -----------------------------------------
 
 The method for global notifications for the workflow is the same as action chain. You have a notify
 section in the action meta when registering. See an
 `example <https://github.com/StackStorm/st2/blob/master/contrib/examples/actions/mistral-basic-two-tasks-with-notifications.yaml#L24>`_.
-Unfortunately, notifications per task are not supported in mistral as a first class citizen yet.
+Unfortunately, notifications per task are not supported in Mistral as a first class citizen yet.
 This will be added in later releases.
 
 How do I skip notifications for tasks in workflow or chain?
@@ -226,14 +226,14 @@ and call out tasks in the action meta. For example,
           - "slack"
 
 In the above example, notifications for "task2" will not be sent out. This feature is
-particularly useful in combination with chatops where you want noisy tasks to not pollute
-the chat client.
+particularly useful in combination with ChatOps where you don't want want noisy tasks to
+pollute the Chat client.
 
-Chatops and notifications
+ChatOps and notifications
 -------------------------
 
-If you enabled chatops, you get all the the things wired for you. You don't have to edit
-action meta etc. You can still use ``skip_notify`` to skip notifications for certain tasks in a chain
-or workflow. If you specified a notify section in meta or in tasks, those notification routes
-will override chatops. Therefore, you might not see notifications in chat client.
+If you enabled ChatOps, you get all the the things wired for you. You don't have to edit
+action metadata etc. You can still use ``skip_notify`` to skip notifications for certain tasks in a chain
+or workflow. If you specified a notify section in metadata or in tasks, those notification routes
+will override ChatOps. Therefore, you might not see notifications in chat client.
 See `issue <https://github.com/StackStorm/st2/issues/2018>`_ for example.
