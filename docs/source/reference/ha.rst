@@ -211,6 +211,7 @@ all host boxes in an identical manner it could leads to unpredicatble behavior. 
 this manner it is certainly not ideal and perhaps managing the ``virtualenvs`` on every host box individually would
 be a more robust approach.
 
+
 Content management
 ^^^^^^^^^^^^^^^^^^
 Managing pack installation using a content management tool of your choice. Assuming that the list of packs to be deployed
@@ -348,6 +349,14 @@ above support the capbility of being turned on-off individually therefore each b
 
 9. Use Nginx config for the blueprint boxes from `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2_Nginx-conf>`__. In this config Nginx will act as the SSL termination endpoint for all the REST endpoints exposed by ``st2api``, ``st2auth`` and ``mistral-api``.
 
-10. See :doc:`/reference/sensor_partitioning` to decide on how to partition sensors that suit your requirements.
+10. To use Timer triggers with mistral please do the following to only enable them on one server by doing the following in `/etc/st2/st2.conf` 
 
-11. All content should be synced by choosing a suitable strategy as outlined above. This is cruicial to obtain predicatable outcomes.
+    .. code-block:: yaml
+        
+        [timer]
+        enable = False
+        
+
+11. See :doc:`/reference/sensor_partitioning` to decide on how to partition sensors that suit your requirements.
+
+12. All content should be synced by choosing a suitable strategy as outlined above. This is cruicial to obtain predicatable outcomes.
