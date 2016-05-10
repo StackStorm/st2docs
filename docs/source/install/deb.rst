@@ -279,7 +279,10 @@ If you already run a Hubot instance, you only have to install the `hubot-stackst
 
 * Validate that ``chatops`` pack is installed, and a notification rule is enabled: ::
 
-      st2 rule list --pack=chatops
+    # Ensure chatops pack is in place
+    ls /opt/stackstorm/packs/chatops
+    # Create notification rule if not yet enabled
+    st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml
 
 * `Install NodeJS v4 <https://nodejs.org/en/download/package-manager/>`_: ::
 
