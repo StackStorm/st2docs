@@ -1,15 +1,17 @@
 CLI Reference
 ===================
 
-StackStorm command line client (CLI) allows you talk to and operate StackStorm
-deployment using the command line interface. It talks to the StackStorm
-installation using the public API.
+The |st2| command line client (CLI) allows you talk to and operate your StackStorm
+deployment using the command line. It talks to the StackStorm installation using 
+the public API.
 
 Installation
 ------------
 
 If you installed StackStorm using packages or a deployment script, the CLI
-should already be available. It can also be installed with pip: ::
+should already be available. It can also be installed with pip: 
+
+.. sourcecode:: bash
 
     pip install st2client
 
@@ -19,31 +21,31 @@ should already be available. It can also be installed with pip: ::
 Configuration
 -------------
 
-The command line client can be configured using one or a mix of approaches
-listed below.
+The command line client can be configured using one or more of the approaches
+listed below:
 
 * Configuration file (``~/.st2/config``)
 * Environment variables (``ST2_API_URL``, etc.)
 * Command line arguments (``st2 --cacert=... action list``, etc.)
 
-Approaches have the following precedence from the higest to the lowests:
+The options have the following precedence from the highest to the lowest:
 command line arguments, environment variables, configuration file. This means
-that the values specified as command line arguments have the higest precedence
+that the values specified as command line arguments have the highest precedence
 and the values specified in the configuration file have the lowest precedence.
 
-If the same value is specified in multiple places, the value with the higest
-precedence will be used. For example, if api url is specified in the
-configuration file and inside the environment variable, value from the
+If the same value is specified in multiple places, the value with the highest
+precedence will be used. For example, if API url is specified in the
+configuration file and in an environment variable, the
 environment variable will be used.
 
 Configuration file
 ~~~~~~~~~~~~~~~~~~
 
-The CLI can be configure through an ini-style configuration file which is by
+The CLI can be configured through an ini-style configuration file which is by
 default located at ``~/.st2/config``.
 
 If you want to use configuration from a different file (e.g. you have one
-config per deployment or environment) you can select which file to use using
+config per deployment or environment) you can select which file to use using the
 ``ST2_CONFIG_FILE`` environment variable or ``--config-file`` command line
 argument.
 
@@ -80,23 +82,23 @@ Authentication and auth token caching
 If you specify authentication credentials in the configuration file, the CLI
 will try to use those credentials to authenticate and retrieve an auth token.
 
-This auth token is by default cached on the local filesystem (``~/.st2/token``
-file``) and re-used on the subsequent requests to the API service.
+This auth token is by default cached on the local filesystem (in the ``~/.st2/token``
+file) and re-used for subsequent requests to the API service.
 
 If you want to disable auth token caching and want the CLI to retrieve a new
 auth token on each invocation, you can do that by setting ``cache_token``
-option to ``False``.
+option to ``False``:
 
 .. sourcecode:: ini
 
     [cli]
     cache_token = False
 
-CLI will by default also try to retrieve a new token if an existing one has
+The CLI will by default also try to retrieve a new token if an existing one has
 expired.
 
 If you have manually deleted or revoked a token before the expiration you can
-clean the token cached by the CLI by removing ``~/.st2/token`` file.
+clear the cached token from by removing the ``~/.st2/token`` file.
 
 Using debug mode
 ----------------
@@ -161,7 +163,7 @@ Example output (error):
 Using CLI inside scripts
 ------------------------
 
-CLI returns a non-zero return code for any erroneous operation. You can capture
+The CLI returns a non-zero return code for any erroneous operation. You can capture
 the return code of CLI commands to check whether the command succeeded.
 
 For example:
@@ -202,15 +204,15 @@ Let's check the exit code of the last command.
 
     2
 
-Obtaining authentication token inside scripts
----------------------------------------------
+Obtaining an authentication token inside scripts
+------------------------------------------------
 
 If you want to authenticate and obtain an authentication token inside your
-(shell) scripts, you can use `st2 auth` CLI command in combination with ``-t``
-flag to do that.
+(shell) scripts, you can use the ``st2 auth`` CLI command in combination 
+with the ``-t`` flag.
 
 This flag will cause the command to only print the token to the stdout on
-successful authentication - this means you don't need to deal with parsing
+successful authentication. This means you don't need to deal with parsing
 JSON or CLI output format.
 
 Example command usage:
@@ -234,10 +236,8 @@ Example usage inside a Bash script:
 Changing the CLI output format
 ------------------------------
 
-By default, CLI returns and prints results in a user-friendly table oriented
-format.
-
-For example:
+By default, the CLI returns and prints results in a user-friendly table oriented
+format. For example:
 
 .. sourcecode:: bash
 
@@ -251,8 +251,8 @@ For example:
     +--------------------+-------+--------------+-------------------------------+
 
 If you want a raw JSON result as returned by the API (e.g. you are calling CLI
-as part of your script and you want raw result which you can parse), you can
-pass ``-j`` flag to the command.
+as part of your script and you want the raw result which you can parse), you can
+pass the ``-j`` flag to the command.
 
 For example:
 
@@ -316,7 +316,7 @@ object:
 
     start_timestamp: 2015-02-24T23:01:15.088293Z
 
-And you can also specify multiple attributes:
+You can also specify multiple attributes:
 
 .. sourcecode:: bash
 
@@ -327,7 +327,7 @@ And you can also specify multiple attributes:
 
     result.stderr:
 
-Same goes for the ``execution list`` command:
+Similarly for the ``execution list`` command:
 
 .. sourcecode:: bash
 
@@ -352,8 +352,8 @@ Escaping shell variables when using core.local and core.remote actions
 ----------------------------------------------------------------------
 
 When you use local and remote actions (e.g. ``core.local``, ``core.remote``,
-etc.), you need to wrap ``cmd`` parameter value in a single quote or escape the
-variables, otherwise the shell variables will be expanded locally which is
+etc.), you need to wrap ``cmd`` parameter values in a single quote or escape the
+variables. Otherwise the shell variables will be expanded locally which is
 something you usually don't want.
 
 Example (using single quotes):
@@ -368,13 +368,13 @@ Example (escaping the variables):
 
     st2 run core.remote hosts=localhost env='{"key1": "val1", "key2": "val2"}' cmd="echo ponies \${key1} \${key2}
 
-Specifying parameters which type is "array"
---------------------------------------------
+Specifying parameters with type "array"
+---------------------------------------
 
-When running an action using ``st2 run`` command, you specify value of
-parameters which type is ``array`` as a comma delimited string.
+When running an action using ``st2 run`` command, you specify the value of
+parameters with type ``array`` as a comma delimited string.
 
-Inside the CLI, this string gets split on comma and passed to the API as a
+Inside the CLI, this string gets split on commas and passed to the API as a
 list.
 
 For example:
@@ -383,14 +383,14 @@ For example:
 
     st2 run mypack.myaction parametername="value 1,value2,value3"
 
-In this case, ``parametername`` value would get passed to the API as
+In this case, the ``parametername`` value would get passed to the API as
 a list (JSON array) with three items - ``["value 1", "value2", "value3"]``.
 
-Specifying parameters which type is "object"
---------------------------------------------
+Specifying parameters with type "object"
+----------------------------------------
 
-When running an action using ``st2 run`` command, you can specify value of
-parameters which type is ``object`` using two different approaches:
+When running an action using ``st2 run`` command, you can specify the value of
+parameters with type ``object`` using two different approaches:
 
 1. Using JSON
 
@@ -403,7 +403,7 @@ For complex objects, you should use JSON notation. For example:
 2. Using a string of comma-delimited ``key=value`` pairs
 
 For simple objects (such as specifying a dictionary where both keys and values
-are simple strings), you should use this notation.
+are simple strings), you should use this notation:
 
 .. sourcecode:: bash
 
@@ -415,8 +415,8 @@ Reading parameter value from a file
 CLI also supports special ``@parameter`` notation which makes it read parameter
 value from a file.
 
-An example of when this might be useful is when you are using a http runner
-actions or when you want to read information such a private SSH key content
+An example of when this might be useful is when you are using http runner
+actions, or when you want to read information such a private SSH key content
 from a file.
 
 Example:
@@ -564,14 +564,14 @@ For example:
 
     st2 run core.remote hosts=localhost env="key1=val1,key2=val2" cmd="echo ponies \${key1} \${key2}"
 
-In addition to that, user can pass ``-e`` / ``--inherit-env`` flag to the
+In addition to that, users can pass the ``-e`` / ``--inherit-env`` flag to the
 ``action run`` command.
 
 This flag will cause the command to inherit all the environment variables which
 are accessible to the CLI and send them as an ``env`` parameter to the action.
 
 Keep in mind that some global shell login variables such as ``PWD``, ``PATH``
-and others are ignored and not inherited. Full list of ignored variables can
+and others are ignored and not inherited. The full list of ignored variables can
 be found in `action.py file <https://github.com/StackStorm/st2/blob/master/st2client/st2client/commands/action.py>`_.
 
 For example:
