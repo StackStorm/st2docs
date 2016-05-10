@@ -349,12 +349,12 @@ above support the capbility of being turned on-off individually therefore each b
 
 9. Use Nginx config for the blueprint boxes from `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2_Nginx-conf>`__. In this config Nginx will act as the SSL termination endpoint for all the REST endpoints exposed by ``st2api``, ``st2auth`` and ``mistral-api``.
 
-10. To use crontiggers with mistral please do the following to only enable them on one server by doing the following in `/etc/st2/st2.conf` 
+10. To use Timer triggers with mistral please do the following to only enable them on one server by doing the following in `/etc/st2/st2.conf` 
 
     .. code-block:: yaml
         
         [timer]
-        enable = {{ True if ansible_hostname == groups['stackstorm'][0] else False }}
+        enable = False
         
 
 11. See :doc:`/reference/sensor_partitioning` to decide on how to partition sensors that suit your requirements.
