@@ -95,6 +95,16 @@ do the following inside your test module:
 Keep in mind that both sensor and action modules are not namespaced which means
 sensor and action module names need to be unique to avoid conflicts.
 
+Fixtures
+--------
+
+All the fixture data such as raw HTTP responses and similar, should be stored
+in files in the ``<pack path>/tests/fixtures`` directory (e.g.
+``libcloud/tests/fixtures/list_zones.json``).
+
+To retrieve raw content of the fixture file you can use ``get_fixture_content``
+method available on the test class.
+
 Instantiating and obtaining class instances
 -------------------------------------------
 
