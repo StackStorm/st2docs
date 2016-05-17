@@ -597,6 +597,13 @@ http://apscheduler.readthedocs.org/en/3.0/modules/triggers/cron.html#api.
 By default, if no value is provided for a particular parameter, ``*`` is assumed, which means
 fire on every value.
 
+.. note::
+
+    Unlike with cron where first day (``0``) in ``day_of_week`` is a Sunday, in |st2| CronTimer
+    first day of the week is always Monday. To make it more explicit and avoid confusion, you are
+    encouraged to use name of the weekdays instead (e.g. ``mon-fri`` instead of ``0-4``, or in
+    cron case, ``1-5``).
+
 Available parameter ``timezone``, ``year``, ``month``, ``day``, ``week``, ``day_of_week``,
 ``hour``, ``minute``, ``second``.
 
