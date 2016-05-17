@@ -2,9 +2,15 @@ RHEL 6 / CentOS 6
 =================
 
 This guide provides step-by step instructions for installing StackStorm on a single RHEL 6/CentOS 6 system per
-the :doc:`Reference deployment </install/overview>`. The script `st2bootstrap-el6.sh
-<https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el6.sh>`_ codifies the
-instructions below.
+the :doc:`Reference deployment </install/overview>`.
+
+.. rubric:: TL;DR
+
+That's OK! You're busy, we get it. How do you just get started? Get yourself a clean box, and run this command:
+
+::
+
+   curl -sSL https://stackstorm.com/packages/install.sh | bash -s -- --user=st2admin --password=<CHANGEME>
 
 .. contents::
 
