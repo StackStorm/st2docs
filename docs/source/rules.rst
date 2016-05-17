@@ -624,7 +624,7 @@ Run action every Sunday at midnight
     type: "core.st2.CronTimer"
     parameters:
         timezone: "UTC"
-        day_of_week: 6
+        day_of_week: 6 # or day_of_week: "sun"
         hour: 0
         minute: 0
         second: 0
@@ -683,7 +683,7 @@ Run action Monday through Friday (every day except weekends) at midnight
     type: "core.st2.CronTimer"
     parameters:
         timezone: "UTC"
-        day_of_week: "0-4"
+        day_of_week: "mon-fri"
         hour: 0
         minute: 0
         second: 0
