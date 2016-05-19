@@ -6,6 +6,13 @@ Upgrade Notes
 
 * Old and deprecated Fabric based remote runner has been removed. This means
   ``ssh_runner.use_paramiko_ssh_runner`` config option is now obsolete and has no affect.
+* Underscore (``_``) prefix has been removed from the ``sensor_service`` and ``config`` variable
+  available on the ``Sensor`` and ``PollingSensor`` class. Those variables are now available via
+  ``self.sensor_service`` and ``self.config`` respectively.
+
+  For backward compatibility reasons and ease of migration, old approach will still work for the
+  foreseeable future, but you are encouraged to upgrade your sensors to use the new way of
+  referencing those variables.
 
 |st2| v1.4
 ----------
