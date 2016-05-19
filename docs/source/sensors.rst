@@ -61,7 +61,7 @@ passed into the sensor on instantiation.
 
 .. code:: python
 
-    self._sensor_service.dispatch(trigger=trigger, payload=payload, trace_tag=trace_tag)
+    self.sensor_service.dispatch(trigger=trigger, payload=payload, trace_tag=trace_tag)
 
 If you want a sensor that polls an external system at regular intervals, you
 would use a PollingSensor instead of Sensor as the base class.
@@ -101,7 +101,7 @@ For example:
     }
     trace_tag = uuid.uuid4().hex
 
-    self._sensor_service.dispatch(trigger=trigger, payload=payload, trace_tag=trace_tag)
+    self.sensor_service.dispatch(trigger=trigger, payload=payload, trace_tag=trace_tag)
 
 2. get_logger(name)
 ~~~~~~~~~~~~~~~~~~~
@@ -113,7 +113,7 @@ For example:
 
 .. code:: python
 
-    self._logger = self._sensor_service.get_logger(name=self.__class__.__name__)
+    self._logger = self.sensor_service.get_logger(name=self.__class__.__name__)
     self._logger.debug('Polling 3rd party system for information')
 
 .. _ref-sensors-datastore-management-operations:
@@ -151,7 +151,7 @@ For example:
 
 .. code:: python
 
-    kvps = self._sensor_service.list_values(local=False, prefix='cmdb.')
+    kvps = self.sensor_service.list_values(local=False, prefix='cmdb.')
 
     for kvp in kvps:
         print(kvp.name)
@@ -166,7 +166,7 @@ For example:
 
 .. code:: python
 
-    kvp = self._sensor_service.get_value('cmdb.api_host')
+    kvp = self.sensor_service.get_value('cmdb.api_host')
     print(kvp.name)
 
 3. set_value(name, value, ttl=None, local=True)
@@ -178,7 +178,7 @@ can also specify time to live (TTL) for the stored value.
 .. code:: python
 
     last_id = 12345
-    self._sensor_service.set_value(name='last_id', value=str(last_id))
+    self.sensor_service.set_value(name='last_id', value=str(last_id))
 
 4. delete_value(name, local=True)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -188,7 +188,7 @@ is not found this method will return ``False``, ``True`` otherwise.
 
 .. code:: python
 
-    self._sensor_service.delete_value(name='my_key')
+    self.sensor_service.delete_value(name='my_key')
 
 API Docs
 ~~~~~~~~
