@@ -76,7 +76,7 @@ A brief snippet is included here to explain some trace specific constructs. A se
 
 .. code-block:: python
 
-    self._sensor_service.dispatch(trigger=trigger, payload=payload, trace_tag=trace_tag)
+    self.sensor_service.dispatch(trigger=trigger, payload=payload, trace_tag=trace_tag)
 
 
 Here the Sensor is expected to supply a meaningful value for ``trace_tag`` e.g.:
