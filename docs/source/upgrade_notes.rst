@@ -13,6 +13,13 @@ Upgrade Notes
   For backward compatibility reasons and ease of migration, old approach will still work for the
   foreseeable future, but you are encouraged to upgrade your sensors to use the new way of
   referencing those variables.
+* Support for loading content (sensors, actions and rules) from ``.json`` files has been removed.
+  Support for JSON has been deprecated a long time ago and now the only support format is YAML
+  files with ``.yaml`` extension).
+
+  If you want to directly save content which you retrieve from the API using CLI on disk, you can
+  now use ``--yaml`` flag which available to the ``list`` and ``get`` CLI commands (e.g.
+  ``st2 rule get <rule ref> --yaml > packs/<my pack>/my_rule.yaml``).
 
 |st2| v1.4
 ----------
