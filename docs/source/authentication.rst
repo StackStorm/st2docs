@@ -243,7 +243,8 @@ API key migration
 API keys can be migrated from one |st2| instance to another. This way external services that have already
 been configuered with API Keys do not need to be updated with a new set of keys. Follow these steps to migrate -
 
-On old |st2| instance save API key into a file.
+On old |st2| instance run the following command to save API keys into a file. Note that secrets are masked based
+on configuration setting and maksing needs to be disabled temporarily for this feature to work.
 
 .. sourcecode:: bash
 
