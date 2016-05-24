@@ -237,6 +237,26 @@ The following are sample API calls via curl using API Keys. ::
 
     curl https://myhost.example.com/api/v1/actions?st2-api-key=<API-KEY-VALUE>
 
+API key migration
+^^^^^^^^^^^^^^^^^
+
+API keys can be migrated from one |st2| instance to another. This way external services that have already
+been configuered with API Keys do not need to be updated with a new set of keys. Follow these steps to migrate -
+
+On old |st2| instance save API key into a file.
+
+.. sourcecode:: bash
+
+    st2 apikey list -dy > apikeys.yaml
+
+
+On new |st2| instance load API keys from the file.
+
+.. sourcecode:: bash
+
+    st2 apikey load apikeys.yaml
+
+
 Sending authentication token or API key to the API
 --------------------------------------------------
 
