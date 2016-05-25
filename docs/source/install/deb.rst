@@ -258,8 +258,7 @@ the official Nginx repository into the source list:
     # Remove default site, if present
     sudo rm /etc/nginx/sites-enabled/default
     # Copy and enable StackStorm's supplied config file
-    sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
-    sudo ln -s /etc/nginx/sites-available/st2.conf /etc/nginx/sites-enabled/st2.conf
+    sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
 
     sudo service nginx restart
 
