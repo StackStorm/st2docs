@@ -79,8 +79,9 @@ by passing ``--skip-config`` flag to the CLI as shown below:
 Authentication and auth token caching
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you specify authentication credentials in the configuration file, the CLI
-will try to use those credentials to authenticate and retrieve an auth token.
+If you specify username and password as authentication credentials in the
+configuration file, the CLI will try to use those credentials to authenticate and 
+retrieve an auth token.
 
 This auth token is by default cached on the local filesystem (in the ``~/.st2/token``
 file) and re-used for subsequent requests to the API service.
@@ -99,6 +100,14 @@ expired.
 
 If you have manually deleted or revoked a token before the expiration you can
 clear the cached token from by removing the ``~/.st2/token`` file.
+
+Setting API key as authentication credentials in configuration file will result in
+CLI using it as a primary method of authentication instead of auth token.
+
+.. sourcecode: ini
+
+    [credentials]
+    api_key = ZDAwTQx...ZTI3ZQ
 
 Using debug mode
 ----------------
