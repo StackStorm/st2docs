@@ -148,7 +148,7 @@ please run
 
 .. code-block:: bash
 
-    /opt/stackstorm/st2/tools/st2-generate-symmetric-crypto-key.py --key-path /path/to/key/file.json
+    st2-generate-symmetric-crypto-key --key-path /path/to/key/file.json
 
 It is recommended that the key is placed in a private location such as /etc/st2/keys/ and
 permissions are appropriately modified so that only StackStorm API process owner (usually ``st2``) can
