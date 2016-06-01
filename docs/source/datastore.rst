@@ -157,8 +157,10 @@ read and admin can read/write to that file.
 Once the key is generated, |st2| needs to be made aware of the key. To do this, edit st2
 configuration file (usually /etc/st2/st2.conf) and add the following lines:
 
-[keyvalue]
-encryption_key_path=/path/to/key/file.json
+::
+
+    [keyvalue]
+    encryption_key_path=/path/to/key/file.json
 
 Now as an admin, you are all set with configuring |st2| server side.
 
