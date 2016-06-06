@@ -148,7 +148,7 @@ please run
 
 .. code-block:: bash
 
-    /opt/stackstorm/st2/tools/st2-generate-symmetric-crypto-key.py --key-path /path/to/key/file.json
+    st2-generate-symmetric-crypto-key --key-path /path/to/key/file.json
 
 It is recommended that the key is placed in a private location such as /etc/st2/keys/ and
 permissions are appropriately modified so that only StackStorm API process owner (usually ``st2``) can
@@ -157,8 +157,10 @@ read and admin can read/write to that file.
 Once the key is generated, |st2| needs to be made aware of the key. To do this, edit st2
 configuration file (usually /etc/st2/st2.conf) and add the following lines:
 
-[keyvalue]
-encryption_key_path=/path/to/key/file.json
+::
+
+    [keyvalue]
+    encryption_key_path=/path/to/key/file.json
 
 Now as an admin, you are all set with configuring |st2| server side.
 
