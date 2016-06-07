@@ -139,9 +139,10 @@ Securing secrets in key value store (admin only)
     and feedback is welcome. Until the feature matures and deployment issues identified and fixed,
     no guarantee is made w.r.t ``security`` of the credentials stored in key value store.
 
-Key value store now allows users to store encrypted credentials via a global symmetric key set
-by the StackStorm admin. It goes without saying that admin can decrypt the credentials if they
-want to.
+Key value store now allows users to store encrypted values (secrets). Symmetric encryption is used
+to encrypt secrets. |st2| administrator is responsible for generating symmetric key used for
+encryption / decryption. It goes without saying that |st2| operator and administrator (or anyone
+else who has access to the key) can decrypt the encrypted values if they want to.
 
 To generate a symmetric crypto key (AES256 used for both encryption and decryption) as an admin,
 please run
@@ -150,7 +151,7 @@ please run
 
     st2-generate-symmetric-crypto-key --key-path /path/to/key/file.json
 
-It is recommended that the key is placed in a private location such as /etc/st2/keys/ and
+It is recommended that the key is placed in a private location such as ``/etc/st2/keys/`` and
 permissions are appropriately modified so that only StackStorm API process owner (usually ``st2``) can
 read and admin can read/write to that file.
 
@@ -160,14 +161,14 @@ configuration file (usually /etc/st2/st2.conf) and add the following lines:
 ::
 
     [keyvalue]
-    encryption_key_path=/path/to/key/file.json
+    encryption_key_path = /path/to/key/file.json
 
 Now as an admin, you are all set with configuring |st2| server side.
 
 Storing secrets in key value store
 ----------------------------------
 
-Please note that if an admin has not setup encryption keys, you will not be allowed to save
+Please note that if an admin has not setup encryption key, you will not be allowed to save
 secrets in the key value store. Contact your |st2| admin to setup encryption keys as per the section
 above.
 
@@ -186,8 +187,9 @@ To get plain text, please run with command --decrypt flag.
 
 .. note::
 
-    RBAC is still being worked on for this feature. For now, anyone with access to the encryption
-    key (including admin) will be able to decrypt the secrets.
+    Keep in mind that ``--decrypt`` flag can either be used by an administrator (administrator is
+    able to decrypt every value) and by the user who set that value in case of the user-scoped
+    datastore item (i.e. if ``--scope=user`` flag was passed when originally setting the value).
 
 Security notes
 --------------
