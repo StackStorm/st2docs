@@ -8,7 +8,7 @@ Pack Configuration
 
     Support for pack config files which are located outside the pack directory
     in ``/opt/stackstorm/configs/`` directory has been introduced in |st2| v1.5
-    (in development) and is only available in |st2| v1.5 and above.
+    and is only available in |st2| v1.5 and above.
 
 Pack configuration file contain common attributes which are usually configured
 by a |st2| operator and are available to actions and sensors during run-time.
@@ -69,6 +69,11 @@ In this example, configuration consists of 4 items (``api_key``,
 encrypted in the datastore if a dynamic value is used (more on dyanmic values
 can be found below).
 
+.. note::
+
+    Right now config schema is optional and it's only required if you wish to
+    utilize dynamic config values from datastore (more on that below).
+
 Configuration file
 ~~~~~~~~~~~~~~~~~~
 
@@ -87,13 +92,17 @@ provided below:
 
     ---
       api_key: "some_api_key"
-      api_secret: "{{user.api_secret}}"  # user scoped configuration value
+      api_secret: "{{user.api_secret}}"  # user scoped configuration value which is also a secret as declared in config schema
       region: "us-west-1"
-      private_key_path: "{{system.private_key_path}}"  # global pack configuration value
+      private_key_path: "{{system.private_key_path}}"  # global datastore value
 
 Configuration files are registered in the same way as other resources by running
 ``st2-register-content`` script. For configs, you need to run this script with
 the ``--register-configs`` flag as shown below.
+
+.. sourcecode:: bash
+
+    st2-register-content --register-configs
 
 Static configuration value
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -101,8 +110,16 @@ Static configuration value
 Static configuration value is a value which is loaded from the config file and
 used as-is.
 
+In the previous / old configuration file, every value was static since there
+was no support for dynamic values.
+
 Dynamic configuration value
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+    Right now only strings (string types) are supported for dynamic
+    configuration values.
 
 Dynamic configuration value is a config value which contains a Jinja template
 expression. This template expression is evaluated during run-time and resolves
@@ -111,8 +128,8 @@ the configuration value.
 
 Dynamic configuration values offer additional flexibility and they include
 support for user-scoped datastore values. This comes handy when you want to use
-a different configuration value (e.g. differente API credentials) based on the
-user which invoked the action.
+a different configuration value (e.g. different API credentials) based on the
+user who invoked the action.
 
 Dynamic configuration value are stored in the datastore and are configured using
 CLI as shown in the section below.
@@ -122,17 +139,32 @@ In the config, dynamic configuration values are referred to as shown below:
 .. sourcecode:: yaml
 
     ---
-      api_secret: "{{user.api_secret}}"  # user scoped configuration value
-      private_key_path: "{{system.private_key_path}}"  # global pack configuration value
+      api_secret: "{{user.api_secret}}"  # user scoped configuration value which is also a secret as declared in config schema
+      private_key_path: "{{system.private_key_path}}"  # global datastore value
 
 
 ``api_secret`` is a user-scoped dynamic configuration value which means that
 ``user`` part will be replaced by the username of the user who triggered the
 action execution.
 
+Since that value is marked as secret in the config schema, this value will
+need to be stored encrypted in the datastore. This means user who is setting
+the value needs to also pass `--encrypt` flag to the CLI command as shown
+below:
+
+.. sourcecode:: bash
+
+    st2 set api_secret "my super secret api secret" --scope=user --encrypt
+
 ``private_key_path`` is a regular dynamic configuration value which means that
-a configuration value which corresponds to this pack and name will be loaded
-from the datastore.
+a datastore item which corresponds to this key (``private_key_path``) will be
+loaded from the datastore.
+
+In this case, using the CLI, the value would be set as displayed below:
+
+.. sourcecode:: bash
+
+    st2 set private_key_path "/home/myuser/.ssh/my_private_rsa_key"
 
 Configuration loading and dynamic value resolving
 -------------------------------------------------
@@ -155,34 +187,30 @@ value.
 Configuring dynamic configuration values using the CLI
 ------------------------------------------------------
 
-Dynamic pack configuration values can be manipulated using the ``st2 config``
-set of CLI commands.
-
-Those values are stored in a datastore, but to avoid collision with other (non
-pack configuration specific) datastore values, they are prefixed with a special
-prefix and a pack name.
+Dynamic pack configuration values can be manipulated in the same way as any
+other datastore item using ``st2 key`` set of CLI commands.
 
 Configuring a regular (non user-scoped) dynamic configuration value
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Regular dynamic configuration value can be configured by an administrator or
-any user which has ``TBD`` permission on that pack.
+any user.
 
 .. sourcecode:: bash
 
-    st2 config set <pack name> <key name> <key value>
+    st2 key set <key name> <key value>
 
     # For example
-    st2 config set my_pack api_secret my_api_secret
+    st2 set private_key_path "/home/myuser/.ssh/my_private_rsa_key"
 
 To view a value, you use get command as shown below:
 
 .. sourcecode:: bash
 
-    st2 config get <pack name> <key name>
+    st2 key get <key name>
 
     # For example
-    st2 config get my_pack api_secret
+    st2 key get private_key_path
 
 Keep in mind that secret values will be masked by default.
 
@@ -194,17 +222,19 @@ administrator for any available system user.
 
 .. sourcecode:: bash
 
-    st2 config set --scope=user <pack name> <key name> <key value>
+    st2 key set --scope=user [--secret] <key name> <key value>
 
     # For example (authenticated as "user1")
-    st2 config set --scope=user my_pack api_secret user1_api_secret
+    st2 key set --scope=user default_region "us-west-1"
+    st2 key set --scope=user --secret api_secret user1_api_secret
 
     # For example (authenticated as "user2")
-    st2 config set --scope=user my_pack api_secret user2_api_secret
+    st2 key set --scope=user default_region "us-east-1"
+    st2 key set --scope=user --secret api_secret user2_api_secret
 
     # For example (authenticated as administrator, setting a value for "user1" and "user2")
-    st2 config set --scope=user --user=user1 my_pack api_secret user1_api_secret
-    st2 config set --scope=user --user=user2 my_pack api_secret user2_api_secret
+    st2 key set --scope=user --user=user1 default_region "us-west-1"
+    st2 key set --scope=user --user=user2 default_region "us-east-1"
 
 Similar as above, you can use get command to view the values. Same rules which
 apply to ``set`` also apply to ``get`` (users can only see values which are
