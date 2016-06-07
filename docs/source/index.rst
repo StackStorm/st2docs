@@ -12,6 +12,7 @@ Contents:
     video
     start
     packs
+    pack_configs
     actions
     runners
     rules
