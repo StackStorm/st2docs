@@ -8,6 +8,7 @@ This section includes common problems you might encounter while using the platfo
 
     self_verification
     rules
+    sensors
     ssh
     database
     purging_old_data
