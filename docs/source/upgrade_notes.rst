@@ -30,6 +30,13 @@ Upgrade Notes
 
   For more information about the new pack configuration, please see :doc:`/pack_configs`.
 
+* New ``log`` attribute has been added to the action execution object. This attribute is a list
+  and contains all the state (status) transitions for executions (e.g. requested -> scheduled
+  -> running -> complete, etc.).
+
+  Keep in mind that this attribute will only be populated for new execution objects (ones which
+  have been created after the upgrade to v1.5).
+
 |st2| v1.4
 ----------
 
