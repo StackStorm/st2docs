@@ -71,11 +71,11 @@ The body of this request needs to be JSON and must contain the following attribu
 * ``payload`` - Object with a trigger payload.
 
 This example shows how to send data to the generic webhook using
-cURL, and how to match this data using rule criteria:
+cURL, and how to match this data using rule criteria (replace localhost with your st2 host if fire remotely):
 
 .. sourcecode:: bash
 
-    curl -X POST http://127.0.0.1:9101/v1/webhooks/st2 -H "X-Auth-Token: matoken" -H "Content-Type: application/json" --data '{"trigger": "mypack.mytrigger", "payload": {"attribute1": "value1"}}'
+    curl -X POST https://localhost/api/v1/webhooks/st2 -H "X-Auth-Token: matoken" -H "Content-Type: application/json" --data '{"trigger": "mypack.mytrigger", "payload": {"attribute1": "value1"}}'
 
 Rule:
 
@@ -135,7 +135,7 @@ cURL and how to match on this data using rule criteria:
 
 .. sourcecode:: bash
 
-    curl -X POST http://127.0.0.1:9101/v1/webhooks/sample -H "X-Auth-Token: matoken" -H "Content-Type: application/json" --data '{"key1": "value1"}'
+    curl -X POST https://localhost/api/v1/webhooks/sample -H "X-Auth-Token: matoken" -H "Content-Type: application/json" --data '{"key1": "value1"}'
 
 Rule:
 
