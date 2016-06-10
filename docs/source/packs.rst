@@ -48,7 +48,7 @@ By default packs are installed from the |st2| community repo. Use ``repo_url`` p
 
 .. code-block:: bash
 
-    st2 run packs.install register=all repo_url=https://github.com/StackStorm/st2incubator.git
+    st2 run packs.install packs=* register=all repo_url=https://github.com/StackStorm/st2incubator.git
 
 If you are using a private repo to host your pack(s) on github, use:
 ``repo_url=https://username:password@github.com/username/repository.git``.
