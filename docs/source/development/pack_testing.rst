@@ -196,8 +196,20 @@ st2workroom), you can safely pass ``-x`` flag to the script since a virtual
 environment should already be created and all the necessary |st2| dependencies
 should be available in ``PYTHONPATH``.
 
+Lint Tools and Scripts
+----------------------
+
+In addition to the tests, `st2sdk`_ repository and package also ships with
+various other tools and lint scripts which allow you to catch common errors
+and typos automatically and early on.
+
+For more information on those scripts and how to use them, please refer to the
+readme in st2sdk repository - https://github.com/stackstorm/st2sdk.
+
 Continuous Integration
 ----------------------
 
-By default tests for all the packs are ran on every commit to ``st2`` and
-``st2contrib`` repository.
+By default the lint scripts mentioned above and tests for all the packs run
+on every commit to ``st2`` and ``st2contrib``.
+
+.. _`st2sdk`: https://github.com/stackstorm/st2sdk
