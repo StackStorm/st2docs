@@ -12,7 +12,7 @@ For example, to see the endpoint for getting actions, invoke
 
   .. code-block:: bash
 
-  st2 --debug action list
+    st2 --debug action list
 
 You'll see the list of endpoints we hit as well as a curl command for you to try them manually.
 
@@ -22,11 +22,14 @@ For example:
 
   .. code-block:: bash
 
-  curl -X GET -H  'Connection: keep-alive' -H  'User-Agent: python-requests/2.9.1' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'X-Auth-Token: <YOUR_TOKEN>' https://1.2.3.4/api/v1/actions
+    curl -X GET -H  'Connection: keep-alive' -H  'User-Agent: python-requests/2.9.1' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'X-Auth-Token: <YOUR_TOKEN>' https://1.2.3.4/api/v1/actions
 
 You should be able to hit auth REST endpoints, if need be, by hitting ``https://${EXTERNAL_IP}/auth/v1/${AUTH_ENDPOINT}``.
 
 If you are inside the box, use ``localhost`` instead of ${EXTERNAL_IP}.
+
+Unable to access REST APIs
+--------------------------
 
 If you are unable to access the API, please go through the following steps:
 
