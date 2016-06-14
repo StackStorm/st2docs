@@ -11,6 +11,7 @@ This section includes common problems you might encounter while using the platfo
     sensors
     ssh
     database
+    rest_api_access
     purging_old_data
     submit_debug_info
     debug_mode
