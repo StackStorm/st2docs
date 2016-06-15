@@ -253,6 +253,7 @@ the official Nginx repository into the source list:
     sudo apt-get update
 
     # Install st2web and nginx
+    # note nginx should be > 1.4.6. To install a new version like 1.10.1 do "sudo apt-get install -y nginx=1.10.1-1~trusty"
     sudo apt-get install -y st2web nginx
 
     # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
@@ -262,7 +263,7 @@ the official Nginx repository into the source list:
     Technology/CN=$(hostname)"
 
     # Remove default site, if present
-    sudo rm /etc/nginx/sites-enabled/default
+    sudo rm /etc/nginx/conf.d/default.conf
     # Copy and enable StackStorm's supplied config file
     sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
 
