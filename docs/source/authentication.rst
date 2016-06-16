@@ -2,9 +2,8 @@ Authentication
 ==============
 
 |st2| includes an auth service that is responsible for handling user authentication and generating
-time limited access tokens. When authentication mode is enabled (default for all-in-one installer
-and package based installations), those access tokens are used to authenticate against the |st2|
-REST APIs.
+time limited access tokens. When authentication mode is enabled (default), those access tokens are
+used to authenticate against the |st2| REST APIs.
 
 .. figure:: /_static/images/st2auth_standalone_mode.png
     :align: center
@@ -53,11 +52,10 @@ Auth Backends
 -------------
 The service can be configured with different backends (i.e. PAM, LDAP, etc.) to handle the
 authentication. If backend is not specified, a htpasswd compatible flat file authentication
-backend is used. The all-in-one installer and packages download and configure PAM by default. To
-use a different backend, select and install the appropriate python package from the |st2|
-`community repos <https://github.com/StackStorm?utf8=✓&query=st2-auth>`_ and configure st2auth
-accordingly. For example, to install the package for the PAM backend manually, run the following
-command on the same server where st2auth is running.
+backend is used. To use a different backend, select and install the appropriate python package
+from the |st2| `community repos <https://github.com/StackStorm?utf8=✓&query=st2-auth>`_ and
+configure st2auth accordingly. For example, to install the package for the PAM backend manually,
+run the following command on the same server where st2auth is running.
 
 .. sourcecode:: bash
 
@@ -142,7 +140,7 @@ The following is a sample auth section for the LDAP backend in the st2 config fi
 
 Running the Service
 -------------------
-The all-in-one installer sets up st2auth to run as a service. The service is setup to run under
+The installer sets up st2auth to run as a service. The service is setup to run under
 nginx with uwsgi. Alternate configuration with gunicorn or apache is also possible using wsgi.py
 under st2auth but we leave as an exercise for the reader.
 
