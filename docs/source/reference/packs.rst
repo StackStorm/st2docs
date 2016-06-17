@@ -152,6 +152,9 @@ Copy the following content to policies/policy1.yaml
 
    # Assuming that hello-st2 is on the same machine where StackStorm is running.
    cp -R ./hello-st2 /opt/stackstorm/packs
+   
+   # Create virtual environment for hello-st2.
+   st2 run packs.setup_virtualenv packs=hello-st2
 
    # Reloads the content
    st2 run packs.load register=all
