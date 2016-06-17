@@ -244,11 +244,12 @@ API keys can be migrated from one |st2| instance to another. This way external s
 been configuered with API Keys do not need to be updated with a new set of keys. Follow these steps to migrate -
 
 On old |st2| instance run the following command to save API keys into a file. Note that secrets are masked based
-on configuration setting and maksing needs to be disabled temporarily for this feature to work.
+on configuration setting. If masking is enabled an admin can on a per call basis disable the masking without having
+to make config changes. See :ref:`mask-secrets` to see how to disable masking on a system wide basis.
 
 .. sourcecode:: bash
 
-    st2 apikey list -dy > apikeys.yaml
+    st2 apikey list -dy --show-secrets > apikeys.yaml
 
 
 On new |st2| instance load API keys from the file.
