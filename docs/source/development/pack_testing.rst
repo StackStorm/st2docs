@@ -191,7 +191,7 @@ already exists or you have created one manually), you can pass ``-x`` flag to
 the script. This flag will tell it to skip virtual environment creation, but all
 the necessary dependencies will still be installed.
 
-If you are running this script inside a development VM (st2express /
+If you are running this script inside a development VM (st2vagrant /
 st2workroom), you can safely pass ``-x`` flag to the script since a virtual
 environment should already be created and all the necessary |st2| dependencies
 should be available in ``PYTHONPATH``.
