@@ -63,7 +63,7 @@ In this example, configuration consists of 4 items (``api_key``,
 ``api_secret``, ``region`` and ``private_key_path``).
 
 ``api_secret`` value is marked as secret which means this value will be stored
-encrypted in the datastore if a dynamic value is used (more on dyanmic values
+encrypted in the datastore if a dynamic value is used (more on dynamic values
 can be found below).
 
 .. note::
@@ -146,12 +146,13 @@ action execution.
 
 Since that value is marked as secret in the config schema, this value will
 need to be stored encrypted in the datastore. This means user who is setting
-the value needs to also pass `--encrypt` flag to the CLI command as shown
-below:
+the value needs to also pass  `--encrypt` flag to the CLI command as shown
+below (More about --encrypt flag and
+:ref:`storing secrets in datastore<datastore-storing-secrets-in-key-value-store>`): 
 
 .. sourcecode:: bash
 
-    st2 set api_secret "my super secret api secret" --scope=user --encrypt
+    st2 key set api_secret "my super secret api secret" --scope=user --encrypt
 
 ``private_key_path`` is a regular dynamic configuration value which means that
 a datastore item which corresponds to this key (``private_key_path``) will be
@@ -161,7 +162,7 @@ In this case, using the CLI, the value would be set as displayed below:
 
 .. sourcecode:: bash
 
-    st2 set private_key_path "/home/myuser/.ssh/my_private_rsa_key"
+    st2 key set private_key_path "/home/myuser/.ssh/my_private_rsa_key"
 
 Configuration loading and dynamic value resolving
 -------------------------------------------------
@@ -198,7 +199,7 @@ any user.
     st2 key set <key name> <key value>
 
     # For example
-    st2 set private_key_path "/home/myuser/.ssh/my_private_rsa_key"
+    st2 key set private_key_path "/home/myuser/.ssh/my_private_rsa_key"
 
 To view a value, you use get command as shown below:
 
@@ -219,15 +220,15 @@ administrator for any available system user.
 
 .. sourcecode:: bash
 
-    st2 key set --scope=user [--secret] <key name> <key value>
+    st2 key set --scope=user [--encrypt] <key name> <key value>
 
     # For example (authenticated as "user1")
     st2 key set --scope=user default_region "us-west-1"
-    st2 key set --scope=user --secret api_secret user1_api_secret
+    st2 key set --scope=user --encrypt api_secret user1_api_secret
 
     # For example (authenticated as "user2")
     st2 key set --scope=user default_region "us-east-1"
-    st2 key set --scope=user --secret api_secret user2_api_secret
+    st2 key set --scope=user --encrypt api_secret user2_api_secret
 
     # For example (authenticated as administrator, setting a value for "user1" and "user2")
     st2 key set --scope=user --user=user1 default_region "us-west-1"

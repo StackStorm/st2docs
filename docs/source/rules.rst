@@ -65,7 +65,7 @@ View all the triggers configured on a system via the command line with the ``st2
 
 .. code-block:: shell
 
-    vagrant@st2express:~$ st2 trigger list
+    vagrant@st2vagrant:~$ st2 trigger list
     +--------------------------------+-----------+---------------------------+---------------------------------------------------------------------------------+
     | ref                            | pack      | name                      | description                                                                     |
     +--------------------------------+-----------+---------------------------+---------------------------------------------------------------------------------+

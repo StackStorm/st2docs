@@ -165,6 +165,9 @@ configuration file (usually /etc/st2/st2.conf) and add the following lines:
 
 Now as an admin, you are all set with configuring |st2| server side.
 
+
+.. _datastore-storing-secrets-in-key-value-store:
+
 Storing secrets in key value store
 ----------------------------------
 
