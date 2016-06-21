@@ -40,8 +40,7 @@ The installation deploys the CLI along with the |st2| services. CLI can be used 
 service remotely. All |st2| operations are also available via REST API, Python, and JavaScript
 bindings. Check the :doc:`CLI and Python Client </reference/cli>` reference for details.
 
-|st2| ships with WebUI. You can access it at http://hostname. If SSL is configured, the WebUI
-will redirect to https://hostname.
+|st2| ships with WebUI. You can access it at https://hostname.
 
 Authenticate
 ------------
