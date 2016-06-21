@@ -220,15 +220,15 @@ administrator for any available system user.
 
 .. sourcecode:: bash
 
-    st2 key set --scope=user [--secret] <key name> <key value>
+    st2 key set --scope=user [--encrypt] <key name> <key value>
 
     # For example (authenticated as "user1")
     st2 key set --scope=user default_region "us-west-1"
-    st2 key set --scope=user --secret api_secret user1_api_secret
+    st2 key set --scope=user --encrypt api_secret user1_api_secret
 
     # For example (authenticated as "user2")
     st2 key set --scope=user default_region "us-east-1"
-    st2 key set --scope=user --secret api_secret user2_api_secret
+    st2 key set --scope=user --encrypt api_secret user2_api_secret
 
     # For example (authenticated as administrator, setting a value for "user1" and "user2")
     st2 key set --scope=user --user=user1 default_region "us-west-1"
