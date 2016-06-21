@@ -110,6 +110,10 @@ Currently the system provides the following runners:
    information, please refer to the :doc:`Workflows </workflows>` and
    :doc:`CloudSlang </cloudslang>` sections of the documentation.
 
+   Note: This runner is currently in an experimental phase which means that there might be
+   bugs and the external user-facing API might change.
+
+
 Runners come with their own set of input parameters and when an action
 picks a runner\_type it also inherits the runner parameters.
 
@@ -222,10 +226,6 @@ For example, a task in an action chain is shown below:
       on-failure: "c4"
     ...
 
-.. note::
-
-  This is still an experimental feature and things are in flux. You are advised not to
-  depend on them.
 
 Action Registration
 ~~~~~~~~~~~~~~~~~~~
