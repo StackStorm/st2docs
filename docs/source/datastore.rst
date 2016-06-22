@@ -75,7 +75,8 @@ basically means every user has access to these variables. You'd typically use th
 jinja expression ``{{system.key_name}}`` to refer to these variables in actions or
 workflows. Starting version 1.5 of |st2|, you can now scope variables to a specific
 user. With authentication enabled, you can now control who can read or write into those
-variables. For example, to set variable ``date_cmd`` for the particular user, use
+variables. For example, to set variable ``date_cmd`` for the currently authenticated
+user, use
 
 ::
 
@@ -106,7 +107,8 @@ This variable won't clash with the user variables under same name. Also, you can
 to user variables in actions or workflows. The jinja syntax to do so is
 ``{{user.date_cmd}}``. Note that the notion of ``user`` is available only when actions
 or workflows are run manually. The notion of ``user`` is non-existent when automations
-are run (actions kicked off via rules). So use of user scoped variables is limited to manual execution of actions or workflows.
+are run (actions kicked off via rules). So use of user scoped variables is limited to
+manual execution of actions or workflows.
 
 
 Storing and Retrieving from Python Client
