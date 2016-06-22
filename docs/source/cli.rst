@@ -2,14 +2,14 @@ CLI Reference
 ===================
 
 The |st2| command line client (CLI) allows you talk to and operate your StackStorm
-deployment using the command line. It talks to the StackStorm installation using 
+deployment using the command line. It talks to the StackStorm installation using
 the public API.
 
 Installation
 ------------
 
 If you installed StackStorm using packages or a deployment script, the CLI
-should already be available. It can also be installed with pip: 
+should already be available. It can also be installed with pip:
 
 .. sourcecode:: bash
 
@@ -80,7 +80,7 @@ Authentication and auth token caching
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you specify username and password as authentication credentials in the
-configuration file, the CLI will try to use those credentials to authenticate and 
+configuration file, the CLI will try to use those credentials to authenticate and
 retrieve an auth token.
 
 This auth token is by default cached on the local filesystem (in the ``~/.st2/token``
@@ -213,11 +213,24 @@ Let's check the exit code of the last command.
 
     2
 
+Using jinja variables with CLI when running actions
+---------------------------------------------------
+
+You can use jinja templates as values for parameters when running actions or workflows. For example
+
+.. sourcecode:: bash
+
+    st2 run core.local cmd="{{system.date_cmd}}"  # Use the "date_cmd" key in key value store under system scope as the command.
+    st2 run core.local cmd="{{user.date_cmd}}"  # Use the "date_cmd" key for user in key value store as command.
+
+For more information on how to use key value store and save keys in |st2|, refer to :ref:`Scoping keys in datastore<datastore-scopes-in-key-value-store>`.
+
+
 Obtaining an authentication token inside scripts
 ------------------------------------------------
 
 If you want to authenticate and obtain an authentication token inside your
-(shell) scripts, you can use the ``st2 auth`` CLI command in combination 
+(shell) scripts, you can use the ``st2 auth`` CLI command in combination
 with the ``-t`` flag.
 
 This flag will cause the command to only print the token to the stdout on
