@@ -23,9 +23,9 @@ Upgrade Notes
 
 * Pack config files which are located inside the pack directory (``config.yaml``) have been
   deprecated in favor of the new pack configuration v2. This new configuration approach offers more
-  flexibility. In addition to that, those new config files are located outside the pack directory
-  inside ``/opt/stackstorm/configs/`` directory which makes following infrastructure as code
-  approach and updating packs easier since |st2| user doesn't need need to directly manipulate
+  flexibility. In addition to that, those new config files are located outside the pack directory,
+  in the ``/opt/stackstorm/configs/`` directory. This makes it easier to follow an infrastructure as code
+  approach. Updating packs is also easier since |st2| user doesn't need to directly manipulate
   pack content anymore.
 
   For more information about the new pack configuration, please see :doc:`/pack_configs`.
