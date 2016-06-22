@@ -65,6 +65,50 @@ Delete an existing key value pair.
 
     st2 key delete os_keystone_endpoint
 
+.. _datastore-scopes-in-key-value-store:
+
+Scoping items stored in datastore
+---------------------------------
+
+By default, all items stored in key value store are stored in ``system`` scope. This
+basically means every user has access to these variables. You'd typically use the
+jinja expression ``{{system.key_name}}`` to refer to these variables in actions or
+workflows. Starting version 1.5 of |st2|, you can now scope variables to a specific
+user. With authentication enabled, you can now control who can read or write into those
+variables. For example, to set variable ``date_cmd`` for the particular user, use
+
+::
+
+    st2 key set date_cmd "date -u" --scope=user
+
+The name of the user is figured out from the ``X-Auth-Token`` or ``St2-Api-Key``
+header passed with the API call. Basically, from the API call authentication
+credentials, we figure out the user and assign this variable to that particular user.
+To get the key back, use
+
+::
+
+    st2 key get date_cmd --scope=user
+
+Remember, if you want a variable ``date_cmd`` as a system variable, you can use
+
+::
+
+    st2 key set date_cmd "date +%s" --scope=system
+
+or simply
+
+::
+
+    st2 key set date_cmd "date +%s"
+
+This variable won't clash with the user variables under same name. Also, you can refer
+to user variables in actions or workflows. The jinja syntax to do so is
+``{{user.date_cmd}}``. Note that the notion of ``user`` is available only when actions
+or workflows are run manually. The notion of ``user`` is non-existent when automations
+are run (actions kicked off via rules). So use of user scoped variables is limited to manual execution of actions or workflows.
+
+
 Storing and Retrieving from Python Client
 -----------------------------------------
 
