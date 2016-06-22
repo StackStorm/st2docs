@@ -16,3 +16,4 @@ For a quick evaluation of |st2| and package-based installation, start from
     RHEL 6 / CentOS 6 <rhel6>
     StackStorm Enterprise <enterprise>
     Updates and Upgrades <upgrades>
+    Migration scripts <migration>

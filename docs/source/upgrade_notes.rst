@@ -43,11 +43,10 @@ Upgrade Notes
   have been created after the upgrade to v1.5).
 
 * Datastore data model has changed as of v1.5. We've introduced the notion of ``scope`` and
-  ``secret``. See :ref:`Scoping items in datastore<datastore-scopes-in-key-value-store:>` and
+  ``secret``. See :ref:`Scoping items in datastore<datastore-scopes-in-key-value-store>` and
   :ref:`storing secrets in datastore<datastore-storing-secrets-in-key-value-store>` for details.
 
-  A migration tool is provided
-  (``/opt/stackstorm/st2/bin/st2-migrate-datastore-to-include-scope-secret.py``) if you are
+  A migration tool is provided (``/opt/stackstorm/st2/bin/st2-migrate-datastore-to-include-scope-secret.py``) if you are
   upgrading from older versions.
 
 |st2| v1.4
