@@ -220,8 +220,8 @@ You can use jinja templates as values for parameters when running actions or wor
 
 .. sourcecode:: bash
 
-    st2 run core.local cmd="{{system.date_cmd}}"  # Use the "date_cmd" key in key value store under system scope as the command.
-    st2 run core.local cmd="{{user.date_cmd}}"  # Use the "date_cmd" key for user in key value store as command.
+    st2 run core.local cmd="{{system.date_cmd}}"  # Use the "date_cmd" key in system scope in datastore as the command.
+    st2 run core.local cmd="{{user.date_cmd}}"  # Use the "date_cmd" key for user in datastore as command.
 
 For more information on how to use key value store and save keys in |st2|, refer to :ref:`Scoping keys in datastore<datastore-scopes-in-key-value-store>`.
 
