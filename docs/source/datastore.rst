@@ -197,7 +197,8 @@ please run
 
 .. code-block:: bash
 
-    sudo st2-generate-symmetric-crypto-key --key-path /path/to/key/file.json
+    sudo mkdir -p /etc/st2/keys/
+    sudo st2-generate-symmetric-crypto-key --key-path /etc/st2/keys/datastore_key.json
 
 It is recommended that the key is placed in a private location such as ``/etc/st2/keys/`` and
 permissions are appropriately modified so that only StackStorm API process owner (usually ``st2``) can
@@ -209,15 +210,15 @@ configuration file (usually /etc/st2/st2.conf) and add the following lines:
 ::
 
     [keyvalue]
-    encryption_key_path = /path/to/key/file.json
+    encryption_key_path = /etc/st2/keys/datastore_key.json
 
 To make sure only ``st2`` and root can access the file on the box, run
 
 .. code-block:: bash
 
-    sudo usermod -a -G st2 st2             # Add user ``st2`` to ``st2`` group
-    sudo chgrp st2 /path/to/key/file.json  # Give group ``st2`` ownership for key
-    sudo chmod o-r /path/to/key/file.json  # Revoke read access for others
+    sudo usermod -a -G st2 st2                       # Add user ``st2`` to ``st2`` group
+    sudo chgrp st2 /etc/st2/keys/datastore_key.json  # Give group ``st2`` ownership for key
+    sudo chmod o-r /etc/st2/keys/datastore_key.json  # Revoke read access for others
 
 Now as an admin, you are all set with configuring |st2| server side.
 
