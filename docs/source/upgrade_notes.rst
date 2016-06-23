@@ -1,8 +1,13 @@
+.. _upgrade_notes:
+
 Upgrade Notes
 =============
 
 |st2| in development
 --------------------
+
+|st2| v1.5
+----------
 
 * Old and deprecated Fabric based remote runner has been removed. This means
   ``ssh_runner.use_paramiko_ssh_runner`` config option is now obsolete and has no affect.
@@ -36,6 +41,13 @@ Upgrade Notes
 
   Keep in mind that this attribute will only be populated for new execution objects (ones which
   have been created after the upgrade to v1.5).
+
+* Datastore data model has changed as of v1.5. We've introduced the notion of ``scope`` and
+  ``secret``. See :ref:`Scoping items in datastore<datastore-scopes-in-key-value-store>` and
+  :ref:`storing secrets in datastore<datastore-storing-secrets-in-key-value-store>` for details.
+
+  A migration tool is provided (``/opt/stackstorm/st2/bin/st2-migrate-datastore-to-include-scope-secret.py``) if you are
+  upgrading from older versions.
 
 |st2| v1.4
 ----------
@@ -71,7 +83,7 @@ Upgrade Notes
   The LDAP auth backend supports other login name such as sAMAccountName. This requires a separate
   service account for the LDAP backend to query for the DN related to the login name for bind to
   validate the user password. Also, users must be in one or more groups specified in group_dns to
-  be granted access. 
+  be granted access.
 
 * Mistral has deprecated the use of task name (i.e. ``$.task1``) to reference task result. It is
   replaced with a ``task`` function that returns attributes of the task such as id, state, result,
