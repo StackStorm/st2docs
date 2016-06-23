@@ -176,7 +176,7 @@ related syntax.
         }
     }
 
-.. _admin-setup-for-encrypted-datastore
+.. _admin-setup-for-encrypted-datastore:
 
 Securing secrets in key value store (admin only)
 ------------------------------------------------
