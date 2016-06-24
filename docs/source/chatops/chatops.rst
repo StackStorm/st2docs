@@ -71,6 +71,7 @@ For example, here's how to connect StackStorm to Mattermost using the
     $ cd /opt/stackstorm/chatops
     $ sudo npm install hubot-mattermost
 
+
 2. Modify ``/opt/stackstorm/chatops/st2chatops.env`` to include
 the necessary adapter settings.
 
@@ -80,6 +81,7 @@ the necessary adapter settings.
     export MATTERMOST_ENDPOINT=/hubot/incoming
     export MATTERMOST_INCOME_URL=http://mm:31337/hooks/ncwc66caqf8d7c4gnqby1196qo
     export MATTERMOST_TOKEN=oqwx9d4khjra8cw3zbis1w6fqy
+
 
 3. Restart the service.
 
