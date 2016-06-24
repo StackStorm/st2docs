@@ -53,8 +53,8 @@ and environment variables are sourced from ``/opt/stackstorm/chatops/st2chatops.
 Edit the file to specify your chat service and bot credentials. If you need extra
 environment settings for Hubot, you should store them in ``st2chatops.env`` as well.
 
-Using a new chat adapter
-~~~~~~~~~~~~~~~~~~~~~~~~
+Using an external adapter
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The ``st2chatops`` package has an extensive list of built-in adapters for chat
 services, but if an adapter for a service you use isn't bundled there, you can
