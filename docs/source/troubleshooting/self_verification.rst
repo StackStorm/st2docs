@@ -12,23 +12,26 @@ Currently script covers the following aspects of |st2|:
 
 To run the self-verification:
 
-1. Switch to `root` user and save an authentication token into the `ST2_AUTH_TOKEN` variable. Also make sure ST2_API_URL and ST2_AUTH_URL are already defined.
+1. Install pre-requisite OS packages. The only dependency right now is ``bc``. To
+   install the package, run
 
-.. code-block:: bash
+::
 
-    sudo su
-    export ST2_AUTH_TOKEN=`st2 auth <username> -p <password> -t`
+    sudo apt-get install bc  # Ubuntu
 
-2. Run ``st2-self-check`` script:
+or
 
-On Ubuntu / Debian:
+::
 
-.. code-block:: bash
+    sudo yum install bc  # CentOS/RHEL
 
-    /usr/lib/python2.7/dist-packages/st2common/bin/st2-self-check
+2. If you don't have :ref:`encryption keys setup already<admin-setup-for-encrypted-datastore>`, do so.
+   This requires admin privileges on the box and |st2|.
 
-On RedHat / Fedora:
+3. Run the self-check script. This also copies over the examples from
+   ``/usr/share/doc/st2/examples`` to ``/opt/stackstorm/packs/`` and registers the content from examples. This step pollutes your |st2| environment by downloading fixtures from `st2tests
+   <https://github.com/StackStorm/st2tests/tree/master/packs/>`__.
 
-.. code-block:: bash
+::
 
-    /usr/lib/python2.7/site-packages/st2common/bin/st2-self-check
+    sudo ST2_AUTH_TOKEN=$(st2 auth st2admin -p <PASSWORD> -t) /opt/stackstorm/st2/bin/st2-self-check
