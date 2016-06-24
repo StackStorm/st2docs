@@ -43,31 +43,22 @@ We want to make ChatOps approachable by every team in every circumstance. This m
 Configuration
 =============
 
+Package-based install
+~~~~~~~~~~~~~~~~~~~~~
 
-Manual Installation
-~~~~~~~~~~~~~~~~~~~
+If you installed StackStorm from packages, the ``st2chatops`` package will take care
+of everything for you. Hubot with the necessary adapters is already bundled there,
+and environment variables are sourced from ``/opt/stackstorm/chatops/st2chatops.env``.
 
-To get started, you will need:
-
--  StackStorm v0.11.0 or higher
--  Hubot
--  StackStorm Hubot adapter
+Edit the file to specify your chat service and bot credentials. If you need extra
+environment settings for Hubot, you should store them in ``st2chatops.env`` as well.
 
 
-Instructions on how to configure and deploy Hubot for your platform are
-`here <https://hubot.github.com/docs/deploying/>`__. Ensure it is
-configured to connect to your Chat service of choice. You can find
-documentation for this at
-https://github.com/github/hubot/blob/master/docs/adapters.md.
+Bring your own Hubot
+~~~~~~~~~~~~~~~~~~~~
 
-Finally, you need to install and configure the StackStorm Hubot plugin. For
-information on how to do that, please visit the following page -
-`Installing and configuring the
-plugin <https://github.com/stackstorm/hubot-stackstorm#installing-and-configuring-the-plugin>`__.
-
-If you are installing Hubot on a machine that is not the same as your
-StackStorm installation, you will need to set the following environment
-variables:
+If you already have a Hubot instance, you'll need the ``hubot-stackstorm``
+module installed and the following environment variables set up:
 
 -  ``ST2_API`` - FQDN + port to StackStorm endpoint. Typically:
    ``https://<host>:443/api``
@@ -76,24 +67,25 @@ variables:
 -  ``ST2_AUTH_USERNAME`` - StackStorm installation username
 -  ``ST2_AUTH_PASSWORD`` - StackStorm installation password
 
+
 Once done, start up your Hubot instance. Validate that things are
-working correctly and that Hubot is connecting to your client by issuing a
-default command. For example, if you named your Hubot instance
-``frybot``, you can issue the command:
+working correctly and that Hubot is connecting to your client by issuing the
+default ``help`` command:
 
-::
+.. figure:: /_static/images/chatops_demo.gif
 
-      frybot: the rules
+By default, commands from the ``st2`` pack are installed. They are useful for
+getting info from your StackStorm instance.
 
-And should get something like this back:
+.. note::
 
-.. figure:: /_static/images/chatops_the_rules.png
+    You can issue Hubot commands in channels by using either ``!`` or the bot's
+    nickname. If your bot is named ``@ellie`` in Slack, you can use both ``!help`` and
+    ``@ellie: help``.
 
-Now, install the ``chatops`` pack into your StackStorm installation.
-
-::
-
-      $ st2 run packs.install packs=chatops,st2
+    Note that if you send your command as a private message, you should just write
+    ``help`` without an alias or a nickname. Your bot already knows you're talking
+    to him and not someone else!
 
 If successful, proceed to the next section.
 
@@ -117,7 +109,7 @@ repository, the Google pack. This will provide us with the action
     $ st2 run packs.install packs=google
 
 Now, let's setup an alias. For the purpose of this setup aliases are stored
-in the directory ``/opt/stackstorm/packs/my-chatops/aliases``. We have 
+in the directory ``/opt/stackstorm/packs/my-chatops/aliases``. We have
 already created this directory in a previous step.
 Create a new file called ``google.yaml``, and add the following
 contents:
@@ -137,8 +129,8 @@ reload Hubot. Do this with the following commands:
 
 ::
 
-    $ sudo st2ctl reload
-    $ sudo service docker-hubot restart
+    $ sudo st2ctl reload --register-all
+    $ sudo service st2chatops restart
 
 This will register the aliases we created, and tell Hubot to go and
 refresh its command list.

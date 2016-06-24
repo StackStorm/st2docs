@@ -161,7 +161,7 @@ For remote Linux actions, SSH is used. It is advised to configure identity file 
     sudo chmod 0440 /etc/sudoers.d/st2
 
     # Make sure `Defaults requiretty` is disabled in `/etc/sudoers`
-    sudo sed -i -r s/^Defaults\s+\+requiretty/# Defaults +requiretty/g" /etc/sudoers
+    sudo sed -i -r "s/^Defaults\s+\+requiretty/# Defaults +requiretty/g" /etc/sudoers
 
 * Configure SSH access and enable passwordless sudo on the remote hosts which StackStorm would control
   over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
@@ -318,6 +318,26 @@ If you modify ports, or url paths in the nginx configuration, make the correspon
 configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
+
+If you are trying to access the API from outside the box and you've nginx setup according to
+these instructions you can do so by hitting ``https://${EXTERNAL_IP}/api/v1/${REST_ENDPOINT}``.
+For example:
+
+  .. code-block:: bash
+
+    curl -X GET -H  'Connection: keep-alive' -H  'User-Agent: manual/curl' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'X-Auth-Token: <YOUR_TOKEN>' https://1.2.3.4/api/v1/actions
+
+You should be able to hit auth REST endpoints, if need be, by hitting ``https://${EXTERNAL_IP}/auth/v1/${AUTH_ENDPOINT}``.
+
+You can see the actual REST endpoint for a resource in |st2|
+by adding a ``--debug`` option to the CLI command for the appropriate resource.
+
+For example, to see the endpoint for getting actions, invoke
+
+  .. code-block:: bash
+
+    st2 --debug action list
+
 
 Setup ChatOps
 -------------

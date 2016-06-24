@@ -183,7 +183,7 @@ By default, the logs can be found in ``/var/log/st2``.
   package based installations. Note that ``handlers.RotatingFileHandler`` is used by
   default in ``/etc/st2*/logging.conf``, but the ``maxBytes`` and ``backupCount`` args are not
   specified so no rotation is performed by default which then lets logrotate handle the rotation.
-  If you want Python services instead of logrotate to handle the log rotation, update the 
+  If you want Python services instead of logrotate to handle the log rotation, update the
   logging configs as shown below:
 
   .. code-block:: ini
@@ -301,5 +301,27 @@ Configure ChatOps
 
 |st2| brings native two-way ChatOps support. To learn more about ChatOps, and how to configure it manually, please refer to :ref:`Configuration section under ChatOps <chatops-configuration>`.
 
+.. _mask-secrets:
+
+Configure secrets masking
+-------------------------
+In order to manage secrets masking on a system-wide basis you can also modify ``/etc/st2/st2.conf`` and
+control secrets masking at 2 levels i.e. API and logs. Note that this feature only controls external
+visibility of secrets and does not control how secrets are stored as well as managed by |st2|.
+
+* To mask secrets in API response. This is enabled on a per API basis and only available to admin users.
+
+... sourcecode:: bash
+
+    [api]
+    ...
+    mask_secrets=True
 
 
+* To mask secrets in logs
+
+... sourcecode:: bash
+
+    [logging]
+    ...
+    mask_secrets=True

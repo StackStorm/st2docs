@@ -2,14 +2,14 @@ CLI Reference
 ===================
 
 The |st2| command line client (CLI) allows you talk to and operate your StackStorm
-deployment using the command line. It talks to the StackStorm installation using 
+deployment using the command line. It talks to the StackStorm installation using
 the public API.
 
 Installation
 ------------
 
 If you installed StackStorm using packages or a deployment script, the CLI
-should already be available. It can also be installed with pip: 
+should already be available. It can also be installed with pip:
 
 .. sourcecode:: bash
 
@@ -79,8 +79,9 @@ by passing ``--skip-config`` flag to the CLI as shown below:
 Authentication and auth token caching
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you specify authentication credentials in the configuration file, the CLI
-will try to use those credentials to authenticate and retrieve an auth token.
+If you specify username and password as authentication credentials in the
+configuration file, the CLI will try to use those credentials to authenticate and
+retrieve an auth token.
 
 This auth token is by default cached on the local filesystem (in the ``~/.st2/token``
 file) and re-used for subsequent requests to the API service.
@@ -99,6 +100,14 @@ expired.
 
 If you have manually deleted or revoked a token before the expiration you can
 clear the cached token from by removing the ``~/.st2/token`` file.
+
+Setting API key as authentication credentials in configuration file will result in
+CLI using it as a primary method of authentication instead of auth token.
+
+.. sourcecode: ini
+
+    [credentials]
+    api_key = ZDAwTQx...ZTI3ZQ
 
 Using debug mode
 ----------------
@@ -208,7 +217,7 @@ Obtaining an authentication token inside scripts
 ------------------------------------------------
 
 If you want to authenticate and obtain an authentication token inside your
-(shell) scripts, you can use the ``st2 auth`` CLI command in combination 
+(shell) scripts, you can use the ``st2 auth`` CLI command in combination
 with the ``-t`` flag.
 
 This flag will cause the command to only print the token to the stdout on

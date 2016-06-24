@@ -272,6 +272,84 @@ In this case "action completed!" will be output in plaintext, and the execution 
 
 `{~}` can also be put at the end of the string to output the whole message in plaintext.
 
+Passing Attachment API parameters (Slack-only)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Slack uses formats ChatOps output as attachments, and you can configure the API
+parameters in the ``result.extra.slack`` field.
+
+.. code-block:: yaml
+
+  ---
+  name: "kitten"
+  description: "Post a kitten picture to cheer people up."
+  action_ref: "core.noop"
+  formats:
+    - "kitten pic"
+  ack:
+    enabled: false
+  result:
+    format: "your kittens are here! {~} Regards from the Box Kingdom."
+    extra:
+      slack:
+        image_url: "http://i.imgur.com/Gb9kAYK.jpg"
+        fields:
+          - title: Kitten headcount
+            value: Eight.
+            short: true
+          - title: Number of boxes
+            value: A bunch.
+            short: true
+        color: "#00AA00"
+
+Everything that's specified in ``extra.slack`` will be passed as is to
+the Attachment API (see [Slack Attachment API](https://api.slack.com/docs/attachments)).
+
+Note: parameters in ``extra`` support Jinja templating, and you can calculate the values
+dynamically:
+
+.. code-block:: yaml
+
+  [...]
+  formats:
+    - "say {{ phrase }} in {{ color }}"
+  result:
+    extra:
+      slack:
+        color: "{{execution.parameters.color}}"
+  [...]
+
+Support for other chat providers is coming soon, and of course you are always
+welcome to contribute! See the example below for hacking on ``extra``.
+
+
+Testing and extending alias parameters
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Action Aliases have a strict schema, and normally you have to modify it
+if you want to introduce new parameters to Hubot. However, ``extra`` (see above)
+is schema-less and can be used for hacking on ``hubot-stackstorm`` without
+having to modify StackStorm source code.
+
+For example, you might want to introduce an ``audit`` parameter that would make
+Hubot log executions of certain aliases into a separate file. You would define it
+in your aliases like this:
+
+.. code-block:: yaml
+
+    ---
+    name: "google_query"
+    description: "Perform a Google Query"
+    action_ref: "google.get_search_results"
+    formats:
+      - "google {{query}}"
+    extra:
+      audit: true
+
+Then you can access it as ``extra.audit`` inside the Hubot StackStorm plugin. A good
+example of working with ``extra`` parameters would be the [Slack post handler](https://github.com/StackStorm/hubot-stackstorm/blob/v0.4.2/lib/post_data.js#L43)
+in ``hubot-stackstorm``.
+
 ChatOps
 ^^^^^^^
 

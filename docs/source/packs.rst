@@ -48,7 +48,7 @@ By default packs are installed from the |st2| community repo. Use ``repo_url`` p
 
 .. code-block:: bash
 
-    st2 run packs.install register=all repo_url=https://github.com/StackStorm/st2incubator.git
+    st2 run packs.install packs=* register=all repo_url=https://github.com/StackStorm/st2incubator.git
 
 If you are using a private repo to host your pack(s) on github, use:
 ``repo_url=https://username:password@github.com/username/repository.git``.
@@ -61,7 +61,9 @@ To uninstall packs: ``st2 run packs.uninstall packs=docker,sensu``. This unloads
 The integration packs often require configurations to adjust to the environment. e.g. you will need to specify SMTP server for email, a puppet master URL for Puppet, or a Keystone endpoint and tenant credentials for OpenStack. The installation process is:
 
 1. Download the pack with ``packs.download``
-2. Check out the `README.md`. Adjust configurations per your environment.
+2. Check out the `README.md`. Adjust configurations per your environment. For
+   more information on pack configuration and how to configure the pack, please
+   refer to :doc:`/pack_configs`
 3. Run pack setup via ``packs.setup_virtualenv``. It sets up a virtual environment and installs the dependencies listed in requirements.txt.
 4. Load the pack into |st2| with ``pack.load register=all|actions|rules|sensors``.
 

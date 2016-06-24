@@ -6,7 +6,7 @@ st2web is an Angular-based HTML5 web application. It allows you to control the w
 Deployment
 -----------
 
-Production version of st2web is deployed on all-in-one installation. You can access the UI by pointing your browser to ``https://<server hostname>/``. For vagrant deployment of st2express, it would be https://172.168.50.11/.
+Production version of st2web is deployed with the installation. You can access the UI by pointing your browser to ``https://<server hostname>/``. For vagrant deployment of st2vagrant, it would be https://192.168.16.20/.
 
 .. note::
 

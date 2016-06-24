@@ -36,13 +36,11 @@ The best way to explore |st2| is to use CLI. Start by firing a few commands:
     # Fire a shell comand on remote hosts. Requires passwordless SSH configured.
     st2 run core.remote hosts='localhost' -- uname -a
 
-The default “all-in-one” installation deploys the CLI along with the |st2| services. CLI can be
-used to access |st2| service remotely. All |st2| operations are also available via REST API,
-Python, and JavaScript bindings. Check the :doc:`CLI and Python Client </reference/cli>` reference
-for details.
+The installation deploys the CLI along with the |st2| services. CLI can be used to access |st2|
+service remotely. All |st2| operations are also available via REST API, Python, and JavaScript
+bindings. Check the :doc:`CLI and Python Client </reference/cli>` reference for details.
 
-From v0.8, |st2| ships with WebUI. With the default "all-in-one" installation, you can access it at
-http://hostname. If SSL is configured, the WebUI will redirect to https://hostname.
+|st2| ships with WebUI. You can access it at https://hostname.
 
 Authenticate
 ------------

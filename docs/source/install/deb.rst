@@ -253,6 +253,7 @@ the official Nginx repository into the source list:
     sudo apt-get update
 
     # Install st2web and nginx
+    # note nginx should be > 1.4.6. To install a new version like 1.10.1 do "sudo apt-get install -y nginx=1.10.1-1~trusty"
     sudo apt-get install -y st2web nginx
 
     # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
@@ -262,10 +263,9 @@ the official Nginx repository into the source list:
     Technology/CN=$(hostname)"
 
     # Remove default site, if present
-    sudo rm /etc/nginx/sites-enabled/default
+    sudo rm /etc/nginx/conf.d/default.conf
     # Copy and enable StackStorm's supplied config file
-    sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
-    sudo ln -s /etc/nginx/sites-available/st2.conf /etc/nginx/sites-enabled/st2.conf
+    sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
 
     sudo service nginx restart
 
@@ -274,6 +274,24 @@ configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
 
+If you are trying to access the API from outside the box and you've nginx setup according to
+these instructions you can do so by hitting ``https://${EXTERNAL_IP}/api/v1/${REST_ENDPOINT}``.
+For example:
+
+  .. code-block:: bash
+
+    curl -X GET -H  'Connection: keep-alive' -H  'User-Agent: manual/curl' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'X-Auth-Token: <YOUR_TOKEN>' https://1.2.3.4/api/v1/actions
+
+You should be able to hit auth REST endpoints, if need be, by hitting ``https://${EXTERNAL_IP}/auth/v1/${AUTH_ENDPOINT}``.
+
+You can see the actual REST endpoint for a resource in |st2|
+by adding a ``--debug`` option to the CLI command for the appropriate resource.
+
+For example, to see the endpoint for getting actions, invoke
+
+  .. code-block:: bash
+
+    st2 --debug action list
 
 .. _ref-setup-chatops-deb:
 
