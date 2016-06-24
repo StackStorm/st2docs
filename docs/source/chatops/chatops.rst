@@ -63,6 +63,7 @@ install it manually.
 For example, here's how to connect StackStorm to Mattermost using the
 ``hubot-mattermost`` adapter:
 
+
 1. Install the adapter.
 
 ::
@@ -74,6 +75,7 @@ For example, here's how to connect StackStorm to Mattermost using the
 the necessary adapter settings.
 
 ::
+
     export HUBOT_ADAPTER=mattermost
     export MATTERMOST_ENDPOINT=/hubot/incoming
     export MATTERMOST_INCOME_URL=http://mm:31337/hooks/ncwc66caqf8d7c4gnqby1196qo
@@ -82,6 +84,7 @@ the necessary adapter settings.
 3. Restart the service.
 
 ::
+
     $ sudo service st2chatops restart
 
 Hubot should now connect to your chat service. Congratulations!
