@@ -53,6 +53,46 @@ and environment variables are sourced from ``/opt/stackstorm/chatops/st2chatops.
 Edit the file to specify your chat service and bot credentials. If you need extra
 environment settings for Hubot, you should store them in ``st2chatops.env`` as well.
 
+Using a new chat adapter
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``st2chatops`` package has an extensive list of built-in adapters for chat
+services, but if an adapter for a service you use isn't bundled there, you can
+install it manually.
+
+For example, here's how to connect StackStorm to Mattermost using the
+``hubot-mattermost`` adapter:
+
+1. Install the adapter.
+
+::
+
+    $ cd /opt/stackstorm/chatops
+    $ sudo npm install hubot-mattermost
+
+2. Modify ``/opt/stackstorm/chatops/st2chatops.env`` to include
+the necessary adapter settings.
+
+::
+    export HUBOT_ADAPTER=mattermost
+    export MATTERMOST_ENDPOINT=/hubot/incoming
+    export MATTERMOST_INCOME_URL=http://mm:31337/hooks/ncwc66caqf8d7c4gnqby1196qo
+    export MATTERMOST_TOKEN=oqwx9d4khjra8cw3zbis1w6fqy
+
+3. Restart the service.
+
+::
+    $ sudo service st2chatops restart
+
+Hubot should now connect to your chat service. Congratulations!
+
+Please note that while we always try to help the best we can, we can't support
+adapters that are not bundled into ``st2chatops`` since they are numerous.
+If you run into trouble with an external adapter, it's usually best
+to open an issue in the adapter's GitHub repo or contact the authors.
+
+Hubot developers maintain a list of adapters on the
+`Hubot documentation website <https://hubot.github.com/docs/adapters/>`_.
 
 Bring your own Hubot
 ~~~~~~~~~~~~~~~~~~~~
