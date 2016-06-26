@@ -238,3 +238,45 @@ Similar as above, you can use get command to view the values. Same rules which
 apply to ``set`` also apply to ``get`` (users can only see values which are
 local to them, administrator can see all the values, secrets are masked by
 default).
+
+Limitations
+-----------
+
+There are some limitation with the dynamic config values and
+``{{user.key_name}}`` context you should be aware of.
+
+Dynamic config values
+~~~~~~~~~~~~~~~~~~~~~
+
+Right now only string type is supported for dynamic config values (config items
+who's value is retrieved from the datastore). This was done intentionally to
+keep the feature simple and fully compatible with the existing datastore
+operations (this means you can re-use the same API, CLI commands, etc.).
+
+To work-around this (in case you want to use a non-string value) you can, for
+example, store a JSON serialized version of the your value in the datastore and
+then de-serialize it in the action / sensor code.
+
+If this turns out to be a big problem for many users, we might consider
+introducing support for arbitrary types, but this would most likely mean we
+will need to implement a new API and CLI commands for managing dynamic config
+values and that's something we want to avoid.
+
+User context
+~~~~~~~~~~~~
+
+User context is right now only available for actions which are triggered via
+the |st2| API.
+
+This means that dynamic config values which utilize ``{{user.some_value}}``
+notation will only resolve to the correct user when an action is triggered
+through the API.
+
+The reason for that is that user context is currently only available in the
+API. If an action is triggered via rule, user context is not available. This
+means ``{{user}}`` will resolve to the system user (``stanley``).
+
+We plan to address this in a future release, but we haven't decided on the
+approach yet, so your feedback is welcome. No mater the approach we will go
+with, carrying the user context with a trigger and mapping this external user
+to the |st2| user will require some additional work on the user-side.
