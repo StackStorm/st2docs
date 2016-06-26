@@ -94,8 +94,14 @@ provided below:
       private_key_path: "{{system.private_key_path}}"  # global datastore value
 
 Configuration files are registered in the same way as other resources by running
-``st2-register-content`` script. For configs, you need to run this script with
-the ``--register-configs`` flag as shown below.
+``st2ctl reload`` / ``st2-register-content`` script. For configs, you need to run
+this script with the ``--register-configs`` flag as shown below.
+
+.. sourcecode:: bash
+
+    st2ctl reload --register-configs
+
+Or:
 
 .. sourcecode:: bash
 
@@ -139,7 +145,6 @@ In the config, dynamic configuration values are referred to as shown below:
       api_secret: "{{user.api_secret}}"  # user scoped configuration value which is also a secret as declared in config schema
       private_key_path: "{{system.private_key_path}}"  # global datastore value
 
-
 ``api_secret`` is a user-scoped dynamic configuration value which means that
 ``user`` part will be replaced by the username of the user who triggered the
 action execution.
@@ -148,7 +153,7 @@ Since that value is marked as secret in the config schema, this value will
 need to be stored encrypted in the datastore. This means user who is setting
 the value needs to also pass  `--encrypt` flag to the CLI command as shown
 below (More about --encrypt flag and
-:ref:`storing secrets in datastore<datastore-storing-secrets-in-key-value-store>`): 
+:ref:`storing secrets in datastore<datastore-storing-secrets-in-key-value-store>`):
 
 .. sourcecode:: bash
 
