@@ -151,8 +151,8 @@ action execution.
 
 Since that value is marked as secret in the config schema, this value will
 need to be stored encrypted in the datastore. This means user who is setting
-the value needs to also pass  `--encrypt` flag to the CLI command as shown
-below (More about --encrypt flag and
+the value needs to also pass  ``--encrypt`` flag to the CLI command as shown
+below (more about --encrypt flag and
 :ref:`storing secrets in datastore<datastore-storing-secrets-in-key-value-store>`):
 
 .. sourcecode:: bash
