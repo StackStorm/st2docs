@@ -349,12 +349,3 @@ in your aliases like this:
 Then you can access it as ``extra.audit`` inside the Hubot StackStorm plugin. A good
 example of working with ``extra`` parameters would be the [Slack post handler](https://github.com/StackStorm/hubot-stackstorm/blob/v0.4.2/lib/post_data.js#L43)
 in ``hubot-stackstorm``.
-
-ChatOps
-^^^^^^^
-
-To see how to use aliases with your favorite Chat client and implement ChatOps in your infrastructure
-go `here <https://github.com/StackStorm/st2/blob/master/instructables/chatops.md>`_.
-
-
-
