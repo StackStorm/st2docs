@@ -27,6 +27,20 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 
 The ``username`` and ``password`` properties are optional.
 
+StackStorm also supports `MongoDB replica sets <https://docs.mongodb.com/v2.4/core/replication-introduction/>`_
+using `MongoDB URI string <https://docs.mongodb.com/v2.4/reference/connection-string/>`_.
+
+In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
+
+.. code-block:: bash
+
+    [database]
+    host = mongodb://<#MDB_NODE_1>,<#MDB_NODE_2>,<#MDB_NODE_3>
+
+* You can also add ports, usernames and passwords, etc to your connection string - https://docs.mongodb.com/v2.4/reference/connection-string/
+
+* To understand more about setting up a MongoDB replica set - https://docs.mongodb.com/v2.4/tutorial/deploy-replica-set/
+
 StackStorm also supports SSL/TLS to encrypt connections. A few extra properties need be added to
 the configuration apart from the ones outlined above.
 
