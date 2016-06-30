@@ -307,7 +307,9 @@ Install required dependencies
 
 9. Setup st2web and SSL termination. Follow :ref:`install webui and setup ssl<ref-install-webui-ssl-deb>`.
 
-10. Configuration for Nginx as loadbalancer for controller box can be found `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-shared_st2_Nginx-conf>`__. With this configuration Nginx will loadbalance all requests between the two blueprint boxes ``st2-multi-node-1`` and ``st2-multi-node-2``. This includes requests to ``st2api``, ``st2auth`` and ``mistral-api``. Nginx also serves as the webserver for st2web.
+10. Sample configuration for Nginx as loadbalancer for controller box is provided below. With this configuration Nginx will loadbalance all requests between the two blueprint boxes ``st2-multi-node-1`` and ``st2-multi-node-2``. This includes requests to ``st2api``, ``st2auth`` and ``mistral-api``. Nginx also serves as the webserver for st2web.
+
+.. literalinclude:: /../../st2/conf/HA/nginx/st2.conf.controller.sample
 
 11. Install st2chatops following from :ref:`setup chatops<ref-setup-chatops-deb>`.
 
@@ -343,11 +345,15 @@ above support the capbility of being turned on-off individually therefore each b
    identical. This ensures consistent authentication from the entire |st2| install since the request to authenticate a user
    can be forwarded by the loadbalancer to any of the ``st2auth`` processes.
 
-7. Use `shared st2 config <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2-conf>`__ and replace ``/etc/st2/st2.conf``. This config points to the controller node or configuration values of ``database``, ``messaging`` and ``mistral``.
+7. Replace ``/etc/st2/st2.conf`` with the sample st2.conf provided below. This config points to the controller node or configuration values of ``database``, ``messaging`` and ``mistral``.
+
+.. literalinclude:: /../../st2/conf/HA/st2.conf.sample
 
 8. Configure authentication as per :ref:`this documentation<ref-config-auth-deb>`.
 
-9. Use Nginx config for the blueprint boxes from `here <https://gist.github.com/manasdk/fce14029900e533a385d#file-st2_Nginx-conf>`__. In this config Nginx will act as the SSL termination endpoint for all the REST endpoints exposed by ``st2api``, ``st2auth`` and ``mistral-api``.
+9. Use the sample Nginx config that is provided below for the blueprint boxes. In this config Nginx will act as the SSL termination endpoint for all the REST endpoints exposed by ``st2api``, ``st2auth`` and ``mistral-api``.
+
+.. literalinclude:: /../../st2/conf/HA/nginx/st2.conf.blueprint.sample
 
 10. To use Timer triggers with mistral please do the following to only enable them on one server by doing the following in `/etc/st2/st2.conf` 
 
