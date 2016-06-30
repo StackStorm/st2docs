@@ -35,7 +35,7 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 .. code-block:: bash
 
     [database]
-    host = mongodb://<#MDB_NODE_1>,<#MDB_NODE_2>,<#MDB_NODE_3>
+    host = mongodb://<#MDB_NODE_1>,<#MDB_NODE_2>,<#MDB_NODE_3>/?replicaSet=<#MDB_REPLICA_SET_NAME>
 
 * You can also add ports, usernames and passwords, etc to your connection string - https://docs.mongodb.com/v2.4/reference/connection-string/
 
