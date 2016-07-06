@@ -120,5 +120,5 @@ is true for both fabric and paramiko ssh runner.
 
 When using a bastion host for running remote actions, the bastion host must have ``AllowTcpForwarding``
 enabled. Additionally, the connection to the bastion host is made using the parameters provided for
-the connection being tunneled, so the bastion host will require the a user to exist with the same
+the connection being tunneled, so the bastion host will require the user to exist with the same
 name/password/private_key as the targeted remote box.
