@@ -4,14 +4,13 @@ Notifications
 If you read through the :ref:`ref-chatops` section, you are familiar with notifications.
 Even without ChatOps, notifications can be used to post messages to external systems
 like Chat clients, send emails etc. Notifications require an action that is registered with
-st2 (For example, ``slack`` pack contains a
-`post_message <https://github.com/StackStorm/st2contrib/blob/master/packs/slack/actions/post_message.yaml>`_ action.)
-and a notification rule to go with it. Notifications are implemented as triggers and rules and actions.
-A special ``core.st2.notifytrigger`` is emitted by the system on completion of every action
-and a rule to match the trigger to a notify action results in notifications being sent out.
+|st2| (e.g., the `post_message <https://github.com/StackStorm/st2contrib/blob/master/packs/slack/actions/post_message.yaml>`_ action in the the ``slack`` pack)
+and a notification rule to go with it. Notifications are implemented as triggers, rules and actions.
+A special ``core.st2.notifytrigger`` is emitted by the system on completion of every action.
+A rule to match the trigger to a notify action results in notifications being sent out.
 
-How to setup a notification for a simple action?
-------------------------------------------------
+How do I setup a notification for a simple action?
+--------------------------------------------------
 
 This is the easiest case. You can do this by specifying a ``notify`` section in the YAML metadata
 while registering the action. For example:
@@ -60,11 +59,11 @@ When the notification triggers are sent out, the message is supplied along with 
 field containing the results of the execution. The rule can use these two fields -
 ``message`` and ``data`` - and send it out as part of the action.
 
-How to write a rule for notification?
--------------------------------------
+How do I write a rule for notification?
+---------------------------------------
 
 The rule to tie a st2 registered ``notify`` action resembles the notify rule you are familiar
-with when you setup chatops. An example is below:
+with when you setup ChatOps. An example is below:
 
 ::
 
@@ -118,7 +117,7 @@ and anything in key-value store (``{{system.foo}}``). Some examples are shown be
 How do I setup notifications in an action chain?
 ------------------------------------------------
 
-The procedure here is the same if you want the same notify for all tasks in the chain.
+The procedure here is the same if you want the same notification for all tasks in the chain.
 Register an action metadata with a notify section. For example:
 
 ::
@@ -150,9 +149,9 @@ How do I setup different notifications for different tasks in the chain?
 ------------------------------------------------------------------------
 
 The ``notify`` subsection is the same format as seen in examples above.
-Place the subsection in action chain tasks. If there is notify section for the action metadata, 
-and a notify section in the task, the task section will override the default. The relevant section of chain
-action with task notify is shown below:
+Place the subsection in action chain tasks. If there is a notify section for the action metadata, 
+and a notify section in the task, the task section will override the default. The relevant section
+of a chain action with task notify is shown below:
 
 ::
 
@@ -236,4 +235,4 @@ If you enabled ChatOps, you get all the the things wired for you. You don't have
 action metadata etc. You can still use ``skip_notify`` to skip notifications for certain tasks in a chain
 or workflow. If you specified a notify section in metadata or in tasks, those notification routes
 will override ChatOps. Therefore, you might not see notifications in chat client.
-See `issue <https://github.com/StackStorm/st2/issues/2018>`_ for example.
+See `this issue <https://github.com/StackStorm/st2/issues/2018>`_ for an example.
