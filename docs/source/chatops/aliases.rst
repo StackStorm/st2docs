@@ -198,7 +198,7 @@ This works as follows:
   - the ``display`` string (``google {{query}}``) will be exposed via the ``!help`` command.
   - strings from the `representation` list (``(google|look for) {{query=StackStorm}}[!.]?`` regex, and ``search google for {{query}}`` string) will be matched by Hubot.
 
-You can use both strings and display-representation objects in ``format`s` at the same time:
+You can use both strings and display-representation objects in ``formats`` at the same time:
 
 .. code-block:: yaml
 
