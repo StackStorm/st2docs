@@ -38,6 +38,14 @@ Fedora
     systemctl enable rabbitmq-server
     systemctl restart rabbitmq-server
 
+Mac
+___
+- install [python](http://exponential.io/blog/2015/02/11/install-python-on-mac-os-x-for-development/)
+- install virtualenv `pip install virtualenv`
+- create virtual environment, cd to st2 project and run `virtualenv .venv`
+- activate virtual environment `source .venv/bin/activate`
+- install dependencies `pip install -r requirements.txt`
+
 Optional Requirements
 ~~~~~~~~~~~~~~~~~~~~~
 
