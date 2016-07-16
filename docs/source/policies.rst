@@ -1,6 +1,8 @@
 Policies
 ========
 
+Policies allows users to enforce different rules regarding action executions.
+
 To list the types of policy that are available for configuration, run the command
 `st2 policy-type list``.
 
@@ -13,8 +15,18 @@ Concurrency
 -----------
 
 The concurrency policy enforces the number of executions that can run simultaneously for a
-specified action. There are two forms of concurrency policy: ``action.concurrency`` and
+specified action.
+
+By default when a threshold is reached, action execution is postponed until a number concurrent
+executions of a particular actions falls below the threshold. As an alternative, user can also
+specify for execution to be canceled instead of it being delayed / postponed.
+
+
+There are two forms of concurrency policy: ``action.concurrency`` and
 ``action.concurrency.attr``.
+
+action.concurrency
+~~~~~~~~~~~~~~~~~~
 
 The ``action.concurrency`` policy limits the concurrent executions for the action. The following
 is an example of a policy file with concurrency defined for ``demo.my_action``. Please note that
@@ -31,7 +43,25 @@ execution requests above this threshold will be postponed.
     resource_ref: demo.my_action
     policy_type: action.concurrency
     parameters:
+        action: delay
         threshold: 10
+
+If you want further actions to be canceled instead of delayed, ``action`` attribute should be
+changed to ``cancel`` as shown below.
+
+.. sourcecode:: YAML
+
+    name: my_action.concurrency
+    description: Limits the concurrent executions for my action.
+    enabled: true
+    resource_ref: demo.my_action
+    policy_type: action.concurrency
+    parameters:
+        action: cancel
+        threshold: 1
+
+action.concurrency.attr
+~~~~~~~~~~~~~~~~~~~~~~~
 
 The ``action.concurrency.attr`` policy limits the executions for the action by input arguments.
 Let's say ``demo.my_remote_action`` has an input argument defined called ``hostname``. This is the
@@ -48,6 +78,7 @@ given remote host.
     resource_ref: demo.my_remote_action
     policy_type: action.concurrency.attr
     parameters:
+        action:d elay
         threshold: 10
         attributes:
             - hostname
