@@ -39,12 +39,24 @@ Minimal installation
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
 
+.. include:: __mongodb_32_note.rst
+
 Install MongoDB, RabbitMQ, and PostgreSQL.
 
   .. code-block:: bash
 
     sudo apt-get update
-    sudo apt-get install -y mongodb-server rabbitmq-server postgresql
+    sudo apt-get install -y gnupg-curl
+    sudo apt-get install -y curl
+
+    # Add key and repo for the latest stable MongoDB (3.2)
+    sudo apt-key adv --fetch-keys https://www.mongodb.org/static/pgp/server-3.2.asc
+    sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-3.2.list
+    deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse
+    EOT"
+
+    sudo apt-get install -y mongodb-org
+    sudo apt-get install -y rabbitmq-server
 
 Setup repositories
 ~~~~~~~~~~~~~~~~~~~
@@ -91,6 +103,7 @@ Setup Mistral Database
 
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
+
 To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
 For remote Linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
 
@@ -131,6 +144,7 @@ For remote Linux actions, SSH is used. It is advised to configure identity file 
 
 Start Services
 ~~~~~~~~~~~~~~
+
 * Start services ::
 
     sudo st2ctl start

@@ -86,12 +86,27 @@ you may want to tweak them according to your security practices.
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
 
+.. include:: __mongodb_32_note.rst
+
 Install MongoDB, RabbitMQ, and PostgreSQL.
 
   .. code-block:: bash
 
     sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
-    sudo yum -y install mongodb-server rabbitmq-server
+
+    # Add key and repo for the latest stable MongoDB (3.2)
+    sudo rpm --import https://www.mongodb.org/static/pgp/server-3.2.asc
+    sudo sh -c "cat <<EOT > /etc/yum.repos.d/mongodb-org-3.2.repo
+    [mongodb-org-3.2]
+    name=MongoDB Repository
+    baseurl=https://repo.mongodb.org/yum/redhat/6Server/mongodb-org/3.2/x86_64/
+    gpgcheck=1
+    enabled=1
+    gpgkey=https://www.mongodb.org/static/pgp/server-3.2.asc
+    EOT"
+
+    sudo yum -y install mongodb-org
+    sudo yum -y install rabbitmq-server
     sudo service mongod start
     sudo service rabbitmq-server start
     sudo chkconfig mongod on
