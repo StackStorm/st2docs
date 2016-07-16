@@ -180,11 +180,7 @@ testing.
 
 * Adjust configuration in ``/etc/st2/st2.conf`` if you are using a different user or path to the key:
 
-  .. sourcecode:: ini
-
-    [system_user]
-    user = stanley
-    ssh_key_file = /home/stanley/.ssh/stanley_rsa
+.. include:: common/configure_system_user.rst
 
 Start Services
 ~~~~~~~~~~~~~~
