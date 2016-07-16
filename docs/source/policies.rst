@@ -1,10 +1,6 @@
 Policies
 ========
 
-.. note::
-
-    Policy is currently an experimental feature and may be subject to bugs and design changes.
-
 To list the types of policy that are available for configuration, run the command ``st2 policy-type list``.
 
 Policy configuration files are expected to be located under the ``policies`` folder in related packs, similar to actions and rules. Policies can be loaded into |st2| via ``st2ctl reload --register-policies``. Once policies are loaded into |st2|, run the command ``st2 policy list`` to view the list of policies in effect.
