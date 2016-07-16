@@ -142,7 +142,6 @@ The following script will detect your platform and architecture and setup the re
 
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.rpm.sh | sudo bash
 
-
 Install StackStorm components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -150,29 +149,17 @@ Install StackStorm components
 
       sudo yum install -y st2 st2mistral
 
-
 If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or changed defaults,
 please adjust the settings:
 
-    * RabbitMQ connection at ``/etc/st2/st2.conf`` and ``/etc/mistral/mistral.conf``
-    * MongoDB at ``/etc/st2/st2.conf``
-    * PostgreSQL at ``/etc/mistral/mistral.conf``
+  * RabbitMQ connection at ``/etc/st2/st2.conf`` and ``/etc/mistral/mistral.conf``
+  * MongoDB at ``/etc/st2/st2.conf``
+  * PostgreSQL at ``/etc/mistral/mistral.conf``
 
 Setup Mistral Database
 ~~~~~~~~~~~~~~~~~~~~~~
 
-  .. code-block:: bash
-
-    # Create Mistral DB in PostgreSQL
-    cat << EHD | sudo -u postgres psql
-    CREATE ROLE mistral WITH CREATEDB LOGIN ENCRYPTED PASSWORD 'StackStorm';
-    CREATE DATABASE mistral OWNER mistral;
-    EHD
-
-    # Setup Mistral DB tables, etc.
-    /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
-    # Register mistral actions
-    /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
+.. include:: common/setup_mistral_database.rst
 
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -185,26 +172,7 @@ testing.
 * Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so
   that SSH-based action can be tried and tested locally. You will need elevated privileges to do this.
 
-  .. code-block:: bash
-
-    # Create an SSH system user (default `stanley` user may be already created)
-    sudo useradd stanley
-    sudo mkdir -p /home/stanley/.ssh
-    sudo chmod 0700 /home/stanley/.ssh
-
-    # On StackStorm host, generate ssh keys
-    sudo ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
-
-    # Authorize key-based access
-    sudo sh -c 'cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys'
-    sudo chown -R stanley:stanley /home/stanley/.ssh
-
-    # Enable passwordless sudo
-    sudo sh -c 'echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2'
-    sudo chmod 0440 /etc/sudoers.d/st2
-
-    # Make sure `Defaults requiretty` is disabled in `/etc/sudoers`
-    sudo sed -i -r "s/^Defaults\s+\+requiretty/# Defaults +requiretty/g" /etc/sudoers
+.. include:: common/configure_ssh_and_sudo.rst
 
 * Configure SSH access and enable passwordless sudo on the remote hosts which StackStorm would control
   over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
@@ -220,42 +188,13 @@ testing.
 
 Start Services
 ~~~~~~~~~~~~~~
-* Start services ::
 
-    sudo st2ctl start
-
-* Register sensors and actions ::
-
-    st2ctl reload
+.. include:: common/start_services.rst
 
 Verify
 ~~~~~~
 
-  .. code-block:: bash
-
-    st2 --version
-
-    st2 -h
-
-    # List the actions from a 'core' pack
-    st2 action list --pack=core
-
-    # Run a local shell command
-    st2 run core.local -- date -R
-
-    # See the execution results
-    st2 execution list
-
-    # Fire a remote comand via SSH (Requires passwordless SSH)
-    st2 run core.remote hosts='localhost' -- uname -a
-
-    # Install a pack
-    st2 run packs.install packs=st2
-
-Use the supervisor script to manage |st2| services: ::
-
-    st2ctl start|stop|status|restart|restart-component|reload|clean
-
+.. include:: common/verify.rst
 
 -----------------
 
