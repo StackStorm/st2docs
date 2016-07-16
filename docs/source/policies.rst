@@ -78,7 +78,7 @@ given remote host.
     resource_ref: demo.my_remote_action
     policy_type: action.concurrency.attr
     parameters:
-        action:d elay
+        action: delay
         threshold: 10
         attributes:
             - hostname
