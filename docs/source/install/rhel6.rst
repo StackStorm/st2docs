@@ -30,7 +30,8 @@ for the best experience while testing or deploying |st2|:
 |            Testing                   |         Production                |
 +======================================+===================================+
 |  * Dual CPU system                   | * Quad core CPU system            |
-|  * 1GB of RAM                        | * >16GB RAM                       |
+|  * 1GB RAM                           | * >16GB RAM                       |
+|  * 10GB storage                      | * 40GB storage                    |
 |  * Recommended EC2: **t2.medium**    | * Recommended EC2: **m4.xlarge**  |
 +--------------------------------------+-----------------------------------+
 
