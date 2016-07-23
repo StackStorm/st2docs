@@ -12,7 +12,7 @@ This section includes common problems you might encounter while using the platfo
     ssh
     database
     rest_api_access
-    tunning_action_runner_dispatcher_pool
+    tuning_action_runner_dispatcher_pool
     purging_old_data
     private_networks
     submit_debug_info
