@@ -1,5 +1,5 @@
-Tunning action runner dispatcher pool size
-==========================================
+Tuning action runner dispatcher pool size
+=========================================
 
 When action runner executes actions it uses two internal green thread pools -
 one for regular actions and one for workflows. Both of those pools have a hard
