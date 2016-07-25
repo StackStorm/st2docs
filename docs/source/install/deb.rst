@@ -29,7 +29,8 @@ for the best experience while testing or deploying |st2|:
 |            Testing                   |         Production                |
 +======================================+===================================+
 |  * Dual CPU system                   | * Quad core CPU system            |
-|  * 1GB of RAM                        | * >16GB RAM                       |
+|  * 1GB RAM                           | * >16GB RAM                       |
+|  * 10GB storage                      | * 40GB storage                    |
 |  * Recommended EC2: **t2.medium**    | * Recommended EC2: **m4.xlarge**  |
 +--------------------------------------+-----------------------------------+
 
@@ -268,8 +269,7 @@ If you already run a Hubot instance, you only have to install the `hubot-stackst
 * Review and edit ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to your
   StackStorm installation and Chat Service you are using. By default ``st2api`` and ``st2auth``
   are expected to be on the same host. If that is not the case, please update ``ST2_API`` and
-  ``ST2_AUTH_URL`` variables or just point to correct host with ``ST2_HOSTNAME`` variable. Use
-  `ST2_WEBUI_URL` if an external address of your StackStorm host is different.
+  ``ST2_AUTH_URL`` variables or just point to correct host with ``ST2_HOSTNAME`` variable.
 
   The example configuration uses Slack; go to Slack web admin interface, create a Bot, and copy the authentication token into ``HUBOT_SLACK_TOKEN``.
   If you are using a different Chat Service, set corresponding environment variables under

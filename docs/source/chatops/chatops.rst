@@ -53,6 +53,16 @@ and environment variables are sourced from ``/opt/stackstorm/chatops/st2chatops.
 Edit the file to specify your chat service and bot credentials. If you need extra
 environment settings for Hubot, you should store them in ``st2chatops.env`` as well.
 
+If you want the chatops messages to include the right hyperlink to execution url for
+the action you kicked off via chatops, you have to point |st2| to the external address
+for the host running the web UI. To do so, edit the ``webui`` section in ``/etc/st2/st2.conf``.
+For example:
+
+::
+
+    [webui]
+    webui_base_url = https://st2web001.stackstorm.net
+
 Using an external adapter
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
