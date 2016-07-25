@@ -40,12 +40,24 @@ Minimal installation
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
 
+.. include:: __mongodb_32_note.rst
+
 Install MongoDB, RabbitMQ, and PostgreSQL.
 
   .. code-block:: bash
 
     sudo apt-get update
-    sudo apt-get install -y mongodb-server rabbitmq-server postgresql
+    sudo apt-get install -y gnupg-curl
+    sudo apt-get install -y curl
+
+    # Add key and repo for the latest stable MongoDB (3.2)
+    sudo apt-key adv --fetch-keys https://www.mongodb.org/static/pgp/server-3.2.asc
+    sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-3.2.list
+    deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse
+    EOT"
+
+    sudo apt-get install -y mongodb-org
+    sudo apt-get install -y rabbitmq-server
 
 Setup repositories
 ~~~~~~~~~~~~~~~~~~~
@@ -56,7 +68,6 @@ The following script will detect your platform and architecture and setup the re
 
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
-
 Install StackStorm components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -64,59 +75,29 @@ Install StackStorm components
 
       sudo apt-get install -y st2 st2mistral
 
-
 If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or have changed defaults,
 please adjust the settings:
 
-    * RabbitMQ connection at ``/etc/st2/st2.conf`` and ``/etc/mistral/mistral.conf``
-    * MongoDB at ``/etc/st2/st2.conf``
-    * PostgreSQL at ``/etc/mistral/mistral.conf``
+  * RabbitMQ connection at ``/etc/st2/st2.conf`` and ``/etc/mistral/mistral.conf``
+  * MongoDB at ``/etc/st2/st2.conf``
+  * PostgreSQL at ``/etc/mistral/mistral.conf``
 
 Setup Mistral Database
 ~~~~~~~~~~~~~~~~~~~~~~
 
-  .. code-block:: bash
-
-    # Create Mistral DB in PostgreSQL
-    cat << EHD | sudo -u postgres psql
-    CREATE ROLE mistral WITH CREATEDB LOGIN ENCRYPTED PASSWORD 'StackStorm';
-    CREATE DATABASE mistral OWNER mistral;
-    EHD
-
-    # Setup Mistral DB tables, etc.
-    /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
-    # Register mistral actions
-    /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
+.. include:: common/setup_mistral_database.rst
 
 .. _ref-config-ssh-sudo-deb:
 
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
+
 To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
 For remote Linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
 
 * Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally. You will need elevated privileges to do this.
 
-  .. code-block:: bash
-
-    # Create an SSH system user (default `stanley` user may already exist)
-    sudo useradd stanley
-    sudo mkdir -p /home/stanley/.ssh
-    sudo chmod 0700 /home/stanley/.ssh
-
-    # On StackStorm host, generate ssh keys
-    sudo ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
-
-    # Authorize key-based access
-    sudo sh -c 'cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys'
-    sudo chown -R stanley:stanley /home/stanley/.ssh
-
-    # Enable passwordless sudo
-    sudo sh -c 'echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2'
-    sudo chmod 0440 /etc/sudoers.d/st2
-
-    # Make sure `Defaults requiretty` is disabled in `/etc/sudoers`
-    sudo sed -i -r "s/^Defaults\s+\+requiretty/# Defaults +requiretty/g" /etc/sudoers
+.. include:: common/configure_ssh_and_sudo.rst
 
 * Configure SSH access and enable passwordless sudo on the remote hosts which StackStorm would control
   over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
@@ -124,50 +105,17 @@ For remote Linux actions, SSH is used. It is advised to configure identity file 
 
 * Adjust configuration in ``/etc/st2/st2.conf`` if you are using a different user or path to the key:
 
-  .. sourcecode:: ini
-
-    [system_user]
-    user = stanley
-    ssh_key_file = /home/stanley/.ssh/stanley_rsa
+.. include:: common/configure_system_user.rst
 
 Start Services
 ~~~~~~~~~~~~~~
-* Start services ::
 
-    sudo st2ctl start
-
-* Register sensors and actions ::
-
-    st2ctl reload
+.. include:: common/start_services.rst
 
 Verify
 ~~~~~~
 
-  .. code-block:: bash
-
-    st2 --version
-
-    st2 -h
-
-    # List the actions from a 'core' pack
-    st2 action list --pack=core
-
-    # Run a local shell command
-    st2 run core.local -- date -R
-
-    # See the execution results
-    st2 execution list
-
-    # Fire a remote comand via SSH (Requires passwordless SSH)
-    st2 run core.remote hosts='localhost' -- uname -a
-
-    # Install a pack
-    st2 run packs.install packs=st2
-
-Use the supervisor script to manage |st2| services: ::
-
-    st2ctl start|stop|status|restart|restart-component|reload|clean
-
+.. include:: common/verify.rst
 
 -----------------
 
