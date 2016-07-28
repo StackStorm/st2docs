@@ -349,11 +349,13 @@ above support the capbility of being turned on-off individually therefore each b
 5. Update Mistral connection to RabbitMQ in ``/etc/mistral/mistral.conf`` by changing ``default.transport_url`` property.
 
 6. Setup Mistral DB tables, etc.
+
   .. code-block:: bash
 
         /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
 
 7. Register mistral actions
+
   .. code-block:: bash
 
         /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
