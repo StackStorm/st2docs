@@ -375,8 +375,7 @@ above support the capbility of being turned on-off individually therefore each b
 
 9. If you are using self signed certificates you will need to add ``insecure = true`` to the ``mistral`` section of ``/etc/st2/st2.conf``.
 
-10. Configure users & authentication as per :ref:`this documentation<ref-config-auth-deb>`. Make sure that user configuration on all boxes running ``st2auth`` is identical. This ensures consistent authentication from the entire |st2| install since the request to authenticate a user
-   can be forwarded by the loadbalancer to any of the ``st2auth`` processes.
+10. Configure users & authentication as per :ref:`this documentation<ref-config-auth-deb>`. Make sure that user configuration on all boxes running ``st2auth`` is identical. This ensures consistent authentication from the entire |st2| install since the request to authenticate a user can be forwarded by the loadbalancer to any of the ``st2auth`` processes.
 
 11. Use the sample Nginx config that is provided below for the blueprint boxes. In this config Nginx will act as the SSL termination endpoint for all the REST endpoints exposed by ``st2api``, ``st2auth`` and ``mistral-api``.
 
