@@ -107,6 +107,20 @@ Or:
 
     st2-register-content --register-configs
 
+Optionally you can also pass ``--register-validate-configs`` flag to the ``st2ctl reload`` /
+``st2-register-content`` script. When this flag is provided, static values in the config are
+validated against the schema defined in the pack ``config.schema.yaml`` file when loading and
+registering the config. This helps you catch common errors and typos early on, so you are
+encouraged to always use this flag.
+
+Also keep in mind that this flag only validates static values in the config. Dynamic values (ones
+which use Jinja notation to reference values in the datastore) are resolve during run-time so they
+can't be validated during register / load phase.
+
+.. sourcecode:: bash
+
+    st2ctl reload --register-configs --register-validate-configs
+
 Static configuration value
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
