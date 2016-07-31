@@ -34,6 +34,14 @@ Upgrade Notes
 .. code-block:: python
 
     def run(self):
+        result = ('item1', 'item2')
+        return list(result)
+
+or
+
+.. code-block:: python
+
+    def run(self):
         result = ['item1', 'item2']
         return result
 
