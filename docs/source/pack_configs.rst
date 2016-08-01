@@ -108,16 +108,12 @@ Or:
     st2-register-content --register-configs
 
 When loading and registering configs using the commands described above, static values in the
-config are validated against the schema defined in the pack (``config.schema.yaml``). If no schema
-exists, validation is not performed.
+config file are validated against the schema defined in the pack (``config.schema.yaml``). If no
+schema exists, validation is not performed.
 
 Keep in mind that only static values in the config are validated. Dynamic values (ones which use
 Jinja notation to reference values in the datastore) are resolve during run-time so they can't be
 validated during register / load phase.
-
-.. sourcecode:: bash
-
-    st2ctl reload --register-configs --register-validate-configs
 
 Static configuration value
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
