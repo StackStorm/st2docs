@@ -19,18 +19,18 @@ case of a failure.
 
 
 -------------------------------------------------
-Manual troubleshooting stepssame as  the script):
+Manual troubleshooting steps (same as the script):
 -------------------------------------------------
 
 The assumption is that StackStorm client can connect to the server instance. Authentication is in place and
 ``st2 run core.local cmd=echo`` succeeds. (This is checked in the script mentioned above.). Following are the
-issues that users usually face with chatOps:
+issues that users usually face with ChatOps:
 
 
 Your bot is not online:
 -----------------------
 
-You've installed StackStorm, but Hubot didn't come online in your chatOps client (Slack, Hipchat etc..)
+You've installed StackStorm, but Hubot didn't come online in your ChatOps client (Slack, Hipchat etc..)
 
     *Possible reasons:*
 
@@ -72,7 +72,7 @@ Hubot is online, but when you say ``!help``, only default commands are listed (n
 
     - Hubot can't connect to StackStorm API. Look in the Hubot logs for errors: ``/var/log/st2/st2chatops.log``
     - Commands aren't registered. Try ``st2ctl reload --register-all``.
-    - It's also possible you changed the bot's name or you have not invited your bot to a channel in the chatOps
+    - It's also possible you changed the bot's name or you have not invited your bot to a channel in the ChatOps
       client. 
 
 
