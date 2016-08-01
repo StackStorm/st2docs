@@ -18,9 +18,9 @@ Just copy and run it on the server. It runs a few essential tests giving you bas
 case of a failure.
 
 
--------------------------------------------------
+--------------------------------------------------
 Manual troubleshooting steps (same as the script):
--------------------------------------------------
+--------------------------------------------------
 
 The assumption is that StackStorm client can connect to the server instance. Authentication is in place and
 ``st2 run core.local cmd=echo`` succeeds. (This is checked in the script mentioned above.). Following are the
