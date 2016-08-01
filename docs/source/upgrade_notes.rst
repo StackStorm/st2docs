@@ -6,24 +6,35 @@ Upgrade Notes
 |st2| in development
 --------------------
 
-* Python runner actions can now return execution status (success, failure) by returning a tuple
-  from the Python action class ``run()`` method. First item in this tuple is a boolean flag
-  indicating a success and the second one is the result.
+* Python runner actions can now return execution status (succeeded boolean flag) and result by 
+  returning a tuple from the Python action class ``run()`` method. The first item in this tuple
+  is a boolean flag indicating success and the second one is the result. For example:
+
+  .. code-block:: python
+
+    def run(self):
+        # 
+        # Code to do something awesome
+        # 
+        if something_awesome_working == True
+            return True, result  #  Succeeded is True and the result from action on success
+        return False, result  #  Succeeded is False and the result from action on failure
+
 
   This allows users to also return a result from a failing action. This result can then be used in
   workflows, etc. Previously this was not possible since the only way for action to be considered
   as failed was to throw an exception or exit with a non-zero exit code.
 
-  This change is fully backward compatible unless you have an existing action which returns a
-  tuple with two items.
+  **Note:**  This change is fully backward compatible unless you have an existing action which
+  returns a tuple with two items.
 
   For existing actions which don't return a status flag, same rules apply as before - action is
-  considered as succeeded unless it throws an exception or exists with a non-zero exit code.
+  considered as succeeded unless it throws an exception or exits with a non-zero exit code.
 
   If you have an existing action which returns a tuple with two items such as the one shown in the
   example below, you have two options.
 
-.. code-block:: python
+  .. code-block:: python
 
     def run(self):
         result = ('item1', 'item2')
@@ -31,15 +42,15 @@ Upgrade Notes
 
 1. Update action to return a list instead of a tuple.
 
-.. code-block:: python
+   .. code-block:: python
 
     def run(self):
         result = ('item1', 'item2')
         return list(result)
 
-or
+   or
 
-.. code-block:: python
+   .. code-block:: python
 
     def run(self):
         result = ['item1', 'item2']
@@ -47,7 +58,7 @@ or
 
 2. Update action to also return a status.
 
-.. code-block:: python
+   .. code-block:: python
 
     def run(self):
         result = ('item1', 'item2')
