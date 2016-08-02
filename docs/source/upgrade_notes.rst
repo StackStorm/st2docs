@@ -5,10 +5,9 @@ Upgrade Notes
 
 |st2| in development
 --------------------
-
-* Python runner actions can now return execution status (succeeded boolean flag) and result by 
-  returning a tuple from the Python action class ``run()`` method. The first item in this tuple
-  is a boolean flag indicating success and the second one is the result. For example:
+* Python runner actions can now return execution status (success, failure) by returning a tuple 
+  from the Python action class ``run()`` method. First item in this tuple is a boolean flag
+  indicating a success and the second one is the result. For example:
 
   .. code-block:: python
 
@@ -17,8 +16,8 @@ Upgrade Notes
         # Code to do something awesome
         # 
         if something_awesome_working == True
-            return True, result  #  Succeeded is True and the result from action on success
-        return False, result  #  Succeeded is False and the result from action on failure
+            return (True, result)  #  Succeeded is True and the result from action on success
+        return (False, result)  #  Succeeded is False and the result from action on failure
 
 
   This allows users to also return a result from a failing action. This result can then be used in
