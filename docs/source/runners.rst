@@ -135,7 +135,7 @@ This is a Python runner. Actions are implemented as Python classes with a
 ``run`` method. They run locally on the same machine where |st2| components are
 running.
 
-Python runner actions returns an execution status (success, failure) by returning a tuple 
+Python runner actions return an execution status (success, failure) by returning a tuple
 from the Python action class ``run()`` method. First item in this tuple is a boolean
 flag indicating a success and the second one is the result. However, execution status is
 optional i.e. the return value from action runner can either be a tuple of success status
@@ -199,4 +199,3 @@ Runner parameters
 ^^^^^^^^^^^^^^^^^
 
 .. include:: _includes/runner_parameters/cloudslang.rst
-
