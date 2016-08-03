@@ -95,7 +95,10 @@ Currently the system provides the following runners:
    They run on one or more remote hosts provided by the user.
 5. ``python-script`` - This is a Python runner. Actions are implemented as Python
    classes with a ``run`` method. They run locally on the same machine where
-   |st2| components are running.
+   |st2| components are running. The return value from this runner is either a tuple
+   of success status flag and the result object respectively or it is just the
+   result object. For more information, please refer to the :doc:`Action Runners </runners>`
+   section in the documentations.
 6. ``http-request`` - HTTP client which performs HTTP requests for running HTTP
    actions.
 7. ``action-chain`` - This runner supports executing simple linear work-flows.
@@ -491,7 +494,7 @@ a ``run`` method.
 Sample Python action
 ~~~~~~~~~~~~~~~~~~~~
 
-This example Python action prints text provided via the
+This example Python action prints text `working` provided via the
 ``message`` parameter to the standard output:
 
 Metadata file (``my_echo_action.yaml``):
@@ -501,7 +504,7 @@ Metadata file (``my_echo_action.yaml``):
     ---
     name: "echo_action"
     runner_type: "python-script"
-    description: "Print message to standard output."
+    description: "Print message 'working' to standard output."
     enabled: true
     entry_point: "my_echo_action.py"
     parameters:
@@ -522,11 +525,13 @@ Action script file (``my_echo_action.py``):
 
     class MyEchoAction(Action):
         def run(self, message):
-            print(message)
-            sys.exit(0)
+            if message == 'working'
+                return (True, message)
+            return (False, message)
 
 As you can see above, user-supplied action parameters are passed to the ``run``
-method as keyword arguments.
+method as keyword arguments. The return value from the  runner is a tuple consisting of
+success status flag and the result object respectively.
 
 For a more complex example, please refer to the `actions in the Libcloud pack in
 the contrib repository <https://github.com/StackStorm/st2contrib/tree/master/packs/libcloud/actions>`_.
