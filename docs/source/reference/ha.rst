@@ -305,13 +305,20 @@ Install required dependencies
 
         curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
 
-9. Setup st2web and SSL termination. Follow :ref:`install webui and setup ssl<ref-install-webui-ssl-deb>`.
+9. Setup st2web and SSL termination. Follow :ref:`install webui and setup ssl<ref-install-webui-ssl-deb>`.  You will need to stop after removing the default nginx config file.
 
 10. Sample configuration for Nginx as loadbalancer for controller box is provided below. With this configuration Nginx will loadbalance all requests between the two blueprint boxes ``st2-multi-node-1`` and ``st2-multi-node-2``. This includes requests to ``st2api``, ``st2auth`` and ``mistral-api``. Nginx also serves as the webserver for st2web.
 
 .. literalinclude:: /../../st2/conf/HA/nginx/st2.conf.controller.sample
 
-11. Install st2chatops following from :ref:`setup chatops<ref-setup-chatops-deb>`.
+11. Create the st2 logs directory and the st2 user.
+
+  .. code-block:: bash
+
+        mkdir -p /var/log/st2
+        useradd st2
+
+12. Install st2chatops following from :ref:`setup chatops<ref-setup-chatops-deb>`.
 
 Blueprint box
 ^^^^^^^^^^^^^
@@ -341,21 +348,40 @@ above support the capbility of being turned on-off individually therefore each b
 
 5. Update Mistral connection to RabbitMQ in ``/etc/mistral/mistral.conf`` by changing ``default.transport_url`` property.
 
-6. Setup users as per :ref:`here<ref-config-auth-deb>`. Make sure that user configuration on all boxes running ``st2auth`` is
-   identical. This ensures consistent authentication from the entire |st2| install since the request to authenticate a user
-   can be forwarded by the loadbalancer to any of the ``st2auth`` processes.
+6. Setup Mistral DB tables, etc.
 
-7. Replace ``/etc/st2/st2.conf`` with the sample st2.conf provided below. This config points to the controller node or configuration values of ``database``, ``messaging`` and ``mistral``.
+  .. code-block:: bash
+
+        /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
+
+7. Register mistral actions
+
+  .. code-block:: bash
+
+        /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
+
+8. Replace ``/etc/st2/st2.conf`` with the sample st2.conf provided below. This config points to the controller node or configuration values of ``database``, ``messaging`` and ``mistral``.
 
 .. literalinclude:: /../../st2/conf/HA/st2.conf.sample
 
-8. Configure authentication as per :ref:`this documentation<ref-config-auth-deb>`.
+9. Generate a certificate.
 
-9. Use the sample Nginx config that is provided below for the blueprint boxes. In this config Nginx will act as the SSL termination endpoint for all the REST endpoints exposed by ``st2api``, ``st2auth`` and ``mistral-api``.
+  .. code-block:: bash
+
+        sudo mkdir -p /etc/ssl/st2
+        sudo openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt \
+        -days XXX -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
+        Technology/CN=$(hostname)"
+
+9. If you are using self signed certificates you will need to add ``insecure = true`` to the ``mistral`` section of ``/etc/st2/st2.conf``.
+
+10. Configure users & authentication as per :ref:`this documentation<ref-config-auth-deb>`. Make sure that user configuration on all boxes running ``st2auth`` is identical. This ensures consistent authentication from the entire |st2| install since the request to authenticate a user can be forwarded by the loadbalancer to any of the ``st2auth`` processes.
+
+11. Use the sample Nginx config that is provided below for the blueprint boxes. In this config Nginx will act as the SSL termination endpoint for all the REST endpoints exposed by ``st2api``, ``st2auth`` and ``mistral-api``.
 
 .. literalinclude:: /../../st2/conf/HA/nginx/st2.conf.blueprint.sample
 
-10. To use Timer triggers with mistral please do the following to only enable them on one server by doing the following in `/etc/st2/st2.conf` 
+12. To use Timer triggers with mistral please do the following to only enable them on one server by doing the following in `/etc/st2/st2.conf` 
 
     .. code-block:: yaml
         
@@ -363,6 +389,6 @@ above support the capbility of being turned on-off individually therefore each b
         enable = False
         
 
-11. See :doc:`/reference/sensor_partitioning` to decide on how to partition sensors that suit your requirements.
+13. See :doc:`/reference/sensor_partitioning` to decide on how to partition sensors that suit your requirements.
 
-12. All content should be synced by choosing a suitable strategy as outlined above. This is cruicial to obtain predicatable outcomes.
+14. All content should be synced by choosing a suitable strategy as outlined above. This is cruicial to obtain predicatable outcomes.
