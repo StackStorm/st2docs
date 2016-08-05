@@ -76,7 +76,7 @@ version = '.'.join(__version__.split('.')[:2])
 # The full version, including alpha/beta/rc tags.
 release = __version__
 # The complete list of current StackStorm versions.
-release_versions = ['1.5', '1.4', '1.3', '1.2', '1.1', '0.13', '0.12', '0.11', '0.9', '0.8']
+release_versions = ['1.6', '1.5', '1.4', '1.3', '1.2', '1.1', '0.13', '0.12', '0.11', '0.9', '0.8']
 
 
 def previous_version(ver):
