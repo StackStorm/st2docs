@@ -3,8 +3,8 @@
 Upgrade Notes
 =============
 
-|st2| in development
---------------------
+|st2| v1.6
+----------
 
 * Python runner actions can now return execution status (success, failure) by returning a tuple 
   from the Python action class ``run()`` method. First item in this tuple is a boolean flag
