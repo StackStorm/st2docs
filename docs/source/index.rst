@@ -27,6 +27,7 @@ Contents:
     cli
     authentication
     rbac
+    jinja
     reference/index
     troubleshooting/index
     proxy
