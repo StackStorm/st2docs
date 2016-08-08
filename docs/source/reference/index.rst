@@ -7,6 +7,7 @@ Reference
 
    client_libraries
    cli
+   ha
    api
    packs
    jinja_filters
