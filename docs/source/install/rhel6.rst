@@ -1,7 +1,7 @@
 RHEL 6 / CentOS 6
 =================
 
-This guide provides step-by step instructions for installing StackStorm on a single RHEL 6/CentOS 6 system per
+This guide provides step-by step instructions for installing StackStorm on a single RHEL 6/CentOS 6 64 bit system per
 the :doc:`Reference deployment </install/overview>`.
 
 .. rubric:: TL;DR

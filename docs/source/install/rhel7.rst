@@ -1,7 +1,7 @@
 RHEL 7 / CentOS 7
 =================
 
-This guide provides step-by step instructions for installing StackStorm on a single RHEL 7/CentOS 7 system per
+This guide provides step-by step instructions for installing StackStorm on a single RHEL 7/CentOS 7 64 bit system per
 the :doc:`Reference deployment </install/overview>`.
 
 .. rubric:: TL;DR
