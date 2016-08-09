@@ -197,13 +197,13 @@ In this case, instead of having a string in ``formats``, you can write an object
     formats:
       - display: "run {{cmd}} on {{hosts}}"
         representation:
-          - "(run|execute) {{cmd}} on {{hosts=localhost}}[!.]?"
+          - "(run|execute) {{cmd}}( on {{hosts=localhost}})?[!.]?"
           - "run remote command {{cmd}} on {{hosts}}"
 
 This works as follows:
 
   - the ``display`` string (``run {{cmd}} on {{hosts}}``) will be exposed via the ``!help`` command.
-  - strings from the `representation` list (``(run|execute) {{cmd}} on {{hosts=localhost}}[!.]?`` regex, and ``run remote command {{cmd}} on {{hosts}}`` string) will be matched by Hubot.
+  - strings from the `representation` list (``(run|execute) {{cmd}}( on {{hosts=localhost}})?[!.]?`` regex, and ``run remote command {{cmd}} on {{hosts}}`` string) will be matched by Hubot.
 
 You can use both strings and display-representation objects in ``formats`` at the same time:
 
@@ -212,7 +212,7 @@ You can use both strings and display-representation objects in ``formats`` at th
     formats:
       - display: "run {{cmd}} on {{hosts}}"
         representation:
-          - "(run|execute) {{cmd}} on {{hosts=localhost}}[!.]?"
+          - "(run|execute) {{cmd}}( on {{hosts=localhost}})?[!.]?"
           - "run remote command {{cmd}} on {{hosts}}"
       - "ssh to hosts {{hosts}} and run command {{cmd}}"
       - "OMG st2 just run this command {{cmd}} on ma boxes {{hosts}} already"
