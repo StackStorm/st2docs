@@ -11,7 +11,7 @@ Please note that only 64 bit architecture is currently supported.
     :maxdepth: 1
 
     Reference Deployment <overview>
-    Ubuntu / Debian 14.04 (Trusty) <deb>
+    Ubuntu (Trusty) <deb>
     RHEL 7 / CentOS 7 <rhel7>
     RHEL 6 / CentOS 6 <rhel6>
     StackStorm Enterprise <enterprise>
