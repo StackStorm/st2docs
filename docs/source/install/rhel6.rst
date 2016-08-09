@@ -122,7 +122,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
 
     sudo yum -y install postgresql94-server postgresql94-contrib postgresql94-devel
 
-    # Setup postgresql at a first time
+    # Setup postgresql for the first time
     sudo service postgresql-9.4 initdb
 
     # Make localhost connections to use an MD5-encrypted password for authentication
