@@ -1,7 +1,7 @@
 Ubuntu / Debian
 ===============
 
-This guide provides step-by step instructions for installing StackStorm on a single Ubuntu/Debian system per
+This guide provides step-by step instructions for installing StackStorm on a single Ubuntu/Debian 64 bit system per
 the :doc:`Reference deployment </install/overview>`.
 
 .. rubric:: TL;DR
@@ -18,7 +18,7 @@ Supported versions
 ------------------
 
 We support Ubuntu 14.04, and test on `Ubuntu Server 14.04 LTS (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B00JV9TBA6/ref=srh_res_product_title?ie=UTF8&sr=0-3&qid=1457037882965>`_
-and `puppetlabs/ubuntu-14.04-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/ubuntu-14.04-64-nocm>`_. Other Debian based distributions and versions will likely work with some tweaks. You are welcome to try - please report success to the `community <https://stackstorm.com/community-signup>`_.
+and `puppetlabs/ubuntu-14.04-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/ubuntu-14.04-64-nocm>`_. If you are downloading an Ubuntu ISO and going for a manual install, please download a 64 bit server ISO of Ubuntu 14.04. Other Debian based distributions and versions will likely work with some tweaks. You are welcome to try - please report success to the `community <https://stackstorm.com/community-signup>`_.
 
 Sizing the server
 -----------------
