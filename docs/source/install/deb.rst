@@ -62,6 +62,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
 
     sudo apt-get install -y mongodb-org
     sudo apt-get install -y rabbitmq-server
+    sudo apt-get install -y postgresql
 
 Setup repositories
 ~~~~~~~~~~~~~~~~~~~
