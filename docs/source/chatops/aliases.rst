@@ -17,7 +17,7 @@ files and deployed via packs, e.g.:
     action_ref: "core.remote"
     description: "Execute a command on a remote host via SSH."
     formats:
-        - "run {{cmd}} on {{hosts}}"
+      - "run {{cmd}} on {{hosts}}"
 
 
 In the above example ``remote_shell_cmd`` is an alias for ``core.remote`` action. The
@@ -96,6 +96,9 @@ called with the parameters:
        cmd: date
        hosts: localhost
 
+Since ``core.remote`` accepts multiple hosts, you can also use a comma-separated list: 
+``run date on 10.0.10.1,10.0.10.2``.
+
 With default
 ~~~~~~~~~~~~
 
@@ -104,11 +107,11 @@ Using this example:
 .. code-block:: yaml
 
     formats:
-      - "run {{cmd}} on {{hosts=localhost}}"
+      - "run {{cmd}} {{hosts=localhost}}"
 
 In this case the query has a default value assigned which will be used
 if no value is provided by the user. Therefore, a simple ``run date`` instead of
-``run date on localhost`` would result in assigning the default value, in a similar
+``run date 10.0.10.1`` would result in assigning the default value, in a similar
 manner to how Action default parameter values are interpreted.
 
 Regular expressions
@@ -119,7 +122,7 @@ It is possible to use regular expressions in the format string:
 .. code-block:: yaml
 
     formats:
-      - "(run|execute) {{cmd}} on {{hosts=localhost}}[!.]?"
+      - "(run|execute) {{cmd}}( on {{hosts=localhost}})?[!.]?"
 
 They can be as complex as you want, just exercise reasonable caution as regexes tend to be difficult to debug.
 
