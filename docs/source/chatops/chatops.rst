@@ -154,30 +154,23 @@ ChatOps uses :doc:`/chatops/aliases` to define new ChatOps commands.
     $ cd /opt/stackstorm/packs/
     $ mkdir -p my-chatops/{actions,rules,sensors,aliases}
 
-Now, let's configure an alias and setup an action to be used in ChatOps.
-For this example, let's download a pack from our ``st2contrib``
-repository, the Google pack. This will provide us with the action
-``google.get_search_results`` that we will expose via ChatOps. To install the pack:
-
-::
-
-    $ st2 run packs.install packs=google
-
 Now, let's setup an alias. For the purpose of this setup aliases are stored
 in the directory ``/opt/stackstorm/packs/my-chatops/aliases``. We have
-already created this directory in a previous step.
-Create a new file called ``google.yaml``, and add the following
+already created this directory in a previous step. 
+
+This alias will execute commands on hosts through SSH with the ``core.remote``
+action. Create a new file called ``remote.yaml``, and add the following
 contents:
 
 .. code:: yaml
 
-    # packs/my-chatops/aliases/google.yaml
+    # packs/my-chatops/aliases/remote.yaml
     ---
-    name: "google_query"
-    description: "Perform a google search"
-    action_ref: "google.get_search_results"
+    name: "remote_shell_cmd"
+    action_ref: "core.remote"
+    description: "Execute a command on a remote host via SSH."
     formats:
-      - "google {{query}}"
+      - "run {{cmd}} on {{hosts}}"
 
 Once this is all done, register the new files we created and
 reload Hubot. Do this with the following commands:
@@ -191,7 +184,7 @@ This will register the aliases we created, and tell Hubot to go and
 refresh its command list.
 
 You should now be able to go into your chatroom, and execute the command
-``hubot: google stackstorm``, and StackStorm will take care of the rest.
+``!run date on localhost``, and StackStorm will take care of the rest.
 
 .. figure:: /_static/images/chatops_command_out.png
 
