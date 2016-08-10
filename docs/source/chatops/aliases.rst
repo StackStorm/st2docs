@@ -13,14 +13,14 @@ files and deployed via packs, e.g.:
 .. code-block:: yaml
 
     ---
-    name: "google_query"
-    description: "Perform a Google Query"
-    action_ref: "google.get_search_results"
+    name: "remote_shell_cmd"
+    action_ref: "core.remote"
+    description: "Execute a command on a remote host via SSH."
     formats:
-      - "google {{query}}"
+      - "run {{cmd}} on {{hosts}}"
 
 
-In the above example ``google_query`` is an alias for ``google.get_search_results`` action. The
+In the above example ``remote_shell_cmd`` is an alias for ``core.remote`` action. The
 supported format for the alias is specified in the ``formats`` field. A single alias can support
 multiple formats for the same action.
 
@@ -83,17 +83,21 @@ Basic
 .. code-block:: yaml
 
     formats:
-      - "google {{query}}"
+      - "run {{cmd}} on {{hosts}}""
 
 
-If the user entered ``google StackStorm`` via a ChatOps interface, the aliasing mechanism
-would interpret this as ``query = StackStorm``. The action ``google.get_search_results`` would be called with the
-parameters:
+If the user entered ``run date on localhost`` via a ChatOps interface, the aliasing mechanism
+would interpret this as ``cmd=date hosts=localhost``. The action ``core.remote`` would then be
+called with the parameters:
 
 .. code-block:: yaml
 
    parameters:
-       query: StackStorm
+       cmd: date
+       hosts: localhost
+
+Since ``core.remote`` accepts multiple hosts, you can also use a comma-separated list: 
+``run date on 10.0.10.1,10.0.10.2``.
 
 With default
 ~~~~~~~~~~~~
@@ -103,11 +107,12 @@ Using this example:
 .. code-block:: yaml
 
     formats:
-      - "google {{query=StackStorm}}"
+      - "run {{cmd}} {{hosts=localhost}}"
 
-In this case the query has a default value assigned which will be used if no value is provided by the user.
-Therefore, a simple ``google`` instead of ``google StackStorm`` would result in assigning the
-default value, in a similar manner to how Action default parameter values are interpreted.
+In this case the query has a default value assigned which will be used
+if no value is provided by the user. Therefore, a simple ``run date`` instead of
+``run date 10.0.10.1`` would result in assigning the default value, in a similar
+manner to how Action default parameter values are interpreted.
 
 Regular expressions
 ~~~~~~~~~~~~~~~~~~~
@@ -117,7 +122,7 @@ It is possible to use regular expressions in the format string:
 .. code-block:: yaml
 
     formats:
-      - "(google|look for) {{query=StackStorm}}[!.]?"
+      - "(run|execute) {{cmd}}( on {{hosts=localhost}})?[!.]?"
 
 They can be as complex as you want, just exercise reasonable caution as regexes tend to be difficult to debug.
 
@@ -129,17 +134,19 @@ Using this example:
 .. code-block:: yaml
 
     formats:
-      - "google {{query}}"
+      - "run {{cmd}} on {{hosts}}"
 
-Users can supply extra key value parameters like ``google StackStorm limit=10``. In this case even
-though ``limit`` does not appear in any alias format it will still be extracted and supplied for execution.
-In this case the action google.get_search_results would be called with the parameters:
+Users can supply extra key value parameters like ``run date on localhost timeout=120``.
+In this case even though ``timeout`` does not appear in any alias format it will still
+be extracted and supplied for execution. In this case the action ``core.remote``
+would be called with the parameters:
 
 .. code-block:: yaml
 
    parameters:
-       query: StackStorm
-       limit: 10
+       cmd: date
+       hosts: localhost
+       timeout: 120
 
 Additional ChatOps parameters passed to the command
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -188,32 +195,32 @@ In this case, instead of having a string in ``formats``, you can write an object
 .. code-block:: yaml
 
     formats:
-      - display: "google {{query}}"
+      - display: "run {{cmd}} on {{hosts}}"
         representation:
-          - "(google|look for) {{query=StackStorm}}[!.]?"
-          - "search google for {{query}}"
+          - "(run|execute) {{cmd}}( on {{hosts=localhost}})?[!.]?"
+          - "run remote command {{cmd}} on {{hosts}}"
 
 This works as follows:
 
-  - the ``display`` string (``google {{query}}``) will be exposed via the ``!help`` command.
-  - strings from the `representation` list (``(google|look for) {{query=StackStorm}}[!.]?`` regex, and ``search google for {{query}}`` string) will be matched by Hubot.
+  - the ``display`` string (``run {{cmd}} on {{hosts}}``) will be exposed via the ``!help`` command.
+  - strings from the `representation` list (``(run|execute) {{cmd}}( on {{hosts=localhost}})?[!.]?`` regex, and ``run remote command {{cmd}} on {{hosts}}`` string) will be matched by Hubot.
 
 You can use both strings and display-representation objects in ``formats`` at the same time:
 
 .. code-block:: yaml
 
     formats:
-      - display: "google {{query}}"
+      - display: "run {{cmd}} on {{hosts}}"
         representation:
-          - "(google|look for) {{query=StackStorm}}[!.]?"
-          - "search google for {{query}}"
-      - "find me some {{query}}"
-      - "find me some {{query}} in {{engine}}"
+          - "(run|execute) {{cmd}}( on {{hosts=localhost}})?[!.]?"
+          - "run remote command {{cmd}} on {{hosts}}"
+      - "ssh to hosts {{hosts}} and run command {{cmd}}"
+      - "OMG st2 just run this command {{cmd}} on ma boxes {{hosts}} already"
 
 Acknowledgment options
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Hubot will acknowledge every ChatOps command with a random message containing the StackStorm execution ID and a 
+Hubot will acknowledge every ChatOps command with a random message containing the StackStorm execution ID and a
 link to the Web UI. This message can be customized in your alias definition:
 
 .. code-block:: yaml
@@ -245,14 +252,15 @@ Similar to ``ack``, you can configure ``result`` to disable result messages or s
 
     result:
       format: |
-        {% if execution.result.result|length %}
-        found something for you:
-        {% for article in execution.result.result %}
-        {{ loop.index }}. *{{ article.title }}*: {{ article.url }}
-        {% endfor %}
-        {% else %}
-        couldn't find anything, sorry!
-        {% endif %}
+        Ran command *{{execution.parameters.cmd}}* on *{{ execution.result | length }}* hosts.
+
+        Details are as follows:
+        {% for host in execution.result -%}
+            Host: *{{host}}*
+            ---> stdout: {{execution.result[host].stdout}}
+            ---> stderr: {{execution.result[host].stderr}}
+        {%+ endfor %}
+
 
 To disable the result message, you can use the ``enabled`` flag in the same way as in ``ack``.
 
@@ -264,7 +272,7 @@ Result messages tend to be quite long, and Hubot will utilize extra formatting c
 .. code-block:: yaml
 
     result:
-      format: "action completed! {~} {{ execution.result.result }}"
+      format: "action completed! {~} {{ execution.result }}"
 
 In this case "action completed!" will be displayed in plaintext, and the execution result will follow as attachment.
 
@@ -336,16 +344,18 @@ in your aliases like this:
 .. code-block:: yaml
 
     ---
-    name: "google_query"
-    description: "Perform a Google Query"
-    action_ref: "google.get_search_results"
+    name: "remote_shell_cmd"
+    action_ref: "core.remote"
+    description: "Execute a command on a remote host via SSH."
     formats:
-      - "google {{query}}"
+        - "run {{cmd}} on {{hosts}}"
     extra:
       audit: true
 
 
 Then you can access it as ``extra.audit`` inside the Hubot StackStorm plugin. A good
-example of working with ``extra`` parameters is the 
+example of working with ``extra`` parameters is the
 `Slack post handler <https://github.com/StackStorm/hubot-stackstorm/blob/v0.4.2/lib/post_data.js#L43>`_
 in ``hubot-stackstorm``.
+
+A sample alias ships with |st2|. Please checkout :github_st2:`st2/contrib/examples/aliases/remote_shell_cmd.yaml <contrib/examples/aliases/remote_shell_cmd.yaml>`.
