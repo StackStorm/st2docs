@@ -17,11 +17,14 @@ That's OK! You're busy, we get it. How do you just get started? Get yourself a c
 Supported platforms
 -------------------
 
+.. include:: __64bit_note.rst
+
 We support RedHat 7 / CentOS 7 and test on `Red Hat Enterprise Linux (RHEL) 7.2 (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B019NS7T5I/ref=srh_res_product_title?ie=UTF8&sr=0-2&qid=1457037671547>`_
 and `puppetlabs/centos-7.0-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/centos-7.0-64-nocm>`_. Other RPM based distributions and versions will likely work with some tweaks. You are welcome to try - please report success to the `community <https://stackstorm.com/community-signup>`_.
 
 Sizing the server
 -----------------
+
 While the system can operate with lower specs, these are the recommendations
 for the best experience while testing or deploying |st2|:
 
