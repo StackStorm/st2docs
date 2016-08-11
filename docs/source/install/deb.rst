@@ -136,7 +136,7 @@ Start Services
 
     sudo st2ctl start
 
-* Register sensors and actions ::
+* Register sensors, rules and actions ::
 
     st2ctl reload
 

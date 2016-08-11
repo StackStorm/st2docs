@@ -235,7 +235,8 @@ The rules engine is able to interpolate variables by leveraging Jinja templating
 Managing Rules
 --------------
 
-To deploy a rule, use CLI ``st2 rule create ${PATH_TO_RULE}`` command, for example:
+To deploy a rule, use CLI ``st2 rule create ${PATH_TO_RULE}`` command, To reload all the rules,
+use ``st2ctl reload --register-actions`` for example:
 
 .. code-block:: bash
 
