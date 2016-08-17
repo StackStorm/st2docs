@@ -35,3 +35,4 @@ Contents:
     changelog
     upgrade_notes
     roadmap
+    solutions/*
