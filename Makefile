@@ -78,7 +78,7 @@ bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .bwcdocs .doc
 	@echo "                     PATCHING BWC DOCS"
 	@echo "=========================================================="
 	@echo
-	cp -R ipfabric/* docs/source/
+	cp -R ipfabric/docs/source/* docs/source/
 
 .PHONY: bwclivedocs
 livedocs: bwcdocs .livedocs
