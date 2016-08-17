@@ -35,4 +35,8 @@ Contents:
     changelog
     upgrade_notes
     roadmap
+
+.. toctree::
+    :maxdepth: 3
+    :glob:
     solutions/*
