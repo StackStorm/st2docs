@@ -36,8 +36,10 @@ Contents:
     upgrade_notes
     roadmap
 
-.. toctree::
-    :maxdepth: 3
-    :glob:
-    
-    solutions/*
+..ifconfig:: bwc === True
+
+    .. toctree::
+        :maxdepth: 3
+        :glob:
+
+        solutions/*
