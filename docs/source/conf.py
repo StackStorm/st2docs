@@ -15,6 +15,7 @@
 import sys
 import os
 import glob
+import info
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, '../../st2'))
@@ -42,6 +43,8 @@ from st2common import __version__
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
+    'sphinx.ext.coverage',
+    'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.todo',
     'sphinx.ext.extlinks',
@@ -63,8 +66,9 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'StackStorm'
-copyright = u'2016, StackStorm Inc'
+project = info.project
+copyright = info.copyright
+author = info.author
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -112,6 +116,8 @@ rst_epilog = """
 .. |st2| replace:: StackStorm
 .. _st2contrib: http://www.github.com/stackstorm/st2contrib
 .. _st2incubator: http://www.github.com/stackstorm/st2incubator
+.. |bwc| replace:: Brocade Workflow Composer
+.. |ipf| replace:: IP Fabric Solution
 """
 
 # Show or hide TODOs. See http://sphinx-doc.org/ext/todo.html
@@ -184,7 +190,7 @@ html_theme = "sphinx_rtd_theme"
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-    'base_url': 'http://docs.stackstorm.com/'
+    'base_url': info.theme_base_url
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
@@ -259,33 +265,88 @@ html_static_path = ['_static']
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'StackStormDoc'
+htmlhelp_basename = info.htmlhelp_basename
 
 # Variables to be used by templates
 html_context = {
-    'github_repo': 'StackStorm/st2docs',
-    'github_version': 'master',
+    'github_repo': info.github_repo,
+    'github_version': info.github_version,
     'conf_py_path': '/docs/source/',
     'display_github': True,
     'source_suffix': source_suffix,
     'versions': [
-        ('latest', 'http://docs.stackstorm.com/latest'),
-        (version, 'http://docs.stackstorm.com/%s' % version),
-        (version_minus_1, 'http://docs.stackstorm.com/%s' % version_minus_1),
-        (version_minus_2, 'http://docs.stackstorm.com/%s' % version_minus_2),
+        ('latest', '%slatest' % info.base_url),
+        (version, '%s%s' % (info.base_url, version)),
+        (version_minus_1, '%s%s' % (info.base_url, version_minus_1)),
+        (version_minus_2, '%s%s' % (info.base_url, version_minus_2)),
     ],
     'current_version': version
 }
+
+
+# -- Options for LaTeX output ---------------------------------------------
+
+latex_elements = {
+     # The paper size ('letterpaper' or 'a4paper').
+     #
+     # 'papersize': 'letterpaper',
+
+     # The font size ('10pt', '11pt' or '12pt').
+     #
+     # 'pointsize': '10pt',
+
+     # Additional stuff for the LaTeX preamble.
+     #
+     # 'preamble': '',
+
+     # Latex figure (float) alignment
+     #
+     # 'figure_align': 'htbp',
+}
+
+# Grouping the document tree into LaTeX files. List of tuples
+# (source start file, target name, title,
+#  author, documentclass [howto, manual, or own class]).
+latex_documents = info.latex_documents
+
+# The name of an image file (relative to this directory) to place at the top of
+# the title page.
+#
+# latex_logo = None
+
+# For "manual" documents, if this is true, then toplevel headings are parts,
+# not chapters.
+#
+# latex_use_parts = False
+
+# If true, show page references after internal links.
+#
+# latex_show_pagerefs = False
+
+# If true, show URL addresses after external links.
+#
+# latex_show_urls = False
+
+# Documents to append as an appendix to all manuals.
+#
+# latex_appendices = []
+
+# It false, will not define \strong, \code,     itleref, \crossref ... but only
+# \sphinxstrong, ..., \sphinxtitleref, ... To help avoid clash with user added
+# packages.
+#
+# latex_keep_old_macro_names = True
+
+# If false, no module index is generated.
+#
+# latex_domain_indices = True
 
 
 # -- Options for manual page output ---------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    ('index', 'stackstorm', u'StackStorm Documentation',
-     [u'StackStorm team'], 1)
-]
+man_pages = info.man_pages
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
@@ -296,11 +357,7 @@ man_pages = [
 # Grouping the document tree into Texinfo files. List of tuples
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
-texinfo_documents = [
-    ('index', 'StackStorm', u'StackStorm Documentation',
-     u'StackStorm team', 'StackStorm', 'One line description of project.',
-     'Miscellaneous'),
-]
+texinfo_documents = info.texinfo_documents
 
 # Documents to append as an appendix to all manuals.
 # texinfo_appendices = []
