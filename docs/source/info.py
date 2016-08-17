@@ -5,6 +5,8 @@
 # change from one version to another in conf.py should be 
 # placed here, otherwise you WILL break the build.
 
+master_doc = 'index'
+
 project = u'StackStorm'
 copyright = u'2016, StackStorm'
 author = u'Brocade Communications Inc'
