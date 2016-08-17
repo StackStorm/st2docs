@@ -80,6 +80,9 @@ bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .bwcdocs .doc
 	@echo
 	cp -R ipfabric/* docs/source/
 
+.PHONY: bwclivedocs
+livedocs: bwcdocs .livedocs
+
 .PHONY: .cleandocs
 .cleandocs:
 	@echo "Removing generated documentation"
