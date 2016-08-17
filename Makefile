@@ -68,6 +68,18 @@ livedocs: docs .livedocs
 	. $(VIRTUALENV_DIR)/bin/activate; sphinx-autobuild -H 0.0.0.0 -b html $(DOC_SOURCE_DIR) $(DOC_BUILD_DIR)/html
 	@echo
 
+.PHONY: bwcdocs
+bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .bwcdocs .docs
+
+.PHONY: .bwcdocs
+.bwcdocs:
+	@echo
+	@echo "=========================================================="
+	@echo "                     PATCHING BWC DOCS"
+	@echo "=========================================================="
+	@echo
+	cp -R ipfabric/* docs/source/
+
 .PHONY: .cleandocs
 .cleandocs:
 	@echo "Removing generated documentation"
@@ -132,6 +144,13 @@ $(VIRTUALENV_DIR)/bin/activate:
 	@echo "==================== cloning st2 ===================="
 	@echo
 	./scripts/clone-st2.sh
+
+.PHONY: .clone-ipfabric
+.clone-ipfabric:
+	@echo
+	@echo "==================== cloning ipfabric docs ===================="
+	@echo
+	./scripts/clone-ipfabric.sh
 
 PHONY: .virtualenv-st2
 .virtualenv-st2: .clone-st2
