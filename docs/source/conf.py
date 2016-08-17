@@ -377,6 +377,3 @@ texinfo_documents = info.texinfo_documents
 intersphinx_mapping = {'http://docs.python.org/': None}
 
 autoclass_content = 'both'
-
-# A config variable that checks if StackStorm or BWC is being built.
-bwc = info.bwc
