@@ -30,3 +30,5 @@ texinfo_documents = [
 
 github_repo = 'StackStorm/st2docs'
 github_version = 'master'
+
+theme_base_url = u'http://docs.stackstorm.com/'
