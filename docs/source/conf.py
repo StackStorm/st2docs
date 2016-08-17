@@ -15,12 +15,12 @@
 import sys
 import os
 import glob
-import info
-
-print sys.path
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, '../../st2'))
+
+sys.path.append(BASE_DIR)
+import info
 
 # Include Python modules for all the st2components
 st2_components_paths = glob.glob(ROOT_DIR + '/st2*')
