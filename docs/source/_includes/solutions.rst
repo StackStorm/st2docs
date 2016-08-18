@@ -2,4 +2,4 @@
     :maxdepth: 3
     :glob:
 
-    solutions/*
+    ../solutions/*
