@@ -17,5 +17,9 @@ case $docs_version in
         ;;
 esac
 
+if [ -n $BWC_BRANCH ]; then
+    REQUIRED_BRANCH=$BWC_BRANCH
+fi
+
 echo "Cloning branch $REQUIRED_BRANCH of ipfabric docs"
 git clone -b $REQUIRED_BRANCH --depth 1 https://github.com/StackStorm/ipfabric-docs.git ipfabric
