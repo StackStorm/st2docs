@@ -17,7 +17,7 @@ case $docs_version in
         ;;
 esac
 
-if [ -n $BWC_BRANCH ]; then
+if [ ! -z $BWC_BRANCH ]; then
     REQUIRED_BRANCH=$BWC_BRANCH
 fi
 
