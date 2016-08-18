@@ -36,4 +36,4 @@ Contents:
     upgrade_notes
     roadmap
 
-..include:: _includes/bwc_toc.rst
+.. include:: _includes/solutions.rst
