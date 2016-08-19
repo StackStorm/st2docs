@@ -84,7 +84,7 @@ bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .bwcdocs .doc
 bwclivedocs: bwcdocs .livedocs
 
 .PHONY: bwclocaldocs
-bwclocaldocs: .bwcdocs .docs
+bwclocaldocs: .clone-st2 requirements .requirements-st2 .bwcdocs .docs
 
 .PHONY: bwclocallivedocs
 bwclocallivedocs: bwclocaldocs .livedocs
