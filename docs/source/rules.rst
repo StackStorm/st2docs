@@ -257,7 +257,11 @@ action parameters definition before invoking an action.
 Managing Rules
 --------------
 
+To deploy a rule, use CLI ``st2 rule create ${PATH_TO_RULE}`` command, To reload all the rules,
+use ``st2ctl reload --register-rules`` for example:
+=======
 To deploy a rule, use the CLI command: ``st2 rule create ${PATH_TO_RULE}``, for example:
+
 
 .. code-block:: bash
 
