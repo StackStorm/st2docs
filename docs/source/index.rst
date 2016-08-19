@@ -35,3 +35,5 @@ Contents:
     changelog
     upgrade_notes
     roadmap
+
+.. include:: _includes/solutions.rst
