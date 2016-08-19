@@ -83,6 +83,12 @@ bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .bwcdocs .doc
 .PHONY: bwclivedocs
 bwclivedocs: bwcdocs .livedocs
 
+.PHONY: bwclocaldocs
+bwclocaldocs: .bwcdocs .docs
+
+.PHONY: bwclocallivedocs
+bwclocallivedocs: bwclocaldocs .livedocs
+
 .PHONY: .cleandocs
 .cleandocs:
 	@echo "Removing generated documentation"
