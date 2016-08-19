@@ -152,7 +152,7 @@ Copy the following content to policies/policy1.yaml
 
    # Assuming that hello-st2 is on the same machine where StackStorm is running.
    cp -R ./hello-st2 /opt/stackstorm/packs
-   
+
    # Create virtual environment for hello-st2.
    st2 run packs.setup_virtualenv packs=hello-st2
 
@@ -215,4 +215,4 @@ By contributing you agree that these contributions are your own (or approved by 
 
 -------------
 
-.. include:: ../__engage.rst
+.. include:: ../__engage_community.rst

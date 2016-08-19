@@ -297,9 +297,9 @@ To undeploy a rule, run ``st2 rule delete ${RULE_NAME_OR_ID}``. For example, to 
 Rule location
 -------------
 
-Custom rules can be placed in any accessible folder on local system. By convention, custom rules are placed 
-in the ``/opt/stackstorm/packs/default/rules`` directory.  By default, |st2| doesn't load the rules 
-deployed under ``/opt/stackstorm/packs/${pack_name}/rules/``. However you can force load them with 
+Custom rules can be placed in any accessible folder on local system. By convention, custom rules are placed
+in the ``/opt/stackstorm/packs/default/rules`` directory.  By default, |st2| doesn't load the rules
+deployed under ``/opt/stackstorm/packs/${pack_name}/rules/``. However you can force load them with
 ``st2 run packs.load register=rules`` or ``st2 run packs.load register=all``.
 
 
@@ -429,8 +429,8 @@ Output:
 .. _ref-rule-tester-post-mortem-debug:
 
 ``st2-rule-tester`` further allows a kind of post-mortem debugging where you can answer the
-question ``Why did my rule not match the trigger that just fired?``. This means there is known 
-``Rule`` identifiable by its reference loaded in StackStorm and similarly a TriggerInstance 
+question ``Why did my rule not match the trigger that just fired?``. This means there is known
+``Rule`` identifiable by its reference loaded in StackStorm and similarly a TriggerInstance
 with a known id.
 
 Lets say we have rule reference `my_pack.fire_on_execution` and a trigger instance `566b4be632ed352a09cd347d`
@@ -455,7 +455,7 @@ Output:
     2015-12-11 15:24:16,546 INFO [-] === RULE DOES NOT MATCH ===
 
 
-The output also identifies the source of the mismatch i.e. whether it was the trigger type that 
+The output also identifies the source of the mismatch i.e. whether it was the trigger type that
 did not match or one of the criteria.
 
 If you are debugging and would like to see the list of trigger instances sent to |st2|,
@@ -719,4 +719,4 @@ Run action every full hour every day of the week
 * Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with StackStorm.
 
 
-.. include:: __engage.rst
+.. include:: __engage_community.rst
