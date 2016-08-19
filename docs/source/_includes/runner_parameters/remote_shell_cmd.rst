@@ -1,11 +1,12 @@
 .. NOTE: This file has been generated automatically, don't manually edit it
 
 * ``username`` (string) - Username used to log-in. If not provided, default username from config is used.
-* ``private_key`` (string) - Private key material to log in. Note: This needs to be actual private key data and NOT path.
+* ``private_key`` (string) - Private key material or path to the private key file on disk used to log in.
 * ``timeout`` (integer) - Action timeout in seconds. Action will get killed if it doesn't finish in timeout seconds.
 * ``sudo`` (boolean) - The remote command will be executed with sudo.
 * ``kwarg_op`` (string) - Operator to use in front of keyword args i.e. "--" or "-".
 * ``bastion_host`` (string) - The host SSH connections will be proxied through. Note: This connection is made using the same parameters as the final connection, and is only used in ParamikoSSHRunner.
+* ``passphrase`` (string) - Passphrase for the private key, if needed.
 * ``password`` (string) - Password used to log in. If not provided, private key from the config file is used.
 * ``parallel`` (boolean) - Default to parallel execution.
 * ``cmd`` (string) - Arbitrary Linux command to be executed on the remote host(s).

@@ -12,6 +12,7 @@ Contents:
     video
     start
     packs
+    pack_configs
     actions
     runners
     rules
@@ -26,8 +27,10 @@ Contents:
     cli
     authentication
     rbac
+    jinja
     reference/index
     troubleshooting/index
+    proxy
     development/index
     changelog
     upgrade_notes

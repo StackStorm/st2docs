@@ -8,7 +8,7 @@ Sensors are essentially adapters that are a way to integrate |st2|
 with an external system so that triggers can be injected into |st2|
 before rule matching results in potential actions. Sensors are pieces
 of Python code and have to follow the |st2| defined sensor interface
-requirements to be successfully run.
+requirements to run successfully.
 
 Triggers
 --------
@@ -26,27 +26,27 @@ By default StackStorm emits some internal triggers which you can leverage in the
 rules. Those triggers can be distinguished by non-system triggers since they are
 prefixed with ``st2.``.
 
-A list of available triggers for each resource is included below.
+A list of available triggers for each resource is included below:
 
 .. include:: _includes/internal_trigger_types.rst
 
 .. _ref-sensors-authoring-a-sensor:
 
-Authoring a sensor
-------------------
+Creating a sensor
+-----------------
 
-Authoring a sensor involves authoring a python file and a yaml meta file
-that defines the sensor. An example meta file is shown below.
+Creating a sensor involves writing a Python file and a YAML meta file
+that defines the sensor. An example meta file is shown below:
 
 .. literalinclude:: ../../st2/contrib/examples/sensors/sample_sensor.yaml
 
 
-Corresponding simple sensor python implementation is shown below.
+The corresponding simple sensor Python implementation is shown below.
 
 .. literalinclude:: ../../st2/contrib/examples/sensors/sample_sensor.py
 
 It shows a bare minimum version of how a sensor would look like. Your
-sensor should generate triggers of the form (python dict):
+sensor should generate triggers of the form (Python dict):
 
 .. sourcecode:: python
 
@@ -61,7 +61,7 @@ passed into the sensor on instantiation.
 
 .. code:: python
 
-    self._sensor_service.dispatch(trigger=trigger, payload=payload, trace_tag=trace_tag)
+    self.sensor_service.dispatch(trigger=trigger, payload=payload, trace_tag=trace_tag)
 
 If you want a sensor that polls an external system at regular intervals, you
 would use a PollingSensor instead of Sensor as the base class.
@@ -77,7 +77,7 @@ Sensor service
 As you can see in the example above, a ``sensor_service`` is passed to each
 sensor class constructor on instantiation.
 
-Sensor service provides different services to the sensor via public methods.
+The Sensor service provides different services to the sensor via public methods.
 The most important one is the ``dispatch`` method which allows sensors to inject
 triggers into the system.
 
@@ -89,7 +89,7 @@ Common operations
 1. dispatch(trigger, payload, trace_tag)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This method allows sensor to inject triggers into the system.
+This method allows the sensor to inject triggers into the system.
 
 For example:
 
@@ -101,19 +101,19 @@ For example:
     }
     trace_tag = uuid.uuid4().hex
 
-    self._sensor_service.dispatch(trigger=trigger, payload=payload, trace_tag=trace_tag)
+    self.sensor_service.dispatch(trigger=trigger, payload=payload, trace_tag=trace_tag)
 
 2. get_logger(name)
 ~~~~~~~~~~~~~~~~~~~
 
-This method allows sensor instance to retrieve logger instance which is specific
+This method allows the sensor instance to retrieve the logger instance which is specific
 to that sensor.
 
 For example:
 
 .. code:: python
 
-    self._logger = self._sensor_service.get_logger(name=self.__class__.__name__)
+    self._logger = self.sensor_service.get_logger(name=self.__class__.__name__)
     self._logger.debug('Polling 3rd party system for information')
 
 .. _ref-sensors-datastore-management-operations:
@@ -121,7 +121,7 @@ For example:
 Datastore management operations
 -------------------------------
 
-In addition to the trigger injection, sensor service also provides
+In addition to the trigger injection, the sensor service also provides
 functionality for reading and manipulating the :doc:`datastore <datastore>`.
 
 Each sensor has a namespace which is local to it and by default, all the
@@ -132,10 +132,10 @@ argument to the datastore manipulation method.
 Among other reasons, this functionality is useful if you want to persist
 temporary data between sensor runs.
 
-A good example of this functionality in action is ``TwitterSensor``. Twitter
-sensor persist the id of the last processed tweet after every poll in the
+A good example of this functionality in action is ``TwitterSensor``. The Twitter
+sensor persists the ID of the last processed tweet after every poll in the
 datastore. This way if the sensor is restarted or if it crashes, the sensor
-can resume from where it left off without injecting duplicated triggers into
+can resume from where it left off without injecting duplicate triggers into
 the system.
 
 For the implementation, see :github_contrib:`twitter_search_sensor.py on st2contrib</packs/twitter/sensors/twitter_search_sensor.py>`
@@ -151,7 +151,7 @@ For example:
 
 .. code:: python
 
-    kvps = self._sensor_service.list_values(local=False, prefix='cmdb.')
+    kvps = self.sensor_service.list_values(local=False, prefix='cmdb.')
 
     for kvp in kvps:
         print(kvp.name)
@@ -166,7 +166,7 @@ For example:
 
 .. code:: python
 
-    kvp = self._sensor_service.get_value('cmdb.api_host')
+    kvp = self.sensor_service.get_value('cmdb.api_host')
     print(kvp.name)
 
 3. set_value(name, value, ttl=None, local=True)
@@ -178,7 +178,7 @@ can also specify time to live (TTL) for the stored value.
 .. code:: python
 
     last_id = 12345
-    self._sensor_service.set_value(name='last_id', value=str(last_id))
+    self.sensor_service.set_value(name='last_id', value=str(last_id))
 
 4. delete_value(name, local=True)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -188,7 +188,7 @@ is not found this method will return ``False``, ``True`` otherwise.
 
 .. code:: python
 
-    self._sensor_service.delete_value(name='my_key')
+    self.sensor_service.delete_value(name='my_key')
 
 API Docs
 ~~~~~~~~
@@ -199,9 +199,9 @@ API Docs
 Running your first sensor
 -------------------------
 
-Once you write your own sensor, the following steps can be used to run your sensor for the first time.
+Once you write your own sensor, the following steps can be used to run your sensor for the first time:
 
-1. Place the sensor python file and yaml metadata in the 'default' pack in
+1. Place the sensor Python file and YAML metadata in the 'default' pack in
 /opt/stackstorm/packs/default/sensors/. Alternatively, you can create a
 custom pack in /opt/stackstorm/packs/
 with appropriate pack structure (see :doc:`/reference/packs`) and place the sensor artifacts there.
@@ -214,11 +214,11 @@ with appropriate pack structure (see :doc:`/reference/packs`) and place the sens
 
 If there are errors in registration, fix the errors and re-register them using st2ctl reload.
 
-3. If registration is successful, the sensor would be automatically run.
+3. If registration is successful, the sensor will run automatically.
 
 
 Once you like your sensor, you can promote it to a pack (if required) by creating a pack in
-/opt/stackstorm/packs/${pack_name} and moving the sensor artifacts (yaml and py) to
+/opt/stackstorm/packs/${pack_name} and moving the sensor artifacts (YAML and Python) to
 /opt/stackstorm/packs/${pack_name}/sensors/. See :doc:`/reference/packs` for how to create a pack.
 
 Debugging a sensor from a pack

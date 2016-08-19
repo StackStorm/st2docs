@@ -20,6 +20,7 @@ Test files should follow the following naming conventions:
 * ``test_sensor_<sensor name>.py`` for sensor tests. For example, if the sensor
   is named ``GithubEvents``, the file should be named
   ``test_sensor_github_events.py``.
+* ``test_action_aliases.py`` for all the action aliases tests.
 
 General Testing Conventions
 ---------------------------
@@ -47,6 +48,9 @@ Base Test Classes
   cases. This class provides utility methods for making action testing easier
   such as returning an action class with ``action_service`` correctly
   populated, etc.
+* ``st2tests.BaseActionAliasTestCase`` - Base class for all the action aliases
+  test cases. This class provides utility functions for testing the action
+  alias.
 
 Mock Classes
 ~~~~~~~~~~~~
@@ -91,6 +95,16 @@ do the following inside your test module:
 Keep in mind that both sensor and action modules are not namespaced which means
 sensor and action module names need to be unique to avoid conflicts.
 
+Fixtures
+--------
+
+All the fixture data such as raw HTTP responses and similar, should be stored
+in files in the ``<pack path>/tests/fixtures`` directory (e.g.
+``libcloud/tests/fixtures/list_zones.json``).
+
+To retrieve raw content of the fixture file you can use ``get_fixture_content``
+method available on the test class.
+
 Instantiating and obtaining class instances
 -------------------------------------------
 
@@ -120,13 +134,27 @@ Action tests:
 
 .. sourcecode:: python
 
-    class MyActionActionTestBase(BaseActionTestCase):
+    class MyActionActionTestCase(BaseActionTestCase):
         action_cls = MyAction
 
         def test_method(self):
             action = self.get_action_instance(config={'foo': 'bar'})
             result = action.run()
             # ...
+
+Action alias tests:
+
+.. sourcecode:: python
+
+    class MyActionAliasTestCase(BaseActionTestCase):
+        action_alias_name = 'my_alias'
+
+        def test_method(self):
+            action_alias_db = self.action_alias_db
+
+As you can see, when testing aliases you need to specify name of the alias
+which is to be tested and this alias is automatically retrieved from disk
+and available via ``self.action_alias_db`` instance variable.
 
 Sample Tests
 ------------
@@ -135,6 +163,7 @@ You can find some sample tests on the links below.
 
 * Sensor - `test_sensor_docker_sensor <https://github.com/StackStorm/st2contrib/blob/master/packs/docker/tests/test_sensor_docker_sensor.py>`_
 * Action - `test_action_parse <https://github.com/StackStorm/st2contrib/blob/master/packs/csv/tests/test_action_parse.py>`_
+* Action Aliases - `test_action_aliases <https://github.com/StackStorm/st2/blob/master/contrib/packs/tests/test_action_aliases.py>`_
 
 Running Tests
 -------------
@@ -162,13 +191,25 @@ already exists or you have created one manually), you can pass ``-x`` flag to
 the script. This flag will tell it to skip virtual environment creation, but all
 the necessary dependencies will still be installed.
 
-If you are running this script inside a development VM (st2express /
+If you are running this script inside a development VM (st2vagrant /
 st2workroom), you can safely pass ``-x`` flag to the script since a virtual
 environment should already be created and all the necessary |st2| dependencies
 should be available in ``PYTHONPATH``.
 
+Lint Tools and Scripts
+----------------------
+
+In addition to the tests, `st2sdk`_ repository and package also ships with
+various other tools and lint scripts which allow you to catch common errors
+and typos automatically and early on.
+
+For more information on those scripts and how to use them, please refer to the
+readme in st2sdk repository - https://github.com/stackstorm/st2sdk.
+
 Continuous Integration
 ----------------------
 
-By default tests for all the packs are ran on every commit to ``st2`` and
-``st2contrib`` repository.
+By default the lint scripts mentioned above and tests for all the packs run
+on every commit to ``st2`` and ``st2contrib``.
+
+.. _`st2sdk`: https://github.com/stackstorm/st2sdk

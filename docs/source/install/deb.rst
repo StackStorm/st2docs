@@ -1,38 +1,39 @@
 Ubuntu / Debian
 ===============
 
-This guide provides step-by step instructions on installing StackStorm on a single box per
-:doc:`Reference deployment </install/overview>` on a Ubuntu/Debian. A script `st2bootstrap-deb.sh
-<https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-deb.sh>`_, codifies the
-instructions below.
+This guide provides step-by step instructions for installing StackStorm on a single Ubuntu/Debian 64 bit system per
+the :doc:`Reference deployment </install/overview>`.
 
-.. warning :: Currently in BETA! Upgrades are being tested, but will be supprted only once packages graduate
-    from BETA, likely from 1.4 onwards. At that point, package-based installation will be
-    the preferred path to installing StackStorm.
+.. rubric:: TL;DR
 
-    Please try, use and report bugs on
-    `github.com/StackStorm/st2-packages <https://github.com/StackStorm/st2-packages/issues/new>`_.
+That's OK! You're busy, we get it. How do you just get started? Get yourself a clean box, and run this command:
 
+::
+
+   curl -sSL https://stackstorm.com/packages/install.sh | bash -s -- --user=st2admin --password=<CHANGEME>
 
 .. contents::
-
 
 Supported versions
 ------------------
 
+.. include:: __64bit_note.rst
+
 We support Ubuntu 14.04, and test on `Ubuntu Server 14.04 LTS (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B00JV9TBA6/ref=srh_res_product_title?ie=UTF8&sr=0-3&qid=1457037882965>`_
-and `puppetlabs/ubuntu-14.04-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/ubuntu-14.04-64-nocm>`_. Other Debian based distributions and versions will likely work with some tweaks, you are welcome to try and report success to the `community <https://stackstorm.com/community-signup>`_.
+and `puppetlabs/ubuntu-14.04-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/ubuntu-14.04-64-nocm>`_. If you are downloading an Ubuntu ISO and going for a manual install, please download a 64 bit server ISO of Ubuntu 14.04. Other Debian based distributions and versions will likely work with some tweaks. You are welcome to try - please report success to the `community <https://stackstorm.com/community-signup>`_.
 
 Sizing the server
 -----------------
-While the system can operate with less equipped servers, these are recommended
-for the best experience while testing or deploying |st2|.
+
+While the system can operate with lower specs, these are the recommendations
+for the best experience while testing or deploying |st2|:
 
 +--------------------------------------+-----------------------------------+
 |            Testing                   |         Production                |
 +======================================+===================================+
 |  * Dual CPU system                   | * Quad core CPU system            |
-|  * 1GB of RAM                        | * >16GB RAM                       |
+|  * 1GB RAM                           | * >16GB RAM                       |
+|  * 10GB storage                      | * 40GB storage                    |
 |  * Recommended EC2: **t2.medium**    | * Recommended EC2: **m4.xlarge**  |
 +--------------------------------------+-----------------------------------+
 
@@ -42,22 +43,35 @@ Minimal installation
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
 
+.. include:: __mongodb_32_note.rst
+
 Install MongoDB, RabbitMQ, and PostgreSQL.
 
   .. code-block:: bash
 
     sudo apt-get update
-    sudo apt-get install -y mongodb-server rabbitmq-server postgresql
+    sudo apt-get install -y gnupg-curl
+    sudo apt-get install -y curl
+
+    # Add key and repo for the latest stable MongoDB (3.2)
+    sudo apt-key adv --fetch-keys https://www.mongodb.org/static/pgp/server-3.2.asc
+    sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-3.2.list
+    deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse
+    EOT"
+    sudo apt-get update
+
+    sudo apt-get install -y mongodb-org
+    sudo apt-get install -y rabbitmq-server
+    sudo apt-get install -y postgresql
 
 Setup repositories
 ~~~~~~~~~~~~~~~~~~~
 
-The following script will detect your platform and architecture and setup the repo accordingly. It'll also install the GPG key for repo signing.
+The following script will detect your platform and architecture and setup the repo accordingly. It will also install the GPG key for repo signing.
 
   .. code-block:: bash
 
-    curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
-
+    curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
 Install StackStorm components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -66,57 +80,29 @@ Install StackStorm components
 
       sudo apt-get install -y st2 st2mistral
 
-
-If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or changed defaults,
+If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or have changed defaults,
 please adjust the settings:
 
-    * RabbitMQ connection at ``/etc/st2/st2.conf`` and ``/etc/mistral/mistral.conf``
-    * MongoDB at ``/etc/st2/st2.conf``
-    * PostgreSQL at ``/etc/mistral/mistral.conf``
+  * RabbitMQ connection at ``/etc/st2/st2.conf`` and ``/etc/mistral/mistral.conf``
+  * MongoDB at ``/etc/st2/st2.conf``
+  * PostgreSQL at ``/etc/mistral/mistral.conf``
 
 Setup Mistral Database
 ~~~~~~~~~~~~~~~~~~~~~~
 
-  .. code-block:: bash
-
-    # Create Mistral DB in PostgreSQL
-    cat << EHD | sudo -u postgres psql
-    CREATE ROLE mistral WITH CREATEDB LOGIN ENCRYPTED PASSWORD 'StackStorm';
-    CREATE DATABASE mistral OWNER mistral;
-    EHD
-
-    # Setup Mistral DB tables, etc.
-    /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
-    # Register mistral actions
-    /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
+.. include:: common/setup_mistral_database.rst
 
 .. _ref-config-ssh-sudo-deb:
 
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
+
 To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
-For remote linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
+For remote Linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
 
 * Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally. You will need elevated privileges to do this.
 
-  .. code-block:: bash
-
-    # Create an SSH system user (default `stanley` user may be already created)
-    sudo useradd stanley
-    sudo mkdir -p /home/stanley/.ssh
-    sudo chmod 0700 /home/stanley/.ssh
-
-    # On StackStorm host, generate ssh keys
-    sudo ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
-
-    # Authorize key-base acces
-    sudo sh -c 'cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys'
-    sudo chmod 0600 /home/stanley/.ssh/authorized_keys
-    sudo chown -R stanley:stanley /home/stanley
-
-    # Enable passwordless sudo
-    sudo sh -c 'echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2'
-    sudo chmod 0440 /etc/sudoers.d/st2
+.. include:: common/configure_ssh_and_sudo.rst
 
 * Configure SSH access and enable passwordless sudo on the remote hosts which StackStorm would control
   over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
@@ -124,11 +110,7 @@ For remote linux actions, SSH is used. It is advised to configure identity file 
 
 * Adjust configuration in ``/etc/st2/st2.conf`` if you are using a different user or path to the key:
 
-  .. sourcecode:: ini
-
-    [system_user]
-    user = stanley
-    ssh_key_file = /home/stanley/.ssh/stanley_rsa
+.. include:: common/configure_system_user.rst
 
 Start Services
 ~~~~~~~~~~~~~~
@@ -138,36 +120,16 @@ Start Services
 
 * Register sensors, rules and actions ::
 
-    st2ctl reload
+    sudo st2ctl reload
+
+=======
+.. include:: common/start_services.rst
+
 
 Verify
 ~~~~~~
 
-  .. code-block:: bash
-
-    st2 --version
-
-    st2 -h
-
-    # List the actions from a 'core' pack
-    st2 action list --pack=core
-
-    # Run a local shell command
-    st2 run core.local -- date -R
-
-    # See the execution results
-    st2 execution list
-
-    # Fire a remote comand via SSH (Requires passwordless SSH)
-    st2 run core.remote hosts='localhost' -- uname -a
-
-    # Install a pack
-    st2 run packs.install packs=st2
-
-Use the supervisor script to manage |st2| services: ::
-
-    st2ctl start|stop|status|restart|restart-component|reload|clean
-
+.. include:: common/verify.rst
 
 -----------------
 
@@ -183,8 +145,8 @@ But there is no joy without WebUI, no security without SSL termination, no fun w
 Configure Authentication
 ------------------------
 
-Reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication`
-to configure and use PAM or LDAP autentication backends. 
+The reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication`
+to configure and use PAM or LDAP authentication backends.
 
 .. include:: __pam_auth_backend_requirements.rst
 
@@ -239,9 +201,22 @@ To set it up, install `st2web` and `nginx`, generate certificates or place your 
 certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's supplied
 :github_st2:`site config file st2.conf<conf/nginx/st2.conf>`.
 
+StackStorm depends on Nginx version >=1.7.5; since Ubuntu 14 has an older version
+in the package repositories at the time of writing, you will have to include
+the official Nginx repository into the source list:
+
   .. code-block:: bash
 
+    # Add key and repo for the latest stable nginx
+    sudo apt-key adv --fetch-keys http://nginx.org/keys/nginx_signing.key
+    sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/nginx.list
+    deb http://nginx.org/packages/ubuntu/ trusty nginx
+    deb-src http://nginx.org/packages/ubuntu/ trusty nginx
+    EOT"
+    sudo apt-get update
+
     # Install st2web and nginx
+    # note nginx should be > 1.4.6. To install a new version like 1.10.1 do "sudo apt-get install -y nginx=1.10.1-1~trusty"
     sudo apt-get install -y st2web nginx
 
     # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
@@ -251,18 +226,35 @@ certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's suppl
     Technology/CN=$(hostname)"
 
     # Remove default site, if present
-    sudo rm /etc/nginx/sites-enabled/default
+    sudo rm /etc/nginx/conf.d/default.conf
     # Copy and enable StackStorm's supplied config file
-    sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
-    sudo ln -s /etc/nginx/sites-available/st2.conf /etc/nginx/sites-enabled/st2.conf
+    sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
 
     sudo service nginx restart
 
-If you modify ports, or url paths in nginx configuration, make correspondent changes in st2web
+If you modify ports, or url paths in the nginx configuration, make the corresponding changes in st2web
 configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
 
+If you are trying to access the API from outside the box and you've nginx setup according to
+these instructions you can do so by hitting ``https://${EXTERNAL_IP}/api/v1/${REST_ENDPOINT}``.
+For example:
+
+  .. code-block:: bash
+
+    curl -X GET -H  'Connection: keep-alive' -H  'User-Agent: manual/curl' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'X-Auth-Token: <YOUR_TOKEN>' https://1.2.3.4/api/v1/actions
+
+You should be able to hit auth REST endpoints, if need be, by hitting ``https://${EXTERNAL_IP}/auth/v1/${AUTH_ENDPOINT}``.
+
+You can see the actual REST endpoint for a resource in |st2|
+by adding a ``--debug`` option to the CLI command for the appropriate resource.
+
+For example, to see the endpoint for getting actions, invoke
+
+  .. code-block:: bash
+
+    st2 --debug action list
 
 .. _ref-setup-chatops-deb:
 
@@ -274,12 +266,14 @@ If you already run a Hubot instance, you only have to install the `hubot-stackst
 
 * Validate that ``chatops`` pack is installed, and a notification rule is enabled: ::
 
-      st2 rule list --pack=chatops
+    # Ensure chatops pack is in place
+    ls /opt/stackstorm/packs/chatops
+    # Create notification rule if not yet enabled
+    st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml
 
-* `Install NodeJS v4 <https://nodejs.org/en/download/package-manager/>`_: ::
+* `Add NodeJS v4 repository <https://nodejs.org/en/download/package-manager/>`_: ::
 
       curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-      sudo apt-get install -y nodejs
 
 * Install st2chatops package: ::
 
@@ -287,12 +281,11 @@ If you already run a Hubot instance, you only have to install the `hubot-stackst
 
 * Review and edit ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to your
   StackStorm installation and Chat Service you are using. By default ``st2api`` and ``st2auth``
-  are expected to be on the same host. If it's not the case, please update ``ST2_API`` and
-  ``ST2_AUTH_URL`` variables or just point to correct host with ``ST2_HOSTNAME`` variable. Use
-  `ST2_WEBUI_URL` if an external address of your StackStorm host is different.
+  are expected to be on the same host. If that is not the case, please update ``ST2_API`` and
+  ``ST2_AUTH_URL`` variables or just point to correct host with ``ST2_HOSTNAME`` variable.
 
   The example configuration uses Slack; go to Slack web admin interface, create a Bot, and copy the authentication token into ``HUBOT_SLACK_TOKEN``.
-  If you are using other Chat Service, set correspondent environment variables under
+  If you are using a different Chat Service, set corresponding environment variables under
   `Chat service adapter settings`:
   `Slack <https://github.com/slackhq/hubot-slack>`_,
   `HipChat <https://github.com/hipchat/hubot-hipchat>`_,
@@ -305,7 +298,11 @@ If you already run a Hubot instance, you only have to install the `hubot-stackst
 
       sudo service st2chatops start
 
-* That's it! Go to your Chat room and begin ChatOpsing. Read on :doc:`/chatops/index` section.
+* Reload st2 packs to make sure ``chatops.notify`` rule is registered: ::
+
+      sudo st2ctl reload --register-all
+
+* That's it! Go to your Chat room and begin ChatOpsing. Read more in the :doc:`/chatops/index` section.
 
 Upgrade to Enterprise Edition
 -----------------------------

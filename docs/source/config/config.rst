@@ -6,15 +6,13 @@ serving static content of WebUI,
 and running st2auth and st2api as WSGI apps via gunicorn/uwsgi. StackStorm nginx configurations
 can be found at ``/etc/nginx/sites-enabled/st2*.conf``.
 
-
-``st2auth`` and ``st2api`` can also run in by a built-in simple Python server. This is used for development and strongly discouraged for any production. Be aware that some settings in /etc/st2.conf are only effective when running in development mode, and don't apply when running under WSGI servers. Refer to the comments in
+``st2auth`` and ``st2api`` can also run using a built-in simple Python server. This is used for development and strongly discouraged for any production. Be aware that some settings in /etc/st2.conf are only effective when running in development mode, and don't apply when running under WSGI servers. Refer to the comments in
 :github_st2:`st2.conf.sample <conf/st2.conf.sample>`.
 
 Configure MongoDB
 -----------------
 
 StackStorm requires a connection to MongoDB to operate.
-
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
 
@@ -29,12 +27,54 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 
 The ``username`` and ``password`` properties are optional.
 
+StackStorm also supports `MongoDB replica sets <https://docs.mongodb.com/v2.4/core/replication-introduction/>`_
+using `MongoDB URI string <https://docs.mongodb.com/v2.4/reference/connection-string/>`_.
+
+In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
+
+.. code-block:: bash
+
+    [database]
+    host = mongodb://<#MDB_NODE_1>,<#MDB_NODE_2>,<#MDB_NODE_3>/?replicaSet=<#MDB_REPLICA_SET_NAME>
+
+* You can also add ports, usernames and passwords, etc to your connection string - https://docs.mongodb.com/v2.4/reference/connection-string/
+
+* To understand more about setting up a MongoDB replica set - https://docs.mongodb.com/v2.4/tutorial/deploy-replica-set/
+
+StackStorm also supports SSL/TLS to encrypt connections. A few extra properties need be added to
+the configuration apart from the ones outlined above.
+
+In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
+
+.. code-block:: bash
+
+    [database]
+    ...
+    ssl = <True or False>
+    ssl_keyfile = <Path to key file>
+    ssl_certfile = <Path to certificate>
+    ssl_cert_reqs = <One of none, optional or required>
+    ssl_ca_certs = <Path to certificate form mongod>
+    ssl_match_hostname = <True or False>
+
+* ``ssl`` - Enable or disable connection over TLS/SSL or not. Default is False.
+* ``ssl_keyfile`` - Private keyfile used to identify the local connection against MongoDB. If specified ssl is assumed to be True.
+* ``ssl_certfile`` - Certificate file used to identify the local connection. If specified ssl is assumed to be True.
+* ``ssl_cert_reqs`` - Specifies whether a certificate is required from the other side of the connection, and whether it will be validated if provided.
+* ``ssl_ca_certs`` - Certificates file containing a set of concatenated CA certificates, which are used to validate certificates passed from MongoDB.
+* ``ssl_match_hostname`` - Enable or disable hostname matching. Not recommended to disable and defaults to True.
+
+.. note:: Only certain distributions of MongoDB support SSL/TLS.
+
+    * MonogoDB enterprise vesions have SSL/TLS support.
+    * Build MongoDB from source to enable SSL/TLS support. See https://github.com/mongodb/mongo/wiki/Build-Mongodb-From-Source for more information.
+
 Configure RabbitMQ
 ------------------
 
 StackStorm uses RabbitMQ for messaging between its services.
 
-In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
+In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section:
 
 .. code-block:: bash
 
@@ -66,7 +106,7 @@ Configure SSH
 
 To run actions on remote hosts, |st2| uses SSH. It is advised to configure identity file based SSH access on all remote hosts.
 
-|st2| ssh user and a path to SSH key are set in ``/etc/st2/st2.conf``. During installation, ``st2_deploy.sh`` script configures ssh on the local box for a user `stanley`.
+The |st2| ssh user and path to SSH key are set in ``/etc/st2/st2.conf``. During installation, ``st2_deploy.sh`` script configures ssh on the local box for a user `stanley`.
 
 Follow these steps on a remote box to setup `stanley` user on remote boxes.
 
@@ -76,17 +116,18 @@ Follow these steps on a remote box to setup `stanley` user on remote boxes.
     mkdir -p /home/stanley/.ssh
     chmod 0700 /home/stanley/.ssh
 
-    # generate ssh keys on StackStorm box and copy over public key into remote box.
+    # generate ssh keys on StackStorm box and copy over public key to remote box.
     ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
     cp ${KEY_LOCATION}/stanley_rsa.pub /home/stanley/.ssh/stanley_rsa.pub
 
-    # authorize key-base acces.
+    # authorize key-based access.
     cat /home/stanley/.ssh/stanley_rsa.pub >> /home/stanley/.ssh/authorized_keys
     chmod 0600 /home/stanley/.ssh/authorized_keys
     chown -R stanley:stanley /home/stanley
     echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
 
     # ensure requiretty is not set to default in the /etc/sudoers file.
+    sudo sed -i -r "s/^Defaults\s+\+requiretty/# Defaults +requiretty/g" /etc/sudoers
 
 To verify do the following from the |st2| box
 
@@ -95,7 +136,7 @@ To verify do the following from the |st2| box
     # ssh should not require a password since the key is already provided
     ssh -i /home/stanley/.ssh/stanley_rsa stanely@host.example.com
 
-    # make sure that no password is prompted.
+    # make sure that no password is required
     sudo su
 
 SSH Troubleshooting
@@ -110,8 +151,8 @@ SSH Troubleshooting
 Using SSH config
 ~~~~~~~~~~~~~~~~
 
-StackStorm allows loading of the SSH config file local to the system user. This is a configurable option and to
-enable add following to ``/etc/st2/st2.conf``
+StackStorm allows loading of the SSH config file local to the system user. This is a configurable option. To
+enable, add the following to ``/etc/st2/st2.conf``
 
 .. code-block:: bash
 
@@ -122,7 +163,7 @@ enable add following to ``/etc/st2/st2.conf``
 SUDO Access
 -----------
 
-StackStorm's ``shell`` actions -  ``local-shell-cmd``, ``local-shell-script``, ``remote-shell-cmd``, ``remote-shell-script``- are performed by a special user. By default, this user is named ``stanley`` and that is configurable via :github_st2:`st2.conf <conf/st2.prod.conf>`.
+StackStorm's ``shell`` actions -  ``local-shell-cmd``, ``local-shell-script``, ``remote-shell-cmd``, ``remote-shell-script``- are performed by a special user. By default, this user is named ``stanley``. This is configurable via :github_st2:`st2.conf <conf/st2.prod.conf>`.
 
 .. note:: `stanley` user requires the following access:
 
@@ -132,7 +173,7 @@ StackStorm's ``shell`` actions -  ``local-shell-cmd``, ``local-shell-script``, `
       action under a different user or with root privileges.
     * As some actions require sudo privileges password-less sudo access to all boxes.
 
-One way of setting up passwordless sudo is perform the below operation on each remote box.
+One way of setting up passwordless sudo is perform the below operation on each remote box:
 
 .. code-block:: bash
 
@@ -144,21 +185,20 @@ Configure Logging
 
 By default, the logs can be found in ``/var/log/st2``.
 
-* With the standard logging setup you will notice files like ``st2*.log`` and
+* With the standard logging setup you will see files like ``st2*.log`` and
   ``st2*.audit.log`` in the log folder.
 
 * Per component logging configuration can be found in ``/etc/st2*/logging.conf``.
   Those files use `Python logging configuration format <https://docs.python.org/2/library/logging.config.html#configuration-file-format>`_.
-  If you desire to change location of the log files, the paths and other
-  settings can be modified in these files.
+  Log file location and other settings can be modified in these configuration files.
 
 * By default, log rotation is handled via logrotate. Default log rotation config
   (:github_st2:`logrotate.conf <conf/logrotate.conf>`) is included with all the
   package based installations. Note that ``handlers.RotatingFileHandler`` is used by
   default in ``/etc/st2*/logging.conf``, but the ``maxBytes`` and ``backupCount`` args are not
-  specififed so no rotation is performed by default which then lets logrotate handle the rotation.
-  If you want Python services instead of logrotate to handle the log rotation for you, you can
-  update the logging configs as shown below:
+  specified so no rotation is performed by default which then lets logrotate handle the rotation.
+  If you want Python services instead of logrotate to handle the log rotation, update the
+  logging configs as shown below:
 
   .. code-block:: ini
 
@@ -174,8 +214,8 @@ By default, the logs can be found in ``/var/log/st2``.
   docs.
 
 * Sensors run in their own process so it is recommended to not allow sensors to share the same
-  ``RotatingFileHandler``. To configure a seperate handler per sensor
-  ``/etc/st2reactor/logging.sensorcontainer.conf`` can be updated as follows where ``MySensor`` is
+  ``RotatingFileHandler``. To configure a separate handler per sensor
+  ``/etc/st2reactor/logging.sensorcontainer.conf`` can be updated as follows, where ``MySensor`` is
   the sensor in the ``mypack`` pack that will have its own log file:
 
   .. code-block:: ini
@@ -210,11 +250,10 @@ By default, the logs can be found in ``/var/log/st2``.
 * Check out LogStash configuration and Kibana dashboard for pretty logging and
   audit at :github_contrib:`st2contrib/extra/logstash <extra/logstash>`
 
-  logrotate log rotation
 
 Configure Mistral
 -----------------
-There are a number of configurable options available under the mistral section in ``/etc/st2/st2.conf``. If the mistral section is not provided, default values will be used. By default, all Keystone related options are unset and |st2| will not pass any credential for authentication to Mistral. Please refer to OpenStack and Mistral documentation for Keystone setup.
+There are a number of configurable options available under the mistral section in ``/etc/st2/st2.conf``. If the mistral section is not provided, default values will be used. By default, all Keystone related options are unset and |st2| will not pass any credentials for authentication to Mistral. Please refer to OpenStack and Mistral documentation for Keystone setup.
 
 +-----------------------+--------------------------------------------------------+
 | options               | description                                            |
@@ -239,8 +278,8 @@ There are a number of configurable options available under the mistral section i
 ::
 
     # Example with basic options. The v2_base_url is set to http://workflow.example.com:8989/v2.
-    # On connection error, the following configuration sets up the action runner to retry 
-    # connecting to mistral for up to 10 minutes. The retries is setup to be exponential for
+    # On connection error, the following configuration sets up the action runner to retry
+    # connecting to Mistral for up to 10 minutes. The retries is setup to be exponential for
     # 5 minutes. So in this case, there will be two sets of exponential retries during
     # the 10 minutes.
 
@@ -269,12 +308,34 @@ Authentication
 --------------
 
 Please refer to :doc:`../authentication` to learn details of authentication, integrations with
-various identity providers, managing API tokens.
+various identity providers, and managing API tokens.
 
 Configure ChatOps
 -----------------
 
 |st2| brings native two-way ChatOps support. To learn more about ChatOps, and how to configure it manually, please refer to :ref:`Configuration section under ChatOps <chatops-configuration>`.
 
+.. _mask-secrets:
+
+Configure secrets masking
+-------------------------
+In order to manage secrets masking on a system-wide basis you can also modify ``/etc/st2/st2.conf`` and
+control secrets masking at 2 levels i.e. API and logs. Note that this feature only controls external
+visibility of secrets and does not control how secrets are stored as well as managed by |st2|.
+
+* To mask secrets in API response. This is enabled on a per API basis and only available to admin users.
+
+... sourcecode:: bash
+
+    [api]
+    ...
+    mask_secrets=True
 
 
+* To mask secrets in logs
+
+... sourcecode:: bash
+
+    [logging]
+    ...
+    mask_secrets=True

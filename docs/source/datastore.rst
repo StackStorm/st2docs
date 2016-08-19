@@ -65,6 +65,52 @@ Delete an existing key value pair.
 
     st2 key delete os_keystone_endpoint
 
+.. _datastore-scopes-in-key-value-store:
+
+Scoping items stored in datastore
+---------------------------------
+
+By default, all items stored in key value store are stored in ``system`` scope. This
+basically means every user has access to these variables. You'd typically use the
+jinja expression ``{{system.key_name}}`` to refer to these variables in actions or
+workflows. Starting version 1.5 of |st2|, you can now scope variables to a specific
+user. With authentication enabled, you can now control who can read or write into those
+variables. For example, to set variable ``date_cmd`` for the currently authenticated
+user, use
+
+::
+
+    st2 key set date_cmd "date -u" --scope=user
+
+The name of the user is figured out from the ``X-Auth-Token`` or ``St2-Api-Key``
+header passed with the API call. Basically, from the API call authentication
+credentials, we figure out the user and assign this variable to that particular user.
+To get the key back, use
+
+::
+
+    st2 key get date_cmd --scope=user
+
+Remember, if you want a variable ``date_cmd`` as a system variable, you can use
+
+::
+
+    st2 key set date_cmd "date +%s" --scope=system
+
+or simply
+
+::
+
+    st2 key set date_cmd "date +%s"
+
+This variable won't clash with the user variables under same name. Also, you can refer
+to user variables in actions or workflows. The jinja syntax to do so is
+``{{user.date_cmd}}``. Note that the notion of ``user`` is available only when actions
+or workflows are run manually. The notion of ``user`` is non-existent when automations
+are run (actions kicked off via rules). So use of user scoped variables is limited to
+manual execution of actions or workflows.
+
+
 Storing and Retrieving from Python Client
 -----------------------------------------
 
@@ -130,3 +176,114 @@ related syntax.
         }
     }
 
+.. _admin-setup-for-encrypted-datastore:
+
+Securing secrets in key value store (admin only)
+------------------------------------------------
+
+.. note::
+
+    This guide and the corresponding implementation is alpha quality. We are working on the feature
+    and feedback is welcome. Until the feature matures and deployment issues identified and fixed,
+    no guarantee is made w.r.t ``security`` of the credentials stored in key value store.
+
+Key value store now allows users to store encrypted values (secrets). Symmetric encryption is used
+to encrypt secrets. |st2| administrator is responsible for generating symmetric key used for
+encryption / decryption. It goes without saying that |st2| operator and administrator (or anyone
+else who has access to the key) can decrypt the encrypted values if they want to.
+
+To generate a symmetric crypto key (AES256 used for both encryption and decryption) as an admin,
+please run
+
+.. code-block:: bash
+
+    sudo mkdir -p /etc/st2/keys/
+    sudo st2-generate-symmetric-crypto-key --key-path /etc/st2/keys/datastore_key.json
+
+It is recommended that the key is placed in a private location such as ``/etc/st2/keys/`` and
+permissions are appropriately modified so that only StackStorm API process owner (usually ``st2``) can
+read and admin can read/write to that file.
+
+To make sure only ``st2`` and root can access the file on the box, run
+
+.. code-block:: bash
+
+    sudo usermod -a -G st2 st2                       # Add user ``st2`` to ``st2`` group
+    sudo chgrp st2 /etc/st2/keys/datastore_key.json  # Give group ``st2`` ownership for key
+    sudo chmod o-r /etc/st2/keys/datastore_key.json  # Revoke read access for others
+
+Once the key is generated, |st2| needs to be made aware of the key. To do this, edit st2
+configuration file (usually /etc/st2/st2.conf) and add the following lines:
+
+::
+
+    [keyvalue]
+    encryption_key_path = /etc/st2/keys/datastore_key.json
+
+Once the config file changes are made, restart |st2| by running
+
+::
+
+  sudo st2ctl restart
+
+Validate you are able to set an encrypted key value in datastore by running
+
+::
+
+  st2 key set test_key test_value --encrypt
+
+You shouldn't see any errors. If you see errors like
+``"MESSAGE: Crypto key not found"``, you haven't setup the
+keys correctly.
+
+Now as an admin, you are all set with configuring |st2| server side.
+
+
+.. _datastore-storing-secrets-in-key-value-store:
+
+Storing secrets in key value store
+----------------------------------
+
+Please note that if an admin has not setup encryption key, you will not be allowed to save
+secrets in the key value store. Contact your |st2| admin to setup encryption keys as per the section
+above.
+
+To save a secret in key value store:
+
+.. code-block:: bash
+
+    st2 key set api_token SECRET_TOKEN --encrypt
+
+By default, getting a key tagged as secret (via --encrypt) will always return encrypted values only.
+To get plain text, please run with command --decrypt flag.
+
+.. code-block:: bash
+
+    st2 key get api_token --decrypt
+
+.. note::
+
+    Keep in mind that ``--decrypt`` flag can either be used by an administrator (administrator is
+    able to decrypt every value) and by the user who set that value in case of the user-scoped
+    datastore item (i.e. if ``--scope=user`` flag was passed when originally setting the value).
+
+Security notes
+--------------
+
+|st2| wishes to discuss security details and be transparent about the implementation and limitations
+of the security practices to attract more eyes to it and therefore build better quality into
+security implementations. For the key value store, we have settled on AES256 symmetric encryption
+for simplicity. We use python library keyczar for doing this.
+
+We have made a trade off that |st2| admin is allowed to decrypt the secrets in key value store.
+This made our implementation simpler. We are looking into how to let users pass their own keys
+for encryption every time they want to consume a secret from key value store. This requires more
+UX thought and also moves the responsibility of storing keys to the users.
+Your ideas are welcome here.
+
+Please note that the global encryption key still disables users with direct access to databases
+to still see only encrypted secret in database. Still the onus is on |st2| admin to restrict
+access to database via network daemons only and not allow physical access to the box (or run
+databases on different boxes as st2). Note that several layers of security needs to be in place
+that is beyond the scope of this document. While we can help people with deployment questions
+on stackstorm slack community, please follow your own best security practices guide.

@@ -36,13 +36,11 @@ The best way to explore |st2| is to use CLI. Start by firing a few commands:
     # Fire a shell comand on remote hosts. Requires passwordless SSH configured.
     st2 run core.remote hosts='localhost' -- uname -a
 
-The default “all-in-one” installation deploys the CLI along with the |st2| services. CLI can be
-used to access |st2| service remotely. All |st2| operations are also available via REST API,
-Python, and JavaScript bindings. Check the :doc:`CLI and Python Client </reference/cli>` reference
-for details.
+The installation deploys the CLI along with the |st2| services. CLI can be used to access |st2|
+service remotely. All |st2| operations are also available via REST API, Python, and JavaScript
+bindings. Check the :doc:`CLI and Python Client </reference/cli>` reference for details.
 
-From v0.8, |st2| ships with WebUI. With the default "all-in-one" installation, you can access it at
-http://hostname. If SSL is configured, the WebUI will redirect to https://hostname.
+|st2| ships with WebUI. You can access it at https://hostname.
 
 Authenticate
 ------------
@@ -51,7 +49,7 @@ If :doc:`authentication <authentication>` is enabled, obtain authentication toke
 parameter. For convenience, keep the credential in the CLI config file, or set the environment
 variable ``ST2_AUTH_TOKEN``. When using environment variable, make sure that ``ST2_API_URL`` and
 ``ST2_AUTH_URL`` are set appropriately. The doc section on authentication
-:ref:`usages <authentication-usage>` contains additional notes. A nice shortcut for now is:
+:ref:`usage <authentication-usage>` contains additional notes. A nice shortcut for now is:
 
 .. code-block:: bash
 
@@ -61,7 +59,7 @@ variable ``ST2_AUTH_TOKEN``. When using environment variable, make sure that ``S
 Work with Actions
 -----------------
 
-|st2| comes with a several generic actions out of the box. The catalog of actions can be easily
+|st2| comes with several generic actions out of the box. The catalog of actions can be easily
 extended by getting actions from the community or consuming your existing scripts (`more on that
 later`). Browse the catalog with ``st2 action list``. Action is referred to by `ref` as
 ``pack.action_name`` (e.g. ``core.local``). Learn about an action by doing
@@ -141,7 +139,7 @@ That's it. You have learned to run |st2|'s actions. Let's stitch together other 
 Define a Rule
 -------------
 
-|st2| uses rules to fire actions or workflows when events happen. Events are typically monitored i
+|st2| uses rules to fire actions or workflows when events happen. Events are typically monitored 
 by sensors. When a sensor catches an event, it fires a trigger. Trigger trips the rule, the rule
 checks the criteria and if it matches, it runs an action. Easy enough. Let’s look at an example.
 
@@ -151,7 +149,7 @@ Sample rule: :github_st2:`sample_rule_with_webhook.yaml
 .. literalinclude:: /../../st2/contrib/examples/rules/sample_rule_with_webhook.yaml
     :language: yaml
 
-The rule definition is a YAML with three sections: trigger, criteria, and action. This example is
+The rule definition is a YAML file with three sections: trigger, criteria, and action. This example is
 setup to react on a webhook trigger and applies filtering criteria on the content of the trigger.
 The webhook in this example is setup to listen on the ``sample`` sub-url at
 ``https://{host}/api/v1/webhooks/sample``. When a POST is made on this URL, the trigger
@@ -160,12 +158,12 @@ appended to the file st2.webhook_sample.out in the home directory of the user se
 By default, ``stanley`` is the default user and the file will be located at
 ``/home/stanley/st2.webhook_sample.out``. See :doc:`rules` for detailed rule anatomy.
 
-Trigger payload is referred with ``{{trigger}}``. If the trigger payload is a valid JSON,
+The trigger payload is referred to with ``{{trigger}}``. If the trigger payload is a valid JSON object,
 it is parsed and can be accessed like ``{{trigger.path.to.parameter}}`` (it's
 `Jinja template syntax <http://jinja.pocoo.org/docs/dev/templates/>`__).
 
 What are the triggers available to use in rules? Just like with actions, use the CLI to browse
-triggers, learn what the trigger does, how to configure it, and what is it’s payload structure:
+triggers, learn what the trigger does, how to configure it, and what the payload structure is:
 
 .. code-block:: bash
 
@@ -211,7 +209,7 @@ Fire the POST, check out the file and see that it appends the payload if the nam
     # Check that the rule worked. By default, st2 runs as the stanley user.
     sudo tail /home/stanley/st2.webhook_sample.out
 
-    # And for fun, same post with |st2|
+    # And for fun, same post with st2
     st2 run core.http method=POST body='{"you": "too", "name": "st2"}' url=https://localhost/api/v1/webhooks/sample headers='x-auth-token=put_token_here;content-type=application/json' verify_ssl_cert=False
 
     # Check that the rule worked. By default, st2 runs as the stanley user.

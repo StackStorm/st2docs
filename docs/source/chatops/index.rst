@@ -4,7 +4,7 @@ ChatOps
 .. rubric:: Why ChatOps?
 
 
-ChatOps provides a new way of collaboration and work within your teams. Boiled down to its essence, ChatOps represents **conversation-driven development**. With ChatOps, it is possible to take operational and development workflows and expose them as commands that can be executed in a company chat room. In doing so, you are unifying the communication about what work should get done with actual history of the work being done. Deploying code from chat, viewing graphs from a TSDB or logging tool, or creating new Jira tickets are all examples of tasks that can be done via ChatOps.
+ChatOps provides a new way of collaboration and work within your teams. Boiled down to its essence, ChatOps represents **conversation-driven development**. With ChatOps, it is possible to take operational and development workflows and expose them as commands that can be executed in a company chat room. In doing so, you are unifying the communication about what work should get done with actual history of the work being done. Deploying code from Chat, viewing graphs from a TSDB or logging tool, or creating new Jira tickets are all examples of tasks that can be done via ChatOps.
 
 Not only does ChatOps reduce the feedback loop of work output, it also empowers others to accomplish complex, self-service tasks that they otherwise would not be able to do. Combining ChatOps and |st2| is an ideal combination, where from Chat users will be able to execute actions and workflows to accelerate the IT delivery pipeline. In the same way, the ChatOps/|st2| combination also enhances user adoption of automation through transparency and consistent execution.
 
@@ -13,8 +13,8 @@ The end result is improved agility and enhanced trust between teams. What’s no
 .. rubric:: TL;DR
 
 
-You're busy. We get it! We have an :doc:`/install/all_in_one` that is designed to get you up and running very quickly! Using this tool, you can seemlsessly install and configure ChatOps for many Chat Services. Head to the :doc:`/install/all_in_one` section, get setup, and then head back here once you're all finished!
-
+You're busy. We get it! Head to the distribution-specific package based installation instructions - :doc:`/install/deb`, :doc:`/install/rhel6`, :doc:`/install/rhel7`.
+They tell you how to get the |st2| packages installed, and quickly get ChatOps installed and configured. Follow those, then head back here once you're all finished!
 
 
 .. rubric:: Resources

@@ -8,7 +8,8 @@ map trigger payload to action inputs.
 Rule Structure
 --------------
 
-Rules are defined in YAML; JSON is supported for backward compatibility. Rule definition structure, as well as required and optional elements are listed below:
+Rules are defined in YAML. Rule definition structure, as well as required and optional elements are
+listed below:
 
 .. code-block:: yaml
 
@@ -39,34 +40,32 @@ The generic form of a rule is:
 
 * The ``name`` of the rule.
 * The ``pack`` that the rule belongs to. `default` is assumed if a pack is not specified.
-* The ``description`` of the rule
-* The ``enabled`` state of a rule (``true`` or ``false``)
+* The ``description`` of the rule.
+* The ``enabled`` state of a rule (``true`` or ``false``).
 * The type of ``trigger`` emitted from sensors to monitor, which may consist of:
 
-  * parameters associated with a sensor/trigger
+  * parameters associated with a sensor/trigger.
 
 * An optional set of **criteria**, consisting of:
 
-  * An attribute of the trigger payload
-  * The ``type`` of criteria comparision
-  * The ``pattern`` to match against
+  * An attribute of the trigger payload.
+  * The ``type`` of criteria comparison.
+  * The ``pattern`` to match against.
 
 * The ``action`` to execute when a rule is matched, consisting of:
 
-  * The ``ref`` (action/workflow) to execute
+  * The ``ref`` (action/workflow) to execute.
   * An optional set of ``parameters`` to pass to the action execution.
-
 
 Trigger
 -------
 
 The trigger in a rule specifies which incoming events should be inspected for potential match against this rule.
-It is possible to view all the triggers configured on a system via the command line with the ``st2 trigger list``
-command
+View all the triggers configured on a system via the command line with the ``st2 trigger list`` command:
 
 .. code-block:: shell
 
-    vagrant@st2express:~$ st2 trigger list
+    vagrant@st2vagrant:~$ st2 trigger list
     +--------------------------------+-----------+---------------------------+---------------------------------------------------------------------------------+
     | ref                            | pack      | name                      | description                                                                     |
     +--------------------------------+-----------+---------------------------+---------------------------------------------------------------------------------+
@@ -97,7 +96,7 @@ To learn more about Sensors/Triggers, take a look at the :doc:`sensors` page.
 Criteria
 --------
 
-Rule criteria are the rule(s) needed to be matched against (Logical ``AND``). Criteria in the rule is expressed as:
+Rule criteria are the rule(s) needed to be matched against (logical ``AND``). Criteria in the rule is expressed as:
 
 .. code-block:: yaml
 
@@ -110,6 +109,11 @@ Rule criteria are the rule(s) needed to be matched against (Logical ``AND``). Cr
                 type: "iequals"
                 pattern : "watchevent"
 
+.. note::
+
+    You can achieve logical ``OR`` behavior (either one of multiple criteria expressions needs to
+    match for the action execution to be triggered) by creating multiple independent rules (one per
+    criteria expression).
 
 ``type`` specifies which criteria comparison operator to use and ``pattern`` specifies a pattern
 which gets passed to the operator function.
@@ -122,7 +126,7 @@ operator, you are welcome to code it up and submit a patch :)
 
 If the criteria key contains an special characters (like ``-``) then use the dictionary lookup format for specifying
 the criteria key. In case of a webhook based rule it is typical for the header of the posted event to
-contain such values e.g.
+contain such values e.g.:
 
 .. code-block:: yaml
 
@@ -132,7 +136,7 @@ contain such values e.g.
             pattern : "customvalue"
 
 The ``pattern`` value can also reference a datastore value using a Jinja
-variable access syntax as shown below.
+variable access syntax as shown below:
 
 .. code-block:: yaml
 
@@ -151,7 +155,7 @@ This section describes all the available operators which can be used in the crit
 
 .. note::
 
-    **For Developers:** The criteria comparision functions are defined in
+    **For Developers:** The criteria comparison functions are defined in
     :github_st2:`st2/st2common/st2common/operators.py </st2common/st2common/operators.py>`.
 
 ================= =================================================================
@@ -196,7 +200,7 @@ This section describes all the available operators which can be used in the crit
 ``timediff_lt``   Time difference between trigger value and current time is
                   less than the provided value.
 ``timediff_gt``   Time difference between trigger value and current time is
-                  greater than the provided value;
+                  greater than the provided value.
 ``exists``        Key exists in payload.
 ``nexists``       Key doesn't exist in payload.
 ================= =================================================================
@@ -221,7 +225,7 @@ Variable Interpolation
 ----------------------
 
 Occasionally, it will be necessary to pass along context of a trigger to an action when a rule is matched.
-The rules engine is able to interpolate variables by leveraging Jinja templating syntax `Jinja templating <http://jinja.pocoo.org/docs/dev/templates/>`__.
+The rules engine is able to interpolate variables by leveraging `Jinja templating syntax <http://jinja.pocoo.org/docs/dev/templates/>`__.
 
 .. code-block:: yaml
 
@@ -231,25 +235,46 @@ The rules engine is able to interpolate variables by leveraging Jinja templating
                 foo: "bar"
                 baz: "{{trigger.payload_parameter_1}}"
 
+.. note::
+
+    Value of trigger attribute can be ``null`` and ``None``. It is also a valid value of the action
+    parameter in question. You need to use the ``use_none`` Jinja template filter to make sure that
+    ``null`` / ``None`` values are correctly serialized when invoking an action.
+
+.. code-block:: yaml
+
+            action:
+                ref: "action_ref"
+                parameters:
+                    foo: "bar"
+                    baz: "{{trigger.payload_parameter_1|use_none}}"
+
+This workaround is required because of the limitation of our current templating system Jinja
+which doesn't support non-string types. We are forced to perform type casting based on the
+action parameters definition before invoking an action.
+
 
 Managing Rules
 --------------
 
 To deploy a rule, use CLI ``st2 rule create ${PATH_TO_RULE}`` command, To reload all the rules,
 use ``st2ctl reload --register-actions`` for example:
+=======
+To deploy a rule, use the CLI command: ``st2 rule create ${PATH_TO_RULE}``, for example:
+
 
 .. code-block:: bash
 
     st2 rule create /usr/share/doc/st2/examples/rules/sample_rule_with_webhook.yaml
 
-If the rule with the same name already exists, the above command will return an error:
+If a rule with the same name already exists, the above command will return an error:
 
 .. code-block:: bash
 
     ERROR: 409 Client Error: Conflict
     MESSAGE: Tried to save duplicate unique keys (E11000 duplicate key error index: st2.rule_d_b.$uid_1  dup key: { : "rule:examples:sample_rule_with_webhook" })
 
-To update the rule, edit the rule definition file and run ``st2 rule update`` command, as in the following example:
+To update the rule, edit the rule definition file and run the command: ``st2 rule update``, as in the following example:
 
 .. code-block:: bash
 
@@ -266,7 +291,7 @@ To see all the rules, or to get an individual rule, use commands below:
     st2 rule list
     st2 rule get examples.sample_rule_with_webhook
 
-To undeploy a rule, run ``st2 rule delete ${RULE_NAME_OR_ID}``. For example, to undeploy the examples.sample_rule_with_webhook rule we deployed previously, run:
+To undeploy a rule, run ``st2 rule delete ${RULE_NAME_OR_ID}``. For example, to undeploy the ``examples.sample_rule_with_webhook`` rule we deployed previously, run:
 
 .. code-block:: bash
 
@@ -276,9 +301,10 @@ To undeploy a rule, run ``st2 rule delete ${RULE_NAME_OR_ID}``. For example, to 
 Rule location
 -------------
 
-Custom rules must be placed in any accessible folder on local system. By convention, custom rules are placed in ``/opt/stackstorm/packs/default/rules`` directory.
-By default, |st2| doesn't load the rules deployed under ``/opt/stackstorm/packs/${pack_name}/rules/``. However you can force
-load them with ``st2 run packs.load register=rules`` or ``st2 run packs.load register=all``.
+Custom rules can be placed in any accessible folder on local system. By convention, custom rules are placed 
+in the ``/opt/stackstorm/packs/default/rules`` directory.  By default, |st2| doesn't load the rules 
+deployed under ``/opt/stackstorm/packs/${pack_name}/rules/``. However you can force load them with 
+``st2 run packs.load register=rules`` or ``st2 run packs.load register=all``.
 
 
 .. _testing-rules:
@@ -300,7 +326,7 @@ contains trigger instance definition:
 Both files need to contain definitions in YAML or JSON format. For the rule, you can use the same
 file you are planning to deploy.
 
-And for the trigger instance, the definition file needs contain the following keys:
+For the trigger instance, the definition file needs contain the following keys:
 
 * ``trigger`` - Full reference to the trigger (e.g. ``core.st2.IntervalTimer``,
   ``slack.message``, ``irc.pubmsg``, ``twitter.matched_tweet``, etc.).
@@ -313,7 +339,7 @@ If the trigger instance matches, ``=== RULE MATCHES ===`` will be printed and th
 with ``0`` status code. On the other hand, if the rule doesn't match,
 ``=== RULE DOES NOT MATCH ===`` will be printed and the tool will exit with ``1`` status code.
 
-Here are some examples on how to use the tool.
+Here are some examples of how to use the tool:
 
 my_rule.yaml:
 
@@ -407,8 +433,9 @@ Output:
 .. _ref-rule-tester-post-mortem-debug:
 
 ``st2-rule-tester`` further allows a kind of post-mortem debugging where you can answer the
-question ``Why did my rule not match the trigger that just fired?``. This means there is known ``Rule`` identifiable by its reference loaded in StackStorm and similarly a
-TriggerInstance with a known id.
+question ``Why did my rule not match the trigger that just fired?``. This means there is known 
+``Rule`` identifiable by its reference loaded in StackStorm and similarly a TriggerInstance 
+with a known id.
 
 Lets say we have rule reference `my_pack.fire_on_execution` and a trigger instance `566b4be632ed352a09cd347d`
 
@@ -432,42 +459,43 @@ Output:
     2015-12-11 15:24:16,546 INFO [-] === RULE DOES NOT MATCH ===
 
 
-The output also identifies source of the mismatch i.e. whether it was the trigger type that did not match or one of the criteria.
+The output also identifies the source of the mismatch i.e. whether it was the trigger type that 
+did not match or one of the criteria.
 
 If you are debugging and would like to see the list of trigger instances sent to |st2|,
-you can use the CLI to do so.
-
-..  code-block:: bash
-
-  st2 triggerinstance list
-
-You can also filter trigger instances by trigger.
+you can use the CLI to do so:
 
 .. code-block:: bash
 
-  st2 triggerinstance list --trigger=core.f9e09284-b2b1-4127-aedd-dcde7a752819
+  st2 trigger-instance list
+
+You can also filter trigger instances by trigger:
+
+.. code-block:: bash
+
+  st2 trigger-instance list --trigger=core.f9e09284-b2b1-4127-aedd-dcde7a752819
 
 
 Also, you can get trigger instances within a time range by using ``timestamp_gt`` and ``timestamp_lt`` filter
-options.
+options:
 
 .. code-block:: bash
 
-  st2 triggerinstance list --trigger="core.f9e09284-b2b1-4127-aedd-dcde7a752819" -timestamp_gt=2015-06-01T12:00:00Z -timestamp_lt=2015-06-02T12:00:00Z
+  st2 trigger-instance list --trigger="core.f9e09284-b2b1-4127-aedd-dcde7a752819" -timestamp_gt=2015-06-01T12:00:00Z -timestamp_lt=2015-06-02T12:00:00Z
 
 Note that you can also specify one of ``timestamp_lt`` or ``timestamp_gt`` too. You can
 get details about a trigger instance by using ``get``.
 
 .. code-block:: bash
 
-  st2 triggerinstance get 556e135232ed35569ff23238
+  st2 trigger-instance get 556e135232ed35569ff23238
 
 Something that might be useful in debugging a rule is to re-send a trigger instance into |st2|. You
 can use the ``re-emit`` command for that.
 
 .. code-block:: bash
 
-  st2 triggerinstance re-emit 556e135232ed35569ff23238
+  st2 trigger-instance re-emit 556e135232ed35569ff23238
 
 .. _ref-rule-timers:
 
@@ -480,9 +508,9 @@ flexibility, e.g. ability to run actions only once, at the provided date and tim
 
 Currently, we support the following timer trigger types:
 
-* ``core.st2.IntervalTimer`` - Run an action on predefined time intervals (e.g. every
+* ``core.st2.IntervalTimer`` - Run an action at predefined time intervals (e.g. every
   30 seconds, every 24 hours, every week, etc.).
-* ``core.st2.DateTimer`` - Run an action on the specified date and time.
+* ``core.st2.DateTimer`` - Run an action at the specified date and time.
 * ``core.st2.CronTimer`` - Run an action when current time matches the time constraint
   defined in UNIX cron format.
 
@@ -578,6 +606,13 @@ http://apscheduler.readthedocs.org/en/3.0/modules/triggers/cron.html#api.
 By default, if no value is provided for a particular parameter, ``*`` is assumed, which means
 fire on every value.
 
+.. note::
+
+    Unlike with cron where first day (``0``) in ``day_of_week`` is a Sunday, in |st2| CronTimer
+    first day of the week is always Monday. To make it more explicit and avoid confusion, you are
+    encouraged to use name of the weekdays instead (e.g. ``mon-fri`` instead of ``0-4``, or in
+    cron case, ``1-5``).
+
 Available parameter ``timezone``, ``year``, ``month``, ``day``, ``week``, ``day_of_week``,
 ``hour``, ``minute``, ``second``.
 
@@ -593,7 +628,7 @@ Run action every Sunday at midnight
     type: "core.st2.CronTimer"
     parameters:
         timezone: "UTC"
-        day_of_week: 6
+        day_of_week: 6 # or day_of_week: "sun"
         hour: 0
         minute: 0
         second: 0
@@ -652,7 +687,7 @@ Run action Monday through Friday (every day except weekends) at midnight
     type: "core.st2.CronTimer"
     parameters:
         timezone: "UTC"
-        day_of_week: "0-4"
+        day_of_week: "mon-fri"
         hour: 0
         minute: 0
         second: 0

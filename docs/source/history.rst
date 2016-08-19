@@ -1,14 +1,14 @@
 History and Audit
 =================
 
-These are records maintained by |st2| of past action executions.  These records include information about what events triggered what rules and then what actions; common uses for this information includes root cause analysis reporting as well as operational control as well as collaboration.
+These are records maintained by |st2| of past action executions.  These records include information about what events triggered what rules and then what actions. Common uses for this information includes root cause analysis reporting, operational control, and collaboration.
 
-This information is stored in two forms
+This information is stored in two forms:
 
 * Database (accessible via CLI)
 * Audit log (/var/log/st2/st2*.audit.log)
 
-There are a couple of options to access history and audit records.
+There are two options to access history and audit records:
 
 CLI
 ---
@@ -50,10 +50,10 @@ All execution records are accessible by the ``st2 execution *`` command family.
 
 Use ``st2 execution list -h`` and ``st2 execution get -h`` to explore options available with each of these commands.
 
-Owing to the fact that execution history can contain many records a command like ``st2 execution list --action ${action_reference} -n 10`` is particularly useful, it provides the last 10 execution of a specified action.
+The execution history can contain many records. Limiting output using ``st2 execution list --action ${action_reference} -n 10`` is particularly useful. It provides the last 10 executions of a specified action.
 
 You can also filter executions by timestamps. For example, to get all executions between dates
-``2015-07-05T12:00:00.000000Z`` and ``2015-07-06T12:00:00.000000Z``, you can use the following command.
+``2015-07-05T12:00:00.000000Z`` and ``2015-07-06T12:00:00.000000Z``, you can use the following command:
 
 .. code-block:: bash
 
@@ -74,15 +74,15 @@ You can also filter executions by timestamps. For example, to get all executions
     |                          | ge               |              |           | 11:37:55 UTC     | 11:37:56 UTC     |
     +--------------------------+------------------+--------------+-----------+------------------+------------------+
 
-Note that the ``timestamp values need to be quoted`` so it is interpreted as a complete string
-by the shell. Otherwise, timestamps would be misinterpreted and might show undesired results.
+Note that the **timestamp values need to be quoted** so it is interpreted as a complete string
+by the shell. Otherwise, timestamps could be misinterpreted and might show undesired results.
 
 Logstash
 --------
 
-The audit logs are a lot more comprehensive in the information they contain. It is useful to view these in a tool like LogStash which provides excellent search, sort and aggregation features.
+The audit logs are a lot more comprehensive in the information they contain. It is useful to view these in a tool like LogStash, which provides excellent search, sort and aggregation features.
 
-Check out LogStash configuration and Kibana dashboard for pretty logging and audit at :github_contrib:`st2contrib/extra/logstash </extra/logstash>`
+Check out the LogStash configuration and Kibana dashboard for pretty logging and audit at :github_contrib:`st2contrib/extra/logstash </extra/logstash>`
 
 
 Coming soon

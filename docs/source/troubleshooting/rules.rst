@@ -76,6 +76,26 @@ You can also filter trigger instances by timestamp using timestamp-lt and timest
 
     st2 trigger-instance list --trigger=test_pack.test_trigger --timestamp-lt="2015-12-04T12:00:01.000000Z" --timestamp-gt="2015-12-03T12:00:01.000000Z"
 
+It is possible that a trigger-instance is present in the list but it does not have a status ``processed``. This
+will also tell you that the RulesEngine tried to process the TriggerInstance but failed. Other possible states
+are ``processing`` and ``pending``.
+
+::
+
+    $ st2 trigger-instance get 57228f31d9d7ed0becb34e06
+    +-----------------+---------------------------------------------------------+
+    | Property        | Value                                                   |
+    +-----------------+---------------------------------------------------------+
+    | id              | 57228f31d9d7ed0becb34e06                                |
+    | trigger         | test_pack.test_trigger                                  |
+    | occurrence_time | 2016-04-28T22:31:13.913000Z                             |
+    | payload         | {                                                       |
+    |                 |     "executed_at": "2016-04-28 22:31:13.910217+00:00",  |
+    |                 |     "schedule": null                                    |
+    |                 | }                                                       |
+    | status          | processing_failed                                       |
+    +-----------------+---------------------------------------------------------+
+
 If you don't see any trigger instances for your trigger, then check sensor container logs.
 You can check the sensor container service log
 (``/var/log/st2/st2sensorcontainer.*.log``) to see if triggers are emitted.

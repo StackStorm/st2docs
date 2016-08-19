@@ -1,8 +1,114 @@
+.. _upgrade_notes:
+
 Upgrade Notes
 =============
 
-|st2| In Development
---------------------
+|st2| v1.6
+----------
+
+* Python runner actions can now return execution status (success, failure) by returning a tuple 
+  from the Python action class ``run()`` method. First item in this tuple is a boolean flag
+  indicating a success and the second one is the result. For example:
+
+  .. code-block:: python
+
+    def run(self):
+        # 
+        # Code to do something awesome
+        # 
+        if something_awesome_working == True
+            return (True, result)  #  Succeeded is True and the result from action on success
+        return (False, result)  #  Succeeded is False and the result from action on failure
+
+
+  This allows users to also return a result from a failing action. This result can then be used in
+  workflows, etc. Previously this was not possible since the only way for action to be considered
+  as failed was to throw an exception or exit with a non-zero exit code.
+
+  **Note:**  This change is fully backward compatible unless you have an existing action which
+  returns a tuple with two items.
+
+  For existing actions which don't return a status flag, same rules apply as before - action is
+  considered as succeeded unless it throws an exception or exits with a non-zero exit code.
+
+  If you have an existing action which returns a tuple with two items such as the one shown in the
+  example below, you have two options.
+
+  .. code-block:: python
+
+    def run(self):
+        result = ('item1', 'item2')
+        return result
+
+1. Update action to return a list instead of a tuple.
+
+   .. code-block:: python
+
+    def run(self):
+        result = ('item1', 'item2')
+        return list(result)
+
+   or
+
+   .. code-block:: python
+
+    def run(self):
+        result = ['item1', 'item2']
+        return result
+
+2. Update action to also return a status.
+
+   .. code-block:: python
+
+    def run(self):
+        result = ('item1', 'item2')
+        return (True, result)
+
+|st2| v1.5
+----------
+
+* Old and deprecated Fabric based remote runner has been removed. This means
+  ``ssh_runner.use_paramiko_ssh_runner`` config option is now obsolete and has no affect.
+* Underscore (``_``) prefix has been removed from the ``sensor_service`` and ``config`` variable
+  available on the ``Sensor`` and ``PollingSensor`` class. Those variables are now available via
+  ``self.sensor_service`` and ``self.config`` respectively.
+
+  For backward compatibility reasons and ease of migration, old approach will still work for the
+  foreseeable future, but you are encouraged to upgrade your sensors to use the new way of
+  referencing those variables.
+* Support for loading content (sensors, actions and rules) from ``.json`` files has been removed.
+  Support for JSON has been deprecated a long time ago and now the only support format is YAML
+  files with ``.yaml`` extension).
+
+  If you want to directly save content which you retrieve from the API using CLI on disk, you can
+  now use ``--yaml`` flag which available to the ``list`` and ``get`` CLI commands (e.g.
+  ``st2 rule get <rule ref> --yaml > packs/<my pack>/my_rule.yaml``).
+
+* Pack config files which are located inside the pack directory (``config.yaml``) have been
+  deprecated in favor of the new pack configuration v2. This new configuration approach offers more
+  flexibility. In addition to that, those new config files are located outside the pack directory,
+  in the ``/opt/stackstorm/configs/`` directory. This makes it easier to follow an infrastructure as code
+  approach. Updating packs is also easier since |st2| user doesn't need to directly manipulate
+  pack content anymore.
+
+  For more information about the new pack configuration, please see :doc:`/pack_configs`.
+
+* New ``log`` attribute has been added to the action execution object. This attribute is a list
+  and contains all the state (status) transitions for executions (e.g. requested -> scheduled
+  -> running -> complete, etc.).
+
+  Keep in mind that this attribute will only be populated for new execution objects (ones which
+  have been created after the upgrade to v1.5).
+
+* Datastore data model has changed as of v1.5. We've introduced the notion of ``scope`` and
+  ``secret``. See :ref:`Scoping items in datastore<datastore-scopes-in-key-value-store>` and
+  :ref:`storing secrets in datastore<datastore-storing-secrets-in-key-value-store>` for details.
+
+  A migration tool is provided (``/opt/stackstorm/st2/bin/st2-migrate-datastore-to-include-scope-secret.py``) if you are
+  upgrading from older versions.
+
+|st2| v1.4
+----------
 
 * ``matchregex`` rule criteria operator has been updated so now the dot character (``.``) also
   matches a new line. This makes the existing criteria patterns which use dot character more greedy.
@@ -35,14 +141,14 @@ Upgrade Notes
   The LDAP auth backend supports other login name such as sAMAccountName. This requires a separate
   service account for the LDAP backend to query for the DN related to the login name for bind to
   validate the user password. Also, users must be in one or more groups specified in group_dns to
-  be granted access. 
+  be granted access.
 
 * Mistral has deprecated the use of task name (i.e. ``$.task1``) to reference task result. It is
   replaced with a ``task`` function that returns attributes of the task such as id, state, result,
   and additional information (i.e. ``task(task1).result``).
 
-|st2| 1.3
----------
+|st2| v1.3
+----------
 
 
 * New ``abandoned`` action execution status has been introduced. State is applied to action execution
@@ -51,8 +157,8 @@ Upgrade Notes
   failure state any code that checks for an action failure should be updated to check for ``abandoned``
   state in addition to ``failed`` and ``timeout``.
 
-|st2| 1.2
----------
+|st2| v1.2
+----------
 
 * Refactor retries in the Mistral action runner to use exponential backoff. Configuration options
   for Mistral have changed. The options ``max_attempts`` and ``retry_wait`` are deprecated. Please
@@ -116,8 +222,8 @@ To upgrade a pre-1.2.0 StackStorm instance provisioned with the :doc:`install/al
 
 To verify the upgrade, please follow the link to run the :doc:`self-verification script <troubleshooting/self_verification>`.
 
-|st2| 1.1
----------
+|st2| v1.1
+----------
 
 Migrating to v1
 ~~~~~~~~~~~~~~~
@@ -156,9 +262,8 @@ Changes
   The old reference style will be fully deprecated in the next major release of Mistral, the
   OpenStack Mitaka release cycle.
 
-
-|st2| 0.11
--------------
+|st2| v 0.11
+------------
 
 * Rules now have to be part of a pack. If you don't specify a pack,
   pack name is assumed to be `default`. A migration script
@@ -166,8 +271,8 @@ Changes
   on installation. The migration script
   is run as part of st2_deploy.sh when you upgrade from versions < 0.9 to 0.11.
 
-|st2| 0.9
----------
+|st2| v0.9
+----------
 
 * Process names for all |st2| services now start with "st2". sensor_container now runs as
   st2sensorcontainer, rules_engine runs as st2rulesengine, actionrunner now runs as

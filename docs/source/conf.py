@@ -64,7 +64,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'StackStorm'
-copyright = u'2014, StackStorm Inc'
+copyright = u'2016, StackStorm Inc'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -76,7 +76,7 @@ version = '.'.join(__version__.split('.')[:2])
 # The full version, including alpha/beta/rc tags.
 release = __version__
 # The complete list of current StackStorm versions.
-release_versions = ['1.3', '1.2', '1.1', '0.13', '0.12', '0.11', '0.9', '0.8']
+release_versions = ['1.6', '1.5', '1.4', '1.3', '1.2', '1.1', '0.13', '0.12', '0.11', '0.9', '0.8']
 
 
 def previous_version(ver):
@@ -96,12 +96,12 @@ version_minus_2 = previous_version(version_minus_1)
 
 # extlink configurator sphinx.ext.extlinks
 extlinks = {
-    'github_st2': ('https://github.com/StackStorm/st2/blob/master/%s', None),
-    'github_mistral': ('https://github.com/StackStorm/mistral/blob/master/%s', None),
+    'github_st2': ('https://github.com/StackStorm/st2/tree/master/%s', None),
+    'github_mistral': ('https://github.com/StackStorm/mistral/tree/master/%s', None),
     'github_contrib':
-        ('https://github.com/StackStorm/st2contrib/blob/master/%s', None),
-    'github_devenv': ('https://github.com/StackStorm/devenv/blob/master/%s', None),
-    'github_st2web': ('https://github.com/StackStorm/st2web/blob/master/%s', None),
+        ('https://github.com/StackStorm/st2contrib/tree/master/%s', None),
+    'github_devenv': ('https://github.com/StackStorm/devenv/tree/master/%s', None),
+    'github_st2web': ('https://github.com/StackStorm/st2web/tree/master/%s', None),
     'ops_latest':
         ('https://downloads.stackstorm.net/releases/st2/' + release + '/%s/', None)
 }

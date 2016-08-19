@@ -1,11 +1,11 @@
 Packs
 =====
 
-Installing packs from st2incubator or st2contrib via ChatOPS
+Installing packs from st2incubator or st2contrib via ChatOps
 ------------------------------------------------------------
 
-When you have the bot listening for ChatOPS commands in a channel installing extra packs 
-can be done by running a single command 
+When you have the bot listening for ChatOps commands in a channel, installing extra packs 
+can be done by running a single command:
 
 .. code-block:: bash
 
@@ -14,8 +14,8 @@ can be done by running a single command
     @my_user: Successful deployment of *elasticsearch* *travis_ci* !
     > from https://github.com/StackStorm/st2contrib.git (branch: _master_).
 
-If you're adventurous and wish to install and then help develop a pack that's
-currently in st2incubator you can install one with the following command in ChatOPS:
+If you're adventurous and wish to install and help develop a pack that's
+currently in st2incubator you can install one with the following command:
 
 .. code-block:: bash
 
@@ -30,10 +30,10 @@ The command takes the following very simple format:
  
     ! pack deploy {{repo_name}} {{packs}} {{branch=master}} - Download StackStorm packs via ChatOps
 
-Deploying Custom packs via ChatOPS
+Deploying Custom packs via ChatOps
 ----------------------------------
 
-The same commands can be used to install your own packs just by adding an entry to `/opt/stackstorm/packs/packs/config.yaml` in the following format.
+The same commands can be used to install your own packs just by adding an entry to `/opt/stackstorm/packs/packs/config.yaml` in the following format:
 
 .. code-block:: yaml
 
@@ -43,11 +43,11 @@ The same commands can be used to install your own packs just by adding an entry 
       repo: "https://github.com/<my-GitHub-user>/my-st2.git"
       subtree: true
 
-This will allow you to install a pack via 
+This will allow you to install a pack via:
 
 .. code-block:: bash
 
-    ! pack deploy NameOfRep MyAwsomePack
+    ! pack deploy NameOfRep MyAwesomePack
 
 If you don't have multiple packs within the same repository under a `packs` directory, just set `subtree` to `false` and issue the following command:
 
@@ -73,7 +73,7 @@ repository which has has `subtree` set to `false` by adding an `auto_deployment`
            notify_channel: "my-chatops-channel"
 
 Then you need a rule (or a sensor) that will trigger the `packs.deploy` action with the right 
-parameters. The following is based on an Post commit hook from BitBucket Server:
+parameters. The following is based on an post-commit hook from BitBucket Server:
 
 .. code-block:: yaml
 

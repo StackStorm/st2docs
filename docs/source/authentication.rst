@@ -2,9 +2,8 @@ Authentication
 ==============
 
 |st2| includes an auth service that is responsible for handling user authentication and generating
-time limited access tokens. When authentication mode is enabled (default for all-in-one installer
-and package based installations), those access tokens are used to authenticate against the |st2|
-REST APIs.
+time limited access tokens. When authentication mode is enabled (default), those access tokens are
+used to authenticate against the |st2| REST APIs.
 
 .. figure:: /_static/images/st2auth_standalone_mode.png
     :align: center
@@ -12,7 +11,7 @@ REST APIs.
 Configuring the Service
 -----------------------
 
-By default, the |st2| configuration file is located at /etc/st2/st2.conf. The available settings
+By default, the |st2| configuration file is located at ``/etc/st2/st2.conf``. The available settings
 listed below are configured under the ``auth`` section in the configuration file. The service can
 be configured with different backends (i.e. PAM, LDAP, etc.) to handle the authentication. If
 backend is not specified, a htpasswd compatible flat file authentication backend is used. It is
@@ -53,19 +52,18 @@ Auth Backends
 -------------
 The service can be configured with different backends (i.e. PAM, LDAP, etc.) to handle the
 authentication. If backend is not specified, a htpasswd compatible flat file authentication
-backend is used. The all-in-one installer and packages download and configure PAM by default. To
-use a different backend, select and install the appropriate python package from the |st2|
-`community repos <https://github.com/StackStorm?utf8=✓&query=st2-auth>`_ and configure st2auth
-accordingly. For example, to install the package for the PAM backend manually, run the following
-command on the same server where st2auth is running.
+backend is used. To use a different backend, select and install the appropriate python package
+from the |st2| `community repos <https://github.com/StackStorm?utf8=✓&query=st2-auth>`_ and
+configure st2auth accordingly. For example, to install the package for the PAM backend manually,
+run the following command on the same server where st2auth is running.
 
 .. sourcecode:: bash
 
     pip install git+https://github.com/StackStorm/st2-auth-backend-pam.git@master#egg=st2_auth_backend_pam
 
-After the backend is installed, configure the backend at /etc/st2/st2.conf, and restart |st2|.
+After the backend is installed, configure the backend at ``/etc/st2/st2.conf``, and restart |st2|.
 Specific configuration details for the backend can be found in the README at the corresponding
-repo. The following is a sample auth section in the config file for the PAM backend.
+repo. The following is a sample auth section in the config file for the PAM backend:
 
 .. sourcecode:: ini
 
@@ -80,7 +78,7 @@ repo. The following is a sample auth section in the config file for the PAM back
     api_url = https://myhost.examples.com/api/
     debug = False
 
-The following is a list of auth backends for the community edition to help get things started.
+The following is a list of auth backends for the community edition to help get things started:
 
 * `PAM <https://github.com/StackStorm/st2-auth-backend-pam>`_
 * `Flat File <https://github.com/StackStorm/st2-auth-backend-flat-file>`_
@@ -88,15 +86,15 @@ The following is a list of auth backends for the community edition to help get t
 
 LDAP (Enterprise Edition)
 -------------------------
-StackStorm developed auth backends such as LDAP are only available in the enterprise edition. For
-more information on the enterprise edition, please visit https://stackstorm.com/product/#enterprise.
-The auth backends included with the enterprise edition are developed, tested, maintained, and
-supported by the StackStorm team.
+|st2|-developed auth backends such as LDAP are only available in the Enterprise edition. For
+more information on the Enterprise edition, please visit https://stackstorm.com/product/#enterprise.
+The auth backends included with the Enterprise edition are developed, tested, maintained, and
+supported by the |st2| team.
 
 LDAP
 ^^^^
-The LDAP backend authenticates user against an LDAP server. The following is a list of
-configuration options for the backend.
+The LDAP backend authenticates the user against an LDAP server. The following is a list of
+configuration options for the backend:
 
 +---------------+----------+---------+------------------------------------------------------------+
 | option        | required | default | description                                                |
@@ -124,7 +122,7 @@ configuration options for the backend.
 | scope         | no       | subtree | Search scope (base, onelevel, or subtree)                  |
 +---------------+----------+---------+------------------------------------------------------------+
 
-The following is a sample auth section for the LDAP backend in the st2 config file.
+The following is a sample auth section for the LDAP backend in the st2 config file:
 
 .. sourcecode:: ini
 
@@ -142,7 +140,7 @@ The following is a sample auth section for the LDAP backend in the st2 config fi
 
 Running the Service
 -------------------
-The all-in-one installer sets up st2auth to run as a service. The service is setup to run under
+The installer sets up st2auth to run as a service. The service is setup to run under
 nginx with uwsgi. Alternate configuration with gunicorn or apache is also possible using wsgi.py
 under st2auth but we leave as an exercise for the reader.
 
@@ -188,8 +186,8 @@ Run the following curl commands to test.
 Usage
 -----
 
-Once st2auth is setup, API calls require token to be passed via the headers and the CLI calls
-require the token to be included as a CLI argument or be provided as an environment variable.
+Once st2auth is setup, API calls require the token to be passed via the headers. CLI calls
+require the token to be included as a CLI argument or as an environment variable.
 
 .. include:: __auth_usage.rst
 
@@ -199,7 +197,7 @@ API Keys
 --------
 
 |st2| also supports API keys which differ from tokens in the sense that they do not expire and are
-therefore suited to be use with integrations like webhooks etc.
+therefore suited for use with integrations like webhooks etc.
 
 All API key management is currently available via the |st2| CLI.
 
@@ -212,10 +210,10 @@ To create an API key -
 
 .. note::
 
-    For security purposes the <API_KEY_VALUE> is only show at create time. |st2| itself does not
+    For security purposes the <API_KEY_VALUE> is only shown at create time. |st2| itself does not
     store this API Key value in its database, only a one-way hash is stored. It is not possible to
     retrieve an API Key after creation. If the API Key is lost or not recorded at the time of
-    creation it is best to delete the API Key and create a new one.
+    creation, delete the API Key and create a new one.
 
 The optional ``-m`` attribute allows metadata to be associated with the created key. It is good
 practice to assign a meaningful value like the external service which uses this key to authenticate
@@ -236,6 +234,28 @@ The following are sample API calls via curl using API Keys. ::
     curl -H "St2-Api-Key: <API-KEY-VALUE>" https://myhost.example.com/api/v1/actions
 
     curl https://myhost.example.com/api/v1/actions?st2-api-key=<API-KEY-VALUE>
+
+API key migration
+^^^^^^^^^^^^^^^^^
+
+API keys can be migrated from one |st2| instance to another. This way external services that have already
+been configuered with API Keys do not need to be updated with a new set of keys. Follow these steps to migrate -
+
+On old |st2| instance run the following command to save API keys into a file. Note that secrets are masked based
+on configuration setting. If masking is enabled an admin can on a per call basis disable the masking without having
+to make config changes. See :ref:`mask-secrets` to see how to disable masking on a system wide basis.
+
+.. sourcecode:: bash
+
+    st2 apikey list -dy --show-secrets > apikeys.yaml
+
+
+On new |st2| instance load API keys from the file.
+
+.. sourcecode:: bash
+
+    st2 apikey load apikeys.yaml
+
 
 Sending authentication token or API key to the API
 --------------------------------------------------
@@ -269,5 +289,3 @@ Providing it as a query parameter:
 
     curl "https://myhost.example.com/api/v1/actions?x-auth-token=<auth token value>"
     curl "https://myhost.example.com/api/v1/actions?st2-api-key=<api key value>"
-
-.. _htpasswd: https://httpd.apache.org/docs/2.2/programs/htpasswd.html
