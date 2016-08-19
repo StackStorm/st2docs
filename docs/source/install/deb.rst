@@ -122,7 +122,7 @@ Start Services
 
     sudo st2ctl reload
 
-=======
+
 .. include:: common/start_services.rst
 
 
