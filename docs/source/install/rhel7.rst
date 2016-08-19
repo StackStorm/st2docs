@@ -164,7 +164,7 @@ Start Services
 * Register sensors, rules and actions ::
 
     st2ctl reload
-=======
+
 .. include:: common/start_services.rst
 
 

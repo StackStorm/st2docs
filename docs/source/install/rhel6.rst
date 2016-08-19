@@ -197,8 +197,6 @@ Start Services
 
     st2ctl reload
 
-=======
-
 .. include:: common/start_services.rst
 
 Verify
