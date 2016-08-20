@@ -88,16 +88,29 @@ livedocs: docs .livedocs
 	@echo
 
 .PHONY: bwcdocs
-bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .bwcdocs .enterprise-docs
+bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .patch-solutions .enterprise-docs .git-checkout-local-changes
 
 .PHONY: .bwcdocs
-.bwcdocs:
+.bwcdocs: .patch-solutions .enterprise-docs .git-checkout-local-changes
+
+.PHONY: .patch-solutions
+.patch-solutions:
 	@echo
 	@echo "=========================================================="
 	@echo "                     PATCHING BWC DOCS"
 	@echo "=========================================================="
 	@echo
 	cp -R ipfabric/docs/source/* docs/source/
+
+.PHONY: .git-checkout-local-changes
+.git-checkout-local-changes:
+	@echo
+	@echo "=========================================================="
+	@echo "                     PATCHING BWC DOCS"
+	@echo "=========================================================="
+	@echo
+	git checkout docs/source/info.py
+	git checkout docs/source/_includes/solutions.rst
 
 .PHONY: bwclivedocs
 bwclivedocs: bwcdocs .livedocs
