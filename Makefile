@@ -106,7 +106,7 @@ bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .patch-soluti
 .git-checkout-local-changes:
 	@echo
 	@echo "=========================================================="
-	@echo "                     PATCHING BWC DOCS"
+	@echo "                     UNPATCHING BWC DOCS"
 	@echo "=========================================================="
 	@echo
 	git checkout docs/source/info.py
