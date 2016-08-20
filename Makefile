@@ -88,7 +88,7 @@ livedocs: docs .livedocs
 	@echo
 
 .PHONY: bwcdocs
-bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .bwcdocs .docs
+bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .bwcdocs .enterprise-docs
 
 .PHONY: .bwcdocs
 .bwcdocs:
