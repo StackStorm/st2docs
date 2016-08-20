@@ -139,7 +139,7 @@ That's it. You have learned to run |st2|'s actions. Let's stitch together other 
 Define a Rule
 -------------
 
-|st2| uses rules to fire actions or workflows when events happen. Events are typically monitored 
+|st2| uses rules to fire actions or workflows when events happen. Events are typically monitored
 by sensors. When a sensor catches an event, it fires a trigger. Trigger trips the rule, the rule
 checks the criteria and if it matches, it runs an action. Easy enough. Let’s look at an example.
 
@@ -269,4 +269,4 @@ For more information on datastore, check :doc:`datastore`
 * Use workflows to stitch actions into higher level automations - :doc:`/workflows`.
 * Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with StackStorm.
 
-.. include:: __engage.rst
+.. include:: __engage_community.rst

@@ -64,4 +64,4 @@ See :doc:`/changelog` for details on what is done.
 * **Plugin isolation and management:** Improved managements of sensors, action runners and provide isolated environments.
 * **Reliability:** improvements on sensor and action isolation and reliability
 
-.. include:: __engage.rst
+.. include:: __engage_community.rst

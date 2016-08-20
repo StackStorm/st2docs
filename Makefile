@@ -9,6 +9,9 @@ SPHINXBUILD := sphinx-build
 DOC_SOURCE_DIR := docs/source
 DOC_BUILD_DIR := docs/build
 
+COMMUNITY_TAG := community
+ENTERPRISE_TAG := enterprise
+
 BINARIES := bin
 
 # All components are prefixed by st2
@@ -42,16 +45,32 @@ all: requirements check tests docs
 .PHONY: docs
 docs: .clone-st2 requirements .requirements-st2 .docs
 
-.PHONY: .docs
-.docs:
+PHONY: .docs
+.docs: .community-docs
+
+.PHONY: .community-docs
+.community-docs:
 	@echo
-	@echo "==================== docs ===================="
+	@echo "==================== COMMUNITY DOCS ===================="
 	@echo
 	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-runner-parameters-documentation.py
 	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-internal-triggers-table.py
 	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-available-permission-types-table.py
 	@echo
-	. $(VIRTUALENV_DIR)/bin/activate; $(SPHINXBUILD) -W -b html $(DOC_SOURCE_DIR) $(DOC_BUILD_DIR)/html
+	. $(VIRTUALENV_DIR)/bin/activate; $(SPHINXBUILD) -t $(COMMUNITY_TAG) -W -b html $(DOC_SOURCE_DIR) $(DOC_BUILD_DIR)/html
+	@echo
+	@echo "Build finished. The HTML pages are in $(DOC_BUILD_DIR)/html."
+
+.PHONY: .enterprise-docs
+.enterprise-docs:
+	@echo
+	@echo "==================== ENTERPRISE DOCS ===================="
+	@echo
+	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-runner-parameters-documentation.py
+	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-internal-triggers-table.py
+	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-available-permission-types-table.py
+	@echo
+	. $(VIRTUALENV_DIR)/bin/activate; $(SPHINXBUILD) -t $(ENTERPRISE_TAG) -W -b html $(DOC_SOURCE_DIR) $(DOC_BUILD_DIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(DOC_BUILD_DIR)/html."
 
@@ -69,16 +88,29 @@ livedocs: docs .livedocs
 	@echo
 
 .PHONY: bwcdocs
-bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .bwcdocs .docs
+bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .patch-solutions .enterprise-docs .git-checkout-local-changes
 
 .PHONY: .bwcdocs
-.bwcdocs:
+.bwcdocs: .patch-solutions .enterprise-docs .git-checkout-local-changes
+
+.PHONY: .patch-solutions
+.patch-solutions:
 	@echo
 	@echo "=========================================================="
 	@echo "                     PATCHING BWC DOCS"
 	@echo "=========================================================="
 	@echo
 	cp -R ipfabric/docs/source/* docs/source/
+
+.PHONY: .git-checkout-local-changes
+.git-checkout-local-changes:
+	@echo
+	@echo "=========================================================="
+	@echo "                     UNPATCHING BWC DOCS"
+	@echo "=========================================================="
+	@echo
+	git checkout docs/source/info.py
+	git checkout docs/source/_includes/solutions.rst
 
 .PHONY: bwclivedocs
 bwclivedocs: bwcdocs .livedocs

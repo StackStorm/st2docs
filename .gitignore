@@ -7,3 +7,11 @@ build
 *~
 \#*\#
 *.swp
+ipfabric/
+docs/source/solutions/ipfabric/
+docs/source/_static/images/3_clos_topology.jpg
+docs/source/_static/images/bwc_components.jpg
+docs/source/_static/images/ipfabric_topology.jpg
+docs/source/_static/images/ztp_topology.jpg
+docs/source/_static/images/ztp_usecase_1.jpg
+docs/source/_static/images/ztp_usecase_2.jpg
