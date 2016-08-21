@@ -208,9 +208,11 @@ To make sure only ``st2`` and root can access the file on the box, run
 
 .. code-block:: bash
 
-    sudo usermod -a -G st2 st2                       # Add user ``st2`` to ``st2`` group
-    sudo chgrp st2 /etc/st2/keys/datastore_key.json  # Give group ``st2`` ownership for key
-    sudo chmod o-r /etc/st2/keys/datastore_key.json  # Revoke read access for others
+    sudo usermod -a -G st2 st2                              # Add user ``st2`` to ``st2`` group
+    sudo mkdir -p /etc/st2/keys/
+    sudo chown -R st2:st2 /etc/st2/keys/                    # Give user and group ``st2`` ownership for key
+    sudo chmod o-r /etc/st2/keys/                           # Revoke read access for others
+    sudo chmod o-r /etc/st2/keys/datastore_key.json         # Revoke read access for others
 
 Once the key is generated, |st2| needs to be made aware of the key. To do this, edit st2
 configuration file (usually /etc/st2/st2.conf) and add the following lines:

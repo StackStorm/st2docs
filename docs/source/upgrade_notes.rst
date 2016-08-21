@@ -2,6 +2,10 @@
 
 Upgrade Notes
 =============
+|st2| v1.6.1
+------------
+
+* st2ctl reload now also reloads all the actions. Prior to this release we used to register actions, aliases, sensors, triggers and configs. We now also register sensors.
 
 |st2| v1.6
 ----------

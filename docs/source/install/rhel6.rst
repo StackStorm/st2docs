@@ -189,6 +189,14 @@ testing.
 Start Services
 ~~~~~~~~~~~~~~
 
+* Start services ::
+
+    sudo st2ctl start
+
+* Register sensors, rules and actions ::
+
+    st2ctl reload
+
 .. include:: common/start_services.rst
 
 Verify

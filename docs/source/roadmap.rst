@@ -25,6 +25,71 @@ Roadmap
 
 Is there some other feature you're desperately missing? Submit an `issue <https://github.com/StackStorm/st2docs/issues>`_!
 
+Release History
+===============
+
+.. rubric:: Done in v1.6
+
+* **MongoDB:** MongoDB 3.x support
+* **Datastore:** Access K/V datastore from the Mistral workflows
+
+.. rubric:: Done in v1.5
+
+* **Pack configuration:** Configuration separated from the pack code
+* **Datastore:** Key/value datastore secrets
+
+.. rubric:: Done in v1.4
+
+* **Packaging:** Deprecation of All-in-One Installer
+* **Packaging:** Native deb/rpm packages with bundled python dependencies
+* **ChatOps:** ChatOps API support for Slack/Hipchat providers
+
+.. rubric:: Done in v1.3
+
+* **Workflows:** ``st2 re-run`` - resume failed workflows
+* **Scale:** Garbage collection service
+
+.. rubric:: Done in v1.2
+
+* **Packs:** Pack Testing support
+* **ChatOps:** Fully reworked ChatOps with Jinja templating
+* **Policies:** Timeout and retry policies
+
+.. rubric:: Done in v1.1
+
+* **FLOW:** Visual workflow representation and drag-and-drop workflow designer.
+* **RBAC:** Role based access control for packs, actions, triggers and rules.
+* **Pluggable auth backends** including PAM, Keystone, Enterprise LDAP.
+* **All-in-one installer**: production ready single-box reference deployment with graphical setup wizard.
+* **RHEL 6 and 7 support**
+* **Trace-tags**: ability to track a complete chain of triggers, rules, executions, related to a given triggering event.
+* **Native SSH:** replace Fabric; Fabric based SSH still available and can be enabled via config.
+* **WebUI major face-lift**
+
+
+.. rubric:: Done in v0.11
+
+* **ChatOps:** two-way chat integration beyond imagination.
+* **More integration packs**: Major integrations - Salt, Ansible, some significant others. `Check the full list <https://github.com/StackStorm/st2contrib/tree/master/packs>`_.
+
+.. rubric:: Done in v0.9
+
+* **Experimental windows support:** windows runner, and windows commands.
+* **Web UI complete basics:** rule create/edit/delete in UI.
+
+.. rubric:: Done in v0.8
+
+* **Web UI:** refactor history view, create and edit rules and workflows, add graphical representations for workflow definitions and executions.
+* **Improving** `Mistal <https://wiki.openstack.org/wiki/Mistral>`_  **integration:** simplified Mistral DSL for |st2| actions, visibility of workflow executions, and reliabile of |st2|-Mistral communication. Includes Mistral improvements, features, and fixes.
+* **Operational supportability:** Better output formats, better visibility to ongoing actions, better logs, better debugging tools.
+* **Scale and reliability improvements:** deployed and run at scale, shown some good numbers, and more work identified.
+
+.. rubric:: Done in v0.6.0
+
+* **YAML:** complete moving to YAML for defining rules, action and trigger metadata, configurations, etc.
+* **Plugin isolation and management:** Improved managements of sensors, action runners and provide isolated environments.
+* **Reliability:** improvements on sensor and action isolation and reliability
+
 See :doc:`/changelog` for the full gory history of everything we've delivered so far.
 
-.. include:: __engage.rst
+.. include:: __engage_community.rst
