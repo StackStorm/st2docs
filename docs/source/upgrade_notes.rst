@@ -113,6 +113,40 @@ Upgrade Notes
   A migration tool is provided (``/opt/stackstorm/st2/bin/st2-migrate-datastore-to-include-scope-secret.py``) if you are
   upgrading from older versions.
 
+* For security reasons, ``sudo`` parameter has been removed from the local runner
+  (``local-shell-command``, ``local-shell-script``) actions. If your actions use local
+  runner and they override ``sudo`` parameter and make it immutable you need to update
+  your actions and remove this parameter as shown below:
+
+  Before:
+
+  .. sourcecode:: yaml
+
+      ---
+      name: dummy_action
+      runner_type: local-shell-script
+      description: "Dummy action."
+      enabled: true
+      entry_point": my_action.py
+      parameters:
+        sudo:
+          immutable: true
+
+  After (removing ``sudo`` parameter):
+
+  .. sourcecode:: yaml
+
+      ---
+      name: dummy_action
+      runner_type: local-shell-script
+      description: "Dummy action."
+      enabled: true
+      entry_point": my_action.py
+
+  Note: Removing sudo parameter and paswordles sudo requirement for the system user under which
+  |st2| action runner component is running also means that local runner actions can now only run as
+  user under which action runner component is running.
+
 |st2| v1.4
 ----------
 
