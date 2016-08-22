@@ -2,15 +2,17 @@
 
 Upgrade Notes
 =============
-|st2| v1.6.1
-------------
 
-* st2ctl reload now also reloads all the actions. Prior to this release we used to register actions, aliases, sensors, triggers and configs. We now also register sensors.
+|st2| in development
+--------------------
+
+* `st2ctl reload`  now also registeres rules by default. Prior to this release we used to register
+  actions, aliases, sensors, triggers and configs. Now rules are also registered by default.
 
 |st2| v1.6
 ----------
 
-* Python runner actions can now return execution status (success, failure) by returning a tuple 
+* Python runner actions can now return execution status (success, failure) by returning a tuple
   from the Python action class ``run()`` method. First item in this tuple is a boolean flag
   indicating a success and the second one is the result. For example:
 
