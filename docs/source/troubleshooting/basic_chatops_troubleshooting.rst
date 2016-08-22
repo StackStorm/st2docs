@@ -92,7 +92,8 @@ either throws an error, or gives an acknowledgement message without result, or n
     - There's a back-end problem. Make sure other parts of StackStorm are working properly. This is addressed in Step 6 and Step 7 of the
       `self-check script <https://github.com/StackStorm/st2chatops/blob/master/scripts/self-check.sh>`_.
     - Have you tried turning it off and on again? ``st2ctl restart`` or 
-    ``st2ctl reload --register-all`` will do the job.
+    ``st2ctl reload --register-all`` will do the job. Restarting ``st2chatops`` service
+    will also work sometimes.
     - If the default commands (like ``!st2 list actions``) run fine, but your own 
     aliases throw errors, format of your alias or the underlying action is most 
     likely the problem.
