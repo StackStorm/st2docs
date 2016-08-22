@@ -18,7 +18,7 @@ When |st2| searches for available packs it looks into the system packs directory
 into any additional directories which are specified in the ``packs_base_paths`` setting.
 
 To look for packs in additional directories, set the value of ``packs_base_paths`` in ``st2.conf``
-(typically in :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>`, as described in 
+(typically in :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>`, as described in
 :doc:`Configuration <config/config>`). The value must be a colon delimited string of directory paths.
 
 For example:
@@ -116,4 +116,4 @@ See :doc:`/reference/packs` for details on how to package your integrations and 
 * Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with StackStorm.
 * For information on pack testing, please see the :doc:`Pack Testing </development/pack_testing>` page.
 
-.. include:: /__engage.rst
+.. include:: /__engage_community.rst

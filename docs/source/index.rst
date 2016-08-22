@@ -27,6 +27,7 @@ Contents:
     cli
     authentication
     rbac
+    jinja
     reference/index
     troubleshooting/index
     proxy
@@ -34,3 +35,5 @@ Contents:
     changelog
     upgrade_notes
     roadmap
+
+.. include:: _includes/solutions.rst

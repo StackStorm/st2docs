@@ -23,6 +23,7 @@ Product documentation for StackStorm is maintained in this repository. These doc
 
 ## Build and Run the Docs.
 
+#### Build locally on Linux
 Follows these steps to build the docs locally:
 
 ```bash
@@ -37,6 +38,35 @@ all the Python dependencies which are needed to build the docs.
 `make livedocs` builds the docs and runs the doc site live at [http://localhost:8000](http://localhost:8000) to
 validate changes locally prior to committing any code.
 
+#### Run with Docker
+```bash
+git clone https://github.com/StackStorm/st2docs.git
+cd st2docs
+./scripts/docker-build.sh
+./scripts/docker-run.sh
+```
+This will build a docker image and run it in a container, serving docs live at [http://localhost:8000](http://localhost:8000).
+Edit the sources and enjoy live updates.
+
+Before pushing the PR, it's good idea to run a full build and catch any warnings which will fail the official build. Here is how:
+```
+run --rm -it -v "$PWD"/docs/source:/st2docs/docs/source st2/st2docs /bin/bash -c "make .cleandocs ; make .docs"
+```
+#### Running docs only
+
+To make docs changes, without installing full development environment (e.g., on Mac or Windows):
+
+```bash
+git clone git@github.com:StackStorm/st2docs.git
+cd st2docs
+make docs
+# make docs will fail; ignore the failure:
+# it will get st2 and set up virtualenv with sphinx/shinx-autobuild
+. virtualenv/bin/activate
+sphinx-autobuild -H 0.0.0.0 -b html ./docs/source/ ./docs/build/html
+```
+
+Edit, enjoy live updates.
 ## Sphinx Tricks
 
 * If the whole section belongs in the Enterprise Edition, put the following note:
@@ -117,22 +147,6 @@ pandoc - a super-tool to convert between formats. Sample for markdown conversion
 
   sudo apt-get install pandoc
   pandoc --from=markdown --to=rst --output=README.rst README.md
-
-## Running docs only
-
-To make docs changes, without installing full development environment (e.g., on Mac or Windows):
-
-```bash
-git clone git@github.com:StackStorm/st2docs.git
-cd st2docs
-make docs
-# make docs will fail; ignore the failure: 
-# it will get st2 and set up virtualenv with sphinx/shinx-autobuild
-. virtualenv/bin/activate
-sphinx-autobuild -H 0.0.0.0 -b html ./docs/source/ ./docs/build/html
-```
-
-Edit, enjoy live updates.
 
 ## Misc
 

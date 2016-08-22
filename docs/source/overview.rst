@@ -52,4 +52,4 @@ What's Next?
 * Explore the `StackStorm community <http://www.stackstorm.com/community/>`__
 
 
-.. include:: __engage.rst
+.. include:: __engage_community.rst

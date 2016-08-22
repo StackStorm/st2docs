@@ -4,6 +4,7 @@ Installation
 For a quick evaluation of |st2| and package-based installation, start from
 :doc:`Overview <./overview>`, and proceed with the guide for your Linux distribution.
 
+Please note that only 64 bit architecture is currently supported.
 
 .. rubric:: Installations
 
@@ -11,7 +12,7 @@ For a quick evaluation of |st2| and package-based installation, start from
     :maxdepth: 1
 
     Reference Deployment <overview>
-    Ubuntu / Debian <deb>
+    Ubuntu (Trusty) <deb>
     RHEL 7 / CentOS 7 <rhel7>
     RHEL 6 / CentOS 6 <rhel6>
     StackStorm Enterprise <enterprise>

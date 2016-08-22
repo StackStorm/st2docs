@@ -1,7 +1,7 @@
 RHEL 6 / CentOS 6
 =================
 
-This guide provides step-by step instructions for installing StackStorm on a single RHEL 6/CentOS 6 system per
+This guide provides step-by step instructions for installing StackStorm on a single RHEL 6/CentOS 6 64 bit system per
 the :doc:`Reference deployment </install/overview>`.
 
 .. rubric:: TL;DR
@@ -17,12 +17,15 @@ That's OK! You're busy, we get it. How do you just get started? Get yourself a c
 Supported platforms
 -------------------
 
+.. include:: __64bit_note.rst
+
 We support RedHat 6 / CentOS 6 and test on `Red Hat Enterprise Linux (RHEL) 6 (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B00CFQWLS6/ref=srh_res_product_title?ie=UTF8&sr=0-8&qid=1457037733401>`_
 and `puppetlabs/centos-6.6-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/centos-6.6-64-nocm>`_. Other RPM based distributions and versions will likely work with some tweaks, you are welcome to try and report successes to the `community <https://stackstorm.com/community-signup>`_.
 
 
 Sizing the server
 -----------------
+
 While the system can operate with lower specs, these are the recommendations
 for the best experience while testing or deploying |st2|:
 
@@ -122,7 +125,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
 
     sudo yum -y install postgresql94-server postgresql94-contrib postgresql94-devel
 
-    # Setup postgresql at a first time
+    # Setup postgresql for the first time
     sudo service postgresql-9.4 initdb
 
     # Make localhost connections to use an MD5-encrypted password for authentication
@@ -185,6 +188,14 @@ testing.
 
 Start Services
 ~~~~~~~~~~~~~~
+
+* Start services ::
+
+    sudo st2ctl start
+
+* Register sensors, rules and actions ::
+
+    st2ctl reload
 
 .. include:: common/start_services.rst
 
@@ -334,10 +345,9 @@ If you already run Hubot instance, you only have to install the `hubot-stackstor
     # Create notification rule if not yet enabled
     st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml
 
-* `Install NodeJS v4 <https://nodejs.org/en/download/package-manager/>`_: ::
+* `Add NodeJS v4 repository <https://nodejs.org/en/download/package-manager/>`_: ::
 
       curl -sL https://rpm.nodesource.com/setup_4.x | sudo -E bash -
-      sudo yum install -y nodejs
 
 * Install st2chatops package: ::
 

@@ -135,10 +135,31 @@ This is a Python runner. Actions are implemented as Python classes with a
 ``run`` method. They run locally on the same machine where |st2| components are
 running.
 
+Python runner actions return an execution status (success, failure) by returning a tuple
+from the Python action class ``run()`` method. First item in this tuple is a boolean
+flag indicating a success and the second one is the result. However, execution status is
+optional i.e. the return value from action runner can either be a tuple of success status
+and result or just the result object.
+
 Runner parameters
 ^^^^^^^^^^^^^^^^^
 
 .. include:: _includes/runner_parameters/python_script.rst
+
+Runner result
+~~~~~~~~~~~~~
+
+The return value from this action runner is a tuple consisting of a boolean flag indicating 
+a success and the second one is the result:
+
+* ``status`` (boolean) - Flag indicating action's success, i.e. Succeeded status is True/False.
+  Note: This is an optional flag.
+* ``result`` (object) - result returned by the action based on success or failure.   
+
+The status flag allows users to return a result from a failing action. When the status flag is
+not used the only way for action to be considered as failed is to throw an exception or exit
+with a non-zero exit code.
+
 
 ActionChain runner (action-chain)
 ---------------------------------
@@ -178,4 +199,3 @@ Runner parameters
 ^^^^^^^^^^^^^^^^^
 
 .. include:: _includes/runner_parameters/cloudslang.rst
-
