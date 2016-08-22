@@ -86,10 +86,16 @@ either throws an error, or gives an acknowledgement message without result, or n
 
     *Possible reasons:*
 
-    - Hubot is disconnected from StackStorm stream. Try ``st2ctl reload --register-all``.
-    - There's a back-end problem. Make sure other parts of StackStorm are working properly. This is addressed in
-      Step 6 and Step 7 of the
+    - Hubot is disconnected from StackStorm stream. The main reason for it is a wrong 
+    networking setup (Hubot can't connect to your StackStorm instance); check nginx
+    configuration and the parameters in ``/opt/stackstorm/chatops/st2chatops.env``.
+    - There's a back-end problem. Make sure other parts of StackStorm are working properly. This is addressed in Step 6 and Step 7 of the
       `self-check script <https://github.com/StackStorm/st2chatops/blob/master/scripts/self-check.sh>`_.
+    - Have you tried turning it off and on again? ``st2ctl restart`` or 
+    ``st2ctl reload --register-all`` will do the job.
+    - If the default commands (like ``!st2 list actions``) run fine, but your own 
+    aliases throw errors, format of your alias or the underlying action is most 
+    likely the problem.
 
 
 StackStorm commands are fine but no manual messages:
