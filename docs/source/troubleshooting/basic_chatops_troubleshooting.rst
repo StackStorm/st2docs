@@ -72,8 +72,10 @@ Hubot is online, but when you say ``!help``, only default commands are listed (n
 
     - Hubot can't connect to StackStorm API. Look in the Hubot logs for errors: ``/var/log/st2/st2chatops.log``
     - Commands aren't registered. Try ``st2ctl reload --register-all``.
-    - It's also possible you changed the bot's name or you have not invited your bot to a channel in the ChatOps
-      client. 
+    - It's also possible you changed the bot's name or you have not invited your bot to a channel in the ChatOps client.
+    - If you're sending bot a private message instead of messaging in a channel, 
+    do not prepend ``!`` (a known Hubot limitation). For private messages ``help`` 
+    will work, but ``!help`` will not. 
 
 
 StackStorm commands throw errors:
