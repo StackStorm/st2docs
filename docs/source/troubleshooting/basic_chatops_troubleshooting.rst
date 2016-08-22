@@ -71,8 +71,8 @@ Hubot is online, but when you say ``!help``, only default commands are listed (n
     - Commands aren't registered. Try ``st2ctl reload --register-all``.
     - It's also possible you changed the bot's name or you have not invited your bot to a channel in the ChatOps client.
     - If you're sending bot a private message instead of messaging in a channel, 
-    do not prepend ``!`` (a known Hubot limitation). For private messages ``help`` 
-    will work, but ``!help`` will not. 
+      do not prepend ``!`` (a known Hubot limitation). For private messages ``help`` 
+      will work, but ``!help`` will not. 
 
 
 StackStorm commands throw errors:
@@ -84,16 +84,16 @@ either throws an error, or gives an acknowledgement message without result, or n
     *Possible reasons:*
 
     - Hubot is disconnected from StackStorm stream. The main reason for it is a wrong 
-    networking setup (Hubot can't connect to your StackStorm instance); check nginx
-    configuration and the parameters in ``/opt/stackstorm/chatops/st2chatops.env``.
+      networking setup (Hubot can't connect to your StackStorm instance); check nginx
+      configuration and the parameters in ``/opt/stackstorm/chatops/st2chatops.env``.
     - There's a back-end problem. Make sure other parts of StackStorm are working properly. This is addressed in Step 6 and Step 7 of the
       `self-check script <https://github.com/StackStorm/st2chatops/blob/master/scripts/self-check.sh>`_.
     - Have you tried turning it off and on again? ``st2ctl restart`` or 
-    ``st2ctl reload --register-all`` will do the job. Restarting ``st2chatops`` service
-    will also work sometimes.
+      ``st2ctl reload --register-all`` will do the job. Restarting ``st2chatops`` service
+      will also work sometimes.
     - If the default commands (like ``!st2 list actions``) run fine, but your own 
-    aliases throw errors, format of your alias or the underlying action is most 
-    likely the problem.
+      aliases throw errors, format of your alias or the underlying action is most 
+      likely the problem.
 
 
 StackStorm commands are fine but no manual messages:
