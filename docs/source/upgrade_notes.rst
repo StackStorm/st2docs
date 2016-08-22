@@ -19,9 +19,9 @@ Upgrade Notes
   .. code-block:: python
 
     def run(self):
-        # 
+        #
         # Code to do something awesome
-        # 
+        #
         if something_awesome_working == True
             return (True, result)  #  Succeeded is True and the result from action on success
         return (False, result)  #  Succeeded is False and the result from action on failure
