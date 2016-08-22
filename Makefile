@@ -116,7 +116,7 @@ bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .patch-soluti
 bwclivedocs: bwcdocs .livedocs
 
 .PHONY: bwclocaldocs
-bwclocaldocs: .clone-st2 requirements .requirements-st2 .bwcdocs .docs
+bwclocaldocs: .clone-st2 requirements .requirements-st2 .bwcdocs
 
 .PHONY: bwclocallivedocs
 bwclocallivedocs: bwclocaldocs .livedocs
