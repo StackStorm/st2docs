@@ -56,11 +56,8 @@ You've installed StackStorm, but Hubot didn't come online in your ChatOps client
 
            $ cd /opt/stackstorm/chatops && npm list | grep hubot-stackstorm
 
-      In case the installation is outdated or corrupt, install hubot-stackstorm:
-      
-        .. code-block:: shell
-        
-           $ cd /opt/stackstorm/chatops && npm install hubot-stackstorm
+      In case the installation is outdated or corrupt, reinstall the ``st2chatops``
+      package with apt-get or yum depending on your distro.
 
 
 There's no StackStorm commands in `!help`:
