@@ -304,8 +304,8 @@ If you already run a Hubot instance, you only have to install the `hubot-stackst
 
 * That's it! Go to your Chat room and begin ChatOpsing. Read more in the :doc:`/chatops/index` section.
 
-Upgrade to Enterprise Edition
------------------------------
+Upgrade to Brocade Workflow Composer
+------------------------------------
 Enterprise Edition is deployed as an addition on top of StackStorm Community. You will need an active
 Enterprise subscription, and a license key to access StackStorm enterprise repositories.
 
