@@ -5,7 +5,7 @@ StackStorm Community Edition is an event-driven DevOps automation platform with 
 
 Brocade Workflow Composer (BWC) is the enterprise version of StackStorm that is built on
 top of the StackStorm Community Edition. It adds priority support, enterprise tools such
-as fine-tuned access control, LDAP integration and Flow -  the visual workflow editor.
+as fine-tuned access control, LDAP integration and Design UI -  the visual workflow editor.
 BWC also ships with networking automation suites.
 
 To learn more about Brocade Workflow Composer, request a quote or get an evaluation license,
