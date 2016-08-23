@@ -1,5 +1,5 @@
-Welcome to |st2|'s documentation!
-======================================
+Welcome to BWC documentation!
+==============================
 
 Contents:
 
