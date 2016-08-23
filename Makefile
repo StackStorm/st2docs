@@ -53,9 +53,9 @@ PHONY: .clean-bwc-solutions-folders
 	@echo
 	@echo "==================== Remove solution specific folders ===================="
 	@echo
-	rm -Rf docs/source/_static/images/solutions/ipfabric/*
+	rm -Rf docs/source/_static/images/solutions/*
 	rm -Rf docs/source/_includes/bwc_toc.rst
-	rm -Rf docs/source/solutions/ipfabric
+	rm -Rf docs/source/solutions/*
 	@echo
 	@echo
 
