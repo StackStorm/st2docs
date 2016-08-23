@@ -48,8 +48,19 @@ docs: .clone-st2 requirements .requirements-st2 .docs
 PHONY: .docs
 .docs: .community-docs
 
+PHONY: .remove-bwc-solutions-folders
+.remove-bwc-solutions-folders:
+	@echo
+	@echo "==================== Remove solution specific stuff ===================="
+	@echo
+	rm -Rf docs/source/_static/images/solutions/ipfabric/*
+	rm -Rf docs/source/_includes/bwc_toc.rst
+	rm -Rf docs/source/solutions/ipfabric
+	@echo
+	@echo
+
 .PHONY: .community-docs
-.community-docs:
+.community-docs: .remove-bwc-solutions-folders
 	@echo
 	@echo "==================== COMMUNITY DOCS ===================="
 	@echo
@@ -88,7 +99,7 @@ livedocs: docs .livedocs
 	@echo
 
 .PHONY: bwcdocs
-bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .patch-solutions .enterprise-docs .git-checkout-local-changes
+bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .bwcdocs
 
 .PHONY: .bwcdocs
 .bwcdocs: .patch-solutions .enterprise-docs .git-checkout-local-changes
@@ -116,7 +127,7 @@ bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .patch-soluti
 bwclivedocs: bwcdocs .livedocs
 
 .PHONY: bwclocaldocs
-bwclocaldocs: .clone-st2 requirements .requirements-st2 .bwcdocs
+bwclocaldocs: .clone-st2 requirements .requirements-st2 .bwcdocs .remove-bwc-solutions-folders
 
 .PHONY: bwclocallivedocs
 bwclocallivedocs: bwclocaldocs .livedocs
