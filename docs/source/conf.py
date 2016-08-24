@@ -114,13 +114,21 @@ extlinks = {
 
 # Inserted at the bottom of all rst files.
 # Use for variables substitutions
+
+if tags.has('enterprise'):
+    print "Building BWC docs"
+    product_replace = "\n.. |st2| replace:: BWC"
+else:
+    print "Building StackStorm docs"
+    product_replace = "\n.. |st2| replace:: StackStorm"
+
 rst_epilog = """
-.. |st2| replace:: StackStorm
+%s
 .. _st2contrib: http://www.github.com/stackstorm/st2contrib
 .. _st2incubator: http://www.github.com/stackstorm/st2incubator
 .. |bwc| replace:: Brocade Workflow Composer
 .. |ipf| replace:: IP Fabric Solution
-"""
+""" % product_replace
 
 # Show or hide TODOs. See http://sphinx-doc.org/ext/todo.html
 todo_include_todos = True
