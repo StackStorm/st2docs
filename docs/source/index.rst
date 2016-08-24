@@ -27,6 +27,7 @@ Contents:
     cli
     authentication
     rbac
+    flow
     jinja
     reference/index
     troubleshooting/index
