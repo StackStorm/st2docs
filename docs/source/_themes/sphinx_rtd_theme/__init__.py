@@ -18,7 +18,6 @@ __version_full__ = __version__
 
 
 def setup(app):
-    print 'in setup'
     """Setup connects events to the sitemap builder"""
     app.connect('html-page-context', add_html_link)
     app.connect('build-finished', create_sitemap)
