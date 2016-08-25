@@ -189,7 +189,7 @@ To set up authentication with File Based provider:
     # Check that it works
     st2 action list
 
-Check out :doc:`/cli` to learn convenient ways to authenticate via CLI.
+Check out :doc:`/reference/cli` to learn convenient ways to authenticate via CLI.
 
 .. _ref-install-webui-ssl-deb:
 

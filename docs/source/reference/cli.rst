@@ -64,7 +64,7 @@ For example (command line argument):
 An example configuration file with all the options and the corresponding
 explanation is included below.
 
-.. literalinclude:: ../../st2/conf/st2rc.sample.ini
+.. literalinclude:: ../../../st2/conf/st2rc.sample.ini
     :language: ini
 
 If you want the CLI to skip parsing of the configuration file, you can do that
