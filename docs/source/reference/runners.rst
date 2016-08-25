@@ -34,7 +34,7 @@ where |st2| components are running.
 Runner parameters
 ^^^^^^^^^^^^^^^^^
 
-.. include:: _includes/runner_parameters/local_shell_cmd.rst
+.. include:: /_includes/runner_parameters/local_shell_cmd.rst
 
 Local script runner (local-shell-script)
 ----------------------------------------
@@ -46,7 +46,7 @@ character is stripped from `stdout` and `stderr` fields in the output.
 Runner parameters
 ^^^^^^^^^^^^^^^^^
 
-.. include:: _includes/runner_parameters/local_shell_script.rst
+.. include:: /_includes/runner_parameters/local_shell_script.rst
 
 Remote command runner (remote-shell-cmd)
 ----------------------------------------
@@ -58,9 +58,9 @@ from `stdout` and `stderr` fields in the output.
 Runner parameters
 ^^^^^^^^^^^^^^^^^
 
-.. include:: _includes/runner_parameters/remote_shell_cmd.rst
+.. include:: /_includes/runner_parameters/remote_shell_cmd.rst
 
-.. include:: _includes/private_key_path_notice.rst
+.. include:: /_includes/private_key_path_notice.rst
 
 Remote script runner (remote-shell-script)
 ------------------------------------------
@@ -72,9 +72,9 @@ from `stdout` and `stderr` fields in the output.
 Runner parameters
 ^^^^^^^^^^^^^^^^^
 
-.. include:: _includes/runner_parameters/remote_shell_script.rst
+.. include:: /_includes/runner_parameters/remote_shell_script.rst
 
-.. include:: _includes/private_key_path_notice.rst
+.. include:: /_includes/private_key_path_notice.rst
 
 Windows command runner (windows-cmd)
 ------------------------------------
@@ -88,7 +88,7 @@ the following section - :doc:`/install/config/windows_runners`.
 Runner parameters
 ^^^^^^^^^^^^^^^^^
 
-.. include:: _includes/runner_parameters/windows_cmd.rst
+.. include:: /_includes/runner_parameters/windows_cmd.rst
 
 Windows script runner (windows-script)
 --------------------------------------
@@ -101,7 +101,7 @@ the following section - :doc:`/install/config/windows_runners`.
 Runner parameters
 ^^^^^^^^^^^^^^^^^
 
-.. include:: _includes/runner_parameters/windows_script.rst
+.. include:: /_includes/runner_parameters/windows_script.rst
 
 HTTP runner (http-request)
 --------------------------
@@ -111,7 +111,7 @@ HTTP runner works by performing HTTP request to the provided URL.
 Runner parameters
 ^^^^^^^^^^^^^^^^^
 
-.. include:: _includes/runner_parameters/http_request.rst
+.. include:: /_includes/runner_parameters/http_request.rst
 
 Keep in mind that other parameters such as ``body``, ``method``, ``headers``, etc. are defined
 as part of the ``core.http`` action.
@@ -144,7 +144,7 @@ and result or just the result object.
 Runner parameters
 ^^^^^^^^^^^^^^^^^
 
-.. include:: _includes/runner_parameters/python_script.rst
+.. include:: /_includes/runner_parameters/python_script.rst
 
 Runner result
 ~~~~~~~~~~~~~
@@ -171,7 +171,7 @@ For more information, please refer to the :doc:`Workflows </workflows>` and
 Runner parameters
 ^^^^^^^^^^^^^^^^^
 
-.. include:: _includes/runner_parameters/action_chain.rst
+.. include:: /_includes/runner_parameters/action_chain.rst
 
 Mistral runner (mistral-v2)
 ---------------------------
@@ -183,7 +183,7 @@ executing complex work-flows. For more information, please refer to the
 Runner parameters
 ^^^^^^^^^^^^^^^^^
 
-.. include:: _includes/runner_parameters/mistral_v2.rst
+.. include:: /_includes/runner_parameters/mistral_v2.rst
 
 CloudSlang runner (cloudslang)
 ------------------------------
@@ -198,4 +198,4 @@ might be bugs and the external user facing API might change.
 Runner parameters
 ^^^^^^^^^^^^^^^^^
 
-.. include:: _includes/runner_parameters/cloudslang.rst
+.. include:: /_includes/runner_parameters/cloudslang.rst
