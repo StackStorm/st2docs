@@ -1,7 +1,7 @@
 Quick Start
 =================
 
-Got |st2| :doc:`installed </install/index>`? Enjoyed :doc:`the intro video <video>`? Let's give
+Got |st2| :doc:`installed </install/index>`? Let's give
 it a try. This guide will walk you through |st2| basics and help you build and run a simple
 automation: a rule that triggers an action on external event.
 

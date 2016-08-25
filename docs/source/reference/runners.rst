@@ -10,8 +10,8 @@ action itself rather than setting up the environment.
 
 Exit Codes
 ----------
-Normally an exit code of a runner is defined by an exit code of a script or 
-a command they execute. All runners return timeout exit code (-9) if a 
+Normally an exit code of a runner is defined by an exit code of a script or
+a command they execute. All runners return timeout exit code (-9) if a
 command or a script did not complete its execution within the specified timeout.
 
 Local command runner (local-shell-cmd)
@@ -40,7 +40,7 @@ Local script runner (local-shell-script)
 ----------------------------------------
 
 This is the local runner. Actions are implemented as scripts. They are executed
-on the same hosts where |st2| components are running. The last newline 
+on the same hosts where |st2| components are running. The last newline
 character is stripped from `stdout` and `stderr` fields in the output.
 
 Runner parameters
@@ -83,7 +83,7 @@ Windows command runner allows you to run you to run command-line interpreter
 (cmd) and PowerShell commands on Windows hosts.
 
 For more information on enabling and setting up the Windows runner, please see
-the following section - :doc:`./config/windows_runners`.
+the following section - :doc:`/install/config/windows_runners`.
 
 Runner parameters
 ^^^^^^^^^^^^^^^^^
@@ -96,7 +96,7 @@ Windows script runner (windows-script)
 Windows script runner allows you to run PowerShell scripts on Windows hosts.
 
 For more information on enabling and setting up the Windows runner, please see
-the following section - :doc:`./config/windows_runners`.
+the following section - :doc:`/install/config/windows_runners`.
 
 Runner parameters
 ^^^^^^^^^^^^^^^^^
@@ -149,12 +149,12 @@ Runner parameters
 Runner result
 ~~~~~~~~~~~~~
 
-The return value from this action runner is a tuple consisting of a boolean flag indicating 
+The return value from this action runner is a tuple consisting of a boolean flag indicating
 a success and the second one is the result:
 
 * ``status`` (boolean) - Flag indicating action's success, i.e. Succeeded status is True/False.
   Note: This is an optional flag.
-* ``result`` (object) - result returned by the action based on success or failure.   
+* ``result`` (object) - result returned by the action based on success or failure.
 
 The status flag allows users to return a result from a failing action. When the status flag is
 not used the only way for action to be considered as failed is to throw an exception or exit

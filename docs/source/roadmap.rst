@@ -20,13 +20,13 @@ Roadmap
   * **WebUI**: UI for RBAC configuration.
   * **ChatOps**: Allow users to authenticate with StackStorm via bot on chat. Check permissions of the user who triggered an action / ran a command. Introduce a special set of permission types for ChatOps.
 * **API Docs:** Generate REST API docs.
-* **Monitoring Docs:** Create |st2| monitoring guidelines.	
+* **Monitoring Docs:** Create |st2| monitoring guidelines.
 * **More integration packs:** push more content to the community to help work with most common and widely used tools. Tell us if there is a tool you love and think we should integrate with, or better yet write a pack!
 
 Is there some other feature you're desperately missing? Submit an `issue <https://github.com/StackStorm/st2docs/issues>`_!
 
 Release History
-===============
+---------------
 
 .. rubric:: Done in v1.6
 

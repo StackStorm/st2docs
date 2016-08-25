@@ -307,7 +307,7 @@ There are a number of configurable options available under the mistral section i
 Authentication
 --------------
 
-Please refer to :doc:`../authentication` to learn details of authentication, integrations with
+Please refer to :doc:`/authentication` to learn details of authentication, integrations with
 various identity providers, and managing API tokens.
 
 Configure ChatOps

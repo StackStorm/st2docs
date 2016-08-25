@@ -19,7 +19,7 @@ into any additional directories which are specified in the ``packs_base_paths`` 
 
 To look for packs in additional directories, set the value of ``packs_base_paths`` in ``st2.conf``
 (typically in :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>`, as described in
-:doc:`Configuration <config/config>`). The value must be a colon delimited string of directory paths.
+:doc:`Configuration </install/config/config>`). The value must be a colon delimited string of directory paths.
 
 For example:
 
@@ -63,7 +63,7 @@ The integration packs often require configurations to adjust to the environment.
 1. Download the pack with ``packs.download``
 2. Check out the `README.md`. Adjust configurations per your environment. For
    more information on pack configuration and how to configure the pack, please
-   refer to :doc:`/pack_configs`
+   refer to :doc:`/reference/pack_configs`.
 3. Run pack setup via ``packs.setup_virtualenv``. It sets up a virtual environment and installs the dependencies listed in requirements.txt.
 4. Load the pack into |st2| with ``pack.load register=all|actions|rules|sensors``.
 
