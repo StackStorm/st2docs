@@ -3488,7 +3488,7 @@ a.wy-text-neutral:hover {
   color: #595959 !important;
 }
 
-h1, h2, h3, h4, h5, h6, legend {
+h1, h2, h3, h4, h5, h6, .rst-content .toctree-wrapper p.caption, legend {
   margin-top: 0;
   font-weight: 700;
   font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
@@ -3523,6 +3523,10 @@ h5 {
 
 h6 {
   font-size: 100%;
+}
+
+.rst-content .toctree-wrapper p.caption {
+  margin-bottom: 5px;
 }
 
 hr {
@@ -4005,16 +4009,18 @@ div[class^='highlight'] pre {
   padding: 0 16px;
 }
 
-.wy-menu-vertical header {
+.wy-menu-vertical header,
+.wy-menu-vertical p.caption {
   height: 32px;
   display: inline-block;
   line-height: 32px;
-  padding: 0 1.618em;
+  padding: 0 1.2em;
+  margin-bottom: 0;
   display: block;
   font-weight: bold;
   text-transform: uppercase;
   font-size: 80%;
-  color: #2980B9;
+  color: #dddddd;
   white-space: nowrap;
 }
 .wy-menu-vertical ul {
@@ -4048,6 +4054,9 @@ div[class^='highlight'] pre {
   border-bottom: solid 1px #c9c9c9;
   border-top: solid 1px #c9c9c9;
   padding-left: 1.618em -4px;
+}
+.wy-menu-vertical li a:hover{
+  color: #fb8225;
 }
 .wy-menu-vertical li.on a:hover, .wy-menu-vertical li.current > a:hover {
   background: #fb8225;
