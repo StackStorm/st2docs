@@ -7,6 +7,7 @@ This section includes common problems you might encounter while using the platfo
     :maxdepth: 1
 
     self_verification
+    basic_chatops_troubleshooting
     rules
     sensors
     ssh
