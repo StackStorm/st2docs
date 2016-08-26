@@ -59,7 +59,8 @@ You've installed StackStorm, but Hubot didn't come online in your ChatOps client
       In case the installation is outdated or corrupt, reinstall the ``st2chatops``
       package with ``apt-get`` or ``yum`` depending on your distro.
 
-Note that in most chat services (like Slack) you have to manually invite the bot into your chatroom first.
+Note that in most chat services you have to manually invite the bot into your chatroom first: for example,
+`in Slack `<https://get.slack.help/hc/en-us/articles/201980108-Inviting-team-members-to-a-channel>`_.
 
 ----------
 
