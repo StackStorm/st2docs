@@ -46,7 +46,6 @@ StackStorm is new and under active development. We are opening it early to engag
 What's Next?
 -------------------------------
 * Install and run - follow :doc:`/install/index`
-* Learn how to use StackStorm - watch :doc:`/video`
 * Build a simple automation - follow :doc:`/start` Guide
 * Help us with directions - comment on the :doc:`/roadmap`
 * Explore the `StackStorm community <http://www.stackstorm.com/community/>`__

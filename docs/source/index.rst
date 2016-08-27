@@ -4,36 +4,42 @@ Welcome to |fullname|'s documentation!
 Contents:
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
+    :caption: Fundamentals
 
     overview
-    install/index
-    config/index
-    video
+    Installation and Configuration <install/index>
     start
     packs
-    pack_configs
     actions
-    runners
     rules
     workflows
     sensors
     webhooks
-    chatops/index
-    policies
     datastore
-    history
-    traces
-    cli
     authentication
     rbac
-    jinja
+    chatops/index
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Advanced Topics
+
     reference/index
     troubleshooting/index
-    proxy
     development/index
-    changelog
-    upgrade_notes
-    roadmap
 
 .. include:: _includes/solutions.rst
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Release Notes
+
+    changelog
+    upgrade_notes
+    Roadmap <roadmap>
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Lost and Found
+

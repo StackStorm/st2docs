@@ -62,7 +62,7 @@ for load balancers, wsgi app server like gunicorn etc.
 st2sensorcontainer
 ^^^^^^^^^^^^^^^^^^
 ``st2sensorcontainer`` manages the sensors to be run on a node. It will start, stop and restart based on policy
-sensor running on a node. In this case a node is same as a compute instance i.e. a Virtual Machine. In future 
+sensor running on a node. In this case a node is same as a compute instance i.e. a Virtual Machine. In future
 this could be a container.
 
 It is possible to run a ``st2sensorcontainer`` in HA mode by running one on each compute instance thus leading
@@ -96,7 +96,7 @@ Multiple ``st2actionrunner`` processes can run in active-active with only connec
 distributed across runners via RabbitMQ. Adding more ``st2actionrunner`` processes increases the ability of |st2| to execute actions.
 
 In a proper distributed setup it is recommended to setup Zookeeper or Redis to provide a distributed co-ordination
-layer. See :doc:`Policies </policies>`. Using a default file based co-ordination backend will not work as it would
+layer. See :doc:`Policies </reference/policies>`. Using a default file based co-ordination backend will not work as it would
 in a single box deployment.
 
 st2resultstracker
@@ -116,8 +116,8 @@ based on the completion of ActionExecution. The auxiliary purpose is to act as a
 not have been scheduled.
 
 Multiple ``st2notifier`` processes can run in active-active mode, using connections to RabbitMQ and MongoDB. For the auxiliary purpose to
-function in an HA deployment when more than one ``st2notifier`` is running either Zookeeper or Redis is required to 
-provide co-ordination, much like for policies. It is also possible to designate a single ``st2notifier`` as provider of 
+function in an HA deployment when more than one ``st2notifier`` is running either Zookeeper or Redis is required to
+provide co-ordination, much like for policies. It is also possible to designate a single ``st2notifier`` as provider of
 auxiliary functions by disabling the scheduler in all but one ``st2notifiers``.
 
 st2garbagecollector
@@ -147,7 +147,7 @@ communication with the |st2| API must be via the configured load balancer.
 
 Required dependencies
 ---------------------
-This section has some HA recommendations for the dependencies required by |st2| components. This should serve as a guide only - 
+This section has some HA recommendations for the dependencies required by |st2| components. This should serve as a guide only -
 the exact configuration will depend upon the site infrastructure.
 
 MongoDB
@@ -211,8 +211,8 @@ host box individually would be a more robust approach.
 
 Content management
 ^^^^^^^^^^^^^^^^^^
-Manage pack installation using a configuration management tool of your choice, such as Ansible, Puppet, Chef, or Salt. 
-Assuming that the list of packs to be deployed will be static, then deploying content to |st2| nodes via CM tools 
+Manage pack installation using a configuration management tool of your choice, such as Ansible, Puppet, Chef, or Salt.
+Assuming that the list of packs to be deployed will be static, then deploying content to |st2| nodes via CM tools
 could be a sub-step of an overall |st2| deployment. This is perhaps the better of the two approaches to end up with a
 predictable HA deployment of |st2|.
 
@@ -303,11 +303,11 @@ Install required dependencies
 
         curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
 
-9. Setup ``st2web`` and SSL termination. Follow :ref:`install webui and setup ssl<ref-install-webui-ssl-deb>`.  You 
+9. Setup ``st2web`` and SSL termination. Follow :ref:`install webui and setup ssl<ref-install-webui-ssl-deb>`.  You
 will need to stop after removing the default Nginx config file.
 
-10. Sample configuration for Nginx as load balancer for controller box is provided below. With this configuration 
-Nginx will load balance all requests between the two blueprint boxes ``st2-multi-node-1`` and ``st2-multi-node-2``. 
+10. Sample configuration for Nginx as load balancer for controller box is provided below. With this configuration
+Nginx will load balance all requests between the two blueprint boxes ``st2-multi-node-1`` and ``st2-multi-node-2``.
 This includes requests to ``st2api``, ``st2auth`` and ``mistral-api``. Nginx also serves as the webserver for ``st2web``.
 
 .. literalinclude:: /../../st2/conf/HA/nginx/st2.conf.controller.sample
@@ -324,7 +324,7 @@ This includes requests to ``st2api``, ``st2auth`` and ``mistral-api``. Nginx als
 Blueprint box
 ^^^^^^^^^^^^^
 This box is a repeatable |st2| image that is essentially the single-box reference deployment with a few changes. The aim is
-to deploy as many of these boxes for desired HA objectives and horizontal scaling. |st2| processes outlined above can be 
+to deploy as many of these boxes for desired HA objectives and horizontal scaling. |st2| processes outlined above can be
 turned on/off individually, therefore each box can also be made to offer different services.
 
 1.  Add stable |st2| repos:
@@ -361,7 +361,7 @@ turned on/off individually, therefore each box can also be made to offer differe
 
         /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
 
-8. Replace ``/etc/st2/st2.conf`` with the sample st2.conf provided below. This config points to the controller node or 
+8. Replace ``/etc/st2/st2.conf`` with the sample st2.conf provided below. This config points to the controller node or
 configuration values of ``database``, ``messaging`` and ``mistral``.
 
 .. literalinclude:: /../../st2/conf/HA/st2.conf.sample
@@ -377,9 +377,9 @@ configuration values of ``database``, ``messaging`` and ``mistral``.
 
 9. If you are using self-signed certificates you will need to add ``insecure = true`` to the ``mistral`` section of ``/etc/st2/st2.conf``.
 
-10. Configure users & authentication as per :ref:`this documentation<ref-config-auth-deb>`. Make sure that 
-user configuration on all boxes running ``st2auth`` is identical. This ensures consistent authentication 
-from the entire |st2| install since the request to authenticate a user can be forwarded by the load 
+10. Configure users & authentication as per :ref:`this documentation<ref-config-auth-deb>`. Make sure that
+user configuration on all boxes running ``st2auth`` is identical. This ensures consistent authentication
+from the entire |st2| install since the request to authenticate a user can be forwarded by the load
 balancer to any of the ``st2auth`` processes.
 
 11. Use the sample Nginx config that is provided below for the blueprint boxes. In this config Nginx will
@@ -390,10 +390,10 @@ act as the SSL termination endpoint for all the REST endpoints exposed by ``st2a
 12. To use Timer triggers with Mistral, enable them on only one server. Make this change in `/etc/st2/st2.conf`:
 
     .. code-block:: yaml
-        
+
         [timer]
         enable = False
-        
+
 
 13. See :doc:`/reference/sensor_partitioning` to decide how to partition sensors to suit your requirements.
 

@@ -106,7 +106,7 @@ For remote Linux actions, SSH is used. It is advised to configure identity file 
 
 * Configure SSH access and enable passwordless sudo on the remote hosts which StackStorm would control
   over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
-  To control Windows boxes, configure access for :doc:`Windows runners </config/windows_runners>`.
+  To control Windows boxes, configure access for :doc:`Windows runners </install/config/windows_runners>`.
 
 * Adjust configuration in ``/etc/st2/st2.conf`` if you are using a different user or path to the key:
 
@@ -189,7 +189,7 @@ To set up authentication with File Based provider:
     # Check that it works
     st2 action list
 
-Check out :doc:`/cli` to learn convenient ways to authenticate via CLI.
+Check out :doc:`/reference/cli` to learn convenient ways to authenticate via CLI.
 
 .. _ref-install-webui-ssl-deb:
 
@@ -307,8 +307,8 @@ If you already run a Hubot instance, you only have to install the `hubot-stackst
 Upgrade to Enterprise Edition
 -----------------------------
 Enterprise Edition is deployed as an addition on top of StackStorm Community. You will need an active
-Enterprise subscription, and a license key to access StackStorm enterprise repositories. To add your 
-license key, replace ``${ENTERPRISE_LICENSE_KEY}`` in the command below with the key you received when 
+Enterprise subscription, and a license key to access StackStorm enterprise repositories. To add your
+license key, replace ``${ENTERPRISE_LICENSE_KEY}`` in the command below with the key you received when
 registering or purchasing.
 
 .. code-block:: bash

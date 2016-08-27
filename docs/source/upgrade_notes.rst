@@ -97,7 +97,7 @@ Upgrade Notes
   approach. Updating packs is also easier since |st2| user doesn't need to directly manipulate
   pack content anymore.
 
-  For more information about the new pack configuration, please see :doc:`/pack_configs`.
+  For more information about the new pack configuration, please see :doc:`/reference/pack_configs`.
 
 * New ``log`` attribute has been added to the action execution object. This attribute is a list
   and contains all the state (status) transitions for executions (e.g. requested -> scheduled

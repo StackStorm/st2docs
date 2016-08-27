@@ -15,6 +15,7 @@ Please note that only 64 bit architecture is currently supported.
     Ubuntu (Trusty) <deb>
     RHEL 7 / CentOS 7 <rhel7>
     RHEL 6 / CentOS 6 <rhel6>
-    StackStorm Enterprise <enterprise>
+    StackStorm vs BWC <enterprise>
+    config/index
     Updates and Upgrades <upgrades>
     Migration scripts <migration>

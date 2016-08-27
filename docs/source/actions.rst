@@ -1,7 +1,7 @@
 Actions
 =======
 
-Actions are pieces of code which can perform arbitrary automation or remediation 
+Actions are pieces of code which can perform arbitrary automation or remediation
 tasks in your environment. They can be written in any programming language.
 
 To give you a better idea, here is a short list of tasks which can be
@@ -97,7 +97,7 @@ Currently the system provides the following runners:
    classes with a ``run()`` method. They run locally on the same machine where
    |st2| components are running. The return value from the action ``run()`` method is either a
    tuple of success status flag and the result object respectively or it is just the
-   result object. For more information, please refer to the :doc:`Action Runners </runners>`
+   result object. For more information, please refer to the :doc:`Action Runners </reference/runners>`
    section in the documentations.
 6. ``http-request`` - HTTP client which performs HTTP requests for running HTTP
    actions.
@@ -214,7 +214,7 @@ chatops case, ``api_user`` is the user who's kicking off the chatops command fro
 client and ``user`` is the |st2| user configured in hubot. ``source_channel`` is the channel
 in which the chatops command was kicked off.
 
-In case of action chains and workflows (see :doc:`Workflow </workflows>`), every task in the workflow could access the parent's ``execution_id``. 
+In case of action chains and workflows (see :doc:`Workflow </workflows>`), every task in the workflow could access the parent's ``execution_id``.
 For example, a task in an action chain is shown below:
 
 .. code-block:: yaml

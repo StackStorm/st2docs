@@ -1,14 +1,21 @@
-Reference
-=========
+References and Guides
+=====================
 
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
 
-   client_libraries
    cli
+   pack_configs
+   packs
+   jinja
+   jinja_filters
+   policies
+   runners
+   traces
+   client_libraries
+   proxy
    ha
    api
-   packs
-   jinja_filters
    sensor_partitioning
+   history
