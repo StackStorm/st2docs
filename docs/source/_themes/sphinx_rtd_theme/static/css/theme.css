@@ -3488,7 +3488,7 @@ a.wy-text-neutral:hover {
   color: #595959 !important;
 }
 
-h1, h2, h3, h4, h5, h6, .rst-content .toctree-wrapper p.caption, legend {
+h1, h2, h3, h4, h5, h6, legend {
   margin-top: 0;
   font-weight: 700;
   font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
@@ -3525,8 +3525,11 @@ h6 {
   font-size: 100%;
 }
 
-.rst-content .toctree-wrapper p.caption {
+.rst-content .toctree-wrapper caption {
+  margin-top: 0;
   margin-bottom: 5px;
+  font-weight: 700;
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
 hr {
