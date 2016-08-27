@@ -222,10 +222,10 @@ Below is the list of variables you can redefine in your playbook to customize st
 +------------------------+-----------------+--------------------------------------------------------------------------+
 | Variable               | Default         | Description                                                              |
 +========================+=================+==========================================================================+
-| ``st2_version``        | ``stable``      | |st2| version to install. Latest ``stable``, ``unstable``           |
+| ``st2_version``        | ``stable``      | |st2| version to install. Latest ``stable``, ``unstable``                |
 |                        |                 | to get automatic updates or pin it to numeric version like ``0.12.1``.   |
 +------------------------+-----------------+--------------------------------------------------------------------------+
-| ``st2_revision``       | ``current``     | |st2| revision to install. ``current`` to get the                   |
+| ``st2_revision``       | ``current``     | |st2| revision to install. ``current`` to get the                        |
 |                        |                 | latest build (autoupdating) or pin it to numeric build like ``6``.       |
 +------------------------+-----------------+--------------------------------------------------------------------------+
 | ``st2_action_runners`` | ``# vCPUs``     | Number of action runner workers to start.                                |
@@ -234,9 +234,9 @@ Below is the list of variables you can redefine in your playbook to customize st
 | ``st2_system_user``    | ``stanley``     | System user on whose behalf st2 would work,                              |
 |                        |                 | including remote/local action runners.                                   |
 +------------------------+-----------------+--------------------------------------------------------------------------+
-| ``st2_auth_username``  | ``testu``       | Username used by |st2| standalone authentication.                   |
+| ``st2_auth_username``  | ``testu``       | Username used by |st2| standalone authentication.                        |
 +------------------------+-----------------+--------------------------------------------------------------------------+
-| ``st2_auth_password``  | ``testp``       | Password used by |st2| standalone authentication.                   |
+| ``st2_auth_password``  | ``testp``       | Password used by |st2| standalone authentication.                        |
 +------------------------+-----------------+--------------------------------------------------------------------------+
 
 Examples
