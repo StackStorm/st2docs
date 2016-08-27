@@ -1,14 +1,14 @@
 CLI Reference
 ===================
 
-The |st2| command line client (CLI) allows you talk to and operate your StackStorm
-deployment using the command line. It talks to the StackStorm installation using
+The |st2| command line client (CLI) allows you talk to and operate your |st2|
+deployment using the command line. It talks to the |st2| installation using
 the public API.
 
 Installation
 ------------
 
-If you installed StackStorm using packages or a deployment script, the CLI
+If you installed |st2| using packages or a deployment script, the CLI
 should already be available. It can also be installed with pip:
 
 .. sourcecode:: bash

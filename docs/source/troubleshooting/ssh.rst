@@ -79,7 +79,7 @@ username and private_key combination.
     To get around the problem, set ``use_ssh_config`` to True in config file and setup ~/.ssh/config on |st2| action runner boxes appropriately.
 
 We do not recommend running automations as arbitrary user + private_key combination. This
-would require you to setup private_key for the users on stackstorm action runner boxes and
+would require you to setup private_key for the users on |st2| action runner boxes and
 the public keys of the users in target boxes. This increases the surface area for risk and
 is highly discouraged.
 

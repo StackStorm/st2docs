@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# StackStorm documentation build configuration file, created by
+# |st2| documentation build configuration file, created by
 # sphinx-quickstart on Tue Oct  7 21:52:49 2014.
 #
 # This file is execfile()d with the current directory set to its

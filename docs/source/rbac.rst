@@ -3,8 +3,8 @@ Role Based Access Control
 
 .. note::
 
-   Role Based Access Control (RBAC) is only available in StackStorm Enterprise Edition. For
-   information about enterprise edition and differences between community and enterprise edition,
+   Role Based Access Control (RBAC) is only available in Brocade Workflow Composer. For
+   information about Brocade Workflow Composer and differences between Stackstorm and Brocade Workflow Composer,
    please see `stackstorm.com/product <https://stackstorm.com/product/#enterprise>`_.
 
 |st2| implements Role Based Access (abbreviated RBAC) control which allows system administrators
@@ -28,7 +28,7 @@ A user represents an entity (person / robot) which needs to be authenticated and
 User permissions are represented as a union of permission grants which are assigned to all the user
 roles.
 
-By default when a new StackStorm user is created, this user has no roles assigned to it, meaning it
+By default when a new |st2| user is created, this user has no roles assigned to it, meaning it
 doesn't have access to perform any API operation which is behind the RBAC wall.
 
 Role
@@ -75,7 +75,7 @@ In general, there are five permission types available for each supported resourc
 In addition to that, there is also a special ``execute`` (``action_execute``) permission type
 available for actions. This permission allows users to execute (run) a particular action.
 
-Keep in mind that in StackStorm workflow is just an action so if you want someone to be able to
+Keep in mind that in |st2| workflow is just an action so if you want someone to be able to
 execute a particular workflow, you simply need to grant them ``action_execute`` permission on that
 workflow.
 
@@ -133,7 +133,7 @@ Currently permission grants can be applied to the following resource types:
 * webhooks
 
 Resource is identified by and you refer to it in the permission grants using ``uid``. UID is a
-identifier which is unique for each resource in the StackStorm installation. UIDs follow this
+identifier which is unique for each resource in the |st2| installation. UIDs follow this
 format: ``<resource type>:<resourc specific identifier value>`` (e.g. ``pack:libcloud``,
 ``action:libcloud:list_vms``, etc.).
 
@@ -194,14 +194,14 @@ Permissions and executions which are not triggered via the API
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Normally when an execution is triggered via the API (POST to /actionexecutions/), authenticated
-StackStorm user which triggered the execution is the effective user for the RBAC purposes, but
+|st2| user which triggered the execution is the effective user for the RBAC purposes, but
 there are some exceptions which are described below.
 
 **Rules** - Effective user for the executions which are triggered by the rule right now is a
 system user (``stanley``).
 
 **ChatOps** - Effective user for the executions which are triggered via ChatOps (POST to
-/aliasexecutions/) using hubot is a StackStorm user which is configured in hubot
+/aliasexecutions/) using hubot is a |st2| user which is configured in hubot
 (``ST2_AUTH_USERNAME`` - by default that is ``chatops_bot``).
 
 By default, ``stanley`` and ``chatops_bot`` user have ``admin`` role assignment to them, which
@@ -297,14 +297,14 @@ Using RBAC - example
 3. A user capable of viewing actions in a pack but cannot execute any action.
 
 This example provides a walk-through of scenario 1 i.e configuring a user as a pack owner. The steps to be followed are by an
-Administrator of StackStorm on a box that is running StackStorm.
+Administrator of |st2| on a box that is running |st2|.
 
 User creation
 ~~~~~~~~~~~~~
 
 All user and password management is kept outside of StackStorm. Documentation on :doc:`authentication <authentication>` describes how to confirgure StackStorm with various identity providers.
 
-For sake of this example let us assume that the identify provider is managed by the OS on which StackStorm runs.
+For sake of this example let us assume that the identify provider is managed by the OS on which |st2| runs.
 
 To create a user and set-up a password on most linux systems -
 
@@ -313,7 +313,7 @@ To create a user and set-up a password on most linux systems -
     $ useradd rbacu1
     $ passwd rbacu1
 
-Once this user is created StackStorm will allow access to this user. (Optional) To validate try -
+Once this user is created |st2| will allow access to this user. (Optional) To validate try -
 
 .. sourcecode:: bash
 
@@ -325,7 +325,7 @@ Role creation
 ~~~~~~~~~~~~~
 
 A newly created user has no assigned permissions. Each permission must be explicitly assigned to a user. To assign
-permission grants StackStorm requires creation of a role and then associating this role with a user. In this case we are trying to create a pack owner role.
+permission grants |st2| requires creation of a role and then associating this role with a user. In this case we are trying to create a pack owner role.
 
 Lets first make sure there is a pack `x` we can use to experiment.
 
@@ -380,19 +380,19 @@ with the following content -
 Applying RBAC
 ~~~~~~~~~~~~~
 
-As a StackStorm administrator and on a box with StackStrom installed run -
+As a |st2| administrator and on a box with StackStrom installed run -
 
 .. sourcecode:: bash
 
     st2-apply-rbac-definitions
 
-This command will sync up the StackStorm RBAC state with file system state. Only after running this command does
-StackStorm know of the latest changes to RBAC permission grants.
+This command will sync up the |st2| RBAC state with file system state. Only after running this command does
+|st2| know of the latest changes to RBAC permission grants.
 
 Validation
 ~~~~~~~~~~
 
-Lets take what we have achieved for a spin using the StackStorm CLI.
+Lets take what we have achieved for a spin using the |st2| CLI.
 
 1. Setup Authentication token.
 

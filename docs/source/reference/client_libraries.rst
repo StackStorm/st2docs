@@ -62,7 +62,7 @@ C# / .net
 PowerShell module
 -----------------
 
-Provides a client to talk to a StackStorm API via PowerShell.
+Provides a client to talk to a |st2| API via PowerShell.
 
 +-----------------+---------------------------------------------------------+
 | **Source code** | https://github.com/tonybaloney/St2Client                |

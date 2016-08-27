@@ -227,7 +227,7 @@ system.
 .. figure :: /_static/images/st2-deployment-multi-node.png
     :align: center
 
-    StackStorm HA reference deployment.
+    |st2| HA reference deployment.
 
 .. source https://docs.google.com/drawings/d/1_BJa9ZtBjFa1Dxx6cPiFlmpTS9AsNzkkvp_vuyVV3bw/edit
 

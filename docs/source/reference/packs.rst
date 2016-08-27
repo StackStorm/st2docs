@@ -150,7 +150,7 @@ Copy the following content to policies/policy1.yaml
 
 .. code-block:: bash
 
-   # Assuming that hello-st2 is on the same machine where StackStorm is running.
+   # Assuming that hello-st2 is on the same machine where |st2| is running.
    cp -R ./hello-st2 /opt/stackstorm/packs
 
    # Create virtual environment for hello-st2.
@@ -203,7 +203,7 @@ So, now you forged this uber-awesome pack in |st2|, what's next? Do you want to 
 
 4. Create pull request
 
-  * Go to `StackStorm community repo <https://github.com/StackStorm/st2contrib>`__. You will see a yellow banner with a button ``Compare & Pull request``. Click the button.
+  * Go to `StackStorm repo <https://github.com/StackStorm/st2contrib>`__. You will see a yellow banner with a button ``Compare & Pull request``. Click the button.
   * Fill in details describing the pack. Click the ``Create pull request`` button.
   * Github will notify us of a new pull request (PR) and we shall review the code, make sure everything looks pristine and merge it in to make your pack publicly available via st2contrib.
 

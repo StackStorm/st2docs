@@ -1,8 +1,8 @@
 Overview: Single-box Reference Deployment
 ==========================================
 
-First, let's review what the main StackStorm components are, their role, and how they are wired
-together when StackStorm is deployed on a single box. As you follow the installation instructions
+First, let's review what the main |st2| components are, their role, and how they are wired
+together when |st2| is deployed on a single box. As you follow the installation instructions
 in this section, this is your target "reference deployment".
 
 .. figure :: /_static/images/st2-deployment-big-picture.png
@@ -10,7 +10,7 @@ in this section, this is your target "reference deployment".
 .. figure  https://docs.google.com/drawings/d/1X6u8BB9bnWkW8C81ERBvjIKRfo9mDos4XEKeDv6YiF0/pub?w=960&amp;h=720
 ..    :align: center
 
-    StackStorm single-box reference deployment.
+    |st2| single-box reference deployment.
 
 .. source https://docs.google.com/drawings/d/1X6u8BB9bnWkW8C81ERBvjIKRfo9mDos4XEKeDv6YiF0/edit
 
@@ -58,7 +58,7 @@ independently.
 3. st2mistral
 --------------
 
-:doc:`/mistral` is a workflow service component that StackStorm uses for long-running workflows. It
+:doc:`/mistral` is a workflow service component that |st2| uses for long-running workflows. It
 is packaged as ``st2mistral`` ``deb`` or ``rpm``, installed under ``/opt/stackstorm/mistral``,
 runs in a dedicated Python virtualenv, and is configured by ``/etc/mistral/mistral.conf``. ``mistral-
 server`` runs workflow logic and calling actions, reaching out to st2api for action execution
@@ -72,15 +72,15 @@ it is restricted to localhost.
 * **nginx** provides SSL termination, redirects HTTP to HTTPS, serves WebUI as static HTML,
   and reverse-proxies REST API endpoints to st2* web services.
 
-* **StackStorm WebUI** (st2web, and flow, for Enterprise Edition) are installed at ``/opt/statckstorm/webui``
+* **StackStorm WebUI** (st2web, and Workflow Designer, for Brocade Workflow Composer) are installed at ``/opt/statckstorm/webui``
   and configured via ``webui/config.js``. `st2web` comes in its own ``deb`` and ``rpm``. `Flow` is
   deployed with ``st2enterprise`` package. They are HTML5 applications, served as static HTML,
-  and calling StackStorm st2auth and st2api REST API endpoints. NGINX proxies st2auth and st2api
+  and calling |st2| st2auth and st2api REST API endpoints. NGINX proxies st2auth and st2api
   requests through 443 HTTPS port to ``/api`` and ``/auth``.
 
 5. st2chatops - ChatOps components
 ----------------------------------
-StackStorm Chatops components are `Hubot <https://hubot.github.com/>`_, `StackStorm's Hubot adapter
+|st2| Chatops components are `Hubot <https://hubot.github.com/>`_, `|st2|'s Hubot adapter
 <https://github.com/StackStorm/hubot-stackstorm>`_, and plugins for connecting to `different
 Chat services <https://hubot.github.com/docs/adapters/>`_. They are packaged in ``st2chatops``
 ``deb`` and ``rpm``, installed at ``/opt/stackstorm/chatops/`` and configured in
@@ -95,7 +95,7 @@ The required dependencies are RabbitMQ, MongoDB, and PostgreSQL. The optional de
 
   - nginx for SSL termination, reverse-proxying API endpoints and serving static HTML.
   - Redis or Zookeeper for concurrency policies (see :doc:`/policies`).
-  - LDAP for StackStorm Enterprise LDAP authentication.
+  - LDAP for Brocade Workflow Composer LDAP authentication.
 
 
 

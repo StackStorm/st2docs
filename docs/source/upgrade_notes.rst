@@ -219,7 +219,7 @@ To upgrade a pre-1.2.0 StackStorm instance provisioned with the :doc:`install/al
   sudo update-system
   ```
 
-  5. After the update is done, restart StackStorm and hubot:
+  5. After the update is done, restart |st2| and hubot:
 
   ```
   sudo st2ctl restart

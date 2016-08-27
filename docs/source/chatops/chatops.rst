@@ -13,7 +13,7 @@ be done via ChatOps.
 
 Not only does ChatOps reduce the feedback loop of work output, it also
 empowers others to accomplish complex self-service tasks that they
-otherwise would not be able to do. Combining ChatOps and StackStorm is
+otherwise would not be able to do. Combining ChatOps and |st2| is
 an ideal combination, where from Chat users will be able to execute
 actions and workflows to accelerate the IT delivery pipeline.
 
@@ -46,7 +46,7 @@ Configuration
 Package-based install
 ~~~~~~~~~~~~~~~~~~~~~
 
-If you installed StackStorm from packages, the ``st2chatops`` package will take care
+If you installed |st2| from packages, the ``st2chatops`` package will take care
 of everything for you. Hubot with the necessary adapters is already bundled there,
 and environment variables are sourced from ``/opt/stackstorm/chatops/st2chatops.env``.
 
@@ -70,7 +70,7 @@ The ``st2chatops`` package has an extensive list of built-in adapters for chat
 services, but if an adapter for a service you use isn't bundled there, you can
 install it manually.
 
-For example, here's how to connect StackStorm to Mattermost using the
+For example, here's how to connect |st2| to Mattermost using the
 ``hubot-mattermost`` adapter:
 
 
@@ -184,7 +184,7 @@ This will register the aliases we created, and tell Hubot to go and
 refresh its command list.
 
 You should now be able to go into your chatroom, and execute the command
-``!run date on localhost``, and StackStorm will take care of the rest.
+``!run date on localhost``, and |st2| will take care of the rest.
 
 .. figure:: /_static/images/chatops_command_out.png
 

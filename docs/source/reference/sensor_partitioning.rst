@@ -2,7 +2,7 @@ Partitioning Sensors
 ====================
 
 Often it is desirable to partition sensors across multiple sensor nodes. To this end
-StackStorm offers a few approaches to defining partition schemes.
+|st2| offers a few approaches to defining partition schemes.
 
 Each sensor node is identified by a name. The sensor nodename can be provided via a config
 property `sensor_node_name` as follows:

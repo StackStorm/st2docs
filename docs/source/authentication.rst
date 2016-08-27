@@ -86,9 +86,9 @@ The following is a list of auth backends for the community edition to help get t
 
 LDAP (Enterprise Edition)
 -------------------------
-|st2|-developed auth backends such as LDAP are only available in the Enterprise edition. For
-more information on the Enterprise edition, please visit https://stackstorm.com/product/#enterprise.
-The auth backends included with the Enterprise edition are developed, tested, maintained, and
+|st2|-developed auth backends such as LDAP are only available in Brocade Workflow Composer. For
+more information on Brocade Workflow Composer, please visit https://stackstorm.com/product/#enterprise.
+The auth backends included with the Brocade Workflow Composer are developed, tested, maintained, and
 supported by the |st2| team.
 
 LDAP

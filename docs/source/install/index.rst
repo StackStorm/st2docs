@@ -15,6 +15,6 @@ Please note that only 64 bit architecture is currently supported.
     Ubuntu (Trusty) <deb>
     RHEL 7 / CentOS 7 <rhel7>
     RHEL 6 / CentOS 6 <rhel6>
-    StackStorm Enterprise <enterprise>
+    Brocade Workflow Composer <enterprise>
     Updates and Upgrades <upgrades>
     Migration scripts <migration>

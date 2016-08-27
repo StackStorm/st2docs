@@ -1,8 +1,8 @@
 Jinja Filters
 =============
 
-StackStorm supports `Jinja2 variable templating <http://jinja.pocoo.org/docs/dev/templates/#variables>`__
-in Rules, Action Chains and Actions etc. Jinja2 templates support `filters <http://jinja.pocoo.org/docs/dev/templates/#list-of-builtin-filters>`__ to allow some advanced capabilities in working with variables. StackStorm has further
+|st2| supports `Jinja2 variable templating <http://jinja.pocoo.org/docs/dev/templates/#variables>`__
+in Rules, Action Chains and Actions etc. Jinja2 templates support `filters <http://jinja.pocoo.org/docs/dev/templates/#list-of-builtin-filters>`__ to allow some advanced capabilities in working with variables. |st2| has further
 added some more filters.
 
 Filters with regex support

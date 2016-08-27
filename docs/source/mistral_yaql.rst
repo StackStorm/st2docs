@@ -249,13 +249,13 @@ documentation and git repo to explore more options.
 
 **Mistral**
 
-* ``env()`` returns the environment variables passed to the workflow execution on invocation such as the StackStorm Action Execution ID ``st2_execution_id``. For example, the expression ``<% env().st2_action_api_url %>/actionexecutions/<% env().st2_execution_id %>`` returns the API endpoint for the current workflow execution in StackStorm as something like ``https://127.0.0.1:9101/v1/actionexecutions/874d3d5b3f024c1aa93225ef0bcfcf3a``.
+* ``env()`` returns the environment variables passed to the workflow execution on invocation such as the |st2| Action Execution ID ``st2_execution_id``. For example, the expression ``<% env().st2_action_api_url %>/actionexecutions/<% env().st2_execution_id %>`` returns the API endpoint for the current workflow execution in |st2| as something like ``https://127.0.0.1:9101/v1/actionexecutions/874d3d5b3f024c1aa93225ef0bcfcf3a``.
 * To access infomation about the parent action like in an ActionChain with ``{{action_context.parent.source_channel}}``, ``{{action_context.parent.user`` or ``{{action_context.parent.api_user}}``. The following expressions can be used ``<% env().get('__actions').get('st2.action').st2_context.parent.api_user %>``, ``<% env().get('__actions').get('st2.action').st2_context.parent.source_channel %>`` or ``<% env().get('__actions').get('st2.action').st2_context.parent.user %>``.
 * ``task(task_name)`` returns the state, state_info, and result of task given task_name.
 
 **StackStorm**
 
-* ``st2kv('st2_key_id')`` queries StackStorm's datastore and returns the value for the given key. For example, the expression ``<% st2kv('system.shared_key_x') %>`` returns the value for a system scoped key named ``shared_key_x`` while the expression ``<% st2kv('my_key_y') %>`` returns the value for the user scoped key named ``my_key_y``. The st2kv function will always decrypt the value of the key if it is encrypted when the key value pair was set. Please note that the key name should be in quotes otherwise YAQL treats key name with a dot like ``system.shared_key_x`` as a dict access.
+* ``st2kv('st2_key_id')`` queries |st2|'s datastore and returns the value for the given key. For example, the expression ``<% st2kv('system.shared_key_x') %>`` returns the value for a system scoped key named ``shared_key_x`` while the expression ``<% st2kv('my_key_y') %>`` returns the value for the user scoped key named ``my_key_y``. The st2kv function will always decrypt the value of the key if it is encrypted when the key value pair was set. Please note that the key name should be in quotes otherwise YAQL treats key name with a dot like ``system.shared_key_x`` as a dict access.
 
 Testing YAQL Expressions
 ++++++++++++++++++++++++

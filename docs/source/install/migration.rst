@@ -12,7 +12,7 @@ include data model changes. The runbook is usually
 
    sudo st2ctl stop
 
-2. Run the migration script (if any). See section below for StackStorm
+2. Run the migration script (if any). See section below for |st2|
    version-specific migration scripts.
 
 3. Upgrade |st2| packages (``st2``, ``st2web``, `st2chatops``, ``st2mistral``

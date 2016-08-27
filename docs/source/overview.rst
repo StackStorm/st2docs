@@ -20,7 +20,7 @@ How it works
 .. figure:: /_static/images/architecture_diagram.jpg
     :align: center
 
-    StackStorm architecture diagram
+    |st2| architecture diagram
 
 |st2| plugs into the environment via the extensible set of adapters containing sensors and actions.
 
@@ -41,12 +41,12 @@ How it works
 
 |st2| is a service with modular architecture. It comprises loosely coupled service components that communicate over the message bus, and scales horizontally to deliver automation at scale. |st2| has a full REST API, CLI client for admins and users to operate it locally or remotely, and Python client bindings for developer’s convenience. Web UI is coming soon.
 
-StackStorm is new and under active development. We are opening it early to engage community, get feedback, and refine directions, and welcome contributions.
+|st2| is new and under active development. We are opening it early to engage community, get feedback, and refine directions, and welcome contributions.
 
 What's Next?
 -------------------------------
 * Install and run - follow :doc:`/install/index`
-* Learn how to use StackStorm - watch :doc:`/video`
+* Learn how to use |st2| - watch :doc:`/video`
 * Build a simple automation - follow :doc:`/start` Guide
 * Help us with directions - comment on the :doc:`/roadmap`
 * Explore the `StackStorm community <http://www.stackstorm.com/community/>`__

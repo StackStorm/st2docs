@@ -34,7 +34,7 @@ for 10 minutes, use the following:
 Note that if the TTL requested is greater than maximum allowed TTL in st2 configuration, you'd get an error.
 
 If you don't want to retrieve a new token and configure the environment variable
-every time you start a new shell session, you can put your StackStorm
+every time you start a new shell session, you can put your |st2|
 credentials in the CLI configuration file and the CLI will automatically authenticate,
 retrieve and cache the auth token for you.
 
