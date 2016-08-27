@@ -117,10 +117,10 @@ extlinks = {
 
 if tags.has('enterprise'):
     print "Building BWC docs"
-    product_replace = "\n.. |st2| replace:: BWC"
+    product_replace = "\n.. |st2| replace:: BWC\n.. |fullname| replace:: Brocade Workflow Composer"
 else:
     print "Building StackStorm docs"
-    product_replace = "\n.. |st2| replace:: StackStorm"
+    product_replace = "\n.. |st2| replace:: StackStorm\n.. |fullname| replace:: StackStorm"
 
 rst_epilog = """
 %s

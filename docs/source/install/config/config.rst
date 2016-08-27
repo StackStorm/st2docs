@@ -325,7 +325,7 @@ visibility of secrets and does not control how secrets are stored as well as man
 
 * To mask secrets in API response. This is enabled on a per API basis and only available to admin users.
 
-... sourcecode:: bash
+.. sourcecode:: bash
 
     [api]
     ...
@@ -334,7 +334,7 @@ visibility of secrets and does not control how secrets are stored as well as man
 
 * To mask secrets in logs
 
-... sourcecode:: bash
+.. sourcecode:: bash
 
     [logging]
     ...

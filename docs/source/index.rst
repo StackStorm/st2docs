@@ -1,4 +1,4 @@
-Welcome to |st2|'s documentation!
+Welcome to |fullname|'s documentation!
 ======================================
 
 Contents:

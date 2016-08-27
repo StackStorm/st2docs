@@ -389,7 +389,9 @@ If you already run Hubot instance, you only have to install the `hubot-stackstor
 Upgrade to Enterprise Edition
 -----------------------------
 Enterprise Edition is deployed as an addition on top of StackStorm Community. You will need an active
-Enterprise subscription, and a license key to access StackStorm enterprise repositories.
+Enterprise subscription, and a license key to access StackStorm enterprise repositories. To add your
+license key, replace ``${ENTERPRISE_LICENSE_KEY}`` in the command below with the key you received when
+registering or purchasing.
 
 .. code-block:: bash
 
