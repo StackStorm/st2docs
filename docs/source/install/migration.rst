@@ -16,7 +16,7 @@ include data model changes. The runbook is usually
    version-specific migration scripts.
 
 3. Upgrade |st2| packages (``st2``, ``st2web``, `st2chatops``, ``st2mistral``
-   and ``st2enterprise`` using distro specific tools.
+   and ``bwc-enterprise`` using distro specific tools.
 
 Ubuntu:
 

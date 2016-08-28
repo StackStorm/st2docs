@@ -74,7 +74,7 @@ it is restricted to localhost.
 
 * **StackStorm WebUI** (st2web, and flow, for Enterprise Edition) are installed at ``/opt/statckstorm/webui``
   and configured via ``webui/config.js``. `st2web` comes in its own ``deb`` and ``rpm``. `Flow` is
-  deployed with ``st2enterprise`` package. They are HTML5 applications, served as static HTML,
+  deployed with ``bwc-enterprise`` package. They are HTML5 applications, served as static HTML,
   and calling StackStorm st2auth and st2api REST API endpoints. NGINX proxies st2auth and st2api
   requests through 443 HTTPS port to ``/api`` and ``/auth``.
 
