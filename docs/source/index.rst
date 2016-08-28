@@ -1,33 +1,40 @@
-Welcome to |fullname|'s documentation!
+Welcome to |st2|'s documentation!
 ======================================
 
 Contents:
 
 .. toctree::
     :maxdepth: 2
-    :caption: Fundamentals
+    :caption: Getting Started
 
     overview
     Installation and Configuration <install/index>
     start
-    packs
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Automation Basics
+
     actions
+    sensors
     rules
     workflows
-    sensors
+    packs
     webhooks
     datastore
-    authentication
-    rbac
     chatops/index
 
 .. toctree::
     :maxdepth: 2
     :caption: Advanced Topics
 
+    authentication
+    rbac
     reference/index
     troubleshooting/index
     development/index
+
+
 
 .. include:: _includes/solutions.rst
 
