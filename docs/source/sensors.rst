@@ -1,5 +1,5 @@
-Triggers and Sensors
-=====================
+Sensors and Triggers
+====================
 
 Sensors
 -------
