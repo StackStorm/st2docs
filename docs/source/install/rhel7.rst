@@ -363,7 +363,7 @@ registering or purchasing.
     # Set up Enterprise repository access
     curl -s https://${ENTERPRISE_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.rpm.sh | sudo bash
     # Install Enterprise editions
-    sudo yum install -y st2enterprise
+    sudo yum install -y bwc-enterprise
 
 To learn more about StackStorm Enterprise, request a quote, or get an evaluation license go
 to `stackstorm.com/product <https://stackstorm.com/product/#enterprise/>`_.

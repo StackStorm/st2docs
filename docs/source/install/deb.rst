@@ -314,7 +314,7 @@ registering or purchasing.
 .. code-block:: bash
 
     curl -s https://${ENTERPRISE_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.deb.sh | sudo bash
-    sudo apt-get install -y st2enterprise
+    sudo apt-get install -y bwc-enterprise
 
 To learn more about StackStorm Enterprise, request a quote, or get an evaluation license go
 to `stackstorm.com/product <https://stackstorm.com/product/#enterprise/>`_.
