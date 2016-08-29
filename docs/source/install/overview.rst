@@ -74,7 +74,7 @@ it is restricted to localhost.
 
 * **StackStorm WebUI** (st2web, and Workflow Designer, for Brocade Workflow Composer) are installed at ``/opt/statckstorm/webui``
   and configured via ``webui/config.js``. `st2web` comes in its own ``deb`` and ``rpm``. `Flow` is
-  deployed with ``st2enterprise`` package. They are HTML5 applications, served as static HTML,
+  deployed with ``bwc-enterprise`` package. They are HTML5 applications, served as static HTML,
   and calling |st2| st2auth and st2api REST API endpoints. NGINX proxies st2auth and st2api
   requests through 443 HTTPS port to ``/api`` and ``/auth``.
 
@@ -94,9 +94,8 @@ Dependencies
 The required dependencies are RabbitMQ, MongoDB, and PostgreSQL. The optional dependencies are:
 
   - nginx for SSL termination, reverse-proxying API endpoints and serving static HTML.
-  - Redis or Zookeeper for concurrency policies (see :doc:`/policies`).
+  - Redis or Zookeeper for concurrency policies (see :doc:`/reference/policies`).
   - LDAP for Brocade Workflow Composer LDAP authentication.
-
 
 
 Multi-box/HA deployment

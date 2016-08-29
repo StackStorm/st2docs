@@ -308,11 +308,15 @@ Upgrade to Brocade Workflow Composer
 -------------------------------------
 Brocade Workflow Composer is deployed as an addition on top of StackStorm. You will need an active
 Brocade Workflow Composer subscription, and a license key to access Brocade Workflow Composer repositories.
+To add your license key, replace ``${BWC_LICENSE_KEY}`` in the command below with the key you received when
+registering or purchasing.
 
 .. code-block:: bash
 
-    curl -s https://${ENTERPRISE_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.deb.sh | sudo bash
-    sudo apt-get install -y st2enterprise
+    # Set up Brocade Workflow Composer repository access
+    curl -s https://${BWC_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.deb.sh | sudo bash
+    # Install Brocade Workflow Composer
+    sudo apt-get install -y bwc-enterprise
 
 To learn more about Brocade Workflow Composer, request a quote, or get an evaluation license go
 to `stackstorm.com/product <https://stackstorm.com/product/#enterprise/>`_.
