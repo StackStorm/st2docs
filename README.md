@@ -67,6 +67,28 @@ sphinx-autobuild -H 0.0.0.0 -b html ./docs/source/ ./docs/build/html
 ```
 
 Edit, enjoy live updates.
+
+### For Windows users:
+
+1. Install Docker
+
+2. Run Docker QuickStart Terminal.This way these instructions work as-is (otherwise you will need
+   to convert these instructions to work with a Windows command prompt)
+
+3. cd to docs directory, e.g.:
+```
+cd /c/Users/stanley/st2docs
+```
+4. activate virtualenv:
+```
+. virtualenv/scripts/activate
+```
+5. Run
+```
+sphinx-autobuild -H 127.0.0.1 -b html ./docs/source/ ./docs/build/html
+```
+6. Connect to http://localhost:8000 Edit files. Watch live updates. Enjoy.
+
 ## Sphinx Tricks
 
 * If the whole section belongs in the Enterprise Edition, put the following note:
