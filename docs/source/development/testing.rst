@@ -1,7 +1,7 @@
 Testing
 =======
 
-In |st2| we have a multiple types of tests described bellow.
+In StackStorm we have multiple types of tests, as described below.
 
 To run a particular test suite we use Makefile targets. Underneath, those make
 targets create a virtual environment, install the required Python dependencies
@@ -27,7 +27,7 @@ Unit tests are located in ``<component>/tests/unit/``, e.g.
 Integration tests
 -----------------
 
-Integration tests exercise small pieces of code which require some |st2|
+Integration tests exercise small pieces of code which require some StackStorm
 services such as a database and message bus to run. Usually the have side
 affects (e.g. changing the state in the db, etc.).
 
@@ -38,7 +38,7 @@ End to end tests
 ----------------
 
 End to end test exercise the system as a whole (end to end) and require all the
-|st2| services and dependencies (database, message bus, etc.) to run.
+StackStorm services and dependencies (database, message bus, etc.) to run.
 
 Usually they exercise the API and the system using the CLI and / or the Python
 API client.

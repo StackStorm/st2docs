@@ -1,7 +1,7 @@
 Development
 ===========
 
-This page describes |st2| development process and contains general
+This page describes StackStorm development process and contains general
 guidelines and information on how to contribute to the project.
 
 Contributing
@@ -17,22 +17,22 @@ assist you.
 For information on contributing an integration pack, please refer to the
 :doc:`Create and Contribute a Pack </reference/packs>` page.
 
-For an overview of core |st2| code structure, please refer to
+For an overview of core StackStorm code structure, please refer to
 :doc:`Code structure </development/code_structure>`.
 
 Setting up a development environment
 ------------------------------------
 
 There are multiple ways for you to set up a development environment and get
-started with |st2| development.
+started with StackStorm development.
 
 The best and easiest approach is to use our Vagrant images which contains all
 the dependencies you need to get started. For more information, see
 `st2workroom / st2dev <https://github.com/StackStorm/st2workroom#st2dev>`_.
 
-Another approach is to install |st2| and all the dependencies from source
+Another approach is to install StackStorm and all the dependencies from source
 on a server or VM of your liking. For more information about this approach, see
-:doc:`Installing |st2| from sources </development/sources>`.
+:doc:`Installing StackStorm from sources </development/sources>`.
 
 General contribution guidelines
 -------------------------------
@@ -58,7 +58,7 @@ Code style guide
 * You can verify that your modifications don't break any rules by running the
   lint script - ``make flake8``
 
-Most |st2| repositories use shared Flake8 and PyLint configuration files
+Most StackStorm repositories use shared Flake8 and PyLint configuration files
 which you can get from the `lint-configs repo <https://github.com/StackStorm/lint-configs>`_.
 
 And most importantly, follow the existing style in the file you are editing and
@@ -123,8 +123,8 @@ implement ``to_dict`` method on that class. This method is responsible for
 returning a dictionary representation of this object which can be serialized as
 JSON.
 
-Keep in mind that this method is already implement for all of the |st2|
-database object (``ActionDB``, ``RunnerTypeDB``, etc.).
+Keep in mind that this method is already implemented for all of the StackStorm
+database objects (``ActionDB``, ``RunnerTypeDB``, etc.).
 
 .. sourcecode:: python
 
@@ -139,7 +139,7 @@ database object (``ActionDB``, ``RunnerTypeDB``, etc.).
 Using the AUDIT log level
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-|st2| code declares a custom ``AUDIT`` log level. This log level is to be
+StackStorm code declares a custom ``AUDIT`` log level. This log level is to be
 when recording CRUD operations on the resources and when performing other
 actions which should be logged in the audit log.
 

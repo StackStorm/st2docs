@@ -146,11 +146,11 @@ Copy the following content to policies/policy1.yaml
 
 .. literalinclude:: /../../st2/contrib/hello-st2/policies/policy1.yaml
 
-7. Deploy this pack manually.
+7. Deploy this pack manually:
 
 .. code-block:: bash
 
-   # Assuming that hello-st2 is on the same machine where |st2| is running.
+   # Assuming that hello-st2 is on the same server
    cp -R ./hello-st2 /opt/stackstorm/packs
 
    # Create virtual environment for hello-st2.

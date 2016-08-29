@@ -166,7 +166,7 @@ A single alias file allow multiple formats to be specified for a single alias e.
     ---
     name: "st2_sensors_list"
     action_ref: "st2.sensors.list"
-    description: "List available |st2| sensors."
+    description: "List available StackStorm sensors."
     formats:
         - "list sensors"
         - "list sensors from {{ pack }}"
@@ -220,7 +220,7 @@ You can use both strings and display-representation objects in ``formats`` at th
 Acknowledgment options
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Hubot will acknowledge every ChatOps command with a random message containing the |st2| execution ID and a
+Hubot will acknowledge every ChatOps command with a random message containing the StackStorm execution ID and a
 link to the Web UI. This message can be customized in your alias definition:
 
 .. code-block:: yaml
@@ -335,7 +335,7 @@ Testing and extending alias parameters
 Action Aliases have a strict schema, and normally you have to modify it
 if you want to introduce new parameters to Hubot. However, ``extra`` (see above)
 is schema-less and can be used for hacking on ``hubot-stackstorm`` without
-having to modify |st2| source code.
+having to modify StackStorm source code.
 
 For example, you might want to introduce an ``audit`` parameter that would make
 Hubot log executions of certain aliases into a separate file. You would define it

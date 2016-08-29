@@ -1,5 +1,5 @@
 
-.. note:: For the best evaluation experience, run |st2| Installer on one of the environments, which we continuously test and certify:
+.. note:: For the best evaluation experience, run the |st2| Installer on one of these environments, which we continuously test and certify:
 
     +---------------------+--------------+------------------------------------+
     |                     | **AWS AMI**  |    **Vagrant box**                 |

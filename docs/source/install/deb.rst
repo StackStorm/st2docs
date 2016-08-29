@@ -227,7 +227,7 @@ the official Nginx repository into the source list:
 
     # Remove default site, if present
     sudo rm /etc/nginx/conf.d/default.conf
-    # Copy and enable |st2|'s supplied config file
+    # Copy and enable the supplied nginx config file
     sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
 
     sudo service nginx restart

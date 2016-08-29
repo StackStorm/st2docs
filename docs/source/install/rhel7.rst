@@ -264,7 +264,7 @@ the official Nginx repository into the list:
     -days 365 -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
     Technology/CN=$(hostname)"
 
-    # Copy and enable |st2|'s supplied config file
+    # Copy and enable the supplied nginx config file
     sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
 
     # Disable default_server configuration in existing /etc/nginx/nginx.conf

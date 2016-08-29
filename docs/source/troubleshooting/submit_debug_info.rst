@@ -1,13 +1,13 @@
 .. _submit_debug_info_to_st2:
 
-Submitting debugging information to |st2|
-======================================================================
+Submitting Debugging Information 
+================================
 
-First step when trying to help you debug an issue or a problem you are having
-is for us to try to reproduce the problem. To be able to do that, our setup
-needs to resemble yours as closely as possible.
+The first step when trying to help you debug an issue is for us to try to
+reproduce the problem. To be able to do that, our setup needs to resemble
+yours as closely as possible.
 
-To save time and make yours and our life easier, the default distribution of
+To save time and make yours and our lives easier, the default distribution of
 |st2| includes a utility which allows you to easily and in a secure manner
 send us the information we need to help you debug or troubleshoot an issue.
 
@@ -22,7 +22,7 @@ By default, this script sends us the following information:
 
 All this information is bundled up in a tarball and encrypted using our
 public key via public-key cryptography. Once submitted, this information
-is only accessible to Brocade employees and it's used solely for
+is only accessible to Brocade employees and it is used solely for
 debugging purposes.
 
 To send debug information to Brocade, simply invoke the command shown
@@ -67,7 +67,7 @@ like this:
 Reviewing the debug information
 -------------------------------
 
-If you want to review and / or manipulate information (e.g. remove log lines
+If you want to review and/or manipulate information (e.g. remove log lines
 which you might find sensitive) which is sent to Brocade, you can do that
 using ``--review`` flag.
 

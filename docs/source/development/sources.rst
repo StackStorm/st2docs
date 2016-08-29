@@ -50,7 +50,7 @@ Project Requirements
 ~~~~~~~~~~~~~~~~~~~~
 
 Once the environment is setup, clone the git repo, and make the project.
-This will create the python virtual environment under |st2|, download
+This will create the python virtual environment under StackStorm, download
 and install required dependencies, and run tests.
 
 ::
@@ -69,16 +69,16 @@ Specify a user for running local and remote SSH actions. See :ref:`config-config
 
 Running
 ~~~~~~~
-Run the following to start |st2|. The script will start |st2| components in screen sessions. ::
+Run the following to start StackStorm The script will start StackStorm components in screen sessions. ::
 
     ./tools/launchdev.sh start
 
 Additional commands: ::
 
     source virtualenv/bin/activate  # Activates the python virtual environment
-    tools/launchdev.sh startclean    # Reset and launches all |st2| services in screen sessions
-    tools/launchdev.sh start         # Launches all |st2| services in screen sessions
-    tools/launchdev.sh stop          # Stops all |st2| screen sessions and services
+    tools/launchdev.sh startclean    # Reset and launches all StackStorm services in screen sessions
+    tools/launchdev.sh start         # Launches all StackStorm services in screen sessions
+    tools/launchdev.sh stop          # Stops all StackStorm screen sessions and services
 
 If the services are started successfully, you will see the following
 output. ::
@@ -101,14 +101,14 @@ output. ::
     Registering sensors, actions, rules and aliases...
     ...
 
-|st2| can now be operated using the REST API, |st2| CLI, and the
+StackStorm can now be operated using the REST API, StackStorm CLI, and the
 st2client python client library.
 
 .. _setup-st2-cli:
 
-Install |st2| CLI
-~~~~~~~~~~~~~~~~~
-The |st2| CLI client needs to be installed. It's not necessary to install this into the virtualenv. However, the client may need to be installed with sudo if not in the virtualenv. ::
+Install StackStorm CLI
+~~~~~~~~~~~~~~~~~~~~~~
+The StackStorm CLI client needs to be installed. It's not necessary to install this into the virtualenv. However, the client may need to be installed with sudo if not in the virtualenv. ::
 
     cd ./st2client
     python setup.py develop
@@ -153,6 +153,6 @@ or if you only want to run a test for specific file or even class or method, run
 .. rubric:: What's Next?
 
 * Get going with :doc:`/start`.
-* Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with |st2|.
+* Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with StackStorm.
 
 .. include:: /__engage_community.rst

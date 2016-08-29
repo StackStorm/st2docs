@@ -28,7 +28,7 @@ The command takes the following very simple format:
 
 .. code-block:: bash
  
-    ! pack deploy {{repo_name}} {{packs}} {{branch=master}} - Download |st2| packs via ChatOps
+    ! pack deploy {{repo_name}} {{packs}} {{branch=master}} - Download StackStorm packs via ChatOps
 
 Deploying Custom packs via ChatOps
 ----------------------------------

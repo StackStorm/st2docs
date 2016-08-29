@@ -302,9 +302,9 @@ Administrator of |st2| on a box that is running |st2|.
 User creation
 ~~~~~~~~~~~~~
 
-All user and password management is kept outside of StackStorm. Documentation on :doc:`authentication <authentication>` describes how to confirgure StackStorm with various identity providers.
+All user and password management is kept outside of StackStorm. Documentation on :doc:`authentication <authentication>` describes how to configure StackStorm with various identity providers.
 
-For sake of this example let us assume that the identify provider is managed by the OS on which |st2| runs.
+For sake of this example let us assume that the identity provider is managed by the OS on which |st2| runs.
 
 To create a user and set-up a password on most linux systems -
 
