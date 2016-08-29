@@ -7,28 +7,28 @@
 
 master_doc = 'index'
 
-project = u'ipfabric-docs'
-copyright = u'2016, Brocade Communications Inc'
+project = u'StackStorm'
+copyright = u'2016, StackStorm'
 author = u'Brocade Communications Inc'
 
-base_url = u'http://bwc-docs.brocade.com/'
-htmlhelp_basename = 'ipfabric-doc'
+base_url = u'http://docs.stackstorm.com/'
+htmlhelp_basename = 'StackStormDoc'
 
 man_pages = [
-    ('index', 'ipfabric-docs', u'IPFabric Documentation',
-     [u'Brocade'], 1)
+    ('index', 'stackstorm', u'StackStorm Documentation',
+     [u'StackStorm team'], 1)
 ]
 latex_documents = [
-    (master_doc, 'ipfabric-docs.tex', u'ipfabric-docs Documentation',
-     u'Brocade Communications Inc', 'manual'),
+    (master_doc, 'stackstorm-docs.tex', u'StackStorm Documentation',
+     u'StackStorm team', 'manual'),
 ]
 texinfo_documents = [
-    (master_doc, 'ipfabric-docs', u'IPFabric Documentation',
-     u'Brocade', 'ipfabric-docs', 'One line description of project.',
+    ('index', 'StackStorm', u'StackStorm Documentation',
+     u'StackStorm team', 'StackStorm', 'One line description of project.',
      'Miscellaneous'),
 ]
 
-github_repo = 'StackStorm/ipfabric-docs'
+github_repo = 'StackStorm/st2docs'
 github_version = 'master'
 
-theme_base_url = u'http://bwc-docs.brocade.com/'
+theme_base_url = u'http://docs.stackstorm.com/'
