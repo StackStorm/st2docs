@@ -22,7 +22,7 @@ registered independently. You don't have to write a sensor.
 Internal triggers
 -----------------
 
-By default StackStorm emits some internal triggers which you can leverage in the
+By default |st2| emits some internal triggers which you can leverage in the
 rules. Those triggers can be distinguished by non-system triggers since they are
 prefixed with ``st2.``.
 

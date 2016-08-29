@@ -17,7 +17,7 @@ assist you.
 For information on contributing an integration pack, please refer to the
 :doc:`Create and Contribute a Pack </reference/packs>` page.
 
-For an overview of core |st2| code structure, please refer to
+For an overview of core StackStorm code structure, please refer to
 :doc:`Code structure </development/code_structure>`.
 
 Setting up a development environment
@@ -123,8 +123,8 @@ implement ``to_dict`` method on that class. This method is responsible for
 returning a dictionary representation of this object which can be serialized as
 JSON.
 
-Keep in mind that this method is already implement for all of the StackStorm
-database object (``ActionDB``, ``RunnerTypeDB``, etc.).
+Keep in mind that this method is already implemented for all of the StackStorm
+database objects (``ActionDB``, ``RunnerTypeDB``, etc.).
 
 .. sourcecode:: python
 

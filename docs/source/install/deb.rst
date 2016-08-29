@@ -1,7 +1,7 @@
 Ubuntu / Debian
 ===============
 
-This guide provides step-by step instructions for installing StackStorm on a single Ubuntu/Debian 64 bit system per
+This guide provides step-by step instructions for installing |st2| on a single Ubuntu/Debian 64 bit system per
 the :doc:`Reference deployment </install/overview>`.
 
 .. rubric:: TL;DR
@@ -73,7 +73,7 @@ The following script will detect your platform and architecture and setup the re
 
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
-Install StackStorm components
+Install |st2| components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   .. code-block:: bash
@@ -97,14 +97,14 @@ Setup Mistral Database
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
 
-To run local and remote shell actions, StackStorm uses a special system user (default ``stanley``).
+To run local and remote shell actions, |st2| uses a special system user (default ``stanley``).
 For remote Linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
 
-* Create StackStorm system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally. You will need elevated privileges to do this.
+* Create |st2| system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally. You will need elevated privileges to do this.
 
 .. include:: common/configure_ssh_and_sudo.rst
 
-* Configure SSH access and enable passwordless sudo on the remote hosts which StackStorm would control
+* Configure SSH access and enable passwordless sudo on the remote hosts which |st2| would control
   over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
   To control Windows boxes, configure access for :doc:`Windows runners </install/config/windows_runners>`.
 
@@ -133,10 +133,10 @@ Verify
 
 -----------------
 
-At this point you have a minimal working installation, and can happily play with StackStorm:
+At this point you have a minimal working installation, and can happily play with |st2|:
 follow :doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs from `st2contrib`_.
 
-But there is no joy without WebUI, no security without SSL termination, no fun without ChatOps, and no money without Enterprise edition. Read on, move on!
+But there is no joy without WebUI, no security without SSL termination, no fun without ChatOps, and no money without Brocade Workflow Composer. Read on, move on!
 
 -----------------
 
@@ -198,10 +198,10 @@ Install WebUI and setup SSL termination
 `NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS,
 provide SSL termination for HTTPS, and reverse-proxy st2auth and st2api API endpoints.
 To set it up, install `st2web` and `nginx`, generate certificates or place your existing
-certificates under ``/etc/ssl/st2``, and configure nginx with StackStorm's supplied
+certificates under ``/etc/ssl/st2``, and configure nginx with |st2|'s supplied
 :github_st2:`site config file st2.conf<conf/nginx/st2.conf>`.
 
-StackStorm depends on Nginx version >=1.7.5; since Ubuntu 14 has an older version
+|st2| depends on Nginx version >=1.7.5; since Ubuntu 14 has an older version
 in the package repositories at the time of writing, you will have to include
 the official Nginx repository into the source list:
 
@@ -227,7 +227,7 @@ the official Nginx repository into the source list:
 
     # Remove default site, if present
     sudo rm /etc/nginx/conf.d/default.conf
-    # Copy and enable StackStorm's supplied config file
+    # Copy and enable the supplied nginx config file
     sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
 
     sudo service nginx restart
@@ -261,7 +261,7 @@ For example, to see the endpoint for getting actions, invoke
 Setup ChatOps
 -------------
 
-If you already run a Hubot instance, you only have to install the `hubot-stackstorm plugin <https://github.com/StackStorm/hubot-stackstorm>`_ and configure StackStorm env variables, as described below. Otherwise, the easiest way to enable
+If you already run a Hubot instance, you only have to install the `hubot-stackstorm plugin <https://github.com/StackStorm/hubot-stackstorm>`_ and configure |st2| env variables, as described below. Otherwise, the easiest way to enable
 :doc:`StackStorm ChatOps </chatops/index>` is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
 
 * Validate that ``chatops`` pack is installed, and a notification rule is enabled: ::
@@ -280,7 +280,7 @@ If you already run a Hubot instance, you only have to install the `hubot-stackst
       sudo apt-get install -y st2chatops
 
 * Review and edit ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to your
-  StackStorm installation and Chat Service you are using. By default ``st2api`` and ``st2auth``
+  |st2| installation and Chat Service you are using. By default ``st2api`` and ``st2auth``
   are expected to be on the same host. If that is not the case, please update ``ST2_API`` and
   ``ST2_AUTH_URL`` variables or just point to correct host with ``ST2_HOSTNAME`` variable.
 
@@ -304,17 +304,19 @@ If you already run a Hubot instance, you only have to install the `hubot-stackst
 
 * That's it! Go to your Chat room and begin ChatOpsing. Read more in the :doc:`/chatops/index` section.
 
-Upgrade to Enterprise Edition
------------------------------
-Enterprise Edition is deployed as an addition on top of StackStorm Community. You will need an active
-Enterprise subscription, and a license key to access StackStorm enterprise repositories. To add your
-license key, replace ``${ENTERPRISE_LICENSE_KEY}`` in the command below with the key you received when
+Upgrade to Brocade Workflow Composer
+-------------------------------------
+Brocade Workflow Composer is deployed as an addition on top of StackStorm. You will need an active
+Brocade Workflow Composer subscription, and a license key to access Brocade Workflow Composer repositories.
+To add your license key, replace ``${BWC_LICENSE_KEY}`` in the command below with the key you received when
 registering or purchasing.
 
 .. code-block:: bash
 
-    curl -s https://${ENTERPRISE_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.deb.sh | sudo bash
+    # Set up Brocade Workflow Composer repository access
+    curl -s https://${BWC_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.deb.sh | sudo bash
+    # Install Brocade Workflow Composer
     sudo apt-get install -y bwc-enterprise
 
-To learn more about StackStorm Enterprise, request a quote, or get an evaluation license go
+To learn more about Brocade Workflow Composer, request a quote, or get an evaluation license go
 to `stackstorm.com/product <https://stackstorm.com/product/#enterprise/>`_.

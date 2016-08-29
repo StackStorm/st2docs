@@ -1,7 +1,7 @@
 REST API access
 ===============
 
-There might be times when you might want to use StackStorm APIs. We do not have a detailed
+There might be times when you might want to use |st2| APIs. We do not have a detailed
 REST API documentation yet. You can still get info about the REST endpoints by using the |st2| CLI.
 The CLI spits out the ``curl`` command as well for convenience.
 

@@ -3,7 +3,7 @@ Nginx and WSGI
 
 Production |st2| installations use `nginx <http://nginx.org/en/>`_ for SSL termination,
 serving static content of WebUI,
-and running st2auth and st2api as WSGI apps via gunicorn/uwsgi. StackStorm nginx configurations
+and running st2auth and st2api as WSGI apps via gunicorn/uwsgi. |st2| nginx configurations
 can be found at ``/etc/nginx/sites-enabled/st2*.conf``.
 
 ``st2auth`` and ``st2api`` can also run using a built-in simple Python server. This is used for development and strongly discouraged for any production. Be aware that some settings in /etc/st2.conf are only effective when running in development mode, and don't apply when running under WSGI servers. Refer to the comments in
@@ -12,7 +12,7 @@ can be found at ``/etc/nginx/sites-enabled/st2*.conf``.
 Configure MongoDB
 -----------------
 
-StackStorm requires a connection to MongoDB to operate.
+|st2| requires a connection to MongoDB to operate.
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
 
@@ -27,7 +27,7 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 
 The ``username`` and ``password`` properties are optional.
 
-StackStorm also supports `MongoDB replica sets <https://docs.mongodb.com/v2.4/core/replication-introduction/>`_
+|st2| also supports `MongoDB replica sets <https://docs.mongodb.com/v2.4/core/replication-introduction/>`_
 using `MongoDB URI string <https://docs.mongodb.com/v2.4/reference/connection-string/>`_.
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
@@ -41,7 +41,7 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 
 * To understand more about setting up a MongoDB replica set - https://docs.mongodb.com/v2.4/tutorial/deploy-replica-set/
 
-StackStorm also supports SSL/TLS to encrypt connections. A few extra properties need be added to
+|st2| also supports SSL/TLS to encrypt connections. A few extra properties need be added to
 the configuration apart from the ones outlined above.
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
@@ -72,7 +72,7 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 Configure RabbitMQ
 ------------------
 
-StackStorm uses RabbitMQ for messaging between its services.
+|st2| uses RabbitMQ for messaging between its services.
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section:
 
@@ -83,7 +83,7 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 
 The ``#RMQ_VHOST`` property is optional and can be left blank.
 
-StackStorm also supports `RabbitMQ cluster <https://www.rabbitmq.com/clustering.html>`_.
+|st2| also supports `RabbitMQ cluster <https://www.rabbitmq.com/clustering.html>`_.
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
 
@@ -116,7 +116,7 @@ Follow these steps on a remote box to setup `stanley` user on remote boxes.
     mkdir -p /home/stanley/.ssh
     chmod 0700 /home/stanley/.ssh
 
-    # generate ssh keys on StackStorm box and copy over public key to remote box.
+    # generate ssh keys and copy over public key to remote box.
     ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
     cp ${KEY_LOCATION}/stanley_rsa.pub /home/stanley/.ssh/stanley_rsa.pub
 
@@ -151,7 +151,7 @@ SSH Troubleshooting
 Using SSH config
 ~~~~~~~~~~~~~~~~
 
-StackStorm allows loading of the SSH config file local to the system user. This is a configurable option. To
+|st2| allows loading of the SSH config file local to the system user. This is a configurable option. To
 enable, add the following to ``/etc/st2/st2.conf``
 
 .. code-block:: bash
@@ -163,7 +163,7 @@ enable, add the following to ``/etc/st2/st2.conf``
 SUDO Access
 -----------
 
-StackStorm's ``shell`` actions -  ``local-shell-cmd``, ``local-shell-script``, ``remote-shell-cmd``, ``remote-shell-script``- are performed by a special user. By default, this user is named ``stanley``. This is configurable via :github_st2:`st2.conf <conf/st2.prod.conf>`.
+|st2|'s ``shell`` actions -  ``local-shell-cmd``, ``local-shell-script``, ``remote-shell-cmd``, ``remote-shell-script``- are performed by a special user. By default, this user is named ``stanley``. This is configurable via :github_st2:`st2.conf <conf/st2.prod.conf>`.
 
 .. note:: `stanley` user requires the following access:
 

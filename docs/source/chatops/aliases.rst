@@ -2,7 +2,7 @@ Action Aliases
 ==============
 
 Action Aliases are a simplified and more human readable representation
-of actions in StackStorm. They are useful in text based interfaces, notably ChatOps.
+of actions in |st2|. They are useful in text based interfaces, notably ChatOps.
 
 Action Alias Structure
 ^^^^^^^^^^^^^^^^^^^^^^

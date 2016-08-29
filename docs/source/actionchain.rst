@@ -137,7 +137,7 @@ Details:
 Passing data between different workflows
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In StackStorm, workflow is just an action which means you pass data from one
+In |st2|, workflow is just an action which means you pass data from one
 workflow to another in exactly the same manner was you would pass data to an
 action - you use action parameters.
 

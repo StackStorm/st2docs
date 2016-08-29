@@ -1,7 +1,7 @@
 Testing
 =======
 
-In StackStorm we have a multiple types of tests described bellow.
+In StackStorm we have multiple types of tests, as described below.
 
 To run a particular test suite we use Makefile targets. Underneath, those make
 targets create a virtual environment, install the required Python dependencies

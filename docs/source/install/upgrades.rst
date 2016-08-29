@@ -29,14 +29,14 @@ control.
 
 The recommended upgrade path to move from v1.3 to v1.4 (or above) is as follows:
 
-1. Install StackStorm ``VERSION_NEW`` on a brand new instance using packages based installer.
+1. Install |st2| ``VERSION_NEW`` on a brand new instance using packages based installer.
 2. Package all your packs from the old ``VERSION_OLD`` instance and place them under some SCM
    like git (you should have done it long ago).
 3. Save your key-value pairs from the st2 datastore: ``st2 key list -j > kv_file.json``
 4. Grab packs from the SCM.
 5. If the SCM is git then it is possible to use ``st2 run packs.install packs=<pack-list>
    repo_url=<repo-url>``
-6. Reconfigure all external services to point to the new StackStorm instance.
+6. Reconfigure all external services to point to the new |st2| instance.
 7. Load your keys to the datastore: ``st2 key load kv_file.json``. You might have to readjust
    the JSON files to include ``scope`` and ``secret`` if you are upgrading from version < 1.5 to 1.5 onwards. See migration script in ``/opt/stackstorm/st2/bin/st2-migrate-datastore-to-include-scope-secret.py`` for an idea.
 8. Back up audit log from ``VERSION_OLD`` server found under ``/var/log/st2/*.audit.log`` and

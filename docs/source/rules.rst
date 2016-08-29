@@ -313,7 +313,7 @@ Testing Rules
 -------------
 
 To make testing the rules easier we provide a ``st2-rule-tester`` tool which allows evaluating rules against
-trigger instances without running any of the StackStorm components.
+trigger instances without running any of the |st2| components.
 
 The tool works by taking a path to the file which contains rule definition and a file which
 contains trigger instance definition:
@@ -434,7 +434,7 @@ Output:
 
 ``st2-rule-tester`` further allows a kind of post-mortem debugging where you can answer the
 question ``Why did my rule not match the trigger that just fired?``. This means there is known
-``Rule`` identifiable by its reference loaded in StackStorm and similarly a TriggerInstance
+``Rule`` identifiable by its reference loaded in |st2| and similarly a TriggerInstance
 with a known id.
 
 Lets say we have rule reference `my_pack.fire_on_execution` and a trigger instance `566b4be632ed352a09cd347d`

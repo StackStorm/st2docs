@@ -652,7 +652,7 @@ To see all predefined actions:
 .. rubric:: What's Next?
 
 * Explore packs and actions contributed by |st2| developers and community in the `StackStorm st2contrib repo on Github <https://github.com/StackStorm/st2contrib/>`_.
-* Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ on creating actions, and other practical examples of automating with StackStorm.
+* Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ on creating actions, and other practical examples of automating with |st2|.
 
 .. _JSON Schema: http://json-schema.org/documentation.html
 .. _jq: https://stedolan.github.io/jq/
