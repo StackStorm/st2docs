@@ -130,7 +130,7 @@ the YAML config file:
 
     st2-submit-debug-info --config <path to config file>
 
-    This will submit the following information to BRocade: logs, configs, content, system_info, shell_commands
+    This will submit the following information to Brocade: logs, configs, content, system_info, shell_commands
     Are you sure you want to proceed? [y/n] y
     2016-01-19 06:12:18,587  INFO - Collecting files...
     2016-01-19 06:12:19,602  INFO - Creating tarball...
