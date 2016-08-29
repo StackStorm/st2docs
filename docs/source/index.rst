@@ -4,36 +4,48 @@ Welcome to |st2|'s documentation!
 Contents:
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
+    :caption: Getting Started
 
     overview
-    install/index
-    config/index
-    video
+    Installation and Configuration <install/index>
     start
-    packs
-    pack_configs
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Automation Basics
+
     actions
-    runners
+    sensors
     rules
     workflows
-    sensors
+    packs
     webhooks
-    chatops/index
-    policies
     datastore
-    history
-    traces
-    cli
+    chatops/index
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Advanced Topics
+
     authentication
     rbac
-    jinja
     reference/index
     troubleshooting/index
-    proxy
     development/index
-    changelog
-    upgrade_notes
-    roadmap
+
+
 
 .. include:: _includes/solutions.rst
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Release Notes
+
+    changelog
+    upgrade_notes
+    Roadmap <roadmap>
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Lost and Found
