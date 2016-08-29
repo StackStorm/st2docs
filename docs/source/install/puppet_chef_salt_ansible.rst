@@ -19,7 +19,7 @@ your contributions here are very welcome.
 Puppet
 ======
 
-|st2| provides a supported Puppet module for use when deploying in an existing Puppet infrastructure. This module is designed to allow relative flexibility with the configuration methods and management techniques of the |s2| application.
+|st2| provides a supported Puppet module for use when deploying in an existing Puppet infrastructure. This module is designed to allow relative flexibility with the configuration methods and management techniques of the |st2| application.
 
 This module aims to provide sane default configurations, but also stay out of your way in the event you need something more custom. To accomplish this, this module uses the Roles/Profiles pattern. Included in this module are several modules that come with sane defaults that you can use directly or use to compose your own site-specific profile for |st2| installation.
 
