@@ -23,17 +23,17 @@ share a dedicated Python virtualenv, and are configured by /etc/st2/st2.conf.
     * **st2sensorcontainer** runs sensors from ``/opt/stackstorm/packs``. It manages the sensors to
       be run on a node. It will start, stop and restart based on policy the sensors running on a node.
     * **st2rulesengine** evaluates rules when it sees TriggerInstances and decides if an ActionExecution
-      is to be requested. It needs access to MongoDB to locate rules and RabbitMQ to listen for 
-      TriggerInstances and request ActionExecutions. The auxiliary purpose of this process is to 
+      is to be requested. It needs access to MongoDB to locate rules and RabbitMQ to listen for
+      TriggerInstances and request ActionExecutions. The auxiliary purpose of this process is to
       run all the defined timers.
     * **st2actionrunners** run actions from packs under ``/opt/stackstorm/packs`` via a variety of
-      :doc:`/runners`. Runners may require some runner-specific configurations, e.g. SSH needs to be
+      :doc:`/reference/runners`. Runners may require some runner-specific configurations, e.g. SSH needs to be
       configured for running remote actions based on `remote-shell-runner` and `remote-command-runner`.
-      Windows prerequisites must be in place to run Windows runners. See :doc:`Runners </runners>`
+      Windows prerequisites must be in place to run Windows runners. See :doc:`Runners </reference/runners>`
       for details.
     * **st2resultstracker** keeps track of long-running workflow executions, calling the Mistral
       API endpoint.
-    * **st2notifier** generates ``st2.core.actiontrigger`` and ``st2.core.notifytrigger`` based 
+    * **st2notifier** generates ``st2.core.actiontrigger`` and ``st2.core.notifytrigger`` based
       on the completion of ActionExecution. The auxiliary purpose is to act as a backup scheduler
       for actions that may not have been scheduled.
     * **st2garbagecollector** is an optional service to periodically delete old execution history
@@ -52,7 +52,7 @@ share a dedicated Python virtualenv, and are configured by /etc/st2/st2.conf.
 
 ``st2client`` is the CLI and Python bindings for StackStorm API. To configure CLI to point to the right
 API, authentication options, suppressing insecure warnings for self-signed certificates and other
-conveniences see :doc:`/cli`. ``st2client`` is packaged with ``st2``, or can be installed
+conveniences see :doc:`/reference/cli`. ``st2client`` is packaged with ``st2``, or can be installed
 independently.
 
 3. st2mistral

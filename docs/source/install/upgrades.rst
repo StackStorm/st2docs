@@ -6,7 +6,7 @@ I am using the new packages based installer
 
 If |st2| has been installed from `rpm/deb`, use the standard upgrade procedure for your Linux
 distribution. You can simply upgrade the specific packages namely ``st2``, ``st2web``,
-``st2chatops``, ``st2mistral`` and ``st2enterprise``.
+``st2chatops``, ``st2mistral`` and ``bwc-enterprise``.
 
 Most of these upgrades should be seamless and do no require the user to do anything else.
 For ``st2``, depending on the ``from`` version and the ``to`` version, you might need to run

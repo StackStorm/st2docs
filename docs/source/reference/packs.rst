@@ -79,7 +79,7 @@ The ``aliases`` folder contains Action Aliases. See :doc:`Action Alias </chatops
       policy1.yaml
       policy2.yaml
 
-The ``policies`` folder contains Policies. See :doc:`Policies </policies>` for specifics on writing Policies.
+The ``policies`` folder contains Policies. See :doc:`Policies </reference/policies>` for specifics on writing Policies.
 
 My first pack
 -------------
