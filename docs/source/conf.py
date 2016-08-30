@@ -127,7 +127,7 @@ rst_epilog = """
 .. _st2contrib: http://www.github.com/stackstorm/st2contrib
 .. _st2incubator: http://www.github.com/stackstorm/st2incubator
 .. |bwc| replace:: Brocade Workflow Composer
-.. |ipf| replace:: IP Fabric Suite
+.. |ipf| replace:: IP Fabric Automation Suite
 """ % product_replace
 
 # Show or hide TODOs. See http://sphinx-doc.org/ext/todo.html
