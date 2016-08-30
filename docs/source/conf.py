@@ -203,6 +203,9 @@ html_theme_options = {
     'base_url': info.theme_base_url
 }
 
+# Disables pilcrow symbol on toctree next to caption headings
+html_add_permalink = ""
+
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
 html_theme_path = ["_themes", ]
