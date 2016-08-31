@@ -9,7 +9,6 @@ References and Guides
    pack_configs
    packs
    jinja
-   jinja_filters
    policies
    runners
    traces

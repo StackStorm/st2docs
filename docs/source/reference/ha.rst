@@ -1,6 +1,6 @@
 :orphan:
 
-High availability deployment
+High Availability Deployment
 ============================
 
 |st2| has been systematically built with High availability(HA) as a goal. The exact deployment
