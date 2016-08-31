@@ -4,42 +4,15 @@ RHEL 6 / CentOS 6
 This guide provides step-by step instructions for installing |st2| on a single RHEL 6/CentOS 6 64 bit system per
 the :doc:`Reference deployment </install/overview>`.
 
-.. rubric:: TL;DR
-
-That's OK! You're busy, we get it. How do you just get started? Get yourself a clean box, and run this command:
-
-::
-
-   curl -sSL https://stackstorm.com/packages/install.sh | bash -s -- --user=st2admin --password=<CHANGEME>
+.. note:: `Use the Source, Luke! <http://c2.com/cgi/wiki?UseTheSourceLuke>`_ We strive to keep the documentation current, yet the best way to find out what really happens
+  is to look at the code of the `installer script
+  <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el6.sh>`_.
 
 .. contents::
 
-Supported platforms
+System Requirements
 -------------------
-
-.. include:: __64bit_note.rst
-
-We support RedHat 6 / CentOS 6 and test on `Red Hat Enterprise Linux (RHEL) 6 (HVM) Amazon AWS AMI <https://aws.amazon.com/marketplace/pp/B00CFQWLS6/ref=srh_res_product_title?ie=UTF8&sr=0-8&qid=1457037733401>`_
-and `puppetlabs/centos-6.6-64-nocm Vagrant box <https://atlas.hashicorp.com/puppetlabs/boxes/centos-6.6-64-nocm>`_. Other RPM based distributions and versions will likely work with some tweaks, you are welcome to try and report successes to the `community <https://stackstorm.com/community-signup>`_.
-
-
-Sizing the server
------------------
-
-While the system can operate with lower specs, these are the recommendations
-for the best experience while testing or deploying |st2|:
-
-+--------------------------------------+-----------------------------------+
-|            Testing                   |         Production                |
-+======================================+===================================+
-|  * Dual CPU system                   | * Quad core CPU system            |
-|  * 1GB RAM                           | * >16GB RAM                       |
-|  * 10GB storage                      | * 40GB storage                    |
-|  * Recommended EC2: **t2.medium**    | * Recommended EC2: **m4.xlarge**  |
-+--------------------------------------+-----------------------------------+
-
-.. contents::
-
+Please check :doc:`supported versions and system requirements <system_requirements>`.
 
 Minimal installation
 --------------------

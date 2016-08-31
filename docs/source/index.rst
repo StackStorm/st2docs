@@ -8,7 +8,7 @@ Contents:
     :caption: Getting Started
 
     overview
-    Installation and Configuration <install/index>
+    Install and Configure <install/index>
     start
 
 .. toctree::
