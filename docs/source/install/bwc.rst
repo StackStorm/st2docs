@@ -18,8 +18,8 @@ with the key you received when registering for evaluation or purchasing BWC.
   ./install.sh --user=st2admin --password=Ch@ngeMe --license=${BWC_LICENSE_KEY}
 
 
-To understand the details of installation procedure,
-or install |bwc| manually, follow the installation guide for your Linux version:
+To understand the details of the installation procedure,
+or to install |bwc| manually, follow the installation guide for your Linux version:
 :doc:`/install/deb`, :doc:`/install/rhel7`, or :doc:`/install/rhel6`. It will walk you through
 installing and configuring components per :doc:`single box reference deployment <overview>`.
 The last step of the instructions is "Upgrade to |bwc|".
