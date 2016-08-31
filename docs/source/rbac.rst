@@ -22,7 +22,7 @@ efficiently utilize the RBAC system.
 User
 ~~~~
 
-A user represents an entity (person / robot) which needs to be authenticated and interacts with
+A user represents an entity (person/system) which needs to be authenticated and interacts with
 |st2| through the API.
 
 User permissions are represented as a union of permission grants which are assigned to all the user
@@ -54,11 +54,11 @@ Currently, the following system roles are available:
 * **Administrator** - All the permissions on all the resources.
 * **Observer** - ``view`` permission on all the resources.
 
-Permission grant
+Permission Grant
 ~~~~~~~~~~~~~~~~
 
 Permission grant grants a particular permission (permission type) to a particular resource. For
-example, you could grant an execute / run permission (``action_execute``) to an action
+example, you could grant an execute/run permission (``action_execute``) to an action
 ``core.local``.
 
 In general, there are five permission types available for each supported resource type:
@@ -153,7 +153,7 @@ For example:
     |                         |                         |           |                         | remotely.               |
     +-------------------------+-------------------------+-----------+-------------------------+-------------------------+
 
-How it works
+How it Works
 ------------
 
 User permissions are checked when a user performs an operation using the API. If user has the
@@ -207,7 +207,7 @@ system user (``stanley``).
 By default, ``stanley`` and ``chatops_bot`` user have ``admin`` role assignment to them, which
 means they have all the permissions.
 
-Defining roles and assignments
+Defining Roles and Assignments
 ------------------------------
 
 To follow infrastructure as code approach, roles and user role assignments are defined in YAML
@@ -252,7 +252,7 @@ In the example above we assign user with the username ``user4`` two roles -
 ``role_one`` (a custom role which needs to be defined as described above) and
 ``observer`` (system role).
 
-Applying RBAC definitions
+Applying RBAC Definitions
 -------------------------
 
 As described above, RBAC definitions are defined in YAML files located in the
@@ -287,8 +287,8 @@ For example:
 
 .. _rbac-using_rbac:
 
-Using RBAC - example
---------------------
+Using RBAC Example
+------------------
 
 **Possible scenarios :**
 
@@ -302,7 +302,8 @@ Administrator of |st2| on a box that is running |st2|.
 User creation
 ~~~~~~~~~~~~~
 
-All user and password management is kept outside of StackStorm. Documentation on :doc:`authentication <authentication>` describes how to configure StackStorm with various identity providers.
+All user and password management is kept outside of |st2|. Read the :doc:`authentication <authentication>` docs to see
+how to configure to configure |st2| with various identity providers.
 
 For sake of this example let us assume that the identity provider is managed by the OS on which |st2| runs.
 

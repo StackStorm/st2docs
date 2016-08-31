@@ -179,7 +179,7 @@ Run the following curl commands to test.
     # The following will verify the SSL cert, succeed, and return a valid token.
     curl -X POST --cacert /path/to/cacert.pem -u yourusername:yourpassword https://myhost.example.com/auth/v1/tokens
 
-.. note:: Until version 1.2 of StackStorm, auth APIs were served from its own port. If your version is 1.1.1 or below, replace '/api' with ':9100'.
+.. note:: Until version 1.2 of |st2|, auth APIs were served from its own port. If your version is 1.1.1 or below, replace '/api' with ':9100'.
 
 .. _authentication-usage:
 
@@ -235,7 +235,7 @@ The following are sample API calls via curl using API Keys. ::
 
     curl https://myhost.example.com/api/v1/actions?st2-api-key=<API-KEY-VALUE>
 
-API key migration
+API Key Migration
 ^^^^^^^^^^^^^^^^^
 
 API keys can be migrated from one |st2| instance to another. This way external services that have already
@@ -257,11 +257,11 @@ On new |st2| instance load API keys from the file.
     st2 apikey load apikeys.yaml
 
 
-Sending authentication token or API key to the API
---------------------------------------------------
+Using Authentication Tokens or API Keys with the API
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-When authenticating against the |st2| API, authentication token or API key
-(but not both), should be provided in the HTTP request headers. The headers are
+To authenticate against the |st2| API, either an authentication token or an API key
+(but not both) should be provided in the HTTP request headers. The headers are
 named ``X-Auth-Token`` and ``St2-Api-Key`` respectively.
 
 If for some reason you can't specify auth token or API key in the headers (e.g.

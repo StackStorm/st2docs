@@ -27,8 +27,8 @@ Architecture
 
 ChatOps leverages two components within |st2| in order to provide a fluid user experience. These subsystems are the :doc:`aliases` and :doc:`notifications` subsystems. You can learn more about each of these individual components in their corresponding sub-sections.
 
-|st2| flavored ChatOps
-======================
+StackStorm-flavored ChatOps
+===========================
 
 Our goal with ChatOps is to take the patterns that are arising and make them consumable by teams of all makeups. Behind our implementation of ChatOps lies the operational scalability and stability of |st2|, allowing you to grow and unleash the latent power of your existing teams. In addition to allowing integration with a plethora of existing plugins and patterns available in the larger |st2| and ChatOps communities, we add these features to the tool-belt:
 

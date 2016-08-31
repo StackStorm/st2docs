@@ -5,7 +5,7 @@ You created a rule which supposed to fire an action when a particular trigger
 is emitted, but for some reason, this action is not being called.
 
 There are multiple reasons why this could be the case. If you end up in such a situation,
-follow this debugging procedure.
+follow this debugging procedure:
 
 1. Validate if rule was enforced
 2. Validate if trigger was emitted
@@ -207,7 +207,7 @@ that is to look into the action runner service logs -
 6. Ask for help!
 ----------------
 
-You have exhausted self help directions. Contact stormers
+You have exhausted self help directions. Contact us
 using :ref:`ask for help<ref-ask-for-help>` section. Please have the output of
 ``st2 rule-enforcement list --rule=<rule_being_debugged>``,
 ``st2 trigger-instance list --trigger=<trigger>`` and rule YAML ready so

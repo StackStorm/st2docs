@@ -19,7 +19,7 @@ Rules are written to work with triggers. Sensors typically register triggers
 though this is not strictly the case. For example, webhook triggers are just
 registered independently. You don't have to write a sensor.
 
-Internal triggers
+Internal Triggers
 -----------------
 
 By default |st2| emits some internal triggers which you can leverage in the
@@ -32,7 +32,7 @@ A list of available triggers for each resource is included below:
 
 .. _ref-sensors-authoring-a-sensor:
 
-Creating a sensor
+Creating a Sensor
 -----------------
 
 Creating a sensor involves writing a Python file and a YAML meta file
@@ -71,7 +71,7 @@ would use a PollingSensor instead of Sensor as the base class.
 For a complete implementation of a sensor that actually injects triggers
 into the system, look at the `examples <#examples>`__ section.
 
-Sensor service
+Sensor Service
 --------------
 
 As you can see in the example above, a ``sensor_service`` is passed to each
@@ -83,7 +83,7 @@ triggers into the system.
 
 All public methods are described below.
 
-Common operations
+Common Operations
 -----------------
 
 1. dispatch(trigger, payload, trace_tag)
@@ -118,7 +118,7 @@ For example:
 
 .. _ref-sensors-datastore-management-operations:
 
-Datastore management operations
+Datastore Management Operations
 -------------------------------
 
 In addition to the trigger injection, the sensor service also provides
@@ -196,7 +196,7 @@ API Docs
 .. autoclass:: st2reactor.container.sensor_wrapper.SensorService
     :members:
 
-Running your first sensor
+Running Your First Sensor
 -------------------------
 
 Once you write your own sensor, the following steps can be used to run your sensor for the first time:
@@ -221,7 +221,7 @@ Once you like your sensor, you can promote it to a pack (if required) by creatin
 /opt/stackstorm/packs/${pack_name} and moving the sensor artifacts (YAML and Python) to
 /opt/stackstorm/packs/${pack_name}/sensors/. See :doc:`/reference/packs` for how to create a pack.
 
-Debugging a sensor from a pack
+Debugging a Sensor From a Pack
 ------------------------------
 
 If you just want to run a single sensor from a pack and the sensor is already registered, you can

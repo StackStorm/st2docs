@@ -11,10 +11,10 @@ python client. For rule definitions in YAML/JSON, the key value pairs are
 referenced with a specific string substitution syntax and the references
 are resolved on rule evaluation.
 
-Storing and Retrieving Key Value Pairs from CLI
------------------------------------------------
+Storing and Retrieving Key Value Pairs via CLI
+----------------------------------------------
 
-Set a value of a key value pair.
+Set the value of a key value pair:
 
 ::
 
@@ -22,7 +22,7 @@ Set a value of a key value pair.
     st2 key set aws_cfn_endpoint https://cloudformation.us-west-1.amazonaws.com
 
 Load a list of key value pairs from a JSON file. The following is the
-JSON example using the same keys from the create examples above.
+JSON example using the same keys from the create examples above:
 
 ::
 
@@ -38,14 +38,14 @@ JSON example using the same keys from the create examples above.
 The load command also allows you to directly load the output of "key list -j"
 command. This is useful if you want to migrate datastore items from a different
 cluster or if you want to version control the datastore items and load the from
-version controlled files.
+version controlled files:
 
 ::
 
     st2 key list -j > mydata.json
     st2 key load mydata.json
 
-Get individual key value pair or list all.
+Get individual key value pair or list all:
 
 ::
 
@@ -53,13 +53,13 @@ Get individual key value pair or list all.
     st2 key get os_keystone_endpoint
     st2 key get os_keystone_endpoint -j
 
-Update an existing key value pair.
+Update an existing key value pair:
 
 ::
 
     st2 key set os_keystone_endpoint http://localhost:5000/v3
 
-Delete an existing key value pair.
+Delete an existing key value pair:
 
 ::
 
@@ -67,8 +67,8 @@ Delete an existing key value pair.
 
 .. _datastore-scopes-in-key-value-store:
 
-Scoping items stored in datastore
----------------------------------
+Scoping Datastore Items
+-----------------------
 
 By default, all items stored in key value store are stored in ``system`` scope. This
 basically means every user has access to these variables. You'd typically use the
@@ -76,7 +76,7 @@ jinja expression ``{{system.key_name}}`` to refer to these variables in actions 
 workflows. Starting version 1.5 of |st2|, you can now scope variables to a specific
 user. With authentication enabled, you can now control who can read or write into those
 variables. For example, to set variable ``date_cmd`` for the currently authenticated
-user, use
+user, use:
 
 ::
 
@@ -85,19 +85,19 @@ user, use
 The name of the user is figured out from the ``X-Auth-Token`` or ``St2-Api-Key``
 header passed with the API call. Basically, from the API call authentication
 credentials, we figure out the user and assign this variable to that particular user.
-To get the key back, use
+To get the key back, use:
 
 ::
 
     st2 key get date_cmd --scope=user
 
-Remember, if you want a variable ``date_cmd`` as a system variable, you can use
+Remember, if you want a variable ``date_cmd`` as a system variable, you can use:
 
 ::
 
     st2 key set date_cmd "date +%s" --scope=system
 
-or simply
+or simply:
 
 ::
 
@@ -107,16 +107,16 @@ This variable won't clash with the user variables under same name. Also, you can
 to user variables in actions or workflows. The jinja syntax to do so is
 ``{{user.date_cmd}}``. Note that the notion of ``user`` is available only when actions
 or workflows are run manually. The notion of ``user`` is non-existent when automations
-are run (actions kicked off via rules). So use of user scoped variables is limited to
+are run (actions kicked off via rules). So the use of user scoped variables is limited to
 manual execution of actions or workflows.
 
 
-Storing and Retrieving from Python Client
------------------------------------------
+Storing and Retrieving via Python Client
+----------------------------------------
 
 Create new key value pairs. The |st2| API endpoint is set either via
 the Client init (base\_url) or from environment variable
-(ST2\_BASE\_URL). The default ports for the API servers are assumed.
+(ST2\_BASE\_URL). The default ports for the API servers are assumed:
 
 ::
 
@@ -125,7 +125,7 @@ the Client init (base\_url) or from environment variable
     >>> client = Client(base_url='http://localhost')
     >>> client.keys.update(models.KeyValuePair(name='os_keystone_endpoint', value='http://localhost:5000/v2.0'))
 
-Get individual key value pair or list all.
+Get individual key value pair or list all:
 
 ::
 
@@ -134,7 +134,7 @@ Get individual key value pair or list all.
     >>> os_keystone_endpoint.value
     u'http://localhost:5000/v2.0'
 
-Update an existing key value pair.
+Update an existing key value pair:
 
 ::
 
@@ -142,7 +142,7 @@ Update an existing key value pair.
     >>> os_keystone_endpoint.value = 'http://localhost:5000/v3'
     >>> client.keys.update(os_keystone_endpoint)
 
-Delete an existing key value pair.
+Delete an existing key value pair:
 
 ::
 
@@ -178,8 +178,8 @@ related syntax.
 
 .. _admin-setup-for-encrypted-datastore:
 
-Securing secrets in key value store (admin only)
-------------------------------------------------
+Securing Secrets (admin only)
+-----------------------------
 
 .. note::
 
@@ -188,12 +188,12 @@ Securing secrets in key value store (admin only)
     no guarantee is made w.r.t ``security`` of the credentials stored in key value store.
 
 Key value store now allows users to store encrypted values (secrets). Symmetric encryption is used
-to encrypt secrets. |st2| administrator is responsible for generating symmetric key used for
-encryption / decryption. It goes without saying that |st2| operator and administrator (or anyone
+to encrypt secrets. The |st2| administrator is responsible for generating symmetric key used for
+encryption / decryption. It goes without saying that the |st2| operator and administrator (or anyone
 else who has access to the key) can decrypt the encrypted values if they want to.
 
 To generate a symmetric crypto key (AES256 used for both encryption and decryption) as an admin,
-please run
+please run:
 
 .. code-block:: bash
 
@@ -201,10 +201,10 @@ please run
     sudo st2-generate-symmetric-crypto-key --key-path /etc/st2/keys/datastore_key.json
 
 It is recommended that the key is placed in a private location such as ``/etc/st2/keys/`` and
-permissions are appropriately modified so that only StackStorm API process owner (usually ``st2``) can
+permissions are appropriately modified so that only |st2| API process owner (usually ``st2``) can
 read and admin can read/write to that file.
 
-To make sure only ``st2`` and root can access the file on the box, run
+To make sure only ``st2`` and root can access the file on the box, run:
 
 .. code-block:: bash
 
@@ -222,13 +222,13 @@ configuration file (usually /etc/st2/st2.conf) and add the following lines:
     [keyvalue]
     encryption_key_path = /etc/st2/keys/datastore_key.json
 
-Once the config file changes are made, restart |st2| by running
+Once the config file changes are made, restart |st2|:
 
 ::
 
   sudo st2ctl restart
 
-Validate you are able to set an encrypted key value in datastore by running
+Validate you are able to set an encrypted key value in datastore:
 
 ::
 
@@ -243,10 +243,10 @@ Now as an admin, you are all set with configuring |st2| server side.
 
 .. _datastore-storing-secrets-in-key-value-store:
 
-Storing secrets in key value store
-----------------------------------
+Storing Secrets
+---------------
 
-Please note that if an admin has not setup encryption key, you will not be allowed to save
+Please note that if an admin has not setup an encryption key, you will not be allowed to save
 secrets in the key value store. Contact your |st2| admin to setup encryption keys as per the section
 above.
 
@@ -257,7 +257,7 @@ To save a secret in key value store:
     st2 key set api_token SECRET_TOKEN --encrypt
 
 By default, getting a key tagged as secret (via --encrypt) will always return encrypted values only.
-To get plain text, please run with command --decrypt flag.
+To get plain text, please run with command --decrypt flag:
 
 .. code-block:: bash
 
@@ -272,7 +272,7 @@ To get plain text, please run with command --decrypt flag.
 Security notes
 --------------
 
-|st2| wishes to discuss security details and be transparent about the implementation and limitations
+We wish to discuss security details and be transparent about the implementation and limitations
 of the security practices to attract more eyes to it and therefore build better quality into
 security implementations. For the key value store, we have settled on AES256 symmetric encryption
 for simplicity. We use python library keyczar for doing this.
@@ -288,4 +288,4 @@ to still see only encrypted secret in database. Still the onus is on |st2| admin
 access to database via network daemons only and not allow physical access to the box (or run
 databases on different boxes as st2). Note that several layers of security needs to be in place
 that is beyond the scope of this document. While we can help people with deployment questions
-on stackstorm slack community, please follow your own best security practices guide.
+on StackStorm Slack community, please follow your own best security practices guide.

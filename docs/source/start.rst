@@ -176,8 +176,8 @@ triggers, learn what the trigger does, how to configure it, and what the payload
     # Check details on the Webhook trigger
     st2 trigger get core.st2.webhook
 
-Deploy Rule
------------
+Deploy a Rule
+-------------
 
 |st2| can be configured to auto-load the rules or rules can be deployed with API or CLI:
 

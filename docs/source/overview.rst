@@ -14,7 +14,7 @@ About
 
 |st2| helps you compose these and other operational patterns as rules and workflows or actions. These rules and workflows - the content within the |st2| platform - are stored *as code* which means they support the same approach to collaboration that you use today for code development. They can be shared with the broader open source community, for example via the `StackStorm community <http://www.stackstorm.com/community/>`_.
 
-How it works
+How it Works
 -------------
 
 .. figure:: /_static/images/architecture_diagram.jpg

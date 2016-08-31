@@ -1,4 +1,4 @@
-SSH troubleshooting
+SSH Troubleshooting
 ===================
 
 Since v0.13, Paramiko runner is the default SSH runner in |st2|. Most of this

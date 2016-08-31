@@ -8,7 +8,7 @@ Pack is the unit of deployment for integrations and automations that extend |st2
 
 It is best to view a pack as the means to extend |st2| and allow it to integrate with an external systems. See `next section` to learn more about pack management.
 
-Packs location and discovery
+Packs Location and Discovery
 ----------------------------
 
 When using |st2| and pack management actions, all the packs are by default installed into the
@@ -31,7 +31,7 @@ For example:
 Note: Directories are always searched from left to right in the order they are
 specified, with the system packs directory always searched first.
 
-Getting a pack
+Getting a Pack
 --------------
 
 Pack management is done by |st2| actions from `packs` pack, pun intended. Run ``st2 action list --pack packs`` for a list of pack management actions.
@@ -113,7 +113,7 @@ See :doc:`/reference/packs` for details on how to package your integrations and 
 * Explore existing packs for many common products and tools from `StackStorm community <http://www.stackstorm.com/community/>`__ - `st2contrib <https://github.com/StackStorm/st2contrib>`__.
 * Learn how to write a pack and contribute to the community  - :doc:`/reference/packs`.
 * Learn how to write :ref:`custom sensors <ref-sensors-authoring-a-sensor>` and :ref:`custom actions <ref-actions-writing-custom>`.
-* Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with StackStorm.
+* Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with |st2|.
 * For information on pack testing, please see the :doc:`Pack Testing </development/pack_testing>` page.
 
 .. include:: /__engage_community.rst

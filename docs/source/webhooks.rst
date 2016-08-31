@@ -6,8 +6,8 @@ webhooks. Unlike sensors which use a "pull" approach, webhooks use a "push"
 approach. This means they work by you pushing triggers directly to the |st2|
 API using HTTP POST requests.
 
-What is the difference between sensors and webhooks?
-----------------------------------------------------
+Sensors vs Webhooks
+-------------------
 
 Sensors integrate with external systems and services using a poll approach
 (sensors periodically reach out to an external system to retrieve data you are
@@ -49,7 +49,7 @@ Both methods above support providing the authentication material as a header or 
 A header is usually used with your scripts where you can control request headers while query
 parameters are used with 3rd party services such as GitHub where you can only specify a URL.
 
-Request body
+Request Body
 ------------
 
 The request body or so called trigger payload can be either JSON or URL encoded form data. The body type
@@ -59,10 +59,10 @@ is determined based on the value of the ``Content-Type`` header (``application/j
 All the examples below assume JSON and as such, provide ``application/json`` for the
 ``Content-Type`` header value.
 
-Using a generic st2 webhook
----------------------------
+Using a Generic Webhook
+-----------------------
 
-By default, a generic webhook with a name ``st2`` is already registered. This
+By default, a generic webhook with the name ``st2`` is already registered. This
 webhook allows you to push arbitrary triggers to the API.
 
 The body of this request needs to be JSON and must contain the following attributes:
@@ -98,7 +98,7 @@ Rule:
 Keep in mind that the ``trigger.type`` attribute inside the rule definition
 needs to be the same as the trigger name defined in the webhook payload body.
 
-Registering a custom webhook
+Registering a Custom Webhook
 ----------------------------
 
 |st2| also supports registering custom webhooks. You can do that by specifying
@@ -157,7 +157,7 @@ Rule:
         parameters:
     ...
 
-Listing registered webhooks
+Listing Registered Webhooks
 ---------------------------
 
 To list all registered webhooks, run:
