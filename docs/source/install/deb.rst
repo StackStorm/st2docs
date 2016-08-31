@@ -12,7 +12,7 @@ the :doc:`Reference deployment </install/overview>`.
 
 System Requirements
 -------------------
-Please check :doc:`supported versions and system requirements <systemrequirements>`.
+Please check :doc:`supported versions and system requirements <system_requirements>`.
 
 Minimal installation
 --------------------

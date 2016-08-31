@@ -2,7 +2,7 @@ Installation
 ============
 
 That's OK! You're busy, we get it. How do you just get started? Get yourself a clean 64-bit Linux
-box that fits the :doc:`system requirements <systemrequirements>`, and run this command:
+box that fits the :doc:`system requirements <system_requirements>`, and run this command:
 
 .. code-block:: bash
 
@@ -46,7 +46,7 @@ Once it completes successfully, you will see the following output.
     :maxdepth: 1
 
     Reference Deployment Overview <overview>
-    systemrequirements
+    system_requirements
     Ubuntu (Trusty) <deb>
     RHEL 7 / CentOS 7 <rhel7>
     RHEL 6 / CentOS 6 <rhel6>

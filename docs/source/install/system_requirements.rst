@@ -1,8 +1,8 @@
 System Requirements
 ===================
 
-|st2| requires 64-bit version of Ubuntu/Debian, RHEL, or CentOS. The table below lists the supported
-versions, along with Vagrant Boxes Vagrant Boxes and Amazon AWS instances we use for
+|st2| requires Ubuntu/Debian, RHEL, or CentOS. The table below lists the supported
+Linux versions, along with Vagrant Boxes Vagrant Boxes and Amazon AWS instances we use for
 testing. Yes, using exactly the same boxes will improve your experience.
 
 +-------------------+------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -14,6 +14,8 @@ testing. Yes, using exactly the same boxes will improve your experience.
 +-------------------+------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | RHEL 6 / CentOS 6 | `bento/centos-6.7 <https://atlas.hashicorp.com/bento/boxes/centos-6.7>`_     | `Red Hat Enterprise Linux (RHEL) 6 (HVM)  <https://aws.amazon.com/marketplace/pp/B00CFQWLS6/ref=srh_res_product_title?ie=UTF8&sr=0-8&qid=1457037733401>`_         |
 +-------------------+------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+.. include:: __64bit_note.rst
 
 While the system can operate with lower specs, these are the recommendations
 for the best experience while testing or deploying |st2|:

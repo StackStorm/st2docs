@@ -19,7 +19,7 @@ scripts* for skipped versions as well.
 Upgrade Procedure
 -----------------
 
-:ref`Migration scripts<migration-scripts-to-run>` most often need to be run when upgrading to |st2|
+:ref:`Migration scripts<migration-scripts-to-run>` most often need to be run when upgrading to |st2|
 :versions that include data model changes. The typical **upgrade** procedure is
 
 1. Stop ``st2*`` services on the box.
@@ -70,7 +70,7 @@ Upgrade Procedure
 
 .. _migration-scripts-to-run:
 
-Version-specific migration scripts
+Version-specific Migration Scripts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 We document :ref:`upgrade notes<upgrade_notes>` for the various versions. The upgrade
