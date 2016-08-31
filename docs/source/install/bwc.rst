@@ -21,7 +21,7 @@ with the key you received when registering for evaluation or purchasing BWC.
 To understand the details of installation procedure,
 or install |bwc| manually, follow the installation guide for your Linux version:
 :doc:`/install/deb`, :doc:`/install/rhel7`, or :doc:`/install/rhel6`. It will walk you through
-installting and configuring components per :doc:`single box reference deployment <overview>`.
+installing and configuring components per :doc:`single box reference deployment <overview>`.
 The last step of the instructions is "Upgrade to |bwc|".
 
 .. only:: community
