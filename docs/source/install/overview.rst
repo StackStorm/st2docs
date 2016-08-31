@@ -73,7 +73,7 @@ it is restricted to localhost.
   and reverse-proxies REST API endpoints to st2* web services.
 
 * **StackStorm WebUI** (st2web, and Workflow Designer, for Brocade Workflow Composer) are installed at ``/opt/statckstorm/webui``
-  and configured via ``webui/config.js``. `st2web` comes in its own ``deb`` and ``rpm``. `Flow` is
+  and configured via ``webui/config.js``. `st2web` comes in its own ``deb`` and ``rpm``. Workflow Designer is
   deployed with ``bwc-enterprise`` package. They are HTML5 applications, served as static HTML,
   and calling |st2| st2auth and st2api REST API endpoints. NGINX proxies st2auth and st2api
   requests through 443 HTTPS port to ``/api`` and ``/auth``.

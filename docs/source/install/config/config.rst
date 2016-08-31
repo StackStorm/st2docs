@@ -6,7 +6,7 @@ serving static content of WebUI,
 and running st2auth and st2api as WSGI apps via gunicorn/uwsgi. |st2| nginx configurations
 can be found at ``/etc/nginx/sites-enabled/st2*.conf``.
 
-``st2auth`` and ``st2api`` can also run using a built-in simple Python server. This is used for development and strongly discouraged for any production. Be aware that some settings in /etc/st2.conf are only effective when running in development mode, and don't apply when running under WSGI servers. Refer to the comments in
+Be aware that some settings in /etc/st2/st2.conf (specifically, service host and port) are only effective when running in development mode, and don't apply when running under WSGI servers. Refer to the comments in
 :github_st2:`st2.conf.sample <conf/st2.conf.sample>`.
 
 Configure MongoDB
@@ -106,7 +106,7 @@ Configure SSH
 
 To run actions on remote hosts, |st2| uses SSH. It is advised to configure identity file based SSH access on all remote hosts.
 
-The |st2| ssh user and path to SSH key are set in ``/etc/st2/st2.conf``. During installation, ``st2_deploy.sh`` script configures ssh on the local box for a user `stanley`.
+The |st2| ssh user and path to SSH key are set in ``/etc/st2/st2.conf``. During installation, ``install.sh`` script configures ssh on the local box for a user `stanley`.
 
 Follow these steps on a remote box to setup `stanley` user on remote boxes.
 

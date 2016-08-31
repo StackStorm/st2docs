@@ -22,7 +22,7 @@ Windows runners actions needs to have the following dependencies installed:
 
 Samba client is available in standard APT and Yum repositories and winexe is
 available in our repositories. Both of those dependencies are installed by
-default when using ``st2_deploy.sh`` script or a Puppet-based installation.
+default when using ``install.sh`` script or a Puppet-based installation.
 
 Installing on Ubuntu
 ~~~~~~~~~~~~~~~~~~~~
