@@ -5,7 +5,7 @@
     sudo mkdir -p /home/stanley/.ssh
     sudo chmod 0700 /home/stanley/.ssh
 
-    # On the StackStorm host, generate ssh keys
+    # Generate ssh keys
     sudo ssh-keygen -f /home/stanley/.ssh/stanley_rsa -P ""
 
     # Authorize key-based access

@@ -105,7 +105,7 @@ After review, the archive can be uploaded to Brocade using the ``--existing-file
 
 
 Customizing the debug information gathered
-==========================================
+------------------------------------------
 
 st2-submit-debug-info can be customized for specific deployments by loading a set of overrides from
 a YAML file. The following config options are supported:

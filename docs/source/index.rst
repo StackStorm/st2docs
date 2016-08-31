@@ -1,4 +1,4 @@
-Welcome to |st2|'s documentation!
+|fullname| Documentation
 ======================================
 
 Contents:
@@ -39,7 +39,7 @@ Contents:
 .. include:: _includes/solutions.rst
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
     :caption: Release Notes
 
     changelog

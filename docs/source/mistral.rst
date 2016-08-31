@@ -86,7 +86,7 @@ re-run.
 
     Rerunning workflow execution from the task(s) that failed is currently an experimental
     feature and subject to bug(s) and change(s). Please also note that rerunning a subtask nested
-    in another StackStorm action is not currently supported.
+    in another |st2| action is not currently supported.
 
 Publishing variables in Mistral workflows
 +++++++++++++++++++++++++++++++++++++++++

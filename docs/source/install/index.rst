@@ -1,10 +1,10 @@
 Installation
 ============
 
-For a quick evaluation of |st2| and package-based installation, start from
-:doc:`Overview <./overview>`, and proceed with the guide for your Linux distribution.
+For a quick evaluation of |st2|, start from
+:doc:`Overview <./overview>`, then proceed with the guide for your Linux distribution.
 
-Please note that only 64 bit architecture is currently supported.
+Please note that only 64-bit architecture is currently supported.
 
 .. rubric:: Installations
 
@@ -18,4 +18,4 @@ Please note that only 64 bit architecture is currently supported.
     StackStorm vs BWC <enterprise>
     config/index
     Updates and Upgrades <upgrades>
-    Migration scripts <migration>
+    Migration Scripts <migration>

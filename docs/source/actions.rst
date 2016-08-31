@@ -78,7 +78,7 @@ actions to be run remotely (via SSH) and locally. The objective is to
 allow the Action author to concentrate only on the implementation of the
 action itself rather than setting up the environment.
 
-Available runners
+Available Runners
 ~~~~~~~~~~~~~~~~~
 
 The environment in which the action runs is specified by the runner.
@@ -122,7 +122,7 @@ picks a runner\_type it also inherits the runner parameters.
 
 .. _ref-actions-writing-custom:
 
-Writing custom actions
+Writing Custom Actions
 ^^^^^^^^^^^^^^^^^^^^^^
 
 An action is composed of two parts:
@@ -137,7 +137,7 @@ language, as long as it follows these conventions:
    (e.g. ``1``)
 2. All log messages should be printed to standard error
 
-Action metadata
+Action Metadata
 ~~~~~~~~~~~~~~~
 
 Action metadata is used to describe the action and is defined as YAML (JSON is supported for backward
@@ -188,7 +188,7 @@ In the example above, ``to_number`` parameter contains attribute ``secret``
 with value:``true``. If an attribute is marked as a secret, the value of that
 attribute will be masked in the |st2| service logs.
 
-Parameters in actions
+Parameters in Actions
 ~~~~~~~~~~~~~~~~~~~~~
 
 In the previous example, you probably noticed how you can access parameters from
@@ -288,8 +288,8 @@ Overriding attributes such as ``type`` and ``position`` are not allowed because 
 potentially break the action since the runner will not be able to consume the type of value being
 passed (e.g. runner parameter is expecting an integer but a string is passed).
 
-Common environment variables available to the actions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Environment Variables Available to Actions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 By default, local, remote and python runner make the following environment variables available
 to the actions:
@@ -315,7 +315,7 @@ action.
 
 .. _ref-actions-converting-scripts:
 
-Converting existing scripts into actions
+Converting Existing Scripts into Actions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you have an existing standalone script written in an arbitrary programming
@@ -484,7 +484,7 @@ Both of them declare a ``position`` attribute (0 for server and 1 for message),
 which means they will be passed to the action script as positional arguments so
 your script doesn't require any changes.
 
-Writing custom Python actions
+Writing Custom Python Actions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In the simplest form, a Python action is a module which exposes a class which
@@ -544,7 +544,7 @@ success status flag and the result object respectively.
 For a more complex example, please refer to the `actions in the Libcloud pack in
 the contrib repository <https://github.com/StackStorm/st2contrib/tree/master/packs/libcloud/actions>`_.
 
-Configuration file
+Configuration File
 ~~~~~~~~~~~~~~~~~~
 
 .. note::
@@ -616,7 +616,7 @@ Example storing a dict as JSON:
       # Delete a value
       self.action_service.delete_value('cache')
 
-Pre-defined actions
+Pre-defined Actions
 ^^^^^^^^^^^^^^^^^^^
 
 There are several predefined actions that come out of the box when |st2|

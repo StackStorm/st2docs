@@ -148,8 +148,8 @@ variable access syntax as shown below:
 In this example we are referencing a value of a datastore item with the name
 ``current_build_number``.
 
-Critera Comparision
--------------------
+Critera Comparison
+------------------
 
 This section describes all the available operators which can be used in the criteria.
 
@@ -298,7 +298,7 @@ To undeploy a rule, run ``st2 rule delete ${RULE_NAME_OR_ID}``. For example, to 
     st2 rule delete examples.sample_rule_with_webhook
 
 
-Rule location
+Rule Location
 -------------
 
 Custom rules can be placed in any accessible folder on local system. By convention, custom rules are placed
@@ -718,9 +718,9 @@ Run action every full hour every day of the week
 
 .. rubric:: What's Next?
 
-* Explore automations on `st2contrib`_ community repo.
+* Explore automations on the `st2contrib`_ community repo.
 * Learn more about :doc:`sensors`.
-* Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with StackStorm.
+* Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with |st2|.
 
 
 .. include:: __engage_community.rst

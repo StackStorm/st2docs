@@ -1,5 +1,5 @@
-Troubleshooting Sensors
-=======================
+Sensor Troubleshooting
+======================
 
 If a particular sensor is not running or appears to not be working (e.g.
 triggers are not emitted) usually the best course of action is to follow the
@@ -10,14 +10,14 @@ steps described below.
 
 The first step is verifying that sensor is registered in the database. You can
 do that by inspecting the output of the command below and making sure your
-sensor is present there.
+sensor is present:
 
 .. sourcecode:: bash
 
     st2 sensor list
 
-If your sensor is not listed there, this means it's not registered. You can
-registered it by running the ``st2-register-content`` script as shown below.
+If your sensor is not listed, this means it's not registered. You can
+register it by running the ``st2-register-content`` script:
 
 .. sourcecode:: bash
 
@@ -27,7 +27,7 @@ This will register sensors for all the packs which are available on the file
 system. As you can see, we also use ``--register-fail-on-failure`` and ``-v``
 (verbose) flags.
 
-This will cause the register script to exit with non zero and print a failure
+This will cause the register script to exit with non-zero and print a failure
 in case registration of a particular sensor fails (e.g. typo in sensor metadata
 file, invalid YAML, etc).
 
@@ -35,13 +35,12 @@ file, invalid YAML, etc).
 ---------------------------------------------------------------------
 
 When you have confirmed that the sensor has been registered, you need to
-confirm that a virtual environment for pack to which the sensor belongs
+confirm that a virtual environment for the pack to which the sensor belongs
 exists.
 
 You can confirm that by confirming the existence of
 ``/opt/stackstorm/virtualenvs/<pack name>`` directory. If the directory and
-virtual environment doesn't exist, you can create it using the command shown
-below.
+virtual environment doesn't exist, you can create it using this command:
 
 .. sourcecode:: bash
 
@@ -60,6 +59,6 @@ messages with level DEBUG and higher will be printed directly to the console.
 
     st2sensorcontainer --config-file=/etc/st2/st2.conf --debug --sensor-ref=pack.SensorClassName
 
-Log output will usually give you a clue on what is going on. Common issues
-include typos and syntax errors in the sensor class code, uncaught exception
-being thrown which causes the sensor to exit and similar.
+The log output will usually give you a clue as to what is going on. Common issues
+include typos and syntax errors in the sensor class code, uncaught exceptions
+being thrown that causes the sensor to exit, etc.

@@ -1,5 +1,5 @@
-Troubleshooting WebUI Access on Private Networks
-================================================
+WebUI Access on Private Networks
+================================
 
 If you are installing |st2| on a host you don't have 
 direct (or VPN) network access to (such as an AWS instance

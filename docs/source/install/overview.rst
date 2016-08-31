@@ -50,7 +50,7 @@ share a dedicated Python virtualenv, and are configured by /etc/st2/st2.conf.
 2. st2client
 -------------
 
-``st2client`` is the CLI and Python bindings for StackStorm API. To configure CLI to point to the right
+``st2client`` is the CLI and Python bindings for the |st2| API. To configure CLI to point to the right
 API, authentication options, suppressing insecure warnings for self-signed certificates and other
 conveniences see :doc:`/reference/cli`. ``st2client`` is packaged with ``st2``, or can be installed
 independently.

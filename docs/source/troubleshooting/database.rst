@@ -1,5 +1,5 @@
-Troubleshooting Database Issues
-===============================
+Database Issues
+===============
 
 This section contains information on how to troubleshoot database (MongoDB) related issues.
 

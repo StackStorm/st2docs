@@ -1,7 +1,7 @@
 Development
 ===========
 
-This page describes StackStorm development process and contains general
+This page describes the StackStorm development processes and contains general
 guidelines and information on how to contribute to the project.
 
 Contributing
@@ -20,7 +20,7 @@ For information on contributing an integration pack, please refer to the
 For an overview of core StackStorm code structure, please refer to
 :doc:`Code structure </development/code_structure>`.
 
-Setting up a development environment
+Setting up a Development Environment
 ------------------------------------
 
 There are multiple ways for you to set up a development environment and get
@@ -34,7 +34,7 @@ Another approach is to install StackStorm and all the dependencies from source
 on a server or VM of your liking. For more information about this approach, see
 :doc:`Installing StackStorm from sources </development/sources>`.
 
-General contribution guidelines
+General Contribution Guidelines
 -------------------------------
 
 * Any non-trivial change must contain corresponding tests. For more

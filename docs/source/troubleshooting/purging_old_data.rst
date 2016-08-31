@@ -1,10 +1,10 @@
-Purging old operational data from database
-==========================================
+Purging Old Operational Data
+============================
 
-If your |st2| deployment is used for a sufficiently larger period of time or
-you have a lot of executions happening/triggers coming in, database fills up.
+If your |st2| deployment is used for a sufficiently long period of time or
+you have a lot of executions happening/triggers coming in, the database fills up.
 If you are looking for a way to purge old data in bulk for performance reasons
-or cleaning up the db, you have two options described below.
+or cleaning up the DB, you have two options described below.
 
 1. Automatic purging via garbage collector service
 --------------------------------------------------
@@ -13,7 +13,7 @@ or cleaning up the db, you have two options described below.
 garbage and old data (old action execution, live action and trigger instance
 database objects).
 
-The actual collection threshold is very user specific (it depends on your
+The actual collection threshold is very user-specific (it depends on your
 requirements, policies, etc.) so garbage collection of old data is disabled
 by default.
 
@@ -52,22 +52,22 @@ The timestamp provided is interpreted as UTC timestamp. Please perform all neces
 conversions and specify UTC timestamp.
 
 You can also delete executions for a particular ``action_ref`` by specifying an action_ref parameter
-to the tool.
+to the tool:
 
 ::
 
     st2-purge-executions --timestamp="2015-11-25T21:45:00.000000Z" --action-ref="core.localzz"
 
-By default, only executions in completed state viz ``succeeded``, ``failed``, ``canceled``, ``timeout``
+By default, only executions in completed state, i.e. ``succeeded``, ``failed``, ``canceled``, ``timeout``
 and ``abandoned`` are deleted. If you want to purge all models irrespective of status,
-you can pass the --purge-incomplete option to the script.
+you can pass the ``--purge-incomplete`` option to the script.
 
 ::
 
     st2-purge-executions --timestamp="2015-11-25T21:45:00.000000Z" --purge-incomplete
 
-Depending on how much data there is, the tool might be running longer. Therefore, please run it
-inside a screen/tmux session. For example,
+Depending on how much data there is, the script may take a while to run. Therefore, please run it
+inside a screen/tmux session. For example:
 
 ::
 
@@ -83,8 +83,8 @@ Purging trigger instances older than some timestamp
 Again, the timestamp provided is interpreted as UTC timestamp. Please perform all necessary timezone
 conversions and specify UTC timestamp.
 
-Depending on how much data there is, the tool might be running longer. Therefore, please run it
-inside a screen/tmux session. For example,
+Depending on how much data there is, the script may take a while to run. Therefore, please run it
+inside a screen/tmux session. For example:
 
 ::
 
