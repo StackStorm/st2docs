@@ -31,7 +31,7 @@ Upgrade Procedure
 2. Run the migration script (if any). See section below for |st2|
    version-specific migration scripts.
 
-3. Upgrade |st2| packages (``st2``, ``st2web``, `st2chatops``, ``st2mistral``
+3. Upgrade |st2| packages (``st2``, ``st2web``, ``st2chatops``, ``st2mistral``
    and ``bwc-enterprise`` using distro specific tools.
 
   Ubuntu:
