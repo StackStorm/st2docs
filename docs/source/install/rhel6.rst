@@ -1,11 +1,11 @@
 RHEL 6 / CentOS 6
 =================
 
-This guide provides step-by step instructions for installing |st2| on a single RHEL 6/CentOS 6 64 bit system per
+If you're just looking for a "one-liner" installation, check the :doc:`top-level install guide </install/index>`. Otherwise, you 
+can use this guide for step-by step instructions for installing |st2| on a single RHEL 6/CentOS 6 64 bit system per
 the :doc:`Reference deployment </install/overview>`.
 
-.. note:: `Use the Source, Luke! <http://c2.com/cgi/wiki?UseTheSourceLuke>`_ We strive to keep the documentation current, yet the best way to find out what really happens
-  is to look at the code of the `installer script
+.. note:: `Use the Source, Luke! <http://c2.com/cgi/wiki?UseTheSourceLuke>`_ We strive to keep the documentation current, but the best way to find out what really happens is to look at the code of the `installer script
   <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el6.sh>`_.
 
 .. contents::
