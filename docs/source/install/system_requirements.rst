@@ -2,7 +2,7 @@ System Requirements
 ===================
 
 |st2| requires Ubuntu/Debian, RHEL, or CentOS. The table below lists the supported
-Linux versions, along with Vagrant Boxes Vagrant Boxes and Amazon AWS instances we use for
+Linux versions, along with Vagrant Boxes and Amazon AWS instances we use for
 testing. Yes, using exactly the same boxes will improve your experience.
 
 +-------------------+------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
