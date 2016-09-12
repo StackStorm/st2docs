@@ -61,6 +61,14 @@ and install required dependencies, and run tests.
 
 Configure System User
 ~~~~~~~~~~~~~~~~~~~~~
+
+Create a system user for executing SSH actions,
+
+    useradd -d /home/stanley stanley
+    su stanley
+    ssh-keygen -f /home/stanley/.ssh/stanley_rsa -t rsa -b 4096 -C "stanley@stackstorm.com" -N ''
+    exit
+
 Specify a user for running local and remote SSH actions. See :ref:`config-configure-ssh`. In st2/conf/st2.dev.conf, change ``ssh_key_file`` to point to the user's key file. ::
 
     [system_user]
@@ -69,6 +77,11 @@ Specify a user for running local and remote SSH actions. See :ref:`config-config
 
 Running
 ~~~~~~~
+
+Activate the virtualenv before starting the services
+
+    source virtualenv/bin/activate
+
 Run the following to start StackStorm The script will start StackStorm components in screen sessions. ::
 
     ./tools/launchdev.sh start
