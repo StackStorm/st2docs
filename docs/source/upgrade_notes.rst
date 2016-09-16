@@ -3,6 +3,14 @@
 Upgrade Notes
 =============
 
+|st2| in development
+--------------------
+
+* Action parameter names can now only contain valid word characters (``a-z``, ``0-9`` and ``_``).
+
+  If you have an existing action which uses parameter name which doesn't fall into this criteria
+  it needs to be updated otherwise action registration will fail with an error.
+
 |st2| v2.0.0
 ------------
 
