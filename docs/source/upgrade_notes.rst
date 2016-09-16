@@ -3,10 +3,10 @@
 Upgrade Notes
 =============
 
-|st2| in development
---------------------
+|st2| v2.0.0
+------------
 
-* `st2ctl reload`  now also registeres rules by default. Prior to this release we used to register
+* `st2ctl reload` now also registers rules by default. Prior to this release we used to register
   actions, aliases, sensors, triggers and configs. Now rules are also registered by default.
 
 |st2| v1.6
