@@ -289,3 +289,19 @@ Providing it as a query parameter:
 
     curl "https://myhost.example.com/api/v1/actions?x-auth-token=<auth token value>"
     curl "https://myhost.example.com/api/v1/actions?st2-api-key=<api key value>"
+
+.. begin-kb
+.. {"Metadata": true}
+
+Reset Password with Default (htpasswd) Authentication Backend
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The default authentication backend for StackStorm is `htpasswd`. By default the `htpasswd` file path is `/etc/st2/htpasswd`. To reset the password you can follow the following steps.
+
+ 1. Log into the StackStorm server that has the auth service running.
+ 2. Change the password for the user account in question by running: `sudo htpasswd -b /etc/st2/htpasswd <username> <password>`
+
+For example if you would like to set `Ch@ngeMe` to the password for the user `st2admin` you would run the below command.
+`sudo htpasswd -b /etc/st2/htpasswd st2admin Ch@ngeMe`
+
+.. end-kb
