@@ -6,7 +6,15 @@ Upgrade Notes
 |st2| in development
 --------------------
 
-* `st2ctl reload`  now also registeres rules by default. Prior to this release we used to register
+* Action parameter names can now only contain valid word characters (``a-z``, ``0-9`` and ``_``).
+
+  If you have an existing action which uses parameter name which doesn't fall into this criteria
+  it needs to be updated otherwise action registration will fail with an error.
+
+|st2| v2.0.0
+------------
+
+* `st2ctl reload` now also registers rules by default. Prior to this release we used to register
   actions, aliases, sensors, triggers and configs. Now rules are also registered by default.
 
 |st2| v1.6
