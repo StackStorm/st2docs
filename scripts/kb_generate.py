@@ -8,7 +8,13 @@ import pypandoc
 ST2DOCS_PATH = "./kb"
 RST_PATH = "./docs/source/kb.rst"
 
-RST_HEADER = """
+RST_HEADER = """Knowledge Base
+==============
+
+This collection of knowledge base articles can also be found at
+https://stackstorm.reamaze.com/
+
+
 """
 
 
