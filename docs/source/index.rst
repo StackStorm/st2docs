@@ -48,8 +48,9 @@ Contents:
 
 
 .. toctree::
-    :maxdept: 0
+    :maxdepth: 1
     :caption: Support
+
     kb
 
 .. toctree::
