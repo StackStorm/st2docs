@@ -1,2 +1,4 @@
 sphinx
+pypandoc
+pyaml
 git+https://github.com/StackStorm/sphinx-autobuild.git@develop
