@@ -32,11 +32,12 @@ def get_files():
 def get_kb_data(doc_files):
     """Iterate over files and get KB data from them.
     """
-    kb_data = []
+    kb_data = {}
     for doc_file in doc_files:
-        print "Getting contents for %s" % doc_file
         contents = get_contents(doc_file)
-        kb_data.append(contents)
+        topic_contents = kb_data.get(contents['topic'], [])
+        topic_contents.append(contents)
+        kb_data[contents['topic']] = topic_contents
 
     return kb_data
 
@@ -51,9 +52,9 @@ def get_contents(path):
 def convert_to_rst(article):
     """Take article dict and parse to rst. Append parsed data to kb.rst
     """
-    body = re.sub(r'(#+)(\s+)', r'\1####\2', article['body'])
+    body = re.sub(r'#+\s+(.+)([\s\n\r]+)', r'**\1**\2', article['body'])
+    body = body.replace('\r**', '**\r')
     convert_string = "### %s\n %s" % (article['title'], body)
-    print convert_string
     return pypandoc.convert_text(convert_string, 'rst', 'md')
 
 
@@ -61,13 +62,14 @@ def write_rst(kb_data):
     """Write RST file to disk.
     """
     with open(RST_PATH, "w+") as rst_file:
-        rst_file.write(RST_HEADER)
-
+        rst_file.write(RST_HEADER),
     with open(RST_PATH, "a") as rst_file:
-        for article in kb_data:
-            print "Writing rst for %s" % article['title']
-            rst_contents = convert_to_rst(article)
-            rst_file.write(rst_contents+"\n\n")
+        for topic, articles in kb_data.iteritems():
+            rst_file.write(topic + "\n" + "-"*len(topic) + "\n\n")
+            for article in articles:
+                rst_contents = convert_to_rst(article)
+                print article['title']
+                rst_file.write(rst_contents+"\n\n")
 
 
 def install_pandoc():

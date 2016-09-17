@@ -1,0 +1,9 @@
+body: "RHEL 6.x and RHEL 7.x are supported platforms for StackStorm. \r\n\r\n## Are\
+  \ you seeing install failures for missing packages?\r\nStackStorm install requires\
+  \ packages that are only available in Red Hat Enterprise Repositories therefore\
+  \ a Red Hat Subscription is necessary. If you do see package failures while installing\
+  \ packages on any of these platforms then enable Red Hat Subscription for the specific\
+  \ box and retry the installation."
+status: 0
+title: Installing StackStorm on RHEL6 or RHEL7
+topic: Installation

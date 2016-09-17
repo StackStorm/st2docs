@@ -1,0 +1,6 @@
+body: "Follow: https://docs.stackstorm.com/start.html#deploy-examples\r\n\r\nSome\
+  \ rules are disabled as there are some aggressive cron patterns there. Turn on when\
+  \ you play. "
+status: 0
+title: How to deploy examples?
+topic: General

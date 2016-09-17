@@ -1,0 +1,46 @@
+body: "# Overview\r\n\r\nDuring installation, the installation process fails because\
+  \ it is unable to download GPG keys.\r\n\r\nYou may see errors that look anything\
+  \ like the following:\r\n\r\n```\r\nNotice: /Stage[main]/St2::Profile::Server/Wget::Fetch[Download\
+  \ st2server requirements.txt]/Exec[wget-Download st2server requirements.txt]/returns:\
+  \ executed successfully\r\nError: Execution of '/usr/bin/apt-key adv --keyserver\
+  \ keyserver.ubuntu.com --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62' returned\
+  \ 2: Executing: gpg --ignore-time-conflict --no-options --no-default-keyring --homedir\
+  \ /tmp/tmp.skWiUV5j9e --no-auto-check-trustdb --trust-model always --keyring /etc/apt/trusted.gpg\
+  \ --primary-keyring /etc/apt/trusted.gpg --keyring /etc/apt/trusted.gpg.d/debian-archive-squeeze-automatic.gpg\
+  \ --keyring /etc/apt/trusted.gpg.d/debian-archive-squeeze-stable.gpg --keyring /etc/apt/trusted.gpg.d/debian-archive-wheezy-automatic.gpg\
+  \ --keyring /etc/apt/trusted.gpg.d/debian-archive-wheezy-stable.gpg --keyserver\
+  \ keyserver.ubuntu.com --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62\r\n\
+  gpg: requesting key 7BD9BF62 from hkp server keyserver.ubuntu.com\r\n?: [fd 4]:\
+  \ read error: Connection reset by peer\r\ngpgkeys: HTTP fetch error 7: couldn't\
+  \ connect: eof\r\ngpg: no valid OpenPGP data found.\r\ngpg: Total number processed:\
+  \ 0\r\nError: /Stage[main]/Nginx::Package::Debian/Apt::Source[nginx]/Apt::Key[Add\
+  \ key: 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 from Apt::Source nginx]/Apt_key[Add\
+  \ key: 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 from Apt::Source nginx]/ensure:\
+  \ change from absent to present failed: Execution of '/usr/bin/apt-key adv --keyserver\
+  \ keyserver.ubuntu.com --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62' returned\
+  \ 2: Executing: gpg --ignore-time-conflict --no-options --no-default-keyring --homedir\
+  \ /tmp/tmp.skWiUV5j9e --no-auto-check-trustdb --trust-model always --keyring /etc/apt/trusted.gpg\
+  \ --primary-keyring /etc/apt/trusted.gpg --keyring /etc/apt/trusted.gpg.d/debian-archive-squeeze-automatic.gpg\
+  \ --keyring /etc/apt/trusted.gpg.d/debian-archive-squeeze-stable.gpg --keyring /etc/apt/trusted.gpg.d/debian-archive-wheezy-automatic.gpg\
+  \ --keyring /etc/apt/trusted.gpg.d/debian-archive-wheezy-stable.gpg --keyserver\
+  \ keyserver.ubuntu.com --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62\r\n\
+  gpg: requesting key 7BD9BF62 from hkp server keyserver.ubuntu.com\r\n?: [fd 4]:\
+  \ read error: Connection reset by peer\r\ngpgkeys: HTTP fetch error 7: couldn't\
+  \ connect: eof\r\ngpg: no valid OpenPGP data found.\r\ngpg: Total number processed:\
+  \ 0\r\n```\r\n\r\n## Effected Operating Systems\r\n\r\nThis will affect Debian and\
+  \ Ubuntu host machines.\r\n\r\n## Solution\r\n\r\nThis typically happens when a\
+  \ machine is unable to access the keyserver over its default port, which is TCP\
+  \ 11371. To fix this issue, the options include:\r\n\r\n* Open up `TCP 11371` in\
+  \ your host or network firewall. Optionally, limit access to only `keyserver.ubuntu.com`\r\
+  \n* Manually Add the keys, and re-run installation.\r\n\r\nFor each of those failures,\
+  \ run the following command:\r\n\r\n`apt-key adv --keyserver hkp://keyserver.ubuntu.com:80\
+  \ --recv-keys KEY_ID`\r\n\r\nIf you happen to be behind a proxy, youll need to alter\
+  \ your command just slightly...\r\n\r\n`apt-key adv --keyserver keyserver.ubuntu.com\
+  \ --keyserver-options http-proxy=http://proxy:port --recv-keys KEY_ID`\r\n\r\nWhere\
+  \ KEY_ID is one of the keys listed in the output. An example would be the first\
+  \ line:\r\n\r\n`573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62`\r\n\r\nOnce youve done\
+  \ this, simply go ahead and re-run the bootstrap process by executing the following\
+  \ command:\r\n\r\n`/opt/puppet/script/bootstrap-st2`"
+status: 0
+title: Connection reset by peer trying to download OpenPGP keys
+topic: Installation

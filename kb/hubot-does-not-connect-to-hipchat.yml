@@ -1,0 +1,27 @@
+body: "# Problem\r\n\r\nAfter configuring StackStorm ChatOps to work with HipChat,\
+  \ the bot won't connect.\r\n\r\n## Symptoms\r\n\r\nLast line in `tail -f /var/log/hubot.log`\
+  \ will show the following line before a long sequence of timeouts:\r\n\r\n```\r\n\
+  [Fri Dec 04 2015 05:27:00 GMT+0000 (UTC)] INFO Connecting HipChat adapter...\r\n\
+  ```\r\n\r\nAfter which Hubot will crash.\r\n\r\n## Troubleshooting\r\n\r\nIf there's\
+  \ no meaningful info after `Connecting HipChat adapter...`, this is an adapter failure.\
+  \ The `hubot-hipchat` adapter is known for failing without writing logs, and a better\
+  \ way to debug would be to launch Hubot from terminal:\r\n\r\n```\r\ncd /opt/hubot/hubot/\
+  \ &&  . ./hubot.env && bin/hubot -a hipchat\r\n```\r\n\r\nIf there's nothing useful,\
+  \ there's a couple common mistakes people make, and it makes sense to check that\
+  \ you got both right before debugging further.\r\n\r\n## Common mistakes\r\n\r\n\
+  #### Using login instead of JID\r\n\r\nJID needed for the HipChat account you want\
+  \ to use is _not_ the e-mail you use to log in. To get it, log into http://hipchat.com/account/xmpp\
+  \ and copy the \"Jabber ID\" string from there into the Installer UI orif you're\
+  \ already past installinto `/opt/hubot/hubot/hubot.env`.\r\n\r\nThe correct JID\
+  \ format should look like `12345_1234567@chat.hipchat.com` (or slighly different\
+  \ for the on-premises HipChat Server).\r\n\r\n#### Wrong password\r\n\r\nIf you\
+  \ specify a wrong password, `hubot-hipchat` will not produce a meaningful error,\
+  \ so check it twice.\r\n\r\n## Further steps\r\n\r\nOnce you made sure that both\
+  \ JID and password are correct, try to search https://github.com/hipchat/hubot-hipchat/issues\
+  \ to see if someone else has the same problem or get support in our Slack community.\
+  \ We'll ask you for the logfiles, and you would get help faster if you have them\
+  \ ready! Please sanitize sensitive information first: Hubot tends to log account\
+  \ details in plaintext.\r\n\r\nGood luck!"
+status: 0
+title: Hubot does not connect to HipChat
+topic: ChatOps / Hubot
