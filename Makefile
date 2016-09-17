@@ -67,6 +67,7 @@ PHONY: .clean-bwc-solutions-folders
 	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-runner-parameters-documentation.py
 	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-internal-triggers-table.py
 	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-available-permission-types-table.py
+	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/kb_generate.py
 	@echo
 	. $(VIRTUALENV_DIR)/bin/activate; $(SPHINXBUILD) -t $(COMMUNITY_TAG) -W -b html $(DOC_SOURCE_DIR) $(DOC_BUILD_DIR)/html
 	@echo
@@ -80,6 +81,7 @@ PHONY: .clean-bwc-solutions-folders
 	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-runner-parameters-documentation.py
 	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-internal-triggers-table.py
 	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-available-permission-types-table.py
+	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/kb_generate.py
 	@echo
 	. $(VIRTUALENV_DIR)/bin/activate; $(SPHINXBUILD) -t $(ENTERPRISE_TAG) -W -b html $(DOC_SOURCE_DIR) $(DOC_BUILD_DIR)/html
 	@echo
