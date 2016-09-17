@@ -1,0 +1,17 @@
+body: "# Ubuntu 14.04\r\n[Ubuntu Server 14.04 LTS (HVM)](https://aws.amazon.com/marketplace/pp/B00JV9TBA6/ref=srh_res_product_title?ie=UTF8&sr=0-3&qid=1457037882965)\r\
+  \nhttps://aws.amazon.com/marketplace/pp/B00JV9TBA6/ref=srh_res_product_title?ie=UTF8&sr=0-3&qid=1457037882965\r\
+  \nami-13988772 on US West\r\n\r\n# RHEL 7.2\r\n[Red Hat Enterprise Linux (RHEL)\
+  \ 7.2 (HVM)](https://aws.amazon.com/marketplace/pp/B019NS7T5I/ref=srh_res_product_title?ie=UTF8&sr=0-2&qid=1457037671547)\r\
+  \nhttps://aws.amazon.com/marketplace/pp/B019NS7T5I/ref=srh_res_product_title?ie=UTF8&sr=0-2&qid=1457037671547\r\
+  \nami-775e4f16 on US West\r\n\r\n# CentOS 7 - 1602\r\n[CentOS 7 (x86_64) with Updates\
+  \ HVM]\r\n(https://aws.amazon.com/marketplace/pp/B00O7WM7QW/ref=srh_res_product_title?ie=UTF8&sr=0-2&qid=1457038254020)\r\
+  \nhttps://aws.amazon.com/marketplace/pp/B00O7WM7QW/ref=srh_res_product_title?ie=UTF8&sr=0-2&qid=1457038254020\r\
+  \nami-d2c924b2 on US West\r\n\r\n# RHEL 6.7\r\n[Red Hat Enterprise Linux (RHEL)\
+  \ 6 (HVM)](https://aws.amazon.com/marketplace/pp/B00CFQWLS6/ref=srh_res_product_title?ie=UTF8&sr=0-8&qid=1457037733401)\r\
+  \nhttps://aws.amazon.com/marketplace/pp/B00CFQWLS6/ref=srh_res_product_title?ie=UTF8&sr=0-8&qid=1457037733401\r\
+  \nami-274ba847 on US West\r\n\r\n# CentOS 6  - 1602\r\n[CentOS 6 (x86_64) - with\
+  \ Updates HVM](https://aws.amazon.com/marketplace/pp/B00NQAYLWO/ref=srh_res_product_title?ie=UTF8&sr=0-2&qid=1457038484244)\r\
+  \nhttps://aws.amazon.com/marketplace/pp/B00NQAYLWO/ref=srh_res_product_title?ie=UTF8&sr=0-2&qid=1457038484244\r\
+  \nami-05cf2265 on US West"
+title: AMI and Vagrant boxes for StackStorm testing
+topic: null

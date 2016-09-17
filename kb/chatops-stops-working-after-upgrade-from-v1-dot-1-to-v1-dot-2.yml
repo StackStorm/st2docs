@@ -1,0 +1,11 @@
+body: "# Symptoms\r\n\r\nAfter upgrading from StackStorm v1.1 to v1.2 using the all-in-one\
+  \ installer, ChatOps messages no longer work and instead throw an error:\r\n\r\n\
+  ```\r\n\"error\": \"Task \\\"get_execution\\\" failed: Additional properties are\
+  \ not allowed ('exclude' was unexpected)\\n\\nFailed validating 'additionalProperties'\
+  \ in schema:\\n\r\n```\r\n\r\nThe `st2` pack needs to be updated to the latest version\
+  \ to account for schema changes.\r\n\r\n# Resolution\r\n\r\nTo resolve, simply re-install\
+  \ the `st2` pack. This can be done with the following command:\r\n\r\n* `st2 run\
+  \ packs.install packs=st2`\r\n\r\nOnce completed, errors should cease and ChatOps\
+  \ should continue working.\r\n"
+title: ChatOps stops working after upgrade from v1.1 to v1.2
+topic: !!python/unicode 'Installation'

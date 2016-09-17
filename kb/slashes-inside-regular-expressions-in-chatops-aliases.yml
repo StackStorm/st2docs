@@ -1,0 +1,11 @@
+body: "# Problem\r\n\r\nStarting with StackStorm 1.2.0, `formats` in alias definition\
+  \ support regular expressions. You're delighted and come up with something like\
+  \ this:\r\n\r\n```\r\nformats:\r\n  - \"((search|get)(\\s+(me|a|the))?\\s+)?kb(\\\
+  s+for)?\\s+{{query}}\"\r\n```\r\n\r\nRegistering the alias with `st2ctl reload --register-all`\
+  \ fails with a message along the lines of `unknown escape character 's'`.\r\n\r\n\
+  ## Solution\r\n\r\nPython treats `\\s` as an escape sequence, which it's definitely\
+  \ not, and there are a couple ways to work around this:\r\n\r\n#### Escape slashes\
+  \ (recommended)\r\n\r\n```\r\n\"((search|get)(\\\\s+(me|a|the))?\\\\s+)?kb(\\\\\
+  s+for)?\\\\s+{{query}}\"\r\n```"
+title: Slashes inside ChatOps format strings
+topic: !!python/unicode 'ChatOps / Hubot'

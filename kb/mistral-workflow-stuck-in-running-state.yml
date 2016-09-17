@@ -1,0 +1,20 @@
+body: "Sometimes Mistral workflow got stuck in \"running\". It is usually caused by\
+  \ some workflow errors due to run time evaluations missed by engine error-handling.\
+  \ This is a corner case, we are fixing it in [Mistral upstream](https://bugs.launchpad.net/mistral/+bugs?orderby=-datecreated&start=0),\
+  \ when it happens, here's a way to unblock yourself. \r\n\r\nBefore you start, please\
+  \ update the bug with 1) your workflow 2) errors from `/var/log/mistral.log`. \r\
+  \n\r\n### How to un-stuck.\r\n\r\n1. cancel st2 execution, most time this helps.\
+  \ st2 execution cancel <execution_id>\r\n1. still running? Ok, there's a mistral\
+  \ task which got stuck. **This is worse**. \r\n1. find out mistral workflow execution\
+  \ id. It's in workflow action output, under each task. `tasks[0].workflow_execution_id`\r\
+  \n1. check to see mistral workflow has failed\r\n\t`mistral execution-list` or `mistral\
+  \ execution-get <mistral_workflow_execution_id>`\r\n1. figure out which task is\
+  \ stuck. `mistral task-list` - look for RUNNING, with corresponding mistral_workflow_execution_id.\
+  \ Make a note on task execution id.\r\n1. Update mistral DB to force the task to\
+  \ `ERROR`. \r\n\t\r\n```\r\n\t# look up the  credentials\r\n\tcat /etc/mistral/mistral.conf\
+  \ \r\n\t# connect to DB\r\n\t psql -d mistral -h localhost -U mistral -W <password>\r\
+  \n\t# find the task execution\r\n\tselect * from executions_v2 where id='eca7d802-3089-45e6-a651-504e3b5f18c9'\r\
+  \n\t# force it to be \"ERROR\"\r\n\tupdate executions_v2 set state='ERROR' where\
+  \ id='eca7d802-3089-45e6-a651-504e3b5f18c9'\r\n```\r\n"
+title: Mistral workflow stuck in "RUNNING" state
+topic: !!python/unicode 'Workflows'

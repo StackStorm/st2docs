@@ -1,0 +1,12 @@
+body: "Hello, brave traveller! You are currently venturing to new and unknown lands,\
+  \ and want to take StackStorm along on your voyage. Well, frankly, we're flattered!\
+  \ But, sometimes we need some help getting geared up for new places, and could use\
+  \ your help together the necessary items to run on your OS of choice.\r\n\r\n##\
+  \ Suggested Reading\r\n\r\nhttps://stackstorm.reamaze.com/articles/installer-internals-and-flow\r\
+  \n\r\nWhile not absolutely necessary, it is highly recommended to take a look at\
+  \ the [Installer Internals and Flow](https://stackstorm.reamaze.com/articles/installer-internals-and-flow)\
+  \ article. This shows at least the overview and goals of the Installer, and where\
+  \ it is headed as well as we grow/learn/mature.\r\n\r\n## Things/places to add.\r\
+  \n\r\n> TBD"
+title: Adding OS Support to All-in-one Installer
+topic: !!python/unicode 'Installation'

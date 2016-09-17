@@ -1,0 +1,20 @@
+body: "## Problem\r\n\r\nWhen trying to install a pack, you get an exception similar\
+  \ to this one:\r\n\r\n```\r\nException: Failed to create virtualenv in \"/opt/stackstorm/virtualenvs/jenkins\"\
+  : Traceback (most recent call last):\r\n  File \"/usr/bin/virtualenv\", line 9,\
+  \ in <module>\r\n    load_entry_point('virtualenv==14.0.1', 'console_scripts', 'virtualenv-2.7')()\r\
+  \n  File \"/usr/lib/python2.7/site-packages/virtualenv.py\", line 703, in main\r\
+  \n    symlink=options.symlink)\r\n  File \"/usr/lib/python2.7/site-packages/virtualenv.py\"\
+  , line 904, in create_environment\r\n    download=download,\r\n  File \"/usr/lib/python2.7/site-packages/virtualenv.py\"\
+  , line 861, in install_wheel\r\n    call_subprocess(cmd, show_stdout=False, extra_env=env)\r\
+  \n  File \"/usr/lib/python2.7/site-packages/virtualenv.py\", line 781, in call_subprocess\r\
+  \n    % (cmd_desc, proc.returncode))\r\nOSError: Command /opt/stackstorm/virt...enkins/bin/python2.7\
+  \ -c \"import sys, pip; sys...d\"] + sys.argv[1:]))\" setuptools pip wheel failed\
+  \ with error code 2\r\n```\r\n\r\n## Solution\r\n\r\n```\r\npip install 'virtualenv<14'\r\
+  \n```\r\n\r\n---\r\n\r\nThis issue is not related to StackStorm, but rather caused\
+  \ by an upstream bug in Virtualenv: https://github.com/pypa/pip/issues/3461. You\
+  \ were just unfortunate enough to install the broken Virtualenv version before it's\
+  \ been fixed, but a simple downgrade will remediate that. \r\n\r\nA patch version\
+  \ is expected to land in every package repository in the next few days, so hopefully\
+  \ this article won't live very long. :)"
+title: Virtualenv error on packs.install
+topic: !!python/unicode 'Packs'

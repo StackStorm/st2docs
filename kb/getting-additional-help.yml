@@ -1,0 +1,28 @@
+body: "Still having issues? We don't want to leave you hanging! \r\n\r\nWe'd love\
+  \ to help you out. If you cannot find what you need in our Knowledge Base, or in\
+  \ Documentation, we would love to hear from you. Here's how you can help us help\
+  \ you.\r\n\r\n## Gathering Data\r\n\r\nWhen we chat, we're going to be asking a\
+  \ few questions. Any of these questions you can answer up-front will speed our ability\
+  \ to help you out.\r\n\r\n1. st2 version. (`st2 --version`)\r\n2. st2client version.\
+  \ (`pip show st2client`)\r\n3. OS version. (Cent OS 7. `uname -a`)\r\n4. Python\
+  \ version. (`python --version`)\r\n5. A brief description of the problem\r\n6. A\
+  \ description of any troubleshooting that you have attempted.\r\n7. Any relevant\
+  \ logs you have collected. \r\n  * Installer log is located at `/var/log/puppet.log`,\
+  \ and StackStorm logs are typically in `/var/log/st2/`\r\n\r\nIf you are sure there\
+  \ is a st2 bug after your research, file an issue at https://github.com/StackStorm/st2/issues/new\r\
+  \n\r\nIf you are asked for installation logs, make sure to look through and validate\
+  \ there is no sensitive data you do not want exposed, and sanitize. Then, scoop\
+  \ it up and send it to us via one of our other contact methods\r\n\r\n_**NOTE**:\
+  \ Please use Pastebin - http://pastebin.com/  or GitHub Gists - http://gist.github.com\
+  \ when uploading code/logs_\r\n\r\n## Contact Us\r\n\r\nWe have several ways that\
+  \ you can contact us:\r\n\r\n* Slack - https://stackstorm-community.slack.com \r\
+  \n  * If you're not slacker yet, good excuse to become one! Slack allows you to\
+  \ search in archives. This is great if you want to know if someone else had an issue\
+  \ that you are facing! Come hang out. Register at http://stackstorm.com/community-signup\r\
+  \n* IRC - http://webchat.freenode.net/?channels=stackstorm\r\n  * We can all get\
+  \ our geek fix!\r\n* Email support support@stackstorm.com and we'll get back to\
+  \ you!\r\n\r\nWe want to help you get going, so come on and find us. Automation\
+  \ is in your future!\r\n\r\n![follow-your-dreams](https://cloud.githubusercontent.com/assets/20028/11575020/98671d9c-99d4-11e5-92a0-bcb97ba18479.gif)\r\
+  \n\r\n"
+title: Getting Additional Help
+topic: !!python/unicode 'Support'

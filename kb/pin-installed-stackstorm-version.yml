@@ -1,0 +1,21 @@
+body: "Once a new version of StackStorm is released running the `update-system` command\
+  \ on a StackStorm server will update the installed version of StackStorm. \r\n\r\
+  \nIf you wish to pin the StackStorm version to the currently installed follow these\
+  \ steps -\r\n\r\n1. Identify current StackStorm version by running `st2 --version`\
+  \ on the StackStorm server. This should output a value of the format `st2 ('1.2.0.8',)`.\r\
+  \n2. Decompose the returned value into version and revision. e.g. in `1.2.0.8` the\
+  \ first 3 number comprise the version and last number is the revision. Therefore\
+  \ `st2::version=1.2.0` and `st2::revision=8`.\r\n3. As described in [changing configuration](https://docs.stackstorm.com/install/all_in_one.html#changing-configuration)\
+  \ section include the version and revision in the answers file. This file is either\
+  \ `/opt/puppet/hieradata/answer.yaml` or `/opt/puppet/hieradata/answer.json`. The\
+  \ key for version is `st2::version` and key for revision is `st2::revision`.\r\n\
+  \r\n### Sample answer.yaml\r\n```\r\n---\r\n  st2::version: 1.2.0\r\n  st2::revision:\
+  \ 8\r\n```\r\n\r\n### Sample answers.json\r\n```\r\n{\r\n  \"st2::version\": \"\
+  1.2.0\",\r\n  \"st2::revision\": \"8\"\r\n}\r\n```\r\n\r\nNote : The answers file\
+  \ is likely to contain other configuration values which should be left untouched.\r\
+  \n\r\nOnce these values are specified all subsequent invocations of `update-system`\
+  \ will maintain this version and revision of StackStorm even if a new version is\
+  \ available.\r\n\r\nIn order to go to the latest version of StackStorm remove the\
+  \ added `st2::version` and `st2::revision` values and run `update-system`."
+title: Pin installed StackStorm version
+topic: !!python/unicode 'Installation'

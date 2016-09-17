@@ -1,0 +1,22 @@
+body: "As of the end of 2015, StackStorm has not published pricing for public consumption.\
+  \  However, we welcome inquiries.  We are doing quotes on an as needed basis.  If\
+  \ you would like a quote please email us at sales@stackstorm.com.  \r\n\r\nStackStorm\
+  \ Enterprise Edition pricing can be as little as $500 per month.  Currently all\
+  \ contracts are per month with a minimum 12 month commitment.  \r\n\r\nPricing varies\
+  \ based on the number of sites and the number of packs.  The sites are based on\
+  \ the number of sites under management.\r\n\r\nSites:  It does not matter if StackStorm\
+  \ is deployed there - just if it manages something there.  For example, if you have\
+  \ Cassandra deployed across every availability zone in AWS then you probably have\
+  \ 27 sites.  \r\n\r\nPacks:  It does not matter if these are your packs or community\
+  \ packs.  We group the pricing into Small, Medium and Large.  So 10 or fewer packs\
+  \ is small, 10-25 is medium and 25-50 is large.  \r\n\r\n* - note that your first\
+  \ 5 packs do not count against your number of packs.  This is intended to cover\
+  \ packs that are shipped with StackStorm however in practice you can apply this\
+  \ first 5 pack exclusion however you'd like.  \r\n\r\nQuarterly true up:  StackStorm\
+  \ will not stop working if you use more than the projected number of packs.  Instead,\
+  \ quarterly we'll ask you for how many you are using.  And, yes, we can if you'd\
+  \ like query the system to find out.  We then tell you what the billing difference\
+  \ will be if you continue using that many.  The number is based on a reasonable\
+  \ average of recent usage.  Don't worry about peak usage.  \r\n"
+title: Pricing
+topic: !!python/unicode 'General'

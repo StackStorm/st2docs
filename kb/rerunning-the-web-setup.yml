@@ -1,0 +1,8 @@
+body: "To rerun the web setup, remove the files /tmp/st2installer_lock and /tmp/st2installer.log,\
+  \ then reload the setup page.\r\n\r\nOnce all the options are provided, the setup\
+  \ usually takes more than a few minutes.  If puppet-apply or the update-system process\
+  \ is still running on the system, then the setup is still working.\r\n\r\nTo further\
+  \ troubleshoot, kill the update-system process and rerun from the command line `DEBUG=true\
+  \ update-system` with sudo."
+title: Rerunning the web setup
+topic: !!python/unicode 'Installation'
