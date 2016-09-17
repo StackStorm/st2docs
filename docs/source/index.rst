@@ -46,7 +46,14 @@ Contents:
     upgrade_notes
     Roadmap <roadmap>
 
+
+.. toctree::
+    :maxdept: 0
+    :caption: Support
+    kb
+
 .. toctree::
     :maxdepth: 2
     :caption: Lost and Found
+
 
