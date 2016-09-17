@@ -48,12 +48,6 @@ Contents:
 
 
 .. toctree::
-    :maxdepth: 1
-    :caption: Support
-
-    kb
-
-.. toctree::
     :maxdepth: 2
     :caption: Lost and Found
 

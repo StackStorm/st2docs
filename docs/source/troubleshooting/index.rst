@@ -19,3 +19,4 @@ This section includes common problems you might encounter while using the platfo
     submit_debug_info
     debug_mode
     ask_for_support
+    kb

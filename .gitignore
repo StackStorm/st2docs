@@ -8,7 +8,7 @@ build
 \#*\#
 *.swp
 ipfabric/
-docs/source/kb.rst
+docs/source/troubleshooting/kb.rst
 docs/source/solutions/ipfabric/
 docs/source/_static/images/3_clos_topology.jpg
 docs/source/_static/images/bwc_components.jpg

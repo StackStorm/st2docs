@@ -7,7 +7,7 @@ import yaml
 import pypandoc
 
 ST2DOCS_PATH = "./kb"
-RST_PATH = "./docs/source/kb.rst"
+RST_PATH = "./docs/source/troubleshooting/kb.rst"
 
 RST_HEADER = """Knowledge Base
 ==============
