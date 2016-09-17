@@ -51,8 +51,9 @@ def get_contents(path):
 def convert_to_rst(article):
     """Take article dict and parse to rst. Append parsed data to kb.rst
     """
-    body = re.sub(r'(#+)(\s+)', r'\1###\2', article['body'])
+    body = re.sub(r'(#+)(\s+)', r'\1####\2', article['body'])
     convert_string = "### %s\n %s" % (article['title'], body)
+    print convert_string
     return pypandoc.convert_text(convert_string, 'rst', 'md')
 
 

@@ -1,8 +1,0 @@
-body: "To prevent multiple installation processes running at the same time and re-configuring\
-  \ an already configured instance, installer writes a file based lock to **/tmp/st2installer_lock**.\r\
-  \n\r\nIf for some reason the installer doesn't complete or it crashes and the lock\
-  \ file is not removed, you need to remove it manually before you can re-run the\
-  \ installation process (**rm /tmp/st2installer_lock**).\r\n\r\nYou should also manually\
-  \ remove this file if you, want to re-run the installer for some other reason."
-title: Unable to re-run the installer because it's locked
-topic: !!python/unicode 'Installation'

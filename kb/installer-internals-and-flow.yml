@@ -1,6 +1,0 @@
-body: This article discusses the overall flow of the StackStorm All-in-one installer,
-  and the steps it takes to bootstrap the system. This is a good primer when attempting
-  to debug the installer, and provides a basic map of where to look to resolve common
-  issues.
-title: Installer Internals and Flow
-topic: !!python/unicode 'Installation'
