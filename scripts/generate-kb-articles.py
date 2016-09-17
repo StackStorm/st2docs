@@ -1,6 +1,7 @@
 #!/usr/bin/env python2
 """Parse stackstorm docs for KB articles. Output articles to YAML file.
 """
+import re
 import os
 import yaml
 import pypandoc
@@ -33,6 +34,7 @@ def get_kb_data(doc_files):
     """
     kb_data = []
     for doc_file in doc_files:
+        print "Getting contents for %s" % doc_file
         contents = get_contents(doc_file)
         kb_data.append(contents)
 
@@ -49,7 +51,8 @@ def get_contents(path):
 def convert_to_rst(article):
     """Take article dict and parse to rst. Append parsed data to kb.rst
     """
-    convert_string = "#### %s\n %s" % (article['title'], article['body'])
+    body = re.sub(r'(#+)(\s+)', r'\1###\2', article['body'])
+    convert_string = "### %s\n %s" % (article['title'], body)
     return pypandoc.convert_text(convert_string, 'rst', 'md')
 
 
@@ -61,8 +64,9 @@ def write_rst(kb_data):
 
     with open(RST_PATH, "a") as rst_file:
         for article in kb_data:
+            print "Writing rst for %s" % article['title']
             rst_contents = convert_to_rst(article)
-            rst_file.write(rst_contents)
+            rst_file.write(rst_contents+"\n\n")
 
 
 def install_pandoc():
