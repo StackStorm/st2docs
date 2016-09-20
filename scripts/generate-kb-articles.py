@@ -1,10 +1,12 @@
 #!/usr/bin/env python2
 """Parse stackstorm docs for KB articles. Output articles to YAML file.
 """
+from __future__ import print_function
 import re
 import os
 import yaml
 import pypandoc
+
 
 ST2DOCS_PATH = "./kb"
 RST_PATH = "./docs/source/troubleshooting/kb.rst"
@@ -26,6 +28,7 @@ def get_files():
     for (dirpath, _, files_in_dir) in os.walk(ST2DOCS_PATH):
         for files in files_in_dir:
             doc_files.append(dirpath + '/' + files)
+
     return doc_files
 
 
@@ -55,6 +58,7 @@ def convert_to_rst(article):
     body = re.sub(r'#+\s+(.+)([\s\n\r]+)', r'**\1**\2', article['body'])
     body = body.replace('\r**', '**\r')
     convert_string = "### %s\n %s" % (article['title'], body)
+
     return pypandoc.convert_text(convert_string, 'rst', 'md')
 
 
@@ -62,13 +66,13 @@ def write_rst(kb_data):
     """Write RST file to disk.
     """
     with open(RST_PATH, "w+") as rst_file:
-        rst_file.write(RST_HEADER),
+        rst_file.write(RST_HEADER)
     with open(RST_PATH, "a") as rst_file:
         for topic, articles in kb_data.iteritems():
             rst_file.write(topic + "\n" + "-"*len(topic) + "\n\n")
             for article in articles:
                 rst_contents = convert_to_rst(article)
-                print article['title']
+                print(article['title'])
                 rst_file.write(rst_contents+"\n\n")
 
 
