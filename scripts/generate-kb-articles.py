@@ -67,6 +67,7 @@ def write_rst(kb_data):
     """
     with open(RST_PATH, "w+") as rst_file:
         rst_file.write(RST_HEADER)
+
     with open(RST_PATH, "a") as rst_file:
         for topic, articles in kb_data.iteritems():
             rst_file.write(topic + "\n" + "-"*len(topic) + "\n\n")
