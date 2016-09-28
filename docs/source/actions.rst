@@ -147,7 +147,7 @@ compatibility). These attributes can be present in the metadata file:
 * ``runner_type`` - The type of runner to execute the action.
 * ``enabled`` - Action cannot be invoked when disabled.
 * ``entry_point`` - Location of the action launch script relative to the /opt/stackstorm/packs/${pack_name}/actions/.
-* ``parameters`` - A dictionary of parameters and optional metadata describing type and default. The metadata is structured data following the `JSON Schema`_ specification draft 4. If metadata is provided, input args are validated on action execution. Otherwise, validation is skipped.
+* ``parameters`` - A dictionary of parameters and optional metadata describing type and default. The metadata is structured data following the `JSON Schema`_ specification draft 4. The common parameter types allowed are ``string``, ``boolean``, ``number``, ``object``, ``integer`` and ``array``. If metadata is provided, input args are validated on action execution. Otherwise, validation is skipped.
 
 This is a sample metadata file for a Python action which sends an SMS via the Twilio web service:
 
