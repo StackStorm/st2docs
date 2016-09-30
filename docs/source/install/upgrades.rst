@@ -79,6 +79,16 @@ to take a look at detailed :doc:`/changelog` for each version.
 Following sections call out the migration scripts that need to be run before upgrading to the
 respective version
 
+v2.1
+'''''
+
+* Datastore model migration - Scope names are now ``st2kv.system`` and ``st2kv.user`` as
+  opposed to ``system`` and ``user``.
+
+::
+
+   /opt/stackstorm/st2/bin/st2-migrate-datastore-scopes.py
+
 v1.5
 '''''
 

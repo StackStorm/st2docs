@@ -243,7 +243,7 @@ Datastore
 
 While most data are retrieved as needed by |st2|, you may need to store and share some common
 variables. Use |st2| datastore service to store the values and reference them in rules and workflows
-as ``{{system.my_parameter}}``. This creates ``user=stanley`` key-value pair:
+as ``{{st2kv.system.my_parameter}}``. This creates ``user=stanley`` key-value pair:
 
 .. code-block:: bash
 

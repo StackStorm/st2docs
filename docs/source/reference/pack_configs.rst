@@ -89,9 +89,9 @@ provided below:
 
     ---
       api_key: "some_api_key"
-      api_secret: "{{user.api_secret}}"  # user scoped configuration value which is also a secret as declared in config schema
+      api_secret: "{{st2kv.user.api_secret}}"  # user scoped configuration value which is also a secret as declared in config schema
       region: "us-west-1"
-      private_key_path: "{{system.private_key_path}}"  # global datastore value
+      private_key_path: "{{st2kv.system.private_key_path}}"  # global datastore value
 
 Configuration files are registered in the same way as other resources by running
 ``st2ctl reload`` / ``st2-register-content`` script. For configs, you need to run
@@ -150,8 +150,8 @@ In the config, dynamic configuration values are referred to as shown below:
 .. sourcecode:: yaml
 
     ---
-      api_secret: "{{user.api_secret}}"  # user scoped configuration value which is also a secret as declared in config schema
-      private_key_path: "{{system.private_key_path}}"  # global datastore value
+      api_secret: "{{st2kv.user.api_secret}}"  # user scoped configuration value which is also a secret as declared in config schema
+      private_key_path: "{{st2kv.system.private_key_path}}"  # global datastore value
 
 ``api_secret`` is a user-scoped dynamic configuration value which means that
 ``user`` part will be replaced by the username of the user who triggered the
@@ -256,7 +256,7 @@ Limitations
 -----------
 
 There are some limitation with the dynamic config values and
-``{{user.key_name}}`` context you should be aware of.
+``{{st2kv.user.key_name}}`` context you should be aware of.
 
 Dynamic config values
 ~~~~~~~~~~~~~~~~~~~~~
@@ -281,13 +281,13 @@ User context
 User context is right now only available for actions which are triggered via
 the |st2| API.
 
-This means that dynamic config values which utilize ``{{user.some_value}}``
+This means that dynamic config values which utilize ``{{st2kv.user.some_value}}``
 notation will only resolve to the correct user when an action is triggered
 through the API.
 
 The reason for that is that user context is currently only available in the
 API. If an action is triggered via rule, user context is not available. This
-means ``{{user}}`` will resolve to the system user (``stanley``).
+means ``{{st2kv.user}}`` will resolve to the system user (``stanley``).
 
 We plan to address this in a future release, but we haven't decided on the
 approach yet, so your feedback is welcome. No mater the approach we will go
