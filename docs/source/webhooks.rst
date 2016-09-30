@@ -123,8 +123,8 @@ Using a Generic Webhook
 
 By default, a special-purpose webhook with the name ``st2`` is already registered. Instead
 of using ``st2.core.webhook``, it allows you to specify any trigger that is known to |st2| 
-(either by default or from a custom sensor), so you can use it to trigger rules that aren’t 
-explicitly set up to be triggered by webhooks.
+(either by default or from custom sensors and triggers in packs), so you can use it to 
+trigger rules that aren’t explicitly set up to be triggered by webhooks.
 
 The body of this request needs to be JSON and must contain the following attributes:
 
