@@ -11,6 +11,12 @@ Upgrade Notes
   If you have an existing action which uses parameter name which doesn't fall into this criteria
   it needs to be updated otherwise action registration will fail with an error.
 
+* Datastore scopes are now ``st2kv.system`` and ``st2kv.user`` as opposed to ``system`` and ``user``.
+  So if you are accessing datastore items in your content, you should now use jinja expressions
+  ``{{st2kv.system.foo}}`` and ``{{st2kv.user.foo}}``. The older jinja expressions
+  ``{{system.foo}}`` and ``{{user.foo}}`` are still supported for backward compatibility but
+  will be deprecated in subsequent releases.
+
 |st2| v2.0.0
 ------------
 
