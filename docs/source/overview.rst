@@ -39,7 +39,7 @@ How it Works
 * **Audit trail** of action executions, manual or automated, is recorded and stored with full details of triggering context and execution results. It is also captured in audit logs for integrating with external logging and analytical tools: LogStash, Splunk, statsd, syslog.
 
 
-|st2| is a service with modular architecture. It comprises loosely coupled service components that communicate over the message bus, and scales horizontally to deliver automation at scale. |st2| has a full REST API, CLI client for admins and users to operate it locally or remotely, and Python client bindings for developer’s convenience. Web UI is coming soon.
+|st2| is a service with modular architecture. It comprises loosely coupled service components that communicate over the message bus, and scales horizontally to deliver automation at scale. |st2| has a Web UI, a CLI client, and of course a full REST API. We also ship Python client bindings to make life easier for developers.
 
 |st2| is new and under active development. We are opening it early to engage community, get feedback, and refine directions, and welcome contributions.
 
