@@ -41,7 +41,7 @@ How it Works
 
 |st2| is a service with modular architecture. It comprises loosely coupled service components that communicate over the message bus, and scales horizontally to deliver automation at scale. |st2| has a Web UI, a CLI client, and of course a full REST API. We also ship Python client bindings to make life easier for developers.
 
-|st2| is new and under active development. We are opening it early to engage community, get feedback, and refine directions, and welcome contributions.
+|st2| is new and under active development. We are very keen to engage the community, to get feedback and refine our directions. Contributions are always welcome!
 
 What's Next?
 -------------------------------
