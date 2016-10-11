@@ -97,7 +97,7 @@ As of release 1.2, Jinja templating is supported for both ``message`` and ``data
 contexts available for use are parameters of action and runner (``{{action_parameters.cmd}}``),
 keys in execution results (``{{action_results.stdout}}``, ``{{action_results.stderr}}`` for example),
 anything in action context (``{{action_context.user}}``)
-and anything in key-value store (``{{system.foo}}``). Some examples are shown below:
+and anything in key-value store (``{{st2kv.system.foo}}``). Some examples are shown below:
 
 ::
 
@@ -149,7 +149,7 @@ How do I setup different notifications for different tasks in the chain?
 ------------------------------------------------------------------------
 
 The ``notify`` subsection is the same format as seen in examples above.
-Place the subsection in action chain tasks. If there is a notify section for the action metadata, 
+Place the subsection in action chain tasks. If there is a notify section for the action metadata,
 and a notify section in the task, the task section will override the default. The relevant section
 of a chain action with task notify is shown below:
 

@@ -70,10 +70,12 @@ Delete an existing key value pair:
 Scoping Datastore Items
 -----------------------
 
-By default, all items stored in key value store are stored in ``system`` scope. This
-basically means every user has access to these variables. You'd typically use the
-jinja expression ``{{system.key_name}}`` to refer to these variables in actions or
-workflows. Starting version 1.5 of |st2|, you can now scope variables to a specific
+By default, all items stored in key value store are stored in ``st2kv.system`` scope.
+This basically means every user  has access to these variables. You'd typically use the
+jinja expression ``{{st2kv.system.key_name}}`` to refer to these variables in actions or
+workflows. Note that until v2.1, the scope used to be called ``system`` and therefore
+you'd have used jinja expression ``{{st2kv.system.key_name}}``.
+Starting version 1.5 of |st2|, you can now scope variables to a specific
 user. With authentication enabled, you can now control who can read or write into those
 variables. For example, to set variable ``date_cmd`` for the currently authenticated
 user, use:
@@ -105,8 +107,12 @@ or simply:
 
 This variable won't clash with the user variables under same name. Also, you can refer
 to user variables in actions or workflows. The jinja syntax to do so is
-``{{user.date_cmd}}``. Note that the notion of ``user`` is available only when actions
-or workflows are run manually. The notion of ``user`` is non-existent when automations
+``{{st2kv.user.date_cmd}}``. Until v2.1, this expression used to be ``{{user.date_cmd}}``. For
+backward compatibility, the older expression is still supported but will be deprecated in subsequent
+releases.
+
+Note that the notion of ``st2kv.user`` is available only when actions
+or workflows are run manually. The notion of ``st2kv.user`` is non-existent when automations
 are run (actions kicked off via rules). So the use of user scoped variables is limited to
 manual execution of actions or workflows.
 
@@ -155,8 +161,8 @@ Referencing Key Value Pair in Rule Definition
 Key value pairs are referenced via specific string substitution syntax
 in rules. In general, variable for substitution is enclosed with double
 brackets (i.e. **{{var1}}**). To refer to a key value pair, prefix the
-variable name with "system" (i.e.
-**{{system.os\_keystone\_endpoint}}**). An example rule is provided
+variable name with "st2kv.system" (i.e.
+**{{st2kv.system.os\_keystone\_endpoint}}**). An example rule is provided
 below. Please refer to the documentation section for Rules on rule
 related syntax.
 
@@ -171,7 +177,7 @@ related syntax.
         "action": {
             "name": "daily_clean_up_action",
             "parameters": {
-                "os_keystone_endpoint": "{{system.os_keystone_endpoint}}"
+                "os_keystone_endpoint": "{{st2kv.system.os_keystone_endpoint}}"
             }
         }
     }
