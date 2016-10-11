@@ -179,6 +179,7 @@ One way of setting up passwordless sudo is perform the below operation on each r
 
     echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
 
+.. _config-logging:
 
 Configure Logging
 -----------------
