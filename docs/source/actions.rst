@@ -647,7 +647,7 @@ To see all predefined actions:
 
 ::
 
-    st2 action list --pack=core
+    st2 action list
 
 .. rubric:: What's Next?
 
