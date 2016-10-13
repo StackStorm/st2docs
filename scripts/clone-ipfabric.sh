@@ -6,7 +6,7 @@ if [ -d $IPFABRIC_DIRECTORY ]; then
     rm -rf $IPFABRIC_DIRECTORY
 fi
 
-docs_version=`cat version.txt`
+docs_version=`cat version.txt | cut -d '.' -f 1,2`
 
 case $docs_version in
     *dev*)
