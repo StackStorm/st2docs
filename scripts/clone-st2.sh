@@ -6,7 +6,7 @@ if [ -d $ST2_DIRECTORY ]; then
     rm -rf $ST2_DIRECTORY
 fi
 
-docs_version=`cat version.txt`
+docs_version=`cat version.txt | cut -d '.' -f 1,2`
 
 case $docs_version in
     *dev*)
