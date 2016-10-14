@@ -96,7 +96,7 @@ called with the parameters:
        cmd: date
        hosts: localhost
 
-Since ``core.remote`` accepts multiple hosts, you can also use a comma-separated list: 
+Since ``core.remote`` accepts multiple hosts, you can also use a comma-separated list:
 ``run date on 10.0.10.1,10.0.10.2``.
 
 With default
@@ -113,6 +113,15 @@ In this case the query has a default value assigned which will be used
 if no value is provided by the user. Therefore, a simple ``run date`` instead of
 ``run date 10.0.10.1`` would result in assigning the default value, in a similar
 manner to how Action default parameter values are interpreted.
+
+For default inputs like JSON, the following pattern can be applied:
+
+.. code-block:: yaml
+
+    formats:
+      - "run {{thing={'key': 'value'}}}"
+
+It is therefore possible to pass information to a runner like a HTTP header as a default value using this pattern.
 
 Regular expressions
 ~~~~~~~~~~~~~~~~~~~
