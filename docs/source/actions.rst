@@ -533,9 +533,9 @@ standard output. As you can see, user-supplied action parameters are passed to
 the ``run`` method as keyword arguments.
 
 If the ``run`` method finishes without exceptions, the execution is successful,
-and the value returned by the method is considered its result, no matter the
-type: boolean, string, list, dict, etc. Raising an exception will report the
-execution as failed.
+and the value returned by the method (any value: boolean, string, list, dict,
+etc.) is considered its result. Raising an exception will report the execution
+as failed.
 
 Another way to specify the status of an execution is returning a tuple with two
 items: the first item is a boolean indicating status, the second item is the
