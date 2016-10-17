@@ -494,15 +494,6 @@ a ``run`` method.
 Sample Python action
 ~~~~~~~~~~~~~~~~~~~~
 
-This example Python action prints text provided via the ``message`` parameter to
-the standard output.
-
-In addition to printing the message, the action also returns a tuple as a result.
-If the ``message`` parameter passed to the action is ``working``, the action will be
-considered as succeeded (first flag in the result indicating action status is
-``True``) and in case another message is passed in, action will be considered as
-failed (first flag in the result tuple indicating action status is ``False``).
-
 Metadata file (``my_echo_action.yaml``):
 
 .. code-block:: yaml
@@ -537,9 +528,28 @@ Action script file (``my_echo_action.py``):
                 return (True, message)
             return (False, message)
 
-As you can see above, user-supplied action parameters are passed to the ``run``
-method as keyword arguments. The return value from the  runner is a tuple consisting of
-success status flag and the result object respectively.
+This Python action prints text provided via the ``message`` parameter to the
+standard output. As you can see, user-supplied action parameters are passed to
+the ``run`` method as keyword arguments.
+
+If the ``run`` method finishes without exceptions, the execution is successful,
+and the value returned by the method is considered its result, no matter the
+type: boolean, string, list, dict, etc. Raising an exception will report the
+execution as failed.
+
+Another way to specify the status of an execution is returning a tuple with two
+items: the first item is a boolean indicating status, the second item is the
+result itself.
+
+For example, ``return False`` will result in a successful execution with the
+result being ``False``, and ``return (False, "Failed!")`` is a failed execution
+with ``"Failed!"`` as its result.
+
+In the example above, if the ``message`` parameter passed to the action is
+``working``, the action will be considered as succeeded (first flag in the
+result indicating action status is ``True``) and in case another message is
+passed in, action will be considered as failed (first flag in the result tuple
+indicating action status is ``False``).
 
 For a more complex example, please refer to the `actions in the Libcloud pack in
 the contrib repository <https://github.com/StackStorm/st2contrib/tree/master/packs/libcloud/actions>`_.
