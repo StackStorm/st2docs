@@ -17,6 +17,11 @@ Upgrade Notes
   ``{{system.foo}}`` and ``{{user.foo}}`` are still supported for backward compatibility but
   will be deprecated in subsequent releases.
 
+* Runners are now `pluggable`. With this version, we are piloting an ability to register
+  runners just like other |st2| content. This feature is in beta and is being worked on.
+  No backward compatibility is guaranteed. Please wait for a release note indicating general
+  availability of this feature.
+
 |st2| v2.0.0
 ------------
 
