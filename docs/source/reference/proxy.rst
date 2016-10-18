@@ -25,7 +25,7 @@ write into the config for you.
 
 .. sourcecode:: bash
 
-    git config --global http://user:passwd@proxy.server.com:port
+    git config --global http.proxy http://user:passwd@proxy.server.com:port
 
 Configuring pip
 ---------------
