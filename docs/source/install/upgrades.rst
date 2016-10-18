@@ -94,7 +94,7 @@ v2.1
 
 ::
 
-  /opt/stackstorm/st2/bin/st2-migrate-runners.py
+  /opt/stackstorm/st2/bin/st2-migrate-runners.sh
 
 v1.5
 '''''
