@@ -18,7 +18,8 @@ Upgrade Notes
   will be deprecated in subsequent releases.
 
 * Runners are now `pluggable`. With this version, we are piloting an ability to register
-  runners just like other |st2| content. This feature is in beta and is being worked on.
+  runners just like other |st2| content. You can register runners by simply running
+  ``st2ctl reload --register-runners``. This feature is in beta and is being worked on.
   No backward compatibility is guaranteed. Please wait for a release note indicating general
   availability of this feature.
 
