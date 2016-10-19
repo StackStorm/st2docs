@@ -147,7 +147,7 @@ Rule:
         type: "mypack.mytrigger"
 
     criteria:
-        trigger.body.payload.attribute1:
+        trigger.attribute1:
             type: "equals"
             pattern: "value1"
 
