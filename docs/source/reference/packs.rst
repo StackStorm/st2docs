@@ -201,7 +201,7 @@ So, now you forged this uber-awesome pack in |st2|, what's next? Do you want to 
    git commit -m "Awesomeness!!!"
    git push origin my_uber_new_pack
 
-4. Create pull request
+6. Create pull request
 
   * Go to `StackStorm repo <https://github.com/StackStorm/st2contrib>`__. You will see a yellow banner with a button ``Compare & Pull request``. Click the button.
   * Fill in details describing the pack. Click the ``Create pull request`` button.
