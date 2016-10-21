@@ -246,7 +246,6 @@ keys correctly.
 
 Now as an admin, you are all set with configuring |st2| server side.
 
-
 .. _datastore-storing-secrets-in-key-value-store:
 
 Storing Secrets
@@ -274,6 +273,17 @@ To get plain text, please run with command --decrypt flag:
     Keep in mind that ``--decrypt`` flag can either be used by an administrator (administrator is
     able to decrypt every value) and by the user who set that value in case of the user-scoped
     datastore item (i.e. if ``--scope=user`` flag was passed when originally setting the value).
+
+If you are using system scoped variables (``st2kv.system``) to store secrets, you can decrypt them
+and use as parameter values in rules or actions. This is supported via jinja filter ``decrypt_kv``
+(read more about :ref:`jinja filters<applying-filters-with-jinja>`). For example,
+to pass a decrypted password as a parameter, simply do
+
+.. code-block:: YAML
+
+    aws_key: "{{st2kv.system.aws_key | decrypt_kv}}"
+
+Decrypting user scoped variables is currently unsupported.
 
 Security notes
 --------------

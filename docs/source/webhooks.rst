@@ -60,9 +60,9 @@ All the examples below assume JSON and as such, provide ``application/json`` for
 ``Content-Type`` header value.
 
 Registering a Webhook
-----------------------------
+---------------------
 
-You can register a webhook in |st2| by specifying ``core.st2.webhook`` 
+You can register a webhook in |st2| by specifying ``core.st2.webhook``
 trigger inside a rule definition.
 
 Here is an excerpt from a rule which registers a new webhook named ``sample``:
@@ -117,13 +117,13 @@ Rule:
         ref: "mypack.myaction"
         parameters:
     ...
-    
+
 Using a Generic Webhook
 -----------------------
 
 By default, a special-purpose webhook with the name ``st2`` is already registered. Instead
-of using ``st2.core.webhook``, it allows you to specify any trigger that is known to |st2| 
-(either by default or from custom sensors and triggers in packs), so you can use it to 
+of using ``st2.core.webhook``, it allows you to specify any trigger that is known to |st2|
+(either by default or from custom sensors and triggers in packs), so you can use it to
 trigger rules that aren’t explicitly set up to be triggered by webhooks.
 
 The body of this request needs to be JSON and must contain the following attributes:
@@ -147,7 +147,7 @@ Rule:
         type: "mypack.mytrigger"
 
     criteria:
-        trigger.body.payload.attribute1:
+        trigger.attribute1:
             type: "equals"
             pattern: "value1"
 

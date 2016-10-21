@@ -21,11 +21,41 @@ available runner parameters.
 
 import os
 
-from st2common.bootstrap.runnersregistrar import RUNNER_TYPES
+import yaml
+
+from st2common.content.loader import RunnersLoader, RUNNER_MANIFEST_FILE_NAME
+
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 HEADER = '.. NOTE: This file has been generated automatically, don\'t manually edit it'
 
+
+def _get_runners_dir():
+    runner_loader = RunnersLoader()
+    runner_dir = os.path.join(CURRENT_DIR, '../st2/contrib/runners')
+
+    runner_types = runner_loader.get_runners([runner_dir])
+
+    return runner_types
+
+
+def _get_runners():
+    runners = []
+    runners_dir = _get_runners_dir()
+
+    for runner, runner_dir in runners_dir.iteritems():
+        manifest_path = os.path.join(runner_dir, RUNNER_MANIFEST_FILE_NAME)
+
+        with open(manifest_path, 'r') as manifest_file:
+            manifest_contents = manifest_file.read()
+            manifest = yaml.load(manifest_contents)
+
+            runners.extend(manifest)
+
+    return runners
+
+
+RUNNER_TYPES = _get_runners()
 
 def main():
     for runner in RUNNER_TYPES:

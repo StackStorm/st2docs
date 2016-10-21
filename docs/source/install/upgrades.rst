@@ -89,6 +89,13 @@ v2.1
 
    /opt/stackstorm/st2/bin/st2-migrate-datastore-scopes.py
 
+* We are piloting pluggable runners (See :ref:`upgrade notes<upgrade_notes>`). Runners now
+  have to be explicitly registered just like other content.
+
+::
+
+  /opt/stackstorm/st2/bin/st2-migrate-runners.sh
+
 v1.5
 '''''
 
