@@ -72,6 +72,7 @@ Additional processes to monitor:
 * MongoDB - ``mongod``
 * Nginx (if used for web/API frontend) - ``nginx``
 * Postfix/Sendmail (if local mail relay configured)
+* rsyslog/logstash/splunk-agent (if used)
 
 
 Metrics
@@ -85,26 +86,31 @@ We recommend storing metrics in a time-series database, such as `InfluxDB <https
 MongoDB
 -------
 
-.. todo:: Confirm what & how to monitor MongoDB
+.. todo:: Confirm that these are the right queues to monitor MongoDB
 
 MongoDB holds state for all currently scheduled and running actions. Use these queries to monitor current numbers:
 
-* _some_mongo_query_scheduled_actions
-* _some_mongo_query_running_actions
+* Scheduled actions: `db.action_execution_d_b.find({"status":"scheduled"})
+* Running actions: `db.action_execution_d_b.find({"status":"running"})
 
 Monitor these values over time to detect trends, and abnormal activity. Increasing numbers of scheduled actions
-may indicate insufficient ``st2actionrunner`` capacity.
+may indicate insufficient ``st2actionrunner`` capacity. These queues can be monitored using:
+
+.. code-block:: bash
+
+    mongo st2 --eval \'rs.slaveOk(); db.action_execution_d_b.find({\"status\":\"scheduled\"}).count()\' | tail -1
+    mongo st2 --eval \'rs.slaveOk(); db.action_execution_d_b.find({\"status\":\"running\"}).count()\' | tail -1
 
 RabbitMQ
 --------
 
-.. todo:: Check which queues we should be monitoring here, and length
+These RabbitMQ queue lengths should be monitored:
 
-These RabbiMQ queue lengths should be monitored:
-
-* ``st2.actionrunner.canel``
+* ``st2.actionrunner.canel`` (yes really, that is not a typo in the documentation)
 * ``st2.actionrunner.req``
 * ``st2.actionrunner.work``
+
+You can obtain these values using ``sudo rabbitmqctl list_queues | fgrep st2.actionrunner.``
 
 For most systems, these queue lengths should be < 10.
 
@@ -143,11 +149,3 @@ Most organisations will want to investigate failed action executions. To detect 
 (this logfile)
 
 .. todo:: Add information about how to detect things like failed executions
-
-
-
-
-
-
-
-
