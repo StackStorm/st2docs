@@ -90,8 +90,8 @@ MongoDB
 
 MongoDB holds state for all currently scheduled and running actions. Use these queries to monitor current numbers:
 
-* Scheduled actions: `db.action_execution_d_b.find({"status":"scheduled"})
-* Running actions: `db.action_execution_d_b.find({"status":"running"})
+* Scheduled actions: ``db.action_execution_d_b.find({"status":"scheduled"})``
+* Running actions: ``db.action_execution_d_b.find({"status":"running"})``
 
 Monitor these values over time to detect trends, and abnormal activity. Increasing numbers of scheduled actions
 may indicate insufficient ``st2actionrunner`` capacity. These queues can be monitored using:
