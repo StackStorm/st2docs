@@ -6,10 +6,11 @@ Upgrade Notes
 |st2| in development
 --------------------
 
-* Action parameter names can now only contain valid word characters (``a-z``, ``0-9`` and ``_``).
+* Pack names and action parameter names can now only contain valid word characters (``a-z``,
+  ``0-9`` and ``_``).
 
-  If you have an existing action which uses parameter name which doesn't fall into this criteria
-  it needs to be updated otherwise action registration will fail with an error.
+  If you have an existing pack or action which uses parameter name which doesn't fall into this
+  criteria it needs to be updated otherwise pack / action registration will fail with an error.
 
 * Datastore scopes are now ``st2kv.system`` and ``st2kv.user`` as opposed to ``system`` and ``user``.
   So if you are accessing datastore items in your content, you should now use jinja expressions
@@ -22,6 +23,22 @@ Upgrade Notes
   ``st2ctl reload --register-runners``. This feature is in beta and is being worked on.
   No backward compatibility is guaranteed. Please wait for a release note indicating general
   availability of this feature.
+
+* When registering packs using ``st2ctl`` / ``st2-register-content`` script additional validation
+  is now performed on the pack metadata (``pack.yaml`` file). The ``version`` attribute now needs
+  to contain a valid ``semver`` version string (<major>.<minor>.<patch>, e.g. ``1.0.1``). In
+  addition to that, ``email`` address attribute now also needs to contain a valid email address.
+
+  If you have an existing pack which doesn't satisfy this new validation criteria it needs to be
+  updated otherwise pack registration will fail.
+
+* Pack metadata file (``pack.yaml``) can now contain a new ``ref`` attribute. This attribute acts as
+  a unique identifier for a pack and should be specified when a pack files don't live in a
+  sub-directory (e.g. such as with the new single pack per git repository model). Previously, pack
+  directory served as a unique identifie or a pack.
+
+  For example, if a pack name is ``Travis CI``, a valid and good value for ``ref`` attribute would
+  be ``travis_ci`` (previously the pack files would live in ``travis_ci/`` directory).
 
 |st2| v2.0.0
 ------------
