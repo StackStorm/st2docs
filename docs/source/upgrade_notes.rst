@@ -35,7 +35,7 @@ Upgrade Notes
 * Pack metadata file (``pack.yaml``) can now contain a new ``ref`` attribute. This attribute acts as
   a unique identifier for a pack and should be specified when a pack files don't live in a
   sub-directory (e.g. such as with the new single pack per git repository model). Previously, pack
-  directory served as a unique identifie or a pack.
+  directory served as a unique identifier for a pack.
 
   For example, if a pack name is ``Travis CI``, a valid and good value for ``ref`` attribute would
   be ``travis_ci`` (previously the pack files would live in ``travis_ci/`` directory).
