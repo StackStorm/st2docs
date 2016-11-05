@@ -83,15 +83,15 @@ The ``policies`` folder contains Policies. See :doc:`Policies </reference/polici
 
 My first pack
 -------------
-If you would like to create a pack yourself then follow these *simple* steps. In the example below, we will create a simple pack named **hello-st2**. The full example is also available at :github_st2:`st2/contrib/hello-st2 </contrib/hello-st2>`.
+If you would like to create a pack yourself then follow these *simple* steps. In the example below, we will create a simple pack named **hello_st2**. The full example is also available at :github_st2:`st2/contrib/hello_st2 </contrib/hello_st2>`.
 
 1. First, let's create the pack folder structure and related files. Let's keep the metadata files such as pack.yaml, config.yaml, and requirements.txt empty for now.
 
 .. code-block:: bash
 
    # Use the name of the pack for the folder name.
-   mkdir hello-st2
-   cd hello-st2
+   mkdir hello_st2
+   cd hello_st2
    mkdir actions
    mkdir rules
    mkdir sensors
@@ -106,60 +106,60 @@ If you would like to create a pack yourself then follow these *simple* steps. In
 
 The contents of ``pack.yaml`` should be as under.
 
-.. literalinclude:: /../../st2/contrib/hello-st2/pack.yaml
+.. literalinclude:: /../../st2/contrib/hello_st2/pack.yaml
 
 2. Create the action. The following example simply echoes a greeting.
 
 Copy the following content to actions/greet.yaml
 
-.. literalinclude:: /../../st2/contrib/hello-st2/actions/greet.yaml
+.. literalinclude:: /../../st2/contrib/hello_st2/actions/greet.yaml
 
 Copy the following content to actions/greet.sh
 
-.. literalinclude:: /../../st2/contrib/hello-st2/actions/greet.sh
+.. literalinclude:: /../../st2/contrib/hello_st2/actions/greet.sh
 
 3. Create a sensor. The sample sensor below publishes an event to |st2| every 60 seconds.
 
 Copy the following content to sensors/sensor1.yaml
 
-.. literalinclude:: /../../st2/contrib/hello-st2/sensors/sensor1.yaml
+.. literalinclude:: /../../st2/contrib/hello_st2/sensors/sensor1.yaml
 
 Copy the following content to sensors/sensor1.py
 
-.. literalinclude:: /../../st2/contrib/hello-st2/sensors/sensor1.py
+.. literalinclude:: /../../st2/contrib/hello_st2/sensors/sensor1.py
 
 4. Create a rule. The sample rule below is triggered by event from the sensor and invokes the action from the samples above.
 
 Copy the following content to rules/rule1.yaml
 
-.. literalinclude:: /../../st2/contrib/hello-st2/rules/rule1.yaml
+.. literalinclude:: /../../st2/contrib/hello_st2/rules/rule1.yaml
 
 5. Create an action alias. The sample action alias below aliases the greet action and makes it accessible from ChatOps.
 
 Copy the following content to aliases/alias1.yaml
 
-.. literalinclude:: /../../st2/contrib/hello-st2/aliases/alias1.yaml
+.. literalinclude:: /../../st2/contrib/hello_st2/aliases/alias1.yaml
 
 6. Create a policy. The sample policy below limits concurrent operation of the greet action.
 
 Copy the following content to policies/policy1.yaml
 
-.. literalinclude:: /../../st2/contrib/hello-st2/policies/policy1.yaml
+.. literalinclude:: /../../st2/contrib/hello_st2/policies/policy1.yaml
 
 7. Deploy this pack manually:
 
 .. code-block:: bash
 
-   # Assuming that hello-st2 is on the same server
-   cp -R ./hello-st2 /opt/stackstorm/packs
+   # Assuming that hello_st2 is on the same server
+   cp -R ./hello_st2 /opt/stackstorm/packs
 
-   # Create virtual environment for hello-st2.
-   st2 run packs.setup_virtualenv packs=hello-st2
+   # Create virtual environment for hello_st2.
+   st2 run packs.setup_virtualenv packs=hello_st2
 
    # Reloads the content
    st2 run packs.load register=all
 
-Once you follow steps 1-7 you will have created your first pack. Commands like ``st2 action list``, ``st2 rule list`` and ``st2 trigger list`` will show you the loaded content. To check if the sensor triggering action is working, run ``st2 execution list``, there should be an entry for executing ``hello-st2.greet`` every minute.
+Once you follow steps 1-7 you will have created your first pack. Commands like ``st2 action list``, ``st2 rule list`` and ``st2 trigger list`` will show you the loaded content. To check if the sensor triggering action is working, run ``st2 execution list``, there should be an entry for executing ``hello_st2.greet`` every minute.
 
 Next steps would be to create an integration pack for you favorite tool or service that you would like to use with |st2|. Happy hacking!
 
