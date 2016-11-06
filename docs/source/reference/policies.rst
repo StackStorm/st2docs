@@ -127,7 +127,7 @@ timed out.
 The example below shows how to automatically retry the ``core.http`` action up to two times if it
 times out:
 
-.. literalinclude:: /../../st2/contrib/hello-st2/policies/retry_core_http_on_timeout.yaml
+.. literalinclude:: /../../st2/contrib/hello_st2/policies/retry_core_http_on_timeout.yaml
 
 Keep in mind that retrying an execution results in a new execution which shares all the attributes
 from the retried execution (parameters, context, etc).
