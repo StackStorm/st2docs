@@ -136,7 +136,7 @@ Get individual key value pair or list all:
 ::
 
     >>> keys = client.keys.get_all()
-    >>> os_keystone_endpoint = client.keys.get_by_name(name='os_keystone_endpoint')
+    >>> os_keystone_endpoint = client.keys.get_by_name(os_keystone_endpoint)
     >>> os_keystone_endpoint.value
     u'http://localhost:5000/v2.0'
 
@@ -144,7 +144,7 @@ Update an existing key value pair:
 
 ::
 
-    >>> os_keystone_endpoint = client.keys.get_by_name(name='os_keystone_endpoint')
+    >>> os_keystone_endpoint = client.keys.get_by_name(os_keystone_endpoint)
     >>> os_keystone_endpoint.value = 'http://localhost:5000/v3'
     >>> client.keys.update(os_keystone_endpoint)
 
@@ -152,7 +152,7 @@ Delete an existing key value pair:
 
 ::
 
-    >>> os_keystone_endpoint = client.keys.get_by_name(name='os_keystone_endpoint')
+    >>> os_keystone_endpoint = client.keys.get_by_name(os_keystone_endpoint)
     >>> client.keys.delete(os_keystone_endpoint)
 
 Referencing Key Value Pair in Rule Definition
