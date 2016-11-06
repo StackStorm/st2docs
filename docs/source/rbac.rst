@@ -336,7 +336,7 @@ Lets first make sure there is a pack `x` we can use to experiment.
     $ mkdir x
     $ mkdir x/actions x/rules x/sensors
     $ touch pack.yaml
-    $ touch config.yaml
+    $ touch /opt/stackstorm/configs/x.yaml
     $ touch requirements.txt
     $ cp core/icon.png x/icon.png
 

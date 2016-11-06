@@ -15,14 +15,17 @@ Canonical pack as laid out on the file system.
    sensors/
    aliases/
    policies/
-   config.yaml
+   config.schema.yaml
    pack.yaml
    requirements.txt
 
-At the topmost level are the main folders ``actions``, ``rules``, ``sensors``, ``aliases`` and ``policies`` as well as some shared files.
+Most packs will also have a configuration file at ``/opt/stackstorm/configs/<pack_name>.yaml``. This defines any
+shared configuration used by the actions and sensors, e.g. usernames, region names, hostnames, etc.
+
+At the topmost level are the main folders ``actions``, ``rules``, ``sensors``, ``aliases`` and ``policies`` as well as some shared files:
 
 * ``pack.yaml`` - Metadata file that describes and identifies the folder as a pack.
-* ``config.yaml`` - Shared config file that is provided to both actions and sensors.
+* ``config.schema.yaml`` - Schema that defines configuration elements used by a pack.
 * ``requirements.txt`` - File containing a list of python dependencies.
 
 .. code-block:: bash
@@ -85,7 +88,7 @@ My first pack
 -------------
 If you would like to create a pack yourself then follow these *simple* steps. In the example below, we will create a simple pack named **hello_st2**. The full example is also available at :github_st2:`st2/contrib/hello_st2 </contrib/hello_st2>`.
 
-1. First, let's create the pack folder structure and related files. Let's keep the metadata files such as pack.yaml, config.yaml, and requirements.txt empty for now.
+1. First, let's create the pack folder structure and related files. Let's keep the metadata files such as pack.yaml, config.schema.yaml, and requirements.txt empty for now:
 
 .. code-block:: bash
 
@@ -98,11 +101,11 @@ If you would like to create a pack yourself then follow these *simple* steps. In
    mkdir aliases
    mkdir policies
    touch pack.yaml
-   touch config.yaml
+   touch config.schema.yaml
    touch requirements.txt
 
 .. note::
-    All folders are optional. If a folder is present, it is introspected for content. So it is safe to skip a folder or keep it empty.
+    All folders are optional. If a folder is present, it is inspected for content. So it is safe to skip a folder or keep it empty.
 
 The contents of ``pack.yaml`` should be as under.
 

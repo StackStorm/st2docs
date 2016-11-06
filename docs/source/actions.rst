@@ -568,10 +568,12 @@ Configuration File
 
 Python actions can store arbitrary configuration in the configuration file
 which is global to the whole pack. The configuration is stored in a file
-named ``config.yaml`` in the root directory of the pack.
+named ``<pack_name>.yaml`` located in the ``/opt/stackstorm/configs/``
+directory.
 
 The configuration file format is YAML. Configuration is automatically parsed and
-passed to the action class constructor via the ``config`` argument.
+passed to the action class constructor via the ``config`` argument.  See the
+:doc:`pack configuration doc</reference/pack_configs>` for more details.
 
 Logging
 ~~~~~~~
