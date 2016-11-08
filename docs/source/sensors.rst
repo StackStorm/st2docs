@@ -218,8 +218,8 @@ If there are errors in registration, fix the errors and re-register them using s
 
 
 Once you like your sensor, you can promote it to a pack (if required) by creating a pack in
-`/opt/stackstorm/packs/${pack_name}` and moving the sensor artifacts (YAML and Python) to
-`/opt/stackstorm/packs/${pack_name}/sensors/`. See :doc:`/reference/packs` for how to create a pack.
+``/opt/stackstorm/packs/${pack_name}`` and moving the sensor artifacts (YAML and Python) to
+``/opt/stackstorm/packs/${pack_name}/sensors/``. See :doc:`/reference/packs` for how to create a pack.
 
 Debugging a Sensor From a Pack
 ------------------------------
