@@ -218,8 +218,8 @@ If there are errors in registration, fix the errors and re-register them using s
 
 
 Once you like your sensor, you can promote it to a pack (if required) by creating a pack in
-/opt/stackstorm/packs/${pack_name} and moving the sensor artifacts (YAML and Python) to
-/opt/stackstorm/packs/${pack_name}/sensors/. See :doc:`/reference/packs` for how to create a pack.
+`/opt/stackstorm/packs/${pack_name}` and moving the sensor artifacts (YAML and Python) to
+`/opt/stackstorm/packs/${pack_name}/sensors/`. See :doc:`/reference/packs` for how to create a pack.
 
 Debugging a Sensor From a Pack
 ------------------------------
@@ -229,13 +229,13 @@ use the st2sensorcontainer to run just that single sensor.
 
 ::
 
-    st2sensorcontainer --config-file=/etc/st2/st2.conf --sensor-ref=pack.SensorClassName
+    /opt/stackstorm/st2/bin/st2sensorcontainer --config-file=/etc/st2/st2.conf --sensor-ref=pack.SensorClassName
 
 For example:
 
 ::
 
-    st2sensorcontainer --config-file=/etc/st2/st2.conf --sensor-ref=git.GitCommitSensor
+    /opt/stackstorm/st2/bin/st2sensorcontainer --config-file=/etc/st2/st2.conf --sensor-ref=git.GitCommitSensor
 
 Examples
 --------
