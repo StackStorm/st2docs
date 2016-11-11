@@ -6,7 +6,7 @@ What is a Pack?
 Pack is the unit of deployment for integrations and automations that extend |st2|. Typically a pack is organized along service or product boundaries e.g. AWS, Docker, Sensu etc. A pack can contain :doc:`Actions </actions>`, :doc:`Workflows </workflows>`,
 :doc:`Rules </rules>`, :doc:`Sensors </sensors>`, :doc:`Aliases <chatops/aliases>`.
 
-It is best to view a pack as the means to extend |st2| and allow it to integrate with an external systems. Everything you create will also be part of a pack.
+It is best to view a pack as the means to extend |st2| and allow it to integrate with external systems. Everything you create will also be part of a pack.
 
 Managing Packs
 --------------
@@ -17,7 +17,7 @@ Managing Packs
 
 |st2| packs are managed through ``st2 pack ...`` commands: ``st2 pack -h`` will give you a useful overview if you just need a quick start.
 
-A few packs (such as the ``core`` pack for basic StackStorm actions) come pre-installed with StackStorm. ``list`` and ``get`` are primary commands to work with local packs:
+A few packs (such as the ``core`` pack for basic StackStorm actions) come pre-installed with StackStorm. ``list`` and ``get`` are the primary commands to work with local packs:
 
 .. code-block:: bash
 
