@@ -11,6 +11,10 @@ It is best to view a pack as the means to extend |st2| and allow it to integrate
 Managing Packs
 --------------
 
+.. note::
+
+    Everything about packs got better and easier in |st2| 2.1! Packs are naturally growing into a full package management solution inside |st2|. There are new API endpoints, CLI commands, repository structure for hosting packs, and a pack collection called StackStorm Exchange. Some of the older things are now deprecated. If you're using a previous version, it's time to upgrade or at least read the :doc:`upgrade notes </upgrade_notes>`.
+
 |st2| packs are managed through ``st2 pack ...`` commands: ``st2 pack -h`` will give you a useful overview if you just need a quick start.
 
 A few packs (such as the ``core`` pack for basic StackStorm actions) come pre-installed with StackStorm. ``list`` and ``get`` are primary commands to work with local packs:
@@ -109,11 +113,11 @@ Packs may contain automation rules. Rules are not loaded by default, because you
 Developing a Pack
 -----------------
 
-See :doc:`/reference/packs` for details on how to package your integrations and automations in a pack, how to fork a pack for development or create your own, how to publish it, and how to contribute it to the |st2| community.
+See :doc:`/reference/packs` for details on how to package your integrations and automations in a pack, how to fork a pack for development or create your own, how to publish it, and how to contribute it to the |st2| community. If you're planning to develop any |st2| content, we would strongly suggest getting yourself familiar with that page: every piece of content in StackStorm has to belong to a pack, and a good understanding of pack workflow will make your development process much easier!
 
 .. rubric:: What's Next?
 
-* Explore existing packs for many common products and tools from `StackStorm community <http://www.stackstorm.com/community/>`__ - `st2contrib <https://github.com/StackStorm/st2contrib>`__.
+* Explore existing packs for many common products and tools: `StackStorm Exchange <https://exchange.stackstorm.org>`__.
 * Learn how to write a pack and contribute to the community  - :doc:`/reference/packs`.
 * Learn how to write :ref:`custom sensors <ref-sensors-authoring-a-sensor>` and :ref:`custom actions <ref-actions-writing-custom>`.
 * Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with |st2|.
