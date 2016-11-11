@@ -138,7 +138,7 @@ datastore. This way if the sensor is restarted or if it crashes, the sensor
 can resume from where it left off without injecting duplicate triggers into
 the system.
 
-For the implementation, see :github_contrib:`twitter_search_sensor.py on st2contrib</packs/twitter/sensors/twitter_search_sensor.py>`
+For the implementation, see :github_exchange:`twitter_search_sensor.py in StackStorm Exchange<twitter/tree/master/sensors/twitter_search_sensor.py>`
 
 1. list_values(local=True, prefix=None)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -240,5 +240,5 @@ For example:
 Examples
 --------
 
-For more examples, please reference packs in the `st2contrib repo
-<https://github.com/StackStorm/st2contrib/tree/master/packs>`__.
+For more examples, please reference packs in `StackStorm Exchange
+<https://exchange.stackstorm.org>`__.

@@ -552,7 +552,7 @@ passed in, action will be considered as failed (first flag in the result tuple
 indicating action status is ``False``).
 
 For a more complex example, please refer to the `actions in the Libcloud pack in
-the contrib repository <https://github.com/StackStorm/st2contrib/tree/master/packs/libcloud/actions>`_.
+StackStorm Exchange <https://github.com/StackStorm-Exchange/libcloud/tree/master/actions>`_.
 
 Configuration File
 ~~~~~~~~~~~~~~~~~~
@@ -663,7 +663,7 @@ To see all predefined actions:
 
 .. rubric:: What's Next?
 
-* Explore packs and actions contributed by |st2| developers and community in the `StackStorm st2contrib repo on Github <https://github.com/StackStorm/st2contrib/>`_.
+* Explore packs and actions contributed by |st2| developers and community in the `StackStorm Exchange <https://exchange.stackstorm.org>`_.
 * Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ on creating actions, and other practical examples of automating with |st2|.
 
 .. _JSON Schema: http://json-schema.org/documentation.html
