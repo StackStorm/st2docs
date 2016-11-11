@@ -40,6 +40,14 @@ Upgrade Notes
   For example, if a pack name is ``Travis CI``, a valid and good value for ``ref`` attribute would
   be ``travis_ci`` (previously the pack files would live in ``travis_ci/`` directory).
 
+* ``version`` field in the pack metadata file must now contain a version string which is a
+  valid semver identifier - ``<major>.<minor>.<patch>``. For example ``0.1.0``, ``1.0.0,``2.0.1``,
+  etc.
+
+* Support for ``.gitinfo`` file has been removed and as such ``packs.info`` action has also been
+  removed. All the local pack directories are now direct git checkouts of the corresponding pack
+  repositories so this file is not needed anymore.
+
 |st2| v2.0.0
 ------------
 
