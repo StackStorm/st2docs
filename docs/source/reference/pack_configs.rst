@@ -113,11 +113,6 @@ shown below.
 In this example, config file can contain ``sensor`` item which is an object with
 a single ``device_uuids`` attribute.
 
-.. note::
-
-    Right now config schema is optional and it's only required if you wish to
-    utilize dynamic config values from datastore (more on that below).
-
 Configuration file
 ~~~~~~~~~~~~~~~~~~
 
