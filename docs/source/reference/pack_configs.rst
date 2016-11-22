@@ -66,10 +66,52 @@ In this example, configuration consists of 4 items (``api_key``,
 encrypted in the datastore if a dynamic value is used (more on dynamic values
 can be found below).
 
+In addition to that flat configs and schemas as the one shown above, schemas
+also support nested objects. Example schema for configs with nested objects is
+shown below.
+
 .. note::
 
-    Right now config schema is optional and it's only required if you wish to
-    utilize dynamic config values from datastore (more on that below).
+   Support for nested objects is only available in |st2| v2.1.0 and above.
+
+.. sourcecode:: yaml
+
+    ---
+      consumer_key:
+        description: "Your consumer key."
+        type: "string"
+        required: true
+        secret: true
+      consumer_secret:
+        description: "Your consumer secret."
+        type: "string"
+        required: true
+        secret: true
+      access_token:
+        description: "Your access token."
+        type: "string"
+        required: true
+        secret: true
+      access_token_secret:
+        description: "Your access token secret."
+        type: "string"
+        required: true
+        secret: true
+      sensor:
+        description: "Sensor specific settings."
+        type: "object"
+        required: false
+        additionalProperties: false
+        properties:
+          device_uids:
+            type: "array"
+            description: "A list of device UIDs to poll metrics for."
+            items:
+              type: "string"
+            required: false
+
+In this example, config file can contain ``sensor`` item which is an object with
+a single ``device_uuids`` attribute.
 
 Configuration file
 ~~~~~~~~~~~~~~~~~~

@@ -40,6 +40,83 @@ Upgrade Notes
   For example, if a pack name is ``Travis CI``, a valid and good value for ``ref`` attribute would
   be ``travis_ci`` (previously the pack files would live in ``travis_ci/`` directory).
 
+* Config schemas now also support nested objects. Previously config schema and configuration file
+  needed to be fully flat to be able to utilize default values from the config schemas and dynamic
+  configuration values inside the config file.
+
+  Now the config schema file can contain arbitrary level of nesting of the attributes and it will
+  still work as expected.
+
+  Old approach (flat schema):
+
+  .. code-block:: yaml
+
+    ---
+      api_server_host:
+        description: "API server host."
+        type: "string"
+        required: true
+        secret: false
+      api_server_port:
+        description: "API server port."
+        type: "integer"
+        required: true
+      api_server_token:
+        description: "API server token."
+        type: "string"
+        required: true
+        secret: true
+      auth_server_host:
+        description: "Auth server host."
+        type: "string"
+        required: true
+        secret: false
+      auth_server_port:
+        description: "Auth server port."
+        type: "integer"
+        required: true
+
+  New approach (nested schemas are supported):
+
+  .. code-block:: yaml
+
+    ---
+      api_settings:
+        description: "API related configuration options."
+        type: "object"
+        required: false
+        additionalProperties: false
+        properties:
+          host:
+            description: "API server host."
+            type: "string"
+            required: true
+            secret: false
+          port:
+            description: "API server port."
+            type: "integer"
+            required: true
+          token:
+            description: "API server token."
+            type: "string"
+            required: true
+            secret: true
+      auth_settings:
+        description: "Auth API related configuration options."
+        type: "object"
+        required: false
+        additionalProperties: false
+        properties:
+          host:
+            description: "Auth server host."
+            type: "string"
+            required: true
+            secret: false
+          port:
+            description: "Auth server port."
+            type: "integer"
+            required: true
+
 |st2| v2.0.0
 ------------
 
@@ -62,7 +139,6 @@ Upgrade Notes
         if something_awesome_working == True
             return (True, result)  #  Succeeded is True and the result from action on success
         return (False, result)  #  Succeeded is False and the result from action on failure
-
 
   This allows users to also return a result from a failing action. This result can then be used in
   workflows, etc. Previously this was not possible since the only way for action to be considered
