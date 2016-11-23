@@ -6,6 +6,9 @@ Upgrade Notes
 |st2| in development
 --------------------
 
+* StackStorm Exchange is introduced, and st2contrib is now deprecated. For more information see
+  :doc:`/reference/exchange`.
+
 * Pack names and action parameter names can now only contain valid word characters (``a-z``,
   ``0-9`` and ``_``).
 
