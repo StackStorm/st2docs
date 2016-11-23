@@ -86,7 +86,7 @@ The ``policies`` folder contains Policies. See :doc:`Policies </reference/polici
 
 My first pack
 -------------
-If you would like to create a pack yourself then follow these *simple* steps. In the example below, we will create a simple pack named **hello_st2**. The full example is also available at :github_st2:`st2/contrib/hello_st2 </contrib/hello_st2>`.
+If you would like to create a pack yourself then follow these *simple* steps. In the example below, we will create a simple pack named **hello_st2**. The full example is also available at :github_st2:`st2/contrib/hello_st2 <contrib/hello_st2>`.
 
 1. First, let's create the pack folder structure and related files. Let's keep the metadata files such as pack.yaml, config.schema.yaml, and requirements.txt empty for now:
 
@@ -149,18 +149,18 @@ Copy the following content to policies/policy1.yaml
 
 .. literalinclude:: /../../st2/contrib/hello_st2/policies/policy1.yaml
 
-7. Deploy this pack manually:
+7. Install this pack manually. Your pack should be versioned in git for this step to work.
 
 .. code-block:: bash
 
-   # Assuming that hello_st2 is on the same server
-   cp -R ./hello_st2 /opt/stackstorm/packs
+   # If hello_st2 is on the same server.
+   st2 pack install ./hello_st2
 
-   # Create virtual environment for hello_st2.
-   st2 run packs.setup_virtualenv packs=hello_st2
+   # If hello_st2 is hosted on github.
+   st2 pack install https://github.com/<your pack URL>
 
-   # Reloads the content
-   st2 run packs.load register=all
+   # Reload the content.
+   st2 pack register hello_st2
 
 Once you follow steps 1-7 you will have created your first pack. Commands like ``st2 action list``, ``st2 rule list`` and ``st2 trigger list`` will show you the loaded content. To check if the sensor triggering action is working, run ``st2 execution list``, there should be an entry for executing ``hello_st2.greet`` every minute.
 
@@ -170,45 +170,45 @@ Next steps would be to create an integration pack for you favorite tool or servi
 Pushing a Pack to the Community
 -------------------------------
 
-So, now you forged this uber-awesome pack in |st2|, what's next? Do you want to share your awesome pack and knowledge with the community? For this purpose we have created the `StackStorm community repo <https://github.com/StackStorm/st2contrib>`__ where you can share and pull other content packs. Submit a pull request! Here are the steps:
+So, now you forged this uber-awesome pack in |st2|, what's next? Do you want to share your awesome pack and knowledge with the community? For this purpose we have created the `StackStorm Exchange <https://exchange.stackstorm.org>`__ where you can share and pull other content packs. Submit a pull request! Here are the steps:
 
-1. Fork the |st2| community repository (st2contrib) on Github
+1. Fork the `exchange-incubator <https://github.com/StackStorm-Exchange/exchange-incubator>`__ repository on Github.
 
-  * Go to https://github.com/StackStorm/st2contrib and click "Fork" button on
+  * Go to https://github.com/StackStorm-Exchange/exchange-incubator and click "Fork" button on
     the right
 
 2. Clone your fork
 
 .. code-block:: bash
 
-   git clone https://github.com/<your username>/st2contrib.git
+   git clone https://github.com/<your username>/exchange-incubator.git
 
 3. Create a branch for your changes
 
 .. code-block:: bash
 
-    cd st2contrib
+    cd exchange-incubator
     git checkout -b my_uber_new_pack
 
 4. Put your pack in the repo
 
 .. code-block:: bash
 
-   cp -R ~/uber_new_pack ./packs/
+   cp -R ~/uber_new_pack .
 
 5. Create a local commit and push to remote repo
 
 .. code-block:: bash
 
-   git add packs/uber_new_pack
+   git add uber_new_pack
    git commit -m "Awesomeness!!!"
    git push origin my_uber_new_pack
 
 6. Create pull request
 
-  * Go to `StackStorm repo <https://github.com/StackStorm/st2contrib>`__. You will see a yellow banner with a button ``Compare & Pull request``. Click the button.
+  * Go to `exchange-incubator <https://github.com/StackStorm-Exchange/exchange-incubator>`__. You will see a yellow banner with a button ``Compare & Pull request``. Click the button.
   * Fill in details describing the pack. Click the ``Create pull request`` button.
-  * Github will notify us of a new pull request (PR) and we shall review the code, make sure everything looks pristine and merge it in to make your pack publicly available via st2contrib.
+  * Github will notify us of a new pull request (PR) and we shall review the code, make sure everything looks pristine and merge it in to make your pack publicly available via StackStorm Exchange.
 
 .. hint:: If you are new to git/GitHub, `here <https://try.github.io/levels/1/challenges/1>`__ is an excellent interactive learning resource.
 
