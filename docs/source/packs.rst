@@ -167,6 +167,7 @@ When you run pack management commands like ``st2 pack install sensu``  or ``st2 
 The index path is specified in ``st2.conf`` as ``content.index_url``. You can replace the default index, or even use more than one with a comma-separated list:
 
 ::
+
     [content]
     index_url=https://my-super-index.org/index.json,https://exchange.stackstorm.org/v1/index.json
 

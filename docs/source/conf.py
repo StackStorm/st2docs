@@ -104,6 +104,8 @@ version_minus_2 = previous_version(version_minus_1)
 extlinks = {
     'github_st2': ('https://github.com/StackStorm/st2/tree/master/%s', None),
     'github_mistral': ('https://github.com/StackStorm/mistral/tree/master/%s', None),
+    'github_contrib':
+        ('https://github.com/StackStorm/st2contrib/tree/master/%s', None),
     'github_exchange':
         ('https://github.com/StackStorm-Exchange/%s', None),
     'github_devenv': ('https://github.com/StackStorm/devenv/tree/master/%s', None),
