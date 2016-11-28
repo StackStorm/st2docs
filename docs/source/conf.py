@@ -106,10 +106,14 @@ extlinks = {
     'github_mistral': ('https://github.com/StackStorm/mistral/tree/master/%s', None),
     'github_contrib':
         ('https://github.com/StackStorm/st2contrib/tree/master/%s', None),
+    'github_exchange':
+        ('https://github.com/StackStorm-Exchange/%s', None),
     'github_devenv': ('https://github.com/StackStorm/devenv/tree/master/%s', None),
     'github_st2web': ('https://github.com/StackStorm/st2web/tree/master/%s', None),
     'ops_latest':
-        ('https://downloads.stackstorm.net/releases/st2/' + release + '/%s/', None)
+        ('https://downloads.stackstorm.net/releases/st2/' + release + '/%s/', None),
+    'web_exchange':
+        ('https://exchange.stackstorm.org/#%s', None),
 }
 
 # Inserted at the bottom of all rst files.
@@ -124,8 +128,7 @@ else:
 
 rst_epilog = """
 %s
-.. _st2contrib: http://www.github.com/stackstorm/st2contrib
-.. _st2incubator: http://www.github.com/stackstorm/st2incubator
+.. _exchange: https://exchange.stackstorm.org/
 .. |bwc| replace:: Brocade Workflow Composer
 .. |ipf| replace:: IP Fabric Automation Suite
 """ % product_replace

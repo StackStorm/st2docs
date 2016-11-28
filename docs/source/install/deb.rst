@@ -1,7 +1,7 @@
 Ubuntu / Debian
 ===============
 
-If you're just looking for a "one-liner" installation, check the :doc:`top-level install guide </install/index>`. Otherwise, you 
+If you're just looking for a "one-liner" installation, check the :doc:`top-level install guide </install/index>`. Otherwise, you
 can use this guide for step-by step instructions for installing |st2| on a single Ubuntu/Debian 64 bit system as per
 the :doc:`Reference deployment </install/overview>`.
 
@@ -111,7 +111,7 @@ Verify
 -----------------
 
 At this point you have a minimal working installation, and can happily play with |st2|:
-follow :doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs from `st2contrib`_.
+follow :doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs from `StackStorm Exchange <https://exchange.stackstorm.org>`__.
 
 But there is no joy without WebUI, no security without SSL termination, no fun without ChatOps, and no money without Brocade Workflow Composer. Read on, move on!
 
