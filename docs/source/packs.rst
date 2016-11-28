@@ -13,7 +13,8 @@ Managing Packs
 
 .. note::
 
-    Everything about packs got better and easier in |st2| 2.1! Packs are naturally growing into a full package management solution inside |st2|. There are new API endpoints, CLI commands, repository structure for hosting packs, and a pack collection called StackStorm Exchange. Some of the older things are now deprecated. If you're using a previous version, it's time to upgrade or at least read the :doc:`upgrade notes </upgrade_notes>`.
+    Everything about packs got better and easier in |st2| 2.1! There are new API endpoints, CLI commands, repository
+    structure for hosting packs, and a pack collection called StackStorm Exchange. Some of the older things are now deprecated. If you're using a previous version, it's time to upgrade or at least read the :doc:`upgrade notes </upgrade_notes>` and :doc:`/reference/packmgmt`.
 
 |st2| packs are managed through ``st2 pack ...`` commands: ``st2 pack -h`` will give you a useful overview if you just need a quick start.
 
@@ -104,11 +105,11 @@ You will be prompted for configuration parameters in a nice interactive tool wit
 
 Some packs will require old-school manual configuration: in that case, you will have to edit a ``config.yaml`` file inside the ``/opt/stackstorm/packs/<pack>`` directory and reload the pack with ``st2 pack register <pack>``. Your config will not be overwritten on pack upgrades, and to be extra safe, you can save it as ``/opt/stackstorm/configs/<pack>.yaml`` to keep it away from the pack source, which is something we recommend.
 
-Packs may contain automation rules. Rules are not loaded by default, because you may want to review and adjust them before loading. Use ``st2 pack register`` to register rules in the pack.
+If you edit files in a pack manually, make sure to reload its content for the file changes to be reflected in StackStorm:
 
 .. code-block:: bash
 
-    st2 pack register sensu --types=rule
+    st2 pack register sensu
 
 Developing a Pack
 -----------------

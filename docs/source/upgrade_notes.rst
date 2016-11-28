@@ -7,13 +7,24 @@ Upgrade Notes
 --------------------
 
 * StackStorm Exchange is introduced, and st2contrib is now deprecated. For more information see
-  :doc:`/reference/exchange`.
+  :doc:`/reference/packmgmt`.
 
 * Pack names and action parameter names can now only contain valid word characters (``a-z``,
   ``0-9`` and ``_``).
 
   If you have an existing pack or action which uses parameter name which doesn't fall into this
   criteria it needs to be updated otherwise pack / action registration will fail with an error.
+
+* The ``packs`` pack is deprecated starting from 2.1, in future versions it will be completely
+  replaced with the ``st2 pack <...>`` commands and API endpoints. See :doc:`/reference/packmgmt`
+  for the transition reference.
+
+* The ``packs.install`` action has been reworked, and subtree (multi-pack) repositories are no
+  longer supported due to the StackStorm Exchange transfer.
+
+* Support for ``.gitinfo`` file has been removed and as such ``packs.info`` action has also been
+  removed. All the local pack directories are now direct git checkouts of the corresponding pack
+  repositories so this file is not needed anymore.
 
 * Datastore scopes are now ``st2kv.system`` and ``st2kv.user`` as opposed to ``system`` and ``user``.
   So if you are accessing datastore items in your content, you should now use jinja expressions
@@ -123,10 +134,6 @@ Upgrade Notes
 * ``version`` field in the pack metadata file must now contain a version string which is a
   valid semver identifier - ``<major>.<minor>.<patch>``. For example ``0.1.0``, ``1.0.0,``2.0.1``,
   etc.
-
-* Support for ``.gitinfo`` file has been removed and as such ``packs.info`` action has also been
-  removed. All the local pack directories are now direct git checkouts of the corresponding pack
-  repositories so this file is not needed anymore.
 
 |st2| v2.0.0
 ------------

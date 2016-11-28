@@ -1,7 +1,7 @@
 :orphan:
 
-StackStorm Exchange
-===================
+Pack Management Transition
+==========================
 
 Integration packs have received significant overhaul in StackStorm 2.1: with new dedicated tools, working with packs becomes very close to the "usual" package management you know from working with programming languages and operating systems. Installing, updating, and managing StackStorm packs has become a smoother, more streamlined experience.
 

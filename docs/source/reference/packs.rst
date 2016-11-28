@@ -149,15 +149,18 @@ Copy the following content to policies/policy1.yaml
 
 .. literalinclude:: /../../st2/contrib/hello_st2/policies/policy1.yaml
 
-7. Install this pack manually. Your pack should be versioned in git for this step to work.
+7. Install this pack manually. Your pack should be versioned in git for this step to work, or you can move the files to ``/opt/stackstorm/packs``. It's up to you to figure out an optimal workflow for editing and versioning your packs, but we recommend using git and installing from your repositories.
 
 .. code-block:: bash
 
-   # If hello_st2 is on the same server.
+   # 1. If hello_st2 is on the same server.
    st2 pack install ./hello_st2
 
-   # If hello_st2 is hosted on github.
+   # 2. If hello_st2 is hosted on github.
    st2 pack install https://github.com/<your pack URL>
+
+   # 3. If you want to move the pack without git.
+   cp -R ./hello_st2 /opt/stackstorm/packs
 
    # Reload the content.
    st2 pack register hello_st2

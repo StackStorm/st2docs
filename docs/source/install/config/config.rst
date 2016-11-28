@@ -245,10 +245,10 @@ By default, the logs can be found in ``/var/log/st2``.
       args=("logs/mysensor.audit.log",)
 
 * To configure logging with syslog, grab the configuration and follow
-  instructions at :github_contrib:`st2contrib/extra/syslog <extra/syslog>`
+  instructions at :github_exchange:`exchange-misc/syslog <exchange-misc/tree/master/syslog>`
 
 * Check out LogStash configuration and Kibana dashboard for pretty logging and
-  audit at :github_contrib:`st2contrib/extra/logstash <extra/logstash>`
+  audit at :github_exchange:`exchange-misc/logstash <exchange-misc/tree/master/logstash>`
 
 
 Configure Mistral
