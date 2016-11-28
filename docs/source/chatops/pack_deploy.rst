@@ -71,7 +71,7 @@ name—because they are the most likely to be what you were looking for—and th
 with "cloud" in keywords or description. And then packs authored by "Mr. Cloud", if
 any.
 
-**Pro-tip:** if you configure an additional pack index (see :doc:`Working with pack indexes`),
+**Pro-tip:** if you configure an additional pack index (see "Working with pack indexes" in :doc:`/packs`),
 it will be queried alongside StackStorm Exchange by commands like ``show`` or ``search``.
 
 .. figure :: /_static/images/packs-chatops-search.png
