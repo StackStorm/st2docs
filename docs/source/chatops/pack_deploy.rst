@@ -28,7 +28,7 @@ You can even mix the two formats in one string:
 
     !pack install github,slack,trello,https://github.com/stackstorm/openstack
 
-.. figure :: /_static/images/pack-chatops-install.png
+.. figure :: /_static/images/packs-chatops-install.png
     :align: center
 
 
@@ -47,7 +47,7 @@ for your pack.
 If a pack is not installed, but available in StackStorm Exchange, the bot will
 gallantly offer to install it:
 
-.. figure :: /_static/images/pack-chatops-get.png
+.. figure :: /_static/images/packs-chatops-get.png
     :align: center
 
 Getting information about an available pack
@@ -57,7 +57,7 @@ The remote counterpart to ``pack get`` is ``pack show``: it will show an
 entry from the StackStorm Exchange, our pack directory, if a pack with the
 given name is available.
 
-.. figure :: /_static/images/pack-chatops-show.png
+.. figure :: /_static/images/packs-chatops-show.png
     :align: center
 
 Searching for a pack
@@ -74,5 +74,5 @@ any.
 **Pro-tip:** if you configure an additional pack index (see :doc:`Working with pack indexes`),
 it will be queried alongside StackStorm Exchange by commands like ``show`` or ``search``.
 
-.. figure :: /_static/images/pack-chatops-search.png
+.. figure :: /_static/images/packs-chatops-search.png
     :align: center
