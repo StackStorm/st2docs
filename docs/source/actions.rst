@@ -655,6 +655,13 @@ executed from the |st2| box:
 
     st2 run core.http url="http://httpbin.org/get" method="GET"
 
+Similar to cURL, this action supports basic authentication when provided a username
+and password:
+
+::
+
+    st2 run core.http url="http://httpbin.org/get" method="GET" username=user1 password=pass1
+
 To see all predefined actions:
 
 ::
