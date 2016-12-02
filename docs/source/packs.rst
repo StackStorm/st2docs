@@ -72,7 +72,7 @@ Essentially, ``st2 pack install`` works with git repositories: there is one for 
 
 .. code-block:: bash
 
-    st2 pack install https://github.com/emedvedev/chatops-training
+    st2 pack install https://github.com/emedvedev/chatops_tutorial
 
 By default, the latest version of a pack will be installed, but you can specify a particular version, branch, tag, or even a commit hash.
 
@@ -80,7 +80,7 @@ By default, the latest version of a pack will be installed, but you can specify 
 
     st2 pack install cloudflare=c5b75e9
     st2 pack install cloudflare=0.1.0
-    st2 pack install https://github.com/emedvedev/chatops-training=testing
+    st2 pack install https://github.com/emedvedev/chatops_tutorial=testing
 
 Note that running ``st2 pack install`` on an installed pack will start an upgrade: your pack will be replaced with the version you're asking |st2| to install.
 
