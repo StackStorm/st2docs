@@ -78,7 +78,7 @@ By default, the latest version of a pack will be installed, but you can specify 
 
 .. code-block:: bash
 
-    st2 pack install cloudflare=c5b75e9
+    st2 pack install cloudflare=776b9a4
     st2 pack install cloudflare=0.1.0
     st2 pack install https://github.com/emedvedev/chatops_tutorial=testing
 
