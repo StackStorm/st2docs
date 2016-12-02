@@ -1,11 +1,11 @@
 References and Guides
 =====================
 
-
 .. toctree::
    :maxdepth: 2
 
    cli
+   packmgmt
    pack_configs
    packs
    jinja
