@@ -1,10 +1,12 @@
 Create and Contribute a Pack
 =============================
 
-Packs have a defined structure that is prescribed by |st2|. It is required to follow this structure while creating your own pack and is also helpful to know while debugging issues with packs.
+:doc:`Packs </packs>` have a defined structure that is prescribed by |st2|. It is required to follow this structure while creating your own pack and is also helpful to know while debugging issues with packs.
 
-Anatomy
--------
+.. contents:: :local:
+
+Anatomy of a Pack
+-----------------
 Canonical pack as laid out on the file system.
 
 .. code-block:: bash
@@ -89,8 +91,8 @@ The ``aliases`` folder contains Action Aliases. See :doc:`Action Alias </chatops
 
 The ``policies`` folder contains Policies. See :doc:`Policies </reference/policies>` for specifics on writing Policies.
 
-My first pack
--------------
+Creating Your First Pack
+------------------------
 In the example below, we will create a simple pack named **hello_st2**. The full example is also available at :github_st2:`st2/contrib/hello_st2 <contrib/hello_st2>`.
 
 1. Create the pack folder structure and related files. Let's keep the metadata files such as pack.yaml, config.schema.yaml, and requirements.txt empty for now:
@@ -194,47 +196,14 @@ favorite tool. Happy hacking!
 Submitting a Pack to the Community
 ----------------------------------
 
-So, now you forged this uber-awesome pack in |st2|, what's next? Do you want to share your awesome pack and knowledge with the community? For this purpose we have created the `StackStorm Exchange <https://exchange.stackstorm.org>`__ where you can share and pull other content packs. Submit a pull request! Here are the steps:
+Now that you forged this awesome pack in |st2| it's time, and a good form, to share your awesomeness with the community. `StackStorm Exchange <https://exchange.stackstorm.org>`__  is the place
+for you and everyone else to share and pull :doc:`integration packs </packs>`.
 
-1. Fork the `exchange-incubator <https://github.com/StackStorm-Exchange/exchange-incubator>`__ repository on Github.
+To feature your pack on the `StackStorm Exchange <https://exchange.stackstorm.org>`__,
+submit a GitHub pull request to `StackStorm Exchange Incubator repository <https://github.com/StackStorm-Exchange/exchange-incubator>`__. Our team will review the PR, accept it to
+the incubator, graduate it to the main "Exchange", and help you promote it.
 
-  * Go to https://github.com/StackStorm-Exchange/exchange-incubator and click "Fork" button on
-    the right
-
-2. Clone your fork
-
-.. code-block:: bash
-
-   git clone https://github.com/<your username>/exchange-incubator.git
-
-3. Create a branch for your changes
-
-.. code-block:: bash
-
-    cd exchange-incubator
-    git checkout -b my_uber_new_pack
-
-4. Put your pack in the repo
-
-.. code-block:: bash
-
-   cp -R ~/uber_new_pack .
-
-5. Create a local commit and push to remote repo
-
-.. code-block:: bash
-
-   git add uber_new_pack
-   git commit -m "Awesomeness!!!"
-   git push origin my_uber_new_pack
-
-6. Create pull request
-
-  * Go to `exchange-incubator <https://github.com/StackStorm-Exchange/exchange-incubator>`__. You will see a yellow banner with a button ``Compare & Pull request``. Click the button.
-  * Fill in details describing the pack. Click the ``Create pull request`` button.
-  * Github will notify us of a new pull request (PR) and we shall review the code, make sure everything looks pristine and merge it in to make your pack publicly available via StackStorm Exchange.
-
-.. hint:: If you are new to git/GitHub, `here <https://try.github.io/levels/1/challenges/1>`__ is an excellent interactive learning resource.
+.. hint:: If you are new to git/GitHub, check this `excellent interactive learning resource <https://try.github.io/levels/1/challenges/1>`__, a `guide for submitting a GitHub pull request <https://guides.github.com/activities/forking/>`__ and a `more detailed Fork-Branch-PullRequest <http://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow/>`__ workflow tutorial.
 
 Contributors License Agreement
 --------------------------------
