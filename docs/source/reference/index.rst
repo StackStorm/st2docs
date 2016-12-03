@@ -5,9 +5,9 @@ References and Guides
    :maxdepth: 2
 
    cli
-   packmgmt
    pack_configs
    packs
+   pack_management_transition
    jinja
    policies
    runners

@@ -26,7 +26,7 @@ Managing Packs
     Everything about packs got better and easier in |st2| 2.1! There are new API endpoints, CLI
     commands, repository structure for hosting packs, and an awesome pack collection on `StackStorm
     Exchange <https://exchange.stackstorm.org>`_. To make it happen, we deprecated few old things.
-    Check the :doc:`upgrade notes </upgrade_notes>` and :doc:`/reference/packmgmt`.
+    Check the :doc:`upgrade notes </upgrade_notes>` and :doc:`/reference/pack_management_transition`.
 
 |st2| packs are managed through ``st2 pack ...`` commands: ``st2 pack -h`` will give you a useful overview if you just need a quick start.
 
