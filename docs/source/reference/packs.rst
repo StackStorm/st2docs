@@ -9,18 +9,23 @@ Canonical pack as laid out on the file system.
 
 .. code-block:: bash
 
-   # contents of a pack folder
-   actions/
-   rules/
-   sensors/
-   aliases/
-   policies/
-   config.schema.yaml
-   pack.yaml
-   requirements.txt
+    # contents of a pack folder
+    actions/                 #
+    rules/                   #
+    sensors/                 #
+    aliases/                 #
+    policies/                #
+    tests/                   #
+    etc/                     # any additional things (e.g code generators, scripts...)
+    config.schema.yaml       # configuration schema (replacing config.yaml)
+    packname.yaml.example    # example of config, used in CI
+    pack.yaml                # pack definition file
+    requirements.txt         # requirements for Python packs
+    requirements-tests.txt   # requirements for python tests
+    icon.png                 # 64x64 .png icon
 
-Most packs will also have a configuration file at ``/opt/stackstorm/configs/<pack_name>.yaml``. This defines any
-shared configuration used by the actions and sensors, e.g. usernames, region names, hostnames, etc.
+Some old packs also have a configuration file at ``/opt/stackstorm/configs/<pack_name>.yaml``
+that defines any shared configuration used by the actions and sensors, e.g. usernames, region names, hostnames, etc. New pack rely on :doc:`configuration schema</reference/pack_configs>` and keep their configuration files under ``/opt/stackstorm/configs```.
 
 At the topmost level are the main folders ``actions``, ``rules``, ``sensors``, ``aliases`` and ``policies`` as well as some shared files:
 
@@ -86,92 +91,108 @@ The ``policies`` folder contains Policies. See :doc:`Policies </reference/polici
 
 My first pack
 -------------
-If you would like to create a pack yourself then follow these *simple* steps. In the example below, we will create a simple pack named **hello_st2**. The full example is also available at :github_st2:`st2/contrib/hello_st2 <contrib/hello_st2>`.
+In the example below, we will create a simple pack named **hello_st2**. The full example is also available at :github_st2:`st2/contrib/hello_st2 <contrib/hello_st2>`.
 
-1. First, let's create the pack folder structure and related files. Let's keep the metadata files such as pack.yaml, config.schema.yaml, and requirements.txt empty for now:
+1. Create the pack folder structure and related files. Let's keep the metadata files such as pack.yaml, config.schema.yaml, and requirements.txt empty for now:
 
-.. code-block:: bash
+  .. code-block:: bash
 
-   # Use the name of the pack for the folder name.
-   mkdir hello_st2
-   cd hello_st2
-   mkdir actions
-   mkdir rules
-   mkdir sensors
-   mkdir aliases
-   mkdir policies
-   touch pack.yaml
-   touch config.schema.yaml
-   touch requirements.txt
-
-.. note::
-    All folders are optional. If a folder is present, it is inspected for content. So it is safe to skip a folder or keep it empty.
-
-The contents of ``pack.yaml`` should be as under.
-
-.. literalinclude:: /../../st2/contrib/hello_st2/pack.yaml
-
-2. Create the action. The following example simply echoes a greeting.
-
-Copy the following content to actions/greet.yaml
-
-.. literalinclude:: /../../st2/contrib/hello_st2/actions/greet.yaml
-
-Copy the following content to actions/greet.sh
-
-.. literalinclude:: /../../st2/contrib/hello_st2/actions/greet.sh
-
-3. Create a sensor. The sample sensor below publishes an event to |st2| every 60 seconds.
-
-Copy the following content to sensors/sensor1.yaml
-
-.. literalinclude:: /../../st2/contrib/hello_st2/sensors/sensor1.yaml
-
-Copy the following content to sensors/sensor1.py
-
-.. literalinclude:: /../../st2/contrib/hello_st2/sensors/sensor1.py
-
-4. Create a rule. The sample rule below is triggered by event from the sensor and invokes the action from the samples above.
-
-Copy the following content to rules/rule1.yaml
-
-.. literalinclude:: /../../st2/contrib/hello_st2/rules/rule1.yaml
-
-5. Create an action alias. The sample action alias below aliases the greet action and makes it accessible from ChatOps.
-
-Copy the following content to aliases/alias1.yaml
-
-.. literalinclude:: /../../st2/contrib/hello_st2/aliases/alias1.yaml
-
-6. Create a policy. The sample policy below limits concurrent operation of the greet action.
-
-Copy the following content to policies/policy1.yaml
-
-.. literalinclude:: /../../st2/contrib/hello_st2/policies/policy1.yaml
-
-7. Install this pack manually. Your pack should be versioned in git for this step to work, or you can move the files to ``/opt/stackstorm/packs``. It's up to you to figure out an optimal workflow for editing and versioning your packs, but we recommend using git and installing from your repositories.
-
-.. code-block:: bash
-
-   # 1. If hello_st2 is on the same server.
-   st2 pack install ./hello_st2
-
-   # 2. If hello_st2 is hosted on github.
-   st2 pack install https://github.com/<your pack URL>
-
-   # 3. If you want to move the pack without git.
-   cp -R ./hello_st2 /opt/stackstorm/packs
-
-   # Reload the content.
-   st2 pack register hello_st2
-
-Once you follow steps 1-7 you will have created your first pack. Commands like ``st2 action list``, ``st2 rule list`` and ``st2 trigger list`` will show you the loaded content. To check if the sensor triggering action is working, run ``st2 execution list``, there should be an entry for executing ``hello_st2.greet`` every minute.
-
-Next steps would be to create an integration pack for you favorite tool or service that you would like to use with |st2|. Happy hacking!
+    # Use the name of the pack for the folder name.
+    mkdir hello_st2
+    cd hello_st2
+    mkdir actions
+    mkdir rules
+    mkdir sensors
+    mkdir aliases
+    mkdir policies
+    touch pack.yaml
+    touch config.schema.yaml
+    touch requirements.txt
 
 
-Pushing a Pack to the Community
--------------------------------
+  Note: All folders are optional. If a folder is present, it is inspected for content. So it is safe
+  to skip a folder or keep it empty.
+
+2. Create pack definition file, ``pack.yaml``:
+
+  .. literalinclude:: /../../st2/contrib/hello_st2/pack.yaml
+
+3. Create the :doc:`action </actions>`. Action consists of meta data, and entrypoint.
+The following example simply echoes a greeting.
+
+  Copy the following content to ``actions/greet.yaml``:
+
+  .. literalinclude:: /../../st2/contrib/hello_st2/actions/greet.yaml
+
+  Copy the following content to ``actions/greet.sh``:
+
+  .. literalinclude:: /../../st2/contrib/hello_st2/actions/greet.sh
+
+4. Create a sensor. The sample sensor below publishes an event to |st2| every 60 seconds.
+
+  Copy the following content to sensors/sensor1.yaml
+
+  .. literalinclude:: /../../st2/contrib/hello_st2/sensors/sensor1.yaml
+
+  Copy the following content to sensors/sensor1.py
+
+  .. literalinclude:: /../../st2/contrib/hello_st2/sensors/sensor1.py
+
+5. Create a rule. The sample rule below is triggered by event from the sensor and invokes the action from the samples above.
+
+  Copy the following content to rules/rule1.yaml
+
+  .. literalinclude:: /../../st2/contrib/hello_st2/rules/rule1.yaml
+
+6. Create an action alias. The sample action alias below aliases the greet action and makes it accessible from ChatOps.
+
+  Copy the following content to aliases/alias1.yaml
+
+  .. literalinclude:: /../../st2/contrib/hello_st2/aliases/alias1.yaml
+
+7. Create a policy. The sample policy below limits concurrent operation of the greet action.
+
+  Copy the following content to policies/policy1.yaml
+
+  .. literalinclude:: /../../st2/contrib/hello_st2/policies/policy1.yaml
+
+8. Install the pack. We encourage using git, if you do so, ``st2 pack`` will greatly simplify
+your pack management. However you can figure out your own workflow for editing and versioning packs;
+you'll be placing the files to ``/opt/stackstorm/packs`` and [re-]loading the content.
+
+  7.1 Use git and ``pack install`` (**recommended**):
+
+  .. code-block:: bash
+
+    # Get the code under git
+    cd hello_st2
+    git init && git add ./* && git commit -m "Initial commit"
+    # Install from local git repo
+    st2 pack install file:///$PWD
+
+  When you make code changes, ``run st2 pack install`` again: it will do the upgrade.
+  Once you push it to GitHub, you could install or update it right from there: ::
+
+    st2 pack install https://github.com/MY/PACK
+
+  7.2 Copy over and register (if you have special needs and know what you're doing).
+
+  .. code-block:: bash
+
+    mv ./hello_st2 /opt/stackstorm/packs
+    st2ctl reload
+
+Congratulate yourself: you have created your first pack. Commands like ``st2 pack list``,
+``st2 action list``, ``st2 rule list`` and ``st2 trigger list`` will show you the loaded content. To
+check if the sensor triggering action is working, run ``st2 execution list``, there should be an
+entry for executing ``hello_st2.greet`` every minute.
+
+Take it from there. Write an awesome automation, or an inspiring integration pack with your
+favorite tool. Happy hacking!
+
+
+Submitting a Pack to the Community
+----------------------------------
 
 So, now you forged this uber-awesome pack in |st2|, what's next? Do you want to share your awesome pack and knowledge with the community? For this purpose we have created the `StackStorm Exchange <https://exchange.stackstorm.org>`__ where you can share and pull other content packs. Submit a pull request! Here are the steps:
 
@@ -217,7 +238,10 @@ So, now you forged this uber-awesome pack in |st2|, what's next? Do you want to 
 
 Contributors License Agreement
 --------------------------------
-By contributing you agree that these contributions are your own (or approved by your employer) and you grant a full, complete, irrevocable copyright license to all users and developers of the project, present and future, pursuant to the license of the project.
+
+By contributing you agree that these contributions are your own (or approved by your employer) and
+you grant a full, complete, irrevocable copyright license to all users and developers of the
+project, present and future, pursuant to the license of the project.
 
 -------------
 

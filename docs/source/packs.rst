@@ -133,7 +133,7 @@ There are more nice tricks on pack configuration, see :doc:`/reference/pack_conf
 Under the Hood: Pack Basics
 ---------------------------
 
-The pack management described above is our opnionated convinience layer on top of pack basics.
+The pack management described above is our opinionated convenience layer on top of pack basics.
 Once you understand it, you can use your config management tool of choice to  directly operate
 the content.
 
