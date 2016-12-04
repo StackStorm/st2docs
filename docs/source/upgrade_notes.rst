@@ -20,8 +20,12 @@ Upgrade Notes
   Therefore, to upgrade from `2.0.*` StackStorm instance to `2.1.*`, follow this:
 
       1. Use `yam` or `apt-get` to upgrade to the newest version.
-      2. Update community packs to the latest version from `StackStorm Exchange <https://exchange.stackstorm.org/>`__.
+
+      2. Update community packs to the latest version from
+      `StackStorm Exchange <https://exchange.stackstorm.org/>`__.
+
       2. Run `st2ctl reload`.
+
       3. If you happen to have packs that don't satisfy the rules above, the validation fails
          and the pack load will throw errors. Fix the packs to conform the rules above,
          and run `st2ctl reload` again.

@@ -107,7 +107,7 @@ Some highlights:
 
 * Packs are no longer named and referenced by the parent directory or git repository containing the pack: name or ref field from pack.yaml is used. Name your repository as you pleased (the recommended form for StackStorm Exchange is stackstorm-pack_name).
 
-* Pack metadata ``pack.yaml``file can now contain a new optional contributors field. This field is an array and contains a list of people who have contributed to the pack. These days most of the packs have more than one contributor so author field is not sufficient anymore and we want to give credit where credit is due.
+* Pack metadata ``pack.yaml`` file can now contain a new optional contributors field. This field is an array and contains a list of people who have contributed to the pack. These days most of the packs have more than one contributor so author field is not sufficient anymore and we want to give credit where credit is due.
 
 -------------
 
