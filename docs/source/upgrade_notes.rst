@@ -6,25 +6,52 @@ Upgrade Notes
 |st2| in development
 --------------------
 
-* StackStorm Exchange is introduced, and st2contrib is now deprecated. For more information see
-  :doc:`/reference/packmgmt`.
+* **WARNING:** The following changes may require you to update your custom packs during the upgrade.
 
-* Pack names and action parameter names can now only contain valid word characters (``a-z``,
-  ``0-9`` and ``_``).
+  * The ``version`` attribute in ``pack.yaml`` metadata must now contain
+    to contain a valid ``semver`` version string (<major>.<minor>.<patch>, e.g. ``1.0.1``). In
+    addition to that, ``email`` attribute must be a valid email address.
 
-  If you have an existing pack or action which uses parameter name which doesn't fall into this
-  criteria it needs to be updated otherwise pack / action registration will fail with an error.
+  * Pack ``ref`` and action parameter names can now only contain valid word characters (``a-z``,
+    ``0-9`` and ``_``). No dashes! ``hpe_icsp`` is ok, but ``hpe-icsp`` is not.
 
-* The ``packs`` pack is deprecated starting from 2.1, in future versions it will be completely
-  replaced with the ``st2 pack <...>`` commands and API endpoints. See :doc:`/reference/packmgmt`
-  for the transition reference.
+  The ``st2ctl`` and ``st2-register-content`` scripts are now doing additional validation. If you
+  happen to have a pack which doesn't satisfy these new validation criteria, it will fail to load.
+  Therefore, to upgrade from `2.0.*` StackStorm instance to `2.1.*`, follow this:
 
-* The ``packs.install`` action has been reworked, and subtree (multi-pack) repositories are no
-  longer supported due to the StackStorm Exchange transfer.
+      1. Use `yam` or `apt-get` to upgrade to the newest version.
+
+      2. Update community packs to the latest version from
+      `StackStorm Exchange <https://exchange.stackstorm.org/>`__.
+
+      2. Run `st2ctl reload`.
+
+      3. If you happen to have packs that don't satisfy the rules above, the validation fails
+         and the pack load will throw errors. Fix the packs to conform the rules above,
+         and run `st2ctl reload` again.
+
+  In 2.1.0, |st2| attempts to auto-correct some validation failures and display a warning.
+  In future release this auto-correction will be removed. Please update your packs ASAP.
+
+* `st2contrib <https://github.com/stackstorm/st2contrib>`__ is now deprecated, and replaced by
+  `StackStorm Exchange <https://exchange.stackstorm.org/>`__ . All the packs from
+  `st2contrib <https://github.com/stackstorm/st2contrib>`__ are migrated to StackStorm Exchange.
+  For more information see :doc:`/reference/pack_management_transition`.
+
+* Pack "subtree" repositories (repositories containing multiple packs inside the ``packs/`` subdir)
+  are no   longer supported. The subtree parameter in packs.install is removed. The new convention is
+  one pack per git/GitHub repo. If you happen to use subtrees   with your private packs, they will
+  have to be split into multiple single-pack repositories in order   for st2 pack install to be able
+  to install the packs.
+
+* The ``packs`` pack is deprecated starting from 2.1; in future versions it will be completely
+  replaced with the ``st2 pack <...>`` commands and API endpoints.
+
+* Pack metadata file (``pack.yaml``) can now contain a new ``ref`` attribute, in addition to `name`.
+  `ref` acts as a unique identifier; it offers for a more readable ``name``. For example, if a pack name is ``Travis CI``, a repo containing it is stackstorm-travis_ci, and ``ref`` is ``travis_ci``. Previously the pack files would live in ``travis_ci/`` directory and pack directory name served as a unique identifier for a pack.
 
 * Support for ``.gitinfo`` file has been removed and as such ``packs.info`` action has also been
-  removed. All the local pack directories are now direct git checkouts of the corresponding pack
-  repositories so this file is not needed anymore.
+  removed. All the pack directories at ``/opt/stackstorm/packs`` are now direct git checkouts of the corresponding pack repositories from exchange or your own origin, so this file is not needed anymore.
 
 * Datastore scopes are now ``st2kv.system`` and ``st2kv.user`` as opposed to ``system`` and ``user``.
   So if you are accessing datastore items in your content, you should now use jinja expressions
@@ -37,22 +64,6 @@ Upgrade Notes
   ``st2ctl reload --register-runners``. This feature is in beta and is being worked on.
   No backward compatibility is guaranteed. Please wait for a release note indicating general
   availability of this feature.
-
-* When registering packs using ``st2ctl`` / ``st2-register-content`` script additional validation
-  is now performed on the pack metadata (``pack.yaml`` file). The ``version`` attribute now needs
-  to contain a valid ``semver`` version string (<major>.<minor>.<patch>, e.g. ``1.0.1``). In
-  addition to that, ``email`` address attribute now also needs to contain a valid email address.
-
-  If you have an existing pack which doesn't satisfy this new validation criteria it needs to be
-  updated otherwise pack registration will fail.
-
-* Pack metadata file (``pack.yaml``) can now contain a new ``ref`` attribute. This attribute acts as
-  a unique identifier for a pack and should be specified when a pack files don't live in a
-  sub-directory (e.g. such as with the new single pack per git repository model). Previously, pack
-  directory served as a unique identifier for a pack.
-
-  For example, if a pack name is ``Travis CI``, a valid and good value for ``ref`` attribute would
-  be ``travis_ci`` (previously the pack files would live in ``travis_ci/`` directory).
 
 * Config schemas now also support nested objects. Previously config schema and configuration file
   needed to be fully flat to be able to utilize default values from the config schemas and dynamic
@@ -131,12 +142,8 @@ Upgrade Notes
             type: "integer"
             required: true
 
-* ``version`` field in the pack metadata file must now contain a version string which is a
-  valid semver identifier - ``<major>.<minor>.<patch>``. For example ``0.1.0``, ``1.0.0,``2.0.1``,
-  etc.
-
-|st2| v2.0.0
-------------
+|st2| v2.0
+----------
 
 * `st2ctl reload` now also registers rules by default. Prior to this release we used to register
   actions, aliases, sensors, triggers and configs. Now rules are also registered by default.
