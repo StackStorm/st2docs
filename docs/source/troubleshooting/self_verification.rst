@@ -11,6 +11,7 @@ Currently script covers the following aspects of |st2|:
 * ActionChain and Mistral Workflows
 
 To run the self-verification:
+
 1. If you don't have :ref:`encryption keys setup already<admin-setup-for-encrypted-datastore>`, do so.
    This requires admin privileges on the box and |st2|.
 
