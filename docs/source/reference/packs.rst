@@ -26,7 +26,7 @@ Canonical pack as laid out on the file system.
     requirements-tests.txt   # requirements for python tests
     icon.png                 # 64x64 .png icon
 
-Some old packs also have a configuration file at ``/opt/stackstorm/configs/<pack_name>.yaml``
+Some old packs also have a configuration file at ``/opt/stackstorm/<pack_name>/config.yaml``
 that defines any shared configuration used by the actions and sensors, e.g. usernames, region names, hostnames, etc. New pack rely on :doc:`configuration schema</reference/pack_configs>` and keep their configuration files under ``/opt/stackstorm/configs```.
 
 At the topmost level are the main folders ``actions``, ``rules``, ``sensors``, ``aliases`` and ``policies`` as well as some shared files:
@@ -158,9 +158,9 @@ The following example simply echoes a greeting.
 
   .. literalinclude:: /../../st2/contrib/hello_st2/policies/policy1.yaml
 
-8. Install the pack. We encourage using git, if you do so, ``st2 pack`` will greatly simplify
-your pack management. However you can figure out your own workflow for editing and versioning packs;
-you'll be placing the files to ``/opt/stackstorm/packs`` and [re-]loading the content.
+8. Install the pack. We encourage using git, if you do so, ``st2 pack`` will greatly simplify your
+pack management. However you can define your own tools and workflow for editing and versioning
+packs; you'll be placing the files to ``/opt/stackstorm/packs`` and [re-]loading the content.
 
   7.1 Use git and ``pack install`` (**recommended**):
 
@@ -173,7 +173,7 @@ you'll be placing the files to ``/opt/stackstorm/packs`` and [re-]loading the co
     st2 pack install file:///$PWD
 
   When you make code changes, ``run st2 pack install`` again: it will do the upgrade.
-  Once you push it to GitHub, you could install or update it right from there: ::
+  Once you push it to GitHub, you will install and update it right from there: ::
 
     st2 pack install https://github.com/MY/PACK
 

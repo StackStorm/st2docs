@@ -27,7 +27,7 @@ Good bye st2contrib, long live StackStorm Exchange
 --------------------------------------------------
 
 `StackStorm Exchange <https://exchange.stackstorm.org/>`__ is the new pack index maintained by the StackStorm team. Any pack from StackStorm Exchange can be installed with ``st2 pack install <pack>``
-in the CLI. No WebUI support yet.
+in the CLI.
 
 Exchange packs are hosted in the `StackStorm-Exchange  organization
 <https://github.com/stackstorm-exchange>`__  on GitHub. To submit **a new pack** to the StackStorm Exchange, follow the instructions in

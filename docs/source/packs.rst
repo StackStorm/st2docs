@@ -28,9 +28,11 @@ Managing Packs
     Exchange <https://exchange.stackstorm.org>`_. To make it happen, we deprecated few old things.
     Check the :doc:`upgrade notes </upgrade_notes>` and :doc:`/reference/pack_management_transition`.
 
-|st2| packs are managed through ``st2 pack ...`` commands: ``st2 pack -h`` will give you a useful overview if you just need a quick start.
+|st2| packs are managed through ``st2 pack ...`` commands: ``st2 pack -h`` will give you a useful
+overview if you just need a quick start.
 
-A few packs (such as the ``core`` pack for basic StackStorm actions) come pre-installed with StackStorm. ``list`` and ``get`` are the primary commands to work with local packs:
+A few packs (such as the ``core`` pack for basic StackStorm actions) come pre-installed
+with StackStorm. ``list`` and ``get`` are the primary commands to work with local packs:
 
 .. code-block:: bash
 
@@ -153,7 +155,7 @@ The value must be a colon delimited string of directory paths. For example:
 Directories are always searched from left to right in the order they are
 specified, with the system packs directory always searched first.
 
-Pack configuration is represented by ```/opt/stackstorm/<packname>.yaml``` and must
+Pack configuration is represented by ```/opt/stackstorm/configs/<packname>.yaml``` and must
 conform to a configuration schema, ```config.schema.yaml``` file in pack's directory.
 Details of this powerful functionaltiy are in :doc:`/reference/pack_configs` section.
 
