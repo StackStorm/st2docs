@@ -6,7 +6,7 @@ Upgrade Notes
 |st2| in development
 --------------------
 
-* **WARNING:** The following changes may require you to update your packs during the upgrade.
+* **WARNING:** The following changes may require you to update your custom packs during the upgrade.
 
   * The ``version`` attribute in ``pack.yaml`` metadata must now contain
     to contain a valid ``semver`` version string (<major>.<minor>.<patch>, e.g. ``1.0.1``). In
@@ -20,11 +20,14 @@ Upgrade Notes
   Therefore, to upgrade from `2.0.*` StackStorm instance to `2.1.*`, follow this:
 
       1. Use `yam` or `apt-get` to upgrade to the newest version.
+      2. Update community packs to the latest version from `StackStorm Exchange <https://exchange.stackstorm.org/>`__.
       2. Run `st2ctl reload`.
-      3. If you have packs that don't satisfy the rules above, the validation fails
+      3. If you happen to have packs that don't satisfy the rules above, the validation fails
          and the pack load will throw errors. Fix the packs to conform the rules above,
          and run `st2ctl reload` again.
-      4. TODO: we will provide a script to auto-adjust all the packs.
+
+  In 2.1.0, |st2| attempts to auto-correct some validation failures and display a warning.
+  In future release this auto-correction will be removed. Please update your packs ASAP.
 
 * `st2contrib <https://github.com/stackstorm/st2contrib>`__ is now deprecated, and replaced by
   `StackStorm Exchange <https://exchange.stackstorm.org/>`__ . All the packs from
