@@ -1,8 +1,8 @@
 Pack Management Transition
 ==========================
 
-.. warning:: With new pack management and
-  `StackStorm Exchange <https://exchange.stackstorm.org/>`__, |st2| begins to validate and enforce
+.. warning:: In 2.1, with introduction of the new pack management and
+  `StackStorm Exchange <https://exchange.stackstorm.org/>`__, |st2| validates and enforces
   pack schema and conventions. These changes may require users
   to update their custom :doc:`/packs` which do not confirm.
   All community packs are updated to work with |st2| 2.1,
@@ -46,19 +46,22 @@ Using StackStorm Exchange with pre-2.1 |st2|
 
 If you are on 2.0 or ealier versions of |st2|, you can still get the packs
 from `StackStorm Exchange <https://exchange.stackstorm.org/>`__. Using ``st2 run pack install``,
-specify ``repo_url`` as ``http://index.stackstorm.org/repos/PACK_REF``, where
-``PACK_REF`` matches a ``ref`` field of the pack. For example, for "cloudflare" pack, it
-will be: ::
+specify ``repo_url`` as ``http://index.stackstorm.org/repos/PACK``, where
+``PACK`` is pack's ``ref``, that by convention is a shortened name of a pack
+repo (without `stackstorm-`). For example, for "cloudflare" pack, it will be: ::
 
   st2 --version
   st2 2.0.1
-  st2 run packs.install packs=cloudflare repo_url="http://index.stackstorm.org/repos/cloudflare"
+  st2 run packs.install packs=cloudflare repo_url=StackStorm-exchange/cloudflare
 
-Or you can just `git clone` them in place, making sure that the pack
+You use Exchange by default, update the ``repo_url`` default in ``/opt/stackstorm/packs/packs/actions/download.yaml``.
+
+Alternatively, you can just `git clone` them in place, making sure that the pack
 directory name matches the pack ``ref``: ::
 
   cd /opt/stackstorm/packs
   git clone https://github.com/StackStorm-Exchange/stackstorm-cloudflare.git cloudflare
+  chown -R root:st2packs cloudflare
   st2 run packs.setup_virtualenv cloudflare
   st2ctl reload
 
