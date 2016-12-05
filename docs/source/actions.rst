@@ -632,7 +632,7 @@ Pre-defined Actions
 ^^^^^^^^^^^^^^^^^^^
 
 There are several predefined actions that come out of the box when |st2|
-is installed via packages.
+is installed via packages. These are in the ``core`` pack:
 
 ``core.local`` : This action allows execution of arbitrary \*nix/shell commands
 locally. You can excute this command via the CLI using:
@@ -655,7 +655,7 @@ executed from the |st2| box:
 
     st2 run core.http url="http://httpbin.org/get" method="GET"
 
-To see all predefined actions:
+To see all actions in the ``core`` pack:
 
 ::
 

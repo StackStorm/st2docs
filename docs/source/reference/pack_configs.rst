@@ -1,11 +1,7 @@
 Pack Configuration
 ==================
 
-.. note::
-
-    Support for pack config files which are located outside the pack directory
-    in ``/opt/stackstorm/configs/`` directory has been introduced in |st2| v1.5
-    and is only available in |st2| v1.5 and above.
+.. include:: /_includes/config_yaml_deprecation_notice.rst
 
 Pack configuration file contain common attributes which are usually configured
 by a |st2| operator and are available to actions and sensors during run-time.
