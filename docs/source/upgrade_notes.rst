@@ -22,7 +22,7 @@ Upgrade Notes
       1. Use ``yum`` or ``apt-get`` to upgrade to the newest version.
 
       2. Update community packs to the latest version from
-         `StackStorm Exchange <https://exchange.stackstorm.org/>`__.
+         `StackStorm Exchange <https://exchange.stackstorm.org/>`__ with ``st2 pack install <pack>``.
 
       3. Reload the content with ``st2ctl reload``.
 
