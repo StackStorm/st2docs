@@ -11,7 +11,7 @@ Pack Management Transition
   make sure your packs are valid.
 
 
-In |st2| 2.1, pack management have received a significant overhaul. With new
+In |st2| 2.1, pack management has received a significant overhaul. With new
 dedicated tools, working with packs becomes very close to the "usual" package
 management you know from working with development platforms and Linux flavors.
 Installing, updating, and managing StackStorm packs has become a smoother, more
@@ -42,7 +42,7 @@ before. To submit a new pack, follow the instructions in
 
 All the packs from `st2contrib <https://github.com/stackstorm/st2contrib>`__  have been
 transferred to individual repositories inside the
-`StackStorm-Exchange organization <https://github.com/stackstorm-exchange>`.
+`StackStorm-Exchange organization <https://github.com/stackstorm-exchange>`__.
 The `st2contrib <https://github.com/stackstorm/st2contrib>`__ repository is frozen: it is still
 functional, but it will not receive updates anymore, and new submissions are not accepted.
 
@@ -56,7 +56,7 @@ Using StackStorm Exchange with pre-2.1 |st2|
 If you use |st2| 2.0 or ealier, you can still get packs from
 `StackStorm Exchange <https://exchange.stackstorm.org/>`__ with the old ``packs.install``
 action: use ``stackstorm-exchange/<pack name>`` as ``repo_url``, and repeat the pack name in ``packs``.
-For the CloudFlare pack, the full CLI command would be:
+As an example, for the CloudFlare pack, the full CLI command would be:
 
 ::
 
