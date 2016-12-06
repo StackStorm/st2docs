@@ -3,8 +3,8 @@
 Upgrade Notes
 =============
 
-|st2| in development
---------------------
+|st2| v2.1
+----------
 
 * **WARNING:** The following changes may require you to update your custom packs during the upgrade.
 
@@ -17,18 +17,18 @@ Upgrade Notes
 
   The ``st2ctl`` and ``st2-register-content`` scripts are now doing additional validation. If you
   happen to have a pack which doesn't satisfy these new validation criteria, it will fail to load.
-  Therefore, to upgrade from `2.0.*` StackStorm instance to `2.1.*`, follow this:
+  Therefore, to upgrade StackStorm from v2.0.* to 2.1.*, follow this:
 
-      1. Use `yam` or `apt-get` to upgrade to the newest version.
+      1. Use ``yum`` or ``apt-get`` to upgrade to the newest version.
 
       2. Update community packs to the latest version from
-      `StackStorm Exchange <https://exchange.stackstorm.org/>`__.
+         `StackStorm Exchange <https://exchange.stackstorm.org/>`__.
 
-      2. Run `st2ctl reload`.
+      3. Reload the content with ``st2ctl reload``.
 
-      3. If you happen to have packs that don't satisfy the rules above, the validation fails
+      4. If you happen to have packs that don't satisfy the rules above, the validation fails
          and the pack load will throw errors. Fix the packs to conform the rules above,
-         and run `st2ctl reload` again.
+         and reload the content again.
 
   In 2.1.0, |st2| attempts to auto-correct some validation failures and display a warning.
   In future release this auto-correction will be removed. Please update your packs ASAP.
@@ -47,8 +47,8 @@ Upgrade Notes
 * The ``packs`` pack is deprecated starting from 2.1; in future versions it will be completely
   replaced with the ``st2 pack <...>`` commands and API endpoints.
 
-* Pack metadata file (``pack.yaml``) can now contain a new ``ref`` attribute, in addition to `name`.
-  `ref` acts as a unique identifier; it offers for a more readable ``name``. For example, if a pack name is ``Travis CI``, a repo containing it is stackstorm-travis_ci, and ``ref`` is ``travis_ci``. Previously the pack files would live in ``travis_ci/`` directory and pack directory name served as a unique identifier for a pack.
+* Pack metadata file (``pack.yaml``) can now contain a new ``ref`` attribute, in addition to ``name``.
+  ``ref`` acts as a unique identifier; it offers for a more readable ``name``. For example, if a pack name is ``Travis CI``, a repo containing it is stackstorm-travis_ci, and ``ref`` is ``travis_ci``. Previously the pack files would live in ``travis_ci/`` directory and pack directory name served as a unique identifier for a pack.
 
 * Support for ``.gitinfo`` file has been removed and as such ``packs.info`` action has also been
   removed. All the pack directories at ``/opt/stackstorm/packs`` are now direct git checkouts of the corresponding pack repositories from exchange or your own origin, so this file is not needed anymore.
@@ -145,7 +145,7 @@ Upgrade Notes
 |st2| v2.0
 ----------
 
-* `st2ctl reload` now also registers rules by default. Prior to this release we used to register
+* ``st2ctl reload`` now also registers rules by default. Prior to this release we used to register
   actions, aliases, sensors, triggers and configs. Now rules are also registered by default.
 
 |st2| v1.6
