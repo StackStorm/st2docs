@@ -22,13 +22,13 @@ Upgrade Notes
       1. Use `yam` or `apt-get` to upgrade to the newest version.
 
       2. Update community packs to the latest version from
-      `StackStorm Exchange <https://exchange.stackstorm.org/>`__.
+         `StackStorm Exchange <https://exchange.stackstorm.org/>`__.
 
-      2. Run `st2ctl reload`.
+      3. Reload the content with ``st2ctl reload``.
 
-      3. If you happen to have packs that don't satisfy the rules above, the validation fails
+      4. If you happen to have packs that don't satisfy the rules above, the validation fails
          and the pack load will throw errors. Fix the packs to conform the rules above,
-         and run `st2ctl reload` again.
+         and reload the content again.
 
   In 2.1.0, |st2| attempts to auto-correct some validation failures and display a warning.
   In future release this auto-correction will be removed. Please update your packs ASAP.
