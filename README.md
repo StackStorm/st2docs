@@ -116,10 +116,10 @@ sphinx-autobuild -H 127.0.0.1 -b html ./docs/source/ ./docs/build/html
         st2 trigger list
 
 * Reference the document
-
-    :doc:`/start`
-    :doc:`in the Rules doc </rules>`
-
+```
+       :doc:`/start`
+       :doc:`in the Rules doc </rules>`
+```
 * Referencing an arbitrary section: for instance, there's examples section in sensors.rst. Define a reference on `examples` section in sensors.rst:
 
          .. _sensors-examples:
@@ -145,14 +145,17 @@ sphinx-autobuild -H 127.0.0.1 -b html ./docs/source/ ./docs/build/html
 
     :github_st2:`st2/st2common/st2common/operators.py </st2common/st2common/operators.py>`
 
-* Link  to Github st2contrib repo:
+* Link to Github StackStorm-Exchange org:
 
-    :github_contrib:`Link to docker README on st2contrib<packs/docker/README.md>`
+    :github_exchange:`Link to a sensu pack repo inside Exchange<stackstorm-sensu>`
 
-* Link to st2contrib and st2incubator repos on Github (using a global we set up in source/conf.py)
+* Link to StackStorm Exchange website with a filter query:
 
-    `st2contrib`_
-    `st2incubator`_
+    :web_exchange:`Sensu<sensu>`
+
+* Link to the Exchange website on Github (using a global we set up in source/conf.py)
+
+    `exchange`_
 
 * The pattern to include an example from `/st2/contrib/examples`: make example file name a reference on github. May say that it is deployed to `/usr/share/doc/st2/examples/`, and auto-include the file:
 

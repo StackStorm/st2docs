@@ -239,7 +239,7 @@ to /opt/stackstorm/packs/, setup, and reload the content:
     # Reload stackstorm context
     st2ctl reload --register-all
 
-For more content - actions, sensors, rules - checkout `st2contrib`_ community repo on GitHub.
+For more content — actions, sensors, rules — checkout `StackStorm Exchange <https://exchange.stackstorm.org>`__.
 
 Datastore
 ---------
@@ -265,7 +265,7 @@ For more information on datastore, check :doc:`datastore`
 * Get more actions, triggers, rules:
 
 
-    * Install integration packs from `st2contrib`_  - follow guide on :doc:`/packs`.
+    * Install integration packs from `StackStorm Exchange <https://exchange.stackstorm.org>`__  - follow guide on :doc:`/packs`.
     * :ref:`Convert your scripts into StackStorm actions. <ref-actions-converting-scripts>`
     * Learn how to :ref:`write custom actions <ref-actions-writing-custom>`.
 

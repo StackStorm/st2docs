@@ -1,7 +1,7 @@
-Ubuntu / Debian
-===============
+Ubuntu Trusty / Xenial
+======================
 
-If you're just looking for a "one-liner" installation, check the :doc:`top-level install guide </install/index>`. Otherwise, you 
+If you're just looking for a "one-liner" installation, check the :doc:`top-level install guide </install/index>`. Otherwise, you
 can use this guide for step-by step instructions for installing |st2| on a single Ubuntu/Debian 64 bit system as per
 the :doc:`Reference deployment </install/overview>`.
 
@@ -31,15 +31,22 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
     sudo apt-get install -y curl
 
     # Add key and repo for the latest stable MongoDB (3.2)
-    sudo apt-key adv --fetch-keys https://www.mongodb.org/static/pgp/server-3.2.asc
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
     sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-3.2.list
-    deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse
+    deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/3.2 multiverse
     EOT"
     sudo apt-get update
 
     sudo apt-get install -y mongodb-org
     sudo apt-get install -y rabbitmq-server
     sudo apt-get install -y postgresql
+
+For Ubuntu ``Xenial`` you may need to enable and start MongoDB.
+
+  .. code-block:: bash
+
+    sudo systemctl enable mongod
+    sudo systemctl start mongod
 
 Setup repositories
 ~~~~~~~~~~~~~~~~~~~
@@ -111,7 +118,7 @@ Verify
 -----------------
 
 At this point you have a minimal working installation, and can happily play with |st2|:
-follow :doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs from `st2contrib`_.
+follow :doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs from `StackStorm Exchange <https://exchange.stackstorm.org>`__.
 
 But there is no joy without WebUI, no security without SSL termination, no fun without ChatOps, and no money without Brocade Workflow Composer. Read on, move on!
 
@@ -187,13 +194,12 @@ the official Nginx repository into the source list:
     # Add key and repo for the latest stable nginx
     sudo apt-key adv --fetch-keys http://nginx.org/keys/nginx_signing.key
     sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/nginx.list
-    deb http://nginx.org/packages/ubuntu/ trusty nginx
-    deb-src http://nginx.org/packages/ubuntu/ trusty nginx
+    deb http://nginx.org/packages/ubuntu/ $(lsb_release -c | awk '{print $2}') nginx
     EOT"
     sudo apt-get update
 
     # Install st2web and nginx
-    # note nginx should be > 1.4.6. To install a new version like 1.10.1 do "sudo apt-get install -y nginx=1.10.1-1~trusty"
+    # note nginx should be > 1.4.6
     sudo apt-get install -y st2web nginx
 
     # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2

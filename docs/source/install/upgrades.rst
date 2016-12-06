@@ -96,6 +96,10 @@ v2.1
 
   /opt/stackstorm/st2/bin/st2-migrate-runners.sh
 
+* Service restart ``st2ctl restart`` and reload ``st2ctl reload`` are required after upgrade
+  for the new pack management features to work properly. Some of the pack management actions
+  and workflows have changed.
+
 v1.5
 '''''
 

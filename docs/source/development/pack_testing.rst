@@ -34,7 +34,7 @@ Base Test Classes and Mock Classes
 ----------------------------------
 
 To make testing easier, |st2| provides some base test and mock classes you can
-you in the tests
+use in the tests
 
 Base Test Classes
 ~~~~~~~~~~~~~~~~~
@@ -63,7 +63,7 @@ in the tests.
   from the ``run`` method.
 * ``st2tests.mocks.sensor.MockSensorWrapper`` - Mock ``SensorWrapper`` class.
 * ``st2tests.mocks.sensor.MockSensorService`` - Mock ``SensorService`` class.
-  This class mocks methods which operate on the datastore items (``get_logger`,
+  This class mocks methods which operate on the datastore items (``get_logger``,
   ``list_values``, ``get_value``, ``set_value``, ``delete_value``).
 * ``st2tests.mocks.action.MockActionWrapper`` - Mock ``PythonActionWrapper``
   class.
@@ -81,7 +81,7 @@ also available by default inside the tests:
 * ``unittest2``
 * ``mock``
 
-In addition those dependencies, sensors (``<pack name>/sensors/``) and actions
+In addition to those dependencies, sensors (``<pack name>/sensors/``) and actions
 (``<pack name>/actions/``) directory is added to PYTHONPATH meaning you can import
 sensor and action modules directly in your code.
 

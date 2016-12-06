@@ -82,7 +82,7 @@ Logstash
 
 The audit logs are a lot more comprehensive in the information they contain. It is useful to view these in a tool like LogStash, which provides excellent search, sort and aggregation features.
 
-Check out the LogStash configuration and Kibana dashboard for pretty logging and audit at :github_contrib:`st2contrib/extra/logstash </extra/logstash>`
+Check out the LogStash configuration and Kibana dashboard for pretty logging and audit at :github_exchange:`exchange-misc/logstash <exchange-misc/tree/master/logstash>`
 
 
 Coming soon

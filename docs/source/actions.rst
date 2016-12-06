@@ -412,7 +412,7 @@ are serialized based on the simple rules described below:
 1. ``string``, ``integer``, ``float`` - Serialized as a string.
 2. ``boolean`` - Serialized as a string ``1`` (true) or ``0`` (false).
 3. ``lists`` - Serialized as a comma delimited string (e.g. ``foo,bar,baz``).
-4. ``objects`` - Serialized as JSON.
+4. ``object`` - Serialized as JSON.
 
 Using this simple serialization format allows users to easily utilize those
 values in their scripts by using standard Bash functionality (``-z`` for check
@@ -552,7 +552,7 @@ passed in, action will be considered as failed (first flag in the result tuple
 indicating action status is ``False``).
 
 For a more complex example, please refer to the `actions in the Libcloud pack in
-the contrib repository <https://github.com/StackStorm/st2contrib/tree/master/packs/libcloud/actions>`_.
+StackStorm Exchange <https://github.com/StackStorm-Exchange/libcloud/tree/master/actions>`_.
 
 Configuration File
 ~~~~~~~~~~~~~~~~~~
@@ -632,7 +632,7 @@ Pre-defined Actions
 ^^^^^^^^^^^^^^^^^^^
 
 There are several predefined actions that come out of the box when |st2|
-is installed via packages.
+is installed via packages. These are in the ``core`` pack:
 
 ``core.local`` : This action allows execution of arbitrary \*nix/shell commands
 locally. You can excute this command via the CLI using:
@@ -662,7 +662,7 @@ and password:
 
     st2 run core.http url="http://httpbin.org/get" method="GET" username=user1 password=pass1
 
-To see all predefined actions:
+To see all actions in the ``core`` pack:
 
 ::
 
@@ -670,7 +670,7 @@ To see all predefined actions:
 
 .. rubric:: What's Next?
 
-* Explore packs and actions contributed by |st2| developers and community in the `StackStorm st2contrib repo on Github <https://github.com/StackStorm/st2contrib/>`_.
+* Explore packs and actions contributed by |st2| developers and community in the `StackStorm Exchange <https://exchange.stackstorm.org>`_.
 * Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ on creating actions, and other practical examples of automating with |st2|.
 
 .. _JSON Schema: http://json-schema.org/documentation.html

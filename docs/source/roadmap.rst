@@ -29,6 +29,7 @@ Release History
 .. rubric:: Done in v2.1
 
 * **StackStorm Pack Exchange:** Make integration and automation packs discoverable, continuously tested, and community rated. Solve the problem of packs spread all over GitHub.
+* **Ubuntu Xenial (16.04) support**
 
 .. rubric:: Done in v1.6
 

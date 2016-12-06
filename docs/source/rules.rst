@@ -718,7 +718,7 @@ Run action every full hour every day of the week
 
 .. rubric:: What's Next?
 
-* Explore automations on the `st2contrib`_ community repo.
+* Explore automations in the `StackStorm Exchange <https://exchange.stackstorm.org>`_.
 * Learn more about :doc:`sensors`.
 * Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with |st2|.
 
