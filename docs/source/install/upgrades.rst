@@ -28,10 +28,7 @@ Upgrade Procedure
 
    sudo st2ctl stop
 
-2. Run the migration script (if any). See section below for |st2|
-   version-specific migration scripts.
-
-3. Upgrade |st2| packages (``st2``, ``st2web``, ``st2chatops``, ``st2mistral``
+2. Upgrade |st2| packages (``st2``, ``st2web``, ``st2chatops``, ``st2mistral``
    and ``bwc-enterprise`` using distro specific tools.
 
   Ubuntu:
@@ -45,6 +42,9 @@ Upgrade Procedure
   .. sourcecode:: bash
 
      sudo yum update $PKG_NAME
+
+3. Run the migration script (if any). See section below for |st2| 
+   version-specific migration scripts.
 
 4. Upgrade Mistral database.
 
