@@ -66,7 +66,7 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 
 .. note:: Only certain distributions of MongoDB support SSL/TLS.
 
-    * MonogoDB enterprise vesions have SSL/TLS support.
+    * MongoDB enterprise versions have SSL/TLS support.
     * Build MongoDB from source to enable SSL/TLS support. See https://github.com/mongodb/mongo/wiki/Build-Mongodb-From-Source for more information.
 
 Configure RabbitMQ
