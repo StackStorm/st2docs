@@ -210,7 +210,7 @@ Fire the POST, check out the file and see that it appends the payload if the nam
     sudo tail /home/stanley/st2.webhook_sample.out
 
     # And for fun, same post with st2
-    st2 run core.http method=POST body='{"you": "too", "name": "st2"}' url=https://localhost/api/v1/webhooks/sample headers='x-auth-token=put_token_here;content-type=application/json' verify_ssl_cert=False
+    st2 run core.http method=POST body='{"you": "too", "name": "st2"}' url=https://localhost/api/v1/webhooks/sample headers='x-auth-token=put_token_here,content-type=application/json' verify_ssl_cert=False
 
     # And for even more fun, same post with st2 using basic authentication
     st2 run core.http method=POST body='{"you": "too", "name": "st2"}' url=https://localhost/api/v1/webhooks/sample headers='content-type=application/json' verify_ssl_cert=False username=user1 password=pass1
