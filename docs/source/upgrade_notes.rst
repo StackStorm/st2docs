@@ -27,7 +27,7 @@ Upgrade Notes
       3. Reload the content with ``st2ctl reload``.
 
       4. If you happen to have packs that don't satisfy the rules above, the validation fails
-         and the pack load will throw errors. Fix the packs to conform the rules above,
+         and the pack load will throw errors. Fix the packs to conform to the rules above,
          and reload the content again.
 
   In 2.1.0, |st2| attempts to auto-correct some validation failures and display a warning.
