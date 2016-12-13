@@ -30,3 +30,5 @@ for the best experience while testing or deploying |st2|:
 |  * 10GB storage                      | * 40GB storage                    |
 |  * Recommended EC2: **t2.medium**    | * Recommended EC2: **m4.xlarge**  |
 +--------------------------------------+-----------------------------------+
+
+|st2| requires the following TCP ports to be open for successful installation and operation: nginx (80, 443), mongodb (27017), rabbitmq (4369, 5672, 25672), and st2 (9100-9102).
