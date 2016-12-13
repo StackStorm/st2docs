@@ -31,4 +31,4 @@ for the best experience while testing or deploying |st2|:
 |  * Recommended EC2: **t2.medium**    | * Recommended EC2: **m4.xlarge**  |
 +--------------------------------------+-----------------------------------+
 
-|st2| requires the following TCP ports to be open for successful installation and operation: nginx (80, 443), mongodb (27017), rabbitmq (4369, 5672, 25672), and st2 (9100-9102).
+By default, |st2| and related services use these ports: 80, 443, 27017, 4369, 5432, 5672, 25672, 9100, 9101 and 9102. If any other services are currently using these ports, |st2| may fail to install or run correctly.
