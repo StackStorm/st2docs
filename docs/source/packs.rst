@@ -59,7 +59,7 @@ ready-made packs submitted and maintained by the StackStorm community. There are
 packs for most of the popular cloud providers and DevOps tools, as well as more
 peculiar integrations (hello, ``tesla`` and ``hue``).
 
-You can browse the pack listing at `exchange.stackstorm.org <exchange.stackstorm.org>`__,
+You can browse the pack listing at `exchange.stackstorm.org <https://exchange.stackstorm.org>`__,
 or search the pack index in CLI with ``st2 pack search`` and ``st2 pack show``:
 
 .. code-block:: bash
