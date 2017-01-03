@@ -3,6 +3,28 @@
 Upgrade Notes
 =============
 
+|st2| in development
+--------------------
+
+* Additional validation has been introduced for triggers.
+
+    1. Trigger payload is now validated against the trigger ``payload_schema`` schema when
+       dispatching a trigger inside the sensor.
+
+      Validation is only performed if ``system.validate_trigger_parameters`` config option is
+      enabled (it's disabled by default) and if trigger object defines ``parameters_schema``
+      attribute.
+
+    2. Trigger parameters are now validated for non-system (user-defined) triggers when creating
+       a rule.
+
+      Validation is only performed if ``system.validate_trigger_parameters`` config option is
+      enabled (it's disabled by default) and if trigger object defines ``parameters_schema``
+      attribute.
+
+  Both of those configuration options are disabled by default for now, but they will be enabled
+  by default (with an option to opt-out) in a future major |st2| release.
+
 |st2| v2.1
 ----------
 
