@@ -124,6 +124,12 @@ Retry policy (``action.retry``) allows you to automatically retry (re-run) an ac
 particular failure condition is met. Right now we support retrying actions which have failed or
 timed out.
 
+.. note::
+
+    Retry policy is no longer supported for actions that are executed under a workflow as it
+    conflicts with retry mechanism within specific workflow engine. Please take advantage of
+    retry mechanism provided by the workflow engine where applicable.
+
 The example below shows how to automatically retry the ``core.http`` action up to two times if it
 times out:
 
