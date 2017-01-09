@@ -12,6 +12,7 @@ the :doc:`Reference deployment </install/overview>`.
 
 System Requirements
 -------------------
+
 Please check :doc:`supported versions and system requirements <system_requirements>`.
 
 Minimal installation
@@ -58,7 +59,7 @@ The following script will detect your platform and architecture and setup the re
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
 Install |st2| components
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
   .. code-block:: bash
 
@@ -98,6 +99,7 @@ For remote Linux actions, SSH is used. It is advised to configure identity file 
 
 Start Services
 ~~~~~~~~~~~~~~
+
 * Start services ::
 
     sudo st2ctl start
@@ -105,7 +107,6 @@ Start Services
 * Register sensors, rules and actions ::
 
     sudo st2ctl reload
-
 
 .. include:: common/start_services.rst
 
@@ -179,6 +180,7 @@ Check out :doc:`/reference/cli` to learn convenient ways to authenticate via CLI
 
 Install WebUI and setup SSL termination
 ---------------------------------------
+
 `NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS,
 provide SSL termination for HTTPS, and reverse-proxy st2auth and st2api API endpoints.
 To set it up, install `st2web` and `nginx`, generate certificates or place your existing
