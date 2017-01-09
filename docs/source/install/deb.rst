@@ -289,8 +289,14 @@ If you already run a Hubot instance, you only have to install the `hubot-stackst
 
 * That's it! Go to your Chat room and begin ChatOpsing. Read more in the :doc:`/chatops/index` section.
 
+A note on security
+------------------
+
+.. include:: common/security_notes.rst
+
 Upgrade to Brocade Workflow Composer
--------------------------------------
+------------------------------------
+
 Brocade Workflow Composer is deployed as an addition on top of StackStorm. You will need an active
 Brocade Workflow Composer subscription, and a license key to access Brocade Workflow Composer repositories.
 To add your license key, replace ``${BWC_LICENSE_KEY}`` in the command below with the key you received when
