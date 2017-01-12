@@ -330,7 +330,7 @@ If you already run Hubot instance, you only have to install the `hubot-stackstor
 
 * That's it! Go to your Chat room and begin ChatOps-ing. Read more in the :doc:`/chatops/index` section.
 
-A note on security
+A Note on Security
 ------------------
 
 .. include:: common/security_notes.rst
