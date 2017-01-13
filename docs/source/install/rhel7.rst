@@ -140,10 +140,6 @@ For remote Linux actions, SSH is used. It is advised to configure identity file 
 Start Services
 ~~~~~~~~~~~~~~
 
-* Register sensors, rules and actions ::
-
-    st2ctl reload
-
 .. include:: common/start_services.rst
 
 
