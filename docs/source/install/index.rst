@@ -42,6 +42,8 @@ Once it completes successfully, you will see the following output:
   Thanks for installing StackStorm! Come visit us in our Slack Channel
   and tell us how it's going. We'd love to hear from you!
 
+.. include:: __installer_passwords.rst
+
 .. rubric:: Installations
 
 .. toctree::
@@ -55,4 +57,3 @@ Once it completes successfully, you will see the following output:
     Brocade Workflow Composer <bwc>
     config/index
     upgrades
-

@@ -12,6 +12,7 @@ the :doc:`Reference deployment </install/overview>`.
 
 System Requirements
 -------------------
+
 Please check :doc:`supported versions and system requirements <system_requirements>`.
 
 Minimal installation
@@ -91,7 +92,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
     sudo systemctl enable postgresql
 
 Setup repositories
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 The following script will detect your platform and architecture and setup the repo accordingly. It'll also install the GPG key for repo signing.
 
@@ -100,7 +101,7 @@ The following script will detect your platform and architecture and setup the re
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.rpm.sh | sudo bash
 
 Install |st2| components
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
   .. code-block:: bash
 
@@ -120,6 +121,7 @@ Setup Mistral Database
 
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
+
 To run local and remote shell actions, |st2| uses a special system user (default ``stanley``).
 For remote Linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
 
@@ -202,10 +204,11 @@ To set up authentication with File Based provider:
     # Check that it works
     st2 action list
 
-Check out :doc:`/reference/cli` to learn convinient ways to authenticate via CLI.
+Check out :doc:`/reference/cli` to learn convenient ways to authenticate via CLI.
 
 Install WebUI and setup SSL termination
 ---------------------------------------
+
 `NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS,
 provide SSL termination for HTTPS, and reverse-proxy st2auth and st2api API endpoints.
 To set it up: install `st2web` and `nginx`, generate certificates or place your existing
@@ -270,7 +273,6 @@ For example, to see the endpoint for getting actions, invoke
 
     st2 --debug action list
 
-
 Setup ChatOps
 -------------
 
@@ -324,8 +326,14 @@ If you already run Hubot instance, you only have to install the `hubot-stackstor
 
 * That's it! Go to your Chat room and begin ChatOps-ing. Read more in the :doc:`/chatops/index` section.
 
+A Note on Security
+------------------
+
+.. include:: common/security_notes.rst
+
 Upgrade to Brocade Workflow Composer
 ------------------------------------
+
 Brocade Workflow Composer is deployed as an addition on top of StackStorm. You will need an active
 Brocade Workflow Composer subscription, and a license key to access Brocade Workflow Composer repositories.
 To add your license key, replace ``${BWC_LICENSE_KEY}`` in the command below with the key you received when
