@@ -25,6 +25,7 @@ Upgrade Notes
   Both of those configuration options are disabled by default for now, but they will be enabled
   by default (with an option to opt-out) in a future major |st2| release.
 
+
 * The database schema for Mistral has changed. The executions_v2 table is no longer used. The
   table is being broken down into workflow_executions_v2, task_executions_v2, and
   action_executions_v2. After upgrade, using the Mistral commands from the command line such as
@@ -33,6 +34,12 @@ Upgrade Notes
   script to move existing records from executions_v2 into the new tables. To read from
   executions_v2, either use psql or install an older version of the python-mistralclient in a
   separate python virtual environment.
+
+
+* Jinja notations ``{{user.key}}`` and ``{{system.key}}`` to access datastore items under
+  ``user`` and ``system`` scopes are now deprecated. Please use ``{{st2kv.user.key}}`` and
+  ``{{st2kv.system.key}}`` notations instead.
+
 
 |st2| v2.1
 ----------
