@@ -54,6 +54,7 @@ Once it completes successfully, you will see the following output:
     Ubuntu 14.04 / 16.04 <deb>
     RHEL 7 / CentOS 7 <rhel7>
     RHEL 6 / CentOS 6 <rhel6>
+    Ansible Playbooks <ansible>
     Brocade Workflow Composer <bwc>
     config/index
     upgrades
