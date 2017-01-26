@@ -129,7 +129,7 @@ Some highlights:
 
 * CLI and API for pack discovery: you can search the pack directory right from CLI.
 
-* You can specify ``stackstorm_version`` in ``pack.yaml``: it should contain a version range to determine if the installed version of |st2| is compatible with your pack (e.g. &gt;=1.6.0, &lt;2.0.0, or just &gt;1.6.0). If your pack relies on functionality which is only available in newer versions of StackStorm, we encourage you to specify the correct range.
+* You can specify ``stackstorm_version`` in ``pack.yaml``: it should contain a version range to determine if the installed version of |st2| is compatible with your pack (e.g. ``>=1.6.0, <2.0.0``, or just ``>1.6.0``). If your pack relies on functionality which is only available in newer versions of StackStorm, we encourage you to specify the correct range.
 
 * You can specify ``contributors`` in ``pack.yaml``: it is an array that should contains a list of people who have contributed to the pack. These days most of the packs have more than one contributor, and the ``author`` field just isn't enough to give credit where credit is due.
 
