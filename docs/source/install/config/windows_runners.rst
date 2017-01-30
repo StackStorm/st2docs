@@ -66,7 +66,7 @@ action runner service) are running.
 For safety reasons, you are encouraged to only allow traffic from your |st2| server,
 but if you want to allow traffic from all IPs, you can run this command:
 
-.. sourcecode:: Powershell
+.. sourcecode:: none
 
     netsh firewall set service RemoteAdmin enable
 
@@ -95,7 +95,7 @@ Configuring PowerShell
 * Set the PowerShell execution policy to allow execution of the scripts. See <https://technet.microsoft.com/en-us/library/ee176961.aspx>
 * Ensure that default ``powershell.exe`` is compatible with the script you are planning to run. To do so, open PowerShell and run this command:
 
-.. sourcecode:: PowerShell
+.. sourcecode:: none
 
   PS C:\> $PSVersionTable
   Name                           Value
