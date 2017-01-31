@@ -28,8 +28,12 @@ JSON example using the same keys from the create examples above:
 
     [
         {
-            "os_keystone_endpoint": "http://localhost:5000/v2.0",
-            "aws_cfn_endpoint": "https://cloudformation.us-west-1.amazonaws.com"
+            "name": "os_keystone_endpoint",
+            "value": "http://localhost:5000/v2.0"
+        },
+        {
+            "name": "aws_cfn_endpoint",
+            "value": "https://cloudformation.us-west-1.amazonaws.com"
         }
     ]
 
