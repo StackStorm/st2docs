@@ -37,15 +37,15 @@ Roles
 Behind the scenes ``stackstorm.yml`` play composed of the following Ansible ``roles`` for a complete installation:
 
 - ``epel`` - Repository with extra packages for ``RHEL/CentOS``.
--	``mongodb`` - Main DB storage engine for |st2|.
--	``rabbitmq`` - Message broker for |st2|.
--	``postgresql`` - Main DB storage engine for |st2| Mistral.
--	``st2repos`` - Adds |st2| PackageCloud repositories.
--	``st2`` - Install and configure |st2| itself.
--	``st2mistral`` - Install and configure |st2| Mistral workflow engine.
+- ``mongodb`` - Main DB storage engine for |st2|.
+- ``rabbitmq`` - Message broker for |st2|.
+- ``postgresql`` - Main DB storage engine for |st2| Mistral.
+- ``st2repos`` - Adds |st2| PackageCloud repositories.
+- ``st2`` - Install and configure |st2| itself.
+- ``st2mistral`` - Install and configure |st2| Mistral workflow engine.
 - ``nginx`` - Dependency for ``st2web``.
 - ``st2web`` - Nice & shiny WebUI for |st2|.
--	``st2smoketests`` - Simple checks to know if |st2| really works.
+- ``st2smoketests`` - Simple checks to know if |st2| really works.
 
 Example Play
 ---------------------------
