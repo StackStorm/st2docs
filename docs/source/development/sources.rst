@@ -28,7 +28,7 @@ Fedora
 
 ::
 
-    yum install python-pip python-virtualenv python-tox gcc-c++ git-all screen icu libicu libicu-devel
+    yum install python-pip python-virtualenv python-tox gcc-c++ git-all screen icu libicu libicu-devel openssl-devel
 
     yum install mongodb mongodb-server
     systemctl enable mongod
