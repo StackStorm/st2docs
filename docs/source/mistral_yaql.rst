@@ -235,9 +235,10 @@ function ``<% len(foobar) %>`` to get the length of the string ``foobar`` return
 documentation and git repo to explore more options.
 
 **Built-in**
-
+For the full list of build-in functinos, see `Standard Library section in YAQL docs <https://yaql.readthedocs.io/en/latest/standard_library.html>`_. Some noticable examples:
 * ``float(value)`` converts value to float.
 * ``int(value)`` converts value to integer.
+* ``str(number)`` converts number to a string.
 * ``len(list)`` and ``len(string)`` returns the length of the list and string respectively.
 * ``max(a, b)`` returns the larger value between a and b.
 * ``min(a, b)`` returns the smaller value between a and b.
@@ -246,6 +247,7 @@ documentation and git repo to explore more options.
 * ``'some string'.toUpper()`` converts the string to all upper cases.
 * ``'some string'.toLower()`` converts the string to all lower cases.
 * ``['some', 'list'].contains(value)`` returns True if list contains value.
+* ``"one, two, three, four".split(',').select(str($).trim())`` turns comma separated string to array, trimming each element.
 
 **Mistral**
 
