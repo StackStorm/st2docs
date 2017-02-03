@@ -235,7 +235,7 @@ function ``<% len(foobar) %>`` to get the length of the string ``foobar`` return
 documentation and git repo to explore more options.
 
 **Built-in**
-For the full list of built-in functinos, see `Standard Library section in YAQL docs <https://yaql.readthedocs.io/en/latest/standard_library.html>`_. Some noticeable examples:
+For the full list of built-in functions, see `Standard Library section in YAQL docs <https://yaql.readthedocs.io/en/latest/standard_library.html>`_. Some noticeable examples:
 * ``float(value)`` converts value to float.
 * ``int(value)`` converts value to integer.
 * ``str(number)`` converts number to a string.
