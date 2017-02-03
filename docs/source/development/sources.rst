@@ -62,7 +62,9 @@ and install required dependencies, and run tests.
 Configure System User
 ~~~~~~~~~~~~~~~~~~~~~
 
-Create a system user for executing SSH actions,
+Create a system user for executing SSH actions.
+
+::
 
     useradd -d /home/stanley stanley
     su stanley
