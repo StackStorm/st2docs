@@ -83,12 +83,17 @@ The best way to authenticate to StackStorm via the CLI is using the
 ``st2 login`` command. Similar to ``st2 auth``, you must provide your
 username and password:
 
+.. sourcecode:: bash
+
     st2 login st2admin --password Password1!
 
 However, instead of just caching the token, this command will also modify the
 CLI configuration to include the referenced username. This way, future commands
 will know which cached token to use for authentication (since tokens are cached
 using the ``token-<username>`` format).
+
+.. NOTE::
+   By default, ``st2 login`` will remove any configured password from the configuration.
 
 These auth tokens are by default cached on the local filesystem (in the ``~/.st2/token-<username>``
 file) and re-used for subsequent requests to the API service.
