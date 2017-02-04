@@ -99,7 +99,7 @@ configured user.
 The ``st2 login`` command is a good option if you want an easy way to authenticate
 via the CLI without storing your password in plain text. Switching between users is also
 as easy as re-running the ``st2 login`` command. Other users' token cache files will remain,
-but the CLi configuration will be changed to point to the new username.
+but the CLI configuration will be changed to point to the new username.
 
 However, should you choose to specify username and password as authentication
 credentials in the configuration file, the CLI will try to use those credentials
