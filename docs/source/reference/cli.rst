@@ -79,12 +79,31 @@ by passing ``--skip-config`` flag to the CLI as shown below:
 Authentication and auth token caching
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you specify username and password as authentication credentials in the
-configuration file, the CLI will try to use those credentials to authenticate and
-retrieve an auth token.
+The best way to authenticate to StackStorm via the CLI is using the
+``st2 login`` command. Similar to ``st2 auth``, you must provide your
+username and password:
 
-This auth token is by default cached on the local filesystem (in the ``~/.st2/token``
+    st2 login st2admin --password Password1!
+
+However, instead of just caching the token, this command will also modify the
+CLI configuration to include the referenced username. This way, future commands
+will know which cached token to use for authentication (since tokens are cached
+using the ``token-<username>`` format).
+
+These auth tokens are by default cached on the local filesystem (in the ``~/.st2/token-<username>``
 file) and re-used for subsequent requests to the API service.
+
+You can also use the ``st2 whoami`` command for a quick look at who is the currently
+configured user.
+
+The ``st2 login`` command is a good option if you want an easy way to authenticate
+via the CLI without storing your password in plain text. Switching between users is also
+as easy as re-running the ``st2 login`` command. Other users' token cache files will remain,
+but the CLi configuration will be changed to point to the new username.
+
+However, should you choose to specify username and password as authentication
+credentials in the configuration file, the CLI will try to use those credentials
+to authenticate and retrieve an auth token.
 
 If you want to disable auth token caching and want the CLI to retrieve a new
 auth token on each invocation, you can do that by setting ``cache_token``
