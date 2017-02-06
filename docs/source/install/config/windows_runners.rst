@@ -20,30 +20,23 @@ Windows runners actions needs to have the following dependencies installed:
 * ``winexe`` >= 1.1 - Command line tool for executing commands remotely on
   Windows hosts.
 
-Samba client is available in standard APT and Yum repositories and winexe is
-available in our repositories. Both of those dependencies are installed by
-default when using ``st2_deploy.sh`` script or a Puppet-based installation.
-
-Installing on Ubuntu
-~~~~~~~~~~~~~~~~~~~~
+Samba client is available in standard APT and Yum repositories. To install it
+on Ubuntu, run:
 
 .. sourcecode:: bash
 
-    sudo apt-get install smbclient winexe
+    sudo apt-get install smbclient
 
-Installing on Fedora
-~~~~~~~~~~~~~~~~~~~~
-
-.. sourcecode:: bash
-
-    sudo yum install samba-client winexe
-
-Note: In Fedora 22 and above, yum package manager has been replaced with dnf,
-so you need to use ``dnf`` instead of yum to install the packages.
+To install on RHEL/CentOS, run:
 
 .. sourcecode:: bash
 
-    sudo dnf install samba-client winexe
+    sudo yum install samba-client
+
+You will need to compile `winexe <https://sourceforge.net/p/winexe/winexe-waf/ci/master/tree/>`_
+packages for your system. This `script <https://github.com/beardedeagle/winexe-rpm>`_ can be used to
+build RPM packages. The instructions `here <https://sourceforge.net/p/winexe/winexe-waf/ci/master/tree/>`_
+can be used to build binaries for Ubuntu systems.
 
 Supported Windows Versions
 --------------------------
@@ -70,11 +63,10 @@ For |st2| to be able to reach your server, you need to configure Windows
 Firewall to allows traffic from the server where |st2| components (notably
 action runner service) are running.
 
-For safety reasons, you are encouraged to only allow traffic from |st2| server,
-but if you want to allow traffic from all the IPs, you can run command listed
-below in the command prompt:
+For safety reasons, you are encouraged to only allow traffic from your |st2| server,
+but if you want to allow traffic from all IPs, you can run this command:
 
-.. sourcecode:: bash
+.. sourcecode:: none
 
     netsh firewall set service RemoteAdmin enable
 
@@ -101,11 +93,10 @@ to specify ``share`` parameter when running a Windows script runner action.
 Configuring PowerShell
 ~~~~~~~~~~~~~~~~~~~~~~
 * Set the PowerShell execution policy to allow execution of the scripts. See <https://technet.microsoft.com/en-us/library/ee176961.aspx>
-* Ensure that default ``powershell.exe`` is compatible with the script you are planning to run. To do so, open Command Prompet (``cmd``) on Windows machine, and run the following commands:
+* Ensure that default ``powershell.exe`` is compatible with the script you are planning to run. To do so, open PowerShell and run this command:
 
-.. sourcecode:: bash
+.. sourcecode:: none
 
-  C:\> powershell
   PS C:\> $PSVersionTable
   Name                           Value
   ----                           -----
