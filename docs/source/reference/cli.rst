@@ -79,8 +79,8 @@ by passing ``--skip-config`` flag to the CLI as shown below:
 Authentication and auth token caching
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The best way to authenticate to StackStorm via the CLI is using the
-``st2 login`` command. Similar to ``st2 auth``, you must provide your
+If you don't wish to store your password in plain-text as shown in the previous section,
+the ``st2 login`` command offers an alternative. Similar to ``st2 auth``, you must provide your
 username and password:
 
 .. sourcecode:: bash
@@ -90,10 +90,13 @@ username and password:
 However, instead of just caching the token, this command will also modify the
 CLI configuration to include the referenced username. This way, future commands
 will know which cached token to use for authentication (since tokens are cached
-using the ``token-<username>`` format).
+using the ``token-<username>`` format), meaning the password can be omitted from
+the config file altogether.
 
-.. NOTE::
-   By default, ``st2 login`` will remove any configured password from the configuration.
+.. WARNING::
+   ``st2 login`` will overwrite the "credentials" section of the configuration.
+   By default, it will overwrite the configured username, and will remove any
+   configured password.
 
 These auth tokens are by default cached on the local filesystem (in the ``~/.st2/token-<username>``
 file) and re-used for subsequent requests to the API service.
@@ -101,10 +104,13 @@ file) and re-used for subsequent requests to the API service.
 You can also use the ``st2 whoami`` command for a quick look at who is the currently
 configured user.
 
-The ``st2 login`` command is a good option if you want an easy way to authenticate
-via the CLI without storing your password in plain text. Switching between users is also
-as easy as re-running the ``st2 login`` command. Other users' token cache files will remain,
-but the CLI configuration will be changed to point to the new username.
+The previous section showed how to authenticate to StackStorm by embedding the username and
+password in plain text in configuration file. The ``st2 login`` command is good alternative
+to this, as you only need to store your username in configuration.
+
+Switching between users is also as easy as re-running the ``st2 login`` command.
+Other users' token cache files will remain, but the CLI configuration will be changed
+to point to the new username.
 
 However, should you choose to specify username and password as authentication
 credentials in the configuration file, the CLI will try to use those credentials
