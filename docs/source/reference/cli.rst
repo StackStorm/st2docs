@@ -104,17 +104,17 @@ file) and re-used for subsequent requests to the API service.
 You can also use the ``st2 whoami`` command for a quick look at who is the currently
 configured user.
 
-The previous section showed how to authenticate to StackStorm by embedding the username and
-password in plain text in configuration file. The ``st2 login`` command is good alternative
-to this, as you only need to store your username in configuration.
-
 Switching between users is also as easy as re-running the ``st2 login`` command.
 Other users' token cache files will remain, but the CLI configuration will be changed
 to point to the new username.
 
-However, should you choose to specify username and password as authentication
-credentials in the configuration file, the CLI will try to use those credentials
-to authenticate and retrieve an auth token.
+.. NOTE::
+   As with many other ``st2`` commands, ``st2 login`` will not create the configuration file
+   for you. Keep this in mind especially if you're leveraging the ``--config-file`` CLI option,
+   or similar
+
+Note that you can still use the "old" method of supplying both username and password
+in the configuration file if you wish.
 
 If you want to disable auth token caching and want the CLI to retrieve a new
 auth token on each invocation, you can do that by setting ``cache_token``
