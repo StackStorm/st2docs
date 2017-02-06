@@ -111,7 +111,7 @@ to point to the new username.
 .. NOTE::
    As with many other ``st2`` commands, ``st2 login`` will not create the configuration file
    for you. Keep this in mind especially if you're leveraging the ``--config-file`` CLI option,
-   or similar
+   or similar.
 
 Note that you can still use the "old" method of supplying both username and password
 in the configuration file if you wish.
