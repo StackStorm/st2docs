@@ -162,7 +162,7 @@ The following example simply echoes a greeting.
 pack management. However you can define your own tools and workflow for editing and versioning
 packs; you'll be placing the files to ``/opt/stackstorm/packs`` and [re-]loading the content.
 
-  7.1 Use git and ``pack install`` (**recommended**):
+  8.1 Use git and ``pack install`` (**recommended**):
 
   .. code-block:: bash
 
@@ -177,7 +177,7 @@ packs; you'll be placing the files to ``/opt/stackstorm/packs`` and [re-]loading
 
     st2 pack install https://github.com/MY/PACK
 
-  7.2 Copy over and register (if you have special needs and know what you're doing).
+  8.2 Copy over and register (if you have special needs and know what you're doing).
 
   .. code-block:: bash
 
