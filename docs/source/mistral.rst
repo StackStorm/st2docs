@@ -1,11 +1,16 @@
 Mistral
 =======
-`Mistral <http://docs.openstack.org/developer/mistral/overview.html>`_ is an OpenStack project that manages and executes workflows as a service. Mistral is installed as a separate service named "mistral" along with |st2|. A Mistral workflow can be defined as a |st2| action in a Mistral workbook using the `v2 DSL <http://docs.openstack.org/developer/mistral/dsl/dsl_v2.html>`_. YAQL is used for data referencing, conditions, and evaluations. Both workbook and workflow definitions are supported. On action execution, |st2| writes the definition to Mistral and executes the workflow. A workflow can invoke other |st2| actions natively as subtasks. |st2| handles the translations and calls transparently in Mistral and actively polls Mistral for execution results. |st2| actions in the workflow can be traced back to the original parent action that invoked the workflow.
+`Mistral <http://docs.openstack.org/developer/mistral/overview.html>`_ is an OpenStack project that manages and executes workflows as a service. Mistral is installed as a separate service named "mistral" along with |st2|. A Mistral workflow can be defined as a |st2| action in a Mistral workbook using the `v2 DSL <http://docs.openstack.org/developer/mistral/dsl/dsl_v2.html>`_. Expression languages such as YAQL is used for formatting variables and condition evaluations. Starting in |st2| v2.2, Jinja2 is also supported where YAQL expressions are accepted. Both workbook and workflow definitions are supported. On action execution, |st2| writes the definition to Mistral and executes the workflow. A workflow can invoke other |st2| actions natively as subtasks. |st2| handles the translations and calls transparently in Mistral and actively polls Mistral for execution results. |st2| actions in the workflow can be traced back to the original parent action that invoked the workflow.
 
 **Essential Mistral Links:**
 
 * Mistral workflow definition language, aka `v2 DSL <http://docs.openstack.org/developer/mistral/dsl/dsl_v2.html>`_
-* `YAQL online evaluator <http://yaqluator.com/>`_
+* `YAQL documentation <https://yaql.readthedocs.io/en/latest/>`_ and `YAQL online evaluator <http://yaqluator.com/>`_
+* `Jinja2 template engine <http://jinja.pocoo.org>`_
+
+.. note::
+
+    Workflow examples in this documentation will use YAQL expressions unless otherwise stated.
 
 Basic Workflow
 ++++++++++++++

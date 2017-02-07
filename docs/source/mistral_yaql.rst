@@ -52,13 +52,19 @@ The following are statements in the workflow and task definition that accepts YA
 * workflow output
 
 Each of the statements can take a string with one or more YAQL expressions. Each expression in the
-string should be encapsulated with ``<% %>``. When evaluating a YAQL expression, Mistral also
-passes a JSON dictionary (aka context) to the YAQL engine. The context contains all the workflow
-inputs, published variables, and result of completed tasks up to this point of workflow
-execution including the current task. The YAQL expression can refer to one or more variables in
-the context. The reserved symbol ``$`` is used to reference the context. For example, given the
-context ``{"ip": "127.0.0.1", "port": 8080}``, the string ``https://<% $.ip %>:<% $.port>/api``
-returns ``https://127.0.0.1:8080/api``. The following is the same example used in a workflow:
+string should be encapsulated with ``<% %>``.
+
+.. note::
+
+    Mixing of both YAQL and Jinja expressions in a single statement is not supported.
+
+When evaluating a YAQL expression, Mistral also passes a JSON dictionary (aka context) to the YAQL
+engine. The context contains all the workflow inputs, published variables, and result of completed
+tasks up to this point of workflow execution including the current task. The YAQL expression can
+refer to one or more variables in the context. The reserved symbol ``$`` is used to reference the
+context. For example, given the context ``{"ip": "127.0.0.1", "port": 8080}``, the string
+``https://<% $.ip %>:<% $.port>/api`` returns ``https://127.0.0.1:8080/api``. The following is the
+same example used in a workflow:
 
 .. code-block:: yaml
 

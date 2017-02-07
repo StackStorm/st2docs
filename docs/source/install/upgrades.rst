@@ -50,17 +50,8 @@ Upgrade Procedure
 
 .. sourcecode:: bash
 
-  # Stop related services
-  service mistral-api stop
-  service mistral stop
-
-  # Upgrade database
   /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
   /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
-
-  # Restart related services
-  service mistral start
-  service mistral-api start
 
 5. Start |st2| services.
 
@@ -78,6 +69,16 @@ notes section gives an idea of what major changes happened with each release. Yo
 to take a look at detailed :doc:`/changelog` for each version.
 Following sections call out the migration scripts that need to be run before upgrading to the
 respective version
+
+v2.2
+'''''
+
+* The database schema for Mistral has changed. The executions_v2 table is no longer used. The
+  table is being broken down into workflow_executions_v2, task_executions_v2, and
+  action_executions_v2. After upgrade, using the Mistral commands from the command line such as
+  ``mistral execution-list`` will return an empty table. The records in executions_v2 have not
+  been deleted. The commands are reading from the new tables. There is currently no migration
+  script to move existing records from executions_v2 into the new tables.
 
 v2.1
 '''''
