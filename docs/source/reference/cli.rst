@@ -79,12 +79,45 @@ by passing ``--skip-config`` flag to the CLI as shown below:
 Authentication and auth token caching
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you specify username and password as authentication credentials in the
-configuration file, the CLI will try to use those credentials to authenticate and
-retrieve an auth token.
+If you don't wish to store your password in plain-text as shown in the previous section,
+the ``st2 login`` command offers an alternative. Similar to ``st2 auth``, you must provide your
+username and password:
 
-This auth token is by default cached on the local filesystem (in the ``~/.st2/token``
-file) and re-used for subsequent requests to the API service.
+.. sourcecode:: bash
+
+    st2 login st2admin --password Password1!
+
+However, in addition to caching the token, this command will also modify the
+CLI configuration to include the referenced username. This way, future commands
+will know which cached token to use for authentication (since tokens are cached
+using the ``token-<username>`` format), meaning the password can be omitted from
+the config file altogether.
+
+.. WARNING::
+   ``st2 login`` will overwrite the "credentials" section of the configuration.
+   By default, it will overwrite the configured username, and will remove any
+   configured password.
+
+These auth tokens are by default cached on the local filesystem (in the ``~/.st2/token-<username>``
+file) and re-used for subsequent requests to the API service. Note that because the default behavior
+is to remove the password from the configuration, you will need to re-login once the generated token
+has expired - or make use of the ``--write-password`` flag, which writes the password to the config.
+
+You can also use the ``st2 whoami`` command for a quick look at who is the currently
+configured user.
+
+Switching between users is also as easy as re-running the ``st2 login`` command.
+Other users' token cache files will remain, but the CLI configuration will be changed
+to point to the new username.
+
+.. NOTE::
+   As with many other ``st2`` commands, ``st2 login`` will not create the configuration file
+   for you. Keep this in mind especially if you're leveraging the ``--config-file`` CLI option,
+   or similar.
+
+Note that you can still use the "old" method of supplying both username and password
+in the configuration file if you wish. If both a username and password are present in the
+configuration, then the client will automatically try to authenticate with these credentials.
 
 If you want to disable auth token caching and want the CLI to retrieve a new
 auth token on each invocation, you can do that by setting ``cache_token``
