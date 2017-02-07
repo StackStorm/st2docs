@@ -87,7 +87,7 @@ username and password:
 
     st2 login st2admin --password Password1!
 
-However, instead of just caching the token, this command will also modify the
+However, in addition to caching the token, this command will also modify the
 CLI configuration to include the referenced username. This way, future commands
 will know which cached token to use for authentication (since tokens are cached
 using the ``token-<username>`` format), meaning the password can be omitted from
@@ -99,7 +99,9 @@ the config file altogether.
    configured password.
 
 These auth tokens are by default cached on the local filesystem (in the ``~/.st2/token-<username>``
-file) and re-used for subsequent requests to the API service.
+file) and re-used for subsequent requests to the API service. Note that because the default behavior
+is to remove the password from the configuration, you will need to re-login once the generated token
+has expired - or make use of the ``--write-password`` flag, which writes the password to the config.
 
 You can also use the ``st2 whoami`` command for a quick look at who is the currently
 configured user.
@@ -114,7 +116,8 @@ to point to the new username.
    or similar.
 
 Note that you can still use the "old" method of supplying both username and password
-in the configuration file if you wish.
+in the configuration file if you wish. If both a username and password are present in the
+configuration, then the client will automatically try to authenticate with these credentials.
 
 If you want to disable auth token caching and want the CLI to retrieve a new
 auth token on each invocation, you can do that by setting ``cache_token``
