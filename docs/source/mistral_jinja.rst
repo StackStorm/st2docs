@@ -83,14 +83,14 @@ following is the same example used in a workflow:
 
     The reserved symbol to reference the workflow context for Jinja is different than YAQL
     expressions. This is due to the differences in the limitation between the two engines.
-    As mentioned above, the symbol "_" is used to access context in Jinja whereas the symbol
-    "$" is used in YAQL.
+    As mentioned above, the symbol ``_`` is used to access context in Jinja whereas the symbol
+    ``$`` is used in YAQL.
 
 The following is a more complex workbook example with a few more Jinja expressions. There are
-variables passed to input parameters and begin published after task completion. Please take
+variables passed to input parameters and being published after task completion. Please take
 note of the ``install_apps`` task in the ``configure_vm`` workflow. The input parameter ``cmd``
-is given the value formatted by the Jinja for loop. Unlike YAQL, string in a Jinja expression
-must be explicitly encapsulated in quotes (i.e. ``{{ 'this is a string.' }}``).
+is given the value formatted by the Jinja for loop. Unlike YAQL, a string in a Jinja
+expression must be explicitly encapsulated in quotes (i.e. ``{{ 'this is a string.' }}``).
 
 .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-jinja-workbook-complex.yaml
 
@@ -105,7 +105,7 @@ If ``_.path == b``, then task ``b``. Finally task ``c`` is executed if neither.
 .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-jinja-branching.yaml
 
 The statement ``with-items`` in Mistral is used to execute an action over iteration of one or more
-list of items. The following is a sample Mistral workflow that iterates over the list of given names
+lists of items. The following is a sample Mistral workflow that iterates over the list of given names
 to invoke the action to create individual VM.
 
 .. code-block:: yaml
@@ -148,13 +148,13 @@ a list of VMs and IP addresses are passed as inputs and then iterated through st
 .. note::
 
     The Jinja expression(s) passed to with-items is slightly different than YAQL expression(s).
-    If using Jinja, the entire statement (i.e. "name in {{ _.names }}") require quotation
-    because the symbols "{" and "}" for the delimiters conflict with JSON. Whereas if using YAQL,
-    the statement does not necessary require quotation.
+    If using Jinja, the entire statement (i.e. ``"name in {{ _.names }}"``) require quotation
+    because the symbols ``{`` and ``}`` for the delimiters conflict with JSON. Whereas if using YAQL,
+    the statement does not necessarily require quotation.
 
 Jinja Filters
 +++++++++++++
-Jinja has a list of built-in filters to work with strings, dictionaries, lists, and etc. Please
+Jinja has a list of built-in filters to work with strings, dictionaries, lists, etc. Please
 refer to Jinja `documentation <http://jinja.pocoo.org/docs/latest/templates/#list-of-builtin-filters>`_
 for the list of available filters.
 
@@ -169,7 +169,7 @@ A number of Mistral and |st2| specific custom functions (aka filters in Jinja) s
 
 **StackStorm**
 
-* ``st2kv('st2_key_id')`` queries |st2|'s datastore and returns the value for the given key. For example, the expression ``{{ st2kv('system.shared_key_x') }}`` returns the value for a system scoped key named ``shared_key_x`` while the expression ``{{ st2kv('my_key_y') }}`` returns the value for the user scoped key named ``my_key_y``. The st2kv function will always decrypt the value of the key if it is encrypted when the key value pair was set. Please note that the key name should be in quotes otherwise Jinja treats key name with a dot like ``system.shared_key_x`` as a dict access.
+* ``st2kv('st2_key_id')`` queries |st2|'s datastore and returns the value for the given key. For example, the expression ``{{ st2kv('system.shared_key_x') }}`` returns the value for a system scoped key named ``shared_key_x`` while the expression ``{{ st2kv('my_key_y') }}`` returns the value for the user scoped key named ``my_key_y``. The ``st2kv`` function will always decrypt the value of the key if it is encrypted when the key value pair was set. Please note that the key name should be in quotes otherwise Jinja treats key name with a dot like ``system.shared_key_x`` as a dict access.
 
 More Examples
 +++++++++++++

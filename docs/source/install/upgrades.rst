@@ -78,7 +78,9 @@ v2.2
   action_executions_v2. After upgrade, using the Mistral commands from the command line such as
   ``mistral execution-list`` will return an empty table. The records in executions_v2 have not
   been deleted. The commands are reading from the new tables. There is currently no migration
-  script to move existing records from executions_v2 into the new tables.
+  script to move existing records from executions_v2 into the new tables. To read from
+  executions_v2, either use psql or install an older version of the python-mistralclient in a
+  separate python virtual environment.
 
 v2.1
 '''''
