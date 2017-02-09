@@ -35,8 +35,8 @@ Upgrade Notes
   separate python virtual environment.
 
 * Jinja notations ``{{user.key}}`` and ``{{system.key}}`` to access datastore items under
-  ``user`` and ``system`` scopes are now deprecated. Please use ``{{st2kv.user.key}}`` and
-  ``{{st2kv.system.key}}`` notations instead.
+  ``user`` and ``system`` scopes are now unsuported. Please use ``{{st2kv.user.key}}`` and
+  ``{{st2kv.system.key}}`` notations instead. Also, please update your |st2| content (actions, rules and workflows) to use the new notation.
 
 
 |st2| v2.1
