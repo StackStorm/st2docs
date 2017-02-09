@@ -111,9 +111,8 @@ or simply:
 
 This variable won't clash with the user variables under same name. Also, you can refer
 to user variables in actions or workflows. The jinja syntax to do so is
-``{{st2kv.user.date_cmd}}``. Until v2.1, this expression used to be ``{{user.date_cmd}}``. For
-backward compatibility, the older expression is still supported but will be deprecated in subsequent
-releases.
+``{{st2kv.user.date_cmd}}``. Until v2.1, this expression used to be ``{{user.date_cmd}}``
+but is now deprecated.
 
 Note that the notion of ``st2kv.user`` is available only when actions
 or workflows are run manually. The notion of ``st2kv.user`` is non-existent when automations
