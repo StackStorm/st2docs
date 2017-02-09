@@ -4,7 +4,7 @@ Policies
 Policies allows users to enforce different rules regarding action executions.
 
 To list the types of policy that are available for configuration, run the command
-`st2 policy-type list``.
+``st2 policy-type list``.
 
 Policy configuration files are expected to be located under the ``policies`` folder in related
 packs, similar to actions and rules. Policies can be loaded into |st2| via
