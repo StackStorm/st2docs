@@ -293,7 +293,10 @@ html_context = {
         (version_minus_1, '%s%s' % (info.base_url, version_minus_1)),
         (version_minus_2, '%s%s' % (info.base_url, version_minus_2)),
     ],
-    'current_version': version
+    'current_version': version,
+    'css_files': [
+        '_static/theme_overrides.css',
+        ],
 }
 
 
