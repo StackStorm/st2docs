@@ -50,7 +50,7 @@ Upgrade Procedure
   /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
   /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
 
-.. note::
+.. warning::
 
     The mistral and mistral-api services must be stopped at time of upgrade. If the services are
     restarted before the mistral-db-manage commands are run, then the
@@ -88,7 +88,7 @@ v2.2
   executions_v2, either use psql or install an older version of the python-mistralclient in a
   separate python virtual environment.
 
-.. note::
+.. warning::
 
     Please be sure to follow the general steps listed above to do the database upgrade.
 
