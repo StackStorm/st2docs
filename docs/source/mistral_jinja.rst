@@ -16,7 +16,7 @@ Here are use cases where Jinja can be applied in Mistral workflows:
 Knowing where Jinja can be applied in Mistral workflows, the following are some cool things
 that you can do with Jinja:
 
-* Select values for a key from a list of dictionary.
+* Access values from list and dictionary.
 * Simple arithmetic.
 * Evaluation of boolean logic.
 * Use conditional logic and builtin filters to evaluate and transform data.
