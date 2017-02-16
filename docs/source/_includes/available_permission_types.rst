@@ -115,7 +115,9 @@ Action Alias
 +-------------------------+---------------------------------------------------------------------------------------------------+
 | **action_alias_modify** | Ability to modify (update) an existing action alias. Also implies "action_alias_view" permission. |
 +-------------------------+---------------------------------------------------------------------------------------------------+
-| **action_alias_match**  | Ability use action alias match API endpoint.                                                      |
+| **action_alias_match**  | Ability to use action alias match API endpoint.                                                   |
++-------------------------+---------------------------------------------------------------------------------------------------+
+| **action_alias_help**   | Ability to use action alias help API endpoint.                                                    |
 +-------------------------+---------------------------------------------------------------------------------------------------+
 | **action_alias_delete** | Ability to delete an existing action alias. Also imples "action_alias_view" permission.           |
 +-------------------------+---------------------------------------------------------------------------------------------------+
