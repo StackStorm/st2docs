@@ -168,19 +168,34 @@ You can find some sample tests on the links below.
 Running Tests
 -------------
 
+.. note::
+
+   For this script to work correctly, all the StackStorm components need to be
+   in ``PYTHONPATH``. This is already the case when using ``st2vagrant``
+   Vagrant image or when StackStorm is installed on a system using deb / rpm
+   packages.
+
+   If that is not the case, you need to set ``ST2_REPO`` environment variable to
+   point to the git checkout of the StackStorm st2 repository as shown below.
+
+    .. sourcecode:: bash
+
+       git clone https://github.com/StackStorm/st2.git /tmp/st2
+       ST2_REPO_PATH=/tmp/st2 st2-run-pack-tests -p <pack path>
+
 To run all the tests in a particular pack you can use the ``st2-run-pack-tests``
 script (``st2common/bin/st2-run-pack-tests``) from the ``st2`` repository as
 shown below.
 
 .. sourcecode:: bash
 
-    ./st2common/bin/st2-run-pack-tests -p <pack path>
+    st2-run-pack-tests -p <pack path>
 
 For example:
 
 .. sourcecode:: bash
 
-    ./st2common/bin/st2-run-pack-tests -p /data/st2contrib/packs/docker/
+    st2-run-pack-tests -p /data/st2contrib/packs/docker/
 
 By default, this script will create and use a new temporary virtual environment
 for each pack test run and install all the dependencies which are required to run
@@ -194,6 +209,16 @@ the necessary dependencies will still be installed.
 If you are running this script inside a development VM (st2vagrant), you can
 safely pass ``-x`` flag to the script since a virtual environment should already
 be created and all the necessary |st2| dependencies should be available in ``PYTHONPATH``.
+
+In addition to that, if all the pack dependencies are already installed and you
+want to skip installing and updating the dependencies, you can pass ``-j`` flag
+to the script (this script will cause it to just run the pack tests directly).
+
+For example:
+
+.. sourcecode:: bash
+
+    st2-run-pack-tests -p /data/st2contrib/packs/docker/ -x -j
 
 Lint Tools and Scripts
 ----------------------
