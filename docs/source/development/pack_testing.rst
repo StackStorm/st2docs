@@ -175,8 +175,9 @@ Running Tests
    Vagrant image or when StackStorm is installed on a system using deb / rpm
    packages.
 
-   If that is not the case, you need to set ``ST2_REPO`` environment variable to
-   point to the git checkout of the StackStorm st2 repository as shown below.
+   If that is not the case, you need to set ``ST2_REPO_PATH`` environment
+   variable to point to the git checkout of the StackStorm st2 repository as
+   shown below.
 
     .. sourcecode:: bash
 
