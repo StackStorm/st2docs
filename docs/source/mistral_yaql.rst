@@ -15,7 +15,7 @@ Here are use cases where YAQL can be applied in Mistral workflows:
 Knowing where YAQL can be applied in Mistral workflows, the following are some cool things
 that you can do with YAQL:
 
-* Select values for a key from a list of dictionary.
+* Select key-value pairs from a list of dictionaries.
 * Filter the list where one or more fields match condition(s).
 * Transform a list to dictionary or vice versa.
 * Simple arithmetic.
