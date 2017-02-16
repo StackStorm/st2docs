@@ -21,7 +21,7 @@ Minimal installation
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
 
-.. include:: __mongodb_32_note.rst
+.. include:: __mongodb_note.rst
 
 Install MongoDB, RabbitMQ, and PostgreSQL.
 
