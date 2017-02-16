@@ -43,15 +43,21 @@ Upgrade Procedure
 
      sudo yum update $PKG_NAME
 
-3. Run the migration script (if any). See section below for |st2| 
-   version-specific migration scripts.
-
-4. Upgrade Mistral database.
+3. Upgrade Mistral database.
 
 .. sourcecode:: bash
 
   /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
   /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
+
+.. note::
+
+    The mistral and mistral-api services must be stopped at time of upgrade. If the services are
+    restarted before the mistral-db-manage commands are run, then the
+    ``mistral-db-manage upgrade head`` command may fail.
+
+4. Run the migration script (if any). See section below for |st2|
+   version-specific migration scripts.
 
 5. Start |st2| services.
 
@@ -81,6 +87,34 @@ v2.2
   script to move existing records from executions_v2 into the new tables. To read from
   executions_v2, either use psql or install an older version of the python-mistralclient in a
   separate python virtual environment.
+
+.. note::
+
+    Please be sure to follow the general steps listed above to do the database upgrade.
+
+*  If you're seeing an error ``event_triggers_v2 already exists`` when running
+   ``mistral-db-manage upgrade head``, this means the mistral services started before the
+   mistral-db-manage commands were run. SQLAlchemy automatically creates new tables in
+   the updated database schema and it conflicts with the mistral-db-manage commands.
+   To recover, open the psql shell and delete the new tables manually and rerun the
+   mistral-db-manage commands. The following is a sample script to recover from the errors.
+
+.. sourcecode:: bash
+
+   sudo service mistral-api stop
+   sudo service mistral stop
+   sudo -u postgres psql
+   \connect mistral
+   DROP TABLE event_triggers_v2;
+   DROP TABLE workflow_executions_v2 CASCADE;
+   DROP TABLE task_executions_v2;
+   DROP TABLE action_executions_v2;
+   DROP TABLE named_locks;
+   \q
+   /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
+   /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
+   sudo service mistral start
+   sudo service mistral-api start
 
 v2.1
 '''''
