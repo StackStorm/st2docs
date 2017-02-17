@@ -217,7 +217,7 @@ chatops case, ``api_user`` is the user who's kicking off the chatops command fro
 client and ``user`` is the |st2| user configured in hubot. ``source_channel`` is the channel
 in which the chatops command was kicked off.
 
-In addition to ``action_context`` you can also access ``pack_context`` which contains
+In addition to ``action_context`` you can also access ``config_context`` which contains
 the key/value contents of ``config.yaml`` for a pack.
 
 .. code-block:: yaml
@@ -226,7 +226,7 @@ the key/value contents of ``config.yaml`` for a pack.
       cmd:
         type: "string"
         description: "Command containing config value."
-        default: "{{pack_context.default_cmd}}"
+        default: "{{config_context.default_cmd}}"
 
 In case of action chains and workflows (see :doc:`Workflow </workflows>`), every task in the workflow could access the parent's ``execution_id``.
 For example, a task in an action chain is shown below:
