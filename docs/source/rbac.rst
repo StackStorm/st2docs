@@ -49,10 +49,15 @@ deleted).
 
 Currently, the following system roles are available:
 
-* **System administrator** - Same as administrator, but this role is assigned to the first user in the
-  system and can't be revoked.
-* **Administrator** - All the permissions on all the resources.
-* **Observer** - ``view`` permission on all the resources.
++--------------------------+------------------+---------------------------------------------------------------------------------------------------+
+| Role                     | Value            | Description                                                                                       |
++==========================+==================+===================================================================================================+
+| **Administrator**        | ``admin``        | All permissions on all the resources                                                              |
++--------------------------+------------------+---------------------------------------------------------------------------------------------------+
+| **System Administrator** | ``system_admin`` | Same as ``admin``, but this role is assigned to the first user in the system and can't be revoked |
++--------------------------+------------------+---------------------------------------------------------------------------------------------------+
+| **Observer**             | ``observer``     | ``view`` permission on all the resources                                                          |
++--------------------------+------------------+---------------------------------------------------------------------------------------------------+
 
 Permission Grant
 ~~~~~~~~~~~~~~~~
