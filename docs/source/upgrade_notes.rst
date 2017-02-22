@@ -53,7 +53,6 @@ Upgrade Notes
   services to talk to MongoDB and PostgreSQL, you can find it in ``/etc/st2/st2.conf``
   (``[database]`` section) ``/etc/mistral/mistral.conf`` (``[database]`` section) files.
 
-
 |st2| v2.1
 ----------
 
