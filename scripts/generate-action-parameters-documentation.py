@@ -58,7 +58,7 @@ def _get_actions():
     for metadata_path in action_file_list:
         with open(metadata_path, 'r') as metadata_file:
             metadata_contents = metadata_file.read()
-            metadata = yaml.load(metadata_contents)
+            metadata = yaml.safe_load(metadata_contents)
 
             actions.append(metadata)
 
@@ -84,19 +84,16 @@ def main():
         result.append(HORIZONTAL_BORDER)
         result.append(HEADINGS)
         result.append(HORIZONTAL_BORDER)
-        required_params.append(REQUIRED_HEADER)
-        required_params.append(FULL_COLUMN_SPAN)
-        optional_params.append(OPTIONAL_HEADER)
-        optional_params.append(FULL_COLUMN_SPAN)
+        results_body = [None] * len(action['parameters'])
 
         for name, values in action['parameters'].items():
             if values.get('description'):
                 name = '*' + name + '*'
+                # Make parameter name bold for required params
+                if values.get('required', False):
+                    name = '*' + name + '*'
                 values['type'] = '``' + values['type'] + '``'
                 values['name'] = name
-                # format_values = {'name': name}
-                # format_values.update(values)
-                # line = '   %(name)-32s  %(description)s' % format_values
                 details = []
                 details.append('   %(name)-32s  %(description)s\n' % values)
                 if values.get('enum'):
@@ -104,24 +101,21 @@ def main():
                     for enum_val in values.get('enum'):
                         details.append('   ' + ' '*H1 + '  - ' + str(enum_val))
                 else:
-                    details.append('   ' + ' '*H1 + '  Type:' + values['type'])
+                    details.append('   ' + ' '*H1 + '  Type: ' + values['type'])
                 if values.get('default'):
-                    details.append('\n' + '   ' + ' '*H1 + '  Default: ' + str(values['default']))
+                    details.append('\n' +
+                                   '   ' + ' '*H1 + '  **Default**: ' + str(values['default']))
+                # Figure out what position to insert this parameter in the table
+                position = values['position']
+                results_body[position] = '\n'.join(details)
 
-                if values.get('required', False):
-                    required_params.extend(details)
-                else:
-                    optional_params.extend(details)
-
-        result.extend(required_params)
-        result.extend(optional_params)
+        result.extend(results_body)
         result.append(HORIZONTAL_BORDER)
         result.append('\n')
         file_name = action['name'].replace('-', '_')
         path = '../docs/source/_includes/solutions/essentials/%s.rst' % (file_name)
         destination_path = os.path.join(CURRENT_DIR, path)
         result = '\n'.join(result)
-
         with open(destination_path, 'w') as fp:
             fp.write(result)
 
