@@ -3,8 +3,8 @@
 Upgrade Notes
 =============
 
-|st2| in development
---------------------
+|st2| v2.2
+----------
 
 * Additional validation has been introduced for triggers.
 
