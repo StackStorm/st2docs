@@ -39,6 +39,19 @@ Upgrade Notes
   ``{{st2kv.system.key}}`` notations instead. Also, please update your |st2| content
   (actions, rules and workflows) to use the new notation.
 
+* When installing StackStorm using the installer script a random password is generated for MongoDB
+  and PostgreSQL. This means you now need to explicitly pass ``--config-file /etc/st2/st2.conf``
+  argument to all the CLI scripts (e.g. ``st2-apply-rbac-definitions``, etc.) which need access
+  to the database (MongoDB). If you don't do that, "access denied" error will be returned, because
+  it will try to use a default password when connecting to the database.
+
+  .. code-block:: bash
+
+    st2-apply-rbac-defintions --config-file /etc/st2/st2.conf
+
+  If for some reason, you need access to the plain-text version of the password used by StackStorm
+  services to talk to MongoDB and PostgreSQL, you can find it in ``/etc/st2/st2.conf``
+  (``[database]`` section) ``/etc/mistral/mistral.conf`` (``[database]`` section) files.
 
 |st2| v2.1
 ----------
