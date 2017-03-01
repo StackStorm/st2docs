@@ -27,4 +27,4 @@ fi
 REQUIRED_BRANCH="master"
 
 echo "Cloning branch $REQUIRED_BRANCH of Network Essentials"
-git clone -b $REQUIRED_BRANCH --depth 1 https://github.com/StackStorm/network_essentials.git $ESSENTIALS_DIRECTORY
+git clone -b $REQUIRED_BRANCH --depth 1 https://github.com/StackStorm-Exchange/stackstorm-network_essentials.git $ESSENTIALS_DIRECTORY
