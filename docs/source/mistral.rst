@@ -57,6 +57,10 @@ To display subtasks, run ``st2 execution get <execution-id> --tasks``.
 |                          |            |              |           | UTC                          | UTC                          |
 +--------------------------+------------+--------------+-----------+------------------------------+------------------------------+
 
+The following is a simple extension of the previous workflow definition. In this example, we have a second task named task2. It might be natural to think that task2 will be executed after task1, i.e, in sequential order. However, when no tasks attributes like ``on-complete``, ``on-success`` and ``on-error`` are defined, tasks are run in parallel. This is possible with mistral because it provides a join flow control which allows to synchronize multiple parallel workflow branches and aggregate their data.
+
+.. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-basic-two-tasks-with-notifications.yaml
+
 Canceling Workflow Execution
 ++++++++++++++++++++++++++++
 An execution of a Mistral workflow can be cancelled by running ``st2 execution cancel <execution-id>``. Workflow tasks that are still running will not be canceled and will run to completion. No new tasks for the workflow will be scheduled.
