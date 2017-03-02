@@ -34,6 +34,10 @@ Upgrade Notes
   executions_v2, either use psql or install an older version of the python-mistralclient in a
   separate python virtual environment.
 
+* If you’re seeing an error ``event_triggers_v2 already exists`` when running ``mistral-db-manage upgrade head``,
+  this means the mistral services started before the ``mistral-db-manage`` commands were run.
+  Refer to this :ref:`procedure <mistral_db_recover>` to recover the system.
+
 * Jinja notations ``{{user.key}}`` and ``{{system.key}}`` to access datastore items under
   ``user`` and ``system`` scopes are now unsuported. Please use ``{{st2kv.user.key}}`` and
   ``{{st2kv.system.key}}`` notations instead. Also, please update your |st2| content

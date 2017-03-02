@@ -92,6 +92,8 @@ v2.2
 
     Please be sure to follow the general steps listed above to do the database upgrade.
 
+.. _mistral_db_recover:
+
 *  If you're seeing an error ``event_triggers_v2 already exists`` when running
    ``mistral-db-manage upgrade head``, this means the mistral services started before the
    mistral-db-manage commands were run. SQLAlchemy automatically creates new tables in
