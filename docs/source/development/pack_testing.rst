@@ -209,17 +209,33 @@ the necessary dependencies will still be installed.
 
 If you are running this script inside a development VM (st2vagrant), you can
 safely pass ``-x`` flag to the script since a virtual environment should already
-be created and all the necessary |st2| dependencies should be available in ``PYTHONPATH``.
+be created and all the necessary |st2| dependencies should be available in
+``PYTHONPATH``.
 
 In addition to that, if all the pack dependencies are already installed and you
 want to skip installing and updating the dependencies, you can pass ``-j`` flag
-to the script (this script will cause it to just run the pack tests directly).
+to the script (this will cause the script to just run the pack tests directly).
 
 For example:
 
 .. sourcecode:: bash
 
     st2-run-pack-tests -p /data/st2contrib/packs/docker/ -x -j
+
+Or alternatively, if a virtual environment for tests has already been created
+during previous tool invocation, you can skip updating of the virtual
+environment and just run the tests by using ``-j`` flag (this will speed things
+up because virtual environment will be used as is and only tests will run).
+
+.. sourcecode:: bash
+
+    # First run - create tests virtual environment and run the tests
+    st2-run-pack-tests -p /data/st2contrib/packs/docker/
+
+    # Second (and subsequent) runs - just run the tests and re-use the existing
+    # virtual environment which has been created during the previous script 
+    # invocation.
+    st2-run-pack-tests -p /data/st2contrib/packs/docker/ -j
 
 Lint Tools and Scripts
 ----------------------
