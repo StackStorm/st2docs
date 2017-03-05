@@ -11,8 +11,8 @@ Upgrade Notes
     1. Trigger payload is now validated against the trigger ``payload_schema`` schema when
        dispatching a trigger inside the sensor.
 
-      Validation is only performed if ``system.validate_trigger_parameters`` config option is
-      enabled (it's disabled by default) and if trigger object defines ``parameters_schema``
+      Validation is only performed if ``system.validate_trigger_payload`` config option is
+      enabled (it's disabled by default) and if trigger object defines ``payload_schema``
       attribute.
 
     2. Trigger parameters are now validated for non-system (user-defined) triggers when creating
