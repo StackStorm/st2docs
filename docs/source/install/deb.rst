@@ -72,6 +72,11 @@ please adjust the settings:
   * MongoDB at ``/etc/st2/st2.conf``
   * PostgreSQL at ``/etc/mistral/mistral.conf``
 
+Setup Datastore Encryption
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: common/datastore_crypto_key.rst
+
 Setup Mistral Database
 ~~~~~~~~~~~~~~~~~~~~~~
 
