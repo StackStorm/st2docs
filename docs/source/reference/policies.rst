@@ -117,7 +117,7 @@ Other supported coordination backends include:
 * PostgreSQL
 * file (for testing when all the services are running on a single host)
 
-For full list of the supported backends and how to configure them, please visit
+For the full list of the supported backends and how to configure them, please visit
 `OpenStack tooz documentation <https://docs.openstack.org/developer/tooz/>`_.
 
 Some of these coordination backends also require corresponding client libraries to be installed
