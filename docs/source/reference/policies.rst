@@ -85,12 +85,14 @@ given remote host.
 
 .. note::
 
-    The concurrency policy type is not enabled by default and requires a backend service such as
-    ZooKeeper or Redis to work.
+    The concurrency policy type is not enabled by default and requires a backend coordination
+    service such as ZooKeeper or Redis to work.
 
 Let's assume ZooKeeper or Redis is running on the same network where |st2| is installed. To enable
 the concurrency policy type in |st2|, provide the url to connect to the backend service in the
-coordination section of ``/etc/st2/st2.conf``. The following are examples for ZooKeeper and Redis:
+``coordination`` section of ``/etc/st2/st2.conf``.
+
+The following are examples for ZooKeeper and Redis:
 
 ZooKeeper:
 
@@ -107,15 +109,30 @@ Redis:
     [coordination]
     url = redis://password@host:port
 
+Other supported coordination backends include:
+
+* consul
+* etcd
+* MySQL
+* PostgreSQL
+* file (for testing when all the services are running on a single host)
+
+For full list of the supported backends and how to configure them, please visit
+`OpenStack tooz documentation <https://docs.openstack.org/developer/tooz/>`_.
+
 Some of these coordination backends also require corresponding client libraries to be installed
 in |st2| virtualenv. We do not ship these libraries by default. As an example, to install the client
-library in |st2| virtualenv, run
+library in |st2| virtualenv, run:
 
 .. sourcecode:: bash
 
     sudo su
-    source /opt/stackstorm/st2/bin/activate
-    pip install redis
+
+    # Example when using redis backend
+    /opt/stackstorm/st2/bin/pip install redis
+
+    # Example when using consul backend
+    /opt/stackstorm/st2/bin/pip install consul
 
 Retry
 -----
