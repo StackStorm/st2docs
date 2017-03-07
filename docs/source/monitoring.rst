@@ -106,7 +106,7 @@ RabbitMQ
 
 These RabbitMQ queue lengths should be monitored:
 
-* ``st2.actionrunner.canel`` (yes really, that is not a typo in the documentation)
+* ``st2.actionrunner.cancel``
 * ``st2.actionrunner.req``
 * ``st2.actionrunner.work``
 
