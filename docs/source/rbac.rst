@@ -323,7 +323,7 @@ Once this user is created |st2| will allow access to this user. (Optional) To va
 
 .. sourcecode:: bash
 
-    $ st2 auth rbacu1 -p <RBACU1_PASSWORD>
+    $ st2 auth rbacu1 -p '<RBACU1_PASSWORD>'
     $ export ST2_AUTH_TOKEN=<USER_SCOPED_AUTH_TOKEN>
     $ st2 action list
 
@@ -404,7 +404,7 @@ Lets take what we have achieved for a spin using the |st2| CLI.
 
 .. sourcecode:: bash
 
-    $ st2 auth rbacu1 -p <RBACU1_PASSWORD>
+    $ st2 auth rbacu1 -p '<RBACU1_PASSWORD>'
     $ export ST2_AUTH_TOKEN=<USER_SCOPED_AUTH_TOKEN>
     $ st2 action list
 

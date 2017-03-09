@@ -141,7 +141,7 @@ To set up authentication with File Based provider:
     # Install htpasswd utility if you don't have it
     sudo apt-get install -y apache2-utils
     # Create a user record in a password file.
-    echo "Ch@ngeMe" | sudo htpasswd -i /etc/st2/htpasswd st2admin
+    echo 'Ch@ngeMe' | sudo htpasswd -i /etc/st2/htpasswd st2admin
 
 * Enable and configure auth in ``/etc/st2/st2.conf``:
 
@@ -166,7 +166,7 @@ To set up authentication with File Based provider:
     st2 auth st2admin
 
     # A shortcut to authenticate and export the token
-    export ST2_AUTH_TOKEN=$(st2 auth st2admin -p Ch@ngeMe -t)
+    export ST2_AUTH_TOKEN=$(st2 auth st2admin -p 'Ch@ngeMe' -t)
 
     # Check that it works
     st2 action list

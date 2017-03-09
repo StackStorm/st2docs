@@ -85,7 +85,7 @@ username and password:
 
 .. sourcecode:: bash
 
-    st2 login st2admin --password Password1!
+    st2 login st2admin --password 'Password1!'
 
 However, in addition to caching the token, this command will also modify the
 CLI configuration to include the referenced username. This way, future commands
@@ -261,7 +261,7 @@ Example command usage:
 
 .. sourcecode:: bash
 
-    st2 auth test1 -p testpassword -t
+    st2 auth test1 -p 'testpassword' -t
 
     0280826688c74bb9bd541c26631df298
 
@@ -269,7 +269,7 @@ Example usage inside a Bash script:
 
 .. sourcecode:: bash
 
-    TOKEN=$(st2 auth test1 -p testpassword -t)
+    TOKEN=$(st2 auth test1 -p 'testpassword' -t)
 
     # Now you can use the token (e.g. pass it to other commands, set an
     # environment variable, etc.)

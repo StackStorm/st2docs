@@ -3,11 +3,16 @@ then ``st2 auth`` will prompt for the password. If successful, a token is return
 response. ::
 
     # with password
-    st2 auth yourusername -p yourpassword
+    st2 auth yourusername -p 'yourpassword'
 
     # without password
     st2 auth yourusename
     Password:
+
+.. note::
+
+    If your password contains special characters such as ``$``, they may be interpreted by the shell.
+    Wrap your password in single quotes (``'``) as above.
 
 The following is a sample API call via curl using the token. ::
 
@@ -29,7 +34,7 @@ for 10 minutes, use the following:
 ::
 
     # with TTL and password
-    st2 auth yourusername -p yourpassword -l 600
+    st2 auth yourusername -p 'yourpassword' -l 600
 
 Note that if the TTL requested is greater than maximum allowed TTL in st2 configuration, you'd get an error.
 

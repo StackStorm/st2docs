@@ -20,7 +20,7 @@ The best way to explore |st2| is to use CLI. Start by firing a few commands:
     # Authenticate and export the token. Make sure ST2_AUTH_URL and
     # ST2_API_URL are set correctly (http vs https, endpoint, and etc).
     # Replace the username and password in the example below appropriately.
-    export ST2_AUTH_TOKEN=`st2 auth -t -p pass123 admin`
+    export ST2_AUTH_TOKEN=`st2 auth -t -p 'pass123' admin`
 
     # List the actions from a 'core' pack
     st2 action list --pack=core
@@ -53,7 +53,7 @@ variable ``ST2_AUTH_TOKEN``. When using environment variable, make sure that ``S
 
 .. code-block:: bash
 
-    export ST2_AUTH_TOKEN=`st2 auth -t -p pass123 admin`
+    export ST2_AUTH_TOKEN=`st2 auth -t -p 'pass123' admin`
 
 
 Work with Actions

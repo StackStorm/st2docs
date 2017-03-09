@@ -15,7 +15,7 @@ with the key you received when registering for evaluation or purchasing BWC.
 .. code-block:: bash
 
   curl -sSL -O https://brocade.com/bwc/install/install.sh && chmod +x install.sh
-  ./install.sh --user=st2admin --password=Ch@ngeMe --license=${BWC_LICENSE_KEY}
+  ./install.sh --user=st2admin --password='Ch@ngeMe' --license=${BWC_LICENSE_KEY}
 
 
 To understand the details of the installation procedure,
