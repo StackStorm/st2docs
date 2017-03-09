@@ -7,8 +7,8 @@ Check that |st2| installation works OK: ::
 
     # If AUTH enabled: authenticate and export the token env variable
     # so you don't need to pass it as parameter on every command.
-    st2 auth testu -p testp
-    export ST2_AUTH_TOKEN=`st2 auth -t -p testp testu`
+    st2 auth testu -p 'testp'
+    export ST2_AUTH_TOKEN=`st2 auth -t -p 'testp' testu`
 
     st2 action list
     st2 run core.local uname

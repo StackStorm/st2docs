@@ -21,4 +21,4 @@ To run the self-verification:
 
 ::
 
-    sudo ST2_AUTH_TOKEN=$(st2 auth st2admin -p <PASSWORD> -t) /opt/stackstorm/st2/bin/st2-self-check
+    sudo ST2_AUTH_TOKEN=$(st2 auth st2admin -p '<PASSWORD>' -t) /opt/stackstorm/st2/bin/st2-self-check

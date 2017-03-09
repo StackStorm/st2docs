@@ -3,7 +3,7 @@ then ``st2 auth`` will prompt for the password. If successful, a token is return
 response. ::
 
     # with password
-    st2 auth yourusername -p yourpassword
+    st2 auth yourusername -p 'yourpassword'
 
     # without password
     st2 auth yourusename
@@ -29,7 +29,7 @@ for 10 minutes, use the following:
 ::
 
     # with TTL and password
-    st2 auth yourusername -p yourpassword -l 600
+    st2 auth yourusername -p 'yourpassword' -l 600
 
 Note that if the TTL requested is greater than maximum allowed TTL in st2 configuration, you'd get an error.
 
