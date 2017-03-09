@@ -9,6 +9,11 @@ response. ::
     st2 auth yourusename
     Password:
 
+.. note::
+
+    If your password contains special characters such as ``$``, they may be interpreted by the shell.
+    Wrap your password in single quotes (``'``) as above.
+
 The following is a sample API call via curl using the token. ::
 
     curl -H "X-Auth-Token: 4d76e023841a4a91a9c66aa4541156fe" https://myhost.example.com/api/v1/actions
