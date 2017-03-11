@@ -218,15 +218,35 @@ client and ``user`` is the |st2| user configured in hubot. ``source_channel`` is
 in which the chatops command was kicked off.
 
 In addition to ``action_context`` you can also access ``config_context`` which contains
-the key/value contents of ``config.yaml`` for a pack.
+the key/value contents of ``config.yaml`` for a pack. The example below shows
+how you could use this for the default value for a parameter.
 
 .. code-block:: yaml
-
+    ---
+    name: "send_sms"
+    runner_type: "python-script"
+    description: "This sends an SMS using twilio."
+    enabled: true
+    entry_point: "send_sms.py"
     parameters:
-      cmd:
-        type: "string"
-        description: "Command containing config value."
-        default: "{{config_context.default_cmd}}"
+        from_number:
+            type: "string"
+            description: "Your twilio 'from' number in E.164 format. Example +14151234567."
+            required: false
+            position: 0
+            default: "{{config_context.from_number}}"
+        to_number:
+            type: "string"
+            description: "Recipient number in E.164 format. Example +14151234567."
+            required: true
+            position: 1
+            secret: true
+        body:
+            type: "string"
+            description: "Body of the message."
+            required: true
+            position: 2
+            default: "Hello {% if system.user %} {{ system.user }} {% else %} dude {% endif %}!"
 
 In case of action chains and workflows (see :doc:`Workflow </workflows>`), every task in the workflow could access the parent's ``execution_id``.
 For example, a task in an action chain is shown below:
