@@ -30,7 +30,6 @@ Contents:
 
     authentication
     rbac
-    monitoring
     reference/index
     troubleshooting/index
     development/index

@@ -189,9 +189,15 @@ By default, the logs can be found in ``/var/log/st2``.
 * With the standard logging setup you will see files like ``st2*.log`` and
   ``st2*.audit.log`` in the log folder.
 
-* Per component logging configuration can be found in ``/etc/st2*/logging.conf``.
+* Per component logging configuration can be found in ``/etc/st2/logging.<component>.conf``.
   Those files use `Python logging configuration format <https://docs.python.org/2/library/logging.config.html#configuration-file-format>`_.
-  Log file location and other settings can be modified in these configuration files.
+  Log file location and other settings can be modified in these configuration files, e.g. to
+  change the output to use syslog instead.
+
+* |st2| ships with example configuration files to show how to use syslog - these are at
+  ``/etc/st2/syslog.<component>.conf``. To use them, edit ``/etc/st2/st2.conf``, and change
+  the ``logging =`` lines to point to the syslog configuration file. You can also see more
+  instructions and example configurations at :github_contrib:`st2contrib/extra/syslog <extra/syslog>`.
 
 * By default, log rotation is handled via logrotate. Default log rotation config
   (:github_st2:`logrotate.conf <conf/logrotate.conf>`) is included with all the
@@ -244,9 +250,6 @@ By default, the logs can be found in ``/var/log/st2``.
       level=AUDIT
       formatter=gelfFormatter
       args=("logs/mysensor.audit.log",)
-
-* To configure logging with syslog, grab the configuration and follow
-  instructions at :github_contrib:`st2contrib/extra/syslog <extra/syslog>`
 
 * Check out LogStash configuration and Kibana dashboard for pretty logging and
   audit at :github_contrib:`st2contrib/extra/logstash <extra/logstash>`
