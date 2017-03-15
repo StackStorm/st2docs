@@ -222,6 +222,7 @@ the key/value contents of ``config.yaml`` for a pack. The example below shows
 how you could use this for the default value for a parameter.
 
 .. code-block:: yaml
+
     ---
     name: "send_sms"
     runner_type: "python-script"
