@@ -1,7 +1,7 @@
-Ubuntu / Debian
-===============
+Ubuntu Trusty / Xenial
+======================
 
-If you're just looking for a "one-liner" installation, check the :doc:`top-level install guide </install/index>`. Otherwise, you 
+If you're just looking for a "one-liner" installation, check the :doc:`top-level install guide </install/index>`. Otherwise, you
 can use this guide for step-by step instructions for installing |st2| on a single Ubuntu/Debian 64 bit system as per
 the :doc:`Reference deployment </install/overview>`.
 
@@ -12,6 +12,7 @@ the :doc:`Reference deployment </install/overview>`.
 
 System Requirements
 -------------------
+
 Please check :doc:`supported versions and system requirements <system_requirements>`.
 
 Minimal installation
@@ -20,7 +21,7 @@ Minimal installation
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
 
-.. include:: __mongodb_32_note.rst
+.. include:: __mongodb_note.rst
 
 Install MongoDB, RabbitMQ, and PostgreSQL.
 
@@ -31,15 +32,22 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
     sudo apt-get install -y curl
 
     # Add key and repo for the latest stable MongoDB (3.2)
-    sudo apt-key adv --fetch-keys https://www.mongodb.org/static/pgp/server-3.2.asc
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
     sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-3.2.list
-    deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse
+    deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/3.2 multiverse
     EOT"
     sudo apt-get update
 
     sudo apt-get install -y mongodb-org
     sudo apt-get install -y rabbitmq-server
     sudo apt-get install -y postgresql
+
+For Ubuntu ``Xenial`` you may need to enable and start MongoDB.
+
+  .. code-block:: bash
+
+    sudo systemctl enable mongod
+    sudo systemctl start mongod
 
 Setup repositories
 ~~~~~~~~~~~~~~~~~~~
@@ -51,7 +59,7 @@ The following script will detect your platform and architecture and setup the re
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
 Install |st2| components
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
   .. code-block:: bash
 
@@ -63,6 +71,11 @@ please adjust the settings:
   * RabbitMQ connection at ``/etc/st2/st2.conf`` and ``/etc/mistral/mistral.conf``
   * MongoDB at ``/etc/st2/st2.conf``
   * PostgreSQL at ``/etc/mistral/mistral.conf``
+
+Setup Datastore Encryption
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: common/datastore_crypto_key.rst
 
 Setup Mistral Database
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -91,14 +104,6 @@ For remote Linux actions, SSH is used. It is advised to configure identity file 
 
 Start Services
 ~~~~~~~~~~~~~~
-* Start services ::
-
-    sudo st2ctl start
-
-* Register sensors, rules and actions ::
-
-    sudo st2ctl reload
-
 
 .. include:: common/start_services.rst
 
@@ -111,7 +116,7 @@ Verify
 -----------------
 
 At this point you have a minimal working installation, and can happily play with |st2|:
-follow :doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs from `st2contrib`_.
+follow :doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs from `StackStorm Exchange <https://exchange.stackstorm.org>`__.
 
 But there is no joy without WebUI, no security without SSL termination, no fun without ChatOps, and no money without Brocade Workflow Composer. Read on, move on!
 
@@ -136,7 +141,7 @@ To set up authentication with File Based provider:
     # Install htpasswd utility if you don't have it
     sudo apt-get install -y apache2-utils
     # Create a user record in a password file.
-    echo "Ch@ngeMe" | sudo htpasswd -i /etc/st2/htpasswd st2admin
+    echo 'Ch@ngeMe' | sudo htpasswd -i /etc/st2/htpasswd st2admin
 
 * Enable and configure auth in ``/etc/st2/st2.conf``:
 
@@ -161,7 +166,7 @@ To set up authentication with File Based provider:
     st2 auth st2admin
 
     # A shortcut to authenticate and export the token
-    export ST2_AUTH_TOKEN=$(st2 auth st2admin -p Ch@ngeMe -t)
+    export ST2_AUTH_TOKEN=$(st2 auth st2admin -p 'Ch@ngeMe' -t)
 
     # Check that it works
     st2 action list
@@ -172,6 +177,7 @@ Check out :doc:`/reference/cli` to learn convenient ways to authenticate via CLI
 
 Install WebUI and setup SSL termination
 ---------------------------------------
+
 `NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS,
 provide SSL termination for HTTPS, and reverse-proxy st2auth and st2api API endpoints.
 To set it up, install `st2web` and `nginx`, generate certificates or place your existing
@@ -187,13 +193,12 @@ the official Nginx repository into the source list:
     # Add key and repo for the latest stable nginx
     sudo apt-key adv --fetch-keys http://nginx.org/keys/nginx_signing.key
     sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/nginx.list
-    deb http://nginx.org/packages/ubuntu/ trusty nginx
-    deb-src http://nginx.org/packages/ubuntu/ trusty nginx
+    deb http://nginx.org/packages/ubuntu/ $(lsb_release -c | awk '{print $2}') nginx
     EOT"
     sudo apt-get update
 
     # Install st2web and nginx
-    # note nginx should be > 1.4.6. To install a new version like 1.10.1 do "sudo apt-get install -y nginx=1.10.1-1~trusty"
+    # note nginx should be > 1.4.6
     sudo apt-get install -y st2web nginx
 
     # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
@@ -281,8 +286,14 @@ If you already run a Hubot instance, you only have to install the `hubot-stackst
 
 * That's it! Go to your Chat room and begin ChatOpsing. Read more in the :doc:`/chatops/index` section.
 
+A Note on Security
+------------------
+
+.. include:: common/security_notes.rst
+
 Upgrade to Brocade Workflow Composer
--------------------------------------
+------------------------------------
+
 Brocade Workflow Composer is deployed as an addition on top of StackStorm. You will need an active
 Brocade Workflow Composer subscription, and a license key to access Brocade Workflow Composer repositories.
 To add your license key, replace ``${BWC_LICENSE_KEY}`` in the command below with the key you received when

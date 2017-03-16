@@ -28,10 +28,7 @@ Upgrade Procedure
 
    sudo st2ctl stop
 
-2. Run the migration script (if any). See section below for |st2|
-   version-specific migration scripts.
-
-3. Upgrade |st2| packages (``st2``, ``st2web``, ``st2chatops``, ``st2mistral``
+2. Upgrade |st2| packages (``st2``, ``st2web``, ``st2chatops``, ``st2mistral``
    and ``bwc-enterprise`` using distro specific tools.
 
   Ubuntu:
@@ -46,21 +43,21 @@ Upgrade Procedure
 
      sudo yum update $PKG_NAME
 
-4. Upgrade Mistral database.
+3. Upgrade Mistral database.
 
 .. sourcecode:: bash
 
-  # Stop related services
-  service mistral-api stop
-  service mistral stop
-
-  # Upgrade database
   /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
   /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
 
-  # Restart related services
-  service mistral start
-  service mistral-api start
+.. warning::
+
+    The mistral and mistral-api services must be stopped at time of upgrade. If the services are
+    restarted before the mistral-db-manage commands are run, then the
+    ``mistral-db-manage upgrade head`` command may fail.
+
+4. Run the migration script (if any). See section below for |st2|
+   version-specific migration scripts.
 
 5. Start |st2| services.
 
@@ -79,6 +76,48 @@ to take a look at detailed :doc:`/changelog` for each version.
 Following sections call out the migration scripts that need to be run before upgrading to the
 respective version
 
+v2.2
+'''''
+
+* The database schema for Mistral has changed. The executions_v2 table is no longer used. The
+  table is being broken down into workflow_executions_v2, task_executions_v2, and
+  action_executions_v2. After upgrade, using the Mistral commands from the command line such as
+  ``mistral execution-list`` will return an empty table. The records in executions_v2 have not
+  been deleted. The commands are reading from the new tables. There is currently no migration
+  script to move existing records from executions_v2 into the new tables. To read from
+  executions_v2, either use psql or install an older version of the python-mistralclient in a
+  separate python virtual environment.
+
+.. warning::
+
+    Please be sure to follow the general steps listed above to do the database upgrade.
+
+.. _mistral_db_recover:
+
+*  If you're seeing an error ``event_triggers_v2 already exists`` when running
+   ``mistral-db-manage upgrade head``, this means the mistral services started before the
+   mistral-db-manage commands were run. SQLAlchemy automatically creates new tables in
+   the updated database schema and it conflicts with the mistral-db-manage commands.
+   To recover, open the psql shell and delete the new tables manually and rerun the
+   mistral-db-manage commands. The following is a sample script to recover from the errors.
+
+.. sourcecode:: bash
+
+   sudo service mistral-api stop
+   sudo service mistral stop
+   sudo -u postgres psql
+   \connect mistral
+   DROP TABLE event_triggers_v2;
+   DROP TABLE workflow_executions_v2 CASCADE;
+   DROP TABLE task_executions_v2;
+   DROP TABLE action_executions_v2;
+   DROP TABLE named_locks;
+   \q
+   /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
+   /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
+   sudo service mistral start
+   sudo service mistral-api start
+
 v2.1
 '''''
 
@@ -95,6 +134,10 @@ v2.1
 ::
 
   /opt/stackstorm/st2/bin/st2-migrate-runners.sh
+
+* Service restart ``st2ctl restart`` and reload ``st2ctl reload`` are required after upgrade
+  for the new pack management features to work properly. Some of the pack management actions
+  and workflows have changed.
 
 v1.5
 '''''

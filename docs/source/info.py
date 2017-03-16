@@ -5,10 +5,12 @@
 # change from one version to another in conf.py should be 
 # placed here, otherwise you WILL break the build.
 
+from datetime import datetime
+
 master_doc = 'index'
 
 project = u'StackStorm'
-copyright = u'2016, StackStorm'
+copyright = u'2014 - %s, StackStorm' % (datetime.now().strftime("%Y"))
 author = u'Brocade Communications Inc'
 
 base_url = u'http://docs.stackstorm.com/'

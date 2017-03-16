@@ -10,6 +10,7 @@ This section includes common problems you might encounter while using the platfo
     basic_chatops_troubleshooting
     rules
     sensors
+    mistral
     ssh
     database
     rest_api_access

@@ -15,7 +15,7 @@ Here are use cases where YAQL can be applied in Mistral workflows:
 Knowing where YAQL can be applied in Mistral workflows, the following are some cool things
 that you can do with YAQL:
 
-* Select values for a key from a list of dictionary.
+* Select key-value pairs from a list of dictionaries.
 * Filter the list where one or more fields match condition(s).
 * Transform a list to dictionary or vice versa.
 * Simple arithmetic.
@@ -52,13 +52,19 @@ The following are statements in the workflow and task definition that accepts YA
 * workflow output
 
 Each of the statements can take a string with one or more YAQL expressions. Each expression in the
-string should be encapsulated with ``<% %>``. When evaluating a YAQL expression, Mistral also
-passes a JSON dictionary (aka context) to the YAQL engine. The context contains all the workflow
-inputs, published variables, and result of completed tasks up to this point of workflow
-execution including the current task. The YAQL expression can refer to one or more variables in
-the context. The reserved symbol ``$`` is used to reference the context. For example, given the
-context ``{"ip": "127.0.0.1", "port": 8080}``, the string ``https://<% $.ip %>:<% $.port>/api``
-returns ``https://127.0.0.1:8080/api``. The following is the same example used in a workflow:
+string should be encapsulated with ``<% %>``.
+
+.. note::
+
+    Mixing of both YAQL and Jinja expressions in a single statement is not supported.
+
+When evaluating a YAQL expression, Mistral also passes a JSON dictionary (aka context) to the YAQL
+engine. The context contains all the workflow inputs, published variables, and result of completed
+tasks up to this point of workflow execution including the current task. The YAQL expression can
+refer to one or more variables in the context. The reserved symbol ``$`` is used to reference the
+context. For example, given the context ``{"ip": "127.0.0.1", "port": 8080}``, the string
+``https://<% $.ip %>:<% $.port>/api`` returns ``https://127.0.0.1:8080/api``. The following is the
+same example used in a workflow:
 
 .. code-block:: yaml
 
@@ -187,6 +193,7 @@ The following YAQL expressions are some sample queries that YAQL is capable of:
 * ``<% $.vms.select($.region).distinct() %>`` returns the distinct list of regions ``['us-east', 'us-west']``.
 * ``<% $.vms.where($.region = 'us-east').select($.name) %>`` selects only the VMs in us-east ``['vmweb1', 'vmdb1']``.
 * ``<% $.vms.where($.region = 'us-east' and $.role = 'web').select($.name) %>`` selects only the web server in us-east ``['vmweb1']``.
+* ``<% let(myregion => 'us-east', myrole => 'web') -> $.vms.where($.region = $myregion and $.role = $myrole).select($.name) %>`` selects only the web server in us-east ``['vmweb1']``.
 
 List to Dictionary
 ++++++++++++++++++
@@ -235,9 +242,11 @@ function ``<% len(foobar) %>`` to get the length of the string ``foobar`` return
 documentation and git repo to explore more options.
 
 **Built-in**
+For the full list of built-in functions, see `Standard Library section in YAQL docs <https://yaql.readthedocs.io/en/latest/standard_library.html>`_. Some noticeable examples:
 
 * ``float(value)`` converts value to float.
 * ``int(value)`` converts value to integer.
+* ``str(number)`` converts number to a string.
 * ``len(list)`` and ``len(string)`` returns the length of the list and string respectively.
 * ``max(a, b)`` returns the larger value between a and b.
 * ``min(a, b)`` returns the smaller value between a and b.
@@ -246,6 +255,7 @@ documentation and git repo to explore more options.
 * ``'some string'.toUpper()`` converts the string to all upper cases.
 * ``'some string'.toLower()`` converts the string to all lower cases.
 * ``['some', 'list'].contains(value)`` returns True if list contains value.
+* ``"one, two, three, four".split(',').select(str($).trim())`` converts a comma separated string to an array, trimming each element.
 
 **Mistral**
 
