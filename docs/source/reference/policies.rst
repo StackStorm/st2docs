@@ -4,7 +4,7 @@ Policies
 Policies allows users to enforce different rules regarding action executions.
 
 To list the types of policy that are available for configuration, run the command
-`st2 policy-type list``.
+``st2 policy-type list``.
 
 Policy configuration files are expected to be located under the ``policies`` folder in related
 packs, similar to actions and rules. Policies can be loaded into |st2| via
@@ -85,12 +85,14 @@ given remote host.
 
 .. note::
 
-    The concurrency policy type is not enabled by default and requires a backend service such as
-    ZooKeeper or Redis to work.
+    The concurrency policy type is not enabled by default and requires a backend coordination
+    service such as ZooKeeper or Redis to work.
 
 Let's assume ZooKeeper or Redis is running on the same network where |st2| is installed. To enable
 the concurrency policy type in |st2|, provide the url to connect to the backend service in the
-coordination section of ``/etc/st2/st2.conf``. The following are examples for ZooKeeper and Redis:
+``coordination`` section of ``/etc/st2/st2.conf``.
+
+The following are examples for ZooKeeper and Redis:
 
 ZooKeeper:
 
@@ -107,15 +109,30 @@ Redis:
     [coordination]
     url = redis://password@host:port
 
+Other supported coordination backends include:
+
+* consul
+* etcd
+* MySQL
+* PostgreSQL
+* file (for testing when all the services are running on a single host)
+
+For the full list of the supported backends and how to configure them, please visit
+`OpenStack tooz documentation <https://docs.openstack.org/developer/tooz/>`_.
+
 Some of these coordination backends also require corresponding client libraries to be installed
 in |st2| virtualenv. We do not ship these libraries by default. As an example, to install the client
-library in |st2| virtualenv, run
+library in |st2| virtualenv, run:
 
 .. sourcecode:: bash
 
     sudo su
-    source /opt/stackstorm/st2/bin/activate
-    pip install redis
+
+    # Example when using redis backend
+    /opt/stackstorm/st2/bin/pip install redis
+
+    # Example when using consul backend
+    /opt/stackstorm/st2/bin/pip install consul
 
 Retry
 -----
@@ -127,7 +144,7 @@ timed out.
 The example below shows how to automatically retry the ``core.http`` action up to two times if it
 times out:
 
-.. literalinclude:: /../../st2/contrib/hello-st2/policies/retry_core_http_on_timeout.yaml
+.. literalinclude:: /../../st2/contrib/hello_st2/policies/retry_core_http_on_timeout.yaml
 
 Keep in mind that retrying an execution results in a new execution which shares all the attributes
 from the retried execution (parameters, context, etc).

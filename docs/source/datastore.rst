@@ -28,8 +28,12 @@ JSON example using the same keys from the create examples above:
 
     [
         {
-            "os_keystone_endpoint": "http://localhost:5000/v2.0",
-            "aws_cfn_endpoint": "https://cloudformation.us-west-1.amazonaws.com"
+            "name": "os_keystone_endpoint",
+            "value": "http://localhost:5000/v2.0"
+        },
+        {
+            "name": "aws_cfn_endpoint",
+            "value": "https://cloudformation.us-west-1.amazonaws.com"
         }
     ]
 
@@ -107,9 +111,8 @@ or simply:
 
 This variable won't clash with the user variables under same name. Also, you can refer
 to user variables in actions or workflows. The jinja syntax to do so is
-``{{st2kv.user.date_cmd}}``. Until v2.1, this expression used to be ``{{user.date_cmd}}``. For
-backward compatibility, the older expression is still supported but will be deprecated in subsequent
-releases.
+``{{st2kv.user.date_cmd}}``. Until v2.1, this expression used to be ``{{user.date_cmd}}``
+but is now deprecated.
 
 Note that the notion of ``st2kv.user`` is available only when actions
 or workflows are run manually. The notion of ``st2kv.user`` is non-existent when automations
@@ -129,7 +132,7 @@ the Client init (base\_url) or from environment variable
     >>> from st2client.client import Client
     >>> from st2client.models import KeyValuePair
     >>> client = Client(base_url='http://localhost')
-    >>> client.keys.update(models.KeyValuePair(name='os_keystone_endpoint', value='http://localhost:5000/v2.0'))
+    >>> client.keys.update(KeyValuePair(name='os_keystone_endpoint', value='http://localhost:5000/v2.0'))
 
 Get individual key value pair or list all:
 

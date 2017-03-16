@@ -14,6 +14,7 @@ files and deployed via packs, e.g.:
 
     ---
     name: "remote_shell_cmd"
+    pack: "examples"
     action_ref: "core.remote"
     description: "Execute a command on a remote host via SSH."
     formats:
@@ -174,6 +175,7 @@ A single alias file allow multiple formats to be specified for a single alias e.
 
     ---
     name: "st2_sensors_list"
+    pack: "st2"
     action_ref: "st2.sensors.list"
     description: "List available StackStorm sensors."
     formats:
@@ -297,6 +299,7 @@ parameters in the ``result.extra.slack`` field.
 
   ---
   name: "kitten"
+  pack: "kitten"
   description: "Post a kitten picture to cheer people up."
   action_ref: "core.noop"
   formats:
@@ -354,6 +357,7 @@ in your aliases like this:
 
     ---
     name: "remote_shell_cmd"
+    pack: "examples"
     action_ref: "core.remote"
     description: "Execute a command on a remote host via SSH."
     formats:

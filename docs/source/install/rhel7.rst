@@ -1,7 +1,7 @@
 RHEL 7 / CentOS 7
 =================
 
-If you're just looking for a "one-liner" installation, check the :doc:`top-level install guide </install/index>`. Otherwise, you 
+If you're just looking for a "one-liner" installation, check the :doc:`top-level install guide </install/index>`. Otherwise, you
 can use this guide for step-by step instructions for installing |st2| on a single RHEL 7/CentOS 7 64 bit system per
 the :doc:`Reference deployment </install/overview>`.
 
@@ -12,6 +12,7 @@ the :doc:`Reference deployment </install/overview>`.
 
 System Requirements
 -------------------
+
 Please check :doc:`supported versions and system requirements <system_requirements>`.
 
 Minimal installation
@@ -52,7 +53,7 @@ you may want to tweak them according to your security practices.
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
 
-.. include:: __mongodb_32_note.rst
+.. include:: __mongodb_note.rst
 
 Install MongoDB, RabbitMQ, and PostgreSQL.
 
@@ -91,7 +92,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
     sudo systemctl enable postgresql
 
 Setup repositories
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 The following script will detect your platform and architecture and setup the repo accordingly. It'll also install the GPG key for repo signing.
 
@@ -100,7 +101,7 @@ The following script will detect your platform and architecture and setup the re
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.rpm.sh | sudo bash
 
 Install |st2| components
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
   .. code-block:: bash
 
@@ -113,6 +114,11 @@ please adjust the settings:
   * MongoDB at ``/etc/st2/st2.conf``
   * PostgreSQL at ``/etc/mistral/mistral.conf``
 
+Setup Datastore Encryption
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: common/datastore_crypto_key.rst
+
 Setup Mistral Database
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -120,6 +126,7 @@ Setup Mistral Database
 
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
+
 To run local and remote shell actions, |st2| uses a special system user (default ``stanley``).
 For remote Linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
 
@@ -138,10 +145,6 @@ For remote Linux actions, SSH is used. It is advised to configure identity file 
 Start Services
 ~~~~~~~~~~~~~~
 
-* Register sensors, rules and actions ::
-
-    st2ctl reload
-
 .. include:: common/start_services.rst
 
 
@@ -153,7 +156,7 @@ Verify
 -----------------
 
 At this point you have a minimal working installation, and can happily play with |st2|:
-follow :doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs from `st2contrib`_.
+follow :doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs from `StackStorm Exchange <https://exchange.stackstorm.org>`__.
 
 But there is no joy without WebUI, no security without SSL termination, no fun without ChatOps, and no money without Brocade Workflow Composer. Read on, move on!
 
@@ -176,7 +179,7 @@ To set up authentication with File Based provider:
     # Install htpasswd utility if you don't have it
     sudo yum -y install httpd-tools
     # Create a user record in a password file.
-    echo "Ch@ngeMe" | sudo htpasswd -i /etc/st2/htpasswd st2admin
+    echo 'Ch@ngeMe' | sudo htpasswd -i /etc/st2/htpasswd st2admin
 
 * Enable and configure auth in ``/etc/st2/st2.conf``:
 
@@ -201,15 +204,16 @@ To set up authentication with File Based provider:
     st2 auth st2admin
 
     # A shortcut to authenticate and export the token
-    export ST2_AUTH_TOKEN=$(st2 auth st2admin -p Ch@ngeMe -t)
+    export ST2_AUTH_TOKEN=$(st2 auth st2admin -p 'Ch@ngeMe' -t)
 
     # Check that it works
     st2 action list
 
-Check out :doc:`/reference/cli` to learn convinient ways to authenticate via CLI.
+Check out :doc:`/reference/cli` to learn convenient ways to authenticate via CLI.
 
 Install WebUI and setup SSL termination
 ---------------------------------------
+
 `NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS,
 provide SSL termination for HTTPS, and reverse-proxy st2auth and st2api API endpoints.
 To set it up: install `st2web` and `nginx`, generate certificates or place your existing
@@ -274,7 +278,6 @@ For example, to see the endpoint for getting actions, invoke
 
     st2 --debug action list
 
-
 Setup ChatOps
 -------------
 
@@ -328,8 +331,14 @@ If you already run Hubot instance, you only have to install the `hubot-stackstor
 
 * That's it! Go to your Chat room and begin ChatOps-ing. Read more in the :doc:`/chatops/index` section.
 
+A Note on Security
+------------------
+
+.. include:: common/security_notes.rst
+
 Upgrade to Brocade Workflow Composer
 ------------------------------------
+
 Brocade Workflow Composer is deployed as an addition on top of StackStorm. You will need an active
 Brocade Workflow Composer subscription, and a license key to access Brocade Workflow Composer repositories.
 To add your license key, replace ``${BWC_LICENSE_KEY}`` in the command below with the key you received when

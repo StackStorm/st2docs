@@ -49,10 +49,15 @@ deleted).
 
 Currently, the following system roles are available:
 
-* **System administrator** - Same as administrator, but this role is assigned to the first user in the
-  system and can't be revoked.
-* **Administrator** - All the permissions on all the resources.
-* **Observer** - ``view`` permission on all the resources.
++--------------------------+------------------+---------------------------------------------------------------------------------------------------+
+| Role                     | Value            | Description                                                                                       |
++==========================+==================+===================================================================================================+
+| **Administrator**        | ``admin``        | All permissions on all the resources                                                              |
++--------------------------+------------------+---------------------------------------------------------------------------------------------------+
+| **System Administrator** | ``system_admin`` | Same as ``admin``, but this role is assigned to the first user in the system and can't be revoked |
++--------------------------+------------------+---------------------------------------------------------------------------------------------------+
+| **Observer**             | ``observer``     | ``view`` permission on all the resources                                                          |
++--------------------------+------------------+---------------------------------------------------------------------------------------------------+
 
 Permission Grant
 ~~~~~~~~~~~~~~~~
@@ -318,7 +323,7 @@ Once this user is created |st2| will allow access to this user. (Optional) To va
 
 .. sourcecode:: bash
 
-    $ st2 auth rbacu1 -p <RBACU1_PASSWORD>
+    $ st2 auth rbacu1 -p '<RBACU1_PASSWORD>'
     $ export ST2_AUTH_TOKEN=<USER_SCOPED_AUTH_TOKEN>
     $ st2 action list
 
@@ -336,7 +341,7 @@ Lets first make sure there is a pack `x` we can use to experiment.
     $ mkdir x
     $ mkdir x/actions x/rules x/sensors
     $ touch pack.yaml
-    $ touch config.yaml
+    $ touch /opt/stackstorm/configs/x.yaml
     $ touch requirements.txt
     $ cp core/icon.png x/icon.png
 
@@ -399,7 +404,7 @@ Lets take what we have achieved for a spin using the |st2| CLI.
 
 .. sourcecode:: bash
 
-    $ st2 auth rbacu1 -p <RBACU1_PASSWORD>
+    $ st2 auth rbacu1 -p '<RBACU1_PASSWORD>'
     $ export ST2_AUTH_TOKEN=<USER_SCOPED_AUTH_TOKEN>
     $ st2 action list
 

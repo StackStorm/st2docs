@@ -13,10 +13,9 @@ For brevity, the jinja patterns are only documented. Usage of these patterns ins
 Accessing datastore items with Jinja
 ------------------------------------
 
-You can use ``{{st2kv.system.foo}}`` to access key ``foo`` from datastore. Note that until v2.1,
-the expression to access key ``foo`` from datastore used to be ``{{system.foo}}``.
-Though the older jinja expression is still supported, we'd be deprecating that usage
-in subsequent releases.
+You can use ``{{st2kv.system.foo}}`` to access key ``foo`` from datastore. Note that until
+v2.1, the expression to access key ``foo`` from datastore used to be ``{{system.foo}}``
+but is now deprecated.
 
 .. _applying-filters-with-jinja:
 
