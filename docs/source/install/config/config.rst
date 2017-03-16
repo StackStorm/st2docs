@@ -197,7 +197,7 @@ By default, the logs can be found in ``/var/log/st2``.
 * |st2| ships with example configuration files to show how to use syslog - these are at
   ``/etc/st2/syslog.<component>.conf``. To use them, edit ``/etc/st2/st2.conf``, and change
   the ``logging =`` lines to point to the syslog configuration file. You can also see more
-  instructions and example configurations at :github_contrib:`st2contrib/extra/syslog <extra/syslog>`.
+  instructions and example configurations at :github_exchange:`exchange-misc/syslog <exchange-misc/tree/master/syslog>`.
 
 * By default, log rotation is handled via logrotate. Default log rotation config
   (:github_st2:`logrotate.conf <conf/logrotate.conf>`) is included with all the
@@ -252,7 +252,7 @@ By default, the logs can be found in ``/var/log/st2``.
       args=("logs/mysensor.audit.log",)
 
 * Check out LogStash configuration and Kibana dashboard for pretty logging and
-  audit at :github_contrib:`st2contrib/extra/logstash <extra/logstash>`
+  audit at :github_exchange:`exchange-misc/logstash <exchange-misc/tree/master/logstash>`.
 
 
 Configure Mistral
