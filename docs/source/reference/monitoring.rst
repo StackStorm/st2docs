@@ -86,8 +86,6 @@ We recommend storing metrics in a time-series database, such as `InfluxDB <https
 MongoDB
 -------
 
-.. todo:: Confirm that these are the right queues to monitor MongoDB
-
 MongoDB holds state for all currently scheduled and running actions. Use these queries to monitor current numbers:
 
 * Scheduled actions: ``db.live_action_d_b.find({"status":"scheduled"})``
@@ -120,8 +118,6 @@ Completed Actions
 The |st2| audit logs record all executed actions, execution time and result. These logs should be stored in a system
 like Splunk or Elasticsearch that allows for extraction of average run time and execution count.
 
-.. todo:: Need to confirm exactly which log & pattern people should be looking for here
-
 Interesting metrics to monitor:
 
 * Completed actions count over time
@@ -145,7 +141,11 @@ section for more information about logfile location, configuration and using sys
 All log messages include a log level - DEBUG, INFO, WARNING, ERROR, CRITICAL. All messages at WARNING and above should be
 escalated for investigation.
 
-Most organisations will want to investigate failed action executions. To detect these, look for (this pattern) in
-(this logfile)
+Most organisations will want to investigate failed action executions. This is an example of a failed execution in the
+st2actionrunner logs:
 
-.. todo:: Add information about how to detect things like failed executions
+.. code-block:: bash
+
+    2017-03-15 23:53:46,833 70846416 AUDIT base [-] Liveaction completed (liveaction_db={'status': 'failed', 'runner_info': {u'hostname': u'st2vagrant', u'pid': 1199}, 'parameters': {u'cmd': u'foo'}, 'action_is_workflow': False, 'start_timestamp': '2017-03-15 23:53:46.439855+00:00', 'callback': {}, 'notify': None, 'result': {'succeeded': False, 'failed': True, 'return_code': 127, 'stderr': 'bash: foo: command not found', 'stdout': ''}, 'context': {u'user': u'st2admin'}, 'action': u'core.local', 'id': '58c9d40ac4da5f0737cd86f0', 'end_timestamp': '2017-03-15 23:53:46.792152+00:00'})
+
+Note the ``'status': 'failed'`` section.
