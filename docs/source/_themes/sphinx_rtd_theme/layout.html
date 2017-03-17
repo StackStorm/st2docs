@@ -14,6 +14,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-site-verification" content="ovwnX0ej2kps4UuJ9NOzNjJcLOQD8JPDLNhe-hMYTMk" />
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-NKZBMHZ');</script>
+  <!-- End Google Tag Manager -->
   {% block htmltitle %}
   <title>{{ title|striptags|e }}{{ titlesuffix }}</title>
   {% endblock %}
@@ -74,6 +81,11 @@
 </head>
 
 <body class="wy-body-for-nav" role="document">
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKZBMHZ"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
   <div class="wy-grid-for-nav">
 
@@ -174,33 +186,6 @@
   {% endif %}
 
   {%- block footer %} {% endblock %}
-
-<!-- Google Analytics Tracker -->
-<script>
- (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
- (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
- m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
- })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
- ga('create', 'UA-46030182-2', 'auto');
- ga('send', 'pageview');
-</script>
-
-<!-- Additional Analytics -->
-<script type="text/javascript">
-	var trackcmp_email = '';
-	var trackcmp = document.createElement("script");
-	trackcmp.async = true;
-	trackcmp.type = 'text/javascript';
-	trackcmp.src = '//trackcmp.net/visit?actid=89091034&e='+encodeURIComponent(trackcmp_email)+'&r='+encodeURIComponent(document.referrer)+'&u='+encodeURIComponent(window.location.href);
-	var trackcmp_s = document.getElementsByTagName("script");
-	if (trackcmp_s.length) {
-		trackcmp_s[0].parentNode.appendChild(trackcmp);
-	} else {
-		var trackcmp_h = document.getElementsByTagName("head");
-		trackcmp_h.length && trackcmp_h[0].appendChild(trackcmp);
-	}
-</script>  
 
 </body>
 </html>
