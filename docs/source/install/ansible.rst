@@ -45,6 +45,8 @@ Behind the scenes ``stackstorm.yml`` play composed of the following Ansible ``ro
 - ``st2mistral`` - Install and configure |st2| Mistral workflow engine.
 - ``nginx`` - Dependency for ``st2web``.
 - ``st2web`` - Nice & shiny WebUI for |st2|.
+- ``nodejs`` - Dependency for ``st2chatops``.
+- ``st2chatops`` - Install and configure st2chatops for hubot adapter integration with |st2|.
 - ``st2smoketests`` - Simple checks to know if |st2| really works.
 
 Example Play
@@ -60,6 +62,7 @@ Below is more advanced example to customize |st2| deployment:
         - rabbitmq
         - postgresql
         - nginx
+        - nodejs
 
         - name: Install StackStorm Packagecloud repository
           role: st2repos
@@ -87,6 +90,14 @@ Below is more advanced example to customize |st2| deployment:
 
         - name: Install st2web
           role: st2web
+
+        - name: Install st2chatops with "slack" hubot adapter
+          role: st2chatops
+          vars:
+            st2chatops_version: latest
+            st2chatops_st2_api_key: CHANGE-ME-PLEASE # This can be generated using "st2 apikey create -k"
+            st2chatops_hubot_adapter: slack
+            st2chatops_config: {"HUBOT_SLACK_TOKEN":"xoxb-CHANGE-ME-PLEASE"}
 
         - name: Verify StackStorm Installation
           role: st2smoketests
