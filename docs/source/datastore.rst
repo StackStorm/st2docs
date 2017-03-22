@@ -303,7 +303,7 @@ To get plain text, please run with command --decrypt flag:
 
 If you are using system scoped variables (``st2kv.system``) to store secrets, you can decrypt them
 and use as parameter values in rules or actions. This is supported via Jinja filter ``decrypt_kv``
-(read more about :ref:`jinja filters<applying-filters-with-jinja>`). For example,
+(read more about :ref:`Jinja filters<applying-filters-with-jinja>`). For example,
 to pass a decrypted password as a parameter, simply do
 
 .. code-block:: YAML
