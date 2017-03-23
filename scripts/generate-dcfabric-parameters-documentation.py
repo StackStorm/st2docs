@@ -106,7 +106,6 @@ def main():
                     details.append('\n' +
                                    '   ' + ' '*H1 + '  **Default**: ' + str(values['default']))
                 # Figure out what position to insert this parameter in the table
-                print values['description']
                 position = values['position']
                 results_body[position] = '\n'.join(details)
 
