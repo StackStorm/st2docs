@@ -193,6 +193,7 @@ The following YAQL expressions are some sample queries that YAQL is capable of:
 * ``<% $.vms.select($.region).distinct() %>`` returns the distinct list of regions ``['us-east', 'us-west']``.
 * ``<% $.vms.where($.region = 'us-east').select($.name) %>`` selects only the VMs in us-east ``['vmweb1', 'vmdb1']``.
 * ``<% $.vms.where($.region = 'us-east' and $.role = 'web').select($.name) %>`` selects only the web server in us-east ``['vmweb1']``.
+* ``<% let(myregion => 'us-east', myrole => 'web') -> $.vms.where($.region = $myregion and $.role = $myrole).select($.name) %>`` selects only the web server in us-east ``['vmweb1']``.
 
 List to Dictionary
 ++++++++++++++++++
@@ -242,6 +243,7 @@ documentation and git repo to explore more options.
 
 **Built-in**
 For the full list of built-in functions, see `Standard Library section in YAQL docs <https://yaql.readthedocs.io/en/latest/standard_library.html>`_. Some noticeable examples:
+
 * ``float(value)`` converts value to float.
 * ``int(value)`` converts value to integer.
 * ``str(number)`` converts number to a string.

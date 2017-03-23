@@ -11,8 +11,8 @@ Upgrade Notes
     1. Trigger payload is now validated against the trigger ``payload_schema`` schema when
        dispatching a trigger inside the sensor.
 
-      Validation is only performed if ``system.validate_trigger_parameters`` config option is
-      enabled (it's disabled by default) and if trigger object defines ``parameters_schema``
+      Validation is only performed if ``system.validate_trigger_payload`` config option is
+      enabled (it's disabled by default) and if trigger object defines ``payload_schema``
       attribute.
 
     2. Trigger parameters are now validated for non-system (user-defined) triggers when creating
@@ -34,11 +34,28 @@ Upgrade Notes
   executions_v2, either use psql or install an older version of the python-mistralclient in a
   separate python virtual environment.
 
+* If you’re seeing an error ``event_triggers_v2 already exists`` when running ``mistral-db-manage upgrade head``,
+  this means the mistral services started before the ``mistral-db-manage`` commands were run.
+  Refer to this :ref:`procedure <mistral_db_recover>` to recover the system.
+
 * Jinja notations ``{{user.key}}`` and ``{{system.key}}`` to access datastore items under
   ``user`` and ``system`` scopes are now unsuported. Please use ``{{st2kv.user.key}}`` and
   ``{{st2kv.system.key}}`` notations instead. Also, please update your |st2| content
   (actions, rules and workflows) to use the new notation.
 
+* When installing StackStorm using the installer script a random password is generated for MongoDB
+  and PostgreSQL. This means you now need to explicitly pass ``--config-file /etc/st2/st2.conf``
+  argument to all the CLI scripts (e.g. ``st2-apply-rbac-definitions``, etc.) which need access
+  to the database (MongoDB). If you don't do that, "access denied" error will be returned, because
+  it will try to use a default password when connecting to the database.
+
+  .. code-block:: bash
+
+    st2-apply-rbac-defintions --config-file /etc/st2/st2.conf
+
+  If for some reason, you need access to the plain-text version of the password used by StackStorm
+  services to talk to MongoDB and PostgreSQL, you can find it in ``/etc/st2/st2.conf``
+  (``[database]`` section) ``/etc/mistral/mistral.conf`` (``[database]`` section) files.
 
 |st2| v2.1
 ----------
