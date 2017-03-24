@@ -16,5 +16,6 @@ References and Guides
    proxy
    ha
    api
+   monitoring
    sensor_partitioning
    history
