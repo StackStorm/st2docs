@@ -629,6 +629,10 @@ Example storing a dict as JSON:
       value = self.action_service.get_value('cache')
       retrieved_data = json.loads(value)
 
+      # Retrieve an encrypted value
+      value = self.action_service.get_value('ma_password', decrypt=True)
+      retrieved_data = json.loads(value)
+
       # Delete a value
       self.action_service.delete_value('cache')
 

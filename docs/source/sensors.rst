@@ -157,8 +157,8 @@ For example:
         print(kvp.name)
         print(kvp.value)
 
-2. get_value(name, local=True)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2. get_value(name, local=True, decrypt=False)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This method allows you to retrieve a single value from the datastore.
 
@@ -169,8 +169,15 @@ For example:
     kvp = self.sensor_service.get_value('cmdb.api_host')
     print(kvp.name)
 
-3. set_value(name, value, ttl=None, local=True)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+If the value is encrypted, you can decrypt it with this:
+
+.. code:: python
+
+    kvp = self.sensor_service.get_value('cmdb.api_password', decrypt=True)
+    print(kvp.name)
+    
+3. set_value(name, value, ttl=None, local=True, encrypt=False)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This method allows you to store (set) a value in the datastore. Optionally you
 can also specify time to live (TTL) for the stored value.
@@ -179,6 +186,14 @@ can also specify time to live (TTL) for the stored value.
 
     last_id = 12345
     self.sensor_service.set_value(name='last_id', value=str(last_id))
+
+Secret values can be encrypted in the datastore:
+
+.. code:: python
+
+    ma_password = 'Sup3rS34et'
+    self.sensor_service.set_value(name='ma_password', value=ma_password, encrypt=True)
+
 
 4. delete_value(name, local=True)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
