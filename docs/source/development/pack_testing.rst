@@ -34,7 +34,7 @@ Base Test Classes and Mock Classes
 ----------------------------------
 
 To make testing easier, |st2| provides some base test and mock classes you can
-you in the tests
+use in the tests
 
 Base Test Classes
 ~~~~~~~~~~~~~~~~~
@@ -63,7 +63,7 @@ in the tests.
   from the ``run`` method.
 * ``st2tests.mocks.sensor.MockSensorWrapper`` - Mock ``SensorWrapper`` class.
 * ``st2tests.mocks.sensor.MockSensorService`` - Mock ``SensorService`` class.
-  This class mocks methods which operate on the datastore items (``get_logger`,
+  This class mocks methods which operate on the datastore items (``get_logger``,
   ``list_values``, ``get_value``, ``set_value``, ``delete_value``).
 * ``st2tests.mocks.action.MockActionWrapper`` - Mock ``PythonActionWrapper``
   class.
@@ -81,7 +81,7 @@ also available by default inside the tests:
 * ``unittest2``
 * ``mock``
 
-In addition those dependencies, sensors (``<pack name>/sensors/``) and actions
+In addition to those dependencies, sensors (``<pack name>/sensors/``) and actions
 (``<pack name>/actions/``) directory is added to PYTHONPATH meaning you can import
 sensor and action modules directly in your code.
 
@@ -168,19 +168,35 @@ You can find some sample tests on the links below.
 Running Tests
 -------------
 
+.. note::
+
+   For this script to work correctly, all the StackStorm components need to be
+   in ``PYTHONPATH``. This is already the case when using ``st2vagrant``
+   Vagrant image or when StackStorm is installed on a system using deb / rpm
+   packages.
+
+   If that is not the case, you need to set ``ST2_REPO_PATH`` environment
+   variable to point to the git checkout of the StackStorm st2 repository as
+   shown below.
+
+    .. sourcecode:: bash
+
+       git clone https://github.com/StackStorm/st2.git /tmp/st2
+       ST2_REPO_PATH=/tmp/st2 st2-run-pack-tests -p <pack path>
+
 To run all the tests in a particular pack you can use the ``st2-run-pack-tests``
 script (``st2common/bin/st2-run-pack-tests``) from the ``st2`` repository as
 shown below.
 
 .. sourcecode:: bash
 
-    ./st2common/bin/st2-run-pack-tests -p <pack path>
+    st2-run-pack-tests -p <pack path>
 
 For example:
 
 .. sourcecode:: bash
 
-    ./st2common/bin/st2-run-pack-tests -p /data/st2contrib/packs/docker/
+    st2-run-pack-tests -p /data/st2contrib/packs/docker/
 
 By default, this script will create and use a new temporary virtual environment
 for each pack test run and install all the dependencies which are required to run
@@ -191,10 +207,35 @@ already exists or you have created one manually), you can pass ``-x`` flag to
 the script. This flag will tell it to skip virtual environment creation, but all
 the necessary dependencies will still be installed.
 
-If you are running this script inside a development VM (st2vagrant /
-st2workroom), you can safely pass ``-x`` flag to the script since a virtual
-environment should already be created and all the necessary |st2| dependencies
-should be available in ``PYTHONPATH``.
+If you are running this script inside a development VM (st2vagrant), you can
+safely pass ``-x`` flag to the script since a virtual environment should already
+be created and all the necessary |st2| dependencies should be available in
+``PYTHONPATH``.
+
+In addition to that, if all the pack dependencies are already installed and you
+want to skip installing and updating the dependencies, you can pass ``-j`` flag
+to the script (this will cause the script to just run the pack tests directly).
+
+For example:
+
+.. sourcecode:: bash
+
+    st2-run-pack-tests -p /data/st2contrib/packs/docker/ -x -j
+
+Or alternatively, if a virtual environment for tests has already been created
+during previous tool invocation, you can skip updating of the virtual
+environment and just run the tests by using ``-j`` flag (this will speed things
+up because virtual environment will be used as is and only tests will run).
+
+.. sourcecode:: bash
+
+    # First run - create tests virtual environment and run the tests
+    st2-run-pack-tests -p /data/st2contrib/packs/docker/
+
+    # Second (and subsequent) runs - just run the tests and re-use the existing
+    # virtual environment which has been created during the previous script 
+    # invocation.
+    st2-run-pack-tests -p /data/st2contrib/packs/docker/ -j
 
 Lint Tools and Scripts
 ----------------------

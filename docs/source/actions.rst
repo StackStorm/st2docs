@@ -147,7 +147,11 @@ compatibility). These attributes can be present in the metadata file:
 * ``runner_type`` - The type of runner to execute the action.
 * ``enabled`` - Action cannot be invoked when disabled.
 * ``entry_point`` - Location of the action launch script relative to the /opt/stackstorm/packs/${pack_name}/actions/.
-* ``parameters`` - A dictionary of parameters and optional metadata describing type and default. The metadata is structured data following the `JSON Schema`_ specification draft 4. If metadata is provided, input args are validated on action execution. Otherwise, validation is skipped.
+* ``parameters`` - A dictionary of parameters and optional metadata describing type and default.
+  The metadata is structured data following the `JSON Schema`_ specification draft 4. The common parameter types
+  allowed are ``string``, ``boolean``, ``number`` (whole numbers and decimal numbers - e.g. ``1.0``, ``1``, ``3.3333``,
+  etc.), ``object``, ``integer`` (whole numbers only - ``1``, ``1000``, etc.) and ``array``. If metadata is provided,
+  input args are validated on action execution. Otherwise, validation is skipped.
 
 This is a sample metadata file for a Python action which sends an SMS via the Twilio web service:
 
@@ -412,7 +416,7 @@ are serialized based on the simple rules described below:
 1. ``string``, ``integer``, ``float`` - Serialized as a string.
 2. ``boolean`` - Serialized as a string ``1`` (true) or ``0`` (false).
 3. ``lists`` - Serialized as a comma delimited string (e.g. ``foo,bar,baz``).
-4. ``objects`` - Serialized as JSON.
+4. ``object`` - Serialized as JSON.
 
 Using this simple serialization format allows users to easily utilize those
 values in their scripts by using standard Bash functionality (``-z`` for check
@@ -494,15 +498,6 @@ a ``run`` method.
 Sample Python action
 ~~~~~~~~~~~~~~~~~~~~
 
-This example Python action prints text provided via the ``message`` parameter to
-the standard output.
-
-In addition to printing the message, the action also returns a tuple as a result.
-If the ``message`` parameter passed to the action is ``working``, the action will be
-considered as succeeded (first flag in the result indicating action status is
-``True``) and in case another message is passed in, action will be considered as
-failed (first flag in the result tuple indicating action status is ``False``).
-
 Metadata file (``my_echo_action.yaml``):
 
 .. code-block:: yaml
@@ -533,16 +528,35 @@ Action script file (``my_echo_action.py``):
         def run(self, message):
             print(message)
 
-            if message == 'working'
+            if message == 'working':
                 return (True, message)
             return (False, message)
 
-As you can see above, user-supplied action parameters are passed to the ``run``
-method as keyword arguments. The return value from the  runner is a tuple consisting of
-success status flag and the result object respectively.
+This Python action prints text provided via the ``message`` parameter to the
+standard output. As you can see, user-supplied action parameters are passed to
+the ``run`` method as keyword arguments.
+
+If the ``run`` method finishes without exceptions, the execution is successful,
+and the value returned by the method (any value: boolean, string, list, dict,
+etc.) is considered its result. Raising an exception will report the execution
+as failed.
+
+Another way to specify the status of an execution is returning a tuple with two
+items: the first item is a boolean indicating status, the second item is the
+result itself.
+
+For example, ``return False`` will result in a successful execution with the
+result being ``False``, and ``return (False, "Failed!")`` is a failed execution
+with ``"Failed!"`` as its result.
+
+In the example above, if the ``message`` parameter passed to the action is
+``working``, the action will be considered as succeeded (first flag in the
+result indicating action status is ``True``) and in case another message is
+passed in, action will be considered as failed (first flag in the result tuple
+indicating action status is ``False``).
 
 For a more complex example, please refer to the `actions in the Libcloud pack in
-the contrib repository <https://github.com/StackStorm/st2contrib/tree/master/packs/libcloud/actions>`_.
+StackStorm Exchange <https://github.com/StackStorm-Exchange/libcloud/tree/master/actions>`_.
 
 Configuration File
 ~~~~~~~~~~~~~~~~~~
@@ -558,10 +572,12 @@ Configuration File
 
 Python actions can store arbitrary configuration in the configuration file
 which is global to the whole pack. The configuration is stored in a file
-named ``config.yaml`` in the root directory of the pack.
+named ``<pack_name>.yaml`` located in the ``/opt/stackstorm/configs/``
+directory.
 
 The configuration file format is YAML. Configuration is automatically parsed and
-passed to the action class constructor via the ``config`` argument.
+passed to the action class constructor via the ``config`` argument.  See the
+:doc:`pack configuration doc</reference/pack_configs>` for more details.
 
 Logging
 ~~~~~~~
@@ -620,7 +636,7 @@ Pre-defined Actions
 ^^^^^^^^^^^^^^^^^^^
 
 There are several predefined actions that come out of the box when |st2|
-is installed via packages.
+is installed via packages. These are in the ``core`` pack:
 
 ``core.local`` : This action allows execution of arbitrary \*nix/shell commands
 locally. You can excute this command via the CLI using:
@@ -643,7 +659,14 @@ executed from the |st2| box:
 
     st2 run core.http url="http://httpbin.org/get" method="GET"
 
-To see all predefined actions:
+Similar to cURL, this action supports basic authentication when provided a username
+and password:
+
+::
+
+    st2 run core.http url="http://httpbin.org/get" method="GET" username=user1 password=pass1
+
+To see all actions in the ``core`` pack:
 
 ::
 
@@ -651,7 +674,7 @@ To see all predefined actions:
 
 .. rubric:: What's Next?
 
-* Explore packs and actions contributed by |st2| developers and community in the `StackStorm st2contrib repo on Github <https://github.com/StackStorm/st2contrib/>`_.
+* Explore packs and actions contributed by |st2| developers and community in the `StackStorm Exchange <https://exchange.stackstorm.org>`_.
 * Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ on creating actions, and other practical examples of automating with |st2|.
 
 .. _JSON Schema: http://json-schema.org/documentation.html

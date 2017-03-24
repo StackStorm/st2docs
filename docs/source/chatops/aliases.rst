@@ -14,6 +14,7 @@ files and deployed via packs, e.g.:
 
     ---
     name: "remote_shell_cmd"
+    pack: "examples"
     action_ref: "core.remote"
     description: "Execute a command on a remote host via SSH."
     formats:
@@ -96,7 +97,7 @@ called with the parameters:
        cmd: date
        hosts: localhost
 
-Since ``core.remote`` accepts multiple hosts, you can also use a comma-separated list: 
+Since ``core.remote`` accepts multiple hosts, you can also use a comma-separated list:
 ``run date on 10.0.10.1,10.0.10.2``.
 
 With default
@@ -113,6 +114,15 @@ In this case the query has a default value assigned which will be used
 if no value is provided by the user. Therefore, a simple ``run date`` instead of
 ``run date 10.0.10.1`` would result in assigning the default value, in a similar
 manner to how Action default parameter values are interpreted.
+
+For default inputs like JSON, the following pattern can be applied:
+
+.. code-block:: yaml
+
+    formats:
+      - "run {{thing={'key': 'value'}}}"
+
+It is therefore possible to pass information to a runner like a HTTP header as a default value using this pattern.
 
 Regular expressions
 ~~~~~~~~~~~~~~~~~~~
@@ -165,6 +175,7 @@ A single alias file allow multiple formats to be specified for a single alias e.
 
     ---
     name: "st2_sensors_list"
+    pack: "st2"
     action_ref: "st2.sensors.list"
     description: "List available StackStorm sensors."
     formats:
@@ -288,6 +299,7 @@ parameters in the ``result.extra.slack`` field.
 
   ---
   name: "kitten"
+  pack: "kitten"
   description: "Post a kitten picture to cheer people up."
   action_ref: "core.noop"
   formats:
@@ -345,6 +357,7 @@ in your aliases like this:
 
     ---
     name: "remote_shell_cmd"
+    pack: "examples"
     action_ref: "core.remote"
     description: "Execute a command on a remote host via SSH."
     formats:

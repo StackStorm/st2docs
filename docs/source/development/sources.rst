@@ -28,7 +28,7 @@ Fedora
 
 ::
 
-    yum install python-pip python-virtualenv python-tox gcc-c++ git-all screen icu libicu libicu-devel
+    yum install python-pip python-virtualenv python-tox gcc-c++ git-all screen icu libicu libicu-devel openssl-devel
 
     yum install mongodb mongodb-server
     systemctl enable mongod
@@ -62,7 +62,9 @@ and install required dependencies, and run tests.
 Configure System User
 ~~~~~~~~~~~~~~~~~~~~~
 
-Create a system user for executing SSH actions,
+Create a system user for executing SSH actions.
+
+::
 
     useradd -d /home/stanley stanley
     su stanley
@@ -78,7 +80,7 @@ Specify a user for running local and remote SSH actions. See :ref:`config-config
 Running
 ~~~~~~~
 
-Activate the virtualenv before starting the services
+Activate the virtualenv before starting the services. ::
 
     source virtualenv/bin/activate
 

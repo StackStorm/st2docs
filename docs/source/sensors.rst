@@ -138,7 +138,7 @@ datastore. This way if the sensor is restarted or if it crashes, the sensor
 can resume from where it left off without injecting duplicate triggers into
 the system.
 
-For the implementation, see :github_contrib:`twitter_search_sensor.py on st2contrib</packs/twitter/sensors/twitter_search_sensor.py>`
+For the implementation, see :github_exchange:`twitter_search_sensor.py in StackStorm Exchange<twitter/tree/master/sensors/twitter_search_sensor.py>`
 
 1. list_values(local=True, prefix=None)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -218,8 +218,8 @@ If there are errors in registration, fix the errors and re-register them using s
 
 
 Once you like your sensor, you can promote it to a pack (if required) by creating a pack in
-/opt/stackstorm/packs/${pack_name} and moving the sensor artifacts (YAML and Python) to
-/opt/stackstorm/packs/${pack_name}/sensors/. See :doc:`/reference/packs` for how to create a pack.
+``/opt/stackstorm/packs/${pack_name}`` and moving the sensor artifacts (YAML and Python) to
+``/opt/stackstorm/packs/${pack_name}/sensors/``. See :doc:`/reference/packs` for how to create a pack.
 
 Debugging a Sensor From a Pack
 ------------------------------
@@ -229,16 +229,16 @@ use the st2sensorcontainer to run just that single sensor.
 
 ::
 
-    st2sensorcontainer --config-file=/etc/st2/st2.conf --sensor-ref=pack.SensorClassName
+    /opt/stackstorm/st2/bin/st2sensorcontainer --config-file=/etc/st2/st2.conf --sensor-ref=pack.SensorClassName
 
 For example:
 
 ::
 
-    st2sensorcontainer --config-file=/etc/st2/st2.conf --sensor-ref=git.GitCommitSensor
+    /opt/stackstorm/st2/bin/st2sensorcontainer --config-file=/etc/st2/st2.conf --sensor-ref=git.GitCommitSensor
 
 Examples
 --------
 
-For more examples, please reference packs in the `st2contrib repo
-<https://github.com/StackStorm/st2contrib/tree/master/packs>`__.
+For more examples, please reference packs in `StackStorm Exchange
+<https://exchange.stackstorm.org>`__.

@@ -44,39 +44,51 @@ If you don't have the right SSH key file, you will see an error and action will 
 ::
 
     st2 run core.remote cmd=whoami hosts=localhost
-    .
-    id: 55dff9e132ed350bae2b5217
+    id: 583e2282d9d7ed38c78b50eb
     status: failed
+    parameters:
+      cmd: whoami
+      hosts: ma-box
+      username: putin
     result:
-    {
-        "traceback": "  File "/mnt/src/storm/st2/st2actions/st2actions/container/base.py", line 99, in _do_run
-        runner.pre_run()
-      File "/mnt/src/storm/st2/st2actions/st2actions/runners/ssh/paramiko_ssh_runner.py", line 138, in pre_run
-        connect=True
-      File "/mnt/src/storm/st2/st2actions/st2actions/runners/ssh/parallel_ssh.py", line 55, in __init__
-        connect_results = self.connect(raise_on_any_error=raise_on_any_error)
-      File "/mnt/src/storm/st2/st2actions/st2actions/runners/ssh/parallel_ssh.py", line 85, in connect
-        raise NoHostsConnectedToException(msg)
-    ",
-        "error": "Unable to connect to any one of the hosts: [u'localhost'].
+      error: "Unable to connect to any one of the hosts: [u'ma-box'].
 
      connect_errors={
-      "localhost": {
+      "ma-box": {
         "failed": true,
-        "traceback": "  File \"/mnt/src/storm/st2/st2actions/st2actions/runners/ssh/parallel_ssh.py\", line 239, in _connect\n    client.connect()\n  File \"/mnt/src/storm/st2/st2actions/st2actions/runners/ssh/paramiko_ssh.py\", line 134, in connect\n    self.client.connect(**conninfo)\n  File \"/mnt/src/storm/st2/virtualenv/local/lib/python2.7/site-packages/paramiko/client.py\", line 307, in connect\n    look_for_keys, gss_auth, gss_kex, gss_deleg_creds, gss_host)\n  File \"/mnt/src/storm/st2/virtualenv/local/lib/python2.7/site-packages/paramiko/client.py\", line 519, in _auth\n    raise saved_exception\n",
-        "return_code": 255,
+        "traceback": "Traceback (most recent call last):\n  File \"/mnt/src/storm/st2/st2common/st2common/runners/parallel_ssh.py\", line 243, in _connect\n    client.connect()\n  File \"/mnt/src/storm/st2/st2common/st2common/runners/paramiko_ssh.py\", line 138, in connect\n    self.client = self._connect(host=self.hostname, socket=self.bastion_socket)\n  File \"/mnt/src/storm/st2/st2common/st2common/runners/paramiko_ssh.py\", line 634, in _connect\n    raise SSHException(msg)\nSSHException: Error connecting to host ma-box with connection parameters {'username': u'putin', 'key_filename': '/home/stanley/.ssh/id_rsa', 'allow_agent': False, 'hostname': u'ma-box', 'look_for_keys': False, 'timeout': 60, 'port': 22}.Paramiko error: not a valid EC private key file.\n",
+        "timeout": false,
         "succeeded": false,
-        "error": "Cannot connect to host. not a valid EC private key file"
+        "stdout": "",
+        "stderr": "",
+        "error": "Connection error. Error connecting to host ma-box with connection parameters {'username': u'stanley', 'key_filename': '/home/stanley/.ssh/id_rsa', 'allow_agent': False, 'hostname': u'ma-box', 'look_for_keys': False, 'timeout': 60, 'port': 22}.Paramiko error: not a valid EC private key file.",
+        "return_code": 255
       }
     }"
+      traceback: "  File "/mnt/src/storm/st2/st2actions/st2actions/container/base.py", line 90, in _do_run
+        runner.pre_run()
+      File "/mnt/src/storm/st2/st2common/st2common/runners/paramiko_ssh_runner.py", line 145, in pre_run
+        self._parallel_ssh_client = ParallelSSHClient(**client_kwargs)
+      File "/mnt/src/storm/st2/st2common/st2common/runners/parallel_ssh.py", line 61, in __init__
+        connect_results = self.connect(raise_on_any_error=raise_on_any_error)
+      File "/mnt/src/storm/st2/st2common/st2common/runners/parallel_ssh.py", line 91, in connect
+        raise NoHostsConnectedToException(msg)
+    "
 
 All automations (rules that kickoff remote actions or scripts) by default will use this
 username and private_key combination.
 
-.. note::
+If you are not using default SSH port 22, you can specify port as part of host string in hosts
+list like hosts=localhost:55,st2build001:56. As of |st2| version 2.1, you can also specify
+custom ports via SSH config file. To use SSH config file, setup ``/home/stanley/.ssh/config`` for
+user ``stanley`` on |st2| action runner boxes appropriately and add
+following configuration lines in ``/etc/st2/st2.conf``.
 
-    If you are not using default SSH port 22, you can specify port as part of host string in hosts list like hosts=localhost:55,st2build001:56. Fabric doesn't let you do this.
-    To get around the problem, set ``use_ssh_config`` to True in config file and setup ~/.ssh/config on |st2| action runner boxes appropriately.
+::
+
+    [ssh_runner]
+    use_ssh_config = True
+    ssh_config_file_path = /home/stanley/.ssh/config
 
 We do not recommend running automations as arbitrary user + private_key combination. This
 would require you to setup private_key for the users on |st2| action runner boxes and
@@ -88,7 +100,7 @@ boxes as a different user, we have a way.
 
 ::
 
-    $st2 run core.remote cmd=whoami hosts=localhost username=test_user private_key="`cat /home/vagrant/.ssh/id_rsa`"
+    $st2 run core.remote cmd=whoami hosts=localhost username=test_user private_key=/home/stanley/ssh_keys/.ssh/id_rsa
     .
     id: 55dff0de32ed356c736318b9
     status: succeeded
@@ -103,16 +115,18 @@ boxes as a different user, we have a way.
         }
     }
 
-In the above case, test_user's public key was added in target box (localhost). If you look
-carefully, we are sending the contents of the private_key file as command argument (note
-that the output of cat command is quoted). If you have SSL turned on for |st2| API, the
-contents of your SSH private key are sent encrypted over the wire. If you are not using
-SSL, you'll expose your private key to eavesdroppers. Therefore we highly recommend using
-SSL for |st2| APIs in general and particularly for this case. With paramiko, this
-private_key contents are held only in memory and is not logged or persisted anywhere.
-However, due to implementation limitations of fabric, we create a temporary file with
-contents of private_key and delete the file after command is complete (either succeeded or
-failed). This is unsafe and we recommend moving away from Fabric runner.
+For the above example to work, key file ``/home/stanley/ssh_keys/.ssh/id_rsa`` has to be available
+on action runner boxes. We also support ``password`` as a parameter. As of version 2.1, you
+can also specify custom keys for hosts via SSH config file. A sample SSH config is shown below:
+
+::
+
+    Host st2-ssh-test001
+      User lakshmi
+      IdentityFile /home/vagrant/.ssh/lakshmi_id_rsa
+
+    Host *secret-box
+      port 55
 
 If you are running remote actions as ``sudo``, pseudo tty is enabled by default. This means
 that ``stdout`` and ``stderr`` streams get combined into one and reported as ``stdout``. This

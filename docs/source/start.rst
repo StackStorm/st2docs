@@ -3,7 +3,7 @@ Quick Start
 
 Got |st2| :doc:`installed </install/index>`? Let's give
 it a try. This guide will walk you through |st2| basics and help you build and run a simple
-automation: a rule that triggers an action on external event.
+automation: a rule that triggers an action on an external event.
 
 
 Explore |st2| with CLI
@@ -20,7 +20,7 @@ The best way to explore |st2| is to use CLI. Start by firing a few commands:
     # Authenticate and export the token. Make sure ST2_AUTH_URL and
     # ST2_API_URL are set correctly (http vs https, endpoint, and etc).
     # Replace the username and password in the example below appropriately.
-    export ST2_AUTH_TOKEN=`st2 auth -t -p pass123 admin`
+    export ST2_AUTH_TOKEN=`st2 auth -t -p 'pass123' admin`
 
     # List the actions from a 'core' pack
     st2 action list --pack=core
@@ -53,7 +53,7 @@ variable ``ST2_AUTH_TOKEN``. When using environment variable, make sure that ``S
 
 .. code-block:: bash
 
-    export ST2_AUTH_TOKEN=`st2 auth -t -p pass123 admin`
+    export ST2_AUTH_TOKEN=`st2 auth -t -p 'pass123' admin`
 
 
 Work with Actions
@@ -210,7 +210,10 @@ Fire the POST, check out the file and see that it appends the payload if the nam
     sudo tail /home/stanley/st2.webhook_sample.out
 
     # And for fun, same post with st2
-    st2 run core.http method=POST body='{"you": "too", "name": "st2"}' url=https://localhost/api/v1/webhooks/sample headers='x-auth-token=put_token_here;content-type=application/json' verify_ssl_cert=False
+    st2 run core.http method=POST body='{"you": "too", "name": "st2"}' url=https://localhost/api/v1/webhooks/sample headers='x-auth-token=put_token_here,content-type=application/json' verify_ssl_cert=False
+
+    # And for even more fun, same post with st2 using basic authentication
+    st2 run core.http method=POST body='{"you": "too", "name": "st2"}' url=https://localhost/api/v1/webhooks/sample headers='content-type=application/json' verify_ssl_cert=False username=user1 password=pass1
 
     # Check that the rule worked. By default, st2 runs as the stanley user.
     sudo tail /home/stanley/st2.webhook_sample.out
@@ -236,14 +239,14 @@ to /opt/stackstorm/packs/, setup, and reload the content:
     # Reload stackstorm context
     st2ctl reload --register-all
 
-For more content - actions, sensors, rules - checkout `st2contrib`_ community repo on GitHub.
+For more content — actions, sensors, rules — checkout `StackStorm Exchange <https://exchange.stackstorm.org>`__.
 
 Datastore
 ---------
 
 While most data are retrieved as needed by |st2|, you may need to store and share some common
 variables. Use |st2| datastore service to store the values and reference them in rules and workflows
-as ``{{system.my_parameter}}``. This creates ``user=stanley`` key-value pair:
+as ``{{st2kv.system.my_parameter}}``. This creates ``user=stanley`` key-value pair:
 
 .. code-block:: bash
 
@@ -262,7 +265,7 @@ For more information on datastore, check :doc:`datastore`
 * Get more actions, triggers, rules:
 
 
-    * Install integration packs from `st2contrib`_  - follow guide on :doc:`/packs`.
+    * Install integration packs from `StackStorm Exchange <https://exchange.stackstorm.org>`__  - follow guide on :doc:`/packs`.
     * :ref:`Convert your scripts into StackStorm actions. <ref-actions-converting-scripts>`
     * Learn how to :ref:`write custom actions <ref-actions-writing-custom>`.
 

@@ -59,50 +59,11 @@ is determined based on the value of the ``Content-Type`` header (``application/j
 All the examples below assume JSON and as such, provide ``application/json`` for the
 ``Content-Type`` header value.
 
-Using a Generic Webhook
------------------------
+Registering a Webhook
+---------------------
 
-By default, a generic webhook with the name ``st2`` is already registered. This
-webhook allows you to push arbitrary triggers to the API.
-
-The body of this request needs to be JSON and must contain the following attributes:
-
-* ``trigger`` - Name of the trigger (e.g. ``mypack.mytrigger``)
-* ``payload`` - Object with a trigger payload.
-
-This example shows how to send data to the generic webhook using
-cURL, and how to match this data using rule criteria (replace ``localhost`` with your st2 host if call remotely):
-
-.. sourcecode:: bash
-
-    curl -X POST https://localhost/api/v1/webhooks/st2 -H "X-Auth-Token: matoken" -H "Content-Type: application/json" --data '{"trigger": "mypack.mytrigger", "payload": {"attribute1": "value1"}}'
-
-Rule:
-
-.. sourcecode:: yaml
-
-    ...
-    trigger:
-        type: "mypack.mytrigger"
-
-    criteria:
-        trigger.body.payload.attribute1:
-            type: "equals"
-            pattern: "value1"
-
-    action:
-        ref: "mypack.myaction"
-        parameters:
-    ...
-
-Keep in mind that the ``trigger.type`` attribute inside the rule definition
-needs to be the same as the trigger name defined in the webhook payload body.
-
-Registering a Custom Webhook
-----------------------------
-
-|st2| also supports registering custom webhooks. You can do that by specifying
-``core.st2.webhook`` trigger inside a rule definition.
+You can register a webhook in |st2| by specifying ``core.st2.webhook``
+trigger inside a rule definition.
 
 Here is an excerpt from a rule which registers a new webhook named ``sample``:
 
@@ -156,6 +117,47 @@ Rule:
         ref: "mypack.myaction"
         parameters:
     ...
+
+Using a Generic Webhook
+-----------------------
+
+By default, a special-purpose webhook with the name ``st2`` is already registered. Instead
+of using ``st2.core.webhook``, it allows you to specify any trigger that is known to |st2|
+(either by default or from custom sensors and triggers in packs), so you can use it to
+trigger rules that aren’t explicitly set up to be triggered by webhooks.
+
+The body of this request needs to be JSON and must contain the following attributes:
+
+* ``trigger`` - Name of the trigger (e.g. ``mypack.mytrigger``)
+* ``payload`` - Object with a trigger payload.
+
+This example shows how to send data to the generic webhook using
+cURL, and how to match this data using rule criteria (replace ``localhost`` with your st2 host if call remotely):
+
+.. sourcecode:: bash
+
+    curl -X POST https://localhost/api/v1/webhooks/st2 -H "X-Auth-Token: matoken" -H "Content-Type: application/json" --data '{"trigger": "mypack.mytrigger", "payload": {"attribute1": "value1"}}'
+
+Rule:
+
+.. sourcecode:: yaml
+
+    ...
+    trigger:
+        type: "mypack.mytrigger"
+
+    criteria:
+        trigger.attribute1:
+            type: "equals"
+            pattern: "value1"
+
+    action:
+        ref: "mypack.myaction"
+        parameters:
+    ...
+
+Keep in mind that the ``trigger.type`` attribute inside the rule definition
+needs to be the same as the trigger name defined in the webhook payload body.
 
 Listing Registered Webhooks
 ---------------------------

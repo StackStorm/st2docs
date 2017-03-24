@@ -174,10 +174,10 @@ Run the following curl commands to test.
     curl -X POST -k https://myhost.example.com/auth/v1/tokens
 
     # The following will succeed and return a valid token. Please note that this is executed with "-k" to skip SSL cert verification.
-    curl -X POST -k -u yourusername:yourpassword https://myhost.example.com/auth/v1/tokens
+    curl -X POST -k -u yourusername:'yourpassword' https://myhost.example.com/auth/v1/tokens
 
     # The following will verify the SSL cert, succeed, and return a valid token.
-    curl -X POST --cacert /path/to/cacert.pem -u yourusername:yourpassword https://myhost.example.com/auth/v1/tokens
+    curl -X POST --cacert /path/to/cacert.pem -u yourusername:'yourpassword' https://myhost.example.com/auth/v1/tokens
 
 .. note:: Until version 1.2 of |st2|, auth APIs were served from its own port. If your version is 1.1.1 or below, replace '/api' with ':9100'.
 

@@ -4,7 +4,7 @@ Notifications
 If you read through the :ref:`ref-chatops` section, you are familiar with notifications.
 Even without ChatOps, notifications can be used to post messages to external systems
 like Chat clients, send emails etc. Notifications require an action that is registered with
-|st2| (e.g., the `post_message <https://github.com/StackStorm/st2contrib/blob/master/packs/slack/actions/post_message.yaml>`_ action in the the ``slack`` pack)
+|st2| (e.g., the `post_message <https://github.com/StackStorm-Exchange/stackstorm-slack/tree/master/actions/post_message.yaml>`_ action in the the ``slack`` pack)
 and a notification rule to go with it. Notifications are implemented as triggers, rules and actions.
 A special ``core.st2.notifytrigger`` is emitted by the system on completion of every action.
 A rule to match the trigger to a notify action results in notifications being sent out.
@@ -97,7 +97,7 @@ As of release 1.2, Jinja templating is supported for both ``message`` and ``data
 contexts available for use are parameters of action and runner (``{{action_parameters.cmd}}``),
 keys in execution results (``{{action_results.stdout}}``, ``{{action_results.stderr}}`` for example),
 anything in action context (``{{action_context.user}}``)
-and anything in key-value store (``{{system.foo}}``). Some examples are shown below:
+and anything in key-value store (``{{st2kv.system.foo}}``). Some examples are shown below:
 
 ::
 
@@ -149,7 +149,7 @@ How do I setup different notifications for different tasks in the chain?
 ------------------------------------------------------------------------
 
 The ``notify`` subsection is the same format as seen in examples above.
-Place the subsection in action chain tasks. If there is a notify section for the action metadata, 
+Place the subsection in action chain tasks. If there is a notify section for the action metadata,
 and a notify section in the task, the task section will override the default. The relevant section
 of a chain action with task notify is shown below:
 

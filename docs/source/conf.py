@@ -79,7 +79,7 @@ version = '.'.join(__version__.split('.')[:2])
 # The full version, including alpha/beta/rc tags.
 release = __version__
 # The complete list of current StackStorm versions.
-release_versions = ['2.0', '1.6', '1.5', '1.4', '1.3', '1.2', '1.1', '0.13', '0.12', '0.11', '0.9', '0.8']
+release_versions = ['2.2', '2.1', '2.0', '1.6', '1.5', '1.4', '1.3', '1.2', '1.1', '0.13', '0.12', '0.11', '0.9', '0.8']
 
 # Some loveliness that we have to do to make this work.  Otherwise it defaults to contents.rst
 master_doc = info.master_doc
@@ -106,10 +106,14 @@ extlinks = {
     'github_mistral': ('https://github.com/StackStorm/mistral/tree/master/%s', None),
     'github_contrib':
         ('https://github.com/StackStorm/st2contrib/tree/master/%s', None),
+    'github_exchange':
+        ('https://github.com/StackStorm-Exchange/%s', None),
     'github_devenv': ('https://github.com/StackStorm/devenv/tree/master/%s', None),
     'github_st2web': ('https://github.com/StackStorm/st2web/tree/master/%s', None),
     'ops_latest':
-        ('https://downloads.stackstorm.net/releases/st2/' + release + '/%s/', None)
+        ('https://downloads.stackstorm.net/releases/st2/' + release + '/%s/', None),
+    'web_exchange':
+        ('https://exchange.stackstorm.org/#%s', None),
 }
 
 # Inserted at the bottom of all rst files.
@@ -124,8 +128,7 @@ else:
 
 rst_epilog = """
 %s
-.. _st2contrib: http://www.github.com/stackstorm/st2contrib
-.. _st2incubator: http://www.github.com/stackstorm/st2incubator
+.. _exchange: https://exchange.stackstorm.org/
 .. |bwc| replace:: Brocade Workflow Composer
 .. |ipf| replace:: IP Fabric Automation Suite
 """ % product_replace
@@ -290,7 +293,10 @@ html_context = {
         (version_minus_1, '%s%s' % (info.base_url, version_minus_1)),
         (version_minus_2, '%s%s' % (info.base_url, version_minus_2)),
     ],
-    'current_version': version
+    'current_version': version,
+    'css_files': [
+        '_static/theme_overrides.css',
+        ],
 }
 
 

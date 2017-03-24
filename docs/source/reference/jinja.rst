@@ -13,7 +13,11 @@ For brevity, the jinja patterns are only documented. Usage of these patterns ins
 Accessing datastore items with Jinja
 ------------------------------------
 
-You can use ``{{system.foo}}`` to access key ``foo`` from datastore.
+You can use ``{{st2kv.system.foo}}`` to access key ``foo`` from datastore. Note that until
+v2.1, the expression to access key ``foo`` from datastore used to be ``{{system.foo}}``
+but is now deprecated.
+
+.. _applying-filters-with-jinja:
 
 Applying filters with Jinja
 ----------------------------
@@ -46,7 +50,9 @@ The current supported filters are grouped into following categories.
 |                                | converts it to human readable form like                        |
 |                                | 3d5h6s.                                                        |
 +--------------------------------+----------------------------------------------------------------+
-|``version_compare``             | Compare a semantic version to another value.                   |
+| ``decrypt_kv``                 | Decrypt a system scoped datastore item                         |
++--------------------------------+----------------------------------------------------------------+
+| ``version_compare``            | Compare a semantic version to another value.                   |
 |                                | Returns 1 if LHS is greater or -1 if LHS is                    |
 |                                | smaller or 0 if equal.                                         |
 +--------------------------------+----------------------------------------------------------------+
@@ -69,7 +75,8 @@ The current supported filters are grouped into following categories.
 
 Examples of how to use filters are available in
 :github_st2:`st2/contrib/examples/actions/chains/data_jinja_filter.yaml </contrib/examples/actions/chains/data_jinja_filter.yaml>`,
-:github_st2:`st2/contrib/examples/actions/chains/time_jinja_filter.yaml </contrib/examples/actions/chains/time_jinja_filter.yaml>`
+:github_st2:`st2/contrib/examples/actions/chains/time_jinja_filter.yaml </contrib/examples/actions/chains/time_jinja_filter.yaml>`,
+:github_st2:`st2/contrib/examples/actions/chains/data_jinja_filter.yaml </contrib/examples/actions/chains/decrypt_kv_jinja_filter.yaml>`,
 and :github_st2:`st2/contrib/examples/actions/chains/version_jinja_filter.yaml </contrib/examples/actions/chains/version_jinja_filter.yaml>`.
 
 

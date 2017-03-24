@@ -8,7 +8,7 @@ this command:
 
 .. code-block:: bash
 
-   curl -sSL https://stackstorm.com/packages/install.sh | bash -s -- --user=st2admin --password=Ch@ngeMe
+   curl -sSL https://stackstorm.com/packages/install.sh | bash -s -- --user=st2admin --password='Ch@ngeMe'
 
 It will install and configure the stable version of StackStorm, as per the
 :doc:`single host reference deployment <./overview>`.
@@ -42,6 +42,8 @@ Once it completes successfully, you will see the following output:
   Thanks for installing StackStorm! Come visit us in our Slack Channel
   and tell us how it's going. We'd love to hear from you!
 
+.. include:: __installer_passwords.rst
+
 .. rubric:: Installations
 
 .. toctree::
@@ -49,10 +51,10 @@ Once it completes successfully, you will see the following output:
 
     Reference Deployment Overview <overview>
     system_requirements
-    Ubuntu (Trusty) <deb>
+    Ubuntu 14.04 / 16.04 <deb>
     RHEL 7 / CentOS 7 <rhel7>
     RHEL 6 / CentOS 6 <rhel6>
+    Ansible Playbooks <ansible>
     Brocade Workflow Composer <bwc>
     config/index
     upgrades
-

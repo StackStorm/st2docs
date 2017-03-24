@@ -28,8 +28,12 @@ JSON example using the same keys from the create examples above:
 
     [
         {
-            "os_keystone_endpoint": "http://localhost:5000/v2.0",
-            "aws_cfn_endpoint": "https://cloudformation.us-west-1.amazonaws.com"
+            "name": "os_keystone_endpoint",
+            "value": "http://localhost:5000/v2.0"
+        },
+        {
+            "name": "aws_cfn_endpoint",
+            "value": "https://cloudformation.us-west-1.amazonaws.com"
         }
     ]
 
@@ -70,10 +74,12 @@ Delete an existing key value pair:
 Scoping Datastore Items
 -----------------------
 
-By default, all items stored in key value store are stored in ``system`` scope. This
-basically means every user has access to these variables. You'd typically use the
-jinja expression ``{{system.key_name}}`` to refer to these variables in actions or
-workflows. Starting version 1.5 of |st2|, you can now scope variables to a specific
+By default, all items stored in key value store are stored in ``st2kv.system`` scope.
+This basically means every user  has access to these variables. You'd typically use the
+jinja expression ``{{st2kv.system.key_name}}`` to refer to these variables in actions or
+workflows. Note that until v2.1, the scope used to be called ``system`` and therefore
+you'd have used jinja expression ``{{st2kv.system.key_name}}``.
+Starting version 1.5 of |st2|, you can now scope variables to a specific
 user. With authentication enabled, you can now control who can read or write into those
 variables. For example, to set variable ``date_cmd`` for the currently authenticated
 user, use:
@@ -105,8 +111,11 @@ or simply:
 
 This variable won't clash with the user variables under same name. Also, you can refer
 to user variables in actions or workflows. The jinja syntax to do so is
-``{{user.date_cmd}}``. Note that the notion of ``user`` is available only when actions
-or workflows are run manually. The notion of ``user`` is non-existent when automations
+``{{st2kv.user.date_cmd}}``. Until v2.1, this expression used to be ``{{user.date_cmd}}``
+but is now deprecated.
+
+Note that the notion of ``st2kv.user`` is available only when actions
+or workflows are run manually. The notion of ``st2kv.user`` is non-existent when automations
 are run (actions kicked off via rules). So the use of user scoped variables is limited to
 manual execution of actions or workflows.
 
@@ -123,7 +132,7 @@ the Client init (base\_url) or from environment variable
     >>> from st2client.client import Client
     >>> from st2client.models import KeyValuePair
     >>> client = Client(base_url='http://localhost')
-    >>> client.keys.update(models.KeyValuePair(name='os_keystone_endpoint', value='http://localhost:5000/v2.0'))
+    >>> client.keys.update(KeyValuePair(name='os_keystone_endpoint', value='http://localhost:5000/v2.0'))
 
 Get individual key value pair or list all:
 
@@ -155,8 +164,8 @@ Referencing Key Value Pair in Rule Definition
 Key value pairs are referenced via specific string substitution syntax
 in rules. In general, variable for substitution is enclosed with double
 brackets (i.e. **{{var1}}**). To refer to a key value pair, prefix the
-variable name with "system" (i.e.
-**{{system.os\_keystone\_endpoint}}**). An example rule is provided
+variable name with "st2kv.system" (i.e.
+**{{st2kv.system.os\_keystone\_endpoint}}**). An example rule is provided
 below. Please refer to the documentation section for Rules on rule
 related syntax.
 
@@ -171,7 +180,7 @@ related syntax.
         "action": {
             "name": "daily_clean_up_action",
             "parameters": {
-                "os_keystone_endpoint": "{{system.os_keystone_endpoint}}"
+                "os_keystone_endpoint": "{{st2kv.system.os_keystone_endpoint}}"
             }
         }
     }
@@ -240,7 +249,6 @@ keys correctly.
 
 Now as an admin, you are all set with configuring |st2| server side.
 
-
 .. _datastore-storing-secrets-in-key-value-store:
 
 Storing Secrets
@@ -268,6 +276,17 @@ To get plain text, please run with command --decrypt flag:
     Keep in mind that ``--decrypt`` flag can either be used by an administrator (administrator is
     able to decrypt every value) and by the user who set that value in case of the user-scoped
     datastore item (i.e. if ``--scope=user`` flag was passed when originally setting the value).
+
+If you are using system scoped variables (``st2kv.system``) to store secrets, you can decrypt them
+and use as parameter values in rules or actions. This is supported via jinja filter ``decrypt_kv``
+(read more about :ref:`jinja filters<applying-filters-with-jinja>`). For example,
+to pass a decrypted password as a parameter, simply do
+
+.. code-block:: YAML
+
+    aws_key: "{{st2kv.system.aws_key | decrypt_kv}}"
+
+Decrypting user scoped variables is currently unsupported.
 
 Security notes
 --------------

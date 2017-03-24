@@ -1,4 +1,4 @@
-sphinx
+sphinx==1.4.9
 pypandoc
 pyaml
 git+https://github.com/StackStorm/sphinx-autobuild.git@develop

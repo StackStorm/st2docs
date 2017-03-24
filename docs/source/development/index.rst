@@ -28,7 +28,7 @@ started with StackStorm development.
 
 The best and easiest approach is to use our Vagrant images which contains all
 the dependencies you need to get started. For more information, see
-`st2workroom / st2dev <https://github.com/StackStorm/st2workroom#st2dev>`_.
+`st2vagrant <https://github.com/StackStorm/st2vagrant>`_.
 
 Another approach is to install StackStorm and all the dependencies from source
 on a server or VM of your liking. For more information about this approach, see

@@ -27,8 +27,8 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 
 The ``username`` and ``password`` properties are optional.
 
-|st2| also supports `MongoDB replica sets <https://docs.mongodb.com/v2.4/core/replication-introduction/>`_
-using `MongoDB URI string <https://docs.mongodb.com/v2.4/reference/connection-string/>`_.
+|st2| also supports `MongoDB replica sets <https://docs.mongodb.com/v3.2/core/replication-introduction/>`_
+using `MongoDB URI string <https://docs.mongodb.com/v3.2/reference/connection-string/>`_.
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
 
@@ -37,9 +37,9 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
     [database]
     host = mongodb://<#MDB_NODE_1>,<#MDB_NODE_2>,<#MDB_NODE_3>/?replicaSet=<#MDB_REPLICA_SET_NAME>
 
-* You can also add ports, usernames and passwords, etc to your connection string - https://docs.mongodb.com/v2.4/reference/connection-string/
+* You can also add ports, usernames and passwords, etc to your connection string - https://docs.mongodb.com/v3.2/reference/connection-string/
 
-* To understand more about setting up a MongoDB replica set - https://docs.mongodb.com/v2.4/tutorial/deploy-replica-set/
+* To understand more about setting up a MongoDB replica set - https://docs.mongodb.com/v3.2/tutorial/deploy-replica-set/
 
 |st2| also supports SSL/TLS to encrypt connections. A few extra properties need be added to
 the configuration apart from the ones outlined above.
@@ -66,7 +66,7 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 
 .. note:: Only certain distributions of MongoDB support SSL/TLS.
 
-    * MonogoDB enterprise vesions have SSL/TLS support.
+    * MongoDB enterprise versions have SSL/TLS support.
     * Build MongoDB from source to enable SSL/TLS support. See https://github.com/mongodb/mongo/wiki/Build-Mongodb-From-Source for more information.
 
 Configure RabbitMQ
@@ -179,6 +179,7 @@ One way of setting up passwordless sudo is perform the below operation on each r
 
     echo "stanley    ALL=(ALL)       NOPASSWD: SETENV: ALL" >> /etc/sudoers.d/st2
 
+.. _config-logging:
 
 Configure Logging
 -----------------
@@ -188,9 +189,15 @@ By default, the logs can be found in ``/var/log/st2``.
 * With the standard logging setup you will see files like ``st2*.log`` and
   ``st2*.audit.log`` in the log folder.
 
-* Per component logging configuration can be found in ``/etc/st2*/logging.conf``.
+* Per component logging configuration can be found in ``/etc/st2/logging.<component>.conf``.
   Those files use `Python logging configuration format <https://docs.python.org/2/library/logging.config.html#configuration-file-format>`_.
-  Log file location and other settings can be modified in these configuration files.
+  Log file location and other settings can be modified in these configuration files, e.g. to
+  change the output to use syslog instead.
+
+* |st2| ships with example configuration files to show how to use syslog - these are at
+  ``/etc/st2/syslog.<component>.conf``. To use them, edit ``/etc/st2/st2.conf``, and change
+  the ``logging =`` lines to point to the syslog configuration file. You can also see more
+  instructions and example configurations at :github_exchange:`exchange-misc/syslog <exchange-misc/tree/master/syslog>`.
 
 * By default, log rotation is handled via logrotate. Default log rotation config
   (:github_st2:`logrotate.conf <conf/logrotate.conf>`) is included with all the
@@ -244,11 +251,9 @@ By default, the logs can be found in ``/var/log/st2``.
       formatter=gelfFormatter
       args=("logs/mysensor.audit.log",)
 
-* To configure logging with syslog, grab the configuration and follow
-  instructions at :github_contrib:`st2contrib/extra/syslog <extra/syslog>`
 
 * Check out LogStash configuration and Kibana dashboard for pretty logging and
-  audit at :github_contrib:`st2contrib/extra/logstash <extra/logstash>`
+  audit at :github_exchange:`exchange-misc/logstash <exchange-misc/tree/master/logstash>`
 
 
 Configure Mistral

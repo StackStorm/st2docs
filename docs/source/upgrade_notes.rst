@@ -6,15 +6,200 @@ Upgrade Notes
 |st2| in development
 --------------------
 
-* Action parameter names can now only contain valid word characters (``a-z``, ``0-9`` and ``_``).
+* Additional validation has been introduced for triggers.
 
-  If you have an existing action which uses parameter name which doesn't fall into this criteria
-  it needs to be updated otherwise action registration will fail with an error.
+    1. Trigger payload is now validated against the trigger ``payload_schema`` schema when
+       dispatching a trigger inside the sensor.
 
-|st2| v2.0.0
-------------
+      Validation is only performed if ``system.validate_trigger_payload`` config option is
+      enabled (it's disabled by default) and if trigger object defines ``payload_schema``
+      attribute.
 
-* `st2ctl reload` now also registers rules by default. Prior to this release we used to register
+    2. Trigger parameters are now validated for non-system (user-defined) triggers when creating
+       a rule.
+
+      Validation is only performed if ``system.validate_trigger_parameters`` config option is
+      enabled (it's disabled by default) and if trigger object defines ``parameters_schema``
+      attribute.
+
+  Both of those configuration options are disabled by default for now, but they will be enabled
+  by default (with an option to opt-out) in a future major |st2| release.
+
+* The database schema for Mistral has changed. The executions_v2 table is no longer used. The
+  table is being broken down into workflow_executions_v2, task_executions_v2, and
+  action_executions_v2. After upgrade, using the Mistral commands from the command line such as
+  ``mistral execution-list`` will return an empty table. The records in executions_v2 have not
+  been deleted. The commands are reading from the new tables. There is currently no migration
+  script to move existing records from executions_v2 into the new tables. To read from
+  executions_v2, either use psql or install an older version of the python-mistralclient in a
+  separate python virtual environment.
+
+* If you’re seeing an error ``event_triggers_v2 already exists`` when running ``mistral-db-manage upgrade head``,
+  this means the mistral services started before the ``mistral-db-manage`` commands were run.
+  Refer to this :ref:`procedure <mistral_db_recover>` to recover the system.
+
+* Jinja notations ``{{user.key}}`` and ``{{system.key}}`` to access datastore items under
+  ``user`` and ``system`` scopes are now unsuported. Please use ``{{st2kv.user.key}}`` and
+  ``{{st2kv.system.key}}`` notations instead. Also, please update your |st2| content
+  (actions, rules and workflows) to use the new notation.
+
+* When installing StackStorm using the installer script a random password is generated for MongoDB
+  and PostgreSQL. This means you now need to explicitly pass ``--config-file /etc/st2/st2.conf``
+  argument to all the CLI scripts (e.g. ``st2-apply-rbac-definitions``, etc.) which need access
+  to the database (MongoDB). If you don't do that, "access denied" error will be returned, because
+  it will try to use a default password when connecting to the database.
+
+  .. code-block:: bash
+
+    st2-apply-rbac-defintions --config-file /etc/st2/st2.conf
+
+  If for some reason, you need access to the plain-text version of the password used by StackStorm
+  services to talk to MongoDB and PostgreSQL, you can find it in ``/etc/st2/st2.conf``
+  (``[database]`` section) ``/etc/mistral/mistral.conf`` (``[database]`` section) files.
+
+|st2| v2.1
+----------
+
+* **WARNING:** The following changes may require you to update your custom packs during the upgrade.
+
+  * The ``version`` attribute in ``pack.yaml`` metadata must now contain
+    to contain a valid ``semver`` version string (<major>.<minor>.<patch>, e.g. ``1.0.1``). In
+    addition to that, ``email`` attribute must be a valid email address.
+
+  * Pack ``ref`` and action parameter names can now only contain valid word characters (``a-z``,
+    ``0-9`` and ``_``). No dashes! ``hpe_icsp`` is ok, but ``hpe-icsp`` is not.
+
+  The ``st2ctl`` and ``st2-register-content`` scripts are now doing additional validation. If you
+  happen to have a pack which doesn't satisfy these new validation criteria, it will fail to load.
+  Therefore, to upgrade StackStorm from v2.0.* to 2.1.*, follow this:
+
+      1. Use ``yum`` or ``apt-get`` to upgrade to the newest version.
+
+      2. Update community packs to the latest version from
+         `StackStorm Exchange <https://exchange.stackstorm.org/>`__ with ``st2 pack install <pack>``.
+
+      3. Reload the content with ``st2ctl reload``.
+
+      4. If you happen to have packs that don't satisfy the rules above, the validation fails
+         and the pack load will throw errors. Fix the packs to conform to the rules above,
+         and reload the content again.
+
+  In 2.1.0, |st2| attempts to auto-correct some validation failures and display a warning.
+  In future release this auto-correction will be removed. Please update your packs ASAP.
+
+* `st2contrib <https://github.com/stackstorm/st2contrib>`__ is now deprecated, and replaced by
+  `StackStorm Exchange <https://exchange.stackstorm.org/>`__ . All the packs from
+  `st2contrib <https://github.com/stackstorm/st2contrib>`__ are migrated to StackStorm Exchange.
+  For more information see :doc:`/reference/pack_management_transition`.
+
+* Pack "subtree" repositories (repositories containing multiple packs inside the ``packs/`` subdir)
+  are no   longer supported. The subtree parameter in packs.install is removed. The new convention is
+  one pack per git/GitHub repo. If you happen to use subtrees   with your private packs, they will
+  have to be split into multiple single-pack repositories in order   for st2 pack install to be able
+  to install the packs.
+
+* The ``packs`` pack is deprecated starting from 2.1; in future versions it will be completely
+  replaced with the ``st2 pack <...>`` commands and API endpoints.
+
+* Pack metadata file (``pack.yaml``) can now contain a new ``ref`` attribute, in addition to ``name``.
+  ``ref`` acts as a unique identifier; it offers for a more readable ``name``. For example, if a pack name is ``Travis CI``, a repo containing it is stackstorm-travis_ci, and ``ref`` is ``travis_ci``. Previously the pack files would live in ``travis_ci/`` directory and pack directory name served as a unique identifier for a pack.
+
+* Support for ``.gitinfo`` file has been removed and as such ``packs.info`` action has also been
+  removed. All the pack directories at ``/opt/stackstorm/packs`` are now direct git checkouts of the corresponding pack repositories from exchange or your own origin, so this file is not needed anymore.
+
+* Datastore scopes are now ``st2kv.system`` and ``st2kv.user`` as opposed to ``system`` and ``user``.
+  So if you are accessing datastore items in your content, you should now use jinja expressions
+  ``{{st2kv.system.foo}}`` and ``{{st2kv.user.foo}}``. The older jinja expressions
+  ``{{system.foo}}`` and ``{{user.foo}}`` are still supported for backward compatibility but
+  will be deprecated in subsequent releases.
+
+* Runners are now `pluggable`. With this version, we are piloting an ability to register
+  runners just like other |st2| content. You can register runners by simply running
+  ``st2ctl reload --register-runners``. This feature is in beta and is being worked on.
+  No backward compatibility is guaranteed. Please wait for a release note indicating general
+  availability of this feature.
+
+* Config schemas now also support nested objects. Previously config schema and configuration file
+  needed to be fully flat to be able to utilize default values from the config schemas and dynamic
+  configuration values inside the config file.
+
+  Now the config schema file can contain arbitrary level of nesting of the attributes and it will
+  still work as expected.
+
+  Old approach (flat schema):
+
+  .. code-block:: yaml
+
+    ---
+      api_server_host:
+        description: "API server host."
+        type: "string"
+        required: true
+        secret: false
+      api_server_port:
+        description: "API server port."
+        type: "integer"
+        required: true
+      api_server_token:
+        description: "API server token."
+        type: "string"
+        required: true
+        secret: true
+      auth_server_host:
+        description: "Auth server host."
+        type: "string"
+        required: true
+        secret: false
+      auth_server_port:
+        description: "Auth server port."
+        type: "integer"
+        required: true
+
+  New approach (nested schemas are supported):
+
+  .. code-block:: yaml
+
+    ---
+      api_settings:
+        description: "API related configuration options."
+        type: "object"
+        required: false
+        additionalProperties: false
+        properties:
+          host:
+            description: "API server host."
+            type: "string"
+            required: true
+            secret: false
+          port:
+            description: "API server port."
+            type: "integer"
+            required: true
+          token:
+            description: "API server token."
+            type: "string"
+            required: true
+            secret: true
+      auth_settings:
+        description: "Auth API related configuration options."
+        type: "object"
+        required: false
+        additionalProperties: false
+        properties:
+          host:
+            description: "Auth server host."
+            type: "string"
+            required: true
+            secret: false
+          port:
+            description: "Auth server port."
+            type: "integer"
+            required: true
+
+|st2| v2.0
+----------
+
+* ``st2ctl reload`` now also registers rules by default. Prior to this release we used to register
   actions, aliases, sensors, triggers and configs. Now rules are also registered by default.
 
 |st2| v1.6
@@ -33,7 +218,6 @@ Upgrade Notes
         if something_awesome_working == True
             return (True, result)  #  Succeeded is True and the result from action on success
         return (False, result)  #  Succeeded is False and the result from action on failure
-
 
   This allows users to also return a result from a failing action. This result can then be used in
   workflows, etc. Previously this was not possible since the only way for action to be considered

@@ -117,11 +117,12 @@ to the Trigger.
 The following command will list all the rules for a specific trigger.
 
 ::
+
     st2 rule list --trigger=test_pack.test_trigger
 
 If there are rules in this list then it tells us that there are rules in the system that actually match a given Trigger.
 
-In case nothing is returned and the result is surprising then it is worth looking into the rules engine logs. By default, rules engine logs are stored in ``/var/log/st2rulesengine.log`` file. You should inspect this file (``cat``, ``grep`` and ``tail`` are your friends) and look for a line similar to the one below.
+In case nothing is returned and the result is surprising then it is worth looking into the rules engine logs. By default, rules engine logs are stored in ``/var/log/st2/st2rulesengine.log`` file. You should inspect this file (``cat``, ``grep`` and ``tail`` are your friends) and look for a line similar to the one below.
 
 .. code-block:: bash
 
