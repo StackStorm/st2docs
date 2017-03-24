@@ -13,10 +13,12 @@ Roadmap
 * **Projects and Uber-flow:** Introduce projects to group and manage rules and workflows. Handle versions and dependencies. "Productize" flow-rule-flow-rule chain pattern, aka "uber-flow". Manage large number of automations across users and teams, on a single |st2| deployment at enterprise scale.
 * **Action Output Structure Definition**: Enable optional definition of action payload, so that it can be inspected and used when passing data between actions in workflows.
 * **RBACv2:**
+
   * **Filters**: Tag and property based filters, more refined and convenient access control.
   * **Permissions**: Permissions on key value objects, arbitrary triggers, support for a default role to be assigned to new users.
   * **WebUI**: UI for RBAC configuration.
   * **ChatOps**: Allow users to authenticate with |st2| via bot on chat. Check permissions of the user who triggered an action / ran a command. Introduce a special set of permission types for ChatOps.
+
 * **API Docs:** Generate REST API docs.
 * **Monitoring Docs:** Create |st2| monitoring guidelines.
 * **More integration packs:** push more content to the community to help work with most common and widely used tools. Tell us if there is a tool you love and think we should integrate with, or better yet write a pack!
@@ -25,6 +27,11 @@ Is there some other feature you're desperately missing? Submit an `issue <https:
 
 Release History
 ---------------
+
+.. rubric:: Done in v2.2
+
+* **Mistral Jinja support:** Mistral workflows now support Jinja notation
+* **Security improvements:** Better default security posture for MongoDB, RabbitMQ, PostgreSQL
 
 .. rubric:: Done in v2.1
 
