@@ -95,9 +95,10 @@ Below is more advanced example to customize |st2| deployment:
           role: st2chatops
           vars:
             st2chatops_version: latest
-            st2chatops_st2_api_key: CHANGE-ME-PLEASE # This can be generated using "st2 apikey create -k"
+            st2chatops_st2_api_key: CHANGE-ME-PLEASE # (optional) This can be generated using "st2 apikey create -k"
             st2chatops_hubot_adapter: slack
-            st2chatops_config: {"HUBOT_SLACK_TOKEN":"xoxb-CHANGE-ME-PLEASE"}
+            st2chatops_config:
+              HUBOT_SLACK_TOKEN:xoxb-CHANGE-ME-PLEASE
 
         - name: Verify StackStorm Installation
           role: st2smoketests
