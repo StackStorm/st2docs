@@ -14,10 +14,9 @@ this command:
 
   The installation script is an opinionated installation of |st2|. It assumes that you have a clean, basic
   installation of Ubuntu or RHEL/CentOS, similar to what you get with a basic installation from ISO. If
-  you are trying to install |st2| on a server with many existing services, or maybe a 'pre-loved' VM that
-  you will run into problems. 
+  you are trying to install |st2| on a server with other applications running, you may run into problems.
 
-  The same thing applies for VMs that are built from special 'templates' provided by your IT department.
+  The same applies for VMs that are built from special 'templates' provided by your IT department.
   If they have customised $HOME locations, or changed default authentication methods, then the script may
   break. Don't worry though! Scroll down for the manual instructions for your specific OS. Follow those,
   with any site-specific modifications you need.
