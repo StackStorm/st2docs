@@ -193,7 +193,10 @@ inherit permissions from the rule they belong and from the rule's parent pack. T
 a user has a ``rule_view`` permission on a particular rule, then they also have permissions to
 view the rule enforcement model for the rule. Similarly, if you grant ``rule_view`` to a
 parent pack of the rule, user will be able to see all enforcements of rules belonging to that
-pack. Note that rule enforcements are ``operational models``. You cannot create/modify/delete them via API. So permissions other than ``view`` and ``list`` do not make sense.
+pack.
+
+Note that rule enforcements are ``operational models``. You cannot create / modify / delete them
+via API. So permissions other than ``view`` and ``list`` do not make sense.
 
 Permissions and executions which are not triggered via the API
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -353,22 +356,25 @@ Using RBAC Example
 
 **Possible scenarios :**
 
-1. A user owns a pack i.e is able to view, create, delete, modify and where applicable execute various resources like actions, rules, sensors.
+1. A user owns a pack i.e is able to view, create, delete, modify and where applicable execute
+   various resources like actions, rules, sensors.
 2. A user can create rules, execute actions and view a handful of actions.
 3. A user capable of viewing actions in a pack but cannot execute any action.
 
-This example provides a walk-through of scenario 1 i.e configuring a user as a pack owner. The steps to be followed are by an
-Administrator of |st2| on a box that is running |st2|.
+This example provides a walk-through of scenario 1 i.e configuring a user as a pack owner. The
+steps to be followed are by an Administrator of |st2| on a box that is running |st2|.
 
 User creation
 ~~~~~~~~~~~~~
 
-All user and password management is kept outside of |st2|. Read the :doc:`authentication <authentication>` docs to see
-how to configure to configure |st2| with various identity providers.
+All user and password management is kept outside of |st2|. Read the
+:doc:`authentication <authentication>` docs to see how to configure to configure |st2| with various
+identity providers.
 
-For sake of this example let us assume that the identity provider is managed by the OS on which |st2| runs.
+For sake of this example let us assume that the identity provider is managed by the OS on which
+|st2| runs.
 
-To create a user and set-up a password on most linux systems -
+To create a user and set-up a password on most Linux systems -
 
 .. sourcecode:: bash
 
@@ -386,8 +392,9 @@ Once this user is created |st2| will allow access to this user. (Optional) To va
 Role creation
 ~~~~~~~~~~~~~
 
-A newly created user has no assigned permissions. Each permission must be explicitly assigned to a user. To assign
-permission grants |st2| requires creation of a role and then associating this role with a user. In this case we are trying to create a pack owner role.
+A newly created user has no assigned permissions. Each permission must be explicitly assigned to a
+user. To assign permission grants |st2| requires creation of a role and then associating this role
+with a user. In this case we are trying to create a pack owner role.
 
 Lets first make sure there is a pack `x` we can use to experiment.
 
@@ -401,7 +408,8 @@ Lets first make sure there is a pack `x` we can use to experiment.
     $ touch requirements.txt
     $ cp core/icon.png x/icon.png
 
-Now we setup a role. Create file `/opt/stackstorm/rbac/roles/x_pack_owner.yaml` with the following content -
+Now we setup a role. Create file `/opt/stackstorm/rbac/roles/x_pack_owner.yaml` with the following
+content -
 
 .. sourcecode:: bash
 
@@ -418,16 +426,17 @@ Now we setup a role. Create file `/opt/stackstorm/rbac/roles/x_pack_owner.yaml` 
                - "rule_all"
                - "action_all"
 
-A `pack owner` role would require the user to be able to view, create, modify and delete all contents
-of a pack. Again, lets pick pack `x` as the target of ownership.
+A `pack owner` role would require the user to be able to view, create, modify and delete all
+contents of a pack. Again, lets pick pack `x` as the target of ownership.
 
-See :ref:`available permission types<ref-rbac-available-permission-types>` for a full list of permission types.
+See :ref:`available permission types<ref-rbac-available-permission-types>` for a full list of
+permission types.
 
 Role assignment
 ~~~~~~~~~~~~~~~
 
-Creation of a role is followed by assignment of a role to the user. Create file `/opt/stackstorm/rbac/assignments/rbacu1.yaml`
-with the following content -
+Creation of a role is followed by assignment of a role to the user. Create file
+`/opt/stackstorm/rbac/assignments/rbacu1.yaml` with the following content -
 
 
 .. sourcecode:: bash
@@ -442,14 +451,14 @@ with the following content -
 Applying RBAC
 ~~~~~~~~~~~~~
 
-As a |st2| administrator and on a box with StackStrom installed run -
+As a |st2| administrator and on a box with |st2| installed run -
 
 .. sourcecode:: bash
 
     st2-apply-rbac-definitions
 
-This command will sync up the |st2| RBAC state with file system state. Only after running this command does
-|st2| know of the latest changes to RBAC permission grants.
+This command will sync up the |st2| RBAC state with file system state. Only after running this
+command does |st2| know of the latest changes to RBAC permission grants.
 
 Validation
 ~~~~~~~~~~
