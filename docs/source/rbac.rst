@@ -41,7 +41,7 @@ team, responsibility, etc.).
 Roles are assigned to the users. Each user can have multiple roles assigned to it and each role can
 be assigned to multiple users.
 
-System roles
+System Roles
 ------------
 
 System roles are roles which are available by default and can't be manipulated (modified and / or
@@ -91,7 +91,7 @@ retrieve details for this particular action.
 
 .. _ref-rbac-available-permission-types:
 
-Available permission types
+Available Permission Types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The table below contains a list of all the available permission types.
@@ -100,7 +100,7 @@ The table below contains a list of all the available permission types.
 
 This list can also be retrieved using the RBAC meta API (``GET /v1.0/rbac/permission_types``).
 
-User permissions
+User Permissions
 ~~~~~~~~~~~~~~~~
 
 User permissions (also called effective user permission set) are represented as a union of all
@@ -165,7 +165,7 @@ User permissions are checked when a user performs an operation using the API. If
 necessary permissions* the API operation proceeds normally, otherwise access denied error is
 returned and the error is logged in the audit log.
 
-Permission inheritance
+Permission Inheritance
 ~~~~~~~~~~~~~~~~~~~~~~
 
 **Pack resources**
@@ -304,14 +304,16 @@ Automatically granting roles based on the user LDAP group membership
    for authentication.
 
 In addition to manually assigning roles to the users based on the definitions in the
-``assignments/`` directory, |st2| also supports automatically granting particular roles to the user
-based on the LDAP groups user is a member of.
+``/opt/stackstorm/rbac/assignments/`` directory, |st2| also supports automatically granting roles
+based on the LDAP groups a particular user is a member of.
 
-This comes handy in enterprise environments and makes |st2| user provisioning easier and faster
+This comes handy in enterprise environments and makes |st2| user provisioning easier and faster.
+It means operator doesn't need to manually write and manage RBAC role assignment files on disk
+because roles are automatically granted to the users based on their LDAP  group membership.
 because it means operator doesn't need to write and manage RBAC role assignments files on disk.
 
 To be able to utilize this feature it first needs to be enabled in ``st2.conf`` by setting
-``rbac.sync_remote_groups`` option to True.
+``rbac.sync_remote_groups`` option to ``True``.
 
 .. code-block:: ini
 
@@ -324,37 +326,61 @@ located in ``/opt/stackstorm/mappings/`` directory and map LDAP group to one or 
 
 Two examples of such mapping files can be found below.
 
+.. note::
+
+  LDAP group names referenced in ``group`` attribute are case-sensitive.
+
 ``/opt/stackstorm/rbac/mappings/stormers.yaml``
 
----
-  group: "CN=stormers,OU=groups,DC=stackstorm,DC=net"
-  description: "Automatically grant admin role to all stormers group members."
-  roles:
-    - "admin"
+.. code-block:: yaml
+
+    ---
+      group: "CN=stormers,OU=groups,DC=stackstorm,DC=net"
+      description: "Automatically grant admin role to all stormers group members."
+      roles:
+        - "admin"
 
 Each user which is a member of ``CN=stormers,OU=groups,DC=stackstorm,DC=net`` LDAP group will
-automatically be granted ``admin`` |st2| role when they successfully authenticate.
+automatically be granted ``admin`` |st2| role when they successfully authenticate with |st2|.
 
 ``/opt/stackstorm/rbac/mappings/testers.yaml``
 
----
-  group: "CN=testers,OU=groups,DC=stackstorm,DC=net"
-  description: "Automatically grant observer and q_admin role to all testers group members."
-  roles:
-    - "observer"
-    - "qa_admin"
+.. code-block:: yaml
+
+    ---
+      group: "CN=testers,OU=groups,DC=stackstorm,DC=net"
+      description: "Automatically grant observer and q_admin role to all testers group members."
+      roles:
+        - "observer"
+        - "qa_admin"
 
 Each user which is a member of ``CN=testers,OU=groups,DC=stackstorm,DC=net`` LDAP group will
 automatically be granted ``observer`` and ``qa_admin`` |st2| role when they successfully
-authenticate.
+authenticate with |st2|.
 
 Once the mapping definitions files are written, operator needs to run
 ``st2-apply-rbac-definitions`` tool to store those definitions in the database.
 
+How it works
+~~~~~~~~~~~~
+
+Role assignments based on the LDAP group to |st2| role mappings are synchronized each time user
+authenticates with |st2| auth API and receives a fresh auth token.
+
+If for some reason you want user roles to be synchronized before existing auth token expires
+(default TTL is 24 hours), you can simply ask user to re-authenticate to retrieve a new auth token.
+Alternatively, you as an operator, can manually expire or disable an active auth token which will
+force user to re-authenticate with |st2|.
+
+Similar workflow can be used when removing / deprovisioning a user from your system. By default,
+when user is removed from LDAP they will still be able to use |st2| if they have a valid auth token
+until that auth token expires. If you want user access to be revoked as soon as they are removed
+from LDAP, you can manually purge active auth tokens for a particular user from |st2| user database.
+
 Using RBAC Example
 ------------------
 
-**Possible scenarios :**
+**Possible scenarios:**
 
 1. A user owns a pack i.e is able to view, create, delete, modify and where applicable execute
    various resources like actions, rules, sensors.
