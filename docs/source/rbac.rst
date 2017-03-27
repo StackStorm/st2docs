@@ -292,6 +292,62 @@ For example:
 
 .. _rbac-using_rbac:
 
+Automatically granting roles based on the user LDAP group membership
+--------------------------------------------------------------------
+
+.. note::
+
+   This functionality is only available in |st2| v2.3.0 and above when LDAP auth backend is used
+   for authentication.
+
+In addition to manually assigning roles to the users based on the definitions in the
+``assignments/`` directory, |st2| also supports automatically granting particular roles to the user
+based on the LDAP groups user is a member of.
+
+This comes handy in enterprise environments and makes |st2| user provisioning easier and faster
+because it means operator doesn't need to write and manage RBAC role assignments files on disk.
+
+To be able to utilize this feature it first needs to be enabled in ``st2.conf`` by setting
+``rbac.sync_remote_groups`` option to True.
+
+.. code-block:: ini
+
+  [rbac]
+  sync_remote_groups = True
+
+After this feature is enabled, operator needs to write mapping files which tell |st2| which roles
+to automatically grant to users which are a member of a particular LDAP group. Mapping files are
+located in ``/opt/stackstorm/mappings/`` directory and map LDAP group to one or more |st2| roles.
+
+Two examples of such mapping files can be found below.
+
+``/opt/stackstorm/rbac/mappings/stormers.yaml``
+
+---
+  group: "CN=stormers,OU=groups,DC=stackstorm,DC=net"
+  description: "Automatically grant admin role to all stormers group members."
+  roles:
+    - "admin"
+
+Each user which is a member of ``CN=stormers,OU=groups,DC=stackstorm,DC=net`` LDAP group will
+automatically be granted ``admin`` |st2| role when they successfully authenticate.
+
+``/opt/stackstorm/rbac/mappings/testers.yaml``
+
+---
+  group: "CN=testers,OU=groups,DC=stackstorm,DC=net"
+  description: "Automatically grant observer and q_admin role to all testers group members."
+  roles:
+    - "observer"
+    - "qa_admin"
+
+Each user which is a member of ``CN=testers,OU=groups,DC=stackstorm,DC=net`` LDAP group will
+automatically be granted ``observer`` and ``qa_admin`` |st2| role when they successfully
+authenticate.
+
+Once the mapping definitions files are written, operator needs to run
+``st2-apply-rbac-definitions`` tool to store those definitions in the database.
+
 Using RBAC Example
 ------------------
 
