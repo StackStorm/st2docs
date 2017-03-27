@@ -378,14 +378,14 @@ To create a user and set-up a password on most Linux systems -
 
 .. sourcecode:: bash
 
-    $ useradd rbacu1
-    $ passwd rbacu1
+    $ useradd rbac_user1
+    $ passwd rbac_user1
 
 Once this user is created |st2| will allow access to this user. (Optional) To validate try -
 
 .. sourcecode:: bash
 
-    $ st2 auth rbacu1 -p '<RBACU1_PASSWORD>'
+    $ st2 auth rbac_user1 -p '<RBACU1_PASSWORD>'
     $ export ST2_AUTH_TOKEN=<USER_SCOPED_AUTH_TOKEN>
     $ st2 action list
 
@@ -396,30 +396,30 @@ A newly created user has no assigned permissions. Each permission must be explic
 user. To assign permission grants |st2| requires creation of a role and then associating this role
 with a user. In this case we are trying to create a pack owner role.
 
-Lets first make sure there is a pack `x` we can use to experiment.
+Lets first make sure there is a pack `example` we can use to experiment.
 
 .. sourcecode:: bash
 
     $ cd /opt/stackstorm/packs/
-    $ mkdir x
-    $ mkdir x/actions x/rules x/sensors
+    $ mkdir example
+    $ mkdir example/actions example/rules example/sensors
     $ touch pack.yaml
-    $ touch /opt/stackstorm/configs/x.yaml
+    $ touch /opt/stackstorm/configs/example.yaml
     $ touch requirements.txt
-    $ cp core/icon.png x/icon.png
+    $ cp core/icon.png example/icon.png
 
-Now we setup a role. Create file `/opt/stackstorm/rbac/roles/x_pack_owner.yaml` with the following
-content -
+Now we setup a role. Create file `/opt/stackstorm/rbac/roles/example_pack_owner.yaml` with the
+following content -
 
 .. sourcecode:: bash
 
     ---
-    name: "x_pack_owner"
-    description: "Owner of pack x"
+    name: "example_pack_owner"
+    description: "Owner of pack example"
     enabled: true
     permission_grants:
         -
-            resource_uid: "pack:x"
+            resource_uid: "pack:example"
             permission_types:
                - "pack_all"
                - "sensor_all"
@@ -427,7 +427,7 @@ content -
                - "action_all"
 
 A `pack owner` role would require the user to be able to view, create, modify and delete all
-contents of a pack. Again, lets pick pack `x` as the target of ownership.
+contents of a pack. Again, lets pick pack `example` as the target of ownership.
 
 See :ref:`available permission types<ref-rbac-available-permission-types>` for a full list of
 permission types.
@@ -436,17 +436,17 @@ Role assignment
 ~~~~~~~~~~~~~~~
 
 Creation of a role is followed by assignment of a role to the user. Create file
-`/opt/stackstorm/rbac/assignments/rbacu1.yaml` with the following content -
+`/opt/stackstorm/rbac/assignments/rbac_user1.yaml` with the following content -
 
 
 .. sourcecode:: bash
 
     ---
-    username: "rbacu1"
-    description: "rbacu1 assignments"
+    username: "rbac_user1"
+    description: "Grant example_pack_owner role to rbac_user1 user."
     enabled: true
     roles:
-        - "x_pack_owner"
+        - "example_pack_owner"
 
 Applying RBAC
 ~~~~~~~~~~~~~
@@ -469,7 +469,7 @@ Lets take what we have achieved for a spin using the |st2| CLI.
 
 .. sourcecode:: bash
 
-    $ st2 auth rbacu1 -p '<RBACU1_PASSWORD>'
+    $ st2 auth rbac_user1 -p '<RBACU1_PASSWORD>'
     $ export ST2_AUTH_TOKEN=<USER_SCOPED_AUTH_TOKEN>
     $ st2 action list
 
@@ -477,12 +477,12 @@ Lets take what we have achieved for a spin using the |st2| CLI.
 
 .. sourcecode:: bash
 
-    $ cd /opt/stackstorm/packs/x
+    $ cd /opt/stackstorm/packs/example
     $ cp /usr/share/doc/st2/examples/rules/sample_rule_with_timer.yaml rules/
-    $ sed -i 's/pack: "examples"/pack: "x"/g' rules/sample_rule_with_timer.yaml
+    $ sed -i 's/pack: "examples"/pack: "example"/g' rules/sample_rule_with_timer.yaml
     $ st2 rule create rules/sample_rule_with_timer.yaml
-    $ st2 rule get x.sample_rule_with_timer.yaml
-    $ st2 rule delete x.sample_rule_with_timer.yaml
+    $ st2 rule get example.sample_rule_with_timer.yaml
+    $ st2 rule delete example.sample_rule_with_timer.yaml
 
     # Expect Failure
     $ st2 rule get <EXISTING_RULE_REF>
@@ -491,13 +491,13 @@ Lets take what we have achieved for a spin using the |st2| CLI.
 
 .. sourcecode:: bash
 
-    $ cd /opt/stackstorm/packs/x
+    $ cd /opt/stackstorm/packs/example
     $ cp /usr/share/doc/st2/examples/actions/local.yaml actions/
-    $ echo "pack: x" >> actions/local.yaml
+    $ echo "pack: example" >> actions/local.yaml
     $ st2 action create actions/local.yaml
-    $ st2 action get x.local-notify
-    $ st2 run x.local-notify hostname
-    $ st2 action delete x.local-notify
+    $ st2 action get example.local-notify
+    $ st2 run example.local-notify hostname
+    $ st2 action delete example.local-notify
 
     # Expect failure
     $ st2 action get core.local
