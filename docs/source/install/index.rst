@@ -20,6 +20,9 @@ this command:
   If they have customised $HOME locations, or changed default authentication methods, then the script may
   break. Don't worry though! Scroll down for the manual instructions for your specific OS. Follow those,
   with any site-specific modifications you need.
+  
+  The script itself is not idempotent. If you try to re-run the script on top of a failed installation, it
+  will almost certainly fail. Start again with a clean system, or switch to a manual install.
 
 It will install and configure the stable version of StackStorm, as per the
 :doc:`single host reference deployment <./overview>`. The installation takes about 4 minutes. Once it
