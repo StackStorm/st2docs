@@ -274,7 +274,7 @@ For example:
 
 .. code-block:: bash
 
-    st2-apply-rbac-definitions
+    st2-apply-rbac-definitions --config-file=/etc/st2/st2.conf
 
     2015-08-12 22:30:18,439 - INFO - Synchronizing roles...
     2015-08-12 22:30:18,441 - DEBUG - New roles: set([])
@@ -305,12 +305,12 @@ Automatically granting roles based on the user LDAP group membership
 
 In addition to manually assigning roles to the users based on the definitions in the
 ``/opt/stackstorm/rbac/assignments/`` directory, |st2| also supports automatically granting roles
-based on the LDAP groups a particular user is a member of.
+to users on authentication based on the LDAP groups membership.
 
 This comes handy in enterprise environments and makes |st2| user provisioning easier and faster.
-It means operator doesn't need to manually write and manage RBAC role assignment files on disk
-because roles are automatically granted to the users based on their LDAP  group membership.
-because it means operator doesn't need to write and manage RBAC role assignments files on disk.
+It means operator doesn't need to manually write and manage RBAC role assignment files on disk,
+because roles are automatically granted to the users based on their LDAP group membership and
+mappings files in ``/opt/stackstorm/rbac/mappings/`` directory.
 
 To be able to utilize this feature it first needs to be enabled in ``st2.conf`` by setting
 ``rbac.sync_remote_groups`` option to ``True``.
@@ -359,7 +359,8 @@ automatically be granted ``observer`` and ``qa_admin`` |st2| role when they succ
 authenticate with |st2|.
 
 Once the mapping definitions files are written, operator needs to run
-``st2-apply-rbac-definitions`` tool to store those definitions in the database.
+``st2-apply-rbac-definitions`` tool to store those definitions in the database. This tool also
+needs to be ran after any change or removal of mappings files.
 
 How it works
 ~~~~~~~~~~~~
@@ -481,7 +482,7 @@ As a |st2| administrator and on a box with |st2| installed run -
 
 .. sourcecode:: bash
 
-    st2-apply-rbac-definitions
+    st2-apply-rbac-definitions --config-file=/etc/st2/st2.conf
 
 This command will sync up the |st2| RBAC state with file system state. Only after running this
 command does |st2| know of the latest changes to RBAC permission grants.
