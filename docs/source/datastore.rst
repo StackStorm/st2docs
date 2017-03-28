@@ -80,11 +80,11 @@ Delete an existing key-value pair:
 Scoping Datastore Items
 -----------------------
 
-By default, all items stored in key-value store are stored in ``st2kv.system`` scope.
+By default, all items in the key-value store are stored in the ``st2kv.system`` scope.
 This means every user has access to these variables. Use the Jinja expression
 ``{{st2kv.system.key_name}}`` to refer to these variables in actions or workflows.
 Prior to v2.0.1, the scope was called ``system`` and therefore the Jinja expression
-was ``{{st2kv.system.key_name}}``. As of v2.2, this is no longer supported.
+was ``{{system.key_name}}``. As of v2.2, this is no longer supported.
 
 Starting with version 1.5 of |st2|, you can now scope variables to a specific
 user. With authentication enabled, you can now control who can read or write into those
