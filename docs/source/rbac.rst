@@ -198,7 +198,7 @@ pack.
 Note that rule enforcements are ``operational models``. You cannot create / modify / delete them
 via API. So permissions other than ``view`` and ``list`` do not make sense.
 
-Permissions and executions which are not triggered via the API
+Permissions and Executions Which Are Not Triggered via the API
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Normally when an execution is triggered via the API (POST to /actionexecutions/), authenticated
@@ -228,7 +228,7 @@ Both, roles and user role assignments are loaded in lexicographical order based 
 For example, if you have two role definitions in the files named ``role_b.yaml`` and
 ``role_a.yaml``, ``role_a.yaml`` will be loaded before ``role_b.yaml``.
 
-Defining roles and permission grants
+Defining Roles and Permission Grants
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Roles and permission grants are defined in YAML files which are located on a filesystem in the
@@ -244,7 +244,7 @@ Example role definition (``/opt/stackstorm/rbac/roles/role_sample.yaml``) is sho
 The example above contains a variety of permission grants with the corresponding explanation
 (comments).
 
-Defining user role assignments
+Defining User Role Assignments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 User role assignments are defined in YAML files which are located on a filesystem in the following
@@ -295,7 +295,7 @@ For example:
 
 .. _rbac-using_rbac:
 
-Automatically granting roles based on the user LDAP group membership
+Automatically Granting Roles Based on the User LDAP Group Membership
 --------------------------------------------------------------------
 
 .. note::
@@ -305,10 +305,10 @@ Automatically granting roles based on the user LDAP group membership
 
 In addition to manually assigning roles to the users based on the definitions in the
 ``/opt/stackstorm/rbac/assignments/`` directory, |st2| also supports automatically granting roles
-to users on authentication based on the LDAP groups membership.
+to users upon authentication, based on LDAP groups membership.
 
 This comes handy in enterprise environments and makes |st2| user provisioning easier and faster.
-It means operator doesn't need to manually write and manage RBAC role assignment files on disk,
+It means administrators don't need to manually write and manage RBAC role assignment files on disk,
 because roles are automatically granted to the users based on their LDAP group membership and
 mappings files in ``/opt/stackstorm/rbac/mappings/`` directory.
 
@@ -320,9 +320,11 @@ To be able to utilize this feature it first needs to be enabled in ``st2.conf`` 
   [rbac]
   sync_remote_groups = True
 
-After this feature is enabled, operator needs to write mapping files which tell |st2| which roles
-to automatically grant to users which are a member of a particular LDAP group. Mapping files are
-located in ``/opt/stackstorm/mappings/`` directory and map LDAP group to one or more |st2| roles.
+After this feature is enabled, the |st2| administrator needs to write mapping files that tell |st2|
+which roles to automatically grant to users, based upon LDAP group membership.
+
+Mapping files are located in the ``/opt/stackstorm/mappings/`` directory and map LDAP group to one
+or more |st2| roles.
 
 Two examples of such mapping files can be found below.
 
@@ -340,7 +342,7 @@ Two examples of such mapping files can be found below.
       roles:
         - "admin"
 
-Each user which is a member of ``CN=stormers,OU=groups,DC=stackstorm,DC=net`` LDAP group will
+Each user who is a member of the ``CN=stormers,OU=groups,DC=stackstorm,DC=net`` LDAP group will
 automatically be granted ``admin`` |st2| role when they successfully authenticate with |st2|.
 
 ``/opt/stackstorm/rbac/mappings/testers.yaml``
@@ -354,7 +356,7 @@ automatically be granted ``admin`` |st2| role when they successfully authenticat
         - "observer"
         - "qa_admin"
 
-Each user which is a member of ``CN=testers,OU=groups,DC=stackstorm,DC=net`` LDAP group will
+Each user who is a member of the ``CN=testers,OU=groups,DC=stackstorm,DC=net`` LDAP group will
 automatically be granted ``observer`` and ``qa_admin`` |st2| role when they successfully
 authenticate with |st2|.
 
@@ -362,7 +364,7 @@ Once the mapping definitions files are written, operator needs to run
 ``st2-apply-rbac-definitions`` tool to store those definitions in the database. This tool also
 needs to be ran after any change or removal of mappings files.
 
-How it works
+How it Works
 ~~~~~~~~~~~~
 
 Role assignments based on the LDAP group to |st2| role mappings are synchronized each time user
@@ -391,7 +393,7 @@ Using RBAC Example
 This example provides a walk-through of scenario 1 i.e configuring a user as a pack owner. The
 steps to be followed are by an Administrator of |st2| on a box that is running |st2|.
 
-User creation
+User Creation
 ~~~~~~~~~~~~~
 
 All user and password management is kept outside of |st2|. Read the
@@ -416,7 +418,7 @@ Once this user is created |st2| will allow access to this user. (Optional) To va
     $ export ST2_AUTH_TOKEN=<USER_SCOPED_AUTH_TOKEN>
     $ st2 action list
 
-Role creation
+Role Creation
 ~~~~~~~~~~~~~
 
 A newly created user has no assigned permissions. Each permission must be explicitly assigned to a
@@ -459,7 +461,7 @@ contents of a pack. Again, lets pick pack `example` as the target of ownership.
 See :ref:`available permission types<ref-rbac-available-permission-types>` for a full list of
 permission types.
 
-Role assignment
+Role Assignment
 ~~~~~~~~~~~~~~~
 
 Creation of a role is followed by assignment of a role to the user. Create file
