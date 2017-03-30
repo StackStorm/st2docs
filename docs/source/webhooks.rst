@@ -167,3 +167,28 @@ To list all registered webhooks, run:
 ::
 
     st2 webhook list
+
+When Not to Use Webhooks
+------------------------
+
+While webhooks are useful, they do have two drawbacks:
+
+* **Not Bidirectional**  - Webhooks simply send data into stackstorm. So if you want data back from   StackStorm, or an action, you'll have to get that data in an asynchronous fashion
+* **No Guarantee of Execution** - Webhooks in StackStorm do not guarantee an execution. This all depends on configuration of the rule that registered the webhook.
+
+If you're looking for guaranteed responses, it might be better to directly leverage the
+execution API to directly run actions and query for a response, in the same way the ``st2 run``
+command does behind the scenes. We can get a little insight into this using the ``--debug`` flag:
+
+.. sourcecode:: bash
+
+    st2 --debug run core.local "date"
+
+In addition to the "usual" output that shows the result of the execution, the ``--debug`` flag also
+shows all the API calls made during the course of the entire interaction, in the form of ``curl``
+commands.
+
+So, if you're looking for a more direct response from StackStorm, you might consider leveraging
+this API in your application.
+
+TODO Add note about nginx configuration and how it publishes the API?
