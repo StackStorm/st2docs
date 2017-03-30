@@ -30,7 +30,7 @@ Install the dependencies:
 
 For Debian/Ubuntu: ``sudo apt-get install libpython-dev libssl-dev``
 
-For RHEL/CentOS: `` sudo yum install libpython-dev libssl-dev``
+For RHEL/CentOS: `` sudo yum install python-devel openssl-devel gcc``
 
 ```bash
 git clone https://github.com/StackStorm/st2docs.git
