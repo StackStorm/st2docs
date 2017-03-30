@@ -27,8 +27,10 @@ Product documentation for StackStorm is maintained in this repository. These doc
 Follows these steps to build the docs locally:
 
 Install the dependencies:
+
 For Debian/Ubuntu: ``sudo apt-get install libpython-dev libssl-dev``
-For RHEL/CentOS: `` sudo yum install libpython-dev libssl-dev`` 
+
+For RHEL/CentOS: `` sudo yum install libpython-dev libssl-dev``
 
 ```bash
 git clone https://github.com/StackStorm/st2docs.git
