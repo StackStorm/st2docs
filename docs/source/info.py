@@ -11,7 +11,7 @@ project = u'StackStorm'
 copyright = u'2016, StackStorm'
 author = u'Brocade Communications Inc'
 
-base_url = u'http://docs.stackstorm.com/'
+base_url = u'https://docs.stackstorm.com/'
 htmlhelp_basename = 'StackStormDoc'
 
 man_pages = [
