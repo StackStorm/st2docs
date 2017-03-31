@@ -57,6 +57,8 @@ completes successfully, you will see the following output:
 
 .. include:: __installer_passwords.rst
 
+If you want to install |st2| on a host that is not allowed internet access, you can follow `this <https://stackstorm.com/2017/02/10/installing-stackstorm-offline-systems/>`_ to do it using a mirror. 
+
 .. rubric:: Installations
 
 For more detail on reference deployments, or OS-specific manual installation instructions, see below:
