@@ -13,7 +13,7 @@ project = u'StackStorm'
 copyright = u'2014 - %s, StackStorm' % (datetime.now().strftime("%Y"))
 author = u'Brocade Communications Inc'
 
-base_url = u'http://docs.stackstorm.com/'
+base_url = u'https://docs.stackstorm.com/'
 htmlhelp_basename = 'StackStormDoc'
 
 man_pages = [
@@ -33,4 +33,4 @@ texinfo_documents = [
 github_repo = 'StackStorm/st2docs'
 github_version = 'master'
 
-theme_base_url = u'http://docs.stackstorm.com/'
+theme_base_url = u'https://docs.stackstorm.com/'
