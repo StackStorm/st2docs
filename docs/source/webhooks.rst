@@ -175,7 +175,7 @@ While webhooks are useful, they do have two drawbacks:
 
 * **Not Bidirectional**  - Webhooks simply submit data into |st2|. So if you want data back from |st2|,
   or an action execution ID, you'll have to get that data in an asynchronous fashion.
-* **No Guarantee of Execution** - Webhooks in StackStorm do not guarantee an execution. It depends on
+* **No Guarantee of Execution** - Webhooks in |st2| do not guarantee an execution. It depends on
   the configuration of the rule that registered the webhook - based upon the webhook contents, it may
   not execute any action, or may execute multiple actions.
 
@@ -227,7 +227,8 @@ shows all the API calls made during the course of the entire interaction, in the
 commands.
 
 The above output shows the API calls made when executing the command from the |st2| host. If you are accessing the
-API from a remote system, it gets proxied through nginx, using the ``/api`` URI. So remote calls will take this form:
+API from a remote system, it will be proxied through nginx, using the ``/api`` URI (see :doc:`/reference/ha` for
+more information). So remote calls will take this form:
 
 .. sourcecode:: bash
 
