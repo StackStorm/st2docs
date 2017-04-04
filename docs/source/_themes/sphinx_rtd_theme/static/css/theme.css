@@ -4740,4 +4740,8 @@ span[id*='MathJax-Span'] {
   text-align: center;
 }
 
+.hide {
+  display: none;
+}
+
 /*# sourceMappingURL=theme.css.map */
