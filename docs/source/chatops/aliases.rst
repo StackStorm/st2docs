@@ -71,8 +71,8 @@ To remove an action alias, use:
 
    st2 action-alias delete {ALIAS}
 
-After removing aliases, you may need to restart the ``st2chatops`` service, or the old commands may still show up
-on your chatbot.
+After removing or modifying existing aliases, you may need to restart the ``st2chatops`` service, 
+or you may see old or duplicate commands still showing up on your chatbot.
 
 Supported formats
 ^^^^^^^^^^^^^^^^^
