@@ -39,7 +39,7 @@ Below you can find an example of secret parameter ``cmd`` being masked in the re
 
 Default response with masking enabled:
 
-.. sourcecode:: json
+.. sourcecode:: bash
 
   curl -X GET 'http://127.0.0.1:9101/v1/executions/?limit=1'
   [
@@ -62,7 +62,7 @@ Default response with masking enabled:
 
 Operating as a user with an admin role and disabling making on per request basis:
 
-.. sourcecode:: json
+.. sourcecode:: bash
 
   curl -X GET 'http://127.0.0.1:9101/v1/executions/?limit=1&show_secrets=True'
   [
