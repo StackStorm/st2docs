@@ -31,7 +31,57 @@ in the action metadata file.
 Any action parameter which has ``secret: true`` attribute will be considered and treated as a secret
 for masking purposes.
 
+Masking can be disabled on per API request basis, by a user which is an administrator by passing
+``?show_secrets=True`` query parameter to all of the supported API endpoints.
 
+Below you can find an example of secret parameter ``cmd`` being masked in the response of the
+``/v1/executions/`` API endpoint.
+
+Default response with masking enabled:
+
+.. sourcecode:: json
+
+  curl -X GET 'http://127.0.0.1:9101/v1/executions/?limit=1'
+  [
+      {
+          "status": "requested",
+          "start_timestamp": "2017-04-07T13:01:50.953242Z",
+          "log": [
+              {
+                  "status": "requested",
+                  "timestamp": "2017-04-07T13:01:50.970000Z"
+              }
+          ],
+          "parameters": {
+              "cmd": "********"
+          },
+          ...
+          "id": "58e78dbe0640fd765ca74896"
+      }
+  ]
+
+Operating as a user with an admin role and disabling making on per request basis:
+
+.. sourcecode:: json
+
+  curl -X GET 'http://127.0.0.1:9101/v1/executions/?limit=1&show_secrets=True'
+  [
+      {
+          "status": "requested",
+          "start_timestamp": "2017-04-07T13:01:50.953242Z",
+          "log": [
+              {
+                  "status": "requested",
+                  "timestamp": "2017-04-07T13:01:50.970000Z"
+              }
+          ],
+          "parameters": {
+              "cmd": "********"
+          },
+          ...
+          "id": "58e78dbe0640fd765ca74896"
+      }
+  ]
 
 Masking Secrets in Log Messages
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
