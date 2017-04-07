@@ -324,23 +324,27 @@ Configure ChatOps
 
 Configure secrets masking
 -------------------------
+
 In order to manage secrets masking on a system-wide basis you can also modify ``/etc/st2/st2.conf`` and
 control secrets masking at 2 levels i.e. API and logs. Note that this feature only controls external
 visibility of secrets and does not control how secrets are stored as well as managed by |st2|.
 
 * To mask secrets in API response. This is enabled on a per API basis and only available to admin users.
 
-.. sourcecode:: bash
+.. sourcecode:: ini
 
     [api]
     ...
-    mask_secrets=True
+    mask_secrets = True
 
 
 * To mask secrets in logs
 
-.. sourcecode:: bash
+.. sourcecode:: ini
 
     [logging]
     ...
-    mask_secrets=True
+    mask_secrets = True
+
+For more information and limitations on secrets masking please refer to
+:doc:`../../reference/secrets_masking`.
