@@ -12,7 +12,7 @@ is disabled by default and can be enabled by setting ``api.mask_secrets`` and
 
     ...
 
-    [logging]
+    [log]
     mask_secrets = True
 
 Masking Secrets in API Responses

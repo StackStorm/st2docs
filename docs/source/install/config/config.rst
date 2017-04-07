@@ -342,7 +342,7 @@ visibility of secrets and does not control how secrets are stored as well as man
 
 .. sourcecode:: ini
 
-    [logging]
+    [log]
     ...
     mask_secrets = True
 
