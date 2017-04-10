@@ -4,8 +4,8 @@ Secrets Masking
 |st2| offers functionality for masking secrets in API responses and log messages which is enabled
 by default.
 
-If you want to disable it, you can do so by setting setting manipulating ``api.mask_secrets`` and
-``log.mask_secrets`` config option as shown below.
+If you want to disable it, you can do so by setting ``api.mask_secrets`` and ``log.mask_secrets``
+config option as shown below.
 
 .. sourcecode:: ini
 
