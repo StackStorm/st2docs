@@ -33,7 +33,7 @@ in the action metadata file.
 Any action parameter which has ``secret: true`` attribute will be considered and treated as a secret
 for masking purposes.
 
-Masking can be disabled on per API request basis, by a user which is an administrator by passing
+Masking can be disabled on per API request basis, by a user which is an administrator, by passing
 ``?show_secrets=True`` query parameter to all of the supported API endpoints.
 
 Below you can find an example of secret parameter ``cmd`` being masked in the response of the
@@ -78,7 +78,7 @@ Operating as a user with an admin role and disabling making on per request basis
               }
           ],
           "parameters": {
-              "cmd": "********"
+              "cmd": "date"
           },
           ...
           "id": "58e78dbe0640fd765ca74896"
