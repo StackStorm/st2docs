@@ -258,15 +258,15 @@ When configuring the metadata, there are several built-in parameters that
 can be used and overwritten to change the default functionality of the
 various runners:
 
-* ``args`` - (``local-shell-script``, ``remote-shell-script``) By default, |st2| will assemble
+* ``args`` - (``local-shell-cmd``, ``remote-shell-cmd``) By default, |st2| will assemble
   arguments based on whether a user defines named or positional arguments.
   Adjusts the format of arguments passed to ``cmd``.
 * ``cmd``  - (``local-shell-script``, ``remote-shell-script``) Configure the command to be run
   on the target system.
 * ``cwd``  - (``local-shell-script``, ``remote-shell-script``) Configure the directory where
   remote commands will be executed from.
-* ``env``  - (``local-shell-script``, ``local-shell-script-script``, ``remote-shell-script``,
-  ``remote-shell-script-script``, ``python-script``) Environment variables which will be
+* ``env``  - (``local-shell-cmd``, ``local-shell-script``, ``remote-shell-cmd``,
+  ``remote-shell-script``, ``python-script``) Environment variables which will be
   available to the executed command / script.
 * ``dir``  - (``local-shell-script``, ``remote-shell-script``) Configure the directory where
   scripts are copied from a pack to the target machine prior to execution.
@@ -277,7 +277,7 @@ Overriding Runner Parameters
 
 Parameters of runners can be overridden. Sometimes it's necessary to customize and simplify an
 action. Take the following ``linux.rsync`` action that is included in the linux pack on st2 install.
-The linux.rsync action overrides the ``cmd`` parameter in the ``run-remote`` runner with the
+The linux.rsync action overrides the ``cmd`` parameter in the ``local-shell-cmd`` runner with the
 ``rsync`` command with appropriate args passed from the action parameters defined for the
 linux.rsync action.
 
