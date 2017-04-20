@@ -674,7 +674,7 @@ To see all actions in the ``core`` pack:
 
 ::
 
-    st2 action list --pack=core
+    st2 action list
 
 .. rubric:: What's Next?
 
