@@ -30,7 +30,7 @@ completes successfully, you will see the following output:
 
 ::
 
-  For more information, please refer to documentation at
+  For more information, refer to documentation at
   https://docs.stackstorm.com/install/deb.html#setup-chatops
   ########################################################
 
