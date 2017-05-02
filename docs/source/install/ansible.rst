@@ -65,9 +65,9 @@ Below is more advanced example to customize |st2| deployment:
         - nodejs
 
         - name: Install StackStorm Packagecloud repository
-          role: st2repos
+          role: st2repo
           vars:
-            st2_pkg_repo: stable
+            st2repo_name: stable
 
         - name: Install and configure st2
           role: st2
