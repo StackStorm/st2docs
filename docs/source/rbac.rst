@@ -41,7 +41,7 @@ team, responsibility, etc.).
 Roles are assigned to the users. Each user can have multiple roles assigned to it and each role can
 be assigned to multiple users.
 
-System roles
+System Roles
 ------------
 
 System roles are roles which are available by default and can't be manipulated (modified and / or
@@ -91,7 +91,7 @@ retrieve details for this particular action.
 
 .. _ref-rbac-available-permission-types:
 
-Available permission types
+Available Permission Types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The table below contains a list of all the available permission types.
@@ -100,7 +100,7 @@ The table below contains a list of all the available permission types.
 
 This list can also be retrieved using the RBAC meta API (``GET /v1.0/rbac/permission_types``).
 
-User permissions
+User Permissions
 ~~~~~~~~~~~~~~~~
 
 User permissions (also called effective user permission set) are represented as a union of all
@@ -165,7 +165,7 @@ User permissions are checked when a user performs an operation using the API. If
 necessary permissions* the API operation proceeds normally, otherwise access denied error is
 returned and the error is logged in the audit log.
 
-Permission inheritance
+Permission Inheritance
 ~~~~~~~~~~~~~~~~~~~~~~
 
 **Pack resources**
@@ -193,9 +193,12 @@ inherit permissions from the rule they belong and from the rule's parent pack. T
 a user has a ``rule_view`` permission on a particular rule, then they also have permissions to
 view the rule enforcement model for the rule. Similarly, if you grant ``rule_view`` to a
 parent pack of the rule, user will be able to see all enforcements of rules belonging to that
-pack. Note that rule enforcements are ``operational models``. You cannot create/modify/delete them via API. So permissions other than ``view`` and ``list`` do not make sense.
+pack.
 
-Permissions and executions which are not triggered via the API
+Note that rule enforcements are ``operational models``. You cannot create / modify / delete them
+via API. So permissions other than ``view`` and ``list`` do not make sense.
+
+Permissions and Executions Which Are Not Triggered via the API
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Normally when an execution is triggered via the API (POST to /actionexecutions/), authenticated
@@ -225,7 +228,7 @@ Both, roles and user role assignments are loaded in lexicographical order based 
 For example, if you have two role definitions in the files named ``role_b.yaml`` and
 ``role_a.yaml``, ``role_a.yaml`` will be loaded before ``role_b.yaml``.
 
-Defining roles and permission grants
+Defining Roles and Permission Grants
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Roles and permission grants are defined in YAML files which are located on a filesystem in the
@@ -241,7 +244,7 @@ Example role definition (``/opt/stackstorm/rbac/roles/role_sample.yaml``) is sho
 The example above contains a variety of permission grants with the corresponding explanation
 (comments).
 
-Defining user role assignments
+Defining User Role Assignments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 User role assignments are defined in YAML files which are located on a filesystem in the following
@@ -271,7 +274,7 @@ For example:
 
 .. code-block:: bash
 
-    st2-apply-rbac-definitions
+    st2-apply-rbac-definitions --config-file=/etc/st2/st2.conf
 
     2015-08-12 22:30:18,439 - INFO - Synchronizing roles...
     2015-08-12 22:30:18,441 - DEBUG - New roles: set([])
@@ -292,108 +295,188 @@ For example:
 
 .. _rbac-using_rbac:
 
+Automatically Granting Roles Based on the User LDAP Group Membership
+--------------------------------------------------------------------
+
+.. note::
+
+   This functionality is only available in |st2| v2.3.0 and above when LDAP auth backend is used
+   for authentication.
+
+In addition to manually assigning roles to the users based on the definitions in the
+``/opt/stackstorm/rbac/assignments/`` directory, |st2| also supports automatically granting roles
+to users upon authentication, based on LDAP groups membership.
+
+This comes handy in enterprise environments and makes |st2| user provisioning easier and faster.
+It means administrators don't need to manually write and manage RBAC role assignment files on disk,
+because roles are automatically granted to the users based on their LDAP group membership and
+mappings files in ``/opt/stackstorm/rbac/mappings/`` directory.
+
+To be able to utilize this feature it first needs to be enabled in ``st2.conf`` by setting
+``rbac.sync_remote_groups`` option to ``True``.
+
+.. code-block:: ini
+
+  [rbac]
+  sync_remote_groups = True
+
+After this feature is enabled, the |st2| administrator needs to write mapping files that tell |st2|
+which roles to automatically grant to users, based upon LDAP group membership.
+
+Mapping files are located in the ``/opt/stackstorm/mappings/`` directory and map LDAP group to one
+or more |st2| roles.
+
+Two examples of such mapping files can be found below.
+
+.. note::
+
+  LDAP group names referenced in ``group`` attribute are case-sensitive.
+
+``/opt/stackstorm/rbac/mappings/stormers.yaml``
+
+.. literalinclude:: ../../st2/st2tests/st2tests/fixtures/rbac/mappings/stormers.yaml
+    :language: yaml
+
+Each user who is a member of the ``CN=stormers,OU=groups,DC=stackstorm,DC=net`` LDAP group will
+automatically be granted ``admin`` |st2| role when they successfully authenticate with |st2|.
+
+``/opt/stackstorm/rbac/mappings/testers.yaml``
+
+.. literalinclude:: ../../st2/st2tests/st2tests/fixtures/rbac/mappings/testers.yaml
+    :language: yaml
+
+Each user who is a member of the ``CN=testers,OU=groups,DC=stackstorm,DC=net`` LDAP group will
+automatically be granted ``observer`` and ``qa_admin`` |st2| role when they successfully
+authenticate with |st2|.
+
+Once the mapping definitions files are written, operator needs to run
+``st2-apply-rbac-definitions`` tool to store those definitions in the database. This tool also
+needs to be ran after any change or removal of mappings files.
+
+How it Works
+~~~~~~~~~~~~
+
+Role assignments based on the LDAP group to |st2| role mappings are synchronized each time user
+authenticates with |st2| auth API and receives a fresh auth token.
+
+If for some reason you want user roles to be synchronized before existing auth token expires
+(default TTL is 24 hours), you can simply ask user to re-authenticate to retrieve a new auth token.
+Alternatively, you as an operator, can manually expire or disable an active auth token which will
+force user to re-authenticate with |st2|.
+
+Similar workflow can be used when removing / deprovisioning a user from your system. By default,
+when user is removed from LDAP they will still be able to use |st2| if they have a valid auth token
+until that auth token expires. If you want user access to be revoked as soon as they are removed
+from LDAP, you can manually purge active auth tokens for a particular user from |st2| user database.
+
 Using RBAC Example
 ------------------
 
-**Possible scenarios :**
+**Possible scenarios:**
 
-1. A user owns a pack i.e is able to view, create, delete, modify and where applicable execute various resources like actions, rules, sensors.
+1. A user owns a pack i.e is able to view, create, delete, modify and where applicable execute
+   various resources like actions, rules, sensors.
 2. A user can create rules, execute actions and view a handful of actions.
 3. A user capable of viewing actions in a pack but cannot execute any action.
 
-This example provides a walk-through of scenario 1 i.e configuring a user as a pack owner. The steps to be followed are by an
-Administrator of |st2| on a box that is running |st2|.
+This example provides a walk-through of scenario 1 i.e configuring a user as a pack owner. The
+steps to be followed are by an Administrator of |st2| on a box that is running |st2|.
 
-User creation
+User Creation
 ~~~~~~~~~~~~~
 
-All user and password management is kept outside of |st2|. Read the :doc:`authentication <authentication>` docs to see
-how to configure to configure |st2| with various identity providers.
+All user and password management is kept outside of |st2|. Read the
+:doc:`authentication <authentication>` docs to see how to configure to configure |st2| with various
+identity providers.
 
-For sake of this example let us assume that the identity provider is managed by the OS on which |st2| runs.
+For sake of this example let us assume that the identity provider is managed by the OS on which
+|st2| runs.
 
-To create a user and set-up a password on most linux systems -
+To create a user and set-up a password on most Linux systems -
 
 .. sourcecode:: bash
 
-    $ useradd rbacu1
-    $ passwd rbacu1
+    $ useradd rbac_user1
+    $ passwd rbac_user1
 
 Once this user is created |st2| will allow access to this user. (Optional) To validate try -
 
 .. sourcecode:: bash
 
-    $ st2 auth rbacu1 -p '<RBACU1_PASSWORD>'
+    $ st2 auth rbac_user1 -p '<RBACU1_PASSWORD>'
     $ export ST2_AUTH_TOKEN=<USER_SCOPED_AUTH_TOKEN>
     $ st2 action list
 
-Role creation
+Role Creation
 ~~~~~~~~~~~~~
 
-A newly created user has no assigned permissions. Each permission must be explicitly assigned to a user. To assign
-permission grants |st2| requires creation of a role and then associating this role with a user. In this case we are trying to create a pack owner role.
+A newly created user has no assigned permissions. Each permission must be explicitly assigned to a
+user. To assign permission grants |st2| requires creation of a role and then associating this role
+with a user. In this case we are trying to create a pack owner role.
 
-Lets first make sure there is a pack `x` we can use to experiment.
+Lets first make sure there is a pack `example` we can use to experiment.
 
 .. sourcecode:: bash
 
     $ cd /opt/stackstorm/packs/
-    $ mkdir x
-    $ mkdir x/actions x/rules x/sensors
+    $ mkdir example
+    $ mkdir example/actions example/rules example/sensors
     $ touch pack.yaml
-    $ touch /opt/stackstorm/configs/x.yaml
+    $ touch /opt/stackstorm/configs/example.yaml
     $ touch requirements.txt
-    $ cp core/icon.png x/icon.png
+    $ cp core/icon.png example/icon.png
 
-Now we setup a role. Create file `/opt/stackstorm/rbac/roles/x_pack_owner.yaml` with the following content -
+Now we setup a role. Create file `/opt/stackstorm/rbac/roles/example_pack_owner.yaml` with the
+following content -
 
 .. sourcecode:: bash
 
     ---
-    name: "x_pack_owner"
-    description: "Owner of pack x"
+    name: "example_pack_owner"
+    description: "Owner of pack example"
     enabled: true
     permission_grants:
         -
-            resource_uid: "pack:x"
+            resource_uid: "pack:example"
             permission_types:
                - "pack_all"
                - "sensor_all"
                - "rule_all"
                - "action_all"
 
-A `pack owner` role would require the user to be able to view, create, modify and delete all contents
-of a pack. Again, lets pick pack `x` as the target of ownership.
+A `pack owner` role would require the user to be able to view, create, modify and delete all
+contents of a pack. Again, let's pick pack `example` as the target of ownership.
 
-See :ref:`available permission types<ref-rbac-available-permission-types>` for a full list of permission types.
+See :ref:`available permission types<ref-rbac-available-permission-types>` for a full list of
+permission types.
 
-Role assignment
+Role Assignment
 ~~~~~~~~~~~~~~~
 
-Creation of a role is followed by assignment of a role to the user. Create file `/opt/stackstorm/rbac/assignments/rbacu1.yaml`
-with the following content -
+Creation of a role is followed by assignment of a role to the user. Create file
+`/opt/stackstorm/rbac/assignments/rbac_user1.yaml` with the following content -
 
 
 .. sourcecode:: bash
 
     ---
-    username: "rbacu1"
-    description: "rbacu1 assignments"
+    username: "rbac_user1"
+    description: "Grant example_pack_owner role to rbac_user1 user."
     enabled: true
     roles:
-        - "x_pack_owner"
+        - "example_pack_owner"
 
 Applying RBAC
 ~~~~~~~~~~~~~
 
-As a |st2| administrator and on a box with StackStrom installed run -
+As a |st2| administrator and on a box with |st2| installed run -
 
 .. sourcecode:: bash
 
-    st2-apply-rbac-definitions
+    st2-apply-rbac-definitions --config-file=/etc/st2/st2.conf
 
-This command will sync up the |st2| RBAC state with file system state. Only after running this command does
-|st2| know of the latest changes to RBAC permission grants.
+This command will sync up the |st2| RBAC state with file system state. Only after running this
+command does |st2| know of the latest changes to RBAC permission grants.
 
 Validation
 ~~~~~~~~~~
@@ -404,7 +487,7 @@ Lets take what we have achieved for a spin using the |st2| CLI.
 
 .. sourcecode:: bash
 
-    $ st2 auth rbacu1 -p '<RBACU1_PASSWORD>'
+    $ st2 auth rbac_user1 -p '<RBACU1_PASSWORD>'
     $ export ST2_AUTH_TOKEN=<USER_SCOPED_AUTH_TOKEN>
     $ st2 action list
 
@@ -412,12 +495,12 @@ Lets take what we have achieved for a spin using the |st2| CLI.
 
 .. sourcecode:: bash
 
-    $ cd /opt/stackstorm/packs/x
+    $ cd /opt/stackstorm/packs/example
     $ cp /usr/share/doc/st2/examples/rules/sample_rule_with_timer.yaml rules/
-    $ sed -i 's/pack: "examples"/pack: "x"/g' rules/sample_rule_with_timer.yaml
+    $ sed -i 's/pack: "examples"/pack: "example"/g' rules/sample_rule_with_timer.yaml
     $ st2 rule create rules/sample_rule_with_timer.yaml
-    $ st2 rule get x.sample_rule_with_timer.yaml
-    $ st2 rule delete x.sample_rule_with_timer.yaml
+    $ st2 rule get example.sample_rule_with_timer.yaml
+    $ st2 rule delete example.sample_rule_with_timer.yaml
 
     # Expect Failure
     $ st2 rule get <EXISTING_RULE_REF>
@@ -426,13 +509,13 @@ Lets take what we have achieved for a spin using the |st2| CLI.
 
 .. sourcecode:: bash
 
-    $ cd /opt/stackstorm/packs/x
+    $ cd /opt/stackstorm/packs/example
     $ cp /usr/share/doc/st2/examples/actions/local.yaml actions/
-    $ echo "pack: x" >> actions/local.yaml
+    $ echo "pack: example" >> actions/local.yaml
     $ st2 action create actions/local.yaml
-    $ st2 action get x.local-notify
-    $ st2 run x.local-notify hostname
-    $ st2 action delete x.local-notify
+    $ st2 action get example.local-notify
+    $ st2 run example.local-notify hostname
+    $ st2 action delete example.local-notify
 
     # Expect failure
     $ st2 action get core.local
