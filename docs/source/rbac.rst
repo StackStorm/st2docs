@@ -440,7 +440,7 @@ following content -
             resource_uid: "pack:example"
             permission_types:
                - "pack_all"
-               - "sensor_all"
+               - "sensor_type_all"
                - "rule_all"
                - "action_all"
 
