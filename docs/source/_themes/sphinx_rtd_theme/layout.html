@@ -147,6 +147,13 @@
         <div class="rst-content">
           {% include "breadcrumbs.html" %}
           <div role="main" class="document">
+            <div id="version-warning" class="admonition warning hide">
+              <p class="first admonition-title">Note</p>
+              <p class="last">
+                The documentation you're currently reading is for version {{ release|e }}.
+                Click <a href="pathto('/', 1)">here</a> to view documentation for the latest stable.
+              </p>
+            </div>
             {% block body %}{% endblock %}
           </div>
           {% include "footer.html" %}
@@ -188,6 +195,8 @@
       });
   </script>
   {% endif %}
+
+  <script type="text/javascript" src="{{ pathto('/_static/js/versions.js', 1) }}"></script>
 
   {%- block footer %} {% endblock %}
 
