@@ -358,7 +358,7 @@ Now we setup a role. Create file `/opt/stackstorm/rbac/roles/x_pack_owner.yaml` 
             resource_uid: "pack:x"
             permission_types:
                - "pack_all"
-               - "sensor_all"
+               - "sensor_type_all"
                - "rule_all"
                - "action_all"
 
