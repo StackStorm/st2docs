@@ -2,7 +2,7 @@ ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 SHELL := /bin/bash
 TOX_DIR := .tox
 VIRTUALENV_DIR ?= virtualenv
-ST2_VIRTUALENV_DIR = st2/virtualenv
+ST2_VIRTUALENV_DIR ?= st2/virtualenv
 
 # Sphinx docs options
 SPHINXBUILD := sphinx-build
