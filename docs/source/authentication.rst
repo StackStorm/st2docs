@@ -59,7 +59,9 @@ run the following command on the same server where st2auth is running.
 
 .. sourcecode:: bash
 
-    pip install git+https://github.com/StackStorm/st2-auth-backend-pam.git@master#egg=st2_auth_backend_pam
+    /opt/stackstorm/st2/bin/pip install git+https://github.com/StackStorm/st2-auth-backend-pam.git@master#egg=st2_auth_backend_pam
+
+.. include:: /_includes/__pip_virtualenv_notice.rst
 
 After the backend is installed, configure the backend at ``/etc/st2/st2.conf``, and restart |st2|.
 Specific configuration details for the backend can be found in the README at the corresponding
