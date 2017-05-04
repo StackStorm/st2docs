@@ -26,6 +26,10 @@
   {% endblock %}
 
   <link rel="shortcut icon" href="{{ pathto('_static/favicon.ico', 1) }}?v4"/>
+  {# CANONICAL URL #}
+  {% if theme_canonical_url %}
+    <link rel="canonical" href="{{ theme_canonical_url }}{{ pagename }}.html"/>
+  {% endif %}
 
   {# CSS #}
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic|Inconsolata:400,700' rel='stylesheet' type='text/css'>
@@ -143,6 +147,13 @@
         <div class="rst-content">
           {% include "breadcrumbs.html" %}
           <div role="main" class="document">
+            <div id="version-warning" class="admonition warning hide">
+              <p class="first admonition-title">Note</p>
+              <p class="last">
+                The documentation you're currently reading is for version {{ release|e }}.
+                Click <a href="pathto('/', 1)">here</a> to view documentation for the latest stable.
+              </p>
+            </div>
             {% block body %}{% endblock %}
           </div>
           {% include "footer.html" %}
@@ -162,7 +173,8 @@
             VERSION:'{{ release|e }}',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'{{ '' if no_search_suffix else file_suffix }}',
-            HAS_SOURCE:  {{ has_source|lower }}
+            HAS_SOURCE:  {{ has_source|lower }},
+            SOURCELINK_SUFFIX: '{{ sourcelink_suffix }}'
         };
     </script>
     {%- for scriptfile in script_files %}
@@ -184,6 +196,8 @@
       });
   </script>
   {% endif %}
+
+  <script type="text/javascript" src="{{ pathto('/_static/js/versions.js', 1) }}"></script>
 
   {%- block footer %} {% endblock %}
 

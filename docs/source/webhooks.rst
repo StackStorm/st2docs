@@ -167,3 +167,69 @@ To list all registered webhooks, run:
 ::
 
     st2 webhook list
+
+When Not to Use Webhooks
+------------------------
+
+While webhooks are useful, they do have two drawbacks:
+
+* **Not Bidirectional**  - Webhooks simply submit data into |st2|. So if you want data back from |st2|,
+  or an action execution ID, you'll have to get that data in an asynchronous fashion.
+* **No Guarantee of Execution** - Webhooks in |st2| do not guarantee an execution. It depends on
+  the configuration of the rule that registered the webhook - based upon the webhook contents, it may
+  not execute any action, or may execute multiple actions.
+
+If you always want to execute a specific action or workflow, and/or you're looking for guaranteed response,
+you could leverage the ``/v1/executions`` API. This is the same as running an action from the CLI with
+``st2 run <mypack>.<myaction>``. We can get a little insight into this using the ``--debug`` flag:
+
+.. sourcecode:: bash
+
+    st2 --debug run core.local "date"
+    2017-03-31 08:21:18,706  DEBUG - Using cached token from file "/home/ubuntu/.st2/token-st2admin"
+    # -------- begin 140183979680208 request ----------
+    curl -X GET -H  'Connection: keep-alive' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'User-Agent: python-requests/2.11.1' -H  'X-Auth-Token: da5ecf3b0ab841008d663052fe95cddd' http://127.0.0.1:9101/v1/actions/core.local
+    # -------- begin 140183979680208 response ----------
+    {"name": "local", "parameters": {"cmd": {"required": true, "type": "string", "description": "Arbitrary Linux command to be executed on the local host."}, "sudo": {"immutable": true}}, "tags": [], "description": "Action that executes an arbitrary Linux command on the localhost.", "enabled": true, "entry_point": "", "notify": {}, "uid": "action:core:local", "pack": "core", "ref": "core.local", "id": "58c9663a49d4af4cbd56f84d", "runner_type": "local-shell-cmd"}
+    # -------- end 140183979680208 response ------------
+
+    # -------- begin 140183979680080 request ----------
+    curl -X GET -H  'Connection: keep-alive' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'User-Agent: python-requests/2.11.1' -H  'X-Auth-Token: da5ecf3b0ab841008d663052fe95cddd' 'http://127.0.0.1:9101/v1/runnertypes/?name=local-shell-cmd'
+    # -------- begin 140183979680080 response ----------
+    [{"runner_module": "local_runner", "uid": "runner_type:local-shell-cmd", "description": "A runner to execute local actions as a fixed user.", "enabled": true, "runner_parameters": {"sudo": {"default": false, "type": "boolean", "description": "The command will be executed with sudo."}, "timeout": {"default": 60, "type": "integer", "description": "Action timeout in seconds. Action will get killed if it doesn't finish in timeout seconds."}, "cmd": {"type": "string", "description": "Arbitrary Linux command to be executed on the host."}, "kwarg_op": {"default": "--", "type": "string", "description": "Operator to use in front of keyword args i.e. \"--\" or \"-\"."}, "env": {"type": "object", "description": "Environment variables which will be available to the command(e.g. key1=val1,key2=val2)"}, "cwd": {"type": "string", "description": "Working directory where the command will be executed in"}}, "id": "58c9663a49d4af4cbd56f847", "name": "local-shell-cmd"}]
+    # -------- end 140183979680080 response ------------
+
+    # -------- begin 140183979680976 request ----------
+    curl -X POST -H  'Connection: keep-alive' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'User-Agent: python-requests/2.11.1' -H  'content-type: application/json' -H  'X-Auth-Token: da5ecf3b0ab841008d663052fe95cddd' -H  'Content-Length: 69' --data-binary '{"action": "core.local", "user": null, "parameters": {"cmd": "date"}}' http://127.0.0.1:9101/v1/executions
+    # -------- begin 140183979680976 response ----------
+    {"status": "requested", "start_timestamp": "2017-03-31T08:21:18.828620Z", "log": [{"status": "requested", "timestamp": "2017-03-31T08:21:18.843043Z"}], "parameters": {"cmd": "date"}, "runner": {"runner_module": "local_runner", "uid": "runner_type:local-shell-cmd", "description": "A runner to execute local actions as a fixed user.", "enabled": true, "runner_parameters": {"sudo": {"default": false, "type": "boolean", "description": "The command will be executed with sudo."}, "timeout": {"default": 60, "type": "integer", "description": "Action timeout in seconds. Action will get killed if it doesn't finish in timeout seconds."}, "cmd": {"type": "string", "description": "Arbitrary Linux command to be executed on the host."}, "kwarg_op": {"default": "--", "type": "string", "description": "Operator to use in front of keyword args i.e. \"--\" or \"-\"."}, "env": {"type": "object", "description": "Environment variables which will be available to the command(e.g. key1=val1,key2=val2)"}, "cwd": {"type": "string", "description": "Working directory where the command will be executed in"}}, "id": "58c9663a49d4af4cbd56f847", "name": "local-shell-cmd"}, "web_url": "https://st2expect/#/history/58de117e49d4af083399181c/general", "context": {"user": "st2admin"}, "action": {"description": "Action that executes an arbitrary Linux command on the localhost.", "runner_type": "local-shell-cmd", "tags": [], "enabled": true, "pack": "core", "entry_point": "", "notify": {}, "uid": "action:core:local", "parameters": {"cmd": {"required": true, "type": "string", "description": "Arbitrary Linux command to be executed on the local host."}, "sudo": {"immutable": true}}, "ref": "core.local", "id": "58c9663a49d4af4cbd56f84d", "name": "local"}, "liveaction": {"runner_info": {}, "parameters": {"cmd": "date"}, "action_is_workflow": false, "callback": {}, "action": "core.local", "id": "58de117e49d4af083399181b"}, "id": "58de117e49d4af083399181c"}
+    # -------- end 140183979680976 response ------------
+
+    # -------- begin 140183979680976 request ----------
+    curl -X GET -H  'Connection: keep-alive' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'User-Agent: python-requests/2.11.1' -H  'X-Auth-Token: da5ecf3b0ab841008d663052fe95cddd' http://127.0.0.1:9101/v1/executions/58de117e49d4af083399181c
+    # -------- begin 140183979680976 response ----------
+    {"status": "succeeded", "start_timestamp": "2017-03-31T08:21:18.828620Z", "log": [{"status": "requested", "timestamp": "2017-03-31T08:21:18.843000Z"}, {"status": "scheduled", "timestamp": "2017-03-31T08:21:18.943000Z"}, {"status": "running", "timestamp": "2017-03-31T08:21:19.041000Z"}, {"status": "succeeded", "timestamp": "2017-03-31T08:21:19.242000Z"}], "parameters": {"cmd": "date"}, "runner": {"runner_module": "local_runner", "uid": "runner_type:local-shell-cmd", "enabled": true, "name": "local-shell-cmd", "runner_parameters": {"sudo": {"default": false, "type": "boolean", "description": "The command will be executed with sudo."}, "timeout": {"default": 60, "type": "integer", "description": "Action timeout in seconds. Action will get killed if it doesn't finish in timeout seconds."}, "cmd": {"type": "string", "description": "Arbitrary Linux command to be executed on the host."}, "kwarg_op": {"default": "--", "type": "string", "description": "Operator to use in front of keyword args i.e. \"--\" or \"-\"."}, "env": {"type": "object", "description": "Environment variables which will be available to the command(e.g. key1=val1,key2=val2)"}, "cwd": {"type": "string", "description": "Working directory where the command will be executed in"}}, "id": "58c9663a49d4af4cbd56f847", "description": "A runner to execute local actions as a fixed user."}, "elapsed_seconds": 0.378813, "web_url": "https://st2expect/#/history/58de117e49d4af083399181c/general", "result": {"failed": false, "stderr": "", "return_code": 0, "succeeded": true, "stdout": "Fri Mar 31 08:21:19 UTC 2017"}, "context": {"user": "st2admin"}, "action": {"runner_type": "local-shell-cmd", "name": "local", "parameters": {"cmd": {"required": true, "type": "string", "description": "Arbitrary Linux command to be executed on the local host."}, "sudo": {"immutable": true}}, "tags": [], "enabled": true, "entry_point": "", "notify": {}, "uid": "action:core:local", "pack": "core", "ref": "core.local", "id": "58c9663a49d4af4cbd56f84d", "description": "Action that executes an arbitrary Linux command on the localhost."}, "liveaction": {"runner_info": {"hostname": "st2expect", "pid": 1657}, "parameters": {"cmd": "date"}, "action_is_workflow": false, "callback": {}, "action": "core.local", "id": "58de117e49d4af083399181b"}, "id": "58de117e49d4af083399181c", "end_timestamp": "2017-03-31T08:21:19.207433Z"}
+    # -------- end 140183979680976 response -----------
+
+    id: 58de117e49d4af083399181c
+    status: succeeded
+    parameters:
+      cmd: date
+    result:
+      failed: false
+      return_code: 0
+      stderr: ''
+      stdout: Fri Mar 31 08:21:19 UTC 2017
+      succeeded: true
+
+In addition to the "usual" output that shows the result of the execution, the ``--debug`` flag also
+shows all the API calls made during the course of the entire interaction, in the form of ``curl``
+commands.
+
+The above output shows the API calls made when executing the command from the |st2| host. If you are accessing the
+API from a remote system, it will be proxied through nginx, using the ``/api`` URI (see :doc:`/reference/ha` for
+more information). So remote calls will take this form:
+
+.. sourcecode:: bash
+
+    curl -X POST https://[ST2_IP]/v1/executions -H  'Connection: keep-alive' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'User-Agent: python-requests/2.11.1' -H  'content-type: application/json' -H  'X-Auth-Token: matoken' -H  'Content-Length: 69' --data-binary '{"action": "core.local", "user": null, "parameters": {"cmd": "date"}}'

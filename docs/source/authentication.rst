@@ -96,31 +96,51 @@ LDAP
 The LDAP backend authenticates the user against an LDAP server. The following is a list of
 configuration options for the backend:
 
-+---------------+----------+---------+------------------------------------------------------------+
-| option        | required | default | description                                                |
-+===============+==========+=========+============================================================+
-| bind_dn       | yes      |         | DN of the service account to bind with the LDAP server     |
-+---------------+----------+---------+------------------------------------------------------------+
-| bind_password | yes      |         | Password of the service account                            |
-+---------------+----------+---------+------------------------------------------------------------+
-| base_ou       | yes      |         | Base OU to search for user and group entries               |
-+---------------+----------+---------+------------------------------------------------------------+
-| group_dns     | yes      |         | User must be member of this list of groups to get access   |
-+---------------+----------+---------+------------------------------------------------------------+
-| host          | yes      |         | Hostname of the LDAP server                                |
-+---------------+----------+---------+------------------------------------------------------------+
-| port          | yes      |         | Port of the LDAP server                                    |
-+---------------+----------+---------+------------------------------------------------------------+
-| use_ssl       | no       | false   | Use LDAPS to connect                                       |
-+---------------+----------+---------+------------------------------------------------------------+
-| use_tls       | no       | false   | Start TLS on LDAP to connect                               |
-+---------------+----------+---------+------------------------------------------------------------+
-| cacert        | no       | None    | Path to the CA cert used to validate certificate           |
-+---------------+----------+---------+------------------------------------------------------------+
-| id_attr       | no       | uid     | Field name of the user ID attribute                        |
-+---------------+----------+---------+------------------------------------------------------------+
-| scope         | no       | subtree | Search scope (base, onelevel, or subtree)                  |
-+---------------+----------+---------+------------------------------------------------------------+
++-----------------+----------+---------+--------------------------------------------------------------------------------------------------------------------------------+
+| option          | required | default | description                                                                                                                    |
++=++==============+==========+=========+=====++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=======================================================+
+| bind_dn         | yes      |         | DN of the service account to bind with the LDAP server                                                                         |
++-----------------+----------+---------+--------------------------------------------------------------------------------------------------------------------------------+
+| bind_password   | yes      |         | Password of the service account                                                                                                |
++-----------------+----------+---------+--------------------------------------------------------------------------------------------------------------------------------+
+| base_ou         | yes      |         | Base OU to search for user and group entries                                                                                   |
++-----------------+----------+---------+--------------------------------------------------------------------------------------------------------------------------------+
+| group_dns       | yes      |         | Which groups user must be member of to be granted access                                                                       |
++-----------------+----------+---------+--------------------------------------------------------------------------------------------------------------------------------+
+| group_dns_check | no       | and     | What kind of check to perform when validating user group membership (``and`` / ``or``). When ``and`` behavior is used, user    |
+|                 |          |         | needs to be part of all the specified groups and when ``or`` behavior is used, user needs to be part of at least one or more   |
+|                 |          |         | of the specified groups.                                                                                                       |
++-----------------+----------+---------+--------------------------------------------------------------------------------------------------------------------------------+
+| host            | yes      |         | Hostname of the LDAP server                                                                                                    |
++-----------------+----------+---------+--------------------------------------------------------------------------------------------------------------------------------+
+| port            | yes      |         | Port of the LDAP server                                                                                                        |
++-----------------+----------+---------+--------------------------------------------------------------------------------------------------------------------------------+
+| use_ssl         | no       | false   | Use LDAPS to connect                                                                                                           |
++-----------------+----------+---------+--------------------------------------------------------------------------------------------------------------------------------+
+| use_tls         | no       | false   | Start TLS on LDAP to connect                                                                                                   |
++-----------------+----------+---------+--------------------------------------------------------------------------------------------------------------------------------+
+| cacert          | no       | None    | Path to the CA cert used to validate certificate                                                                               |
++-----------------+----------+---------+--------------------------------------------------------------------------------------------------------------------------------+
+| id_attr         | no       | uid     | Field name of the user ID attribute                                                                                            |
++-----------------+----------+---------+--------------------------------------------------------------------------------------------------------------------------------+
+| scope           | no       | subtree | Search scope (base, onelevel, or subtree)                                                                                      |
++-----------------+----------+---------+--------------------------------------------------------------------------------------------------------------------------------+
+| network_timeout | no       | 10.0    | Timeout for network operations (in seconds)                                                                                    |
++-----------------+----------+---------+--------------------------------------------------------------------------------------------------------------------------------+
+| chase_referrals | no       | false   | True if the referrals should be automatically chased within the underlying LDAP C lib                                          |
++-----------------+----------+---------+--------------------------------------------------------------------------------------------------------------------------------+
+| debug           | no       | false   | Enable debug mode. When debug mode is enabled all the calls (including the results) to LDAP server are logged                  |
++-----------------+----------+---------+--------------------------------------------------------------------------------------------------------------------------------+
+| client_options  | no       |         | A dictionary with additional Python LDAP client options which can be passed to ``set_connection()`` method                     |
++-----------------+----------+---------+--------------------------------------------------------------------------------------------------------------------------------+
+
+.. note::
+
+  By default ``and`` check is performed when validating user group membership against groups
+  defined in ``group_dns`` config option. This means if multiple groups are specified, user
+  needs to be member of **all** the specified groups for authentication to succeeed. If you want
+  to use ``or`` behavior instead (user needs to be a member of one or more of the specified
+  groups), you can achieve that by setting ``group_dns_check`` config option to ``or``.
 
 The following is a sample auth section for the LDAP backend in the st2 config file:
 
@@ -179,7 +199,6 @@ Run the following curl commands to test.
     # The following will verify the SSL cert, succeed, and return a valid token.
     curl -X POST --cacert /path/to/cacert.pem -u yourusername:'yourpassword' https://myhost.example.com/auth/v1/tokens
 
-.. note:: Until version 1.2 of |st2|, auth APIs were served from its own port. If your version is 1.1.1 or below, replace '/api' with ':9100'.
 
 .. _authentication-usage:
 

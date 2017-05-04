@@ -20,6 +20,9 @@ this command:
   If they have customised $HOME locations, or changed default authentication methods, then the script may
   break. Don't worry though! Scroll down for the manual instructions for your specific OS. Follow those,
   with any site-specific modifications you need.
+  
+  The script itself is not idempotent. If you try to re-run the script on top of a failed installation, it
+  will almost certainly fail. Start again with a clean system, or switch to a manual install.
 
 It will install and configure the stable version of StackStorm, as per the
 :doc:`single host reference deployment <./overview>`. The installation takes about 4 minutes. Once it
@@ -53,6 +56,8 @@ completes successfully, you will see the following output:
   and tell us how it's going. We'd love to hear from you!
 
 .. include:: __installer_passwords.rst
+
+If you want to install |st2| on a host that is not allowed internet access, you can follow `this <https://stackstorm.com/2017/02/10/installing-stackstorm-offline-systems/>`_ to do it using a mirror. 
 
 .. rubric:: Installations
 

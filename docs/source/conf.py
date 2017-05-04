@@ -203,7 +203,8 @@ html_theme = "sphinx_rtd_theme"
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-    'base_url': info.theme_base_url
+    'base_url': info.theme_base_url,
+    'canonical_url': info.theme_base_url
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
@@ -235,6 +236,7 @@ html_static_path = ['_static']
 # .htaccess) here, relative to this directory. These files are copied
 # directly to the root of the documentation.
 # html_extra_path = []
+html_extra_path = ['_redirects']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -388,6 +390,6 @@ texinfo_documents = info.texinfo_documents
 # texinfo_no_detailmenu = False
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'http://docs.python.org/': None}
+intersphinx_mapping = {'https://docs.python.org/2': None}
 
 autoclass_content = 'both'
