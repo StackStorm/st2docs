@@ -334,27 +334,16 @@ Two examples of such mapping files can be found below.
 
 ``/opt/stackstorm/rbac/mappings/stormers.yaml``
 
-.. code-block:: yaml
-
-    ---
-      group: "CN=stormers,OU=groups,DC=stackstorm,DC=net"
-      description: "Automatically grant admin role to all stormers group members."
-      roles:
-        - "admin"
+.. literalinclude:: ../../st2/st2tests/st2tests/fixtures/rbac/mappings/stormers.yaml
+    :language: yaml
 
 Each user who is a member of the ``CN=stormers,OU=groups,DC=stackstorm,DC=net`` LDAP group will
 automatically be granted ``admin`` |st2| role when they successfully authenticate with |st2|.
 
 ``/opt/stackstorm/rbac/mappings/testers.yaml``
 
-.. code-block:: yaml
-
-    ---
-      group: "CN=testers,OU=groups,DC=stackstorm,DC=net"
-      description: "Automatically grant observer and q_admin role to all testers group members."
-      roles:
-        - "observer"
-        - "qa_admin"
+.. literalinclude:: ../../st2/st2tests/st2tests/fixtures/rbac/mappings/testers.yaml
+    :language: yaml
 
 Each user who is a member of the ``CN=testers,OU=groups,DC=stackstorm,DC=net`` LDAP group will
 automatically be granted ``observer`` and ``qa_admin`` |st2| role when they successfully
