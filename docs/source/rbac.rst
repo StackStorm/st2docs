@@ -456,7 +456,7 @@ following content -
                - "action_all"
 
 A `pack owner` role would require the user to be able to view, create, modify and delete all
-contents of a pack. Again, lets pick pack `example` as the target of ownership.
+contents of a pack. Again, let's pick pack `example` as the target of ownership.
 
 See :ref:`available permission types<ref-rbac-available-permission-types>` for a full list of
 permission types.
