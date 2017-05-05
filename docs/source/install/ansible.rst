@@ -48,6 +48,8 @@ Behind the scenes ``stackstorm.yml`` play composed of the following Ansible ``ro
 - ``nodejs`` - Dependency for ``st2chatops``.
 - ``st2chatops`` - Install and configure st2chatops for hubot adapter integration with |st2|.
 - ``st2smoketests`` - Simple checks to know if |st2| really works.
+- ``bwc`` - Install and configure BWC |st2| enterprise, including ``LDAP`` and ``RBAC``.
+- ``bwc_smoketests`` - Small integration tests to check if ``BWC`` really works.
 
 Example Play
 ---------------------------
@@ -98,13 +100,71 @@ Below is more advanced example to customize |st2| deployment:
             st2chatops_st2_api_key: CHANGE-ME-PLEASE # (optional) This can be generated using "st2 apikey create -k"
             st2chatops_hubot_adapter: slack
             st2chatops_config:
-              HUBOT_SLACK_TOKEN:xoxb-CHANGE-ME-PLEASE
+              HUBOT_SLACK_TOKEN: xoxb-CHANGE-ME-PLEASE
 
         - name: Verify StackStorm Installation
           role: st2smoketests
 
 Here is a `full list of Variables <https://github.com/stackstorm/ansible-st2#variables>`_.
 
+BWC (|st2| Enterprise)
+---------------------------
+Example to customize |st2| enterprise (`BWC <https://bwc-docs.brocade.com/>`_) with `LDAP <https://bwc-docs.brocade.com/authentication.html#ldap>`_ auth backend and `RBAC <https://bwc-docs.brocade.com/rbac.html>`_ configuration to allow/restrict/limit different |st2| functionality to specific users:
+
+.. sourcecode:: yaml
+
+    - name: Install StackStorm with all services on a single node
+      hosts: all
+      roles:
+        - name: Install and configure st2mistral
+          role: bwc
+          vars:
+            bwc_repo: enterprise
+            bwc_license: CHANGE-ME-PLEASE
+            bwc_version: latest
+            # Configure LDAP backend
+            # See: https://bwc-docs.brocade.com/authentication.html#ldap
+            bwc_ldap:
+              backend_kwargs:
+                bind_dn: "cn=Administrator,cn=users,dc=change-you-org,dc=net"
+                bind_password: "foobar123"
+                base_ou: "dc=example,dc=net"
+                group_dns:
+                  - "CN=stormers,OU=groups,DC=example,DC=net"
+                host: identity.example.net
+                port: 389
+                id_attr: "samAccountName"
+            # Configure RBAC
+            # See: https://bwc-docs.brocade.com/rbac.html
+            bwc_rbac:
+              # Define BWC roles and permissions
+              # https://bwc-docs.brocade.com/rbac.html#defining-roles-and-permission-grants
+              roles:
+                - name: core_local_only
+                  description: "This role has access only to action core.local in pack 'core'"
+                  enabled: true
+                  permission_grants:
+                    - resource_uid: "action:core:local"
+                      permission_types:
+                        - action_execute
+                        - action_view
+                    - permission_types:
+                      - runner_type_list
+              # Assign roles to specific users
+              # https://bwc-docs.brocade.com/rbac.html#defining-user-role-assignments
+              assignments:
+                - name: test_user
+                  roles:
+                    - core_local_only
+                - name: stanley
+                  roles:
+                    - admin
+                - name: chuck_norris
+                  roles:
+                    - system_admin
+
+        - name: Verify BWC Installation
+          role: bwc_smoketests
 
 .. note::
 
