@@ -19,3 +19,4 @@ References and Guides
    monitoring
    sensor_partitioning
    history
+   secrets_masking

@@ -5,7 +5,7 @@
 
     config.yaml files inside the pack directory have been deprecated in |st2|
     v1.5. Values from config.yaml file **don't** get saved in the database when
-    running ``st2 reload --register-configs`` and those configs also don't
+    running ``st2ctl reload --register-configs`` and those configs also don't
     support config schemas.
 
     For backward compatibility, if a pack doesn't contain a config inside the

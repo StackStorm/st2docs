@@ -107,7 +107,7 @@ Redis:
 ::
 
     [coordination]
-    url = redis://password@host:port
+    url = redis://:password@host:port
 
 Other supported coordination backends include:
 
