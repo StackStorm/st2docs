@@ -116,7 +116,7 @@ Example to customize |st2| enterprise (`BWC <https://bwc-docs.brocade.com/>`_) w
     - name: Install StackStorm with all services on a single node
       hosts: all
       roles:
-        - name: Install and configure st2mistral
+        - name: Install and configure StackStorm Enterprise (BWC)
           role: bwc
           vars:
             bwc_repo: enterprise
