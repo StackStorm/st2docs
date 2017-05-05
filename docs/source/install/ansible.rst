@@ -113,7 +113,7 @@ Example to customize |st2| enterprise (`BWC <https://bwc-docs.brocade.com/>`_) w
 
 .. sourcecode:: yaml
 
-    - name: Install StackStorm with all services on a single node
+    - name: Install StackStorm Enterprise
       hosts: all
       roles:
         - name: Install and configure StackStorm Enterprise (BWC)
