@@ -151,7 +151,7 @@
               <p class="first admonition-title">Note</p>
               <p class="last">
                 The documentation you're currently reading is for version {{ release|e }}.
-                Click <a href="pathto('/', 1)">here</a> to view documentation for the latest stable.
+                Click <a href="{{ pathto('/', 1) }}">here</a> to view documentation for the latest stable version.
               </p>
             </div>
             {% block body %}{% endblock %}
