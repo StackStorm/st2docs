@@ -113,7 +113,7 @@ Here is a `full list of Variables <https://github.com/stackstorm/ansible-st2#var
 
 Custom SSL Certificate for ``st2web``
 --------------------------------------
-By default we generate self-signed certificate for ``nginx`` in ``st2web`` role. It's possible to pass custom real SSL certificate instead:
+By default we generate a self-signed certificate for ``nginx`` in ``st2web`` role. It's possible to pass an externally signed SSL certificate instead:
 
 .. sourcecode:: yaml
 
@@ -126,7 +126,7 @@ By default we generate self-signed certificate for ``nginx`` in ``st2web`` role.
 
 Installing behind a Proxy
 --------------------------
-If you are installing from behind a proxy, you can use environment variables ``http_proxy``, ``https_proxy``, and ``no_proxy`` in the play. They will be passed through during the execution.
+If you are installing from behind a proxy, you can use the environment variables ``http_proxy``, ``https_proxy``, and ``no_proxy`` in the play. They will be passed through during the execution.
 
 .. sourcecode:: yaml
 
