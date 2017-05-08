@@ -81,6 +81,8 @@ Below is more advanced example to customize |st2| deployment:
             st2_save_credentials: yes
             st2_system_user: stanley
             st2_system_user_in_sudoers: yes
+            # Dict to edit https://github.com/StackStorm/st2/blob/master/conf/st2.conf.sample
+            st2_config: {}
 
         - name: Install and configure st2mistral
           role: st2mistral
@@ -89,6 +91,8 @@ Below is more advanced example to customize |st2| deployment:
             st2mistral_db: mistral
             st2mistral_db_username: mistral
             st2mistral_db_password: StackStorm
+            # Dict to edit https://github.com/StackStorm/st2-packages/blob/master/packages/st2mistral/conf/mistral.conf
+            st2mistral_config: {}
 
         - name: Install st2web
           role: st2web
