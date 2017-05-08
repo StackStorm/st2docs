@@ -107,6 +107,17 @@ Below is more advanced example to customize |st2| deployment:
 
 Here is a `full list of Variables <https://github.com/stackstorm/ansible-st2#variables>`_.
 
+Custom SSL Certificate for ``st2web``
+--------------------------------------
+By default we generate self-signed certificate for ``nginx`` in ``st2web`` role. It's possible to pass custom real SSL certificate instead:
+```yaml
+  - name: Configure st2web with custom certificate
+    role: st2web
+    vars:
+      st2web_ssl_certificate: "{{ lookup('file', 'local/path/to/domain-name.crt') }}"
+      st2web_ssl_certificate_key: "{{ lookup('file', 'local/path/to/domain-name.key') }}"
+```
+
 Installing behind a Proxy
 --------------------------
 If you are installing from behind a proxy, you can use environment variables ``http_proxy``, ``https_proxy``, and ``no_proxy`` in the play. They will be passed through during the execution.
