@@ -107,6 +107,22 @@ Below is more advanced example to customize |st2| deployment:
 
 Here is a `full list of Variables <https://github.com/stackstorm/ansible-st2#variables>`_.
 
+Installing behind a Proxy
+--------------------------
+If you are installing from behind a proxy, you can use environment variables ``http_proxy``, ``https_proxy``, and ``no_proxy`` in the play. They will be passed through during the execution.
+
+.. sourcecode:: yaml
+
+    ---
+    - name: Install st2
+      hosts: all
+      environment:
+        http_proxy: http://proxy.example.net:8080
+        https_proxy: https://proxy.example.net:8080
+        no_proxy: 127.0.0.1,localhost
+      roles:
+        - st2
+
 BWC (|st2| Enterprise)
 ---------------------------
 Example to customize |st2| enterprise (`BWC <https://bwc-docs.brocade.com/>`_) with `LDAP <https://bwc-docs.brocade.com/authentication.html#ldap>`_ auth backend and `RBAC <https://bwc-docs.brocade.com/rbac.html>`_ configuration to allow/restrict/limit different |st2| functionality to specific users:
