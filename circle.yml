@@ -21,9 +21,6 @@ machine:
   environment:
     DOCS_REPO_ROOT_DIR: ${HOME}/${CIRCLE_PROJECT_REPONAME}
 
-dependencies:
-  pre:
-    - cd ${DOCS_REPO_ROOT_DIR} && hostname && make requirements
 test:
   override:
     - case $CIRCLE_NODE_INDEX in 0) make docs ;; 1) make bwcdocs ;; esac:
