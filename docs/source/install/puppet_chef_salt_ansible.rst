@@ -183,7 +183,7 @@ Salt
 
 We don't have a Salt States or Documentation for Salt just quite yet. If you'd like to help us fill in this section, pull requests are gladly accepted. In the meantime, here are some resources that we do have to get you started.
 
-   * Integrating SaltStack and |st2|: http://stackstorm.com/2015/07/29/getting-started-with-stackstorm-and-saltstack/ - a blog post on how to integrate the two systems.
+   * Integrating SaltStack and |st2|: https://stackstorm.com/2015/07/29/getting-started-with-stackstorm-and-saltstack/ - a blog post on how to integrate the two systems.
 
 Ansible
 =======

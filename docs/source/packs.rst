@@ -171,7 +171,7 @@ much easier!
 * Explore existing packs for many common products and tools: `StackStorm Exchange <https://exchange.stackstorm.org>`__.
 * Learn how to write a pack and contribute to the community  - :doc:`/reference/packs`.
 * Learn how to write :ref:`custom sensors <ref-sensors-authoring-a-sensor>` and :ref:`custom actions <ref-actions-writing-custom>`.
-* Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with |st2|.
+* Check out `tutorials on stackstorm.com <https://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with |st2|.
 * For information on pack testing, please see the :doc:`Pack Testing </development/pack_testing>` page.
 
 Advanced Topics

@@ -12,7 +12,7 @@ About
 * **Automated remediation** - identifying and verifying hardware failure on OpenStack compute node, properly evacuating instances and emailing admins about potential downtime, but if anything goes wrong - freezing the workflow and calling PagerDuty to wake up a human.
 * **Continuous deployment** - build and test with Jenkins, provision a new AWS cluster, turn on some traffic with the load balancer, and roll-forward or roll-back, based on NewRelic app performance data.
 
-|st2| helps you compose these and other operational patterns as rules and workflows or actions. These rules and workflows - the content within the |st2| platform - are stored *as code* which means they support the same approach to collaboration that you use today for code development. They can be shared with the broader open source community, for example via the `StackStorm community <http://www.stackstorm.com/community/>`_.
+|st2| helps you compose these and other operational patterns as rules and workflows or actions. These rules and workflows - the content within the |st2| platform - are stored *as code* which means they support the same approach to collaboration that you use today for code development. They can be shared with the broader open source community, for example via the `StackStorm community <https://www.stackstorm.com/community/>`_.
 
 How it Works
 -------------
@@ -48,7 +48,7 @@ What's Next?
 * Install and run - follow :doc:`/install/index`
 * Build a simple automation - follow :doc:`/start` Guide
 * Help us with directions - comment on the :doc:`/roadmap`
-* Explore the `StackStorm community <http://www.stackstorm.com/community/>`__
+* Explore the `StackStorm community <https://www.stackstorm.com/community/>`__
 
 
 .. include:: __engage_community.rst

@@ -25,7 +25,7 @@ Interested in learning more? Here are some things to get you started on your voy
 * `ChatOps: Technology and Philosophy <https://www.youtube.com/watch?v=IhzxnY7FIvg>`_
 * `Start automating with Slack <https://medium.com/why-not/what-will-the-automated-workplace-look-like-495f9d1e87da>`_
 * `Demonstration: See StackStorm and ChatOps in action <https://www.youtube.com/watch?v=fUpSaEOS_BA>`_
-* `ChatOps for Dummies, Published by VictorOps <http://stackstorm.com/2015/04/23/stackstorm-and-chatops-for-dummies/>`_
+* `ChatOps for Dummies, Published by VictorOps <https://stackstorm.com/2015/04/23/stackstorm-and-chatops-for-dummies/>`_
 * `ChatOps and Event Driven Automation <https://www.youtube.com/watch?v=37LmuHToYjQ>`_
 * `ChatOps on Reddit <http://www.reddit.com/r/chatops>`_
 * `ChatOps on #freenode <http://webchat.freenode.net/?channels=##chatops>`_

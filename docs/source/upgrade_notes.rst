@@ -425,7 +425,7 @@ To verify the upgrade, please follow the link to run the :doc:`self-verification
 
 Migrating to v1
 ~~~~~~~~~~~~~~~
-The `st2_deploy scripted installer <https://docs.stackstorm.com/1.1/install/st2_deploy.html>`_ will upgrade v0.13 to v1.1. However we encourage to switch to :doc:`install/all_in_one`. To migrate to new All-in-one deployment from the existing pre v1.1 installations:
+The `st2_deploy scripted installer` will upgrade v0.13 to v1.1. However we encourage you to switch to :doc:`install/all_in_one`. To migrate to new All-in-one deployment from existing pre v1.1 installations:
 
     1. Install |st2| on a new clean box with :doc:`install/all_in_one`.
     2. Copy the content from the previous installation to `/opt/stackstorm/packs`
@@ -481,7 +481,7 @@ Changes
   is now st2-register-content.
 
 * Authentication is now enabled by default for production (package based) deployments. For
-  information on how to configure auth, see http://docs.stackstorm.com/install/deploy.html.
+  information on how to configure this, see :doc:`/authentication`.
 
 * For consistency reasons, rename existing runners as described below:
 
