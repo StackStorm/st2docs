@@ -87,7 +87,7 @@ To run the action from the CLI, do
     st2 run core.local -- uname -a
 
     # HTTP REST call to st2 action endpoint
-    st2 run -j core.http url="http://docs.stackstorm.com" method="GET"
+    st2 run -j core.http url="https://docs.stackstorm.com" method="GET"
 
 Use ``core.remote`` action to run linux command on multiple hosts over ssh. This assumes that
 passwordless SSH access is configured for the hosts, as described in :ref:`config-configure-ssh`
@@ -270,6 +270,6 @@ For more information on datastore, check :doc:`datastore`
     * Learn how to :ref:`write custom actions <ref-actions-writing-custom>`.
 
 * Use workflows to stitch actions into higher level automations - :doc:`/workflows`.
-* Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with StackStorm.
+* Check out `tutorials on stackstorm.com <https://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with StackStorm.
 
 .. include:: __engage_community.rst

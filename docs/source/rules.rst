@@ -720,7 +720,7 @@ Run action every full hour every day of the week
 
 * Explore automations in the `StackStorm Exchange <https://exchange.stackstorm.org>`_.
 * Learn more about :doc:`sensors`.
-* Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with |st2|.
+* Check out `tutorials on stackstorm.com <https://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with |st2|.
 
 
 .. include:: __engage_community.rst

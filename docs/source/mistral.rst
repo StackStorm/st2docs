@@ -179,6 +179,6 @@ More Examples
 +++++++++++++++++++
 There are more workflow examples under :github_st2:`/usr/share/doc/st2/examples </contrib/examples/actions/workflows/>` such as error handling, repeat, and retries.
 
-Check out this step-by-step tutorial on building a workflow in |st2| http://stackstorm.com/2015/07/08/automating-with-mistral-workflow/
+Check out this step-by-step tutorial on building a workflow in |st2| https://stackstorm.com/2015/07/08/automating-with-mistral-workflow/
 
 More details about Mistral can be found at http://docs.openstack.org/developer/mistral/.

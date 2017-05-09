@@ -679,7 +679,7 @@ To see all actions in the ``core`` pack:
 .. rubric:: What's Next?
 
 * Explore packs and actions contributed by |st2| developers and community in the `StackStorm Exchange <https://exchange.stackstorm.org>`_.
-* Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ on creating actions, and other practical examples of automating with |st2|.
+* Check out `tutorials on stackstorm.com <https://stackstorm.com/category/tutorials/>`__ on creating actions, and other practical examples of automating with |st2|.
 
 .. _JSON Schema: http://json-schema.org/documentation.html
 .. _jq: https://stedolan.github.io/jq/

@@ -99,7 +99,7 @@ Tasks publish new variables with the ``publish`` keyword. Variables are handy wh
 a reusable value from the input, globals, DataStore values, and results of multiple actions executions.
 All variables are referred with Jinja syntax. The cumulative published variables are also available in the result of an
 ActionChain execution under the ``published`` property if ``display_published`` property is supplied to the
-`ActionChain Runner </reference/runners.html#actionchain-runner-action-chain>`_.
+:ref:`ActionChain Runner <ref-actionchain-runner>`.
 
 .. code-block:: yaml
 

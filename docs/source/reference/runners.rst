@@ -160,6 +160,7 @@ The status flag allows users to return a result from a failing action. When the 
 not used the only way for action to be considered as failed is to throw an exception or exit
 with a non-zero exit code.
 
+.. _ref-actionchain-runner:
 
 ActionChain runner (action-chain)
 ---------------------------------
