@@ -87,7 +87,8 @@ requirements: virtualenv
 	@echo
 
 	# Make sure we use latest version of pip
-	$(VIRTUALENV_DIR)/bin/pip install --upgrade "pip<8.0.0"
+	$(VIRTUALENV_DIR)/bin/pip install --upgrade "pip>=8.1.2,<8.2"
+	$(VIRTUALENV_DIR)/bin/pip install --no-cache-dir "osc-lib>=1.5.1"
 
 	# Install requirements
 	#
