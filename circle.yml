@@ -24,4 +24,3 @@ machine:
 test:
   override:
     - make docs
-    - make bwcdocs
