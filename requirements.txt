@@ -1,3 +1,2 @@
-six==1.9.0
 sphinx
 git+https://github.com/StackStorm/sphinx-autobuild.git@develop
