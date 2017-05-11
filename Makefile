@@ -87,7 +87,7 @@ requirements: virtualenv
 	@echo
 
 	# Make sure we use latest version of pip
-	$(VIRTUALENV_DIR)/bin/pip install --upgrade "pip<8.0.0"
+	$(VIRTUALENV_DIR)/bin/pip install --upgrade "pip>=8.1.2,<8.2"
 
 	# Install requirements
 	#
