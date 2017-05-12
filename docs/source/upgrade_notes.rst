@@ -3,8 +3,15 @@
 Upgrade Notes
 =============
 
-|st2| in development
---------------------
+|st2| v2.2
+----------
+
+* ``dest_server`` parameter has been removed from ``linux.scp`` action and replaced with
+  ``destination`` parameter.
+
+  This offers more flexibility. ``source`` and ``destination`` parameters can now contain a
+  local path or a full source / destination which includes the server part (e.g.
+  ``server.fqdn:/etc/hosts``).
 
 * Additional validation has been introduced for triggers.
 
