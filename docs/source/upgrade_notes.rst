@@ -6,8 +6,8 @@ Upgrade Notes
 |st2| v2.2
 ----------
 
-* ``dest_server`` parameter has been removed from ``linux.scp`` action and replaced with
-  ``destination`` parameter.
+* The ``dest_server`` parameter has been removed from the ``linux.scp`` action and replaced with
+  the ``destination`` parameter.
 
   This offers more flexibility. ``source`` and ``destination`` parameters can now contain a
   local path or a full source / destination which includes the server part (e.g.
