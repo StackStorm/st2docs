@@ -167,7 +167,7 @@ packs; you'll be placing the files to ``/opt/stackstorm/packs`` and [re-]loading
   .. code-block:: bash
 
     # Get the code under git
-    cd hello_st2
+    cd /opt/stackstorm/packs/hello_st2
     git init && git add ./* && git commit -m "Initial commit"
     # Install from local git repo
     st2 pack install file:///$PWD
