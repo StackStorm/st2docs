@@ -108,12 +108,12 @@ In the example below, we will create a simple pack named **hello_st2**. The full
     mkdir aliases
     mkdir policies
     touch pack.yaml
-    touch config.schema.yaml
     touch requirements.txt
 
 
   Note: All folders are optional. If a folder is present, it is inspected for content. So it is safe
-  to skip a folder or keep it empty.
+  to skip a folder or keep it empty. Only create the config.schema.yaml file if it is required. An
+  empty schema file is not valid.
 
 2. Create pack definition file, ``pack.yaml``:
 
@@ -167,7 +167,7 @@ packs; you'll be placing the files to ``/opt/stackstorm/packs`` and [re-]loading
   .. code-block:: bash
 
     # Get the code under git
-    cd /opt/stackstorm/packs/hello_st2
+    cd hello_st2
     git init && git add ./* && git commit -m "Initial commit"
     # Install from local git repo
     st2 pack install file:///$PWD
