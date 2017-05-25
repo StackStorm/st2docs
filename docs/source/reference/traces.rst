@@ -91,7 +91,7 @@ Both custom webhooks and generic |st2| webhooks support supplying a trace-tag vi
 
 * `Header` : ``St2-Trace-Tag``
 
-In case of a custom webhook the `curl` command will be
+In case of a custom webhook the ``curl`` command will be:
 
 .. sourcecode:: bash
 

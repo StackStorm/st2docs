@@ -5,7 +5,7 @@ Often it is desirable to partition sensors across multiple sensor nodes. To this
 |st2| offers a few approaches to defining partition schemes.
 
 Each sensor node is identified by a name. The sensor nodename can be provided via a config
-property `sensor_node_name` as follows:
+property ``sensor_node_name`` as follows:
 
 ::
 
@@ -21,7 +21,7 @@ In the default scheme all sensors are run on a particular node. As the name sugg
 default scheme which ships out of the box. It is useful in cases where there is a single
 sensor node.
 
-No change required in the config file but for complete-ness the config would be as follows:
+No change required in the config file but for completeness the config would be as follows:
 
 ::
 

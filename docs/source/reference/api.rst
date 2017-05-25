@@ -1,9 +1,11 @@
 REST API Reference
 ===================
 
-Work in progress...
+Check our new `API documentation <https://api.stackstorm.com>`! This includes information
+on how to use the API, references for all API options, etc.
 
-Meantime, using ``--debug`` key may help: used on any CLI command, it prints `curl` and outputs raw response:
+Yo can also use the ``--debug`` flag with any CLI command. It will print out the
+equivalent ``curl`` commands and responses, e.g.:
 
 ::
 
@@ -15,5 +17,3 @@ Meantime, using ``--debug`` key may help: used on any CLI command, it prints `cu
     # -------- begin 140419231392336 response ----------
     [{"description": "Run ad-hoc ansible command (module)", "runner_type":
     ...
-
-.. todo: publish complete REST API

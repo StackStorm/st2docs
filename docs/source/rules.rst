@@ -39,7 +39,7 @@ listed below:
 The generic form of a rule is:
 
 * The ``name`` of the rule.
-* The ``pack`` that the rule belongs to. `default` is assumed if a pack is not specified.
+* The ``pack`` that the rule belongs to. ``default`` is assumed if a pack is not specified.
 * The ``description`` of the rule.
 * The ``enabled`` state of a rule (``true`` or ``false``).
 * The type of ``trigger`` emitted from sensors to monitor, which may consist of:
@@ -437,7 +437,7 @@ question ``Why did my rule not match the trigger that just fired?``. This means 
 ``Rule`` identifiable by its reference loaded in |st2| and similarly a TriggerInstance
 with a known id.
 
-Lets say we have rule reference `my_pack.fire_on_execution` and a trigger instance `566b4be632ed352a09cd347d`
+Lets say we have rule reference ``my_pack.fire_on_execution`` and a trigger instance ``566b4be632ed352a09cd347d``
 
 .. code-block:: bash
 

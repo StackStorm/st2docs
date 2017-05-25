@@ -41,7 +41,7 @@ Local script runner (local-shell-script)
 
 This is the local runner. Actions are implemented as scripts. They are executed
 on the same hosts where |st2| components are running. The last newline
-character is stripped from `stdout` and `stderr` fields in the output.
+character is stripped from ``stdout`` and ``stderr`` fields in the output.
 
 Runner parameters
 ^^^^^^^^^^^^^^^^^
@@ -53,7 +53,7 @@ Remote command runner (remote-shell-cmd)
 
 This is a remote runner. This runner executes a Linux command on one or more
 remote hosts provided by the user. The last newline character is stripped
-from `stdout` and `stderr` fields in the output.
+from ``stdout`` and ``stderr`` fields in the output.
 
 Runner parameters
 ^^^^^^^^^^^^^^^^^
@@ -67,7 +67,7 @@ Remote script runner (remote-shell-script)
 
 This is a remote runner. Actions are implemented as scripts. They run on one or
 more remote hosts provided by the user. The last newline character is stripped
-from `stdout` and `stderr` fields in the output.
+from ``stdout`` and ``stderr`` fields in the output.
 
 Runner parameters
 ^^^^^^^^^^^^^^^^^

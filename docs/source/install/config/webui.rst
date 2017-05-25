@@ -30,7 +30,7 @@ Configuration
 
 For the UI to work properly, both web client and |st2| server side should be configured accordingly.
 
-On the web client side, the file ``config.js`` in the project contains the list of servers this UI can connect to. This is typically `/opt/stackstorm/static/webui/config.js`. The file consists of an array of objects, each with ``name``, ``url`` and ``auth`` properties.
+On the web client side, the file ``config.js`` in the project contains the list of servers this UI can connect to. This is typically ``/opt/stackstorm/static/webui/config.js``. The file consists of an array of objects, each with ``name``, ``url`` and ``auth`` properties.
 
 ::
 
@@ -64,9 +64,9 @@ Origin consists of scheme, hostname and port (if it isn't 80). Path (including t
 
 Please note that some of the origins are already included by default and do not require additional configuration:
 
-* http://localhost:3000 - development version of `gulp` running locally
+* http://localhost:3000 - development version of ``gulp`` running locally
 * http://localhost:9101,http://127.0.0.1:9101 - st2api pecan deployment (st2_deploy default)
-* `api_url` from [auth] section of st2.conf
+* ``api_url`` from [auth] section of ``st2.conf``
 
 Also, please note that although this is not recommended and will undermine your security, you can allow every web UI deployment to connect to your server by setting ``allow_origin = *``.
 
