@@ -119,6 +119,13 @@ In the example below, we will create a simple pack named **hello_st2**. The full
 
   .. literalinclude:: /../../st2/contrib/hello_st2/pack.yaml
 
+  .. note::
+
+     A note on metadata: |st2| enforces certain rules about metadata. The ``version`` value in ``pack.yaml`` 
+     must conform to `semver <http://semver.org/>`__:``0.2.5``, not ``0.2``. The ``name`` value in ``pack.yaml``
+     must only contain letters, digits, and underscores, unless you set the ``ref`` value explicitly in
+     ``pack.yaml``. Finally the email attribute in ``pack.yaml`` must contain a properly formatted email address.
+
 3. Create the :doc:`action </actions>`. Action consists of meta data, and entrypoint.
 The following example simply echoes a greeting.
 
