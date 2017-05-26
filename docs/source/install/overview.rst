@@ -72,7 +72,7 @@ it is restricted to localhost.
 * **nginx** provides SSL termination, redirects HTTP to HTTPS, serves WebUI as static HTML,
   and reverse-proxies REST API endpoints to st2* web services.
 
-* **StackStorm WebUI** (st2web, and Workflow Designer, for Brocade Workflow Composer) are installed at ``/opt/statckstorm/webui``
+* **StackStorm WebUI** (st2web, and Workflow Designer, for Brocade Workflow Composer) are installed at ``/opt/statckstorm/static/webui``
   and configured via ``webui/config.js``. `st2web` comes in its own ``deb`` and ``rpm``. `Flow` is
   deployed with ``bwc-enterprise`` package. They are HTML5 applications, served as static HTML,
   and calling |st2| st2auth and st2api REST API endpoints. NGINX proxies st2auth and st2api
