@@ -71,6 +71,14 @@ would use a PollingSensor instead of Sensor as the base class.
 For a complete implementation of a sensor that actually injects triggers
 into the system, look at the `examples <#examples>`__ section.
 
+How Sensors are Run
+-------------------
+
+Each sensor runs as a separate process. The st2sensorcontainer (see
+:doc:`Overview </install/overview>`) starts ``sensor_wrapper.py`` which wraps
+your Sensor class (such as ``SampleSensor`` or ``SamplePollingSensor`` above) in
+a :py:class:`st2reactor.container.sensor_wrapper.SensorWrapper`.
+
 Sensor Service
 --------------
 
