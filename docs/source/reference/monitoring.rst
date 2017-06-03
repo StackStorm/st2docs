@@ -136,7 +136,7 @@ section for more information about logfile location, configuration and using sys
 
     We **strongly** recommend storing all |st2| logs in a dedicated log management tool, such as `Splunk <https://www.splunk.com>`_,
     `Graylog <http://www.graylog.org>`_ or the `ELK stack <https://elastic.co>`_. You can also see some examples of Logstash 
-    configuration and Kibana dashboards here: :github_contrib:`st2contrib/extra/logstash <extra/logstash>`
+    configuration and Kibana dashboards here: :github_exchange:`exchange-misc/logstash <exchange-misc/tree/master/logstash>`.
 
 All log messages include a log level - DEBUG, INFO, WARNING, ERROR, CRITICAL. All messages at WARNING and above should be
 escalated for investigation.
