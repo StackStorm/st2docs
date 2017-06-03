@@ -27,6 +27,8 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 
 The ``username`` and ``password`` properties are optional.
 
+.. _ref-mongo-ha-config:
+
 |st2| also supports `MongoDB replica sets <https://docs.mongodb.com/v3.2/core/replication-introduction/>`_
 using `MongoDB URI string <https://docs.mongodb.com/v3.2/reference/connection-string/>`_.
 
@@ -82,6 +84,8 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
     url = <amqp://#RMQ_USER:#RMQ_PASSWD@#RMQ_HOST:#RMQ_PORT/#RMQ_VHOST>
 
 The ``#RMQ_VHOST`` property is optional and can be left blank.
+
+.. _ref-rabbitmq-cluster-config:
 
 |st2| also supports `RabbitMQ cluster <https://www.rabbitmq.com/clustering.html>`_.
 
