@@ -114,8 +114,8 @@ Configuration file
 
 The configuration file is a YAML formatted file which contains pack configuration.
 This file can contain "static" or "dynamic" values. The configuration file is named
-``<pack name>.yaml`` and located in ``/opt/stackstorm/configs/``
-directory.
+``<pack name>.yaml`` and located in the ``/opt/stackstorm/configs/`` directory. File
+ownership should be ``st2:st2``.
 
 For example, for a pack named ``libcloud``, the configuration file is located at
 ``/opt/stackstorm/configs/libcloud.yaml``.
