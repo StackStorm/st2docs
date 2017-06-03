@@ -155,7 +155,8 @@ MongoDB
 |st2| uses this to cache Actions, Rules and Sensor metadata which already live in the filesystem. All the content should
 ideally be source-control managed, preferably in a git repository. |st2| also stores operational data like ActionExecution,
 TriggerInstance etc. MongoDB supports `replica set high-availability <https://docs.mongodb.org/v2.4/core/replica-set-high-availability/>`__
-which we recommend to provide a safe failover.
+which we recommend to provide a safe failover. See :ref:`here<ref-mongo-ha-config>` for how to configure |st2| to
+connect to MongoDB replica sets.
 
 Loss of connectivity to a MongoDB cluster will cause downtime for |st2|. However, once a replica MongoDB is brought back it
 should be quite possible to bring |st2| back to operational state by simply loading the content. Easy access to old
@@ -175,6 +176,8 @@ RabbitMQ is the communication hub for |st2| to co-ordinate and distribute work. 
 `RabbitMQ documentation <https://www.rabbitmq.com/ha.html>`__ to understand HA deployment strategies.
 
 Our recommendation is to mirror all the Queues and Exchanges so that the loss of one server does not affect functionality.
+
+See :ref:`here<ref-rabbitmq-cluster-config>` for how to configure |st2| to connect to a RabbitMQ cluster.
 
 Zookeeper/Redis
 ^^^^^^^^^^^^^^^
