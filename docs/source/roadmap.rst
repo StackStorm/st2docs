@@ -80,7 +80,7 @@ Release History
 .. rubric:: Done in v0.11
 
 * **ChatOps:** two-way chat integration beyond imagination.
-* **More integration packs**: Major integrations - Salt, Ansible, some significant others. `Check the full list <https://github.com/StackStorm/st2contrib/tree/master/packs>`_.
+* **More integration packs**: Major integrations - Salt, Ansible, some significant others. `Check the full list <https://exchange.stackstorm.org/>`_.
 
 .. rubric:: Done in v0.9
 
