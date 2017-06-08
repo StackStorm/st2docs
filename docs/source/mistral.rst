@@ -48,7 +48,7 @@ Next, run ``st2 action create /opt/stackstorm/packs/examples/actions/mistral-bas
 |                          | basic        |              |           | UTC             | UTC           |
 +--------------------------+--------------+--------------+-----------+-----------------+---------------+
 
-To display subtasks, run ``st2 execution get <execution-id> --tasks``.
+To display subtasks, run ``st2 execution get <execution-id> --show-tasks``.
 
 +--------------------------+------------+--------------+-----------+------------------------------+------------------------------+
 | id                       | action.ref | context.user | status    | start_timestamp              | end_timestamp                |

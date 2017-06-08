@@ -159,10 +159,10 @@ and available via ``self.action_alias_db`` instance variable.
 Sample Tests
 ------------
 
-You can find some sample tests on the links below.
+You can find some sample tests at the links below:
 
-* Sensor - `test_sensor_docker_sensor <https://github.com/StackStorm/st2contrib/blob/master/packs/docker/tests/test_sensor_docker_sensor.py>`_
-* Action - `test_action_parse <https://github.com/StackStorm/st2contrib/blob/master/packs/csv/tests/test_action_parse.py>`_
+* Sensor - `test_sensor_docker_sensor <https://github.com/StackStorm-Exchange/stackstorm-docker/blob/master/tests/test_sensor_docker_sensor.py>`_
+* Action - `test_action_parse <https://github.com/StackStorm-Exchange/stackstorm-csv/blob/master/tests/test_action_parse.py>`_
 * Action Aliases - `test_action_aliases <https://github.com/StackStorm/st2/blob/master/contrib/packs/tests/test_action_aliases.py>`_
 
 Running Tests
@@ -196,7 +196,7 @@ For example:
 
 .. sourcecode:: bash
 
-    st2-run-pack-tests -p /data/st2contrib/packs/docker/
+    st2-run-pack-tests -p /data/packs/docker/
 
 By default, this script will create and use a new temporary virtual environment
 for each pack test run and install all the dependencies which are required to run
@@ -220,7 +220,7 @@ For example:
 
 .. sourcecode:: bash
 
-    st2-run-pack-tests -p /data/st2contrib/packs/docker/ -x -j
+    st2-run-pack-tests -p /data/packs/docker/ -x -j
 
 Or alternatively, if a virtual environment for tests has already been created
 during previous tool invocation, you can skip updating of the virtual
@@ -230,12 +230,12 @@ up because virtual environment will be used as is and only tests will run).
 .. sourcecode:: bash
 
     # First run - create tests virtual environment and run the tests
-    st2-run-pack-tests -p /data/st2contrib/packs/docker/
+    st2-run-pack-tests -p /data/packs/docker/
 
     # Second (and subsequent) runs - just run the tests and re-use the existing
     # virtual environment which has been created during the previous script 
     # invocation.
-    st2-run-pack-tests -p /data/st2contrib/packs/docker/ -j
+    st2-run-pack-tests -p /data/packs/docker/ -j
 
 Lint Tools and Scripts
 ----------------------
@@ -251,6 +251,6 @@ Continuous Integration
 ----------------------
 
 By default the lint scripts mentioned above and tests for all the packs run
-on every commit to ``st2`` and ``st2contrib``.
+on every commit to ``st2`` and ``StackStorm-Exchange``.
 
 .. _`st2sdk`: https://github.com/stackstorm/st2sdk

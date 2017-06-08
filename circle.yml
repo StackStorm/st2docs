@@ -23,5 +23,5 @@ machine:
 
 test:
   override:
-    - make docs
-    - make bwcdocs
+    - case $CIRCLE_NODE_INDEX in 0) make docs ;; 1) make bwcdocs ;; esac:
+        parallel: true
