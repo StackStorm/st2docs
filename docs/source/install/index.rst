@@ -57,7 +57,12 @@ completes successfully, you will see the following output:
 
 .. include:: __installer_passwords.rst
 
-If you want to install |st2| on a host that is not allowed internet access, you can follow `this <https://stackstorm.com/2017/02/10/installing-stackstorm-offline-systems/>`_ to do it using a mirror. 
+If you want to install |st2| on a host that does not have Internet access,
+`this guide <https://stackstorm.com/2017/02/10/installing-stackstorm-offline-systems/>`_
+shows how to do it using a mirror. 
+
+If you have problems accessing the Web UI on a RHEL 7/CentOS 7 system, check the
+:ref:`system firewall settings <ref-rhel7-firewall>`.
 
 .. rubric:: Installations
 
