@@ -16,17 +16,18 @@ For example, to see the endpoint for getting actions, invoke
 
 You'll see the list of endpoints we hit as well as a curl command for you to try them manually.
 
-If you are trying to access the API from outside the box and you've nginx setup according to
-these instructions you can do so by hitting ``https://${EXTERNAL_IP}/api/v1/${REST_ENDPOINT}``.
+If you are trying to access the API from outside the server, note that the URL will look like:
+``https://${EXTERNAL_IP}/api/v1/${REST_ENDPOINT}``.
+
 For example:
 
   .. code-block:: bash
 
     curl -X GET -H  'Connection: keep-alive' -H  'User-Agent: python-requests/2.9.1' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'X-Auth-Token: <YOUR_TOKEN>' https://1.2.3.4/api/v1/actions
 
-You should be able to hit auth REST endpoints, if need be, by hitting ``https://${EXTERNAL_IP}/auth/v1/${AUTH_ENDPOINT}``.
+Similarly, you can connect to the auth REST endpoints using this: ``https://${EXTERNAL_IP}/auth/v1/${AUTH_ENDPOINT}``.
 
-If you are inside the box, use ``localhost`` instead of ${EXTERNAL_IP}.
+From the server itself, you can use ``localhost`` instead of ${EXTERNAL_IP}.
 
 Unable to access REST APIs
 --------------------------
