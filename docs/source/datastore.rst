@@ -16,6 +16,16 @@ rule evaluation.
 Key-Value pairs can also have a TTL associated with them, for automatic
 expiry. 
 
+.. note::
+
+   Currently only string values are supported. This was done intentionally,
+   to keep the feature simple and fully compatible with existing API and CLI
+   commands.
+
+   If you want to store a non-string value, you can store a JSON-serialized
+   version, and then de-serialize it in the action/sensor code.
+
+   This may change in future if there is sufficient interest.
 
 Storing and Retrieving Key-Value Pairs via CLI
 ----------------------------------------------
