@@ -284,15 +284,16 @@ configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
 
-If you are trying to access the API from outside the box and you've nginx setup according to
-these instructions you can do so by hitting ``https://${EXTERNAL_IP}/api/v1/${REST_ENDPOINT}``.
+If you are trying to access the API from outside the box and you have configured nginx according to
+these instructions, use ``https://${EXTERNAL_IP}/api/v1/${REST_ENDPOINT}``.
+
 For example:
 
   .. code-block:: bash
 
     curl -X GET -H  'Connection: keep-alive' -H  'User-Agent: manual/curl' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'X-Auth-Token: <YOUR_TOKEN>' https://1.2.3.4/api/v1/actions
 
-You should be able to hit auth REST endpoints, if need be, by hitting ``https://${EXTERNAL_IP}/auth/v1/${AUTH_ENDPOINT}``.
+Similarly, you can connect to auth REST endpoints with ``https://${EXTERNAL_IP}/auth/v1/${AUTH_ENDPOINT}``.
 
 You can see the actual REST endpoint for a resource in |st2|
 by adding a ``--debug`` option to the CLI command for the appropriate resource.
