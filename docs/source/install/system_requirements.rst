@@ -31,4 +31,8 @@ for the best experience while testing or deploying |st2|:
 |  * Recommended EC2: **t2.medium**    | * Recommended EC2: **m4.xlarge**  |
 +--------------------------------------+-----------------------------------+
 
+If you split your filesystem into multiple partitions and mount points, ensure you
+have at least 1GB of free space in ``/var`` and ``/opt``. RabbitMQ and MongoDB may not
+operate correctly without sufficient free space. 
+
 By default, |st2| and related services use these ports: nginx (80, 443), mongodb (27017), rabbitmq (4369, 5672, 25672), postgresql (5432) and st2 (9100-9102). If any other services are currently using these ports, |st2| may fail to install or run correctly.
