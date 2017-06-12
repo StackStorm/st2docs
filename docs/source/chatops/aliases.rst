@@ -195,7 +195,7 @@ The above alias supports the following commands:
     !list sensors from examples limit=2
 
 
-Note: formats are matched in the exact order they are specified in a YAML array, and must be ordered from the most specific (first) to the most generic (last). ``deploy {{ pack }} to {{ host }}`` should come before ``deploy {{ pack }}``, otherwise everything after `deploy` will always be mapped to `pack`, ignoring more specific format strings that come after.
+Note: formats are matched in the exact order they are specified in a YAML array, and must be ordered from the most specific (first) to the most generic (last). ``deploy {{ pack }} to {{ host }}`` should come before ``deploy {{ pack }}``, otherwise everything after ``deploy`` will always be mapped to ``pack``, ignoring more specific format strings that come after.
 
 "Display-representation" format objects
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -215,7 +215,7 @@ In this case, instead of having a string in ``formats``, you can write an object
 This works as follows:
 
   - the ``display`` string (``run {{cmd}} on {{hosts}}``) will be exposed via the ``!help`` command.
-  - strings from the `representation` list (``(run|execute) {{cmd}}( on {{hosts=localhost}})?[!.]?`` regex, and ``run remote command {{cmd}} on {{hosts}}`` string) will be matched by Hubot.
+  - strings from the ``representation`` list (``(run|execute) {{cmd}}( on {{hosts=localhost}})?[!.]?`` regex, and ``run remote command {{cmd}} on {{hosts}}`` string) will be matched by Hubot.
 
 You can use both strings and display-representation objects in ``formats`` at the same time:
 
@@ -241,7 +241,7 @@ link to the Web UI. This message can be customized in your alias definition:
       format: "acknowledged!"
       append_url: false
 
-The ``format`` parameter will customize your message, and the ``append_url`` flag controls the Web UI link at the end. It is also possible to use Jinja in the format string, with `actionalias` and `execution` comprising the Jinja context:
+The ``format`` parameter will customize your message, and the ``append_url`` flag controls the Web UI link at the end. It is also possible to use Jinja in the format string, with ``actionalias`` and ``execution`` comprising the Jinja context:
 
 .. code-block:: yaml
 

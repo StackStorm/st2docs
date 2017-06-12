@@ -61,7 +61,7 @@ Work with Actions
 
 |st2| comes with several generic actions out of the box. The catalog of actions can be easily
 extended by getting actions from the community or consuming your existing scripts (`more on that
-later`). Browse the catalog with ``st2 action list``. Action is referred to by `ref` as
+later`). Browse the catalog with ``st2 action list``. Action is referred to by ``ref`` as
 ``pack.action_name`` (e.g. ``core.local``). Learn about an action by doing
 ``st2 action get <action>``, or, ``st2 run <action> --h (--help)``: the command shows the
 description along with action parameters so that you know how to run it from the CLI or use it
@@ -89,7 +89,7 @@ To run the action from the CLI, do
     # HTTP REST call to st2 action endpoint
     st2 run -j core.http url="https://docs.stackstorm.com" method="GET"
 
-Use ``core.remote`` action to run linux command on multiple hosts over ssh. This assumes that
+Use the ``core.remote`` action to run Linux commands on multiple hosts via SSH. This assumes that
 passwordless SSH access is configured for the hosts, as described in :ref:`config-configure-ssh`
 section.
 
@@ -133,7 +133,8 @@ Check the action execution history and details of action executions with ``st2 e
     # Get only the last 5 executions
     st2 execution list -n 5
 
-That's it. You have learned to run |st2|'s actions. Let's stitch together other automation.
+That's it. You have learned to run |st2|'s actions. Now let's stitch events and actions togethe
+with rules.
 
 
 Define a Rule

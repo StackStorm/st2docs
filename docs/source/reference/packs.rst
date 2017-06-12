@@ -19,21 +19,22 @@ Canonical pack as laid out on the file system.
     policies/                #
     tests/                   #
     etc/                     # any additional things (e.g code generators, scripts...)
-    config.schema.yaml       # configuration schema (replacing config.yaml)
+    config.schema.yaml       # configuration schema
     packname.yaml.example    # example of config, used in CI
     pack.yaml                # pack definition file
     requirements.txt         # requirements for Python packs
     requirements-tests.txt   # requirements for python tests
     icon.png                 # 64x64 .png icon
 
-Some old packs also have a configuration file at ``/opt/stackstorm/<pack_name>/config.yaml``
-that defines any shared configuration used by the actions and sensors, e.g. usernames, region names, hostnames, etc. New pack rely on :doc:`configuration schema</reference/pack_configs>` and keep their configuration files under ``/opt/stackstorm/configs```.
-
 At the topmost level are the main folders ``actions``, ``rules``, ``sensors``, ``aliases`` and ``policies`` as well as some shared files:
 
 * ``pack.yaml`` - Metadata file that describes and identifies the folder as a pack.
 * ``config.schema.yaml`` - Schema that defines configuration elements used by a pack.
 * ``requirements.txt`` - File containing a list of python dependencies.
+
+Site-specific pack configuration files are stored at ``/opt/stackstorm/configs/``. See
+:doc:`configuration schema</reference/pack_configs>` for more information.
+
 
 .. code-block:: bash
 
@@ -95,7 +96,7 @@ Creating Your First Pack
 ------------------------
 In the example below, we will create a simple pack named **hello_st2**. The full example is also available at :github_st2:`st2/contrib/hello_st2 <contrib/hello_st2>`.
 
-1. Create the pack folder structure and related files. Let's keep the metadata files such as pack.yaml, config.schema.yaml, and requirements.txt empty for now:
+1. Create the pack folder structure and related files. Let's keep the metadata files such as ``pack.yaml``, ``config.schema.yaml``, and ``requirements.txt`` empty for now:
 
   .. code-block:: bash
 

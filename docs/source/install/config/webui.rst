@@ -69,8 +69,8 @@ should be omitted.
 Please note that some of the origins are already included by default and do not require additional
 configuration:
 
-* ``http://localhost:3000`` - development version of `gulp` running locally
-* ``http://localhost:9101,http://127.0.0.1:9101`` - st2api pecan deployment (st2_deploy default)
+* ``http://localhost:3000`` - development version of ``gulp`` running locally
+* ``http://localhost:9101,http://127.0.0.1:9101`` - ``st2api`` pecan deployment
 * ``api_url`` from ``[auth]`` section of ``st2.conf``
 
 Also, please note that although this is not recommended and will undermine your security, you can

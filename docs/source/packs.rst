@@ -146,14 +146,18 @@ before saving it; it's optional, and most packs don't require more than two or t
 have to comply with Health and Safety. The generated file will be placed in
 ``/opt/stackstorm/configs/<pack>.yaml`` and loaded.
 
-The interactive configuration works for all packs that have a ``config.schema.yaml`` file,
-that has been a standard for a while now, but some older packs might require you to edit
-a ``config.yaml`` file inside the ``/opt/stackstorm/packs/<pack>`` directory, and reload the
-pack with ``st2 pack register <pack>``. Move the config file to ``/opt/stackstorm/configs/<pack>.yaml``
-after you perform the configuration to keep the config file away from the pack source and
-ensure compatibility with future versions.
+.. warning:: 
 
-There are more nice tricks on pack configuration, see :doc:`/reference/pack_configs`.
+    NB: |st2| loads pack configuration into MongoDB. This is automatically loaded when you use
+    ``st2 pack config``. But if you manually edit your pack configuration, or use configuration
+    management tools to manage those files, you **must** tell |st2| to load the updated config.
+
+    You can do this with: ```sudo st2ctl reload --register-configs``. Otherwise there will be much
+    head-scratching as you wonder why |st2| seems to be completely ignoring your updated configuration.
+
+    Trust us. We've all been there.
+
+For more nice tricks on pack configuration, see :doc:`/reference/pack_configs`.
 
 Developing a Pack
 -----------------

@@ -116,7 +116,7 @@ Any of the module configuration settings can be set at declaration. An example o
      auth_url => 'https://st2auth.stackstorm.net',
    }
 
-When composing your own profile, you can include `Class[::st2]` into your catalog to set any variables necessary.
+When composing your own profile, you can include ``Class[::st2]`` into your catalog to set any variables necessary.
 
 Hiera Configuration
 ~~~~~~~~~~~~~~~~~~~
@@ -130,7 +130,7 @@ Likewise, module configuration can be set via Hiera. For example in a hiera data
 Pack Installation and Management
 --------------------------------
 
-|st2| packs can be installed and configured directly from Puppet. This can be done via the `st2::pack` and `st2::pack::config` defined types.
+|st2| packs can be installed and configured directly from Puppet. This can be done via the ``st2::pack`` and ``st2::pack::config`` defined types.
 
 Defined Types
 ~~~~~~~~~~~~~

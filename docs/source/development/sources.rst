@@ -145,14 +145,14 @@ Additional Makefile targets
  - ``make lint`` runs lint tasks (flake8, pylint)
  - ``make docs`` compiles this documentation
  - ``make clean`` clears .pyc's and docs
- - ``make distclean`` runs `make clean` target and also drops virtualenv
+ - ``make distclean`` runs ``make clean`` target and also drops virtualenv
  - ``make requirements`` installs python requirements
  - ``make virtualenv`` creates an empty virtual environment
 
 Manual Testing
 ~~~~~~~~~~~~~~
 
-In case you only need to test specific module, it might be reasonable to call `nosetests` directly.
+In case you only need to test a specific module, it might be reasonable to call ``nosetests`` directly.
 Make sure your virtualenv is active then run:
 
 ::

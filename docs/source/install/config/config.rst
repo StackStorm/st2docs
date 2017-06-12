@@ -110,9 +110,9 @@ Configure SSH
 
 To run actions on remote hosts, |st2| uses SSH. It is advised to configure identity file based SSH access on all remote hosts.
 
-The |st2| ssh user and path to SSH key are set in ``/etc/st2/st2.conf``. During installation, ``st2_deploy.sh`` script configures ssh on the local box for a user `stanley`.
+The |st2| ssh user and path to SSH key are set in ``/etc/st2/st2.conf``. During installation, ``st2_deploy.sh`` script configures ssh on the local box for a user ``stanley``.
 
-Follow these steps on a remote box to setup `stanley` user on remote boxes.
+Follow these steps on a remote box to setup ``stanley`` user on remote boxes.
 
 .. code-block:: bash
 
@@ -146,7 +146,7 @@ To verify do the following from the |st2| box
 SSH Troubleshooting
 ~~~~~~~~~~~~~~~~~~~
 
-* Validate that passwordless SSH configuration works fine for the destination. Assuming default user `stanley`:
+* Validate that passwordless SSH configuration works fine for the destination. Assuming default user ``stanley``:
 
     .. code-block:: bash
 
@@ -169,7 +169,7 @@ SUDO Access
 
 |st2|'s ``shell`` actions -  ``local-shell-cmd``, ``local-shell-script``, ``remote-shell-cmd``, ``remote-shell-script``- are performed by a special user. By default, this user is named ``stanley``. This is configurable via :github_st2:`st2.conf <conf/st2.prod.conf>`.
 
-.. note:: `stanley` user requires the following access:
+.. note:: ``stanley`` user requires the following access:
 
     * Sudo access to all boxes on which script action will run.
     * SETENV option needs to be set for all the commands. This way environment variables which are

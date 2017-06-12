@@ -390,7 +390,7 @@ act as the SSL termination endpoint for all the REST endpoints exposed by ``st2a
 
 .. literalinclude:: /../../st2/conf/HA/nginx/st2.conf.blueprint.sample
 
-12. To use Timer triggers with Mistral, enable them on only one server. Make this change in `/etc/st2/st2.conf`:
+12. To use Timer triggers with Mistral, enable them on only one server. Make this change in ``/etc/st2/st2.conf``:
 
     .. code-block:: yaml
 

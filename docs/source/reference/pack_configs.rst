@@ -112,12 +112,12 @@ a single ``device_uuids`` attribute.
 Configuration file
 ~~~~~~~~~~~~~~~~~~
 
-Configuration file is a YAML formatted file which contains pack configuration.
-This file can contain "static" or "dynamic" values. Configuration file is named
-by a pack name (``<pack name>.yaml``) and located in ``/opt/stackstorm/configs/``
-directory.
+The configuration file is a YAML formatted file which contains pack configuration.
+This file can contain "static" or "dynamic" values. The configuration file is named
+``<pack name>.yaml`` and located in the ``/opt/stackstorm/configs/`` directory. File
+ownership should be ``st2:st2``.
 
-For example, for a pack named ``libcloud``, configuration file is located at
+For example, for a pack named ``libcloud``, the configuration file is located at
 ``/opt/stackstorm/configs/libcloud.yaml``.
 
 An example configuration which matches the configuration schema above is
@@ -218,19 +218,12 @@ In this case, using the CLI, the value would be set as displayed below:
 Configuration loading and dynamic value resolving
 -------------------------------------------------
 
-Configuration file is loaded and dynamic values are resolved during run-time.
-For sensors this is when sensor container spawns a subprocess for sensor
-instance and for actions that is when action is executed.
+The configuration file is loaded and dynamic values are resolved during run-time.
+For sensors this is when the sensor container spawns a subprocess for a sensor
+instance and for actions that is when the action is executed.
 
-Previous versions of |st2| supported pack-local configuration files which were
-named ``config.yaml`` and stored in a root of the pack directory. For backward
-compatibility and ease of migration, those files are still supported, but
-new-style configuration files have precedence over it. If both files are
-present, old-style configuration file is loaded first and values from new-style
-configuration file are loaded and merged in second.
-
-When resolving and loading user-scoped configuration value, authenticated user
-which triggered the action execution is used for the context when resolving the
+When resolving and loading user-scoped configuration values, the authenticated user
+who triggered the action execution is used for the context when resolving the
 value.
 
 Configuring dynamic configuration values using the CLI

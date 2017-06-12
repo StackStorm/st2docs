@@ -389,9 +389,9 @@ Upgrading from 1.1
 
 To upgrade a pre-1.2.0 StackStorm instance provisioned with the :doc:`install/all_in_one`, you will need to perform the following steps:
 
-  1. Back up `/opt/puppet/hieradata/answers.json`.
+  1. Back up ``/opt/puppet/hieradata/answers.json``.
 
-  2. Update (or insert) the following lines in `/opt/puppet/hieradata/answers.yaml`:
+  2. Update (or insert) the following lines in ``/opt/puppet/hieradata/answers.yaml``:
 
   ```
   st2::version: 1.2.0
@@ -400,11 +400,11 @@ To upgrade a pre-1.2.0 StackStorm instance provisioned with the :doc:`install/al
   hubot::docker: true
   ```
 
-  If `answers.yaml` does not exist, create it. If you changed any install parameters manually (e.g. password, ChatOps token, SSH user), put these values into `answers.yaml` as well, otherwise they'll be overwritten.
+  If ``answers.yaml`` does not exist, create it. If you changed any install parameters manually (e.g. password, ChatOps token, SSH user), put these values into ``answers.yaml`` as well, otherwise they'll be overwritten.
 
-  3. If you're running ChatOps, stop the Hubot service with `service hubot stop`.
+  3. If you're running ChatOps, stop the Hubot service with ``service hubot stop``.
 
-  4. Remove `/etc/facter/facts.d/st2web_bootstrapped.txt` and execute `update-system`:
+  4. Remove ``/etc/facter/facts.d/st2web_bootstrapped.txt`` and execute ``update-system``:
 
   ```
   sudo rm /etc/facter/facts.d/st2web_bootstrapped.txt
@@ -425,11 +425,11 @@ To verify the upgrade, please follow the link to run the :doc:`self-verification
 
 Migrating to v1
 ~~~~~~~~~~~~~~~
-The `st2_deploy scripted installer` will upgrade v0.13 to v1.1. However we encourage you to switch to :doc:`install/all_in_one`. To migrate to new All-in-one deployment from existing pre v1.1 installations:
+The ``st2_deploy scripted installer`` will upgrade v0.13 to v1.1. However we encourage you to switch to :doc:`install/all_in_one`. To migrate to new All-in-one deployment from existing pre v1.1 installations:
 
     1. Install |st2| on a new clean box with :doc:`install/all_in_one`.
-    2. Copy the content from the previous installation to `/opt/stackstorm/packs`
-       and reload it with `st2ctl reload --register-all`.
+    2. Copy the content from the previous installation to ``/opt/stackstorm/packs``
+       and reload it with ``st2ctl reload --register-all``.
     3. Adjust the content according to upgrade notes below. Test and ensure your automations work.
     4. Save the audit log files from ``/var/log/st2/*.audit.log`` for future reference.
        We do not migrate execution history to the new installation, but all the execution data is
@@ -439,9 +439,9 @@ The `st2_deploy scripted installer` will upgrade v0.13 to v1.1. However we encou
 
 Changes
 ~~~~~~~
-* Triggers now have a `ref_count` property which must be included in Trigger objects
+* Triggers now have a ``ref_count`` property which must be included in Trigger objects
   created in previous versions of |st2|. A migration script is shipped in
-  ${dist_packages}/st2common/bin/migrate_triggers_to_include_ref_count.py on installation.
+  ``${dist_packages}/st2common/bin/migrate_triggers_to_include_ref_count.py`` on installation.
   The migration script is run as part of st2_deploy.sh when you upgrade from versions >= 0.13 to
   1.1.
 * Messaging queues are now exlusive and in some cases renamed from previous versions. To
@@ -464,7 +464,7 @@ Changes
 ------------
 
 * Rules now have to be part of a pack. If you don't specify a pack,
-  pack name is assumed to be `default`. A migration script
+  pack name is assumed to be ``default``. A migration script
   (migrate_rules_to_include_pack.py) is shipped in ${dist_packages}/st2common/bin/
   on installation. The migration script
   is run as part of st2_deploy.sh when you upgrade from versions < 0.9 to 0.11.

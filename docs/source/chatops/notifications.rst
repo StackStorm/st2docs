@@ -37,7 +37,7 @@ while registering the action. For example:
     runner_type: "local-shell-cmd"
 
 Above is the same action as a ``local-shell-cmd`` action but with notify. As you can see, there
-is a notify section with ``on-complete`` section. You can also specify `on-success`
+is a notify section with ``on-complete`` section. You can also specify ``on-success``
 and ``on-failure`` sections with different messages. These subsections are all optional but at
 least one is required for any meaningful notification. For the sake of clarity, an ``on-success`` case
 is presented below.

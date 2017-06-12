@@ -9,8 +9,8 @@ bit.
 StackStorm/st2 Repo
 -------------------
 
-StackStorm is made up of individual services viz. `st2auth`, `st2api`, `st2rulesengine`,
-`st2sensorcontainer`, `st2actionrunner`, `st2notifier`.
+StackStorm is made up of individual services viz. ``st2auth``, ``st2api``, ``st2rulesengine``,
+``st2sensorcontainer``, ``st2actionrunner``, ``st2notifier``.
 
 Also, StackStorm has a CLI and client library. Code for all these services and components are laid
 out in different folders in the repo root.
@@ -27,7 +27,7 @@ st2api
 ------
 
 This folder contains code for API controllers in StackStorm APIs are versioned and so are controllers.
-Experimental controllers are added to `exp` folder inside st2api and when they mature, they are
+Experimental controllers are added to ``exp`` folder inside st2api and when they mature, they are
 moved to folders containing versioned controllers.
 
 st2auth

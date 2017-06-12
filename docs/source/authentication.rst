@@ -240,7 +240,7 @@ The optional ``-m`` attribute allows metadata to be associated with the created 
 practice to assign a meaningful value like the external service which uses this key to authenticate
 with |st2|.
 
-The CLI for API keys also support `get`, `list`, `delete`, `enable` and `disable` commands.
+The CLI for API keys also support ``get``, ``list``, ``delete``, ``enable`` and ``disable`` commands.
 
 If an API Key is disabled it will disallow access until that API key is enabled again. This is a
 good way to temporarily revoke access of an external service to |st2|.

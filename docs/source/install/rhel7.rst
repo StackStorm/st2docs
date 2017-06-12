@@ -216,7 +216,7 @@ Install WebUI and setup SSL termination
 
 `NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS,
 provide SSL termination for HTTPS, and reverse-proxy st2auth and st2api API endpoints.
-To set it up: install `st2web` and `nginx`, generate certificates or place your existing
+To set it up: install ``st2web`` and ``nginx``, generate certificates or place your existing
 certificates under ``/etc/ssl/st2``, and configure nginx with |st2|'s supplied
 :github_st2:`site config file st2.conf<conf/nginx/st2.conf>`.
 

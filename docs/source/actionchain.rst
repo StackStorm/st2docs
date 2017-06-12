@@ -23,8 +23,8 @@ Details:
 * ``chain`` is the array property that contains tasks, which incapsulate action invocation.
 * Tasks are named action execution specifications provided in form of a list. The name is scoped to an ActionChain and is used as a reference to a task.
 * ``ref`` property of an task points to an Action registered in |st2|.
-* ``on-success`` is the link to a task to invoke next on a successful action execution. If not provided, the ActionChain will terminate with status set to `success`.
-* ``on-failure`` is an optional link to a task to invoke next on a failed action execution. If not provided, the ActionChain will terminate with the status set to `error`.
+* ``on-success`` is the link to a task to invoke next on a successful action execution. If not provided, the ActionChain will terminate with status set to ``success``.
+* ``on-failure`` is an optional link to a task to invoke next on a failed action execution. If not provided, the ActionChain will terminate with the status set to ``error``.
 * ``default`` is an optional top level property that specifies the start of an ActionChain. If ``default`` not explicitly specified, the ActionChain starts from the first action.
 
 ActionChain metadata

@@ -22,7 +22,7 @@ Install libffi-devel package
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 RHEL 6 may not ship with ``libffi-devel`` which is a dependency for |st2|.
-If that is the case, set up `server-optional` repository, following instructions at https://access.redhat.com/solutions/265523.
+If that is the case, set up the ``server-optional`` repository, following instructions at https://access.redhat.com/solutions/265523.
 Or, find a version of libffi-devel compatible with libffi on the box, and install this version of ``libffi-devel```. For example:
 
 .. code :: bash
@@ -240,7 +240,7 @@ Install WebUI and setup SSL termination
 
 `NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS,
 provide SSL termination for HTTPS, and reverse-proxy st2auth and st2api API endpoints.
-To set it up: install `st2web` and `nginx`, generate certificates or place your existing
+To set it up: install ``st2web`` and ``nginx``, generate certificates or place your existing
 certificates under ``/etc/ssl/st2``, and configure nginx with |st2|'s supplied
 :github_st2:`site config file st2.conf<conf/nginx/st2.conf>`.
 

@@ -85,11 +85,7 @@ Starting from 2.1, |st2| enforces validation on ``pack.yaml``.
 If you create your own packs, please validate them against these rules:
 
 * The ``version`` value in ``pack.yaml`` must conform to `semver <http://semver.org/>`__:
-  ``0.2.5``, not ``0.2``.
-  In 2.1, the system will attempt to do automatic conversion. If the attempt fails, the pack
-  loading will error out. NOTE: there will be no implicit conversions in future releases, and
-  pack loading will fail if the version is not in the semver format. Convert the versions and
-  update your packs as soon as possible to avoid surprises.
+  ``0.2.5``, not ``0.2``. Pack loading will fail if the version is not in the semver format.
 * The ``name`` value in ``pack.yaml`` must only contain letters, digits, and underscores,
   since it is also used as a ref (UID) for the pack. You can set the ``ref`` value explicitly
   in ``pack.yaml``: in this case, ``ref`` is going to be validated against the rule above,

@@ -28,7 +28,7 @@ share a dedicated Python virtualenv, and are configured by /etc/st2/st2.conf.
       run all the defined timers.
     * **st2actionrunners** run actions from packs under ``/opt/stackstorm/packs`` via a variety of
       :doc:`/reference/runners`. Runners may require some runner-specific configurations, e.g. SSH needs to be
-      configured for running remote actions based on `remote-shell-runner` and `remote-command-runner`.
+      configured for running remote actions based on ``remote-shell-runner`` and ``remote-command-runner``.
       Windows prerequisites must be in place to run Windows runners. See :doc:`Runners </reference/runners>`
       for details.
     * **st2resultstracker** keeps track of long-running workflow executions, calling the Mistral
@@ -72,8 +72,8 @@ it is restricted to localhost.
 * **nginx** provides SSL termination, redirects HTTP to HTTPS, serves WebUI as static HTML,
   and reverse-proxies REST API endpoints to st2* web services.
 
-* **StackStorm WebUI** (st2web, and Workflow Designer, for Brocade Workflow Composer) are installed at ``/opt/statckstorm/static/webui``
-  and configured via ``webui/config.js``. `st2web` comes in its own ``deb`` and ``rpm``. `Flow` is
+* **StackStorm WebUI** (st2web, and Workflow Designer, for Brocade Workflow Composer) are installed at ``/opt/stackstorm/static/webui``
+  and configured via ``webui/config.js``. ``st2web`` comes in its own ``deb`` and ``rpm``. ``Flow`` is
   deployed with ``bwc-enterprise`` package. They are HTML5 applications, served as static HTML,
   and calling |st2| st2auth and st2api REST API endpoints. NGINX proxies st2auth and st2api
   requests through 443 HTTPS port to ``/api`` and ``/auth``.
