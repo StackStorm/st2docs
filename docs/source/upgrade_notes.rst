@@ -6,6 +6,13 @@ Upgrade Notes
 |st2| in development
 --------------------
 
+* The API endpoint for searching or showing packs has been updated to return an empty list
+  instead of ``None`` when the pack was not found in the index. This is technically a breaking
+  change, but a necessary one because returning ``None`` caused the client to throw an exception.
+
+|st2| v2.2
+----------
+
 * Additional validation has been introduced for triggers.
 
     1. Trigger payload is now validated against the trigger ``payload_schema`` schema when
