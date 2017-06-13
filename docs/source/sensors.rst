@@ -4,11 +4,14 @@ Sensors and Triggers
 Sensors
 -------
 
-Sensors are essentially adapters that are a way to integrate |st2|
-with an external system so that triggers can be injected into |st2|
-before rule matching results in potential actions. Sensors are pieces
-of Python code and have to follow the |st2| defined sensor interface
-requirements to run successfully.
+Sensors are a way to integrate external systems and events with |st2|.
+Sensors are pieces of Python code that either periodically poll some
+external system, or passively wait for inbound events. They then inject
+triggers into |st2|, which can be matched by rules, for potential
+action execution. 
+
+Sensors are written in Python, and have to follow the |st2|-defined
+sensor interface requirements to run successfully. 
 
 Triggers
 --------
@@ -16,8 +19,9 @@ Triggers
 Triggers are |st2| constructs that identify the incoming events to |st2|.
 A trigger is a tuple of type (string) and optional parameters (object).
 Rules are written to work with triggers. Sensors typically register triggers
-though this is not strictly the case. For example, webhook triggers are just
-registered independently. You don't have to write a sensor.
+though this is not strictly required. For example, there is a generic
+:doc:`webhooks</webhooks>` trigger registered with |st2|, which does not require
+a custom sensor.
 
 Internal Triggers
 -----------------
@@ -36,19 +40,22 @@ Creating a Sensor
 -----------------
 
 Creating a sensor involves writing a Python file and a YAML meta file
-that defines the sensor. An example meta file is shown below:
+that defines the sensor. Here's a minimal skeleton example. This is the
+metadata file:
 
 .. literalinclude:: ../../st2/contrib/examples/sensors/sample_sensor.yaml
 
-
-The corresponding simple sensor Python implementation is shown below.
+And this is the corresponding Python skeleton:
 
 .. literalinclude:: ../../st2/contrib/examples/sensors/sample_sensor.py
 
-It shows a bare minimum version of how a sensor would look like. Your
-sensor should generate triggers of the form (Python dict):
+This is a bare minimum version of what a sensor looks like. For a more
+complete implementation of a sensor that actually injects triggers
+into the system, look at the `examples <#examples>`__ section below. 
 
-.. sourcecode:: python
+Your sensor should generate triggers in Python dict form:
+
+.. code:: python
 
     trigger = 'pack.name'
     payload = {
@@ -56,7 +63,8 @@ sensor should generate triggers of the form (Python dict):
     }
     trace_tag = external_event_id
 
-The sensor would inject such triggers by using the sensor\_service
+
+The sensor injects such triggers by using the sensor\_service
 passed into the sensor on instantiation.
 
 .. code:: python
@@ -64,17 +72,17 @@ passed into the sensor on instantiation.
     self.sensor_service.dispatch(trigger=trigger, payload=payload, trace_tag=trace_tag)
 
 If you want a sensor that polls an external system at regular intervals, you
-would use a PollingSensor instead of Sensor as the base class.
+can use a PollingSensor instead of Sensor as the base class.
 
 .. literalinclude:: ../../st2/contrib/examples/sensors/sample_polling_sensor.py
 
-For a complete implementation of a sensor that actually injects triggers
-into the system, look at the `examples <#examples>`__ section.
+Polling Sensors also require a ``poll_interval`` parameter in the metadata file.
+This defines (in seconds) how frequently the ``poll()`` method is called.
 
 How Sensors are Run
 -------------------
 
-Each sensor runs as a separate process. The st2sensorcontainer (see
+Each sensor runs as a separate process. The ``st2sensorcontainer`` (see
 :doc:`Overview </install/overview>`) starts ``sensor_wrapper.py`` which wraps
 your Sensor class (such as ``SampleSensor`` or ``SamplePollingSensor`` above) in
 a :ref:`st2reactor.container.sensor_wrapper.SensorWrapper<ref-sensors-authoring-a-sensor>`.
@@ -134,7 +142,7 @@ functionality for reading and manipulating the :doc:`datastore <datastore>`.
 
 Each sensor has a namespace which is local to it and by default, all the
 datastore operations operate on the keys in that sensor-local namespace.
-If you want to operate on a global namespace, you need to pass ``local=False``
+If you want to operate on a global namespace, you need to pass the ``local=False``
 argument to the datastore manipulation method.
 
 Among other reasons, this functionality is useful if you want to persist
@@ -146,7 +154,8 @@ datastore. This way if the sensor is restarted or if it crashes, the sensor
 can resume from where it left off without injecting duplicate triggers into
 the system.
 
-For the implementation, see :github_exchange:`twitter_search_sensor.py in StackStorm Exchange<twitter/tree/master/sensors/twitter_search_sensor.py>`
+For the implementation, see :github_exchange:`twitter_search_sensor.py in
+StackStorm Exchange<twitter/tree/master/sensors/twitter_search_sensor.py>`
 
 1. list_values(local=True, prefix=None)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -224,20 +233,22 @@ API Docs
 Running Your First Sensor
 -------------------------
 
-Once you write your own sensor, the following steps can be used to run your sensor for the first time:
+Once you write your own sensor, the following steps can be used to run
+your sensor for the first time:
 
-1. Place the sensor Python file and YAML metadata in the 'default' pack in
-/opt/stackstorm/packs/default/sensors/. Alternatively, you can create a
-custom pack in /opt/stackstorm/packs/
-with appropriate pack structure (see :doc:`/reference/packs`) and place the sensor artifacts there.
+1. Place the sensor Python file and YAML metadata in the ``default`` pack in
+   ``/opt/stackstorm/packs/default/sensors/``. Alternatively, you can create a custom
+   pack in ``/opt/stackstorm/packs/`` with the appropriate pack structure (see
+   :doc:`/reference/packs`) and place the sensor artifacts there.
 
-2. Register the sensor by using the st2ctl tool. Look out for any errors in sensor registration.
+2. Register the sensor with ``st2ctl``. Look out for any errors in sensor registration.
 
-::
+   .. code-block:: bash
 
-    st2ctl reload
+      st2ctl reload --register-all
 
-If there are errors in registration, fix the errors and re-register them using st2ctl reload.
+   If there are errors in registration, fix the errors and re-register them using
+   ``st2ctl reload --register-all``.
 
 3. If registration is successful, the sensor will run automatically.
 
@@ -245,6 +256,44 @@ If there are errors in registration, fix the errors and re-register them using s
 Once you like your sensor, you can promote it to a pack (if required) by creating a pack in
 ``/opt/stackstorm/packs/${pack_name}`` and moving the sensor artifacts (YAML and Python) to
 ``/opt/stackstorm/packs/${pack_name}/sensors/``. See :doc:`/reference/packs` for how to create a pack.
+
+
+Examples
+--------
+
+This is a working example of a simple sensor that injects a trigger every 10 seconds.
+
+Metadata:
+
+.. literalinclude:: /../../st2/contrib/hello_st2/sensors/sensor1.yaml
+
+Python code:
+
+.. literalinclude:: /../../st2/contrib/hello_st2/sensors/sensor1.py
+
+The `StackStorm Exchange <https://exchange.stackstorm.org>`__ has many more examples.
+Here's just a few: 
+
+
+Passive Sensors
+~~~~~~~~~~~~~~~
+
+* :github_exchange:`IRC<irc/tree/master/sensors/irc_sensor.py>`
+
+* :github_exchange:`Kafka Messages<kafka/tree/master/sensors/message_sensor.py>`
+
+* :github_exchange:`RabbitMQ Queues<rabbitmq/tree/master/sensors/queues_sensor.py>`
+
+Polling Sensors
+~~~~~~~~~~~~~~~
+
+* :github_exchange:`Github repository monitoring<github/tree/master/sensors/github_repository_sensor.py>`
+
+* :github_exchange:`Jira issues<jira/tree/master/sensors/jira_sensor.py>`
+
+* :github_exchange:`Twitter search<twitter/tree/master/sensors/twitter_search_sensor.py>`
+
+
 
 Debugging a Sensor From a Pack
 ------------------------------
@@ -261,9 +310,3 @@ For example:
 ::
 
     /opt/stackstorm/st2/bin/st2sensorcontainer --config-file=/etc/st2/st2.conf --sensor-ref=git.GitCommitSensor
-
-Examples
---------
-
-For more examples, please reference packs in `StackStorm Exchange
-<https://exchange.stackstorm.org>`__.
