@@ -3,8 +3,18 @@
 Upgrade Notes
 =============
 
-|st2| in development
---------------------
+|st2| v2.3
+----------
+
+* The ``dest_server`` parameter has been removed from the ``linux.scp`` action and replaced with
+  the ``destination`` parameter.
+
+  This offers more flexibility. ``source`` and ``destination`` parameters can now contain a
+  local path or a full source / destination which includes the server part (e.g.
+  ``server.fqdn:/etc/hosts``).
+
+|st2| v2.2
+----------
 
 * The API endpoint for searching or showing packs has been updated to return an empty list
   instead of ``None`` when the pack was not found in the index. This is technically a breaking
