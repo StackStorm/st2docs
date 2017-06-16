@@ -13,7 +13,7 @@ Upgrade Notes
   local path or a full source / destination which includes the server part (e.g.
   ``server.fqdn:/etc/hosts``).
 
-|st2| v2.3
+|st2| v2.2
 ----------
 
 * Additional validation has been introduced for triggers.
