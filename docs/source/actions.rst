@@ -415,7 +415,7 @@ are serialized based on the simple rules described below:
 
 1. ``string``, ``integer``, ``float`` - Serialized as a string.
 2. ``boolean`` - Serialized as a string ``1`` (true) or ``0`` (false).
-3. ``lists`` - Serialized as a comma delimited string (e.g. ``foo,bar,baz``).
+3. ``array`` - Serialized as a comma delimited string (e.g. ``foo,bar,baz``).
 4. ``object`` - Serialized as JSON.
 
 Using this simple serialization format allows users to easily utilize those
