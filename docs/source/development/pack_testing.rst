@@ -233,9 +233,30 @@ up because virtual environment will be used as is and only tests will run).
     st2-run-pack-tests -p /data/packs/docker/
 
     # Second (and subsequent) runs - just run the tests and re-use the existing
-    # virtual environment which has been created during the previous script 
+    # virtual environment which has been created during the previous script
     # invocation.
     st2-run-pack-tests -p /data/packs/docker/ -j
+
+As more tests are developed it is always a good idea to determine how much code
+has been covered by the tests and how much remains un-tested. Calculated test
+coverage can be printed out using the ``-c`` option.
+
+.. sourcecode:: bash
+
+     st2-run-pack-tests -c -p /data/packs/docker/
+
+The command will print out test coverage to ``stdout`` along with generating
+a coverage report in ``cover/index.html``.  This can be opened with an modern
+browser. The directory ``cover`` will be created in the the current working
+directory when the command ``st2-run-pack-tests`` is invoked.
+
+Understanding how long a test takes to run is sometimes important. Timing
+metrics can be enabled via the ``-t`` option.
+
+.. sourcecode:: bash
+
+     st2-run-pack-tests -t -p /data/packs/docker/
+
 
 Lint Tools and Scripts
 ----------------------
