@@ -224,6 +224,8 @@ By default, the logs can be found in ``/var/log/st2``.
   `RotatingFileHandler <https://docs.python.org/2/library/logging.handlers.html#rotatingfilehandler>`_
   docs.
 
+  Keep in mind that log level names need to be uppercase (e.g. ``DEBUG``, ``INFO``, etc.).
+
 * Sensors run in their own process so it is recommended to not allow sensors to share the same
   ``RotatingFileHandler``. To configure a separate handler per sensor
   ``/etc/st2reactor/logging.sensorcontainer.conf`` can be updated as follows, where ``MySensor`` is
