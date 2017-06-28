@@ -246,7 +246,7 @@ coverage can be printed out using the ``-c`` option.
      st2-run-pack-tests -c -p /data/packs/docker/
 
 The command will print out test coverage to ``stdout`` along with generating
-a coverage report in ``cover/index.html``.  This can be opened with an modern
+a coverage report in ``cover/index.html``.  This can be opened with any modern
 browser. The directory ``cover`` will be created in the the current working
 directory when the command ``st2-run-pack-tests`` is invoked.
 
