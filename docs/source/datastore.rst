@@ -230,6 +230,8 @@ Update an existing encrypted key-value pair:
     >>> print os_keystone_password.secret
     True
     >>> client.keys.update(os_keystone_password)
+    >>> client.keys.get_by_name(name='os_keystone_password', decrypt=True)
+    <KeyValuePair name=os_keystone_password,value=New$ecret!>
 
     
 Referencing Key-Value Pairs in Rule Definitions
