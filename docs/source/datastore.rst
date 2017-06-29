@@ -213,7 +213,7 @@ Get and decrypt an encrypted key-value pair:
     u'$uper$ecret!'
 
 
-Get all key-value pairs and decypt any that are encrypted:
+Get all key-value pairs and decrypt any that are encrypted:
 
 ::
 
