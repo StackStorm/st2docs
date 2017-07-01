@@ -24,6 +24,10 @@ Contents:
     datastore
     chatops/index
 
+.. include:: _includes/flow.rst
+
+.. include:: _includes/solutions.rst
+
 .. toctree::
     :maxdepth: 2
     :caption: Advanced Topics
@@ -33,10 +37,6 @@ Contents:
     reference/index
     troubleshooting/index
     development/index
-
-
-
-.. include:: _includes/solutions.rst
 
 .. toctree::
     :maxdepth: 1
