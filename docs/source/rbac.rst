@@ -323,7 +323,7 @@ To be able to utilize this feature it first needs to be enabled in ``st2.conf`` 
 After this feature is enabled, the |st2| administrator needs to write mapping files that tell |st2|
 which roles to automatically grant to users, based upon LDAP group membership.
 
-Mapping files are located in the ``/opt/stackstorm/mappings/`` directory and map LDAP group to one
+Mapping files are located in the ``/opt/stackstorm/rbac/mappings/`` directory and map an LDAP group to one
 or more |st2| roles.
 
 Two examples of such mapping files can be found below:
