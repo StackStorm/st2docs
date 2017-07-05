@@ -57,7 +57,7 @@ messages with level DEBUG and higher will be printed directly to the console.
 
 .. sourcecode:: bash
 
-    st2sensorcontainer --config-file=/etc/st2/st2.conf --debug --sensor-ref=pack.SensorClassName
+    /opt/stackstorm/st2/bin/st2sensorcontainer --config-file=/etc/st2/st2.conf --debug --sensor-ref=pack.SensorClassName
 
 The log output will usually give you a clue as to what is going on. Common issues
 include typos and syntax errors in the sensor class code, uncaught exceptions
