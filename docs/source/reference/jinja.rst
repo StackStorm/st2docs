@@ -72,12 +72,20 @@ The current supported filters are grouped into following categories.
 | ``version_bump_minor``         | Bumps the minor version and returns new                        |
 |                                | version.                                                       |
 +--------------------------------+----------------------------------------------------------------+
+| ``json_escape``                | Adds escape characters to JSON strings                         |
++--------------------------------+----------------------------------------------------------------+
+| ``regex_substring``            | Searches for provided pattern in a string, and returns the     |
+|                                | first matched regex group (alternatively, you can provide      |
+|                                | desired index)                                                 |
++--------------------------------+----------------------------------------------------------------+
 
 Examples of how to use filters are available in
 :github_st2:`st2/contrib/examples/actions/chains/data_jinja_filter.yaml </contrib/examples/actions/chains/data_jinja_filter.yaml>`,
 :github_st2:`st2/contrib/examples/actions/chains/time_jinja_filter.yaml </contrib/examples/actions/chains/time_jinja_filter.yaml>`,
 :github_st2:`st2/contrib/examples/actions/chains/data_jinja_filter.yaml </contrib/examples/actions/chains/decrypt_kv_jinja_filter.yaml>`,
-and :github_st2:`st2/contrib/examples/actions/chains/version_jinja_filter.yaml </contrib/examples/actions/chains/version_jinja_filter.yaml>`.
+:github_st2:`st2/contrib/examples/actions/chains/version_jinja_filter.yaml </contrib/examples/actions/chains/version_jinja_filter.yaml>`.
+:github_st2:`st2/contrib/examples/actions/chains/json_escape_jinja_filter.yaml </contrib/examples/actions/chains/json_escape_jinja_filter.yaml>`.
+and :github_st2:`st2/contrib/examples/actions/chains/regex_substring_jinja_filter.yaml </contrib/examples/actions/chains/regex_substring_jinja_filter.yaml>`.
 
 
 |st2| supports `Jinja2 variable templating <http://jinja.pocoo.org/docs/dev/templates/#variables>`__
