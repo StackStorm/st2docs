@@ -189,3 +189,10 @@ You should now be able to go into your chatroom, and execute the command
 .. figure:: /_static/images/chatops_command_out.png
 
 To customize the command output you can use Jinja templates as described in :doc:`aliases`.
+
+Logging
+=======
+
+ChatOps logs are written to ``/var/log/st2/st2chatops.log`` on non-systemd
+based distros. For systemd based distros you can access the logs via
+``journalctl --unit=st2chatops``
