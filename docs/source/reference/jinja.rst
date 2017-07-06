@@ -52,31 +52,36 @@ StackStorm also provides several additional filters to augment the standard filt
 +--------------------------------+----------------------------------------------------------------+
 |      Operator                  |   Description                                                  |
 +================================+================================================================+
-| ``decrypt_kv``                 | Decrypt a system scoped datastore item                         |
+| ``decrypt_kv``                 | Decrypt a system scoped datastore item.                        |
 +--------------------------------+----------------------------------------------------------------+
-| ``json_escape``                | Adds escape characters to JSON strings                         |
+| ``json_escape``                | Adds escape characters to JSON strings.                        |
 +--------------------------------+----------------------------------------------------------------+
-| ``regex_match``                |                                                                |
+| ``regex_match``                | Search for pattern at beginning of the string. Returns True if |
+|                                | found, False if not.                                           |
 +--------------------------------+----------------------------------------------------------------+
-| ``regex_replace``              |                                                                |
+| ``regex_replace``              | Replaces substring that matches pattern with provided          |
+|                                | replacement value.                                             |
 +--------------------------------+----------------------------------------------------------------+
-| ``regex_search``               |                                                                |
+| ``regex_search``               | Search for pattern anywhere in the string.                     |
+|                                | Returns True if found, False if not.                           |
 +--------------------------------+----------------------------------------------------------------+
 | ``regex_substring``            | Searches for provided pattern in a string, and returns the     |
 |                                | first matched regex group (alternatively, you can provide      |
-|                                | desired index)                                                 |
+|                                | desired index).                                                |
 +--------------------------------+----------------------------------------------------------------+
-| ``to_complex``                 |                                                                |
+| ``to_complex``                 | Convert data to JSON string (see ``to_json_string`` for a more |
+|                                | flexible option)                                               |
 +--------------------------------+----------------------------------------------------------------+
 | ``to_human_time_from_seconds`` | Given time elapsed in seconds, this filter                     |
 |                                | converts it to human readable form like                        |
 |                                | 3d5h6s.                                                        |
 +--------------------------------+----------------------------------------------------------------+
-| ``to_json_string``             |                                                                |
+| ``to_json_string``             | Convert data to JSON string.                                   |
 +--------------------------------+----------------------------------------------------------------+
 | ``to_yaml_string``             | Convert data to YAML string.                                   |
 +--------------------------------+----------------------------------------------------------------+
-| ``use_none``                   |                                                                |
+| ``use_none``                   | If value being filtered is None, this filter will return the   |
+|                                | string "%*****__%NONE%__*****%"                                |
 +--------------------------------+----------------------------------------------------------------+
 | ``version_compare``            | Compare a semantic version to another value.                   |
 |                                | Returns 1 if LHS is greater or -1 if LHS is                    |
@@ -92,7 +97,8 @@ StackStorm also provides several additional filters to augment the standard filt
 +--------------------------------+----------------------------------------------------------------+
 | ``version_equal``              | Returns if LHS version is equal to RHS version.                |
 +--------------------------------+----------------------------------------------------------------+
-| ``version_match``              |                                                                |
+| ``version_match``              | Returns True if the two provided versions are equivalent (i.e. |
+|                                | "2.0.0" and ">=1.0.0" are equivalent and will return True)     |
 +--------------------------------+----------------------------------------------------------------+
 | ``version_bump_major``         | Bumps the major version and returns new                        |
 |                                | version.                                                       |
@@ -100,9 +106,10 @@ StackStorm also provides several additional filters to augment the standard filt
 | ``version_bump_minor``         | Bumps the minor version and returns new                        |
 |                                | version.                                                       |
 +--------------------------------+----------------------------------------------------------------+
-| ``version_bump_patch``         |                                                                |
+| ``version_bump_patch``         | Bumps the patch version and returns new                        |
+|                                | version.                                                       |
 +--------------------------------+----------------------------------------------------------------+
-| ``version_strip_patch``        |                                                                |
+| ``version_strip_patch``        | Returns the version number with the patch version stripped off |
 +--------------------------------+----------------------------------------------------------------+
 
 Next, we'll look at some simple usage examples for each of these.
