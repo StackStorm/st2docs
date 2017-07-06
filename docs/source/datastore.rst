@@ -197,6 +197,43 @@ Delete an existing key-value pair:
     >>> os_keystone_endpoint = client.keys.get_by_name(name='os_keystone_endpoint')
     >>> client.keys.delete(os_keystone_endpoint)
 
+
+Create an encrypted key-value pair:
+
+::
+
+    >>> client.keys.update(KeyValuePair(name='os_keystone_password', value='$uper$ecret!', secret=True))
+
+Get and decrypt an encrypted key-value pair:
+
+::
+
+    >>> os_keystone_password = client.keys.get_by_name(name='os_keystone_password', decrypt=True)
+    >>> os_keystone_password.value
+    u'$uper$ecret!'
+
+
+Get all key-value pairs and decrypt any that are encrypted:
+
+::
+
+    >>> keys = client.keys.get_all(params={'decrypt': True})
+    >>> # or
+    >>> keys = client.keys.query(decrypt=True)
+
+Update an existing encrypted key-value pair:
+
+::
+
+    >>> os_keystone_password = client.keys.get_by_name(name='os_keystone_password')
+    >>> os_keystone_password.value = 'New$ecret!'
+    >>> print os_keystone_password.secret
+    True
+    >>> client.keys.update(os_keystone_password)
+    >>> client.keys.get_by_name(name='os_keystone_password', decrypt=True)
+    <KeyValuePair name=os_keystone_password,value=New$ecret!>
+
+    
 Referencing Key-Value Pairs in Rule Definitions
 -----------------------------------------------
 
