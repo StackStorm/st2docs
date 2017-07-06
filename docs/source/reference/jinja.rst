@@ -1,34 +1,14 @@
 Jinja
 ==============
 
-|st2| uses `Jinja <http://jinja.pocoo.org/>`_ extensively for templating.
-By now, you would have seen how to use Jinja templates in YAML files for rules,
-actions, action chains and workflows. Jinja allows you to manipulate parameter
-values in |st2| by allowing you to refer to other parameters, applying filters
-or refer to system specific constructs (like datastore access). This document
-is here to help you with Jinja in the context of |st2|. Please refer to the
-`Jinja docs <http://jinja.pocoo.org/docs/>`_ for Jinja-focused information.
+|st2| uses `Jinja <http://jinja.pocoo.org/>`_ extensively for templating. Jinja
+allows you to manipulate parameter values in |st2| by allowing you to refer to
+other parameters, applying filters or refer to system specific constructs (like
+datastore access). This document is here to help you with Jinja in the context
+of |st2|. Please refer to the `Jinja docs <http://jinja.pocoo.org/docs/>`_ for
+Jinja-focused information.
 
 .. _applying-filters-with-jinja:
-
-Applying Filters with Jinja
-----------------------------
-
-Aside from `standard filters <http://jinja.pocoo.org/docs/dev/
-templates/#builtin-filters>`_ available in Jinja, |st2| supports custom filters
-as well, see :ref:`jinja-jinja-filters`. To use a filter ``my_filter`` on ``foo``, simply do
-``{{foo | my_filter}}``. Please pay attention to data type and available filters
-for each data type. Since Jinja is a text templating language, all your input is
-converted to text and then manipulations happen on them. The necessary casting at
-the end is done by |st2| based on information you provide in YAML (for example,
-``type`` field in action parameters). The casting is a best effort casting.
-
-|st2| supports `Jinja variable templating <http://jinja.pocoo.org/docs/dev/templates/#variables>`__
-in Rules, Action Chains and Actions etc. Jinja templates support
-`filters <http://jinja.pocoo.org/docs/dev/templates/#list-of-builtin-filters>`__
-to allow some advanced capabilities in working with variables.
-
-.. _referencing-datastore-keys-in-jinja:
 
 Referencing Datastore Keys in Jinja
 ------------------------------------
@@ -39,27 +19,45 @@ but is now deprecated, and the leading ``st2kv.`` namespace is required.
 
 .. _jinja-jinja-filters:
 
+Applying Filters with Jinja
+----------------------------
+
+To use a filter ``my_filter`` on ``foo``, you use the pipe operator, like so: ``{{foo | my_filter}}``.
+Please pay attention to data type and available filters for each data type.
+Since Jinja is a text templating language, all your input is converted to text
+and then manipulations happen on that value. The necessary casting at the end is
+done by |st2| based on information you provide in YAML (for example,
+``type`` field in action parameters). The casting is a best effort casting.
+
+|st2| supports `Jinja variable templating <http://jinja.pocoo.org/docs/dev/templates/#variables>`__
+in Rules, Action Chains and Actions etc. Jinja templates support
+`filters <http://jinja.pocoo.org/docs/dev/templates/#list-of-builtin-filters>`__
+to allow some advanced capabilities in working with variables.
+
+.. _referencing-datastore-keys-in-jinja:
+
 Custom Jinja Filters
 --------------------
 
-StackStorm also provides several additional filters to augment the standard filters.
+In addition to `standard filters <http://jinja.pocoo.org/docs/dev/
+templates/#builtin-filters>`_ available in Jinja, |st2| supports custom filters
+as well.
 
 .. note::
 
     **For Developers:** These filters are defined in
     :github_st2:`st2/st2common/st2common/jinja/filters/ </st2common/st2common/jinja/filters/>`.
 
-.. note::
 
-    For brevity, only simple Jinja patterns for each filter are documented below. "Real-world" usage
-    will depend on the type of content where the filters are being applied (sensors, triggers, rules,
-    action and workflows) and their syntax. More detailed examples can be found in several of the
-    ActionChains located in the examples pack:
-    :github_st2:`st2/contrib/examples/actions/chains/ </contrib/examples/actions/chains/>`.
+For brevity, only simple Jinja patterns for each filter are documented below. "Real-world" usage
+will depend on the type of content where the filters are being applied (sensors, triggers, rules,
+action and workflows) and their syntax. More detailed examples can be found in several of the
+ActionChains located in the ``examples`` pack:
+:github_st2:`st2/contrib/examples/actions/chains/ </contrib/examples/actions/chains/>`.
 
 ..  TODO We should consider separating each specific usage into individual ActionChains and refer to
     it using literalinclude (i.e. .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-jinja-branching.yaml)
-    so we can just use the code as the source of truth
+    so we can just use the code as the source of truth. Then, we can remove the above note.
 
 decrypt_kv
 ~~~~~~~~~~
