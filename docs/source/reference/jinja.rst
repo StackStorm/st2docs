@@ -59,6 +59,10 @@ ActionChains located in the ``examples`` pack:
     it using literalinclude (i.e. .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-jinja-branching.yaml)
     so we can just use the code as the source of truth. Then, we can remove the above note.
 
+.. warning::
+
+    These custom filters are currently not available in Mistral workflows. To use them in a workflow, you must use ActionChains.
+
 decrypt_kv
 ~~~~~~~~~~
 Decrypt a system scoped datastore item.
