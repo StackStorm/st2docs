@@ -122,9 +122,22 @@ Next, we'll look at some simple usage examples for each of these.
     ActionChains located in the examples pack:
     :github_st2:`st2/contrib/examples/actions/chains/ </contrib/examples/actions/chains/>`.
 
-Filters with regex support
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-Makes it possible to use regex to search, match and replace in expressions.
+
+decrypt_kv
+~~~~~~~~~~
+Decrypt a system scoped datastore item.
+
+.. code-block:: bash
+
+    {{value_key | decrypt_kv }}
+
+json_escape
+~~~~~~~~~~~
+Adds escape characters to JSON strings.
+
+.. code-block:: bash
+
+    {{value_key | json_escape }}
 
 regex_match
 ~~~~~~~~~~~
@@ -157,10 +170,55 @@ search pattern anywhere is supplied expression
     {{value_key | regex_search("y")}}
     {{value_key | regex_search("^v(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$")}}
 
+regex_substring
+~~~~~~~~~~~~~~~
+Searches for provided pattern in a string, and returns the first matched
+regex group (alternatively, you can provide desired index). 
 
-Filters to work with version
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Filters that work with `semver <http://semver.org>`__ formatted version string.
+.. code-block:: bash
+
+    {{value_key | regex_search("y")}}
+    {{value_key | regex_search("^v(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$")}}
+
+to_complex
+~~~~~~~~~~
+Convert data to JSON string (see ``to_json_string`` for a more flexible option)
+
+.. code-block:: bash
+
+    {{value_key | to_complex}}
+
+to_human_time_from_seconds
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Given time elapsed in seconds, this filter converts it to human readable form like 3d5h6s.
+
+.. code-block:: bash
+
+    {{ value_key | to_human_time_from_seconds}}
+
+to_json_string
+~~~~~~~~~~~~~~
+Convert data to JSON string.
+
+.. code-block:: bash
+
+    {{value_key | to_json_string}}
+
+to_yaml_string
+~~~~~~~~~~~~~~
+Convert data to YAML string.
+
+.. code-block:: bash
+
+    {{value_key | to_yaml_string}}
+
+use_none
+~~~~~~~~
+If value being filtered is None, this filter will return the string "%*****__%NONE%__*****%"
+
+.. code-block:: bash
+
+    {{value_key | use_none}}
 
 version_compare
 ~~~~~~~~~~~~~~~
@@ -202,7 +260,6 @@ True if versions match. Supports operators >,<, ==, <=, >=.
 
     {{version | version_match(">0.10.0")}}
 
-
 version_bump_major
 ~~~~~~~~~~~~~~~~~~
 Bumps up the major version of supplied version field
@@ -234,4 +291,3 @@ Drops patch version of supplied version field
 .. code-block:: bash
 
     {{version | version_strip_patch}}
-
