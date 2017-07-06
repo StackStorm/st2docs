@@ -2,13 +2,13 @@ Jinja
 ==============
 
 |st2| uses `Jinja <http://jinja.pocoo.org/>`_ extensively for templating.
-By now, you would have seen how to use jinja templates in YAML files for rules,
+By now, you would have seen how to use Jinja templates in YAML files for rules,
 actions, action chains and workflows. Jinja allows you to manipulate parameter
 values in |st2| by allowing you to refer to other parameters, applying filters
 or refer to system specific constructs (like datastore access). This document is here to help you with Jinja in the context of |st2|. Please refer to `Jinja docs <http://jinja.pocoo.org/docs/>`_
 for Jinja specific documentation.
 
-For brevity, the jinja patterns are only documented. Usage of these patterns inside YAML is subject to understanding the YAML for each content type (sensors, triggers, rules, action and workflows) and their syntax.
+For brevity, the Jinja patterns are only documented. Usage of these patterns inside YAML is subject to understanding the YAML for each content type (sensors, triggers, rules, action and workflows) and their syntax.
 
 Accessing datastore items with Jinja
 ------------------------------------
@@ -88,8 +88,8 @@ Examples of how to use filters are available in
 and :github_st2:`st2/contrib/examples/actions/chains/regex_substring_jinja_filter.yaml </contrib/examples/actions/chains/regex_substring_jinja_filter.yaml>`.
 
 
-|st2| supports `Jinja2 variable templating <http://jinja.pocoo.org/docs/dev/templates/#variables>`__
-in Rules, Action Chains and Actions etc. Jinja2 templates support `filters <http://jinja.pocoo.org/docs/dev/templates/#list-of-builtin-filters>`__ to allow some advanced capabilities in working with variables. |st2| has further
+|st2| supports `Jinja variable templating <http://jinja.pocoo.org/docs/dev/templates/#variables>`__
+in Rules, Action Chains and Actions etc. Jinja templates support `filters <http://jinja.pocoo.org/docs/dev/templates/#list-of-builtin-filters>`__ to allow some advanced capabilities in working with variables. |st2| has further
 added some more filters.
 
 .. _jinja-jinja-filters:
