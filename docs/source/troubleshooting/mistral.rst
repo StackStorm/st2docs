@@ -35,7 +35,7 @@ the ``results_tracker`` section in ``/etc/st2/st2.conf``:
 
 .. sourcecode:: ini
 
-    [results_tracker]
+    [resultstracker]
     query_interval = 5 # in seconds
     thread_pool_size = 10
 

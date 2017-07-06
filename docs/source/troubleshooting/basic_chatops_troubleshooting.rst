@@ -72,7 +72,7 @@ listed (``pack`` and ``st2`` sets of commands should be installed by default).
 
     **Possible reasons:**
 
-    - Hubot can't connect to StackStorm API. Look in the st2chatops logs for errors: ``/var/log/st2/st2chatops.log``
+    - Hubot can't connect to StackStorm API. Look in the st2chatops logs for errors: ``/var/log/st2/st2chatops.log`` or for systemd based distros ``journalctl --unit=st2chatops``
     - Actions and/or ChatOps aliases aren't registered. Try running ``st2ctl reload --register-all``.
     - It's also possible you changed the bot's name or you have not invited your bot to a channel in the chat client.
     - If you're sending bot a private message instead of messaging it in a channel, 
