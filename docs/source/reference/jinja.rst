@@ -5,21 +5,13 @@ Jinja
 By now, you would have seen how to use Jinja templates in YAML files for rules,
 actions, action chains and workflows. Jinja allows you to manipulate parameter
 values in |st2| by allowing you to refer to other parameters, applying filters
-or refer to system specific constructs (like datastore access). This document is here to help you with Jinja in the context of |st2|. Please refer to `Jinja docs <http://jinja.pocoo.org/docs/>`_
-for Jinja specific documentation.
-
-For brevity, the Jinja patterns are only documented. Usage of these patterns inside YAML is subject to understanding the YAML for each content type (sensors, triggers, rules, action and workflows) and their syntax.
-
-Accessing datastore items with Jinja
-------------------------------------
-
-You can use ``{{st2kv.system.foo}}`` to access key ``foo`` from datastore. Note that until
-v2.1, the expression to access key ``foo`` from datastore used to be ``{{system.foo}}``
-but is now deprecated.
+or refer to system specific constructs (like datastore access). This document
+is here to help you with Jinja in the context of |st2|. Please refer to the
+`Jinja docs <http://jinja.pocoo.org/docs/>`_ for Jinja-focused information.
 
 .. _applying-filters-with-jinja:
 
-Applying filters with Jinja
+Applying Filters with Jinja
 ----------------------------
 
 Aside from `standard filters <http://jinja.pocoo.org/docs/dev/
@@ -31,26 +23,60 @@ converted to text and then manipulations happen on them. The necessary casting a
 the end is done by |st2| based on information you provide in YAML (for example,
 ``type`` field in action parameters). The casting is a best effort casting.
 
-The current supported filters are grouped into following categories.
+|st2| supports `Jinja variable templating <http://jinja.pocoo.org/docs/dev/templates/#variables>`__
+in Rules, Action Chains and Actions etc. Jinja templates support
+`filters <http://jinja.pocoo.org/docs/dev/templates/#list-of-builtin-filters>`__
+to allow some advanced capabilities in working with variables.
+
+.. _referencing-datastore-keys-in-jinja:
+
+Referencing Datastore Keys in Jinja
+------------------------------------
+
+You can use ``{{st2kv.system.foo}}`` to access key ``foo`` from datastore. Note that until
+v2.1, the expression to access key ``foo`` from datastore used to be ``{{system.foo}}``
+but is now deprecated, and the leading ``st2kv.`` namespace is required.
+
+.. _jinja-jinja-filters:
+
+Custom Jinja Filters
+--------------------
+
+StackStorm also provides several additional filters to augment the standard filters.
 
 .. note::
 
-    **For Developers:** The filters are defined in
+    **For Developers:** These filters are defined in
     :github_st2:`st2/st2common/st2common/jinja/filters/ </st2common/st2common/jinja/filters/>`.
-
 
 +--------------------------------+----------------------------------------------------------------+
 |      Operator                  |   Description                                                  |
 +================================+================================================================+
-| ``to_json_string``             | Convert data to JSON string.                                   |
+| ``decrypt_kv``                 | Decrypt a system scoped datastore item                         |
 +--------------------------------+----------------------------------------------------------------+
-| ``to_yaml_string``             | Convert data to YAML string.                                   |
+| ``json_escape``                | Adds escape characters to JSON strings                         |
++--------------------------------+----------------------------------------------------------------+
+| ``regex_match``                |                                                                |
++--------------------------------+----------------------------------------------------------------+
+| ``regex_replace``              |                                                                |
++--------------------------------+----------------------------------------------------------------+
+| ``regex_search``               |                                                                |
++--------------------------------+----------------------------------------------------------------+
+| ``regex_substring``            | Searches for provided pattern in a string, and returns the     |
+|                                | first matched regex group (alternatively, you can provide      |
+|                                | desired index)                                                 |
++--------------------------------+----------------------------------------------------------------+
+| ``to_complex``                 |                                                                |
 +--------------------------------+----------------------------------------------------------------+
 | ``to_human_time_from_seconds`` | Given time elapsed in seconds, this filter                     |
 |                                | converts it to human readable form like                        |
 |                                | 3d5h6s.                                                        |
 +--------------------------------+----------------------------------------------------------------+
-| ``decrypt_kv``                 | Decrypt a system scoped datastore item                         |
+| ``to_json_string``             |                                                                |
++--------------------------------+----------------------------------------------------------------+
+| ``to_yaml_string``             | Convert data to YAML string.                                   |
++--------------------------------+----------------------------------------------------------------+
+| ``use_none``                   |                                                                |
 +--------------------------------+----------------------------------------------------------------+
 | ``version_compare``            | Compare a semantic version to another value.                   |
 |                                | Returns 1 if LHS is greater or -1 if LHS is                    |
@@ -64,7 +90,9 @@ The current supported filters are grouped into following categories.
 |                                | version. Both input has to follow semantic                     |
 |                                | version syntax. E.g. {{"1.6.0" | version_less_than("1.7.0")}}. |
 +--------------------------------+----------------------------------------------------------------+
-| ``version_equal_than``         | Returns if LHS version is equal to RHS version.                |
+| ``version_equal``              | Returns if LHS version is equal to RHS version.                |
++--------------------------------+----------------------------------------------------------------+
+| ``version_match``              |                                                                |
 +--------------------------------+----------------------------------------------------------------+
 | ``version_bump_major``         | Bumps the major version and returns new                        |
 |                                | version.                                                       |
@@ -72,30 +100,20 @@ The current supported filters are grouped into following categories.
 | ``version_bump_minor``         | Bumps the minor version and returns new                        |
 |                                | version.                                                       |
 +--------------------------------+----------------------------------------------------------------+
-| ``json_escape``                | Adds escape characters to JSON strings                         |
+| ``version_bump_patch``         |                                                                |
 +--------------------------------+----------------------------------------------------------------+
-| ``regex_substring``            | Searches for provided pattern in a string, and returns the     |
-|                                | first matched regex group (alternatively, you can provide      |
-|                                | desired index)                                                 |
+| ``version_strip_patch``        |                                                                |
 +--------------------------------+----------------------------------------------------------------+
 
-Examples of how to use filters are available in
-:github_st2:`st2/contrib/examples/actions/chains/data_jinja_filter.yaml </contrib/examples/actions/chains/data_jinja_filter.yaml>`,
-:github_st2:`st2/contrib/examples/actions/chains/time_jinja_filter.yaml </contrib/examples/actions/chains/time_jinja_filter.yaml>`,
-:github_st2:`st2/contrib/examples/actions/chains/data_jinja_filter.yaml </contrib/examples/actions/chains/decrypt_kv_jinja_filter.yaml>`,
-:github_st2:`st2/contrib/examples/actions/chains/version_jinja_filter.yaml </contrib/examples/actions/chains/version_jinja_filter.yaml>`.
-:github_st2:`st2/contrib/examples/actions/chains/json_escape_jinja_filter.yaml </contrib/examples/actions/chains/json_escape_jinja_filter.yaml>`.
-and :github_st2:`st2/contrib/examples/actions/chains/regex_substring_jinja_filter.yaml </contrib/examples/actions/chains/regex_substring_jinja_filter.yaml>`.
+Next, we'll look at some simple usage examples for each of these.
 
+.. note::
 
-|st2| supports `Jinja variable templating <http://jinja.pocoo.org/docs/dev/templates/#variables>`__
-in Rules, Action Chains and Actions etc. Jinja templates support `filters <http://jinja.pocoo.org/docs/dev/templates/#list-of-builtin-filters>`__ to allow some advanced capabilities in working with variables. |st2| has further
-added some more filters.
-
-.. _jinja-jinja-filters:
-
-Custom Jinja Filters
---------------------
+    For brevity, only simple Jinja patterns for each filter are documented below. "Real-world" usage
+    will depend on the type of content where the filters are being applied (sensors, triggers, rules,
+    action and workflows) and their syntax. More detailed examples can be found in several of the
+    ActionChains located in the examples pack:
+    :github_st2:`st2/contrib/examples/actions/chains/ </contrib/examples/actions/chains/>`.
 
 Filters with regex support
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
