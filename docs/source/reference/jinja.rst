@@ -122,6 +122,9 @@ Next, we'll look at some simple usage examples for each of these.
     ActionChains located in the examples pack:
     :github_st2:`st2/contrib/examples/actions/chains/ </contrib/examples/actions/chains/>`.
 
+..  TODO We should consider separating each specific usage into individual ActionChains and refer to
+    it using literalinclude (i.e. .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-jinja-branching.yaml)
+    so we can just use the code as the source of truth
 
 decrypt_kv
 ~~~~~~~~~~
@@ -141,7 +144,7 @@ Adds escape characters to JSON strings.
 
 regex_match
 ~~~~~~~~~~~
-match pattern at the beginning of expression.
+Search for pattern at beginning of the string. Returns True if found, False if not.
 
 .. code-block:: bash
 
@@ -150,7 +153,7 @@ match pattern at the beginning of expression.
 
 regex_replace
 ~~~~~~~~~~~~~
-replace a pattern matching regex with supplied value (backreferences possible)
+Replaces substring that matches pattern with provided replacement value (backreferences possible).
 
 .. code-block:: bash
 
@@ -159,7 +162,7 @@ replace a pattern matching regex with supplied value (backreferences possible)
 
 regex_search
 ~~~~~~~~~~~~
-search pattern anywhere is supplied expression
+Search for pattern anywhere in the string. Returns True if found, False if not.
 
 .. code-block:: bash
 
@@ -210,7 +213,7 @@ Convert data to YAML string.
 
 use_none
 ~~~~~~~~
-If value being filtered is None, this filter will return the string "%*****__%NONE%__*****%"
+If value being filtered is None, this filter will return the string ``%*****__%NONE%__*****%``
 
 .. code-block:: bash
 
@@ -218,7 +221,7 @@ If value being filtered is None, this filter will return the string "%*****__%NO
 
 version_compare
 ~~~~~~~~~~~~~~~
-compares expression with supplied value and return -1, 0 and 1 for less than, equal and more than respectively
+Compare a semantic version to another value. Returns 1 if LHS is greater or -1 if LHS is smaller or 0 if equal.
 
 .. code-block:: bash
 
@@ -226,7 +229,8 @@ compares expression with supplied value and return -1, 0 and 1 for less than, eq
 
 version_more_than
 ~~~~~~~~~~~~~~~~~
-True if version is more than supplied value
+Returns True if LHS version is greater than RHS version. Both input have to follow semantic version syntax.
+E.g. ``{{“1.6.0” | version_more_than(“1.7.0”)}}``.
 
 .. code-block:: bash
 
@@ -234,7 +238,8 @@ True if version is more than supplied value
 
 version_less_than
 ~~~~~~~~~~~~~~~~~
-True if version is less than supplied value
+Returns True if LHS version is lesser than RHS version. Both input have to follow semantic version syntax.
+E.g. ``{{“1.6.0” | version_less_than(“1.7.0”)}}``.
 
 .. code-block:: bash
 
@@ -242,7 +247,7 @@ True if version is less than supplied value
 
 version_equal
 ~~~~~~~~~~~~~
-True if versions are of equal value
+Returns True if LHS version is equal to RHS version.
 
 .. code-block:: bash
 
@@ -250,7 +255,8 @@ True if versions are of equal value
 
 version_match
 ~~~~~~~~~~~~~
-True if versions match. Supports operators >,<, ==, <=, >=.
+Returns True if the two provided versions are equivalent (i.e. “2.0.0” and “>=1.0.0” are equivalent and will return True).
+Supports operators ``>``,``<``, ``==``, ``<=``, and ``>=``.
 
 .. code-block:: bash
 
