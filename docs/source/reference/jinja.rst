@@ -64,22 +64,25 @@ ActionChains located in the ``examples`` pack:
 
 decrypt_kv
 ~~~~~~~~~~
+
 Decrypt a system scoped datastore item.
 
 .. code-block:: bash
 
-    {{value_key | decrypt_kv }}
+    {{value_key | decrypt_kv}}
 
 json_escape
 ~~~~~~~~~~~
+
 Adds escape characters to JSON strings.
 
 .. code-block:: bash
 
-    {{value_key | json_escape }}
+    {{value_key | json_escape}}
 
 regex_match
 ~~~~~~~~~~~
+
 Search for pattern at beginning of the string. Returns True if found, False if not.
 
 .. code-block:: bash
@@ -89,6 +92,7 @@ Search for pattern at beginning of the string. Returns True if found, False if n
 
 regex_replace
 ~~~~~~~~~~~~~
+
 Replaces substring that matches pattern with provided replacement value (backreferences possible).
 
 .. code-block:: bash
@@ -98,6 +102,7 @@ Replaces substring that matches pattern with provided replacement value (backref
 
 regex_search
 ~~~~~~~~~~~~
+
 Search for pattern anywhere in the string. Returns True if found, False if not.
 
 .. code-block:: bash
@@ -107,6 +112,7 @@ Search for pattern anywhere in the string. Returns True if found, False if not.
 
 regex_substring
 ~~~~~~~~~~~~~~~
+
 Searches for provided pattern in a string, and returns the first matched
 regex group (alternatively, you can provide desired index). 
 
@@ -117,6 +123,7 @@ regex group (alternatively, you can provide desired index).
 
 to_complex
 ~~~~~~~~~~
+
 Convert data to JSON string (see ``to_json_string`` for a more flexible option)
 
 .. code-block:: bash
@@ -125,6 +132,7 @@ Convert data to JSON string (see ``to_json_string`` for a more flexible option)
 
 to_human_time_from_seconds
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Given time elapsed in seconds, this filter converts it to human readable form like 3d5h6s.
 
 .. code-block:: bash
@@ -133,6 +141,7 @@ Given time elapsed in seconds, this filter converts it to human readable form li
 
 to_json_string
 ~~~~~~~~~~~~~~
+
 Convert data to JSON string.
 
 .. code-block:: bash
@@ -141,6 +150,7 @@ Convert data to JSON string.
 
 to_yaml_string
 ~~~~~~~~~~~~~~
+
 Convert data to YAML string.
 
 .. code-block:: bash
@@ -149,6 +159,7 @@ Convert data to YAML string.
 
 use_none
 ~~~~~~~~
+
 If value being filtered is None, this filter will return the string ``%*****__%NONE%__*****%``
 
 .. code-block:: bash
@@ -157,7 +168,9 @@ If value being filtered is None, this filter will return the string ``%*****__%N
 
 version_compare
 ~~~~~~~~~~~~~~~
-Compare a semantic version to another value. Returns 1 if LHS is greater or -1 if LHS is smaller or 0 if equal.
+
+Compare a semantic version to another value. Returns 1 if LHS is greater or -1 if LHS is smaller or
+0 if equal.
 
 .. code-block:: bash
 
@@ -165,8 +178,11 @@ Compare a semantic version to another value. Returns 1 if LHS is greater or -1 i
 
 version_more_than
 ~~~~~~~~~~~~~~~~~
-Returns True if LHS version is greater than RHS version. Both input have to follow semantic version syntax.
-E.g. ``{{“1.6.0” | version_more_than(“1.7.0”)}}``.
+
+Returns True if LHS version is greater than RHS version. Both input have to follow semantic version
+syntax.
+
+E.g. ``{{"1.6.0” | version_more_than("1.7.0")}}``.
 
 .. code-block:: bash
 
@@ -174,8 +190,11 @@ E.g. ``{{“1.6.0” | version_more_than(“1.7.0”)}}``.
 
 version_less_than
 ~~~~~~~~~~~~~~~~~
-Returns True if LHS version is lesser than RHS version. Both input have to follow semantic version syntax.
-E.g. ``{{“1.6.0” | version_less_than(“1.7.0”)}}``.
+
+Returns True if LHS version is lesser than RHS version. Both input have to follow semantic version
+syntax.
+
+E.g. ``{{“1.6.0” | version_less_than("1.7.0")}}``.
 
 .. code-block:: bash
 
@@ -183,6 +202,7 @@ E.g. ``{{“1.6.0” | version_less_than(“1.7.0”)}}``.
 
 version_equal
 ~~~~~~~~~~~~~
+
 Returns True if LHS version is equal to RHS version.
 
 .. code-block:: bash
@@ -191,7 +211,10 @@ Returns True if LHS version is equal to RHS version.
 
 version_match
 ~~~~~~~~~~~~~
-Returns True if the two provided versions are equivalent (i.e. “2.0.0” and “>=1.0.0” are equivalent and will return True).
+
+Returns True if the two provided versions are equivalent (i.e. “2.0.0” and “>=1.0.0” are
+equivalent and will return True).
+
 Supports operators ``>``,``<``, ``==``, ``<=``, and ``>=``.
 
 .. code-block:: bash
@@ -200,7 +223,8 @@ Supports operators ``>``,``<``, ``==``, ``<=``, and ``>=``.
 
 version_bump_major
 ~~~~~~~~~~~~~~~~~~
-Bumps up the major version of supplied version field
+
+Bumps up the major version of supplied version field.
 
 .. code-block:: bash
 
@@ -208,7 +232,8 @@ Bumps up the major version of supplied version field
 
 version_bump_minor
 ~~~~~~~~~~~~~~~~~~
-Bumps up the minor version of supplied version field
+
+Bumps up the minor version of supplied version field.
 
 .. code-block:: bash
 
@@ -216,7 +241,8 @@ Bumps up the minor version of supplied version field
 
 version_bump_patch
 ~~~~~~~~~~~~~~~~~~
-Bumps up the patch version of supplied version field
+
+Bumps up the patch version of supplied version field.
 
 .. code-block:: bash
 
@@ -224,7 +250,8 @@ Bumps up the patch version of supplied version field
 
 version_strip_patch
 ~~~~~~~~~~~~~~~~~~~
-Drops patch version of supplied version field
+
+Drops patch version of supplied version field.
 
 .. code-block:: bash
 
