@@ -40,8 +40,7 @@ Custom Jinja Filters
 --------------------
 
 In addition to `standard filters <http://jinja.pocoo.org/docs/dev/
-templates/#builtin-filters>`_ available in Jinja, |st2| supports custom filters
-as well.
+templates/#builtin-filters>`_ available in Jinja, |st2| also comes with some custom filters.
 
 .. note::
 
