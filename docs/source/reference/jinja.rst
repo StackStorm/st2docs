@@ -1,101 +1,86 @@
 Jinja
 ==============
 
-|st2| uses `Jinja <http://jinja.pocoo.org/>`_ extensively for templating.
-By now, you would have seen how to use jinja templates in YAML files for rules,
-actions, action chains and workflows. Jinja allows you to manipulate parameter
-values in |st2| by allowing you to refer to other parameters, applying filters
-or refer to system specific constructs (like datastore access). This document is here to help you with Jinja in the context of |st2|. Please refer to `Jinja docs <http://jinja.pocoo.org/docs/>`_
-for Jinja specific documentation.
+|st2| uses `Jinja <http://jinja.pocoo.org/>`_ extensively for templating. Jinja
+allows you to manipulate parameter values in |st2| by allowing you to refer to
+other parameters, applying filters or refer to system specific constructs (like
+datastore access). This document is here to help you with Jinja in the context
+of |st2|. Please refer to the `Jinja docs <http://jinja.pocoo.org/docs/>`_ for
+Jinja-focused information.
 
-For brevity, the jinja patterns are only documented. Usage of these patterns inside YAML is subject to understanding the YAML for each content type (sensors, triggers, rules, action and workflows) and their syntax.
+.. _applying-filters-with-jinja:
 
-Accessing datastore items with Jinja
+Referencing Datastore Keys in Jinja
 ------------------------------------
 
 You can use ``{{st2kv.system.foo}}`` to access key ``foo`` from datastore. Note that until
 v2.1, the expression to access key ``foo`` from datastore used to be ``{{system.foo}}``
-but is now deprecated.
-
-.. _applying-filters-with-jinja:
-
-Applying filters with Jinja
-----------------------------
-
-Aside from `standard filters <http://jinja.pocoo.org/docs/dev/
-templates/#builtin-filters>`_ available in Jinja, |st2| supports custom filters
-as well, see :ref:`jinja-jinja-filters`. To use a filter ``my_filter`` on ``foo``, simply do
-``{{foo | my_filter}}``. Please pay attention to data type and available filters
-for each data type. Since Jinja is a text templating language, all your input is
-converted to text and then manipulations happen on them. The necessary casting at
-the end is done by |st2| based on information you provide in YAML (for example,
-``type`` field in action parameters). The casting is a best effort casting.
-
-The current supported filters are grouped into following categories.
-
-.. note::
-
-    **For Developers:** The filters are defined in
-    :github_st2:`st2/st2common/st2common/jinja/filters/ </st2common/st2common/jinja/filters/>`.
-
-
-+--------------------------------+----------------------------------------------------------------+
-|      Operator                  |   Description                                                  |
-+================================+================================================================+
-| ``to_json_string``             | Convert data to JSON string.                                   |
-+--------------------------------+----------------------------------------------------------------+
-| ``to_yaml_string``             | Convert data to YAML string.                                   |
-+--------------------------------+----------------------------------------------------------------+
-| ``to_human_time_from_seconds`` | Given time elapsed in seconds, this filter                     |
-|                                | converts it to human readable form like                        |
-|                                | 3d5h6s.                                                        |
-+--------------------------------+----------------------------------------------------------------+
-| ``decrypt_kv``                 | Decrypt a system scoped datastore item                         |
-+--------------------------------+----------------------------------------------------------------+
-| ``version_compare``            | Compare a semantic version to another value.                   |
-|                                | Returns 1 if LHS is greater or -1 if LHS is                    |
-|                                | smaller or 0 if equal.                                         |
-+--------------------------------+----------------------------------------------------------------+
-| ``version_more_than``          | Returns if LHS version is greater than RHS                     |
-|                                | version. Both input has to follow semantic                     |
-|                                | version syntax. E.g. {{"1.6.0" | version_more_than("1.7.0")}}. |
-+--------------------------------+----------------------------------------------------------------+
-| ``version_less_than``          | Returns if LHS version is lesser than RHS                      |
-|                                | version. Both input has to follow semantic                     |
-|                                | version syntax. E.g. {{"1.6.0" | version_less_than("1.7.0")}}. |
-+--------------------------------+----------------------------------------------------------------+
-| ``version_equal_than``         | Returns if LHS version is equal to RHS version.                |
-+--------------------------------+----------------------------------------------------------------+
-| ``version_bump_major``         | Bumps the major version and returns new                        |
-|                                | version.                                                       |
-+--------------------------------+----------------------------------------------------------------+
-| ``version_bump_minor``         | Bumps the minor version and returns new                        |
-|                                | version.                                                       |
-+--------------------------------+----------------------------------------------------------------+
-
-Examples of how to use filters are available in
-:github_st2:`st2/contrib/examples/actions/chains/data_jinja_filter.yaml </contrib/examples/actions/chains/data_jinja_filter.yaml>`,
-:github_st2:`st2/contrib/examples/actions/chains/time_jinja_filter.yaml </contrib/examples/actions/chains/time_jinja_filter.yaml>`,
-:github_st2:`st2/contrib/examples/actions/chains/data_jinja_filter.yaml </contrib/examples/actions/chains/decrypt_kv_jinja_filter.yaml>`,
-and :github_st2:`st2/contrib/examples/actions/chains/version_jinja_filter.yaml </contrib/examples/actions/chains/version_jinja_filter.yaml>`.
-
-
-|st2| supports `Jinja2 variable templating <http://jinja.pocoo.org/docs/dev/templates/#variables>`__
-in Rules, Action Chains and Actions etc. Jinja2 templates support `filters <http://jinja.pocoo.org/docs/dev/templates/#list-of-builtin-filters>`__ to allow some advanced capabilities in working with variables. |st2| has further
-added some more filters.
+but is now deprecated, and the leading ``st2kv.`` namespace is required.
 
 .. _jinja-jinja-filters:
+
+Applying Filters with Jinja
+----------------------------
+
+To use a filter ``my_filter`` on ``foo``, you use the pipe operator, like so: ``{{foo | my_filter}}``.
+Please pay attention to data type and available filters for each data type.
+Since Jinja is a text templating language, all your input is converted to text
+and then manipulations happen on that value. The necessary casting at the end is
+done by |st2| based on information you provide in YAML (for example,
+``type`` field in action parameters). The casting is a best effort casting.
+
+|st2| supports `Jinja variable templating <http://jinja.pocoo.org/docs/dev/templates/#variables>`__
+in Rules, Action Chains and Actions etc. Jinja templates support
+`filters <http://jinja.pocoo.org/docs/dev/templates/#list-of-builtin-filters>`__
+to allow some advanced capabilities in working with variables.
+
+.. _referencing-datastore-keys-in-jinja:
 
 Custom Jinja Filters
 --------------------
 
-Filters with regex support
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-Makes it possible to use regex to search, match and replace in expressions.
+In addition to `standard filters <http://jinja.pocoo.org/docs/dev/
+templates/#builtin-filters>`_ available in Jinja, |st2| also comes with some custom filters.
+
+.. note::
+
+    **For Developers:** These filters are defined in
+    :github_st2:`st2/st2common/st2common/jinja/filters/ </st2common/st2common/jinja/filters/>`.
+
+
+For brevity, only simple Jinja patterns for each filter are documented below. "Real-world" usage
+will depend on the type of content where the filters are being applied (sensors, triggers, rules,
+action and workflows) and their syntax. More detailed examples can be found in several of the
+ActionChains located in the ``examples`` pack:
+:github_st2:`st2/contrib/examples/actions/chains/ </contrib/examples/actions/chains/>`.
+
+..  TODO We should consider separating each specific usage into individual ActionChains and refer to
+    it using literalinclude (i.e. .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-jinja-branching.yaml)
+    so we can just use the code as the source of truth. Then, we can remove the above note.
+
+.. warning::
+
+    These custom filters are currently not available in Mistral workflows. To use them in a workflow, you must use ActionChains.
+
+decrypt_kv
+~~~~~~~~~~
+Decrypt a system scoped datastore item.
+
+.. code-block:: bash
+
+    {{value_key | decrypt_kv }}
+
+json_escape
+~~~~~~~~~~~
+Adds escape characters to JSON strings.
+
+.. code-block:: bash
+
+    {{value_key | json_escape }}
 
 regex_match
 ~~~~~~~~~~~
-match pattern at the beginning of expression.
+Search for pattern at beginning of the string. Returns True if found, False if not.
 
 .. code-block:: bash
 
@@ -104,7 +89,7 @@ match pattern at the beginning of expression.
 
 regex_replace
 ~~~~~~~~~~~~~
-replace a pattern matching regex with supplied value (backreferences possible)
+Replaces substring that matches pattern with provided replacement value (backreferences possible).
 
 .. code-block:: bash
 
@@ -113,21 +98,66 @@ replace a pattern matching regex with supplied value (backreferences possible)
 
 regex_search
 ~~~~~~~~~~~~
-search pattern anywhere is supplied expression
+Search for pattern anywhere in the string. Returns True if found, False if not.
 
 .. code-block:: bash
 
     {{value_key | regex_search("y")}}
     {{value_key | regex_search("^v(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$")}}
 
+regex_substring
+~~~~~~~~~~~~~~~
+Searches for provided pattern in a string, and returns the first matched
+regex group (alternatively, you can provide desired index). 
 
-Filters to work with version
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Filters that work with `semver <http://semver.org>`__ formatted version string.
+.. code-block:: bash
+
+    {{value_key | regex_search("y")}}
+    {{value_key | regex_search("^v(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$")}}
+
+to_complex
+~~~~~~~~~~
+Convert data to JSON string (see ``to_json_string`` for a more flexible option)
+
+.. code-block:: bash
+
+    {{value_key | to_complex}}
+
+to_human_time_from_seconds
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Given time elapsed in seconds, this filter converts it to human readable form like 3d5h6s.
+
+.. code-block:: bash
+
+    {{ value_key | to_human_time_from_seconds}}
+
+to_json_string
+~~~~~~~~~~~~~~
+Convert data to JSON string.
+
+.. code-block:: bash
+
+    {{value_key | to_json_string}}
+
+to_yaml_string
+~~~~~~~~~~~~~~
+Convert data to YAML string.
+
+.. code-block:: bash
+
+    {{value_key | to_yaml_string}}
+
+use_none
+~~~~~~~~
+If value being filtered is None, this filter will return the string ``%*****__%NONE%__*****%``
+
+.. code-block:: bash
+
+    {{value_key | use_none}}
 
 version_compare
 ~~~~~~~~~~~~~~~
-compares expression with supplied value and return -1, 0 and 1 for less than, equal and more than respectively
+Compare a semantic version to another value. Returns 1 if LHS is greater or -1 if LHS is smaller or 0 if equal.
 
 .. code-block:: bash
 
@@ -135,7 +165,8 @@ compares expression with supplied value and return -1, 0 and 1 for less than, eq
 
 version_more_than
 ~~~~~~~~~~~~~~~~~
-True if version is more than supplied value
+Returns True if LHS version is greater than RHS version. Both input have to follow semantic version syntax.
+E.g. ``{{“1.6.0” | version_more_than(“1.7.0”)}}``.
 
 .. code-block:: bash
 
@@ -143,7 +174,8 @@ True if version is more than supplied value
 
 version_less_than
 ~~~~~~~~~~~~~~~~~
-True if version is less than supplied value
+Returns True if LHS version is lesser than RHS version. Both input have to follow semantic version syntax.
+E.g. ``{{“1.6.0” | version_less_than(“1.7.0”)}}``.
 
 .. code-block:: bash
 
@@ -151,7 +183,7 @@ True if version is less than supplied value
 
 version_equal
 ~~~~~~~~~~~~~
-True if versions are of equal value
+Returns True if LHS version is equal to RHS version.
 
 .. code-block:: bash
 
@@ -159,12 +191,12 @@ True if versions are of equal value
 
 version_match
 ~~~~~~~~~~~~~
-True if versions match. Supports operators >,<, ==, <=, >=.
+Returns True if the two provided versions are equivalent (i.e. “2.0.0” and “>=1.0.0” are equivalent and will return True).
+Supports operators ``>``,``<``, ``==``, ``<=``, and ``>=``.
 
 .. code-block:: bash
 
     {{version | version_match(">0.10.0")}}
-
 
 version_bump_major
 ~~~~~~~~~~~~~~~~~~
@@ -197,4 +229,3 @@ Drops patch version of supplied version field
 .. code-block:: bash
 
     {{version | version_strip_patch}}
-
