@@ -107,8 +107,8 @@ regex_replace
 replace a pattern matching regex with supplied value (backreferences possible)
 
 .. note::
-    When using backreferences you need to escape two \'s in jinja, hence the 4 \'s.
 
+    When using backreferences you need to escape two \\'s in Jinja, hence the 4 \\'s.
 
 .. code-block:: bash
 
