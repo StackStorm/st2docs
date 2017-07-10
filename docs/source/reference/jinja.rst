@@ -95,10 +95,14 @@ regex_replace
 
 Replaces substring that matches pattern with provided replacement value (backreferences possible).
 
+.. note::
+    When using backreferences you need to escape two \'s in jinja, hence the 4 \'s.
+
+
 .. code-block:: bash
 
     {{value_key | regex_replace("x", "y")}}
-    {{value_key | regex_replace("(blue|white|red)", "beautiful color \\1")}}
+    {{value_key | regex_replace("(blue|white|red)", "beautiful color \\\\1")}}
 
 regex_search
 ~~~~~~~~~~~~
