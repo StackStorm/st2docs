@@ -8,6 +8,8 @@ build
 \#*\#
 *.swp
 ipfabric/
+network_essentials/
+dcfabric/
 docs/source/solutions/ipfabric/
 docs/source/_static/images/3_clos_topology.jpg
 docs/source/_static/images/bwc_components.jpg

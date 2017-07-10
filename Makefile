@@ -78,6 +78,9 @@ PHONY: .clean-bwc-solutions-folders
 	@echo "==================== ENTERPRISE DOCS ===================="
 	@echo
 	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-runner-parameters-documentation.py
+	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-action-parameters-documentation.py
+	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-dcfabric-parameters-documentation.py
+	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-inventory-parameters-documentation.py
 	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-internal-triggers-table.py
 	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-available-permission-types-table.py
 	@echo
@@ -99,7 +102,7 @@ livedocs: docs .livedocs
 	@echo
 
 .PHONY: bwcdocs
-bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .bwcdocs
+bwcdocs: .clone-st2 .clone-ipfabric .clone-essentials .clone-dcfabric requirements .requirements-st2 .bwcdocs
 
 .PHONY: .bwcdocs
 .bwcdocs: .patch-solutions .enterprise-docs .git-checkout-local-changes
@@ -203,6 +206,20 @@ $(VIRTUALENV_DIR)/bin/activate:
 	@echo "==================== cloning ipfabric docs ===================="
 	@echo
 	./scripts/clone-ipfabric.sh
+
+.PHONY: .clone-essentials
+.clone-essentials:
+	@echo
+	@echo "==================== cloning Network Essentials =================="
+	@echo
+	./scripts/clone-essentials.sh
+
+.PHONY: .clone-dcfabric
+.clone-dcfabric:
+	@echo
+	@echo "==================== cloning DC Fabric docs =================="
+	@echo
+	./scripts/clone-dcfabric.sh
 
 PHONY: .virtualenv-st2
 .virtualenv-st2: .clone-st2
