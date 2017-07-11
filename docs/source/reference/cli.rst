@@ -455,8 +455,8 @@ For complex objects, you should use JSON notation. For example:
 
 .. include:: ../_includes/_cli_json_string_escaping.rst
 
-String of comma-delimited ``key=value`` pairs notation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Comma-delimited ``key=value`` pairs string notation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For simple objects (such as specifying a dictionary where both keys and values
 are simple strings), you should use this notation:
