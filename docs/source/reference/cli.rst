@@ -423,10 +423,20 @@ For example:
 
 .. sourcecode:: bash
 
-    st2 run mypack.myaction parametername="value 1,value2,value3"
+    st2 run mypack.myaction parameter_name="value 1,value2,value3"
 
-In this case, the ``parametername`` value would get passed to the API as
+In this case, the ``parameter_name`` value would get passed to the API as
 a list (JSON array) with three items - ``["value 1", "value2", "value3"]``.
+
+Keep in mind that this only works for simple types (e.g. arrays of strings).
+For more complex types (e.g. arrays of objects) you need to use JSON notation
+as shown below:
+
+.. sourcecode:: bash
+
+    st2 run mypack.myaction parameter_name='[{"Name": "MyVMName"}]'
+
+.. include:: ../_includes/_cli_json_string_escaping.rst
 
 Specifying parameters with type "object"
 ----------------------------------------
@@ -434,7 +444,8 @@ Specifying parameters with type "object"
 When running an action using ``st2 run`` command, you can specify the value of
 parameters with type ``object`` using two different approaches:
 
-1. Using JSON
+JSON string notation
+~~~~~~~~~~~~~~~~~~~~
 
 For complex objects, you should use JSON notation. For example:
 
@@ -442,7 +453,10 @@ For complex objects, you should use JSON notation. For example:
 
     st2 run core.remote hosts=localhost env='{"key1": "val1", "key2": "val2"}' cmd="echo ponies \${key1} \${key2}
 
-2. Using a string of comma-delimited ``key=value`` pairs
+.. include:: ../_includes/_cli_json_string_escaping.rst
+
+Comma-delimited ``key=value`` pairs string notation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For simple objects (such as specifying a dictionary where both keys and values
 are simple strings), you should use this notation:
