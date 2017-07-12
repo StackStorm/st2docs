@@ -146,7 +146,7 @@ before saving it; it's optional, and most packs don't require more than two or t
 have to comply with Health and Safety. The generated file will be placed in
 ``/opt/stackstorm/configs/<pack>.yaml`` and loaded.
 
-.. warning:: 
+.. warning::
 
     NB: |st2| loads pack configuration into MongoDB. This is automatically loaded when you use
     ``st2 pack config``. But if you manually edit your pack configuration, or use configuration
@@ -234,6 +234,63 @@ than personal access tokens and can be configured on the per-repo basis.
 
 Other git hosting services should also support either SSH or HTTPS auth,
 and would be configured in a similar fashion.
+
+Installing packs from behind a proxy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you're running |st2| server behind a HTTP/HTTPS proxy, you have to configure |st2| so you
+can install packs from HTTP/HTTPS URLs from behind the proxy. You can setup the proxy
+configuration either by setting the configuration for "packs" pack in |st2| or using environment
+variables for ``st2actionrunner`` process.
+
+Proxy configuration via ``packs`` configuation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Simply drop the proxy configuration in ``/opt/stackstorm/configs/packs.yaml``.
+If you are using HTTP proxy, the configuration looks as follows:
+
+.. code-block:: yaml
+
+    ---
+    http_proxy: "http://proxy.server.io:port"
+    no_proxy: localhost,127.0.0.1
+
+If you are using HTTPS proxy with a proxy CA bundle, then use the following configuration.
+
+.. code-block:: yaml
+
+    ---
+    https_proxy: "https://proxy.server.io:port"
+    proxy_ca_bundle_path: "/etc/ssl/certs/proxy-ca.pem"
+    no_proxy: localhost,127.0.0.1
+
+Proxy configuration via environment vairables for ``st2actionrunner`` process
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can edit ``/etc/default/st2actionrunner`` or the appropriate init file for your OS to
+place the environment variables for the ``st2actionrunner`` process. |st2| picks up these
+environment variables to let pack installer know about the proxy. For HTTP proxy, the file looks
+as follows:
+
+.. code-block:: ini
+
+    http_proxy=http://proxy.server.io:port
+    no_proxy=localhost,127.0.0.1
+
+For HTTPS proxy with cert, the file looks as follows:
+
+.. code-block:: ini
+
+    https_proxy=http://proxy.server.io:port
+    proxy_ca_bundle_path=/etc/ssl/certs/proxy-ca.pem
+    no_proxy=localhost,127.0.0.1
+
+
+In either of the above ways, when using HTTPS proxy with cert, you must make sure
+the proxy CA bundle is an accepted CA in your OS. Please refer to your OS instructions
+to register the proxy CA. This is required for tools like git, curl etc to function with a proxy.
+Some packs use those tools under the hood and therefore proxy CA registration step is critical
+for those packs to work.
 
 
 Hosting your own pack index
