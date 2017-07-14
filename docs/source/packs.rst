@@ -240,57 +240,75 @@ Installing packs from behind a proxy
 
 If you're running |st2| server behind a HTTP/HTTPS proxy, you have to configure |st2| so you
 can install packs from HTTP/HTTPS URLs from behind the proxy. You can setup the proxy
-configuration either by setting the configuration for "packs" pack in |st2| or using environment
-variables for ``st2actionrunner`` process.
+configuration by setting ``https_proxy`` or ``http_proxy`` environment variables for
+``st2actionrunner`` and ``st2api`` processes. If you are using a HTTPS proxy, depending on
+if you are using
+`CONNECT SSL tunnel <http://wiki.squid-cache.org/Features/HTTPS#CONNECT_tunnel>`__
+or `MITM proxy <http://docs.mitmproxy.org/en/stable/howmitmproxy.html#the-mitm-in-mitmproxy>`__,
+you'll have to optionally pass in path to proxy CA cert (in the MITM case) via the
+``proxy_ca_bundle_path`` environment variable. If you are using Python 2.7 version < ``2.7.9``
+(which is the case in Ubuntu 14.04),
+note that the MITM proxy simply won't work (See
+`CVE-2014-9365 <http://people.canonical.com/~ubuntu-security/cve/2014/CVE-2014-9365.html>`__).
+In those cases, it is recommended to use `CONNECT SSL tunnel <http://wiki.squid-cache.org/Features/HTTPS#CONNECT_tunnel>`__.
 
-Proxy configuration via ``packs`` configuation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Proxy configuration via environment variables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Simply drop the proxy configuration in ``/opt/stackstorm/configs/packs.yaml``.
-If you are using HTTP proxy, the configuration looks as follows:
+If you are running Ubuntu, you can edit ``/etc/default/st2actionrunner`` and
+``/etc/default/st2api`` files to set the proxy configuration environment variables.
+If you are using RHEL, you can edit ``/etc/sysconfig/st2actionrunner`` and
+``/etc/sysconfig/st2api`` to place the proxy configuration environment variables for the
+``st2actionrunner`` and ``st2api`` processes. |st2| picks up these environment variables
+to let pack installer know about the proxy. The file contents should look as follows:
 
-.. code-block:: yaml
+Ubuntu 16.04 or RHEL 7
+~~~~~~~~~~~~~~~~~~~~~~
 
-    ---
-    http_proxy: "http://proxy.server.io:port"
-    no_proxy: localhost,127.0.0.1
+Create/edit files ``/etc/default/st2api`` and ``/etc/default/st2actionrunner`` for Ubuntu 16.04.
+Create/edit files ``/etc/sysconfig/st2api`` and ``/etc/sysconfig/st2actionrunner`` for RHEL 7.
 
-If you are using HTTPS proxy with a proxy CA bundle, then use the following configuration.
-
-.. code-block:: yaml
-
-    ---
-    https_proxy: "https://proxy.server.io:port"
-    proxy_ca_bundle_path: "/etc/ssl/certs/proxy-ca.pem"
-    no_proxy: localhost,127.0.0.1
-
-Proxy configuration via environment vairables for ``st2actionrunner`` process
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can edit ``/etc/default/st2actionrunner`` or the appropriate init file for your OS to
-place the environment variables for the ``st2actionrunner`` process. |st2| picks up these
-environment variables to let pack installer know about the proxy. For HTTP proxy, the file looks
-as follows:
+For HTTP proxy:
 
 .. code-block:: ini
 
     http_proxy=http://proxy.server.io:port
-    no_proxy=localhost,127.0.0.1
+    no_proxy=localhost,127.0.0.1,0.0.0.0
 
-For HTTPS proxy with cert, the file looks as follows:
+For HTTPS proxy with cert:
 
 .. code-block:: ini
 
     https_proxy=http://proxy.server.io:port
     proxy_ca_bundle_path=/etc/ssl/certs/proxy-ca.pem
-    no_proxy=localhost,127.0.0.1
+    no_proxy=localhost,127.0.0.1,0.0.0.0
 
+Ubuntu 14.04 or RHEL 6
+~~~~~~~~~~~~~~~~~~~~~~
 
-In either of the above ways, when using HTTPS proxy with cert, you must make sure
-the proxy CA bundle is an accepted CA in your OS. Please refer to your OS instructions
-to register the proxy CA. This is required for tools like git, curl etc to function with a proxy.
-Some packs use those tools under the hood and therefore proxy CA registration step is critical
-for those packs to work.
+Create/edit files ``/etc/default/st2api`` and ``/etc/default/st2actionrunner`` for Ubuntu 14.04.
+Create/edit files ``/etc/sysconfig/st2api`` and ``/etc/sysconfig/st2actionrunner`` for RHEL 6.
+
+For HTTP proxy:
+
+.. code-block:: ini
+
+    export http_proxy=http://proxy.server.io:port
+    export no_proxy=localhost,127.0.0.1,0.0.0.0
+
+For HTTPS proxy with cert:
+
+.. code-block:: ini
+
+    export https_proxy=http://proxy.server.io:port
+    export proxy_ca_bundle_path=/etc/ssl/certs/proxy-ca.pem
+    export no_proxy=localhost,127.0.0.1,0.0.0.0
+
+When using HTTPS proxy with CA bundle (MITM), you must make sure the proxy CA bundle is an accepted
+root CA in your OS. Please refer to your OS instructions to register the proxy CA certificate.
+This is required for tools like git, curl etc to function
+with a proxy. Some packs use those tools under the hood and therefore proxy CA registration step
+is critical for those packs to work.
 
 
 Hosting your own pack index
