@@ -65,8 +65,8 @@ ActionChains located in the ``examples`` pack:
 .. note::
 
     As of StackStorm 2.3.2, all custom filters were made available to Mistral workflows as well, with one notable
-    exception: the ``decrypt_kv`` filter. That filter is no longer necessary (as ``st2kv`` now has a parameter to
-    natively decrypt any retrieved values), and is deprecated as of the 2.3.2 release.
+    exception: the ``decrypt_kv`` filter. That filter is not necessary in Mistral, as the ``st2kv`` function in Mistral workflows
+    natively supports decryption via the ``decrypt`` parameter.
 
 json_escape
 ~~~~~~~~~~~
