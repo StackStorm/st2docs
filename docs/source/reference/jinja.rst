@@ -46,6 +46,10 @@ templates/#builtin-filters>`_ available in Jinja, |st2| also comes with some cus
 
     **For Developers:** These filters are defined in
     :github_st2:`st2/st2common/st2common/jinja/filters/ </st2common/st2common/jinja/filters/>`.
+    The equivalent Mistral filters are located in the ``st2mistral`` repo at
+    :github_st2mistral:`st2mistral/st2mistral/filters/ </st2mistral/st2mistral/filters/>`.
+    To ensure filters maintain parity across StackStorm workflows, changes to one location
+    must be replicated to the other in a separate PR.
 
 
 For brevity, only simple Jinja patterns for each filter are documented below. "Real-world" usage
@@ -58,18 +62,11 @@ ActionChains located in the ``examples`` pack:
     it using literalinclude (i.e. .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-jinja-branching.yaml)
     so we can just use the code as the source of truth. Then, we can remove the above note.
 
-.. warning::
+.. note::
 
-    These custom filters are currently not available in Mistral workflows. To use them in a workflow, you must use ActionChains.
-
-decrypt_kv
-~~~~~~~~~~
-
-Decrypt a system scoped datastore item.
-
-.. code-block:: bash
-
-    {{value_key | decrypt_kv}}
+    As of StackStorm 2.3.2, all custom filters were made available to Mistral workflows as well, with one notable
+    exception: the ``decrypt_kv`` filter. That filter is no longer necessary (as ``st2kv`` now has a parameter to
+    natively decrypt any retrieved values), and is deprecated as of the 2.3.2 release.
 
 json_escape
 ~~~~~~~~~~~
