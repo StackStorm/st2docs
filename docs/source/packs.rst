@@ -304,6 +304,9 @@ For HTTPS proxy with cert:
     export proxy_ca_bundle_path=/etc/ssl/certs/proxy-ca.pem
     export no_proxy=localhost,127.0.0.1,0.0.0.0
 
+If you are adding/editing those files, please remember
+to restart processes ``st2api`` and ``st2actionrunner`` using the init system in your OS.
+
 When using HTTPS proxy with CA bundle (MITM), you must make sure the proxy CA bundle is an accepted
 root CA in your OS. Please refer to your OS instructions to register the proxy CA certificate.
 This is required for tools like git, curl etc to function
