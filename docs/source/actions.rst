@@ -208,15 +208,46 @@ get access to variables from the context of the execution. For example:
         required: true
         default: "{{action_context.api_user}}"
 
-
 The prefix ``action_context`` is used to refer to variables in action context. Depending on how
 the execution is executed and nature of action (simple vs workflow), variables in action_context change.
 
-A simple execution via the API will only contain variable ``user``. An execution triggered via
-chatops will contain variables such as ``api_user``, ``user`` and ``source_channel``. In
+A simple execution via the API will only contain the variables ``user`` and ``pack``. An execution triggered 
+via chatops will contain variables such as ``api_user``, ``user``, ``pack``, and ``source_channel``. In
 chatops case, ``api_user`` is the user who's kicking off the chatops command from
 client and ``user`` is the |st2| user configured in hubot. ``source_channel`` is the channel
 in which the chatops command was kicked off.
+
+In addition to ``action_context`` you can also access ``config_context`` which contains
+the key/value contents of ``config.yaml`` for a pack. The example below shows
+how you could use this for the default value for a parameter.
+
+.. code-block:: yaml
+
+    ---
+    name: "send_sms"
+    runner_type: "python-script"
+    description: "This sends an SMS using twilio."
+    enabled: true
+    entry_point: "send_sms.py"
+    parameters:
+        from_number:
+            type: "string"
+            description: "Your twilio 'from' number in E.164 format. Example +14151234567."
+            required: false
+            position: 0
+            default: "{{config_context.from_number}}"
+        to_number:
+            type: "string"
+            description: "Recipient number in E.164 format. Example +14151234567."
+            required: true
+            position: 1
+            secret: true
+        body:
+            type: "string"
+            description: "Body of the message."
+            required: true
+            position: 2
+            default: "Hello {% if system.user %} {{ system.user }} {% else %} dude {% endif %}!"
 
 In case of action chains and workflows (see :doc:`Workflow </workflows>`), every task in the workflow could access the parent's ``execution_id``.
 For example, a task in an action chain is shown below:
