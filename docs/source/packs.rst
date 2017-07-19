@@ -215,7 +215,7 @@ When the pack content changes, it has to be registered again (reloaded). To regi
 individual packs, use ``st2 pack register --packs=pack1,pack2``. To register everything
 at once, use ``st2ctl reload`` (run it with ``-h`` to explore the fine-tuning flags).
 
-Installing packs from private repositories
+Installing Packs from Private Repositories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you're installing a pack from a private repository on GitHub, you can use HTTPS auth
@@ -235,38 +235,36 @@ than personal access tokens and can be configured on the per-repo basis.
 Other git hosting services should also support either SSH or HTTPS auth,
 and would be configured in a similar fashion.
 
-Installing packs from behind a proxy
+Installing Packs from Behind a Proxy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you're running |st2| server behind a HTTP/HTTPS proxy, you have to configure |st2| so you
-can install packs from HTTP/HTTPS URLs from behind the proxy. You can setup the proxy
-configuration by setting ``https_proxy`` or ``http_proxy`` environment variables for
-``st2actionrunner`` and ``st2api`` processes. If you are using a HTTPS proxy, depending on
-if you are using
-`CONNECT SSL tunnel <http://wiki.squid-cache.org/Features/HTTPS#CONNECT_tunnel>`__
-or `MITM proxy <http://docs.mitmproxy.org/en/stable/howmitmproxy.html#the-mitm-in-mitmproxy>`__,
-you'll have to optionally pass in path to proxy CA cert (in the MITM case) via the
-``proxy_ca_bundle_path`` environment variable. If you are using Python 2.7 version < ``2.7.9``
-(which is the case in Ubuntu 14.04),
-note that the MITM proxy simply won't work (See
-`CVE-2014-9365 <http://people.canonical.com/~ubuntu-security/cve/2014/CVE-2014-9365.html>`__).
-In those cases, it is recommended to use `CONNECT SSL tunnel <http://wiki.squid-cache.org/Features/HTTPS#CONNECT_tunnel>`__.
+If your network uses a proxy to connect to the Internet, you configure |st2| to use that proxy
+for pack installation. This is done by setting the ``https_proxy`` or ``http_proxy``
+environment variables for the ``st2actionrunner`` and ``st2api`` processes.
 
-Proxy configuration via environment variables
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+If your proxy is performing SSL `MITM <http://docs.mitmproxy.org/en/stable/howmitmproxy.html#the-mitm-in-mitmproxy>`__,
+decryption/encryption, you may need to pass in the path to the proxy CA cert, using the
+``proxy_ca_bundle_path`` environment variable. 
 
-If you are running Ubuntu, you can edit ``/etc/default/st2actionrunner`` and
-``/etc/default/st2api`` files to set the proxy configuration environment variables.
-If you are using RHEL, you can edit ``/etc/sysconfig/st2actionrunner`` and
+If you are using a Python version < ``2.7.9``, then a MiTM proxy won't work. This is the case with
+Ubuntu 14.04. See `CVE-2014-9365 <http://people.canonical.com/~ubuntu-security/cve/2014/CVE-2014-9365.html>`__ for
+more info. You will need to use `CONNECT SSL tunnel <http://wiki.squid-cache.org/Features/HTTPS#CONNECT_tunnel>`__.
+
+Proxy Configuration via Environment Variables
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+On Ubuntu systems, edit ``/etc/default/st2actionrunner`` and
+``/etc/default/st2api`` to set the proxy configuration environment variables.
+For RHEL/CentOS systems, edit If you are using RHEL, you can edit ``/etc/sysconfig/st2actionrunner`` and
 ``/etc/sysconfig/st2api`` to place the proxy configuration environment variables for the
 ``st2actionrunner`` and ``st2api`` processes. |st2| picks up these environment variables
 to let pack installer know about the proxy. The file contents should look as follows:
 
 Ubuntu 16.04 or RHEL 7
-~~~~~~~~~~~~~~~~~~~~~~
+######################
 
-Create/edit files ``/etc/default/st2api`` and ``/etc/default/st2actionrunner`` for Ubuntu 16.04.
-Create/edit files ``/etc/sysconfig/st2api`` and ``/etc/sysconfig/st2actionrunner`` for RHEL 7.
+Create/edit ``/etc/default/st2api`` and ``/etc/default/st2actionrunner`` for Ubuntu 16.04.
+Create/edit ``/etc/sysconfig/st2api`` and ``/etc/sysconfig/st2actionrunner`` for RHEL 7.
 
 For HTTP proxy:
 
@@ -284,10 +282,10 @@ For HTTPS proxy with cert:
     no_proxy=localhost,127.0.0.1,0.0.0.0
 
 Ubuntu 14.04 or RHEL 6
-~~~~~~~~~~~~~~~~~~~~~~
+######################
 
-Create/edit files ``/etc/default/st2api`` and ``/etc/default/st2actionrunner`` for Ubuntu 14.04.
-Create/edit files ``/etc/sysconfig/st2api`` and ``/etc/sysconfig/st2actionrunner`` for RHEL 6.
+Create/edit ``/etc/default/st2api`` and ``/etc/default/st2actionrunner`` for Ubuntu 14.04.
+Create/edit ``/etc/sysconfig/st2api`` and ``/etc/sysconfig/st2actionrunner`` for RHEL 6.
 
 For HTTP proxy:
 
@@ -304,17 +302,18 @@ For HTTPS proxy with cert:
     export proxy_ca_bundle_path=/etc/ssl/certs/proxy-ca.pem
     export no_proxy=localhost,127.0.0.1,0.0.0.0
 
-If you are adding/editing those files, please remember
-to restart processes ``st2api`` and ``st2actionrunner`` using the init system in your OS.
+After editing these files, restart the ``st2api`` and ``st2actionrunner`` services, using
+the init system for your OS - either ``service`` or ``systemctl``.
 
 When using HTTPS proxy with CA bundle (MITM), you must make sure the proxy CA bundle is an accepted
 root CA in your OS. Please refer to your OS instructions to register the proxy CA certificate.
-This is required for tools like git, curl etc to function
-with a proxy. Some packs use those tools under the hood and therefore proxy CA registration step
-is critical for those packs to work.
+
+This is required for tools like ``git``, ``curl`` etc to function with a proxy. Some packs
+use those tools under the hood and therefore proxy CA registration step is critical for
+those packs to work.
 
 
-Hosting your own pack index
+Hosting Your Own Pack Index
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When you run pack management commands like ``st2 pack install sensu``
