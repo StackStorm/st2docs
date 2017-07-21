@@ -15,10 +15,10 @@ System Requirements
 
 Please check :doc:`supported versions and system requirements <system_requirements>`.
 
-Minimal installation
+Minimal Installation
 --------------------
 
-Adjust SELinux policies
+Adjust SELinux Policies
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 If your RHEL/CentOS box has SELinux in Enforcing mode, please follow these instructions to adjust SELinux
@@ -91,7 +91,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
     sudo systemctl start postgresql
     sudo systemctl enable postgresql
 
-Setup repositories
+Setup Repositories
 ~~~~~~~~~~~~~~~~~~
 
 The following script will detect your platform and architecture and setup the repo accordingly. It'll also install the GPG key for repo signing.
@@ -100,7 +100,7 @@ The following script will detect your platform and architecture and setup the re
 
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.rpm.sh | sudo bash
 
-Install |st2| components
+Install |st2| Components
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
   .. code-block:: bash
@@ -211,7 +211,7 @@ To set up authentication with File Based provider:
 
 Check out :doc:`/reference/cli` to learn convenient ways to authenticate via CLI.
 
-Install WebUI and setup SSL termination
+Install WebUI and Setup SSL Termination
 ---------------------------------------
 
 `NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS,
