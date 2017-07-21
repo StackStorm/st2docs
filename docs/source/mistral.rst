@@ -182,7 +182,7 @@ of Mistral workflow YAML files.
 
 Example:
 .. code-block:: bash
-   mistral workflow-validate /path/to/workflow.yaml
+    mistral workflow-validate /path/to/workflow.yaml
 
 
 .. note:: These sanity checks simply provide a test against the Mistral DSL schema.
