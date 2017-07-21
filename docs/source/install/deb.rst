@@ -258,11 +258,11 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
 
 * `Add NodeJS v4 repository <https://nodejs.org/en/download/package-manager/>`_: ::
 
-      curl -sL https://rpm.nodesource.com/setup_4.x | sudo -E bash -
+      curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
 
 * Install st2chatops package: ::
 
-      sudo yum install -y st2chatops
+      sudo apt-get install -y st2chatops
 
 * Review and edit the ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to
   your |st2| installation and Chat Service you are using. At a minimum, you should generate an
