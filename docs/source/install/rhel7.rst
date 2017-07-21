@@ -295,8 +295,10 @@ For example, to see the endpoint for getting actions, invoke
 Setup ChatOps
 -------------
 
-If you already run Hubot instance, you only have to install the `hubot-stackstorm <https://github.com/StackStorm/hubot-stackstorm>`_ plugin and configure |st2| env variables, as described below. Otherwise, the easiest way to enable
-:doc:`StackStorm ChatOps </chatops/index>` is to use `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
+If you already run a Hubot instance, you only have to install the
+`hubot-stackstorm plugin <https://github.com/StackStorm/hubot-stackstorm>`_ and configure |st2| env
+variables, as described below. Otherwise, the easiest way to enable :doc:`StackStorm ChatOps </chatops/index>`
+is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
 
 * Validate that ``chatops`` pack is installed, and a notification rule is enabled: ::
 
@@ -313,17 +315,16 @@ If you already run Hubot instance, you only have to install the `hubot-stackstor
 
       sudo yum install -y st2chatops
 
-* Review and edit ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to your
-  |st2|   installation and Chat Service you are using. By default ``st2api`` and ``st2auth``
-  are expected to be on the same host. If it's not the case, please update ``ST2_API`` and
-  ``ST2_AUTH_URL`` variables or just point to correct host with ``ST2_HOSTNAME`` variable.
+* Review and edit the ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to
+  your |st2| installation and Chat Service you are using. At a minimum, you should generate an
+  `API key <authentication-apikeys>` and set the ``ST2_API_KEY`` variable. By default ``st2api``
+  and ``st2auth`` are expected to be on the same host. If that is not the case, please update the
+  ``ST2_API`` and ``ST2_AUTH_URL`` variables or just point to the correct host with ``ST2_HOSTNAME``.
 
-  The example configuration uses Slack. In case of Slack, go to Slack web admin interface,
-  `create and configure a Bot <https://api.slack.com/bot-users>`_, invite a Bot to the rooms,
-  and copy the authentication token into ``HUBOT_SLACK_TOKEN`` variable.
+  The example configuration uses Slack. To set this up, go to the Slack web admin interface, create
+  a Bot, and copy the authentication token into ``HUBOT_SLACK_TOKEN``.
 
-  If you are using a different Chat Service, make the appropriate bot configurations,
-  and set corresponding environment variables under
+  If you are using a different Chat Service, set corresponding environment variables under
   `Chat service adapter settings`:
   `Slack <https://github.com/slackhq/hubot-slack>`_,
   `HipChat <https://github.com/hipchat/hubot-hipchat>`_,
