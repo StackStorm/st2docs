@@ -15,10 +15,10 @@ System Requirements
 
 Please check :doc:`supported versions and system requirements <system_requirements>`.
 
-Minimal installation
+Minimal Installation
 --------------------
 
-Install libffi-devel package
+Install libffi-devel Package
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 RHEL 6 may not ship with ``libffi-devel`` which is a dependency for |st2|.
@@ -32,7 +32,7 @@ Or, find a version of libffi-devel compatible with libffi on the box, and instal
 
   sudo yum localinstall -y ftp://fr2.rpmfind.net/linux/centos/6/os/x86_64/Packages/libffi-devel-3.0.5-3.2.el6.x86_64.rpm
 
-Adjust SELinux policies
+Adjust SELinux Policies
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 If your RHEL/CentOS box has SELinux in Enforcing mode, please follow these instructions to adjust SELinux
@@ -111,7 +111,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
     sudo chkconfig postgresql-9.4 on
 
 
-Setup repositories
+Setup Repositories
 ~~~~~~~~~~~~~~~~~~
 
 The following script will detect your platform and architecture and setup the repo accordingly. It'll also install the GPG key for repo signing.
@@ -120,7 +120,7 @@ The following script will detect your platform and architecture and setup the re
 
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.rpm.sh | sudo bash
 
-Install |st2| components
+Install |st2| Components
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
   .. code-block:: bash
@@ -235,7 +235,7 @@ To set up authentication with File Based provider:
 
 Check out :doc:`/reference/cli` to learn convenient ways to authenticate via CLI.
 
-Install WebUI and setup SSL termination
+Install WebUI and Setup SSL Termination
 ---------------------------------------
 
 `NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS,
