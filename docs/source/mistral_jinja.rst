@@ -171,6 +171,47 @@ A number of Mistral and |st2| specific custom functions (aka filters in Jinja) s
 
 * ``st2kv('st2_key_id')`` queries |st2|'s datastore and returns the value for the given key. For example, the expression ``{{ st2kv('system.shared_key_x') }}`` returns the value for a system scoped key named ``shared_key_x`` while the expression ``{{ st2kv('my_key_y') }}`` returns the value for the user scoped key named ``my_key_y``. The ``st2kv`` function will always decrypt the value of the key if it is encrypted when the key value pair was set. Please note that the key name should be in quotes otherwise Jinja treats key name with a dot like ``system.shared_key_x`` as a dict access.
 
+Testing Expressions
++++++++++++++++++++
+Somtimes Jinja expressions can become complex and the need to verify the expression
+outside of StackStorm is necessary. To accomplish this there are a few options:
+
+- `Jinja2 online evaluator <http://jinja2test.tk/>`_
+- Write a small test script
+  
+  .. code-block:: python
+    #!/usr/bin/env python
+    import jinja2
+    import os
+
+
+    class JinjaUtils:
+    
+        @staticmethod
+        def render_file(filename, context):
+            path, filename = os.path.split(filename)
+            env = jinja2.Environment(loader=jinja2.FileSystemLoader(path or './'))
+            tmpl = env.get_template(filename)
+            return tmpl.render(context)
+
+        @staticmethod
+        def render_str(jinja_template_str, context):
+            env = jinja2.Environment()
+            tmpl = env.from_string(jinja_template_str)
+            return tmpl.render(context)
+
+
+    if __name__ == "__main__":
+        context = {{'results': {'name': 'Stanley'}}
+        template = "Hello {{ results.name }}"
+        print JinjaUtils.render_str(template, context)
+
+.. note::
+
+    The test script does NOT include the custom StackStorm Jinja filters or functions
+    such as ``st2kv``.
+
+  
 More Examples
 +++++++++++++
 More workflow examples using Jinja expressions can be found at :github_st2:`/usr/share/doc/st2/examples </contrib/examples/actions/workflows/>`. The examples are prefixed with ``mistral-jinja``.
