@@ -184,7 +184,11 @@ Example:
 
 .. code-block:: bash
 
+   # Validate a workflow
    mistral workflow-validate /path/to/workflow.yaml
+
+   # Validate a workbook
+   mistral workbook-validate /path/to/workbook.yaml
 
 
 .. note::
