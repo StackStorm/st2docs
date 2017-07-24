@@ -181,6 +181,7 @@ The Mistral CLI ships with the capability of performing high-level sanity checks
 of Mistral workflow YAML files.
 
 Example:
+
 .. code-block:: bash
 
    mistral workflow-validate /path/to/workflow.yaml
