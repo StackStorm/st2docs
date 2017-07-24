@@ -180,6 +180,7 @@ outside of StackStorm is necessary. To accomplish this there are a few options:
 - Write a small test script
   
   .. code-block:: python
+
     #!/usr/bin/env python
     import jinja2
     import os
@@ -202,7 +203,7 @@ outside of StackStorm is necessary. To accomplish this there are a few options:
 
 
     if __name__ == "__main__":
-        context = {{'results': {'name': 'Stanley'}}
+        context = {'results': {'name': 'Stanley'}}
         template = "Hello {{ results.name }}"
         print JinjaUtils.render_str(template, context)
 
