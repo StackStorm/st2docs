@@ -6,7 +6,7 @@ Mistral
 
 * Mistral workflow definition language, aka `v2 DSL <http://docs.openstack.org/developer/mistral/dsl/dsl_v2.html>`_
 * `YAQL documentation <https://yaql.readthedocs.io/en/latest/>`_ and `YAQL online evaluator <http://yaqluator.com/>`_
-* `Jinja2 template engine <http://jinja.pocoo.org>`_
+* `Jinja2 template engine documentation <http://jinja.pocoo.org>`_ and `Jinja2 online evaluator <http://jinja2test.tk/>`_
 
 .. note::
 
@@ -174,6 +174,28 @@ Since there are multiple workflows defined in this workbook, the workflow author
 .. literalinclude:: /../../st2/contrib/examples/actions/mistral-workbook-complex.yaml
 
 To test out this workflow, save the metadata file to /opt/stackstorm/packs/examples/actions/ and the workflow file to /opt/stackstorm/packs/examples/actions/workflows. Run ``st2 action create /opt/stackstorm/packs/examples/actions/mistral-workbook-complex.yaml`` to create the action and run ``st2 run examples.mistral-workbook-complex vm_name="vmtest1" -a`` to test.
+
+Validation
++++++++++++++++++++
+The Mistral CLI ships with the capability of performing high-level sanity checks
+of Mistral workflow YAML files.
+
+Example:
+
+.. code-block:: bash
+
+   # Validate a workflow
+   mistral workflow-validate /path/to/workflow.yaml
+
+   # Validate a workbook
+   mistral workbook-validate /path/to/workbook.yaml
+
+
+.. note::
+
+   These sanity checks simply provide a test against the Mistral DSL schema.
+   They do NOT test YAQL or Jinja2 expressions.
+
 
 More Examples
 +++++++++++++++++++
