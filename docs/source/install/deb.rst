@@ -256,9 +256,9 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
     # Create notification rule if not yet enabled
     st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml
 
-* `Add NodeJS v4 repository <https://nodejs.org/en/download/package-manager/>`_: ::
+* `Add NodeJS v6 repository <https://nodejs.org/en/download/package-manager/>`_: ::
 
-      curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+      curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 
 * Install st2chatops package: ::
 
