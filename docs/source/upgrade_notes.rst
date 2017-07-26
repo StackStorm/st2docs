@@ -17,6 +17,12 @@ Upgrade Notes
   instead of ``None`` when the pack was not found in the index. This is technically a breaking
   change, but a necessary one because returning ``None`` caused the client to throw an exception.
 
+* Introduced a backward incompatible change in st2client API
+  `#3514 <https://github.com/StackStorm/st2/pull/3514>`: ``query()`` method returns a tuple of
+  ``(result, total_number_of_items)`` instead of ``result``. This is fixed in ``2.3.2``. Upgrade
+  to 2.3.2 if you are getting error like: `#3606 <https://github.com/StackStorm/st2/issues/3606>`
+  or you are using the st2client API's `query()` method.
+
 |st2| v2.2
 ----------
 
