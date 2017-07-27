@@ -265,7 +265,7 @@ For the full list of built-in functions, see `Standard Library section in YAQL d
 
 **StackStorm**
 
-* ``st2kv('st2_key_id')`` queries |st2|'s datastore and returns the value for the given key. For example, the expression ``<% st2kv('system.shared_key_x') %>`` returns the value for a system scoped key named ``shared_key_x`` while the expression ``<% st2kv('my_key_y') %>`` returns the value for the user scoped key named ``my_key_y``. Please note that the key name should be in quotes otherwise YAQL treats key name with a dot like ``system.shared_key_x`` as a dict access. **IMPORTANT NOTE**: In the event that the retrieved value was stored encrypted, ``st2kv`` no longer attempts decryption by default (as of 2.3.2). To decrypt the retrieved value, you must explicitly enable it through the ``decrypt`` parameter, like so: ``st2kv('st2_key_id', decrypt=true)``.
+* ``st2kv('st2_key_id')`` queries |st2|'s datastore and returns the value for the given key. For example, the expression ``<% st2kv('system.shared_key_x') %>`` returns the value for a system scoped key named ``shared_key_x`` while the expression ``<% st2kv('my_key_y') %>`` returns the value for the user scoped key named ``my_key_y``. Please note that the key name should be in quotes otherwise YAQL treats key name with a dot like ``system.shared_key_x`` as a dict access. **IMPORTANT NOTE**: In the event that the retrieved value was stored encrypted, ``st2kv`` no longer attempts decryption by default (as of version 2.4). To decrypt the retrieved value, you must explicitly enable it through the ``decrypt`` parameter, like so: ``st2kv('st2_key_id', decrypt=true)``.
 
 Testing YAQL Expressions
 ++++++++++++++++++++++++

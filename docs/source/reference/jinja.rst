@@ -64,7 +64,7 @@ ActionChains located in the ``examples`` pack:
 
 .. note::
 
-    As of StackStorm 2.3.2, all custom filters were made available to Mistral workflows as well, with one notable
+    As of StackStorm 2.4, all custom filters were made available to Mistral workflows as well, with one notable
     exception: the ``decrypt_kv`` filter. That filter is not necessary in Mistral, as the ``st2kv`` function in Mistral workflows
     natively supports decryption via the ``decrypt`` parameter.
 

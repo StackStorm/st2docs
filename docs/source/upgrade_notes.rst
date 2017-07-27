@@ -3,6 +3,13 @@
 Upgrade Notes
 =============
 
+|st2| v2.4
+----------
+
+* The ``st2kv`` function has been changed so that it no longer attempts to decrypt stored values by
+  default. To return decrypted values, this must be explictly enabled via parameter, like so:
+  ``st2kv('st2_key_id', decrypt=true)``.
+
 |st2| v2.3
 ----------
 
@@ -16,10 +23,6 @@ Upgrade Notes
 * The API endpoint for searching or showing packs has been updated to return an empty list
   instead of ``None`` when the pack was not found in the index. This is technically a breaking
   change, but a necessary one because returning ``None`` caused the client to throw an exception.
-
-* The ``st2kv`` function has been changed (in 2.3.2) so that it no longer attempts to decrypt stored values by
-  default. To return decrypted values, this must be explictly enabled via parameter, like so:
-  ``st2kv('st2_key_id', decrypt=true)``.
 
 |st2| v2.2
 ----------
