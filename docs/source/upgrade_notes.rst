@@ -17,6 +17,16 @@ Upgrade Notes
   instead of ``None`` when the pack was not found in the index. This is technically a breaking
   change, but a necessary one because returning ``None`` caused the client to throw an exception.
 
+* Notifier now consumes "ActionExecution" RabbitMQ exchange with
+  queue name ``st2.notifiers.execution.work``. Notifier used to scan ``LiveAction``
+  exchange with ``st2.notifiers.work`` queue name. When you upgrade from |st2| versions older than v2.3,
+  make sure ``st2.notifiers.work`` queue size is 0 before upgrading. If you upgrade when
+  it's non-empty, you might
+  miss notifications. Post upgrade, please delete queue ``st2.notifiers.work`` queue manually
+  using ``rabbitmqadmin purge queue name=st2.notifiers.work``. If not, this queue will
+  grow indefinitely and rabbitmq would eat up a lot of disk space.
+  See `issue 3622 <https://github.com/StackStorm/st2/issues/3622>`__ for details.
+
 |st2| v2.2
 ----------
 
