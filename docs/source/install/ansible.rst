@@ -135,7 +135,7 @@ If you are installing from behind a proxy, you can use the environment variables
       hosts: all
       environment:
         http_proxy: http://proxy.example.net:8080
-        https_proxy: https://proxy.example.net:8080
+        https_proxy: http://proxy.example.net:8080
         no_proxy: 127.0.0.1,localhost
       roles:
         - st2

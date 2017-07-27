@@ -13,7 +13,6 @@ References and Guides
    runners
    traces
    client_libraries
-   proxy
    ha
    api
    monitoring
