@@ -23,6 +23,16 @@ Upgrade Notes
   to 2.3.2 if you are getting error like: `#3606 <https://github.com/StackStorm/st2/issues/3606>`
   or you are using the st2client API's `query()` method.
 
+* Notifier now consumes "ActionExecution" RabbitMQ exchange with
+  queue name ``st2.notifiers.execution.work``. Notifier used to scan ``LiveAction``
+  exchange with ``st2.notifiers.work`` queue name. When you upgrade from |st2| versions older than v2.3,
+  make sure ``st2.notifiers.work`` queue size is 0 before upgrading. If you upgrade when
+  it's non-empty, you might
+  miss notifications. Post upgrade, please delete queue ``st2.notifiers.work`` queue manually
+  using ``rabbitmqadmin purge queue name=st2.notifiers.work``. If not, this queue will
+  grow indefinitely and rabbitmq would eat up a lot of disk space.
+  See `issue 3622 <https://github.com/StackStorm/st2/issues/3622>`__ for details.
+
 |st2| v2.2
 ----------
 
