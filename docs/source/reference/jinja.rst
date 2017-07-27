@@ -122,8 +122,8 @@ regex group (alternatively, you can provide desired index).
 
 .. code-block:: bash
 
-    {{value_key | regex_search("y")}}
-    {{value_key | regex_search("^v(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$")}}
+    {{value_key | regex_substring("y")}}
+    {{value_key | regex_substring("^v(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$")}}
 
 to_complex
 ~~~~~~~~~~
@@ -211,7 +211,7 @@ Returns True if LHS version is equal to RHS version.
 
 .. code-block:: bash
 
-    {{version | version_less_than("0.10.0")}}
+    {{version | version_equal("0.10.0")}}
 
 version_match
 ~~~~~~~~~~~~~
