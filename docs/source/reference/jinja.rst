@@ -234,7 +234,7 @@ version_match
 Returns True if the two provided versions are equivalent (i.e. “2.0.0” and “>=1.0.0” are
 equivalent and will return True).
 
-Supports operators ``>``,``<``, ``==``, ``<=``, and ``>=``.
+Supports operators ``>``, ``<``, ``==``, ``<=``, and ``>=``.
 
 .. code-block:: bash
 
