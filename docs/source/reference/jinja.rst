@@ -170,61 +170,6 @@ If value being filtered is None, this filter will return the string ``%*****__%N
 
     {{value_key | use_none}}
 
-version_compare
-~~~~~~~~~~~~~~~
-
-Compare a semantic version to another value. Returns 1 if LHS is greater or -1 if LHS is smaller or
-0 if equal.
-
-.. code-block:: bash
-
-    {{version | version_compare("0.10.1")}}
-
-version_more_than
-~~~~~~~~~~~~~~~~~
-
-Returns True if LHS version is greater than RHS version. Both input have to follow semantic version
-syntax.
-
-E.g. ``{{"1.6.0” | version_more_than("1.7.0")}}``.
-
-.. code-block:: bash
-
-    {{version | version_more_than("0.10.1")}}
-
-version_less_than
-~~~~~~~~~~~~~~~~~
-
-Returns True if LHS version is lesser than RHS version. Both input have to follow semantic version
-syntax.
-
-E.g. ``{{“1.6.0” | version_less_than("1.7.0")}}``.
-
-.. code-block:: bash
-
-    {{version | version_less_than("0.9.2")}}
-
-version_equal
-~~~~~~~~~~~~~
-
-Returns True if LHS version is equal to RHS version.
-
-.. code-block:: bash
-
-    {{version | version_equal("0.10.0")}}
-
-version_match
-~~~~~~~~~~~~~
-
-Returns True if the two provided versions are equivalent (i.e. “2.0.0” and “>=1.0.0” are
-equivalent and will return True).
-
-Supports operators ``>``,``<``, ``==``, ``<=``, and ``>=``.
-
-.. code-block:: bash
-
-    {{version | version_match(">0.10.0")}}
-
 version_bump_major
 ~~~~~~~~~~~~~~~~~~
 
@@ -251,6 +196,61 @@ Bumps up the patch version of supplied version field.
 .. code-block:: bash
 
     {{version | version_bump_patch}}
+
+version_compare
+~~~~~~~~~~~~~~~
+
+Compare a semantic version to another value. Returns 1 if LHS is greater or -1 if LHS is smaller or
+0 if equal.
+
+.. code-block:: bash
+
+    {{version | version_compare("0.10.1")}}
+
+version_equal
+~~~~~~~~~~~~~
+
+Returns True if LHS version is equal to RHS version.
+
+.. code-block:: bash
+
+    {{version | version_equal("0.10.0")}}
+
+version_less_than
+~~~~~~~~~~~~~~~~~
+
+Returns True if LHS version is lesser than RHS version. Both input have to follow semantic version
+syntax.
+
+E.g. ``{{“1.6.0” | version_less_than("1.7.0")}}``.
+
+.. code-block:: bash
+
+    {{version | version_less_than("0.9.2")}}
+
+version_match
+~~~~~~~~~~~~~
+
+Returns True if the two provided versions are equivalent (i.e. “2.0.0” and “>=1.0.0” are
+equivalent and will return True).
+
+Supports operators ``>``,``<``, ``==``, ``<=``, and ``>=``.
+
+.. code-block:: bash
+
+    {{version | version_match(">0.10.0")}}
+
+version_more_than
+~~~~~~~~~~~~~~~~~
+
+Returns True if LHS version is greater than RHS version. Both input have to follow semantic version
+syntax.
+
+E.g. ``{{"1.6.0” | version_more_than("1.7.0")}}``.
+
+.. code-block:: bash
+
+    {{version | version_more_than("0.10.1")}}
 
 version_strip_patch
 ~~~~~~~~~~~~~~~~~~~
