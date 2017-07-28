@@ -16,7 +16,6 @@ Upgrade Notes
 * The API endpoint for searching or showing packs has been updated to return an empty list
   instead of ``None`` when the pack was not found in the index. This is technically a breaking
   change, but a necessary one because returning ``None`` caused the client to throw an exception.
-
 * Notifier now consumes "ActionExecution" RabbitMQ exchange with
   queue name ``st2.notifiers.execution.work``. Notifier used to scan ``LiveAction``
   exchange with ``st2.notifiers.work`` queue name. When you upgrade from |st2| versions older than v2.3,
@@ -26,6 +25,11 @@ Upgrade Notes
   using ``rabbitmqadmin purge queue name=st2.notifiers.work``. If not, this queue will
   grow indefinitely and rabbitmq would eat up a lot of disk space.
   See `issue 3622 <https://github.com/StackStorm/st2/issues/3622>`__ for details.
+* Introduced a backward incompatible change in st2client API
+  `#3514 <https://github.com/StackStorm/st2/pull/3514>`: ``query()`` method returns a tuple of
+  ``(result, total_number_of_items)`` instead of ``result``. This is fixed in ``2.3.2``. Upgrade
+  to 2.3.2 if you are getting error like: `#3606 <https://github.com/StackStorm/st2/issues/3606>`
+  or you are using the st2client API's `query()` method.
 
 |st2| v2.2
 ----------
