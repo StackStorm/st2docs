@@ -25,6 +25,7 @@ Upgrade Notes
   using ``rabbitmqadmin purge queue name=st2.notifiers.work``. If not, this queue will
   grow indefinitely and rabbitmq would eat up a lot of disk space.
   See `issue 3622 <https://github.com/StackStorm/st2/issues/3622>`__ for details.
+
 * Introduced a backward incompatible change in st2client API
   `#3514 <https://github.com/StackStorm/st2/pull/3514>`: ``query()`` method returns a tuple of
   ``(result, total_number_of_items)`` instead of ``result``. This is fixed in ``2.3.2``. Upgrade
