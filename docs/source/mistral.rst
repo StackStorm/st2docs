@@ -40,22 +40,26 @@ The following table list optional parameters that can be defined in the workflow
 
 Next, run ``st2 action create /opt/stackstorm/packs/examples/actions/mistral-basic.yaml`` to create this workflow action. This will register the workflow as examples.mistral-basic in |st2|. Then to execute the workflow, run ``st2 run examples.mistral-basic cmd=date -a`` where ``-a`` tells the command to return and not wait for the workflow to complete. If the workflow completed successfully, both the workflow **examples.mistral-basic** and the action **core.local** would have a **succeeded** status in the |st2| action execution list. By default, ``st2 execution list`` only returns top level executions. This means subtasks are not displayed.
 
-+--------------------------+--------------+--------------+-----------+-----------------+---------------+
-| id                       | action.ref   | context.user | status    | start_timestamp | end_timestamp |
-+--------------------------+--------------+--------------+-----------+-----------------+---------------+
-| 54ee54c61e2e24152b769a47 | examples     | stanley      | succeeded | Wed, 25 Feb     | Wed, 25 Feb   |
-|                          | .mistral-    |              |           | 2015 23:03:34   | 2015 23:03:34 |
-|                          | basic        |              |           | UTC             | UTC           |
-+--------------------------+--------------+--------------+-----------+-----------------+---------------+
+.. code-block:: shell
 
-To display subtasks, run ``st2 execution get <execution-id> --show-tasks``.
+    +--------------------------+--------------+--------------+-----------+-----------------+---------------+
+    | id                       | action.ref   | context.user | status    | start_timestamp | end_timestamp |
+    +--------------------------+--------------+--------------+-----------+-----------------+---------------+
+    | 54ee54c61e2e24152b769a47 | examples     | stanley      | succeeded | Wed, 25 Feb     | Wed, 25 Feb   |
+    |                          | .mistral-    |              |           | 2015 23:03:34   | 2015 23:03:34 |
+    |                          | basic        |              |           | UTC             | UTC           |
+    +--------------------------+--------------+--------------+-----------+-----------------+---------------+
 
-+--------------------------+------------+--------------+-----------+------------------------------+------------------------------+
-| id                       | action.ref | context.user | status    | start_timestamp              | end_timestamp                |
-+--------------------------+------------+--------------+-----------+------------------------------+------------------------------+
-| 54ee54c91e2e24152b769a49 | core.local | stanley      | succeeded | Wed, 25 Feb 2015 23:03:37    | Wed, 25 Feb 2015 23:03:37    |
-|                          |            |              |           | UTC                          | UTC                          |
-+--------------------------+------------+--------------+-----------+------------------------------+------------------------------+
+To display subtasks, run ``st2 execution get <execution-id> --show-tasks``:
+
+.. code-block:: shell
+
+    +--------------------------+------------+--------------+-----------+------------------------------+------------------------------+
+    | id                       | action.ref | context.user | status    | start_timestamp              | end_timestamp                |
+    +--------------------------+------------+--------------+-----------+------------------------------+------------------------------+
+    | 54ee54c91e2e24152b769a49 | core.local | stanley      | succeeded | Wed, 25 Feb 2015 23:03:37    | Wed, 25 Feb 2015 23:03:37    |
+    |                          |            |              |           | UTC                          | UTC                          |
+    +--------------------------+------------+--------------+-----------+------------------------------+------------------------------+
 
 The following is a simple extension of the previous workflow definition. In this example, we have a second task named task2. It might be natural to think that task2 will be executed after task1, i.e, in sequential order. However, when no tasks attributes like ``on-complete``, ``on-success`` and ``on-error`` are defined, tasks are run in parallel. This is possible with mistral because it provides a join flow control which allows to synchronize multiple parallel workflow branches and aggregate their data.
 
