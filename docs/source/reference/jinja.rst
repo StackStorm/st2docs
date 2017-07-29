@@ -68,6 +68,14 @@ ActionChains located in the ``examples`` pack:
     exception: the ``decrypt_kv`` filter. That filter is not necessary in Mistral, as the ``st2kv`` function in Mistral workflows
     natively supports decryption via the ``decrypt`` parameter.
 
+.. note::
+
+    Because of a bug in Mistral these filters do not currently support the "pipe" operator filter format (|) So, instead of
+    ``'{{ _.input_str | regex_match(_.regex_pattern)}}'`` you would call the filter like a regular function, moving the previously
+    input value into the first positional argument position: ``'{{ regex_match(_.input_str, _.regex_pattern)}}'``. This will
+    be addressed in a future release so that the pipe format can be used as well.
+
+
 json_escape
 ~~~~~~~~~~~
 
