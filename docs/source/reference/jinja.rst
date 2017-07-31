@@ -46,6 +46,10 @@ templates/#builtin-filters>`_ available in Jinja, |st2| also comes with some cus
 
     **For Developers:** These filters are defined in
     :github_st2:`st2/st2common/st2common/jinja/filters/ </st2common/st2common/jinja/filters/>`.
+    The equivalent Mistral filters are located in the ``st2mistral`` repo at
+    :github_st2mistral:`st2mistral/st2mistral/filters/ </st2mistral/st2mistral/filters/>`.
+    To ensure filters maintain parity across StackStorm workflows, changes to one location
+    must be replicated to the other in a separate PR.
 
 
 For brevity, only simple Jinja patterns for each filter are documented below. "Real-world" usage
@@ -58,18 +62,19 @@ ActionChains located in the ``examples`` pack:
     it using literalinclude (i.e. .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-jinja-branching.yaml)
     so we can just use the code as the source of truth. Then, we can remove the above note.
 
-.. warning::
+.. note::
 
-    These custom filters are currently not available in Mistral workflows. To use them in a workflow, you must use ActionChains.
+    As of StackStorm 2.4, all custom filters were made available to Mistral workflows as well, with one notable
+    exception: the ``decrypt_kv`` filter. That filter is not necessary in Mistral, as the ``st2kv`` function in Mistral workflows
+    natively supports decryption via the ``decrypt`` parameter.
 
-decrypt_kv
-~~~~~~~~~~
+.. note::
 
-Decrypt a system scoped datastore item.
+    Because of a bug in Mistral these filters do not currently support the "pipe" operator filter format (|) So, instead of
+    ``'{{ _.input_str | regex_match(_.regex_pattern)}}'`` you would call the filter like a regular function, moving the previously
+    input value into the first positional argument position: ``'{{ regex_match(_.input_str, _.regex_pattern)}}'``. This will
+    be addressed in a future release so that the pipe format can be used as well.
 
-.. code-block:: bash
-
-    {{value_key | decrypt_kv}}
 
 json_escape
 ~~~~~~~~~~~

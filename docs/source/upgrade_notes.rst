@@ -3,6 +3,13 @@
 Upgrade Notes
 =============
 
+|st2| v2.4
+----------
+
+* The ``st2kv`` function has been changed so that it no longer attempts to decrypt stored values by
+  default. To return decrypted values, this must be explictly enabled via parameter, like so:
+  ``st2kv('st2_key_id', decrypt=true)``.
+
 |st2| v2.3
 ----------
 
