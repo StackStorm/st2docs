@@ -154,7 +154,7 @@ MongoDB
 ^^^^^^^
 |st2| uses this to cache Actions, Rules and Sensor metadata which already live in the filesystem. All the content should
 ideally be source-control managed, preferably in a git repository. |st2| also stores operational data like ActionExecution,
-TriggerInstance etc. MongoDB supports `replica set high-availability <https://docs.mongodb.org/v2.4/core/replica-set-high-availability/>`__
+TriggerInstance etc. MongoDB supports `replica set high-availability <https://docs.mongodb.org/v3.4/core/replica-set-high-availability/>`__
 which we recommend to provide a safe failover. See :ref:`here<ref-mongo-ha-config>` for how to configure |st2| to
 connect to MongoDB replica sets.
 
