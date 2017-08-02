@@ -32,7 +32,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
     sudo apt-get install -y curl
 
     # Add key and repo for the latest stable MongoDB (3.4)
-    wget -qO - https://www.mongodb.org/static/pgp/server-3.4.asc | sudo apt-key adv -
+    wget -qO - https://www.mongodb.org/static/pgp/server-3.4.asc | sudo apt-key add -
     sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-3.4.list
     deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/3.4 multiverse
     EOT"
