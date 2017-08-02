@@ -29,8 +29,8 @@ The ``username`` and ``password`` properties are optional.
 
 .. _ref-mongo-ha-config:
 
-|st2| also supports `MongoDB replica sets <https://docs.mongodb.com/v3.2/core/replication-introduction/>`_
-using `MongoDB URI string <https://docs.mongodb.com/v3.2/reference/connection-string/>`_.
+|st2| also supports `MongoDB replica sets <https://docs.mongodb.com/v3.4/core/replication-introduction/>`_
+using `MongoDB URI string <https://docs.mongodb.com/v3.4/reference/connection-string/>`_.
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
 
@@ -39,9 +39,9 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
     [database]
     host = mongodb://<#MDB_NODE_1>,<#MDB_NODE_2>,<#MDB_NODE_3>/?replicaSet=<#MDB_REPLICA_SET_NAME>
 
-* You can also add ports, usernames and passwords, etc to your connection string - https://docs.mongodb.com/v3.2/reference/connection-string/
+* You can also add ports, usernames and passwords, etc to your connection string - https://docs.mongodb.com/v3.4/reference/connection-string/
 
-* To understand more about setting up a MongoDB replica set - https://docs.mongodb.com/v3.2/tutorial/deploy-replica-set/
+* To understand more about setting up a MongoDB replica set - https://docs.mongodb.com/v3.4/tutorial/deploy-replica-set/
 
 |st2| also supports SSL/TLS to encrypt connections. A few extra properties need be added to
 the configuration apart from the ones outlined above.

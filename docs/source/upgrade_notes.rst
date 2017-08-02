@@ -10,6 +10,11 @@ Upgrade Notes
   default. To return decrypted values, this must be explictly enabled via parameter, like so:
   ``st2kv('st2_key_id', decrypt=true)``.
 
+* Installer script now installs MongoDB 3.4 by default (previously, 3.2 was installed by default).
+  For information on how to upgrade MongoDB on existing installations, please refer to the official
+  MongoDB documentation - https://docs.mongodb.com/v3.4/release-notes/3.4-upgrade-standalone/,
+  https://docs.mongodb.com/manual/release-notes/3.4-upgrade-replica-set/.
+
 |st2| v2.3
 ----------
 
@@ -23,6 +28,7 @@ Upgrade Notes
 * The API endpoint for searching or showing packs has been updated to return an empty list
   instead of ``None`` when the pack was not found in the index. This is technically a breaking
   change, but a necessary one because returning ``None`` caused the client to throw an exception.
+
 * Notifier now consumes "ActionExecution" RabbitMQ exchange with
   queue name ``st2.notifiers.execution.work``. Notifier used to scan ``LiveAction``
   exchange with ``st2.notifiers.work`` queue name. When you upgrade from |st2| versions older than v2.3,

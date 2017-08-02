@@ -61,15 +61,15 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
 
     sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
-    # Add key and repo for the latest stable MongoDB (3.2)
-    sudo rpm --import https://www.mongodb.org/static/pgp/server-3.2.asc
-    sudo sh -c "cat <<EOT > /etc/yum.repos.d/mongodb-org-3.2.repo
-    [mongodb-org-3.2]
+    # Add key and repo for the latest stable MongoDB (3.4)
+    sudo rpm --import https://www.mongodb.org/static/pgp/server-3.4.asc
+    sudo sh -c "cat <<EOT > /etc/yum.repos.d/mongodb-org-3.4.repo
+    [mongodb-org-3.4]
     name=MongoDB Repository
-    baseurl=https://repo.mongodb.org/yum/redhat/7Server/mongodb-org/3.2/x86_64/
+    baseurl=https://repo.mongodb.org/yum/redhat/7Server/mongodb-org/3.4/x86_64/
     gpgcheck=1
     enabled=1
-    gpgkey=https://www.mongodb.org/static/pgp/server-3.2.asc
+    gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc
     EOT"
 
     sudo yum -y install mongodb-org
