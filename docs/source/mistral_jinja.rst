@@ -2,7 +2,7 @@ Mistral + Jinja
 ===============
 
 Starting in |st2| v2.2, Jinja expressions are also supported where YAQL expressions are accepted.
-Jinja expressions can be used for simple conditional evaulation and data transformation in Mistral
+Jinja expressions can be used for simple conditional evaluation and data transformation in Mistral
 workflows. There will be many cases where you did not author the actions but there's a need to
 decide from the result of the action whether to continue or there's a need to transform the
 result to another value or structure for the next action in the workflow.
