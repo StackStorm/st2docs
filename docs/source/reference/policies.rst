@@ -118,7 +118,7 @@ Other supported coordination backends include:
 * file (for testing when all the services are running on a single host)
 
 For the full list of the supported backends and how to configure them, please visit
-`OpenStack tooz documentation <https://docs.openstack.org/developer/tooz/>`_.
+`OpenStack Tooz documentation <https://docs.openstack.org/tooz/latest/>`_.
 
 Some of these coordination backends also require corresponding client libraries to be installed
 in |st2| virtualenv. We do not ship these libraries by default. As an example, to install the client
