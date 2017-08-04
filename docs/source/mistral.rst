@@ -1,10 +1,10 @@
 Mistral
 =======
-`Mistral <http://docs.openstack.org/developer/mistral/overview.html>`_ is an OpenStack project that manages and executes workflows as a service. Mistral is installed as a separate service named "mistral" along with |st2|. A Mistral workflow can be defined as a |st2| action in a Mistral workbook using the `v2 DSL <http://docs.openstack.org/developer/mistral/dsl/dsl_v2.html>`_. Expression languages such as YAQL are used for formatting variables and condition evaluations. Starting in |st2| v2.2, Jinja2 is also supported where YAQL expressions are accepted. Both workbook and workflow definitions are supported. On action execution, |st2| writes the definition to Mistral and executes the workflow. A workflow can invoke other |st2| actions natively as subtasks. |st2| handles the translations and calls transparently in Mistral and actively polls Mistral for execution results. |st2| actions in the workflow can be traced back to the original parent action that invoked the workflow.
+`Mistral <https://docs.openstack.org/mistral/latest/overview.html>`_ is an OpenStack project that manages and executes workflows as a service. Mistral is installed as a separate service named "mistral" along with |st2|. A Mistral workflow can be defined as a |st2| action in a Mistral workbook using the `v2 DSL <https://docs.openstack.org/mistral/latest/admin/dsl_v2.html>`_. Expression languages such as YAQL are used for formatting variables and condition evaluations. Starting in |st2| v2.2, Jinja2 is also supported where YAQL expressions are accepted. Both workbook and workflow definitions are supported. On action execution, |st2| writes the definition to Mistral and executes the workflow. A workflow can invoke other |st2| actions natively as subtasks. |st2| handles the translations and calls transparently in Mistral and actively polls Mistral for execution results. |st2| actions in the workflow can be traced back to the original parent action that invoked the workflow.
 
 **Essential Mistral Links:**
 
-* Mistral workflow definition language, aka `v2 DSL <http://docs.openstack.org/developer/mistral/dsl/dsl_v2.html>`_
+* Mistral workflow definition language, aka `v2 DSL <https://docs.openstack.org/mistral/latest/admin/dsl_v2.html>`_
 * `YAQL documentation <https://yaql.readthedocs.io/en/latest/>`_ and `YAQL online evaluator <http://yaqluator.com/>`_
 * `Jinja2 template engine documentation <http://jinja.pocoo.org>`_ and `Jinja2 online evaluator <http://jinja2test.tk/>`_
 
@@ -207,4 +207,4 @@ There are more workflow examples under :github_st2:`/usr/share/doc/st2/examples 
 
 Check out this step-by-step tutorial on building a workflow in |st2| https://stackstorm.com/2015/07/08/automating-with-mistral-workflow/
 
-More details about Mistral can be found at http://docs.openstack.org/developer/mistral/.
+More details about Mistral can be found at https://docs.openstack.org/mistral/latest/.
