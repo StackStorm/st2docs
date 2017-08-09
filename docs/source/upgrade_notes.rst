@@ -40,10 +40,11 @@ Upgrade Notes
   See `issue 3622 <https://github.com/StackStorm/st2/issues/3622>`__ for details.
 
 * Introduced a backward incompatible change in st2client API
-  `#3514 <https://github.com/StackStorm/st2/pull/3514>`: ``query()`` method returns a tuple of
+  `#3514 <https://github.com/StackStorm/st2/pull/3514>`__: ``query()`` method returns a tuple of
   ``(result, total_number_of_items)`` instead of ``result``. This is fixed in ``2.3.2``. Upgrade
-  to 2.3.2 if you are getting error like: `#3606 <https://github.com/StackStorm/st2/issues/3606>`
-  or you are using the st2client API's `query()` method.
+  to ``2.3.2`` if you are seeing errors similar to those in issue
+  `#3606 <https://github.com/StackStorm/st2/issues/3606>`__ or if you are using the st2client API's
+  ``query()`` method.
 
 |st2| v2.2
 ----------
