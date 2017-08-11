@@ -8,10 +8,10 @@ Sensors are a way to integrate external systems and events with |st2|.
 Sensors are pieces of Python code that either periodically poll some
 external system, or passively wait for inbound events. They then inject
 triggers into |st2|, which can be matched by rules, for potential
-action execution. 
+action execution.
 
 Sensors are written in Python, and have to follow the |st2|-defined
-sensor interface requirements to run successfully. 
+sensor interface requirements to run successfully.
 
 Triggers
 --------
@@ -51,7 +51,7 @@ And this is the corresponding Python skeleton:
 
 This is a bare minimum version of what a sensor looks like. For a more
 complete implementation of a sensor that actually injects triggers
-into the system, look at the `examples <#examples>`__ section below. 
+into the system, look at the `examples <#examples>`__ section below.
 
 Your sensor should generate triggers in Python dict form:
 
@@ -192,7 +192,7 @@ If the value is encrypted, you can decrypt it with this:
 
     kvp = self.sensor_service.get_value('cmdb.api_password', decrypt=True)
     print(kvp.name)
-    
+
 3. set_value(name, value, ttl=None, local=True, encrypt=False)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -272,7 +272,7 @@ Python code:
 .. literalinclude:: /../../st2/contrib/hello_st2/sensors/sensor1.py
 
 The `StackStorm Exchange <https://exchange.stackstorm.org>`__ has many more examples.
-Here's just a few: 
+Here's just a few:
 
 
 Passive Sensors
@@ -310,3 +310,7 @@ For example:
 ::
 
     /opt/stackstorm/st2/bin/st2sensorcontainer --config-file=/etc/st2/st2.conf --sensor-ref=git.GitCommitSensor
+
+Sharing code between Python Sensors and Actions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Refer to :ref:`documentation <ref-shared-libs-python-sensors-actions>` on sharing common code between python actions and sensors.

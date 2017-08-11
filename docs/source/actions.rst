@@ -211,7 +211,7 @@ get access to variables from the context of the execution. For example:
 The prefix ``action_context`` is used to refer to variables in action context. Depending on how
 the execution is executed and nature of action (simple vs workflow), variables in action_context change.
 
-A simple execution via the API will only contain the variables ``user`` and ``pack``. An execution triggered 
+A simple execution via the API will only contain the variables ``user`` and ``pack``. An execution triggered
 via chatops will contain variables such as ``api_user``, ``user``, ``pack``, and ``source_channel``. In
 chatops case, ``api_user`` is the user who's kicking off the chatops command from
 client and ``user`` is the |st2| user configured in hubot. ``source_channel`` is the channel
@@ -666,6 +666,10 @@ Example storing a dict as JSON:
 
       # Delete a value
       self.action_service.delete_value('cache')
+
+Sharing code between Python Sensors and Actions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Refer to :ref:`documentation <ref-shared-libs-python-sensors-actions>` on sharing common code between python actions and sensors.
 
 Pre-defined Actions
 ^^^^^^^^^^^^^^^^^^^
