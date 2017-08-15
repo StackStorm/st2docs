@@ -29,7 +29,7 @@ Authentication
 
 All the requests to the /webhooks endpoints needs to be authenticated in the
 same way as other API requests. There are two possible authentication approaches - 
-`API keys <authentication-apikeys>` and tokens. API keys are recommended for webhooks,
+:ref:`API keys <authentication-apikeys>` and tokens. API keys are recommended for webhooks,
 as they do not expire. Tokens have a fixed expiry.
 
 API key-based
