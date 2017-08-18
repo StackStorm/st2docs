@@ -13,21 +13,12 @@ This page provides detailed instructions to ensure a successful installation.
 Host Requirements
 -----------------
 
-Ensure that you're using the latest version of Docker Engine. At a minimum, we recommend
-using at least version 1.13.0. Please consult the docker
-installation instructions at https://www.docker.com/community-edition.
-
-If you are not familiar with Docker, the easiest way to get a running StackStorm instance is using
-``docker-compose``. The page https://docs.docker.com/compose/install/ contains instructions on
-installing ``docker-compose`` on your host.
-
-We use the version 3 of the compose file format, so you will have fewer issues if you're using
-the latest version of ``docker-compose``. Version 1.14.0 is known to work.
+* Install the latest versions of Docker engine and ``docker-compose``. The installation instructions
+  are located at https://www.docker.com/community-edition and
+  https://docs.docker.com/compose/install respectively.
 
 .. note::
-
-  If you do not plan to use ``docker-compose``, it may be possible to run an earlier version of
-  Docker, but this has not yet been tested.
+  We require at least version 1.13.0 of Docker engine and ``docker-compose``.
 
 Docker Images
 -------------
@@ -324,9 +315,9 @@ second terminal. After a second or so, you should see the following in the secon
     name: 2
   result: None
   
-If you run ``st2 execution list`` before 10 seconds have elapsed, the status of the second action should
-be "delayed".  Between 10 and 20 seconds, the status of the second action should be "running". After
-20 seconds, the status of the second action should be "succeeded".
+If you run ``st2 execution list`` before 10 seconds have elapsed, the status of the second action
+should be "delayed".  Between 10 and 20 seconds, the status of the second action should be
+"running". After 20 seconds, the status of the second action should be "succeeded".
 
 .. sourcecode:: bash
 
