@@ -73,6 +73,7 @@ For more detail on reference deployments, or OS-specific manual installation ins
 
     Reference Deployment Overview <overview>
     system_requirements
+    Docker Image <docker>
     Ubuntu 14.04 / 16.04 <deb>
     RHEL 7 / CentOS 7 <rhel7>
     RHEL 6 / CentOS 6 <rhel6>
