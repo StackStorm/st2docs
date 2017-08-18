@@ -279,3 +279,14 @@ Sample output -
             }
         ]
     }
+
+Pausing and Resuming Action Chain Execution
++++++++++++++++++++++++++++++++++++++++++++
+An execution of an Action Chain can be paused by running ``st2 execution pause <execution-id>``. An execution must be in a running state in order for pause to be successful. The execution will initially go into a ``pausing`` state and will go into a ``paused`` state when no more tasks are in an active state such as ``running``, ``pausing``, or ``canceling``. When an Action Chain is paused, it can be resumed by running ``st2 execution resume <execution-id>``.
+
+Published variables are saved in the execution context on pause and restored on resume. 
+
+.. note::
+    In this version, the published variables are stored unencrypted in the execution context.
+
+The ``pause`` and ``resume`` operation will cascade down to subworkflows, whether it's another |st2| action that is is Mistral workflow or Action Chain. If the ``pause`` operation is performed from a subworkflow or subchain, then the ``pause`` will cascade up to the parent workflow or parent chain. However, if the ``resume`` operation is performed from a subworkflow or subchain, the ``resume`` will not cascade up to the parent workflow or parent chain. This allows user to resume and troubleshoot branches individually.

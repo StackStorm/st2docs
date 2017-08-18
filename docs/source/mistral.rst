@@ -65,6 +65,12 @@ The following is a simple extension of the previous workflow definition. In this
 
 .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-basic-two-tasks-with-notifications.yaml
 
+Pausing and Resuming Workflow Execution
++++++++++++++++++++++++++++++++++++++++
+An execution of a Mistral workflow can be paused by running ``st2 execution pause <execution-id>``. An execution must be in a running state in order for pause to be successful. The execution will initially go into a ``pausing`` state and will go into a ``paused`` state when no more tasks are in an active state such as ``running``, ``pausing``, or ``canceling``. When a workflow execution is paused, it can be resumed by running ``st2 execution resume <execution-id>``.
+
+The ``pause`` and ``resume`` operation will cascade down to subworkflows, whether it's another workflow defined in a workbook or it's another |st2| action that is is Mistral workflow or Action Chain. If the ``pause`` operation is performed from a subworkflow or subchain, then the ``pause`` will cascade up to the parent workflow or parent chain. However, if the ``resume`` operation is performed from a subworkflow or subchain, the ``resume`` will not cascade up to the parent workflow or parent chain. This allows user to resume and troubleshoot branches individually.
+
 Canceling Workflow Execution
 ++++++++++++++++++++++++++++
 An execution of a Mistral workflow can be cancelled by running ``st2 execution cancel <execution-id>``. Workflow tasks that are still running will not be canceled and will run to completion. No new tasks for the workflow will be scheduled.
