@@ -122,7 +122,7 @@ Hiera Configuration
 ~~~~~~~~~~~~~~~~~~~
 Likewise, module configuration can be set via Hiera. For example in a hiera data file:
 
-.. code-block:: puppet
+.. code-block:: yaml
 
    st2::auth: true
    st2::auth_url: https://st2auth.stackstorm.net
@@ -154,7 +154,7 @@ Hiera
 ~~~~~
 In order to load packs via hiera, you will need to include the `::st2::packs` class in your site profile. Then, values will be read from Hiera.
 
-.. code-block:: puppet
+.. code-block:: yaml
 
     st2::packs:
     linux:
