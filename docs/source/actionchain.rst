@@ -105,7 +105,7 @@ ActionChain execution under the ``published`` property if ``display_published`` 
 
     ---
     vars:
-        domain: {{ system.domain }} # Global Var
+        domain: "{{ st2kv.system.domain }}" # Global Var
         port: 9101
 
     chain:
