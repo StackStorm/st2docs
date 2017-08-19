@@ -199,7 +199,7 @@ and any additional directories listed in ``packs_base_paths`` in ``st2.conf``
 (typically in :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>`).
 The value must be a string of directory paths, separated by a colon (think ``$PATH``). For example:
 
-::
+.. code-block:: ini
 
     [content]
     packs_base_paths=/home/myuser1/packs:/home/myuser2/packs
@@ -328,7 +328,7 @@ and proxied through CloudFlare CDN.
 The index path is specified in ``st2.conf`` as ``content.index_url``. You can
 replace the default index, or even use more than one with a comma-separated list:
 
-::
+.. code-block:: ini
 
     [content]
     index_url=https://my-super-index.org/index.json,https://exchange.stackstorm.org/v1/index.json

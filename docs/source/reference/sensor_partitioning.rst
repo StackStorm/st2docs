@@ -7,7 +7,7 @@ Often it is desirable to partition sensors across multiple sensor nodes. To this
 Each sensor node is identified by a name. The sensor nodename can be provided via a config
 property ``sensor_node_name`` as follows:
 
-::
+.. code-block:: ini
 
     [sensorcontainer]
     ...
@@ -23,7 +23,7 @@ sensor node.
 
 No change required in the config file but for completeness the config would be as follows:
 
-::
+.. code-block:: ini
 
     [sensorcontainer]
     ...
@@ -38,7 +38,7 @@ In this scheme the partition map is stored in the key-value store under a specia
 node name scoped key. This is a way to provide a fixed map and does not help with any
 dynamic mapping of sensors to sensor nodes.
 
-::
+.. code-block:: ini
 
     [sensorcontainer]
     ...
@@ -48,7 +48,7 @@ dynamic mapping of sensors to sensor nodes.
 
 To update the key value store use the following command:
 
-::
+.. code-block:: bash
 
     st2 key set sensornode.example.net_f7aeb3ed.sensor_partition "examples.SampleSensor, examples.SamplePollingSensor"
 
@@ -61,7 +61,7 @@ Here the key name is of the format `{sensor_node_name}.sensor_partition`
 In this scheme the partition map is stored in a file. This is a way to provide a fixed map and
 does not help with any dynamic mapping of sensors to sensor nodes.
 
-::
+.. code-block:: ini
 
     [sensorcontainer]
     ...
@@ -71,7 +71,7 @@ does not help with any dynamic mapping of sensors to sensor nodes.
 
 File content is as follows:
 
-::
+.. code-block:: yaml
 
     # /etc/st2/partition_file.yaml
     ---
@@ -94,7 +94,7 @@ A few special keys ``MIN`` and ``MAX`` can also be used. This is how a typical h
 would look.
 
 
-::
+.. code-block:: ini
 
     [sensorcontainer]
     ...

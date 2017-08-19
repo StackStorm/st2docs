@@ -58,7 +58,7 @@ If you use |st2| 2.0 or ealier, you can still get packs from
 action: use ``stackstorm-exchange/<pack name>`` as ``repo_url``, and repeat the pack name in ``packs``.
 As an example, for the CloudFlare pack, the full CLI command would be:
 
-::
+.. code-block:: bash
 
   $ st2 --version
   st2 2.0.1
@@ -67,7 +67,7 @@ As an example, for the CloudFlare pack, the full CLI command would be:
 Alternatively, you can just ``git clone`` the packs, making sure that the pack
 directory name matches the pack ``ref``:
 
-::
+.. code-block:: bash
 
   cd /opt/stackstorm/packs
   git clone https://github.com/StackStorm-Exchange/stackstorm-cloudflare.git cloudflare

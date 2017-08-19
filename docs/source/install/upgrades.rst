@@ -124,14 +124,14 @@ v2.1
 * Datastore model migration - Scope names are now ``st2kv.system`` and ``st2kv.user`` as
   opposed to ``system`` and ``user``.
 
-::
+.. code-block:: bash
 
    /opt/stackstorm/st2/bin/st2-migrate-datastore-scopes.py
 
 * We are piloting pluggable runners (See :ref:`upgrade notes<upgrade_notes>`). Runners now
   have to be explicitly registered just like other content.
 
-::
+.. code-block:: bash
 
   /opt/stackstorm/st2/bin/st2-migrate-runners.sh
 
@@ -144,7 +144,7 @@ v1.5
 
 * Datastore model migration
 
-::
+.. code-block:: bash
 
     /opt/stackstorm/st2/bin/st2-migrate-datastore-to-include-scope-secret.py
 

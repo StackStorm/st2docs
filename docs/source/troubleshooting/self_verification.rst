@@ -19,6 +19,6 @@ To run the self-verification:
    ``/usr/share/doc/st2/examples`` to ``/opt/stackstorm/packs/`` and registers the content from examples. This step pollutes your |st2| environment by downloading fixtures from `st2tests
    <https://github.com/StackStorm/st2tests/tree/master/packs/>`__.
 
-::
+.. code-block:: bash
 
     sudo ST2_AUTH_TOKEN=$(st2 auth st2admin -p '<PASSWORD>' -t) /opt/stackstorm/st2/bin/st2-self-check

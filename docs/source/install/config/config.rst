@@ -286,7 +286,7 @@ There are a number of configurable options available under the mistral section i
 | keystone_auth_url     | v3 Auth URL for OpenStack Keystone.                    |
 +-----------------------+--------------------------------------------------------+
 
-::
+.. code-block:: ini
 
     # Example with basic options. The v2_base_url is set to http://workflow.example.com:8989/v2.
     # On connection error, the following configuration sets up the action runner to retry
@@ -300,7 +300,7 @@ There are a number of configurable options available under the mistral section i
     retry_exp_max_msec = 300000
     retry_stop_max_msec = 600000
 
-::
+.. code-block:: ini
 
     # Example with auth options.
 

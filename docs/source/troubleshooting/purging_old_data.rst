@@ -44,7 +44,7 @@ service you can perform purging manually using the scripts described below.
 Purging executions older than some timestamp
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: bash
 
     st2-purge-executions --timestamp="2015-11-25T21:45:00.000000Z"
 
@@ -54,7 +54,7 @@ conversions and specify UTC timestamp.
 You can also delete executions for a particular ``action_ref`` by specifying an action_ref parameter
 to the tool:
 
-::
+.. code-block:: bash
 
     st2-purge-executions --timestamp="2015-11-25T21:45:00.000000Z" --action-ref="core.localzz"
 
@@ -62,21 +62,21 @@ By default, only executions in completed state, i.e. ``succeeded``, ``failed``, 
 and ``abandoned`` are deleted. If you want to purge all models irrespective of status,
 you can pass the ``--purge-incomplete`` option to the script.
 
-::
+.. code-block:: bash
 
     st2-purge-executions --timestamp="2015-11-25T21:45:00.000000Z" --purge-incomplete
 
 Depending on how much data there is, the script may take a while to run. Therefore, please run it
 inside a screen/tmux session. For example:
 
-::
+.. code-block:: bash
 
     screen -d -m -S purge-execs st2-purge-executions --timestamp="2015-11-25T21:45:00.000000Z"
 
 Purging trigger instances older than some timestamp
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: bash
 
     st2-purge-trigger-instances --timestamp="2015-11-25T21:45:00.000000Z"
 
@@ -86,6 +86,6 @@ conversions and specify UTC timestamp.
 Depending on how much data there is, the script may take a while to run. Therefore, please run it
 inside a screen/tmux session. For example:
 
-::
+.. code-block:: bash
 
     screen -d -m -S purge-instances st2-purge-trigger-instances --timestamp="2015-11-25T21:45:00.000000Z"

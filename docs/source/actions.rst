@@ -391,7 +391,7 @@ All of the parameters are passed to the script via the command-line arguments.
 
 Named argument are passed to the script in the following format:
 
-::
+.. code-block:: bash
 
     script.sh --param1=value --param2=value --param3=value
 
@@ -426,14 +426,14 @@ For example:
 
 In this case, arguments are passed to the script in the following format:
 
-::
+.. code-block:: bash
 
     script.sh -key1=value1 -key2=value2 -key3=value3
 
 And positional arguments are passed to the script ordered by the ``position``
 value in the following format:
 
-::
+.. code-block:: bash
 
     script.sh value2 value1 value3
 
@@ -462,7 +462,7 @@ to the script.
 For example, if a second positional parameter is optional and user provides no
 value, the script will be called like this:
 
-::
+.. code-block:: bash
 
     script.sh value2 "" value3
 
@@ -676,34 +676,34 @@ is installed via packages. These are in the ``core`` pack:
 ``core.local`` : This action allows execution of arbitrary \*nix/shell commands
 locally. You can excute this command via the CLI using:
 
-::
+.. code-block:: bash
 
     st2 run core.local cmd='ls -l'
 
 ``core.remote`` : This action allows execution of arbitrary \*nix/shell commands
 on a set of boxes. Execute this command via the CLI with:
 
-::
+.. code-block:: bash
 
     st2 run core.remote cmd='ls -l' hosts='host1,host2' username='user1'
 
 ``core.http`` : This action allows execution of http requests. Think cURL
 executed from the |st2| box:
 
-::
+.. code-block:: bash
 
     st2 run core.http url="http://httpbin.org/get" method="GET"
 
 Similar to cURL, this action supports basic authentication when provided a username
 and password:
 
-::
+.. code-block:: bash
 
     st2 run core.http url="http://httpbin.org/get" method="GET" username=user1 password=pass1
 
 To see all actions in the ``core`` pack:
 
-::
+.. code-block:: bash
 
     st2 action list --pack=core
 

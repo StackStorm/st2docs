@@ -17,7 +17,7 @@ Requirements:
 Ubuntu
 ------
 
-::
+.. code-block:: bash
 
     apt-get install python-pip python-virtualenv python-dev gcc git make realpath screen libffi-dev libssl-dev
     apt-get install mongodb mongodb-server
@@ -26,7 +26,7 @@ Ubuntu
 Fedora
 ------
 
-::
+.. code-block:: bash
 
     yum install python-pip python-virtualenv python-tox gcc-c++ git-all screen icu libicu libicu-devel openssl-devel
 
@@ -53,7 +53,7 @@ Once the environment is setup, clone the git repo, and make the project.
 This will create the python virtual environment under StackStorm, download
 and install required dependencies, and run tests.
 
-::
+.. code-block:: bash
 
     git clone https://github.com/StackStorm/st2.git
     cd st2
@@ -64,7 +64,7 @@ Configure System User
 
 Create a system user for executing SSH actions.
 
-::
+.. code-block:: bash
 
     useradd -d /home/stanley stanley
     su stanley
@@ -155,13 +155,13 @@ Manual Testing
 In case you only need to test a specific module, it might be reasonable to call ``nosetests`` directly.
 Make sure your virtualenv is active then run:
 
-::
+.. code-block:: bash
 
     nosetests -v {project_name}/tests
 
 or if you only want to run a test for specific file or even class or method, run:
 
-::
+.. code-block:: bash
 
     nosetests -v {project_name}/tests/{path_to_test_file}/{test_file}.py:{Classname}.{method_name}
 

@@ -96,7 +96,7 @@ The following are examples for ZooKeeper and Redis:
 
 ZooKeeper:
 
-::
+.. code-block:: ini
 
     [coordination]
     url = kazoo://username:password@host:port
@@ -104,7 +104,7 @@ ZooKeeper:
 
 Redis:
 
-::
+.. code-block:: ini
 
     [coordination]
     url = redis://:password@host:port

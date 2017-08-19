@@ -28,7 +28,7 @@ It will install and configure the stable version of StackStorm, as per the
 :doc:`single host reference deployment <./overview>`. The installation takes about 4 minutes. Once it
 completes successfully, you will see the following output:
 
-::
+.. code-block:: bash
 
   For more information, please refer to documentation at
   https://docs.stackstorm.com/install/deb.html#setup-chatops

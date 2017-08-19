@@ -301,12 +301,12 @@ Debugging a Sensor From a Pack
 If you just want to run a single sensor from a pack and the sensor is already registered, you can
 use the st2sensorcontainer to run just that single sensor.
 
-::
+.. code-block:: bash
 
     /opt/stackstorm/st2/bin/st2sensorcontainer --config-file=/etc/st2/st2.conf --sensor-ref=pack.SensorClassName
 
 For example:
 
-::
+.. code-block:: bash
 
     /opt/stackstorm/st2/bin/st2sensorcontainer --config-file=/etc/st2/st2.conf --sensor-ref=git.GitCommitSensor

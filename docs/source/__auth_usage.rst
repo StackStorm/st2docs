@@ -1,6 +1,8 @@
 To acquire a new token via the CLI, run the ``st2 auth`` command.  If password is not provided,
 then ``st2 auth`` will prompt for the password. If successful, a token is returned in the
-response. ::
+response. 
+
+.. code-block:: bash
 
     # with password
     st2 auth yourusername -p 'yourpassword'
@@ -14,11 +16,15 @@ response. ::
     If your password contains special characters such as ``$``, they may be interpreted by the shell.
     Wrap your password in single quotes (``'``) as above.
 
-The following is a sample API call via curl using the token. ::
+The following is a sample API call via curl using the token.
+
+.. code-block:: bash
 
     curl -H "X-Auth-Token: 4d76e023841a4a91a9c66aa4541156fe" https://myhost.example.com/api/v1/actions
 
-The following is the equivalent for CLI. ::
+The following is the equivalent for CLI.
+
+.. code-block:: bash
 
     # Include the token as command line argument.
     st2 action list -t 4d76e023841a4a91a9c66aa4541156fe
@@ -31,7 +37,7 @@ Note that there can be use cases when you want the TTL to be different from defa
 You can specify a TTL (in seconds) when you request a token. To get a token that is valid
 for 10 minutes, use the following:
 
-::
+.. code-block:: bash
 
     # with TTL and password
     st2 auth yourusername -p 'yourpassword' -l 600

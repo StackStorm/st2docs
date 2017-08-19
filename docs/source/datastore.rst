@@ -32,7 +32,7 @@ Storing and Retrieving Key-Value Pairs via CLI
 
 Set the value of a key-value pair:
 
-::
+.. code-block:: bash
 
     st2 key set os_keystone_endpoint http://localhost:5000/v2.0
     st2 key set aws_cfn_endpoint https://cloudformation.us-west-1.amazonaws.com
@@ -40,7 +40,7 @@ Set the value of a key-value pair:
 Load a list of key-value pairs from a JSON file. The following is the
 JSON example using the same keys from the create examples above:
 
-::
+.. code-block:: json
 
     [
         {
@@ -53,21 +53,25 @@ JSON example using the same keys from the create examples above:
         }
     ]
 
+Load this file using this command:
+
+.. code-block:: bash
+
     st2 key load mydata.json
 
-The load command also allows you to directly load the output of "key list -j"
+The load command also allows you to directly load the output of the ``st2 key list -j``
 command. This is useful if you want to migrate datastore items from a different
 cluster or if you want to version control the datastore items and load them from
 version controlled files:
 
-::
+.. code-block:: bash
 
     st2 key list -j > mydata.json
     st2 key load mydata.json
 
 Get individual key-value pair or list all:
 
-::
+.. code-block:: bash
 
     st2 key list
     st2 key get os_keystone_endpoint
@@ -75,13 +79,13 @@ Get individual key-value pair or list all:
 
 Update an existing key-value pair:
 
-::
+.. code-block:: bash
 
     st2 key set os_keystone_endpoint http://localhost:5000/v3
 
 Delete an existing key-value pair:
 
-::
+.. code-block:: bash
 
     st2 key delete os_keystone_endpoint
 
@@ -101,7 +105,7 @@ user. With authentication enabled, you can now control who can read or write int
 variables. For example, to set the variable ``date_cmd`` for the currently authenticated
 user, use:
 
-::
+.. code-block:: bash
 
     st2 key set date_cmd "date -u" --scope=user
 
@@ -111,19 +115,19 @@ header passed with the API call. From the API call authentication credentials,
 
 To retrieve the key, use:
 
-::
+.. code-block:: bash
 
     st2 key get date_cmd --scope=user
 
 If you want a variable ``date_cmd`` as a system variable, you can use:
 
-::
+.. code-block:: bash
 
     st2 key set date_cmd "date +%s" --scope=system
 
 or simply:
 
-::
+.. code-block:: bash
 
     st2 key set date_cmd "date +%s"
 
@@ -147,7 +151,7 @@ be automatically deleted on expiry of the TTL.
 
 The TTL is set in seconds. To set a key-value pair for the next hour, use this:
 
-::
+.. code-block:: bash
 
     st2 key set date_cmd "date +%s" --ttl=3600
 
@@ -166,7 +170,7 @@ Create new key-value pairs. The |st2| API endpoint is set either via
 the Client init (base\_url) or from environment variable
 (ST2\_BASE\_URL). The default ports for the API servers are assumed:
 
-::
+.. code-block:: python
 
     >>> from st2client.client import Client
     >>> from st2client.models import KeyValuePair
@@ -175,7 +179,7 @@ the Client init (base\_url) or from environment variable
 
 Get individual key-value pair or list all:
 
-::
+.. code-block:: python
 
     >>> keys = client.keys.get_all()
     >>> os_keystone_endpoint = client.keys.get_by_name(name='os_keystone_endpoint')
@@ -184,7 +188,7 @@ Get individual key-value pair or list all:
 
 Update an existing key-value pair:
 
-::
+.. code-block:: python
 
     >>> os_keystone_endpoint = client.keys.get_by_name(name='os_keystone_endpoint')
     >>> os_keystone_endpoint.value = 'http://localhost:5000/v3'
@@ -192,7 +196,7 @@ Update an existing key-value pair:
 
 Delete an existing key-value pair:
 
-::
+.. code-block:: python
 
     >>> os_keystone_endpoint = client.keys.get_by_name(name='os_keystone_endpoint')
     >>> client.keys.delete(os_keystone_endpoint)
@@ -200,13 +204,13 @@ Delete an existing key-value pair:
 
 Create an encrypted key-value pair:
 
-::
+.. code-block:: python
 
     >>> client.keys.update(KeyValuePair(name='os_keystone_password', value='$uper$ecret!', secret=True))
 
 Get and decrypt an encrypted key-value pair:
 
-::
+.. code-block:: python
 
     >>> os_keystone_password = client.keys.get_by_name(name='os_keystone_password', decrypt=True)
     >>> os_keystone_password.value
@@ -215,7 +219,7 @@ Get and decrypt an encrypted key-value pair:
 
 Get all key-value pairs and decrypt any that are encrypted:
 
-::
+.. code-block:: python
 
     >>> keys = client.keys.get_all(params={'decrypt': True})
     >>> # or
@@ -223,7 +227,7 @@ Get all key-value pairs and decrypt any that are encrypted:
 
 Update an existing encrypted key-value pair:
 
-::
+.. code-block:: python
 
     >>> os_keystone_password = client.keys.get_by_name(name='os_keystone_password')
     >>> os_keystone_password.value = 'New$ecret!'
@@ -244,7 +248,7 @@ a key-value pair, prefix the name with "st2kv.system", e.g. ``{{st2kv.system.os_
 An example rule is provided below. Please refer to the :doc:`Rules </rules>` documentation for rule-related
 syntax.
 
-::
+.. code-block:: json
 
     {
         "name": "daily_clean_up_rule",
@@ -300,20 +304,20 @@ To make sure only ``st2`` and root can access the file on the box, run:
 Once the key is generated, |st2| needs to be made aware of the key. To do this, edit the st2
 configuration file (usually ``/etc/st2/st2.conf``) and add the following lines:
 
-::
+.. code-block:: ini
 
     [keyvalue]
     encryption_key_path = /etc/st2/keys/datastore_key.json
 
 Once the config file changes are made, restart |st2|:
 
-::
+.. code-block:: bash
 
   sudo st2ctl restart
 
 Validate you are able to set an encrypted key-value in the datastore:
 
-::
+.. code-block:: bash
 
   st2 key set test_key test_value --encrypt
 
