@@ -83,6 +83,7 @@ v2.4
   The following procedure will help to perform an upgrade.
 
 Ubuntu:
+
 .. sourcecode:: bash
 
    curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
@@ -90,6 +91,7 @@ Ubuntu:
 
 
 EL/CentOS:
+
 .. sourcecode:: bash
 
    curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
