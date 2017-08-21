@@ -15,6 +15,10 @@ Upgrade Notes
   MongoDB documentation - https://docs.mongodb.com/v3.4/release-notes/3.4-upgrade-standalone/,
   https://docs.mongodb.com/manual/release-notes/3.4-upgrade-replica-set/.
 
+* Node.js v6 is now used by ChatOps package (previously v4 was installed).
+  Look at https://github.com/nodesource/distributions#installation-instructions how to install
+  newer Node.js v6 repositories.
+
 |st2| v2.3
 ----------
 

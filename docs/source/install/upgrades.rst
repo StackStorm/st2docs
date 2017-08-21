@@ -76,6 +76,26 @@ to take a look at detailed :doc:`/changelog` for each version.
 Following sections call out the migration scripts that need to be run before upgrading to the
 respective version
 
+v2.4
+'''''
+
+* Node.js v6 is now used by ChatOps package (previously v4 was installed).
+  The following procedure will help to perform an upgrade.
+
+Ubuntu:
+.. sourcecode:: bash
+
+   curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+   sudo apt-get install --only-upgrade nodejs
+
+
+EL/CentOS:
+.. sourcecode:: bash
+
+   curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
+   sudo yum reinstall -y nodejs
+
+
 v2.2
 '''''
 
