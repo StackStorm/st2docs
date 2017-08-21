@@ -34,7 +34,7 @@ listed below:
             ref: "action_ref"
             parameters:                        # optional
                 foo: "bar"
-                baz: "{{trigger.payload_parameter_1}}"
+                baz: "{{ trigger.payload_parameter_1 }}"
 
 The generic form of a rule is:
 
@@ -143,7 +143,7 @@ variable access syntax as shown below:
     criteria:
         trigger.payload.build_number:
             type: "equals"
-            pattern : "{{ system.current_build_number }}"
+            pattern : "{{ st2kv.system.current_build_number }}"
 
 In this example we are referencing a value of a datastore item with the name
 ``current_build_number``.
@@ -233,7 +233,7 @@ The rules engine is able to interpolate variables by leveraging `Jinja templatin
             ref: "action_ref"
             parameters:
                 foo: "bar"
-                baz: "{{trigger.payload_parameter_1}}"
+                baz: "{{ trigger.payload_parameter_1 }}"
 
 .. note::
 
@@ -247,7 +247,7 @@ The rules engine is able to interpolate variables by leveraging `Jinja templatin
                 ref: "action_ref"
                 parameters:
                     foo: "bar"
-                    baz: "{{trigger.payload_parameter_1|use_none}}"
+                    baz: "{{ trigger.payload_parameter_1 | use_none }}"
 
 This workaround is required because of the limitation of our current templating system Jinja
 which doesn't support non-string types. We are forced to perform type casting based on the
@@ -363,7 +363,7 @@ my_rule.yaml:
       action:
         ref: "slack.post_message"
         parameters:
-            message: "{{trigger.source.nick}} on {{trigger.channel}}: {{trigger.message}}"
+            message: "{{ trigger.source.nick }} on {{ trigger.channel }}: {{ trigger.message }}"
             channel: "#irc-relay"
 
 trigger_instance_1.yaml:

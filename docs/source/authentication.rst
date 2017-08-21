@@ -76,7 +76,7 @@ repo. The following is a sample auth section in the config file for the PAM back
     use_ssl = True
     cert = /path/to/ssl/cert/file
     key = /path/to/ssl/key/file
-    logging = /etc/st2/st2auth.logging.conf
+    logging = /etc/st2/logging.auth.conf
     api_url = https://myhost.examples.com/api/
     debug = False
 

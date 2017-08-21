@@ -180,7 +180,7 @@ This is a sample metadata file for a Python action which sends an SMS via the Tw
             description: "Body of the message."
             required: true
             position: 2
-            default: "Hello {% if system.user %} {{ system.user }} {% else %} dude {% endif %}!"
+            default: "Hello {% if system.user %} {{ st2kv.system.user }} {% else %} dude {% endif %}!"
 
 
 This action is using a Python runner (``python-script``). The class which
@@ -247,7 +247,7 @@ how you could use this for the default value for a parameter.
             description: "Body of the message."
             required: true
             position: 2
-            default: "Hello {% if system.user %} {{ system.user }} {% else %} dude {% endif %}!"
+            default: "Hello {% if system.user %} {{ st2kv.system.user }} {% else %} dude {% endif %}!"
 
 In case of action chains and workflows (see :doc:`Workflow </workflows>`), every task in the workflow could access the parent's ``execution_id``.
 For example, a task in an action chain is shown below:
