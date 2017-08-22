@@ -88,7 +88,6 @@ Ubuntu:
 .. sourcecode:: bash
 
    curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-   sudo apt-get install --only-upgrade nodejs
 
 
 RHEL/CentOS:
@@ -96,7 +95,6 @@ RHEL/CentOS:
 .. sourcecode:: bash
 
    curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
-   sudo yum reinstall -y nodejs
 
 
 v2.2
