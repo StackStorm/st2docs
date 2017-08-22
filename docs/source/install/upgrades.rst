@@ -48,13 +48,20 @@ Upgrade Procedure
 .. sourcecode:: bash
 
   /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
-  /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
+  /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate | grep -v openstack
 
 .. warning::
 
     The mistral and mistral-api services must be stopped at time of upgrade. If the services are
     restarted before the mistral-db-manage commands are run, then the
     ``mistral-db-manage upgrade head`` command may fail.
+
+.. note::
+
+    Whe running the `populate` command, if there are errors for `mistral.actions.openstack.action_generator.base`,
+    please ignore. These errors indicate that the command encountered errors when registering the native OpenStack
+    actions in Mistral. StackStorm does not support these native OpenStack actions. Please use the OpenStack pack
+    from the StackStorm Exchange. https://github.com/StackStorm-Exchange/stackstorm-openstack
 
 4. Run the migration script (if any). See section below for |st2|
    version-specific migration scripts.
