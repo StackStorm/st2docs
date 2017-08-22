@@ -1,13 +1,13 @@
 Upgrades
 ========
 
-To upgrade |st2|, use the standard upgrade procedure for your Linux
-distribution. You can simply upgrade the specific packages namely ``st2``, ``st2web``,
+To upgrade |st2|, use the standard upgrade procedure for your Linux distribution.
+You can simply upgrade the specific packages namely ``st2``, ``st2web``,
 ``st2chatops``, ``st2mistral`` and ``bwc-enterprise``.
 
-Most of these upgrades should be seamless and do no require the user to do anything else.
+Most of these upgrades should be seamless and do not require the user to do anything else.
 For ``st2`` package, depending on the ``from`` version and the ``to`` version, you might need to run
-migration scripts for picking up data model changes.
+migration scripts to pick up data model changes.
 
 The list of migrations to run when upgrading to a version is listed in the
 :ref:`section below<migration-scripts-to-run>`.
@@ -20,7 +20,7 @@ Upgrade Procedure
 -----------------
 
 :ref:`Migration scripts<migration-scripts-to-run>` most often need to be run when upgrading to |st2|
-:versions that include data model changes. The typical **upgrade** procedure is
+versions that include data model changes. The typical **upgrade** procedure is
 
 1. Stop ``st2*`` services on the box.
 
@@ -79,9 +79,34 @@ Version-specific Migration Scripts
 
 We document :ref:`upgrade notes<upgrade_notes>` for the various versions. The upgrade
 notes section gives an idea of what major changes happened with each release. You may also want
-to take a look at detailed :doc:`/changelog` for each version.
-Following sections call out the migration scripts that need to be run before upgrading to the
-respective version
+to take a look at the detailed :doc:`/changelog` for each version.
+
+The following sections call out the migration scripts that need to be run before upgrading to the
+respective version:
+
+v2.4
+'''''
+
+* Node.js v6 is now used by ChatOps package (previously v4 was installed).
+  The following procedure should be used to upgrade:
+
+Ubuntu:
+
+.. sourcecode:: bash
+
+   curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+   sudo apt-get install --only-upgrade st2chatops
+
+
+RHEL/CentOS:
+
+.. sourcecode:: bash
+
+   curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
+   sudo yum clean all
+   sudo rpm -e --nodeps npm
+   sudo yum upgrade st2chatops
+
 
 v2.2
 '''''
