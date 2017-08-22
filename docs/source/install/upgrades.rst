@@ -88,6 +88,7 @@ Ubuntu:
 .. sourcecode:: bash
 
    curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+   sudo apt-get install --only-upgrade st2chatops
 
 
 RHEL/CentOS:
@@ -96,6 +97,8 @@ RHEL/CentOS:
 
    curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
    sudo yum clean all
+   sudo rpm -e --nodeps npm
+   sudo yum upgrade st2chatops
 
 
 v2.2
