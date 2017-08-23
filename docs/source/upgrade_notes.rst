@@ -39,7 +39,7 @@ Upgrade Notes
   make sure ``st2.notifiers.work`` queue size is 0 before upgrading. If you upgrade when
   it's non-empty, you might
   miss notifications. Post upgrade, please delete queue ``st2.notifiers.work`` queue manually
-  using ``rabbitmqadmin purge queue name=st2.notifiers.work``. If not, this queue will
+  using ``rabbitmqadmin delete queue name=st2.notifiers.work``. If not, this queue will
   grow indefinitely and rabbitmq would eat up a lot of disk space.
   See `issue 3622 <https://github.com/StackStorm/st2/issues/3622>`__ for details.
 
