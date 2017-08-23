@@ -22,7 +22,7 @@ control permissions on target boxes as an additional security measure.
 
 To validate remote actions are working correctly, you can use the following command.
 
-::
+.. code-block:: bash
 
     # Default run
     $st2 run core.remote cmd=whoami hosts=localhost
@@ -41,7 +41,7 @@ To validate remote actions are working correctly, you can use the following comm
 
 If you don't have the right SSH key file, you will see an error and action will fail.
 
-::
+.. code-block:: bash
 
     st2 run core.remote cmd=whoami hosts=localhost
     id: 583e2282d9d7ed38c78b50eb
@@ -84,7 +84,7 @@ custom ports via SSH config file. To use SSH config file, setup ``/home/stanley/
 user ``stanley`` on |st2| action runner boxes appropriately and add
 following configuration lines in ``/etc/st2/st2.conf``.
 
-::
+.. code-block:: ini
 
     [ssh_runner]
     use_ssh_config = True
@@ -98,7 +98,7 @@ is highly discouraged.
 Said that, if you have st2client installed and want to run one off commands on remote
 boxes as a different user, we have a way.
 
-::
+.. code-block:: bash
 
     $st2 run core.remote cmd=whoami hosts=localhost username=test_user private_key=/home/stanley/ssh_keys/.ssh/id_rsa
     .
@@ -119,7 +119,7 @@ For the above example to work, key file ``/home/stanley/ssh_keys/.ssh/id_rsa`` h
 on action runner boxes. We also support ``password`` as a parameter. As of version 2.1, you
 can also specify custom keys for hosts via SSH config file. A sample SSH config is shown below:
 
-::
+.. code-block:: ini
 
     Host st2-ssh-test001
       User lakshmi

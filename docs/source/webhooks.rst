@@ -164,7 +164,7 @@ Listing Registered Webhooks
 
 To list all registered webhooks, run:
 
-::
+.. code-block:: bash
 
     st2 webhook list
 

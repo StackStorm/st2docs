@@ -7,7 +7,7 @@ on how to use the API, references for all API options, etc.
 Yo can also use the ``--debug`` flag with any CLI command. It will print out the
 equivalent ``curl`` commands and responses, e.g.:
 
-::
+.. code-block:: bash
 
     $ st2 --debug action list
     ...

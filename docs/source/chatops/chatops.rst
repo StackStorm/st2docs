@@ -58,7 +58,7 @@ the action you kicked off via chatops, you have to point |st2| to the external a
 for the host running the web UI. To do so, edit the ``webui`` section in ``/etc/st2/st2.conf``.
 For example:
 
-::
+.. code-block:: ini
 
     [webui]
     webui_base_url = https://st2web001.stackstorm.net
@@ -76,7 +76,7 @@ For example, here's how to connect StackStorm to Mattermost using the
 
 1. Install the adapter.
 
-::
+.. code-block:: bash
 
     $ cd /opt/stackstorm/chatops
     $ sudo npm install hubot-mattermost
@@ -85,7 +85,7 @@ For example, here's how to connect StackStorm to Mattermost using the
 2. Modify ``/opt/stackstorm/chatops/st2chatops.env`` to include
 the necessary adapter settings.
 
-::
+.. code-block:: bash
 
     export HUBOT_ADAPTER=mattermost
     export MATTERMOST_ENDPOINT=/hubot/incoming
@@ -95,7 +95,7 @@ the necessary adapter settings.
 
 3. Restart the service.
 
-::
+.. code-block:: bash
 
     $ sudo service st2chatops restart
 
@@ -149,7 +149,7 @@ Adding new ChatOps commands
 
 ChatOps uses :doc:`/chatops/aliases` to define new ChatOps commands.
 
-::
+.. code-block:: bash
 
     $ cd /opt/stackstorm/packs/
     $ mkdir -p my-chatops/{actions,rules,sensors,aliases}
@@ -175,7 +175,7 @@ contents:
 Once this is all done, register the new files we created and
 reload Hubot. Do this with the following commands:
 
-::
+.. code-block:: bash
 
     $ sudo st2ctl reload --register-all
     $ sudo service st2chatops restart

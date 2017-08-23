@@ -21,13 +21,13 @@ You can use the CLI to list all enforcements for a rule.
 
 To list all rule enforcements, use the following command:
 
-::
+.. code-block:: bash
 
     st2 rule-enforcement list
 
 To filter rule enforcements by rule:
 
-::
+.. code-block:: bash
 
     st2 rule-enforcement list --rule=git.st2.webhook.github.pulls.merge.sample
 
@@ -60,19 +60,19 @@ The easiest way to do that is to use the CLI.
 
 The following command will list all the trigger instances ever seen in the system.
 
-::
+.. code-block:: bash
 
     st2 trigger-instance list
 
 You can also filter trigger instances by trigger reference.
 
-::
+.. code-block:: bash
 
     st2 trigger-instance list --trigger=test_pack.test_trigger
 
 You can also filter trigger instances by timestamp using timestamp-lt and timestamp-gt flags.
 
-::
+.. code-block:: bash
 
     st2 trigger-instance list --trigger=test_pack.test_trigger --timestamp-lt="2015-12-04T12:00:01.000000Z" --timestamp-gt="2015-12-03T12:00:01.000000Z"
 
@@ -80,7 +80,7 @@ It is possible that a trigger-instance is present in the list but it does not ha
 will also tell you that the RulesEngine tried to process the TriggerInstance but failed. Other possible states
 are ``processing`` and ``pending``.
 
-::
+.. code-block:: bash
 
     $ st2 trigger-instance get 57228f31d9d7ed0becb34e06
     +-----------------+---------------------------------------------------------+
@@ -116,7 +116,7 @@ to the Trigger.
 
 The following command will list all the rules for a specific trigger.
 
-::
+.. code-block:: bash
 
     st2 rule list --trigger=test_pack.test_trigger
 
@@ -138,7 +138,7 @@ If you don't see any rules being loaded, there is a mismatch in rule definition 
 
 If this does not work then you can also use the CLI to check the rule and validate the ``trigger ref`` is indeed right by visual inspection.
 
-::
+.. code-block:: bash
 
     st2 rule get test_pack.test_rule
 

@@ -30,7 +30,7 @@ On the web client side, the file ``config.js`` in the project contains the list 
 can connect to. This is typically ``/opt/stackstorm/static/webui/config.js``. The file consists of
 an array of objects, each with ``name``, ``url`` and ``auth`` properties.
 
-::
+.. code-block:: js
 
    hosts: [{
      name: 'Express Deployment',
@@ -52,7 +52,7 @@ section should contain the Origin header the browser sends with every request. F
 have deployed the UI on its own server and are accessing it using ``http://webui.example.com``,
 your config should look like this:
 
-::
+.. code-block:: ini
 
    [api]
    # Host and port to bind the API server.

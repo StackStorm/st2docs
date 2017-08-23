@@ -15,7 +15,7 @@ How do I setup a notification for a simple action?
 This is the easiest case. You can do this by specifying a ``notify`` section in the YAML metadata
 while registering the action. For example:
 
-::
+.. code-block:: yaml
 
     ---
     description: Action that executes an arbitrary Linux command on the localhost.
@@ -43,7 +43,7 @@ least one is required for any meaningful notification. For the sake of clarity, 
 is presented below.
 
 
-::
+.. code-block:: yaml
 
    notify:
       on-complete:
@@ -65,7 +65,7 @@ How do I write a rule for notification?
 The rule to tie a st2 registered ``notify`` action resembles the notify rule you are familiar
 with when you setup ChatOps. An example is below:
 
-::
+.. code-block:: yaml
 
     ---
     name: "notify_slack"
@@ -99,7 +99,7 @@ keys in execution results (``{{action_results.stdout}}``, ``{{action_results.std
 anything in action context (``{{action_context.user}}``)
 and anything in key-value store (``{{st2kv.system.foo}}``). Some examples are shown below:
 
-::
+.. code-block:: yaml
 
   on-success:
     routes:
@@ -120,7 +120,7 @@ How do I setup notifications in an action chain?
 The procedure here is the same if you want the same notification for all tasks in the chain.
 Register an action metadata with a notify section. For example:
 
-::
+.. code-block:: yaml
 
     ---
     # Action definition metadata
@@ -153,7 +153,7 @@ Place the subsection in action chain tasks. If there is a notify section for the
 and a notify section in the task, the task section will override the default. The relevant section
 of a chain action with task notify is shown below:
 
-::
+.. code-block:: yaml
 
     -
       name: "make_reqmnts"
@@ -193,7 +193,7 @@ This is implemented as a runner parameter ``skip_notify``. If your chain or work
 multiple tasks and you want some tasks to be "muted", you can do so by specifying skip_notify
 and call out tasks in the action meta. For example,
 
-::
+.. code-block:: yaml
 
     ---
     name: mistral-basic-two-tasks-with-notifications
