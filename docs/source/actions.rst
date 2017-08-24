@@ -218,8 +218,8 @@ client and ``user`` is the |st2| user configured in hubot. ``source_channel`` is
 in which the chatops command was kicked off.
 
 In addition to ``action_context`` you can also access ``config_context`` which contains
-the key/value contents of ``config.yaml`` for a pack. The example below shows
-how you could use this for the default value for a parameter.
+the key/value contents of your :doc:`pack configuration </reference/pack_configs>`. The example below shows
+how you could use this for the default value for a parameter:
 
 .. code-block:: yaml
 
