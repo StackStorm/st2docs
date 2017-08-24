@@ -253,7 +253,7 @@ Published variables are saved in the execution context on pause and restored on 
    In this version, the published variables are stored unencrypted in the execution context.
 
 The ``pause`` and ``resume`` operation will cascade down to subworkflows, whether it's another |st2|
-action that is is a Mistral workflow or ActionChain. If the ``pause`` operation is performed from a
+action that is a Mistral workflow or ActionChain. If the ``pause`` operation is performed from a
 subworkflow or subchain, then the ``pause`` will cascade up to the parent workflow or parent chain.
 However, if the ``resume`` operation is performed from a subworkflow or subchain, the ``resume``
 will not cascade up to the parent workflow or parent chain. This allows users to resume and
