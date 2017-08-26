@@ -24,53 +24,52 @@ versions that include data model changes. The typical **upgrade** procedure is
 
 1. Stop ``st2*`` services on the box.
 
-.. sourcecode:: bash
+   .. sourcecode:: bash
 
-   sudo st2ctl stop
+      sudo st2ctl stop
 
 2. Upgrade |st2| packages (``st2``, ``st2web``, ``st2chatops``, ``st2mistral``
    and ``bwc-enterprise`` using distro specific tools.
 
-  Ubuntu:
+   Ubuntu:
 
-  .. sourcecode:: bash
+   .. sourcecode:: bash
 
-     sudo apt-get install --only-upgrade $PKG_NAME
+      sudo apt-get install --only-upgrade $PKG_NAME
 
-  RHEL / CentOS:
+   RHEL / CentOS:
 
-  .. sourcecode:: bash
+   .. sourcecode:: bash
 
-     sudo yum update $PKG_NAME
+      sudo yum update $PKG_NAME
 
 3. Upgrade Mistral database.
 
-.. sourcecode:: bash
+   .. sourcecode:: bash
 
-  /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
-  /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate | grep -v openstack
+     /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
+     /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate | grep -v openstack
 
-.. warning::
+   .. warning::
 
-    The mistral and mistral-api services must be stopped at time of upgrade. If the services are
-    restarted before the mistral-db-manage commands are run, then the
-    ``mistral-db-manage upgrade head`` command may fail.
+      The mistral and mistral-api services must be stopped at time of upgrade. If the services are
+      restarted before the mistral-db-manage commands are run, then the
+      ``mistral-db-manage upgrade head`` command may fail.
 
-.. note::
+   .. note::
 
-    Whe running the `populate` command, if there are errors for `mistral.actions.openstack.action_generator.base`,
-    please ignore. These errors indicate that the command encountered errors when registering the native OpenStack
-    actions in Mistral. StackStorm does not support these native OpenStack actions. Please use the OpenStack pack
-    from the StackStorm Exchange. https://github.com/StackStorm-Exchange/stackstorm-openstack
+       When running the ``populate`` command, if there are errors for ``mistral.actions.openstack.action_generator.base``,
+       these can be ignored. These indicate that the command encountered errors when registering the native OpenStack
+       actions in Mistral. |st2| does not support these native OpenStack actions. Please use the OpenStack pack
+       from the StackStorm Exchange. https://github.com/StackStorm-Exchange/stackstorm-openstack
 
-4. Run the migration script (if any). See section below for |st2|
-   version-specific migration scripts.
+4. Run the migration script (if any). See below for version-specific migration scripts.
 
 5. Start |st2| services.
 
-.. sourcecode:: bash
+   .. sourcecode:: bash
 
-   sudo st2ctl start
+      sudo st2ctl start
 
 .. _migration-scripts-to-run:
 
@@ -90,28 +89,27 @@ v2.4
 * Node.js v6 is now used by ChatOps package (previously v4 was installed).
   The following procedure should be used to upgrade:
 
-Ubuntu:
+  Ubuntu:
 
-.. sourcecode:: bash
+  .. sourcecode:: bash
 
-   curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-   sudo apt-get install --only-upgrade st2chatops
+     curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+     sudo apt-get install --only-upgrade st2chatops
 
+  RHEL/CentOS:
 
-RHEL/CentOS:
+  .. sourcecode:: bash
 
-.. sourcecode:: bash
+     curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
+     sudo yum clean all
+     sudo rpm -e --nodeps npm
+     sudo yum upgrade st2chatops
 
-   curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
-   sudo yum clean all
-   sudo rpm -e --nodeps npm
-   sudo yum upgrade st2chatops
+* |st2| Enterprise/BWC users on RHEL or CentOS must run this command after upgrading packages:
 
-* StackStorm Enterprise/BWC users on RHEL or CentOS must run this command after upgrading packages:
+  .. sourcecode:: bash
 
-.. sourcecode:: bash
-
-   sudo /opt/stackstorm/st2/bin/pip install --find-links /opt/stackstorm/share/wheels --no-index --quiet --upgrade st2-enterprise-auth-backend-ldap
+     sudo /opt/stackstorm/st2/bin/pip install --find-links /opt/stackstorm/share/wheels --no-index --quiet --upgrade st2-enterprise-auth-backend-ldap
 
 This is a known issue, and will be resolved in a future release. This only applies to BWC users. It is not
 required for those using Open Source StackStorm.
@@ -128,11 +126,11 @@ v2.2
   executions_v2, either use psql or install an older version of the python-mistralclient in a
   separate python virtual environment.
 
-.. warning::
+  .. warning::
 
-    Please be sure to follow the general steps listed above to do the database upgrade.
+     Please be sure to follow the general steps listed above to do the database upgrade.
 
-.. _mistral_db_recover:
+  .. _mistral_db_recover:
 
 *  If you're seeing an error ``event_triggers_v2 already exists`` when running
    ``mistral-db-manage upgrade head``, this means the mistral services started before the
@@ -141,22 +139,22 @@ v2.2
    To recover, open the psql shell and delete the new tables manually and rerun the
    mistral-db-manage commands. The following is a sample script to recover from the errors.
 
-.. sourcecode:: bash
+  .. sourcecode:: bash
 
-   sudo service mistral-api stop
-   sudo service mistral stop
-   sudo -u postgres psql
-   \connect mistral
-   DROP TABLE event_triggers_v2;
-   DROP TABLE workflow_executions_v2 CASCADE;
-   DROP TABLE task_executions_v2;
-   DROP TABLE action_executions_v2;
-   DROP TABLE named_locks;
-   \q
-   /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
-   /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
-   sudo service mistral start
-   sudo service mistral-api start
+     sudo service mistral-api stop
+     sudo service mistral stop
+     sudo -u postgres psql
+     \connect mistral
+     DROP TABLE event_triggers_v2;
+     DROP TABLE workflow_executions_v2 CASCADE;
+     DROP TABLE task_executions_v2;
+     DROP TABLE action_executions_v2;
+     DROP TABLE named_locks;
+     \q
+     /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
+     /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
+     sudo service mistral start
+     sudo service mistral-api start
 
 v2.1
 '''''
@@ -164,16 +162,16 @@ v2.1
 * Datastore model migration - Scope names are now ``st2kv.system`` and ``st2kv.user`` as
   opposed to ``system`` and ``user``.
 
-.. code-block:: bash
+  .. code-block:: bash
 
-   /opt/stackstorm/st2/bin/st2-migrate-datastore-scopes.py
+     /opt/stackstorm/st2/bin/st2-migrate-datastore-scopes.py
 
 * We are piloting pluggable runners (See :ref:`upgrade notes<upgrade_notes>`). Runners now
   have to be explicitly registered just like other content.
 
-.. code-block:: bash
+  .. code-block:: bash
 
-  /opt/stackstorm/st2/bin/st2-migrate-runners.sh
+     /opt/stackstorm/st2/bin/st2-migrate-runners.sh
 
 * Service restart ``st2ctl restart`` and reload ``st2ctl reload`` are required after upgrade
   for the new pack management features to work properly. Some of the pack management actions
@@ -184,7 +182,7 @@ v1.5
 
 * Datastore model migration
 
-.. code-block:: bash
+ .. code-block:: bash
 
     /opt/stackstorm/st2/bin/st2-migrate-datastore-to-include-scope-secret.py
 
@@ -199,14 +197,14 @@ and should be kept under source control.
 
 1. Install |st2| ``VERSION_NEW`` on a brand new instance using packages based installer.
 2. Package all your packs from the old ``VERSION_OLD`` instance and place them under some SCM
-   like git (you should have done it long ago).
+   like git (you should have done it long ago). Each pack must be in its own repo.
 3. Save your key-value pairs from the st2 datastore: ``st2 key list -j > kv_file.json``
-4. Grab packs from the SCM.
-5. If the SCM is git then it is possible to use ``st2 run packs.install packs=<pack-list>
-   repo_url=<repo-url>``
-6. Reconfigure all external services to point to the new |st2| instance.
-7. Load your keys to the datastore: ``st2 key load kv_file.json``. You might have to readjust
-   the JSON files to include ``scope`` and ``secret`` if you are upgrading from version < 1.5 to 1.5 onwards. See migration script in ``/opt/stackstorm/st2/bin/st2-migrate-datastore-to-include-scope-secret.py`` for an idea.
-8. Back up audit log from ``VERSION_OLD`` server found under ``/var/log/st2/*.audit.log`` and
-   move to a safe location. Note that history of old executions will be lost during such a transition, but a full audit record is still available in the log files that were transferred over.
-
+4. Grab packs from the SCM. If the SCM is git then you can directly install them with
+   ``st2 pack install <repo-url>=<pack-list>>``
+5. Reconfigure all external services to point to the new |st2| instance.
+6. Load your keys to the datastore: ``st2 key load kv_file.json``. You might have to readjust
+   the JSON files to include ``scope`` and ``secret`` if you are upgrading from version < 1.5 to 1.5 onwards.
+   See migration script in ``/opt/stackstorm/st2/bin/st2-migrate-datastore-to-include-scope-secret.py``.
+7. Back up audit log from ``VERSION_OLD`` server found under ``/var/log/st2/*.audit.log`` and
+   move to a safe location. Note that history of old executions will be lost during such a transition,
+   but a full audit record is still available in the log files that were transferred over.
