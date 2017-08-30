@@ -10,15 +10,16 @@ or cleaning up the DB, you have two options described below.
 --------------------------------------------------
 
 |st2| ships with a special service which is designed to periodically collect
-garbage and old data (old action execution, live action and trigger instance
-database objects).
+garbage and old data (old action execution, live action, action output and
+trigger instance database objects).
 
 The actual collection threshold is very user-specific (it depends on your
 requirements, policies, etc.) so garbage collection of old data is disabled
 by default.
 
 If you want to enable it, you need to configure TTL (in days) for action
-executions and trigger instances in ``st2.conf`` as shown below:
+executions, action execution output objects and trigger instances in
+``st2.conf`` as shown below:
 
 .. sourcecode:: ini
 
@@ -26,9 +27,11 @@ executions and trigger instances in ``st2.conf`` as shown below:
     logging = st2reactor/conf/logging.garbagecollector.conf
 
     action_executions_ttl = 30
-    trigger_instances_ttl = 30
+    action_executions_output_ttl = 10
+    trigger_instances_ttl = 40
 
-In this case action executions and trigger instances older than 30 days will be
+In this case, action executions older than 30 days, action execution output
+objects older than 10 days and trigger instances older than 40 days will be
 automatically deleted.
 
 Keep in mind that the lowest supported TTL right now is 7 days. If you want to
