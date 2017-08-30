@@ -419,7 +419,8 @@ parameters with type ``array`` as a comma delimited string.
 Inside the CLI, this string gets split on commas and passed to the API as a
 list.
 
-For example:
+Example 1 - Simple case (array of strings)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. sourcecode:: bash
 
@@ -428,9 +429,42 @@ For example:
 In this case, the ``parameter_name`` value would get passed to the API as
 a list (JSON array) with three items - ``["value 1", "value2", "value3"]``.
 
-Keep in mind that this only works for simple types (e.g. arrays of strings).
-For more complex types (e.g. arrays of objects) you need to use JSON notation
-as shown below:
+Example 2 - Complex case (array of objects)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you want to pass more complex type (e.g. arrays of objects) value to action, you can do it like following.
+
+.. sourcecode:: bash
+
+    st2 run mypack.set_interfaces \
+      nic_info="target:eth0,ipaddr:192.168.0.10,netmask:255.255.255.0,mtu=1454" \
+      nic_info="target:eth1,ipaddr:192.168.0.11,netmask:255.255.255.0,mtu=2000"
+
+In this case, ``nic_info`` value would be passed to the ``mypack.set_interfaces`` action as following.
+
+.. sourcecode:: bash
+
+    [{'netmask': '255.255.255.0', 'ipaddr': '192.168.0.10', 'target': 'eth0', 'mtu': 1454},
+     {'netmask': '255.255.255.0', 'ipaddr': '192.168.0.11', 'target': 'eth1', 'mtu': 2000}]
+
+To parse each value in the object as an expected type, you need to specify type of each value in the action metadata, like this.
+
+.. sourcecode:: bash
+
+    parameters:
+      nic_info:
+        type: array
+        properties:
+          target:
+            type: string
+          ipaddr:
+            type: string
+          netmask:
+            type: string
+          mtu:
+            type: integer
+
+Or you can use JSON notation as shown below:
 
 .. sourcecode:: bash
 
