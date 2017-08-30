@@ -432,7 +432,8 @@ a list (JSON array) with three items - ``["value 1", "value2", "value3"]``.
 Example 2 - Complex case (array of objects)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When you want to pass more complex type (e.g. arrays of objects) value to action, you can do it like following.
+When you want to pass more complex type (e.g. arrays of objects) value to action, you can do it
+like that:
 
 .. sourcecode:: bash
 
@@ -440,7 +441,8 @@ When you want to pass more complex type (e.g. arrays of objects) value to action
       nic_info="target:eth0,ipaddr:192.168.0.10,netmask:255.255.255.0,mtu=1454" \
       nic_info="target:eth1,ipaddr:192.168.0.11,netmask:255.255.255.0,mtu=2000"
 
-In this case, ``nic_info`` value would be passed to the ``mypack.set_interfaces`` action as following.
+In this case, ``nic_info`` value passed to the ``mypack.set_interfaces`` action would be parsed and
+look like that:
 
 .. sourcecode:: bash
 
