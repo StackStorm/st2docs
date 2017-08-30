@@ -3,10 +3,10 @@ Real-time Action Output Streaming
 
 .. note::
 
-  This feature is still experimental and available in |st2| v1.5.0 and above. Because it's
-  experimental, it's behind a feature flag and disabled by default (opt-int). To enable it,
-  set ``actionrunner.stream_output`` ``st2.conf`` config option to ``True`` and restart all
-  the services (``sudo st2ctl restart``).
+  This feature is experimental. It is available in |st2| v2.5.0 and above. Because it is
+  experimental, it is disabled by default, and must be explicitly enabled (opt-in). To enable it,
+  set the ``actionrunner.stream_output`` config option to ``True`` in ``st2.conf`` and restart all
+  services (``sudo st2ctl restart``).
 
 How it works
 ------------
@@ -29,7 +29,7 @@ Right now output streaming functionality is available for the following runners:
 The protocol is line oriented 
 
 The whole protocol is line oriented which means 
-some scripts buffrer the output
+some scripts buffer the output
 
 Accessing real-time action output
 ---------------------------------
