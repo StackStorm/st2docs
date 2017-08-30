@@ -115,6 +115,11 @@ Currently the system provides the following runners:
 
    Note: This runner is currently in an experimental phase which means that there might be
    bugs and the external user-facing API might change.
+10. ``inquirer`` - This runner provides the core logic of the :doc:`Inquiries </inquiries>`
+   feature. 
+
+   Note: This runner is an implementation detail for the ``core.ask`` action, and in most cases
+   should not be referenced in other actions.
 
 
 Runners come with their own set of input parameters and when an action
