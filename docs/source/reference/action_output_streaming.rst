@@ -26,6 +26,12 @@ Right now output streaming functionality is available for the following runners:
 * remote script runner
 * python runner
 
+The protocol is line oriented which means you should see new data as soon a new line comes in.
+
+Inside the runners we explicitly disable stdout and stderr output buffering, but some scripts
+and programs use their own internal buffer which means that in some cases output might be slightly
+delayed depending on the size of the buffer used the underlying script / program.
+
 Accessing real-time action output
 ---------------------------------
 
