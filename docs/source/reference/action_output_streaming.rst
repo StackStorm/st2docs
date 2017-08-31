@@ -55,7 +55,18 @@ available.
 Keep in mind that this command utilizes the stream API endpoint so it will only print any new data
 which comes in after you ran the command.
 
-TODO example output
+.. code-block:: bash
+
+    # Tailing running execution
+    vagrant@vagrant$ st2 execution tail last
+    [2017-08-31T11:51:06.961844Z][stderr] stderr -> Line: 7
+    [2017-08-31T11:51:07.462199Z][stdout] stdout -> Line: 8
+    [2017-08-31T11:51:07.963102Z][stderr] stderr -> Line: 9
+    [2017-08-31T11:51:08.463647Z][stdout] stdout -> Line: 10
+
+    # Tailing execution which has finished
+    vagrant@vagrant$ st2 execution tail last
+    Execution 59a7f8260640fd686303e628 has completed.
 
 2. Via the StackStorm API
 ~~~~~~~~~~~~~~~~~~~~~~~~~
