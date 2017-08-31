@@ -26,11 +26,6 @@ Right now output streaming functionality is available for the following runners:
 * remote script runner
 * python runner
 
-The protocol is line oriented 
-
-The whole protocol is line oriented which means 
-some scripts buffrer the output
-
 Accessing real-time action output
 ---------------------------------
 
@@ -61,8 +56,8 @@ TODO example output
 
 Output can also be accessed in real-time using two |st2| API endpoints described below:
 
-* ``/v1/executions/<execution id>/stdout``
-* ``/v1/executions/<execution id>/stderr``
+* ``GET /v1/executions/<execution id>/stdout``
+* ``GET /v1/executions/<execution id>/stderr``
 
 Both of those API endpoints keep a long running connection open until the execution completes or
 user closes the connection.
@@ -71,12 +66,31 @@ Once requested, those API endpoints return any data which has been produced so f
 any new data which comes in when it's available.
 
 2. Via the StackStorm Stream API
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
 
 In addition to |st2| API endpoint, output can also be accessed using the |st2| event stream API.
 
 This API endpoint follows server-sent event specification (JSON messages delimited by a new line
 - ``\n``) and is also used for other events.
+
+Security Implications
+---------------------
+
+This functionality is behind a RBAC wall and to be able to access execution stdout and stderr API
+endpoint, ``EXECUTION_VIEW`` permission type is required.
+
+Depending on your actions and what kind of output they produce, the output can contain sensitive
+data. Because of that you are strongly encouraged to only grant this permission to users which
+require it. In addition to that, you are also strongly encouraged to modify your actions to mask /
+hide any potentially sensitive data inside the action output if it's not needed for further
+processing inside |st2|.
+
+For more information masking and securely passing secrets between the actions, please see
+:doc:`Secrets Masking </reference/secrets_masking>` page.
+
+Also keep in mind that action output data is the same data which is available via execution
+``result`` attribute through ``/v1/executions/<execution id>`` API endpoint (this API endpoint
+also requires ``EXECUTION_VIEW`` RBAC permission).
 
 Gargage Collection
 ------------------
