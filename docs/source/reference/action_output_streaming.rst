@@ -3,10 +3,10 @@ Real-time Action Output Streaming
 
 .. note::
 
-  This feature is still experimental and available in |st2| v1.5.0 and above. Because it's
-  experimental, it's behind a feature flag and disabled by default (opt-int). To enable it,
-  set ``actionrunner.stream_output`` ``st2.conf`` config option to ``True`` and restart all
-  the services (``sudo st2ctl restart``).
+  This feature is experimental. It is available in |st2| v2.5.0 and above. Because it is
+  experimental, it is disabled by default, and must be explicitly enabled (opt-in). To enable it,
+  set the ``actionrunner.stream_output`` config option to ``True`` in ``st2.conf`` and restart all
+  services (``sudo st2ctl restart``).
 
 How it works
 ------------
@@ -89,7 +89,7 @@ any new data which comes in when it's available.
 Similar to the CLI command, you can also use ``last`` for the execution id and ID of the execution
 which has been scheduled last will be used.
 
-2. Via the StackStorm Stream API
+3. Via the StackStorm Stream API
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
 
 In addition to |st2| API endpoint, output can also be accessed using the |st2| event stream API.
