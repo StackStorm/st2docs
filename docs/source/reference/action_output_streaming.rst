@@ -55,6 +55,10 @@ available.
 Keep in mind that this command utilizes the stream API endpoint so it will only print any new data
 which comes in after you ran the command.
 
+If you want to view output of an execution which has completed, you can utilize execution stdout
+and stderr API endpoints (see below) or using the execution get one API endpoint
+(``GET /v1/executions/<execution id>``) and access ``result`` attribute on the returned object.
+
 .. code-block:: bash
 
     # Tailing running execution
@@ -81,6 +85,9 @@ user closes the connection.
 
 Once requested, those API endpoints return any data which has been produced so far and after that,
 any new data which comes in when it's available.
+
+Similar to the CLI command, you can also use ``last`` for the execution id and ID of the execution
+which has been scheduled last will be used.
 
 2. Via the StackStorm Stream API
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
