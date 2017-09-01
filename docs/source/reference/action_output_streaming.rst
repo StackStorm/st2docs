@@ -62,14 +62,14 @@ and stderr API endpoints (see below) or using the execution get one API endpoint
 .. code-block:: bash
 
     # Tailing running execution
-    vagrant@vagrant$ st2 execution tail last
+    $ st2 execution tail last
     [2017-08-31T11:51:06.961844Z][stderr] stderr -> Line: 7
     [2017-08-31T11:51:07.462199Z][stdout] stdout -> Line: 8
     [2017-08-31T11:51:07.963102Z][stderr] stderr -> Line: 9
     [2017-08-31T11:51:08.463647Z][stdout] stdout -> Line: 10
 
     # Tailing execution which has finished
-    vagrant@vagrant$ st2 execution tail last
+    $ st2 execution tail last
     Execution 59a7f8260640fd686303e628 has completed.
 
 2. Via the StackStorm API
@@ -79,6 +79,22 @@ Output can also be accessed in real-time using two |st2| API endpoints described
 
 * ``GET /v1/executions/<execution id>/stdout``
 * ``GET /v1/executions/<execution id>/stderr``
+
+.. code-block:: bash
+
+    $ curl "http://127.0.0.1:9101/v1/executions/last/stdout"
+    stdout -> Line: 2
+    stdout -> Line: 4
+    stdout -> Line: 6
+    stdout -> Line: 8
+    stdout -> Line: 10
+
+    $ curl "http://127.0.0.1:9101/v1/executions/last/stderr"
+    stderr -> Line: 1
+    stderr -> Line: 3
+    stderr -> Line: 5
+    stderr -> Line: 7
+    stderr -> Line: 9
 
 Both of those API endpoints keep a long running connection open until the execution completes or
 user closes the connection.
