@@ -137,20 +137,16 @@ Gargage Collection
 
 In case your actions produce a lot of output, enabling real-time output streaming for each
 action execution can result a lot of data being passed around and stored in the database. This
-data is stored in special write ahead only database collections (
-``action_execution_stdout_output_d_b``, ``action_execution_stderr_output_d_b``).
+data is stored in special write ahead database collections (``action_execution_stdout_output_d_b``,
+``action_execution_stderr_output_d_b``).
 
-In case you encounter performance issues or those two collections / database grows too large,
-you are encouraged to enable periodic garbage collection.
+Because of that, garbage collection is enabled by default for execution stdout and stderr objects
+- they are deleted automatically after 7 days.
 
-Each output object belongs to a particular execution so by default, they are deleted as part
-of executions and related objects purge when ``garbagecollector.action_executions_ttl``
-config option is set.
-
-If for some reason, you want to delete output objects, but not parent execution objects themselves
-(e.g. you care about action execution metadata, but not about the action execution output objects
-itself), you can achieve that by setting ``garbagecollector.action_executions_output_ttl`` config
-option.
+If you want to disable garbage collection for those objects (unwise) or change the default TTL
+either increase or decrease it), you can do that by setting
+``garbagecollector.action_executions_ttl`` config option. This option is TTL in days and setting it
+to ``0`` disables garbage collection.
 
 For more information on setting up garbage collection, please refer to please refer to the
 :doc:`Purging Old Operational Data </troubleshooting/purging_old_data>` documentation page.
