@@ -196,7 +196,7 @@ When a new Inquiry is raised, a dedicated trigger - ``core.st2.generic.inquiry``
       type: core.st2.generic.inquiry
 
     criteria:
-      trigger.parameters.tag:
+      trigger.tag:
           type: equals
           pattern: developers
 
