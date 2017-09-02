@@ -12,16 +12,6 @@ These use cases (and others) require the ability to pause a workflow mid-executi
 and wait for additional information. Inquiries make this possible, and their usage will
 be explained in this document. 
 
-Inquiry => Response
-----------------------------------------
-
-The way this works is that a new action, ``core.ask`` (more on that later)
-is used to generate a new Inquiry. This pauses any workflow in which the action is used.
-
-In order to resume this workflow, a valid response must be provided to this Inquiry.
-
-
-
 New ``core.ask`` Action
 ----------------------------------------
 
@@ -29,7 +19,7 @@ The primary usage of Inquiries is by referencing a new action - ``core.ask`` - i
 your workflows. This action is built on a new runner type: ``inquirer``, which performs
 the bulk of the logic required to pause workflows and wait for a response.
 
-.. code-block:: python
+.. code-block:: bash
 
     ~$ st2 action get core.ask
     +-------------+----------------------------------------------------------+
@@ -81,10 +71,6 @@ action:
 |             | See "Notifying Users of Inquiries using Rules" for      |
 |             | more info.                                              |
 +-------------+---------------------------------------------------------+
-
-.. note::
-
-   NOTE
 
 Using ``core.ask`` in a Workflow
 ----------------------------------------
@@ -196,10 +182,133 @@ just like we saw previously with ActionChains:
 Notifying Users of Inquiries using Rules
 ----------------------------------------
 
-    TODO
+When a new Inquiry is raised, a dedicated trigger - ``core.st2.generic.inquiry`` - is used. This trigger can be consumed in Rules, and you can use an action or a workflow to provide notification to the relevant party. For instance, using Slack:
+
+.. code-block:: yaml
+
+    ---
+    name: "notify_inquiry_developers"
+    pack: "examples"
+    description: Notify developers of an Inquiry action that is tagged "developers"
+    enabled: true
+
+    trigger:
+      type: core.st2.generic.inquiry
+
+    criteria:
+      trigger.parameters.tag:
+          type: equals
+          pattern: developers
+
+    action:
+      ref: slack.post_message
+      parameters:
+        channel: "#jarvis-testing"
+        message: 'Inquiry {{trigger.id}} is awaiting an approval action'
+
+Note how this Rule uses the ``tag`` parameter to further filter incoming Inquiries; in this case, this notification rule only applies to Inquiries with a tag of ``developers``. You can create multiple rules with different criteria to personalize the notification method for different groups in your organization.
 
 
 Responding to an Inquiry
 ----------------------------------------
 
-    TODO
+In order to resume a Workflow that's been paused by an Inquiry, a response must be provided to that Inquiry, and the response must come in the form of JSON data that validates against the schema in use by that particular Inquiry instance.
+
+In order to respond to an Inquiry, we need its ID. We would already have this if we wrote a Rule like shown in the previous section, but we could also use the ``st2 inquiry list`` command to view all of them:
+
+.. code-block:: bash
+
+    ~$ st2 inquiry list
+    +--------------------------+--------------------------+-------+-------+------------+------+
+    | id                       | parent                   | roles | users | tag        | ttl  |
+    +--------------------------+--------------------------+-------+-------+------------+------+
+    | 59ab26af32ed35752062d2dc | 59ab26af32ed3575803bf139 |       | testu | developers | 1440 |
+    +--------------------------+--------------------------+-------+-------+------------+------+
+
+Like most other resources in StackStorm, we can use the ``get`` subcommand to retrieve details about this Inquiry, using its ID provided in the previous output:
+
+.. TODO - Might be worth using a little more compelling example in the future, find a service that
+          requires 2FA and provide it using an Inquiry
+
+.. code-block:: bash
+
+    ~$ st2 inquiry get 59ab26af32ed35752062d2dc
+    +----------+--------------------------------------------------------------+
+    | Property | Value                                                        |
+    +----------+--------------------------------------------------------------+
+    | id       | 59ab26af32ed35752062d2dc                                     |
+    | parent   | 59ab26af32ed3575803bf139                                     |
+    | roles    |                                                              |
+    | users    | [                                                            |
+    |          |     "testu"                                                  |
+    |          | ]                                                            |
+    | tag      | developers                                                   |
+    | ttl      | 1440                                                         |
+    | schema   | {                                                            |
+    |          |     "required": [                                            |
+    |          |         "continue"                                           |
+    |          |     ],                                                       |
+    |          |     "type": "object",                                        |
+    |          |     "properties": {                                          |
+    |          |         "continue": {                                        |
+    |          |             "type": "boolean",                               |
+    |          |             "description": "Would you like to continue the   |
+    |          | workflow?"                                                   |
+    |          |         }                                                    |
+    |          |     },                                                       |
+    |          |     "title": "response_data"                                 |
+    |          | }                                                            |
+    +----------+--------------------------------------------------------------+
+
+In this view, we see the schema in use requires a single key: ``continue``, whose value must be boolean. We can construct a simple JSON response that validates against this schema, and pass it as a positional argument to ``st2 inquiry respond``:
+
+.. code-block:: bash
+
+    ~$ st2 inquiry respond 59ab26af32ed35752062d2dc '{"continue": true}'
+    +----------+--------------------------+
+    | Property | Value                    |
+    +----------+--------------------------+
+    | id       | 59ab26af32ed35752062d2dc |
+    | response | {                        |
+    |          |     "continue": true     |
+    |          | }                        |
+    +----------+--------------------------+
+
+Note that if the JSON does not validate against the provided schema, we get an error, and the workflow remains paused:
+
+.. code-block:: bash
+
+    ~$ st2 inquiry respond 59ab26af32ed35752062d2dc '{"continue": 123}'
+    ERROR: 400 Client Error: Bad Request
+    MESSAGE: Response did not pass schema validation. for url: http://127.0.0.1:9101/exp/inquiries/59ab26af32ed35752062d2dc
+
+Once an acceptable response is provided, the workflow resumes:
+
+.. code-block:: bash
+
+    ~$ st2 execution get 59ab26af32ed3575803bf139
+    id: 59ab26af32ed3575803bf139
+    action.ref: examples.chain-test-inquiry
+    parameters: None
+    status: succeeded (77s elapsed)
+    result_task: task1
+    result:
+      response:
+        continue: true
+    start_timestamp: 2017-09-02T21:46:23.165497Z
+    end_timestamp: 2017-09-02T21:47:40.093311Z
+    +--------------------------+------------------------+-------+----------+-------------------------------+
+    | id                       | status                 | task  | action   | start_timestamp               |
+    +--------------------------+------------------------+-------+----------+-------------------------------+
+    | 59ab26af32ed35752062d2dc | succeeded (0s elapsed) | task1 | core.ask | Sat, 02 Sep 2017 21:46:23 UTC |
+    +--------------------------+------------------------+-------+----------+-------------------------------+
+
+.. note::
+
+    In the very near future (definitely before the 2.5 release), an Action for responding
+    to an Inquiry, as well as an action-alias for calling this action via chatops, and a rule
+    for notifying via chatops, will all be provided in a PR. For the time being (alpha stage)
+    the only way to respond is to get the Inquiry ID and use it in the ``st2 inquiry respond``
+    command
+
+.. TODO - Update with chatops when the core PR is merged

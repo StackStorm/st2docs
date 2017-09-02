@@ -84,43 +84,42 @@ Available Runners
 The environment in which the action runs is specified by the runner.
 Currently the system provides the following runners:
 
-1. ``local-shell-cmd`` - This is the local runner. This runner executes
-   a Linux command on the same host where |st2| components are running.
-2. ``local-shell-script`` - This is the local runner. Actions are implemented as
-   scripts. They are executed on the same hosts where |st2| components are
-   running.
-3. ``remote-shell-cmd`` - This is a remote runner. This runner executes
-   a Linux command on one or more remote hosts provided by the user.
-4. ``remote-shell-script`` - This is a remote runner. Actions are implemented as scripts.
-   They run on one or more remote hosts provided by the user.
-5. ``python-script`` - This is a Python runner. Actions are implemented as Python
-   classes with a ``run()`` method. They run locally on the same machine where
-   |st2| components are running. The return value from the action ``run()`` method is either a
-   tuple of success status flag and the result object respectively or it is just the
-   result object. For more information, please refer to the :doc:`Action Runners </reference/runners>`
-   section in the documentations.
-6. ``http-request`` - HTTP client which performs HTTP requests for running HTTP
-   actions.
-7. ``action-chain`` - This runner supports executing simple linear work-flows.
-   For more information, please refer to the :doc:`Workflows </workflows>`
-   and :doc:`ActionChain </actionchain>` sections of the documentation.
-8. ``mistral-v2`` - Those runners are built on top of the
-   Mistral OpenStack project and support executing complex work-flows. For more
-   information, please refer to the :doc:`Workflows </workflows>` and
-   :doc:`Mistral </mistral>` sections of the documentation.
-9. ``cloudslang`` - This runner is built on top of the
-   CloudSlang project and supports executing complex workflows. For more
-   information, please refer to the :doc:`Workflows </workflows>` and
-   :doc:`CloudSlang </cloudslang>` sections of the documentation.
+1.  ``local-shell-cmd`` - This is the local runner. This runner executes
+    a Linux command on the same host where |st2| components are running.
+2.  ``local-shell-script`` - This is the local runner. Actions are implemented as
+    scripts. They are executed on the same hosts where |st2| components are
+    running.
+3.  ``remote-shell-cmd`` - This is a remote runner. This runner executes
+    a Linux command on one or more remote hosts provided by the user.
+4.  ``remote-shell-script`` - This is a remote runner. Actions are implemented as scripts.
+    They run on one or more remote hosts provided by the user.
+5.  ``python-script`` - This is a Python runner. Actions are implemented as Python
+    classes with a ``run()`` method. They run locally on the same machine where
+    |st2| components are running. The return value from the action ``run()`` method is either a
+    tuple of success status flag and the result object respectively or it is just the
+    result object. For more information, please refer to the :doc:`Action Runners </reference/runners>`
+    section in the documentations.
+6.  ``http-request`` - HTTP client which performs HTTP requests for running HTTP
+    actions.
+7.  ``action-chain`` - This runner supports executing simple linear work-flows.
+    For more information, please refer to the :doc:`Workflows </workflows>`
+    and :doc:`ActionChain </actionchain>` sections of the documentation.
+8.  ``mistral-v2`` - Those runners are built on top of the
+    Mistral OpenStack project and support executing complex work-flows. For more
+    information, please refer to the :doc:`Workflows </workflows>` and
+    :doc:`Mistral </mistral>` sections of the documentation.
+9.  ``cloudslang`` - This runner is built on top of the
+    CloudSlang project and supports executing complex workflows. For more
+    information, please refer to the :doc:`Workflows </workflows>` and
+    :doc:`CloudSlang </cloudslang>` sections of the documentation.
 
-   Note: This runner is currently in an experimental phase which means that there might be
-   bugs and the external user-facing API might change.
+    Note: This runner is currently in an experimental phase which means that there might be
+    bugs and the external user-facing API might change.
 10. ``inquirer`` - This runner provides the core logic of the :doc:`Inquiries </inquiries>`
-   feature. 
+    feature.
 
-   Note: This runner is an implementation detail for the ``core.ask`` action, and in most cases
-   should not be referenced in other actions.
-
+    Note: This runner is an implementation detail for the ``core.ask`` action, and in most cases
+    should not be referenced in other actions.
 
 Runners come with their own set of input parameters and when an action
 picks a runner\_type it also inherits the runner parameters.
