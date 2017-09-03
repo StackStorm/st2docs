@@ -1,7 +1,8 @@
 Troubleshooting
 ===============
 
-This section includes common problems you might encounter while using the platform and how you can troubleshoot and debug them.
+This section includes common problems you might encounter while using the platform,
+and how to troubleshoot and debug them.
 
 .. toctree::
     :maxdepth: 1
