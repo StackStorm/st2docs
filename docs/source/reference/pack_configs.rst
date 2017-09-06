@@ -150,7 +150,7 @@ config file are validated against the schema defined in the pack (``config.schem
 schema exists, validation is not performed.
 
 Keep in mind that only static values in the config are validated. Dynamic values (ones which use
-Jinja notation to reference values in the datastore) are resolve during run-time so they can't be
+Jinja notation to reference values in the datastore) are resolved during run-time so they can't be
 validated during register / load phase.
 
 Static configuration value
