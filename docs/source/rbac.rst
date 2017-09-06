@@ -136,10 +136,11 @@ Currently permission grants can be applied to the following resource types:
 * rules
 * executions
 * webhooks
+* inquiries
 
 Resource is identified by and you refer to it in the permission grants using ``uid``. UID is a
 identifier which is unique for each resource in the |st2| installation. UIDs follow this
-format: ``<resource type>:<resourc specific identifier value>`` (e.g. ``pack:libcloud``,
+format: ``<resource type>:<resource specific identifier value>`` (e.g. ``pack:libcloud``,
 ``action:libcloud:list_vms``, etc.).
 
 You can retrieve the UID of a particular resource by listing all the resources of a particular
@@ -157,6 +158,10 @@ For example:
     |                         |                         |           |                         | arbitrary linux command |
     |                         |                         |           |                         | remotely.               |
     +-------------------------+-------------------------+-----------+-------------------------+-------------------------+
+
+.. note::
+
+   The ``inquiry`` resource is currently implemented a bit differently from other resources, and therefore doesn't follow this UID format. When constructing an RBAC role for Inquiries, you must use the UID ``inquiry:ask``.
 
 How it Works
 ------------
