@@ -1,12 +1,11 @@
 Jinja
-==============
+=====
 
-|st2| uses `Jinja <http://jinja.pocoo.org/>`_ extensively for templating. Jinja
-allows you to manipulate parameter values in |st2| by allowing you to refer to
-other parameters, applying filters or refer to system specific constructs (like
-datastore access). This document is here to help you with Jinja in the context
-of |st2|. Please refer to the `Jinja docs <http://jinja.pocoo.org/docs/>`_ for
-Jinja-focused information.
+|st2| uses `Jinja <http://jinja.pocoo.org/>`_ extensively for templating. Jinja allows you to
+manipulate parameter values in |st2| by allowing you to refer to other parameters, applying filters
+or refer to system specific constructs (like datastore access). This document is here to help you
+with Jinja in the context of |st2|. Please refer to the `Jinja docs 
+<http://jinja.pocoo.org/docs/>`_ for Jinja-focused information.
 
 .. _applying-filters-with-jinja:
 
@@ -22,15 +21,14 @@ but is now deprecated, and the leading ``st2kv.`` namespace is required.
 Applying Filters with Jinja
 ----------------------------
 
-To use a filter ``my_filter`` on ``foo``, you use the pipe operator, like so: ``{{foo | my_filter}}``.
-Please pay attention to data type and available filters for each data type.
-Since Jinja is a text templating language, all your input is converted to text
-and then manipulations happen on that value. The necessary casting at the end is
-done by |st2| based on information you provide in YAML (for example,
-``type`` field in action parameters). The casting is a best effort casting.
+To use a filter ``my_filter`` on ``foo``, you use the pipe operator, e.g.: ``{{foo | my_filter}}``.
+Please pay attention to the data type and available filters for each data type. Since Jinja is a
+text templating language, all your input is converted to text and then manipulations happen on that
+value. The necessary casting at the end is done by |st2| based on information you provide in YAML
+(for example, ``type`` field in action parameters). The casting is a best-effort casting.
 
 |st2| supports `Jinja variable templating <http://jinja.pocoo.org/docs/dev/templates/#variables>`__
-in Rules, Action Chains and Actions etc. Jinja templates support
+in Rules, Action Chains, and Actions etc. Jinja templates support
 `filters <http://jinja.pocoo.org/docs/dev/templates/#list-of-builtin-filters>`__
 to allow some advanced capabilities in working with variables.
 
@@ -39,41 +37,37 @@ to allow some advanced capabilities in working with variables.
 Custom Jinja Filters
 --------------------
 
-In addition to `standard filters <http://jinja.pocoo.org/docs/dev/
+In addition to the `standard filters <http://jinja.pocoo.org/docs/dev/
 templates/#builtin-filters>`_ available in Jinja, |st2| also comes with some custom filters.
 
-.. note::
-
-    **For Developers:** These filters are defined in
-    :github_st2:`st2/st2common/st2common/jinja/filters/ </st2common/st2common/jinja/filters/>`.
-    The equivalent Mistral filters are located in the ``st2mistral`` repo at
-    :github_st2mistral:`st2mistral/st2mistral/filters/ </st2mistral/st2mistral/filters/>`.
-    To ensure filters maintain parity across StackStorm workflows, changes to one location
-    must be replicated to the other in a separate PR.
-
+**For Developers:** These filters are defined in
+:github_st2:`st2/st2common/st2common/jinja/filters/ </st2common/st2common/jinja/filters/>`.
+The equivalent Mistral filters are located in the ``st2mistral`` repo at
+:github_st2mistral:`st2mistral/st2mistral/filters/ </st2mistral/st2mistral/filters/>`.
+To ensure filters maintain parity across StackStorm workflows, changes to one location must be
+replicated to the other in a separate PR.
 
 For brevity, only simple Jinja patterns for each filter are documented below. "Real-world" usage
 will depend on the type of content where the filters are being applied (sensors, triggers, rules,
-action and workflows) and their syntax. More detailed examples can be found in several of the
-ActionChains located in the ``examples`` pack:
+action and workflows) and their syntax. More detailed examples can be found in the ActionChains
+in the ``examples`` pack:
 :github_st2:`st2/contrib/examples/actions/chains/ </contrib/examples/actions/chains/>`.
 
 ..  TODO We should consider separating each specific usage into individual ActionChains and refer to
     it using literalinclude (i.e. .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-jinja-branching.yaml)
     so we can just use the code as the source of truth. Then, we can remove the above note.
 
-.. note::
-
-    As of StackStorm 2.4, all custom filters were made available to Mistral workflows as well, with one notable
-    exception: the ``decrypt_kv`` filter. That filter is not necessary in Mistral, as the ``st2kv`` function in Mistral workflows
-    natively supports decryption via the ``decrypt`` parameter.
+In |st2| 2.4, all custom filters were made available to Mistral workflows as well, with one notable
+exception: the ``decrypt_kv`` filter. That filter is not necessary in Mistral, as the ``st2kv``
+function in Mistral workflows natively supports decryption via the ``decrypt`` parameter.
 
 .. note::
 
-    Because of a bug in Mistral these filters do not currently support the "pipe" operator filter format (|) So, instead of
-    ``'{{ _.input_str | regex_match(_.regex_pattern)}}'`` you would call the filter like a regular function, moving the previously
-    input value into the first positional argument position: ``'{{ regex_match(_.input_str, _.regex_pattern)}}'``. This will
-    be addressed in a future release so that the pipe format can be used as well.
+    Because of a bug in Mistral, these filters do not currently support the "pipe" operator filter
+    format (`|`) So, instead of ``'{{ _.input_str | regex_match(_.regex_pattern)}}'`` you would
+    call the filter like a regular function, moving the previously input value into the first
+    positional argument position: ``'{{ regex_match(_.input_str, _.regex_pattern)}}'``. This will
+    be addressed in a future release.
 
 
 json_escape
@@ -88,7 +82,7 @@ Adds escape characters to JSON strings.
 regex_match
 ~~~~~~~~~~~
 
-Search for pattern at beginning of the string. Returns True if found, False if not.
+Search for the pattern at beginning of the string. Returns True if found, False if not.
 
 .. code-block:: bash
 
@@ -122,8 +116,8 @@ Search for pattern anywhere in the string. Returns True if found, False if not.
 regex_substring
 ~~~~~~~~~~~~~~~
 
-Searches for provided pattern in a string, and returns the first matched
-regex group (alternatively, you can provide desired index). 
+Searches for the provided pattern in a string, and returns the first matched regex group
+(alternatively, you can provide the desired index). 
 
 .. code-block:: bash
 
@@ -224,7 +218,7 @@ Returns True if LHS version is equal to RHS version.
 version_less_than
 ~~~~~~~~~~~~~~~~~
 
-Returns True if LHS version is lesser than RHS version. Both input have to follow semantic version
+Returns True if LHS version is lesser than RHS version. Both inputs have to follow semantic version
 syntax.
 
 E.g. ``{{“1.6.0” | version_less_than("1.7.0")}}``.
@@ -248,8 +242,8 @@ Supports operators ``>``, ``<``, ``==``, ``<=``, and ``>=``.
 version_more_than
 ~~~~~~~~~~~~~~~~~
 
-Returns True if LHS version is greater than RHS version. Both input have to follow semantic version
-syntax.
+Returns True if LHS version is greater than RHS version. Both inputs have to follow semantic
+version syntax.
 
 E.g. ``{{"1.6.0” | version_more_than("1.7.0")}}``.
 
