@@ -90,6 +90,7 @@ in the workflow depends on the value of ``$.path``. If ``$.path = a``, then task
 If ``$.path = b``, then task ``b``. Finally task ``c`` is executed if neither.
 
 .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-branching.yaml
+   :language: yaml
 
 The statement ``with-items`` in Mistral is used to execute an action over iteration of one or more
 list of items. The following is a sample Mistral workflow that iterates over the list of given names
