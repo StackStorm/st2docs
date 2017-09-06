@@ -1,5 +1,5 @@
-Client Libraries and Programming Language Bindings
-==================================================
+Client Libraries and Language Bindings
+======================================
 
 This page lists client libraries for different programming languages which
 allow you to interact with the |st2| API.
