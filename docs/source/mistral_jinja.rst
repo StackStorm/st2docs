@@ -93,6 +93,7 @@ is given the value formatted by the Jinja for loop. Unlike YAQL, a string in a J
 expression must be explicitly encapsulated in quotes (i.e. ``{{ 'this is a string.' }}``).
 
 .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-jinja-workbook-complex.yaml
+   :language: yaml
 
 Certain statements in Mistral such as on-success and on-error can evaluate boolean logic. The
 ``on-condition`` related statements are used for transition from one task to another. If a
@@ -103,6 +104,7 @@ in the workflow depends on the value of ``_.path``. If ``_.path == a``, then tas
 If ``_.path == b``, then task ``b``. Finally task ``c`` is executed if neither.
 
 .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-jinja-branching.yaml
+   :language: yaml
 
 The statement ``with-items`` in Mistral is used to execute an action over iteration of one or more
 lists of items. The following is a sample Mistral workflow that iterates over the list of given names

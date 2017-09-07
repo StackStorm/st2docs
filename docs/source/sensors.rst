@@ -44,10 +44,12 @@ that defines the sensor. Here's a minimal skeleton example. This is the
 metadata file:
 
 .. literalinclude:: ../../st2/contrib/examples/sensors/sample_sensor.yaml
+   :language: yaml
 
 And this is the corresponding Python skeleton:
 
 .. literalinclude:: ../../st2/contrib/examples/sensors/sample_sensor.py
+   :language: python
 
 This is a bare minimum version of what a sensor looks like. For a more
 complete implementation of a sensor that actually injects triggers
@@ -75,6 +77,7 @@ If you want a sensor that polls an external system at regular intervals, you
 can use a PollingSensor instead of Sensor as the base class.
 
 .. literalinclude:: ../../st2/contrib/examples/sensors/sample_polling_sensor.py
+   :language: python
 
 Polling Sensors also require a ``poll_interval`` parameter in the metadata file.
 This defines (in seconds) how frequently the ``poll()`` method is called.
@@ -266,10 +269,12 @@ This is a working example of a simple sensor that injects a trigger every 10 sec
 Metadata:
 
 .. literalinclude:: /../../st2/contrib/hello_st2/sensors/sensor1.yaml
+   :language: yaml
 
 Python code:
 
 .. literalinclude:: /../../st2/contrib/hello_st2/sensors/sensor1.py
+   :language: python
 
 The `StackStorm Exchange <https://exchange.stackstorm.org>`__ has many more examples.
 Here's just a few: 
