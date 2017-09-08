@@ -127,19 +127,6 @@ following command:
 
   docker exec -it stackstorm /bin/bash
 
-Building a customized version of the stackstorm image
------------------------------------------------------
-
-If you find need to modify the stackstorm image, you will need to build it. Run:
-
-.. sourcecode:: bash
-
-  REPO=stable
-  docker build --build-arg ST2_REPO=${REPO} stackstorm/stackstorm:${REPO}
-
-where REPO is one of ``stable``, ``unstable``, ``staging-stable``, ``staging-unstable``.
-Modifying the ``Dockerfile`` is beyond the scope of this document.
-
 Running custom shell scripts on boot
 ------------------------------------
 
