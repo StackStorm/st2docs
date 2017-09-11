@@ -10,15 +10,22 @@ Likely the easiest and quickest method of setting up StackStorm is via:
 
 This page provides detailed instructions to ensure a successful installation.
 
+For further details with examples, please refer to https://github.com/StackStorm/st2-docker/blob/master/README.md.
+
 Host Requirements
 -----------------
 
-* Install the latest versions of Docker engine and ``docker-compose``. The installation instructions
-  are located at https://www.docker.com/community-edition and
+* Install the latest versions of Docker engine, and optionally ``docker-compose``. The
+  installation instructions are located at https://www.docker.com/community-edition and
   https://docs.docker.com/compose/install respectively.
 
 .. note::
-  We require at least version 1.13.0 of Docker engine and ``docker-compose``.
+  We require at least version 1.13.0 of Docker engine. If you choose to use ``docker-compose``,
+  it must also be at least version 1.13.0.
+
+* If you use Kubernetes, refer to
+  https://github.com/StackStorm/st2-docker/blob/master/runtime/kubernetes-1ppc/README.md
+  for more information.
 
 Docker Images
 -------------
@@ -117,83 +124,3 @@ When the time comes for you to stop the docker environment, run:
 
   docker-compose down
 
-Getting a shell prompt in the stackstorm container
---------------------------------------------------
-
-After the containers are running, you can acccess a shell within the stackstorm container using the
-following command:
-
-.. sourcecode:: bash
-
-  docker exec -it stackstorm /bin/bash
-
-Running custom shell scripts on boot
-------------------------------------
-
-This container supports running arbitrary shell scripts on container boot. Any ``*.sh`` file
-located under ``/entrypoint.d`` directory will be executed inside the container just before starting
-stackstorm services.
-
-For example, if you want to modify ``/etc/st2/st2.conf`` to set ``system_packs_base_path``
-parameter, create ``modify-st2-config.sh`` with the follwing content:
-
-.. sourcecode:: bash
-
-  #!/bin/bash
-  crudini --set /etc/st2/st2.conf content system_packs_base_path /opt/stackstorm/custom_packs
-
-Then bind mount it to ``/entrypoint.d/modify-st2-config.sh``:
-
-* via ``docker run``
-
-.. sourcecode:: bash
-
-  docker run -it -d --privileged \
-    -v /path/to/modify-st2-config.sh:/entrypoint.d/modify-st2-config.sh \
-      stackstorm/stackstorm:latest
-
-* via changes to ``docker-compose.yml`` and subsequent execution of ``docker-compose up -d``
-
-.. sourcecode:: yaml
-
-  services:
-    stackstorm:
-      image: stackstorm/stackstorm:${TAG:-latest}
-        : (snip)
-      volumes:
-        - /path/to/modify-st2-config.sh:/entrypoint.d/modify-st2-config.sh
-
-The above example shows just modifying st2 config but basically there is no limitation so you can do
-almost anything.
-
-You can also bind mount a specific directory to /entrypoint.d then place scripts as much as you
-want. All of them will be executed as long as the file name ends with ``*.sh``.
-
-Note: scripts will be executed in alphabetical order of the file name.
-
-To enable/disable chatops
--------------------------
-
-Chatops is installed in the ``stackstorm`` image, but not started by default.
-
-To enable chatops, delete the file ``/etc/init/st2chatops.override`` using a script in
-``/entrypoint.d/``.
-
-.. sourcecode:: bash
-
-  #!/bin/bash
-
-  sudo rm /etc/init/st2chatops.override
-
-If you need to disable chatops, run the following using a script in ``/entrypoint.d``:
-
-.. sourcecode:: bash
-
-  #!/bin/bash
-
-  echo manual | sudo tee /etc/init/st2chatops.override
-
-Sample Usage
-============
-
-For sample usage, please see https://github.com/stackstorm/st2-docker.
