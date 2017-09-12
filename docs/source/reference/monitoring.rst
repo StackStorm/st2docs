@@ -1,24 +1,26 @@
 System Monitoring
 =================
 
-An event-based automation & remediation platform should heal itself, right? Sure - but it's still important to monitor
-your system to validate that everything is working as expected. Monitoring is not just about faults either. It can
-help you understand how much the system is being used, and when you need to scale it out.
+An event-based automation & remediation platform should heal itself, right? Sure - but it's still
+important to monitor your system to validate that everything is working as expected. Monitoring is
+not just about faults either. It can help you understand how much the system is being used, and
+when you need to scale it out.
 
-These guidelines should help you understand what services, metrics and logs to monitor. They can be implemented
-using any combination of common monitoring tools.
+These guidelines should help you understand what services, metrics and logs to monitor. They can be
+implemented using any combination of common monitoring tools.
 
 .. note::
 
-    These monitoring guidelines are just that: guidelines. You will need to modify them to suit your specific
-    environment. They are still a work in progress, and we welcome feedback on ways to improve them, and
-    suggestions for specific monitoring system integration details.
+    These monitoring guidelines are just that: guidelines. You will need to modify them to suit
+    your specific environment. They are still a work in progress, and we welcome feedback on ways
+    to improve them, and suggestions for specific monitoring system integration details.
 
 Service Testing
 ^^^^^^^^^^^^^^^
 
-|st2| does not have one single API endpoint for checking system health. You can make a reasonable assumption about
-current system status by using the API to execute a simple action, and then checking the response:
+|st2| does not have one single API endpoint for checking system health. You can make a reasonable
+assumption about current system status by using the API to execute a simple action, and then
+checking the response:
 
 .. code-block:: bash
 
@@ -30,8 +32,8 @@ current system status by using the API to execute a simple action, and then chec
     $ curl -X GET -H  St2-Api-Key: my_api_key' -k https://192.0.2.1/api/v1/executions/57faf0e91d41c805055a1110
     {"status": "succeeded", "start_timestamp": "2016-10-10T01:37:45.937153Z", "log": [{"status": "requested", "timestamp": "2016-10-10T01:37:45.950000Z"}, {"status": "scheduled", "timestamp": "2016-10-10T01:37:46.039000Z"}, {"status": "running", "timestamp": "2016-10-10T01:37:46.157000Z"}, {"status": "succeeded", "timestamp": "2016-10-10T01:37:46.305000Z"}], "parameters": {"cmd": "date -R"}, "runner": {"runner_module": "st2actions.runners.localrunner", "uid": "runner_type:local-shell-cmd", "enabled": true, "name": "local-shell-cmd", "runner_parameters": {"sudo": {"default": false, "type": "boolean", "description": "The command will be executed with sudo."}, "env": {"type": "object", "description": "Environment variables which will be available to the command(e.g. key1=val1,key2=val2)"}, "cmd": {"type": "string", "description": "Arbitrary Linux command to be executed on the host."}, "kwarg_op": {"default": "--", "type": "string", "description": "Operator to use in front of keyword args i.e. \"--\" or \"-\"."}, "timeout": {"default": 60, "type": "integer", "description": "Action timeout in seconds. Action will get killed if it doesn't finish in timeout seconds."}, "cwd": {"type": "string", "description": "Working directory where the command will be executed in"}}, "id": "57fa74ad1d41c8249e5664f4", "description": "A runner to execute local actions as a fixed user."}, "elapsed_seconds": 0.339103, "web_url": "https://ubuntu/#/history/57faf0e91d41c805055a1110/general", "result": {"failed": false, "stderr": "", "return_code": 0, "succeeded": true, "stdout": "Sun, 09 Oct 2016 18:37:46 -0700"}, "context": {"user": "st2admin"}, "action": {"runner_type": "local-shell-cmd", "name": "local", "parameters": {"cmd": {"required": true, "type": "string", "description": "Arbitrary Linux command to be executed on the remote host(s)."}, "sudo": {"immutable": true}}, "tags": [], "enabled": true, "entry_point": "", "notify": {}, "uid": "action:core:local", "pack": "core", "ref": "core.local", "id": "57fa74ae1d41c8249e566509", "description": "Action that executes an arbitrary Linux command on the localhost."}, "liveaction": {"runner_info": {"hostname": "ubuntu", "pid": 1014}, "parameters": {"cmd": "date -R"}, "action_is_workflow": false, "callback": {}, "action": "core.local", "id": "57faf0e91d41c805055a110f"}, "id": "57faf0e91d41c805055a1110", "end_timestamp": "2016-10-10T01:37:46.276256Z"}
 
-Look for ``failed: false`` in the result above. This process will exercise the core parts of |st2|. If it succeeds, then the system
-is correctly configured and working.
+Look for ``failed: false`` in the result above. This process will exercise the core parts of |st2|.
+If it succeeds, then the system is correctly configured and working.
 
 Processes
 ^^^^^^^^^
@@ -61,9 +63,12 @@ You can use ``sudo st2ctl status`` to get a quick overview of current process st
     mistral-api PID: 1231
     $
 
-In a distributed system, only some of these processes will be running on each system. In the example here ``st2chatops`` is not configured on this system.
+In a distributed system, only some of these processes will be running on each system. In the
+example here ``st2chatops`` is not configured on this system.
 
-Tools such as nagios or check_mk can be used to monitor the process list. Some services spawn more than one process. The exact number will depend upon your system configuration - e.g. ``st2actionrunner`` will spawn additional processes on a multi-core system. 
+Tools such as nagios or check_mk can be used to monitor the process list. Some services spawn more
+than one process. The exact number will depend upon your system configuration - e.g.
+``st2actionrunner`` will spawn additional processes on a multi-core system. 
 
 Additional processes to monitor:
 
@@ -78,21 +83,24 @@ Additional processes to monitor:
 Metrics
 ^^^^^^^
 
-Key metrics for |st2| administrators to watch are the number of running and scheduled actions, and the average execution time.
-Busy systems will need to scale out the number of ``st2actionrunner`` processes. 
+Key metrics for |st2| administrators to watch are the number of running and scheduled actions, and
+the average execution time. Busy systems will need to scale out the number of ``st2actionrunner``
+processes. 
 
 We recommend storing metrics in a time-series database, such as `InfluxDB <https://influxdata.com>`_
 
 MongoDB
 -------
 
-MongoDB holds state for all currently scheduled and running actions. Use these queries to monitor current numbers:
+MongoDB holds state for all currently scheduled and running actions. Use these queries to monitor
+current numbers:
 
 * Scheduled actions: ``db.live_action_d_b.find({"status":"scheduled"})``
 * Running actions: ``db.live_action_d_b.find({"status":"running"})``
 
-Monitor these values over time to detect trends, and abnormal activity. Increasing numbers of scheduled actions
-may indicate insufficient ``st2actionrunner`` capacity. These queues can be monitored using:
+Monitor these values over time to detect trends, and abnormal activity. Increasing numbers of
+scheduled actions may indicate insufficient ``st2actionrunner`` capacity. These queues can be
+monitored using:
 
 .. code-block:: bash
 
@@ -115,8 +123,9 @@ For most systems, these queue lengths should be < 10.
 Completed Actions
 -----------------
 
-The |st2| audit logs record all executed actions, execution time and result. These logs should be stored in a system
-like Splunk or Elasticsearch that allows for extraction of average run time and execution count.
+The |st2| audit logs record all executed actions, execution time and result. These logs should be
+stored in a system like Splunk or Elasticsearch that allows for extraction of average run time and
+execution count.
 
 Interesting metrics to monitor:
 
@@ -129,20 +138,22 @@ See below for more details on logfile monitoring.
 Logs
 ^^^^
 
-By default, all |st2| logs are stored in the ``/var/log/st2/`` directory. See the :ref:`Configure Logging<config-logging>`
-section for more information about logfile location, configuration and using syslog.
+By default, all |st2| logs are stored in the ``/var/log/st2/`` directory. See the :ref:`Configure
+Logging<config-logging>` section for more information about logfile location, configuration and
+using syslog.
 
 .. note::
 
-    We **strongly** recommend storing all |st2| logs in a dedicated log management tool, such as `Splunk <https://www.splunk.com>`_,
-    `Graylog <http://www.graylog.org>`_ or the `ELK stack <https://elastic.co>`_. You can also see some examples of Logstash 
-    configuration and Kibana dashboards here: :github_exchange:`exchange-misc/logstash <exchange-misc/tree/master/logstash>`.
+    We **strongly** recommend storing all |st2| logs in a dedicated log management tool, such as
+    `Splunk <https://www.splunk.com>`_, `Graylog <http://www.graylog.org>`_ or the `ELK stack
+    <https://elastic.co>`_. You can also see some examples of Logstash configuration and Kibana
+    dashboards here: :github_exchange:`exchange-misc/logstash <exchange-misc/tree/master/logstash>`.
 
-All log messages include a log level - DEBUG, INFO, WARNING, ERROR, CRITICAL. All messages at WARNING and above should be
-escalated for investigation.
+All log messages include a log level - DEBUG, INFO, WARNING, ERROR, CRITICAL. All messages at
+WARNING and above should be escalated for investigation.
 
-Most organisations will want to investigate failed action executions. This is an example of a failed execution in the
-st2actionrunner logs:
+Most organizations will want to investigate failed action executions. This is an example of a
+failed execution in the ``st2actionrunner`` logs:
 
 .. code-block:: bash
 

@@ -1,8 +1,10 @@
 Partitioning Sensors
 ====================
 
-Often it is desirable to partition sensors across multiple sensor nodes. To this end
-|st2| offers a few approaches to defining partition schemes.
+It may be desirable to partition sensors across multiple sensor nodes, either for load management
+or security purposes. |st2| offers several ways of doing this.
+
+.. contents:: :local:
 
 Each sensor node is identified by a name. The sensor nodename can be provided via a config
 property ``sensor_node_name`` as follows:
@@ -17,11 +19,10 @@ property ``sensor_node_name`` as follows:
 1. Default
 ~~~~~~~~~~
 
-In the default scheme all sensors are run on a particular node. As the name suggests it is
-default scheme which ships out of the box. It is useful in cases where there is a single
-sensor node.
+In the default scheme all sensors are run on a particular node. As the name suggests it is the
+default configuration. It is useful when you have a single sensor node.
 
-No change required in the config file but for completeness the config would be as follows:
+No change is required to the config file but for completeness the config would be:
 
 .. code-block:: ini
 
@@ -53,7 +54,7 @@ To update the key value store use the following command:
     st2 key set sensornode.example.net_f7aeb3ed.sensor_partition "examples.SampleSensor, examples.SamplePollingSensor"
 
 
-Here the key name is of the format `{sensor_node_name}.sensor_partition`
+The key format is: ``{sensor_node_name}.sensor_partition``
 
 3. File
 ~~~~~~~
@@ -80,18 +81,17 @@ File content is as follows:
         - examples.SampleSensor
 
 
-Note that the key is of the format `{sensor_node_name}.sensor_partition`
+The key format is: ``{sensor_node_name}.sensor_partition``
 
 4. Hash
 ~~~~~~~
 
-This is a dynamic scheme where each sensor node is assigned one of more hash ranges. Each sensor itself
-is hashed and depending on which bucket of the range it fits into a sensornode runs the sensor. Hash
-schema is particulaly useful when there are a lot of sensors and fewer nodes typically characterized by
-an order of magnitude difference.
+This is a dynamic scheme where each sensor node is assigned one or more hash ranges. Each sensor itself
+is hashed. and depending on which bucket of the range it fits into a sensornode runs the sensor. Hash
+schema is particulaly useful when there are many sensors and relatively few nodes.
 
-A few special keys ``MIN`` and ``MAX`` can also be used. This is how a typical hash provider configuration
-would look.
+The special keys ``MIN`` and ``MAX`` can also be used. This is how a typical hash provider configuration
+would look:
 
 
 .. code-block:: ini
@@ -101,7 +101,7 @@ would look.
     sensor_node_name = sensornode.example.net_f7aeb3ed
     partition_provider = name:hash, hash_ranges:0..1024|2048..4096
 
-Notice the peculiar format of hash_ranges. A single sensor node can support multiple sub-ranges. Each sub-range
+Notice the format of hash_ranges. A single sensor node can support multiple sub-ranges. Each sub-range
 is of the form  ``{{RANGE_START}}..{{RANGE_END}}``. Multiple sub-range are combined using ``|``.
 
 Some useful examples

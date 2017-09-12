@@ -18,10 +18,12 @@ Let's start with a very basic workflow that calls a |st2| action and notifies |s
 The first task is named **run-cmd** that executes a shell command on the local server where st2 is installed. A task can reference any registered |st2| action directly. In this example, the run-cmd task is calling **core.local** and passing the cmd as input. **core.local** is an action that comes installed with |st2|. When the workflow is invoked, |st2| will translate the workflow definition appropriately before sending it to Mistral. Let's save this as mistral-basic.yaml at **/opt/stackstorm/packs/examples/actions/workflows** where |st2| is installed.
 
 .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-basic.yaml
+   :language: yaml
 
 The following is the corresponding |st2| action metadata for example above. The |st2| pack for this workflow action is named "examples". Please note that the workflow is named fully qualified as "<pack>.<action>" in the definition above. The |st2| action runner is "mistral-v2". The entry point for the |st2| action refers to the YAML file of the workflow definition. Let's save this metadata as mistral-basic.yaml at **/opt/stackstorm/packs/examples/actions/**.
 
 .. literalinclude:: /../../st2/contrib/examples/actions/mistral-basic.yaml
+   :language: yaml
 
 The following table list optional parameters that can be defined in the workflow action. In the example, these optional parameters are set to immutable. It is good practice to set them to immutable even if they are empty since these are Mistral specific parameters for the workflow author.
 
@@ -64,6 +66,7 @@ To display subtasks, run ``st2 execution get <execution-id> --show-tasks``:
 The following is a simple extension of the previous workflow definition. In this example, we have a second task named task2. It might be natural to think that task2 will be executed after task1, i.e, in sequential order. However, when no tasks attributes like ``on-complete``, ``on-success`` and ``on-error`` are defined, tasks are run in parallel. This is possible with mistral because it provides a join flow control which allows to synchronize multiple parallel workflow branches and aggregate their data.
 
 .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-basic-two-tasks-with-notifications.yaml
+   :language: yaml
 
 Pausing and Resuming Workflow Execution
 +++++++++++++++++++++++++++++++++++++++
@@ -187,10 +190,12 @@ Stitching together a more Complex Workflow
 The following is a mock up of a more complex workflow. In this mock up running simple printf and sleep commands, the workflow demonstrates nested workflows, fork, and join.
 
 .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-workbook-complex.yaml
+   :language: yaml
 
 Since there are multiple workflows defined in this workbook, the workflow author has to specify which workflow to execute in the metadata as shown in the workflow parameters below.
 
 .. literalinclude:: /../../st2/contrib/examples/actions/mistral-workbook-complex.yaml
+   :language: yaml
 
 To test out this workflow, save the metadata file to /opt/stackstorm/packs/examples/actions/ and the workflow file to /opt/stackstorm/packs/examples/actions/workflows. Run ``st2 action create /opt/stackstorm/packs/examples/actions/mistral-workbook-complex.yaml`` to create the action and run ``st2 run examples.mistral-workbook-complex vm_name="vmtest1" -a`` to test.
 

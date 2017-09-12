@@ -313,6 +313,7 @@ The linux.rsync action overrides the ``cmd`` parameter in the ``run-remote`` run
 linux.rsync action.
 
 .. literalinclude:: /../../st2/contrib/linux/actions/rsync.yaml
+   :language: yaml
 
 Not all attributes for the runner parameters can be overridden. A list of attributes which can be
 overriden is included below.
