@@ -60,8 +60,8 @@ Load this file using this command:
     st2 key load mydata.json
 
 The load command also allows you to directly load the output of the ``st2 key list -j``
-command. In case you have more than 50 key-value pairs, use ``st2 key list -n 0 -j`` flag to get all
-the keys. This is useful if you want to migrate datastore items from a different
+command. If you have more than 50 key-value pairs, use ``st2 key list -n 0 -j`` to export 
+all keys. This is useful if you want to migrate datastore items from a different
 cluster or if you want to version control the datastore items and load them from
 version controlled files:
 
