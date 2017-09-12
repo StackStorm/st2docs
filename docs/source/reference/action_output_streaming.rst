@@ -34,12 +34,14 @@ Right now output streaming functionality is available for the following runners:
   If you want to run command / script on multiple hosts and you want real-time action output, you
   should create one execution per host as shown below:
 
-  st2 run examples.my_remote_action host=host1
-  st2 run examples.my_remote_action host=host2
-  st2 run examples.my_remote_action host=host3
+  .. code-block:: bash
 
-  # instead of
-  st2 run examples.my_remote_action host=host1,host2,host3
+    st2 run examples.my_remote_action host=host1
+    st2 run examples.my_remote_action host=host2
+    st2 run examples.my_remote_action host=host3
+
+    # instead of
+    st2 run examples.my_remote_action host=host1,host2,host3
 
 
 Inside the runners we explicitly disable stdout and stderr output buffering, but some scripts
