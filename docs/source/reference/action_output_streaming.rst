@@ -26,6 +26,22 @@ Right now output streaming functionality is available for the following runners:
 * remote script runner
 * python runner
 
+.. note::
+
+  Output streaming only works with the remote runner when you run command / script on a single host
+  at once (when you pass a single host for the ``host`` parameter - one host per action execution).
+
+  If you want to run command / script on multiple hosts and you want real-time action output, you
+  should create one execution per host as shown below:
+
+  st2 run examples.my_remote_action host=host1
+  st2 run examples.my_remote_action host=host2
+  st2 run examples.my_remote_action host=host3
+
+  # instead of
+  st2 run examples.my_remote_action host=host1,host2,host3
+
+
 Inside the runners we explicitly disable stdout and stderr output buffering, but some scripts
 and programs use their own internal buffer which means that in some cases output might be slightly
 delayed depending on the size of the buffer used the underlying script / program.
@@ -107,7 +123,7 @@ In addition to |st2| API endpoint, output can also be accessed using the |st2| e
 
 This API endpoint follows server-sent event specification (JSON messages delimited by a new line
 - ``\n``) and is also used for other events. The name of the event is
-  ``st2.execution.output__create``.
+``st2.execution.output__create``.
 
 .. code-block:: bash
 
