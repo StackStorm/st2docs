@@ -26,8 +26,6 @@ Right now output streaming functionality is available for the following runners:
 * remote script runner
 * python runner
 
-The protocol is line oriented which means you should see new data as soon a new line comes in.
-
 Inside the runners we explicitly disable stdout and stderr output buffering, but some scripts
 and programs use their own internal buffer which means that in some cases output might be slightly
 delayed depending on the size of the buffer used the underlying script / program.
@@ -45,7 +43,7 @@ The easiest way to access the output is to use ``st2 execution tail <execution i
 
 .. code-block:: bash
 
-    st2 execution tail <execution id>
+    st2 execution tail <execution id> [--type=stdout/stderr/other]
     st2 execution tail last  # "last" is a special convenience keyword which will automatically
                              # retrieve and use ID of the last execution which has been scheduled.
 
@@ -55,8 +53,8 @@ available.
 Keep in mind that this command utilizes the stream API endpoint so it will only print any new data
 which comes in after you ran the command.
 
-If you want to view output of an execution which has completed, you can utilize execution stdout
-and stderr API endpoints (see below) or using the execution get one API endpoint
+If you want to view output of an execution which has completed, you can utilize execution output
+API endpoint (see below) or use the execution get one API endpoint
 (``GET /v1/executions/<execution id>``) and access ``result`` attribute on the returned object.
 
 .. code-block:: bash
@@ -75,31 +73,28 @@ and stderr API endpoints (see below) or using the execution get one API endpoint
 2. Via the StackStorm API
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Output can also be accessed in real-time using two |st2| API endpoints described below:
+Output can also be accessed in real-time using |st2| API endpoint described below:
 
-* ``GET /v1/executions/<execution id>/stdout``
-* ``GET /v1/executions/<execution id>/stderr``
+* ``GET /v1/executions/<execution id>/output[?type=stdout/stderr/other]``
 
 .. code-block:: bash
 
-    $ curl "http://127.0.0.1:9101/v1/executions/last/stdout"
+    $ curl "http://127.0.0.1:9101/v1/executions/last/output"
+    stderr -> Line: 1
     stdout -> Line: 2
+    stderr -> Line: 3
     stdout -> Line: 4
+    stderr -> Line: 5
     stdout -> Line: 6
+    stderr -> Line: 7
     stdout -> Line: 8
+    stderr -> Line: 9
     stdout -> Line: 10
 
-    $ curl "http://127.0.0.1:9101/v1/executions/last/stderr"
-    stderr -> Line: 1
-    stderr -> Line: 3
-    stderr -> Line: 5
-    stderr -> Line: 7
-    stderr -> Line: 9
+The API endpoints keep a long running connection open until the execution completes or user closes
+the connection.
 
-Both of those API endpoints keep a long running connection open until the execution completes or
-user closes the connection.
-
-Once requested, those API endpoints return any data which has been produced so far and after that,
+Once requested, the API endpoint returns any data which has been produced so far and after that,
 any new data which comes in when it's available.
 
 Similar to the CLI command, you can also use ``last`` for the execution id and ID of the execution
@@ -111,7 +106,28 @@ which has been scheduled last will be used.
 In addition to |st2| API endpoint, output can also be accessed using the |st2| event stream API.
 
 This API endpoint follows server-sent event specification (JSON messages delimited by a new line
-- ``\n``) and is also used for other events.
+- ``\n``) and is also used for other events. The name of the event is
+  ``st2.execution.output__create``.
+
+.. code-block:: bash
+
+    $ curl http://127.0.0.1:9102/v1/stream?events=st2.execution.output__create
+
+    event: st2.execution.output__create
+    data: {"timestamp": "2017-09-12T13:31:28.608095Z", "runner_ref": "remote-shell-cmd", "output_type": "stderr", "action_ref": "examples.remote_command_runner_print_to_stdout_and_stderr", "data": "stderr line 1\n", "id": "59b7e1b00640fd119d798359", "execution_id": "59b7e1ae0640fd0f72fdc746"}
+
+    event: st2.execution.output__create
+    data: {"timestamp": "2017-09-12T13:31:28.836387Z", "runner_ref": "remote-shell-cmd", "output_type": "stdout", "action_ref": "examples.remote_command_runner_print_to_stdout_and_stderr", "data": "stdout line 2\n", "id": "59b7e1b00640fd119d79835a", "execution_id": "59b7e1ae0640fd0f72fdc746"}
+
+    event: st2.execution.output__create
+    data: {"timestamp": "2017-09-12T13:31:28.863368Z", "runner_ref": "remote-shell-cmd", "output_type": "stderr", "action_ref": "examples.remote_command_runner_print_to_stdout_and_stderr", "data": "stderr line 3\n", "id": "59b7e1b00640fd119d79835b", "execution_id": "59b7e1ae0640fd0f72fdc746"}
+
+    event: st2.execution.output__create
+    data: {"timestamp": "2017-09-12T13:31:29.100242Z", "runner_ref": "remote-shell-cmd", "output_type": "stdout", "action_ref": "examples.remote_command_runner_print_to_stdout_and_stderr", "data": "stdout line 4\n", "id": "59b7e1b10640fd119d79835c", "execution_id": "59b7e1ae0640fd0f72fdc746"}
+
+Keep in mind that this feature is still behind a feature flag and that's why you need to explicitly
+pass ``?events=st2.execution.output__create`` query param to the API endpoint to make sure you also
+receive these events.
 
 Security Implications
 ---------------------
