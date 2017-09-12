@@ -5,7 +5,7 @@ The goal of the datastore service is to allow users to store common
 parameters and their values within |st2| for reuse in the definition
 of sensors, actions, and rules. The datastore service stores the data as
 a key-value pair. They can be get/set using the |st2| CLI or the |st2|
-Python client. 
+Python client.
 
 From the sensor and action plugins, since they are implemented in Python,
 the key-value pairs are accessed from the |st2| Python client. For rule
@@ -14,7 +14,7 @@ specific string substitution syntax and the references are resolved on
 rule evaluation.
 
 Key-Value pairs can also have a TTL associated with them, for automatic
-expiry. 
+expiry.
 
 .. note::
 
@@ -60,21 +60,28 @@ Load this file using this command:
     st2 key load mydata.json
 
 The load command also allows you to directly load the output of the ``st2 key list -j``
-command. This is useful if you want to migrate datastore items from a different
+command. In case you have more than 50 key-value pairs, use ``st2 key list -n 0 -j`` flag to get all
+the keys. This is useful if you want to migrate datastore items from a different
 cluster or if you want to version control the datastore items and load them from
 version controlled files:
 
 .. code-block:: bash
 
-    st2 key list -j > mydata.json
+    st2 key list -n 0 -j > mydata.json
     st2 key load mydata.json
 
 Get individual key-value pair or list all:
 
 .. code-block:: bash
 
+    # To list first 50 key-value pairs (default)
     st2 key list
+    # To list all the key-value pairs in the datastore
+    st2 key list -n 0
+
+    # Get value for key "os_keystone_endpoint"
     st2 key get os_keystone_endpoint
+    # Get value for key "os_keystone_endpoint" in json format
     st2 key get os_keystone_endpoint -j
 
 Update an existing key-value pair:
@@ -133,7 +140,7 @@ or simply:
 
 This variable won't clash with user variables with the same name. Also, you can refer
 to user variables in actions or workflows. The Jinja syntax to do so is
-``{{st2kv.user.date_cmd}}``. 
+``{{st2kv.user.date_cmd}}``.
 
 Note that the notion of ``st2kv.user`` is available only when actions or workflows are run
 manually. The notion of ``st2kv.user`` is non-existent when actions or workflows are kicked
@@ -161,7 +168,7 @@ triggered. If the workflow is triggered again, it could check if the value is st
 set, and if so, bypass running the remediation action.
 
 Some users keep a count of executions in the key-value store to set a maximum number
-of executions in a time period. 
+of executions in a time period.
 
 Storing and Retrieving via Python Client
 ----------------------------------------
@@ -237,7 +244,7 @@ Update an existing encrypted key-value pair:
     >>> client.keys.get_by_name(name='os_keystone_password', decrypt=True)
     <KeyValuePair name=os_keystone_password,value=New$ecret!>
 
-    
+
 Referencing Key-Value Pairs in Rule Definitions
 -----------------------------------------------
 
