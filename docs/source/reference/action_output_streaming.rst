@@ -8,17 +8,17 @@ Real-time Action Output Streaming
   set the ``actionrunner.stream_output`` config option to ``True`` in ``st2.conf`` and restart all
   services (``sudo st2ctl restart``).
 
-How it works
+How it Works
 ------------
 
-By default when user runs a |st2| action, they don't see the actual output produced by the action
+By default when a user runs a |st2| action, they don't see the actual output produced by the action
 until the execution has finished (either failed, succeeded or timed out).
 
-In v2.5.0 we introduced new functionality which allows users to see output in real-time as it is
-produced by the action. This comes especially handy with long running actions and in CI / CD
+In v2.5.0 we introduced new functionality which allows users to see output in real-time, as it is
+produced by the action. This is especially useful with long running actions and in CI/CD
 scenarios where you want to see the output in an incremental manner as soon as it's available.
 
-Right now output streaming functionality is available for the following runners:
+Output streaming functionality is currently available for the following runners:
 
 * local command runner
 * local script runner
@@ -28,10 +28,10 @@ Right now output streaming functionality is available for the following runners:
 
 .. note::
 
-  Output streaming only works with the remote runner when you run command / script on a single host
+  Output streaming only works with the remote runner when you run the command/script on a single host
   at once (when you pass a single host for the ``host`` parameter - one host per action execution).
 
-  If you want to run command / script on multiple hosts and you want real-time action output, you
+  If you want to run a command/script on multiple hosts and you want real-time action output, you
   should create one execution per host as shown below:
 
   .. code-block:: bash
@@ -44,20 +44,20 @@ Right now output streaming functionality is available for the following runners:
     st2 run examples.my_remote_action host=host1,host2,host3
 
 
-Inside the runners we explicitly disable stdout and stderr output buffering, but some scripts
+Inside the runners we explicitly disable stdout and stderr output buffering. Some scripts
 and programs use their own internal buffer which means that in some cases output might be slightly
-delayed depending on the size of the buffer used the underlying script / program.
+delayed, depending on the size of the buffer used by the underlying script/program.
 
-Accessing real-time action output
+Accessing Real-time Action Output
 ---------------------------------
 
-Real-time streaming action output can be accessed using one of the approaches described below
+Real-time streaming action output can be accessed using one of the approaches described below,
 after an execution has been scheduled.
 
-1. Using CLI
-~~~~~~~~~~~~
+1. Via CLI
+~~~~~~~~~~
 
-The easiest way to access the output is to use ``st2 execution tail <execution id>`` CLI command.
+The easiest way to access the output is to use the ``st2 execution tail <execution id>`` command:
 
 .. code-block:: bash
 
@@ -65,15 +65,15 @@ The easiest way to access the output is to use ``st2 execution tail <execution i
     st2 execution tail last  # "last" is a special convenience keyword which will automatically
                              # retrieve and use ID of the last execution which has been scheduled.
 
-This command listens for new data on the StackStorm event stream API and prints it once it's
+This command listens for new data on the StackStorm event stream API and prints it as it becomes
 available.
 
 Keep in mind that this command utilizes the stream API endpoint so it will only print any new data
 which comes in after you ran the command.
 
-If you want to view output of an execution which has completed, you can utilize execution output
-API endpoint (see below) or use the execution get one API endpoint
-(``GET /v1/executions/<execution id>``) and access ``result`` attribute on the returned object.
+If you want to view output of an execution which has completed, you can use the execution output
+API endpoint (see below) or use the executions API endpoint
+(``GET /v1/executions/<execution id>``) and access the ``result`` attribute on the returned object.
 
 .. code-block:: bash
 
@@ -91,7 +91,7 @@ API endpoint (see below) or use the execution get one API endpoint
 2. Via the StackStorm API
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Output can also be accessed in real-time using |st2| API endpoint described below:
+Output can also be accessed in real-time using the |st2| API:
 
 * ``GET /v1/executions/<execution id>/output[?type=stdout/stderr/other]``
 
@@ -109,23 +109,23 @@ Output can also be accessed in real-time using |st2| API endpoint described belo
     stderr -> Line: 9
     stdout -> Line: 10
 
-The API endpoints keep a long running connection open until the execution completes or user closes
-the connection.
+The API endpoints keep a long running connection open until the execution completes or the user
+closes the connection.
 
 Once requested, the API endpoint returns any data which has been produced so far and after that,
-any new data which comes in when it's available.
+any new data as it becomes available.
 
-Similar to the CLI command, you can also use ``last`` for the execution id and ID of the execution
-which has been scheduled last will be used.
+Similar to the CLI command, you can also use ``last`` for the execution id, and the ID of the 
+execution which has been scheduled last will be used.
 
 3. Via the StackStorm Stream API
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
 
-In addition to |st2| API endpoint, output can also be accessed using the |st2| event stream API.
+In addition to the |st2| API above, output can also be accessed using the event stream API.
 
-This API endpoint follows server-sent event specification (JSON messages delimited by a new line
+This API endpoint follows the server-sent event specification (JSON messages delimited by a new line
 - ``\n``) and is also used for other events. The name of the event is
-``st2.execution.output__create``.
+``st2.execution.output__create``:
 
 .. code-block:: bash
 
@@ -150,37 +150,36 @@ receive these events.
 Security Implications
 ---------------------
 
-This functionality is behind a RBAC wall and to be able to access execution stdout and stderr API
+This functionality can be restricted via RBAC. To access the execution stdout and stderr API
 endpoint, ``EXECUTION_VIEW`` permission type is required.
 
-Depending on your actions and what kind of output they produce, the output can contain sensitive
-data. Because of that you are strongly encouraged to only grant this permission to users which
-require it. In addition to that, you are also strongly encouraged to modify your actions to mask /
-hide any potentially sensitive data inside the action output if it's not needed for further
+Depending on your actions and what kind of output they produce, the output may contain sensitive
+data. Because of that you are strongly encouraged to only grant this permission to users who explicitly
+require it. In addition to that, you are also strongly encouraged to modify your actions to mask/hide
+any potentially sensitive data inside the action output if it's not needed for further
 processing inside |st2|.
 
-For more information masking and securely passing secrets between the actions, please see
+For more information about masking and securely passing secrets between the actions, please see
 :doc:`Secrets Masking </reference/secrets_masking>` page.
 
-Also keep in mind that action output data is the same data which is available via execution
+Keep in mind that action output data is the same data which is available via execution
 ``result`` attribute through ``/v1/executions/<execution id>`` API endpoint (this API endpoint
 also requires ``EXECUTION_VIEW`` RBAC permission).
 
-Gargage Collection
+Garbage Collection
 ------------------
 
-In case your actions produce a lot of output, enabling real-time output streaming for each
-action execution can result a lot of data being passed around and stored in the database. This
-data is stored in special write ahead database collections (``action_execution_stdout_output_d_b``,
+If your actions produce a lot of output, enabling real-time output streaming for each action execution
+can result large amounts of data being passed around and stored in the database. This data is stored
+in the special write ahead database collections (``action_execution_stdout_output_d_b``,
 ``action_execution_stderr_output_d_b``).
 
 Because of that, garbage collection is enabled by default for execution stdout and stderr objects
 - they are deleted automatically after 7 days.
 
-If you want to disable garbage collection for those objects (unwise) or change the default TTL
-either increase or decrease it), you can do that by setting
-``garbagecollector.action_executions_ttl`` config option. This option is TTL in days and setting it
-to ``0`` disables garbage collection.
+If you want to disable garbage collection for those objects (unwise) or change the default TTL, you can
+do that by setting the ``garbagecollector.action_executions_ttl`` config option. This option is the TTL
+in days. Setting it to ``0`` disables garbage collection.
 
-For more information on setting up garbage collection, please refer to please refer to the
+For more information on setting up garbage collection, please refer to the
 :doc:`Purging Old Operational Data </troubleshooting/purging_old_data>` documentation page.
