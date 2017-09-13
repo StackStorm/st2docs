@@ -443,7 +443,6 @@ in the action metadata, like this.
             type: integer
 
 Or you can use JSON notation:
->>>>>>> caf3dee... reference docs updates
 
 .. sourcecode:: bash
 
