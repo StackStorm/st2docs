@@ -22,8 +22,9 @@ functions and the like. You can then use import statements in sensors and action
 to import base_function from a file named ``common_lib.py`` inside
 ``/opt/stackstorm/packs/examples/lib/`` folder. You can call code from dependencies
 in pack's requirements.txt from inside the files in the ``lib`` folder as you are able to call
-them inside sensors and actions.
-
+them inside sensors and actions. Due to how python module loading works, files inside the lib
+folder cannot have the same names as standard python module names. Actions may fail with
+weird errors if you named your files same as standard python module names.
 
 Note that this pack ``lib`` folder is different from shell actions' ``lib`` folder which is
 inside ``/opt/stackstorm/packs/some_pack/actions/lib/``. The pack ``lib`` folder is never
