@@ -36,7 +36,9 @@ At the topmost level are the main folders ``actions``, ``rules``, ``sensors``, `
 
 * ``pack.yaml`` - Metadata file that describes and identifies the folder as a pack.
 * ``config.schema.yaml`` - Schema that defines configuration elements used by a pack.
-* ``requirements.txt`` - File containing a list of python dependencies.
+* ``requirements.txt`` - File containing a list of Python dependencies. If your pack uses Python
+  actions and/or sensors, you can specify any Python libraries you need here. They will
+  automatically be installed in a pack-specific virtualenv when you install the pack.
 
 Site-specific pack configuration files are stored at ``/opt/stackstorm/configs/``. See
 :doc:`configuration schema</reference/pack_configs>` for more information.

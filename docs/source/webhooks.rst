@@ -1,36 +1,37 @@
 Webhooks
 ========
 
-Webhooks allow you to integrate external systems with |st2| using HTTP
-webhooks. Unlike sensors which use a "pull" approach, webhooks use a "push"
-approach. This means they work by you pushing triggers directly to the |st2|
-API using HTTP POST requests.
+Webhooks allow you to integrate external systems with |st2| using HTTP webhooks. Unlike sensors
+which use a "pull" approach, webhooks use a "push" approach. They push triggers directly to the
+|st2| API using HTTP POST requests.
 
 Sensors vs Webhooks
 -------------------
 
-Sensors integrate with external systems and services using a poll approach
-(sensors periodically reach out to an external system to retrieve data you are
-interested in) and webhooks use a push approach (your systems push data to the
-|st2| API when an event you are interested in occurs).
+Sensors integrate with external systems and services using either a polling approach (sensors
+periodically connect to an external system to retrieve data), or a passive approach, where they
+listen on some port, receiving data using whatever custom protocol you define. 
 
-Sensors are the preferred integration method since they offer a more granular and
-tighter integration.
+Webhooks provide a built-in passive approach for receiving JSON or URL-encoded form data, via
+HTTP POST. This data must be "pushed" from an external system to |st2| when an interesting event
+occurs.
 
-On the other hand, webhooks come in handy when you have an existing script or
-software which you can easily modify to send a webhook to the |st2| API when an
-event you are interested in occurs.
+Sensors are the preferred integration method since they offer a more granular and tighter
+integration.
 
-Another example where webhooks come handy is when you want to consume events
-from a 3rd party service which already offer webhooks integration - e.g. GitHub
+On the other hand, webhooks come in handy when you have an existing script or software which you
+can easily modify to send a webhook to the |st2| API when an intersting event occurs.
+
+Another example where webhooks are useful is when you want to consume events from a 3rd party
+service that already offers webhook integration - e.g. GitHub.
 
 Authentication
 --------------
 
-All the requests to the /webhooks endpoints needs to be authenticated in the
-same way as other API requests. There are two possible authentication approaches - 
-:ref:`API keys <authentication-apikeys>` and tokens. API keys are recommended for webhooks,
-as they do not expire. Tokens have a fixed expiry.
+All the requests to the ``/webhooks`` endpoints needs to be authenticated in the same way as other
+API requests. There are two possible authentication approaches - :ref:`API keys
+<authentication-apikeys>` and tokens. API keys are recommended for webhooks, as they do not
+expire. Tokens have a fixed expiry.
 
 API key-based
 ~~~~~~~~~~~~~
@@ -52,9 +53,9 @@ parameters are used with 3rd party services such as GitHub where you can only sp
 Request Body
 ------------
 
-The request body or so called trigger payload can be either JSON or URL encoded form data. The body type
-is determined based on the value of the ``Content-Type`` header (``application/json`` for JSON and
-``application/x-www-form-urlencoded`` for URL encoded form data).
+The request body or so called trigger payload can be either JSON or URL encoded form data. The
+body type is determined based on the value of the ``Content-Type`` header (``application/json``
+for JSON and ``application/x-www-form-urlencoded`` for URL encoded form data).
 
 All the examples below assume JSON and as such, provide ``application/json`` for the
 ``Content-Type`` header value.
@@ -62,8 +63,8 @@ All the examples below assume JSON and as such, provide ``application/json`` for
 Registering a Webhook
 ---------------------
 
-You can register a webhook in |st2| by specifying ``core.st2.webhook``
-trigger inside a rule definition.
+You can register a webhook in |st2| by specifying the ``core.st2.webhook`` trigger inside a rule
+definition.
 
 Here is an excerpt from a rule which registers a new webhook named ``sample``:
 
@@ -76,23 +77,23 @@ Here is an excerpt from a rule which registers a new webhook named ``sample``:
                 url: "sample"
     ...
 
-Once this rule is created, you can use this webhook by POST-ing data to
-``/v1/webhooks/sample``. The request body needs to be JSON and can contain
-arbitrary data which you can match against in the rule criteria.
+Once this rule is created, you can use this webhook by POST-ing data to ``/v1/webhooks/sample``.
+The request body needs to be JSON and may contain arbitrary data which you can match against in
+the rule criteria.
 
-Note that all trailing and leading ``/`` of the ``url`` parameter are ignored by
-|st2|. e.g. a value of ``/sample``, ``sample/``, ``/sample/`` and ``sample`` are
-all treated the same i.e. considered identical.
+Note that all trailing and leading ``/`` of the ``url`` parameter are ignored by |st2|. e.g. a
+value of ``/sample``, ``sample/``, ``/sample/`` and ``sample`` are all treated the same, i.e.
+considered identical.
 
-POST-ing data to a custom webhook will cause a trigger with the following
-attributes to be dispatched:
+POST-ing data to a custom webhook will cause a trigger with the following attributes to be
+dispatched:
 
 * ``trigger`` - Trigger name.
 * ``trigger.headers`` - Dictionary containing the request headers.
 * ``trigger.body`` - Dictionary containing the request body.
 
-This example shows how to send data to a custom webhook using
-cURL and how to match on this data using rule criteria:
+This example shows how to send data to a custom webhook using ``curl`` and how to match on this
+data using rule criteria:
 
 .. sourcecode:: bash
 
@@ -121,18 +122,18 @@ Rule:
 Using a Generic Webhook
 -----------------------
 
-By default, a special-purpose webhook with the name ``st2`` is already registered. Instead
-of using ``st2.core.webhook``, it allows you to specify any trigger that is known to |st2|
-(either by default or from custom sensors and triggers in packs), so you can use it to
-trigger rules that aren’t explicitly set up to be triggered by webhooks.
+By default, a special-purpose webhook with the name ``st2`` is already registered. Instead of
+using ``st2.core.webhook``, it allows you to specify any trigger that is known to |st2| (either by
+default or from custom sensors and triggers in packs), so you can use it to trigger rules that
+aren’t explicitly set up to be triggered by webhooks.
 
 The body of this request needs to be JSON and must contain the following attributes:
 
 * ``trigger`` - Name of the trigger (e.g. ``mypack.mytrigger``)
 * ``payload`` - Object with a trigger payload.
 
-This example shows how to send data to the generic webhook using
-cURL, and how to match this data using rule criteria (replace ``localhost`` with your st2 host if call remotely):
+This example shows how to send data to the generic webhook using ``curl``, and how to match this
+data using rule criteria (replace ``localhost`` with your st2 host if called remotely):
 
 .. sourcecode:: bash
 
@@ -156,8 +157,8 @@ Rule:
         parameters:
     ...
 
-Keep in mind that the ``trigger.type`` attribute inside the rule definition
-needs to be the same as the trigger name defined in the webhook payload body.
+The ``trigger.type`` attribute in the rule definition needs to be the same as the trigger name
+defined in the webhook payload body.
 
 Listing Registered Webhooks
 ---------------------------
@@ -173,15 +174,17 @@ When Not to Use Webhooks
 
 While webhooks are useful, they do have two drawbacks:
 
-* **Not Bidirectional**  - Webhooks simply submit data into |st2|. So if you want data back from |st2|,
-  or an action execution ID, you'll have to get that data in an asynchronous fashion.
+* **Not Bidirectional**  - Webhooks simply submit data into |st2|. So if you want data back from
+  |st2|, or an action execution ID, you'll have to get that data in an asynchronous fashion.
 * **No Guarantee of Execution** - Webhooks in |st2| do not guarantee an execution. It depends on
-  the configuration of the rule that registered the webhook - based upon the webhook contents, it may
-  not execute any action, or may execute multiple actions.
+  the rule configuration. Based upon the webhook contents, it may not execute any action, or may 
+  execute multiple actions.
 
-If you always want to execute a specific action or workflow, and/or you're looking for guaranteed response,
-you could leverage the ``/v1/executions`` API. This is the same as running an action from the CLI with
-``st2 run <mypack>.<myaction>``. We can get a little insight into this using the ``--debug`` flag:
+If you always want to execute a specific action or workflow, and/or you're looking for a
+guaranteed response, you can use the ``/v1/executions`` API. This is the same as explicitly
+running an action from the CLI with ``st2 run <mypack>.<myaction>``. 
+
+We can get a little insight into how this work using the ``--debug`` flag:
 
 .. sourcecode:: bash
 
@@ -226,9 +229,9 @@ In addition to the "usual" output that shows the result of the execution, the ``
 shows all the API calls made during the course of the entire interaction, in the form of ``curl``
 commands.
 
-The above output shows the API calls made when executing the command from the |st2| host. If you are accessing the
-API from a remote system, it will be proxied through nginx, using the ``/api`` URI (see :doc:`/reference/ha` for
-more information). So remote calls will take this form:
+That output shows the API calls made when executing the command from the |st2| host. If you are
+accessing the API from a remote system, it will be proxied through nginx, using the ``/api`` URI.
+So remote calls will take this form:
 
 .. sourcecode:: bash
 
