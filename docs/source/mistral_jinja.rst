@@ -1,7 +1,7 @@
 Mistral + Jinja
 ===============
 
-Starting in |st2| v2.2, Jinja expressions are also supported where YAQL expressions are accepted.
+Starting with |st2| v2.2, Jinja expressions are also supported where YAQL expressions are accepted.
 Jinja expressions can be used for simple conditional evaluation and data transformation in Mistral
 workflows. There will be many cases where you did not author the actions but there's a need to
 decide from the result of the action whether to continue or there's a need to transform the
@@ -13,21 +13,21 @@ Here are use cases where Jinja can be applied in Mistral workflows:
 * Define output values published from tasks and workflows.
 * Define conditions that determine transitions between tasks.
 
-Knowing where Jinja can be applied in Mistral workflows, the following are some cool things
-that you can do with Jinja:
+Knowing where Jinja can be applied in Mistral workflows, the following are some cool things that you can do with Jinja:
 
-* Access values from list and dictionary.
+* Access values from lists and dictionary.
 * Simple arithmetic.
 * Evaluation of boolean logic.
 * Use conditional logic and builtin filters to evaluate and transform data.
 
 .. note::
 
-    Please refer to offical documentation for Mistral and Jinja. The documentation here
-    is meant to help |st2| users get a quick start.
+    Please refer to the official documentation for Mistral and Jinja. The documentation here
+    is meant to help |st2| users get started quickly, but is not a complete reference.
 
 Basics
-++++++
+------
+
 The following are statements in the workflow and task definition that accepts Jinja:
 
 * task action input
@@ -49,8 +49,8 @@ The following are statements in the workflow and task definition that accepts Ji
 
 Each of the statements can take a string with one or more Jinja expressions. Each expression in the
 string should be encapsulated with ``{{ }}``. Code block using ``{% %}`` is also supported. Please
-note that the symbols ``{`` and ``}`` will conflict with JSON and Jinja expressions must always be
-encapsulated with quotes or double quotes in the workflow definition.
+note that the symbols ``{`` and ``}`` will conflict with JSON and Jinja expressions, and must
+always be encapsulated with quotes or double quotes in the workflow definition.
 
 .. note::
 
@@ -58,11 +58,13 @@ encapsulated with quotes or double quotes in the workflow definition.
 
 When evaluating a Jinja expression, Mistral also passes a JSON dictionary (aka context) to the
 Jinja templating engine. The context contains all the workflow inputs, published variables, and
-result of completed tasks up to this point of workflow execution including the current task. The
+result of completed tasks up to this point of workflow execution, including the current task. The
 Jinja expression can refer to one or more variables in the context. The reserved symbol ``_`` is
-used to reference the context. For example, given the context ``{"ip": "127.0.0.1", "port": 8080}``,
-the string ``https://{{ _.ip }}:{{ _.port }}/api`` returns ``https://127.0.0.1:8080/api``. The
-following is the same example used in a workflow:
+used to reference the context. For example, given the context
+``{"ip": "127.0.0.1", "port": 8080}``, the string ``https://{{ _.ip }}:{{ _.port }}/api`` returns
+``https://127.0.0.1:8080/api``.
+
+The following is the same example used in a workflow:
 
 .. code-block:: yaml
 
@@ -81,16 +83,15 @@ following is the same example used in a workflow:
 
 .. note::
 
-    The reserved symbol to reference the workflow context for Jinja is different than YAQL
-    expressions. This is due to the differences in the limitation between the two engines.
-    As mentioned above, the symbol ``_`` is used to access context in Jinja whereas the symbol
-    ``$`` is used in YAQL.
+    The reserved symbol to reference the workflow context for Jinja is different than for YAQL
+    expressions. This is due to the differences between the two engines. As mentioned above, the
+    symbol ``_`` is used to access context in Jinja whereas the symbol ``$`` is used in YAQL.
 
 The following is a more complex workbook example with a few more Jinja expressions. There are
-variables passed to input parameters and being published after task completion. Please take
-note of the ``install_apps`` task in the ``configure_vm`` workflow. The input parameter ``cmd``
-is given the value formatted by the Jinja for loop. Unlike YAQL, a string in a Jinja
-expression must be explicitly encapsulated in quotes (i.e. ``{{ 'this is a string.' }}``).
+variables passed to input parameters and being published after task completion. Please take note
+of the ``install_apps`` task in the ``configure_vm`` workflow. The input parameter ``cmd`` is
+given the value formatted by the Jinja for loop. Unlike YAQL, a string in a Jinja expression must
+be explicitly encapsulated in quotes (i.e. ``{{ 'this is a string.' }}``).
 
 .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-jinja-workbook-complex.yaml
    :language: yaml
@@ -99,16 +100,18 @@ Certain statements in Mistral such as on-success and on-error can evaluate boole
 ``on-condition`` related statements are used for transition from one task to another. If a
 boolean logic is defined with these statements, it can be used to evaluate whether the transition
 should continue or not. Complex boolean logic using a combination of ``not``, ``and``, ``or``, and
-parentheses is possible. Take the following workflow as an example: Execution of certain branch
-in the workflow depends on the value of ``_.path``. If ``_.path == a``, then task ``a`` is executed.
-If ``_.path == b``, then task ``b``. Finally task ``c`` is executed if neither.
+parentheses is possible. 
+
+Take the following workflow as an example: Execution of a certain branch in the workflow depends
+on the value of ``_.path``. If ``_.path == a``, then task ``a`` is executed. If ``_.path == b``,
+then task ``b``. Finally task ``c`` is executed if neither matches.
 
 .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-jinja-branching.yaml
    :language: yaml
 
 The statement ``with-items`` in Mistral is used to execute an action over iteration of one or more
-lists of items. The following is a sample Mistral workflow that iterates over the list of given names
-to invoke the action to create individual VM.
+lists of items. The following is a sample Mistral workflow that iterates over the list of given
+names to invoke the action to create an individual VM:
 
 .. code-block:: yaml
 
@@ -125,8 +128,8 @@ to invoke the action to create individual VM.
                 input:
                     name: "{{ _.name }}"
 
-``with-items`` can take more than one list as the following example illustrates. In this case,
-a list of VMs and IP addresses are passed as inputs and then iterated through step by step together.
+``with-items`` can take more than one list as the following example illustrates. In this case, a
+list of VMs and IP addresses are passed as inputs and then iterated through step by step together:
 
 .. code-block:: yaml
 
@@ -151,35 +154,65 @@ a list of VMs and IP addresses are passed as inputs and then iterated through st
 
     The Jinja expression(s) passed to with-items is slightly different than YAQL expression(s).
     If using Jinja, the entire statement (i.e. ``"name in {{ _.names }}"``) require quotation
-    because the symbols ``{`` and ``}`` for the delimiters conflict with JSON. Whereas if using YAQL,
-    the statement does not necessarily require quotation.
+    because the symbols ``{`` and ``}`` for the delimiters conflict with JSON. Whereas if using
+    YAQL, the statement does not necessarily require quotation.
 
 Jinja Filters
-+++++++++++++
+-------------
+
 Jinja has a list of built-in filters to work with strings, dictionaries, lists, etc. Please
-refer to Jinja `documentation <http://jinja.pocoo.org/docs/latest/templates/#list-of-builtin-filters>`_
+refer to the Jinja `documentation
+<http://jinja.pocoo.org/docs/latest/templates/#list-of-builtin-filters>`_
 for the list of available filters.
 
-A number of Mistral and |st2| specific custom functions (aka filters in Jinja) such as ``st2kv``, ``task``,
-``env``, and ``execution`` that are available in YAQL are also made available in Jinja.
+A number of Mistral and |st2| specific custom functions (aka filters in Jinja) such as ``st2kv``,
+``task``, ``env``, and ``execution`` that are available in YAQL are also made available in Jinja.
 
-**Mistral**
+Mistral
+^^^^^^^
 
-* ``env()`` returns the environment variables passed to the workflow execution on invocation such as the |st2| Action Execution ID ``st2_execution_id``. For example, the expression ``{{ env().st2_action_api_url }}/actionexecutions/{{ env().st2_execution_id }}`` returns the API endpoint for the current workflow execution in |st2| as something like ``https://127.0.0.1:9101/v1/actionexecutions/874d3d5b3f024c1aa93225ef0bcfcf3a``.
-* To access infomation about the parent action like in an ActionChain with ``{{action_context.parent.source_channel}}``, ``{{action_context.parent.user`` or ``{{action_context.parent.api_user}}``. The following expressions can be used ``{{ env()['__actions']['st2.action']['st2_context']['parent']['api_user'] }}``, ``{{ env()['__actions']['st2.action']['st2_context']['parent']['source_channel'] }}`` or ``{{ env()['__actions']['st2.action']['st2_context']['parent']['user'] }}``.
-* ``task('task_name')`` returns the state, state_info, and result of task given task_name.
+* ``env()`` returns the environment variables passed to the workflow execution on invocation such
+  as the |st2| Action Execution ID ``st2_execution_id``.
 
-**StackStorm**
+  For example, the expression
+  ``{{ env().st2_action_api_url }}/actionexecutions/{{ env().st2_execution_id }}`` returns the API
+  endpoint for the current workflow execution in |st2| as something like
+  ``https://127.0.0.1:9101/v1/actionexecutions/874d3d5b3f024c1aa93225ef0bcfcf3a``.
+* To access information about the parent action, the following expressions can be used
+  ``{{ env()['__actions']['st2.action']['st2_context']['parent']['api_user'] }}``,
+  ``{{ env()['__actions']['st2.action']['st2_context']['parent']['source_channel'] }}``
+  or ``{{ env()['__actions']['st2.action']['st2_context']['parent']['user'] }}``.
 
-* ``st2kv('st2_key_id')`` queries |st2|'s datastore and returns the value for the given key. For example, the expression ``{{ st2kv('system.shared_key_x') }}`` returns the value for a system scoped key named ``shared_key_x`` while the expression ``{{ st2kv('my_key_y') }}`` returns the value for the user scoped key named ``my_key_y``. Please note that the key name should be in quotes otherwise Jinja treats key name with a dot like ``system.shared_key_x`` as a dict access. **IMPORTANT NOTE**: In the event that the retrieved value was stored encrypted, ``st2kv`` no longer attempts decryption by default (as of version 2.4). To decrypt the retrieved value, you must explicitly enable it through the ``decrypt`` parameter, like so: ``st2kv('st2_key_id', decrypt=true)``.
+  Note that this similar to the ActionChain expressions
+  ``{{action_context.parent.source_channel}}``, ``{{action_context.parent.user}}`` or
+  ``{{action_context.parent.api_user}}``.
+* ``task('task_name')`` returns the state, state_info, and the result of the given task_name.
+
+StackStorm
+^^^^^^^^^^
+
+``st2kv('st2_key_id')`` queries |st2|'s datastore and returns the value for the given key. For
+example, the expression ``{{ st2kv('system.shared_key_x') }}`` returns the value for a system
+scoped key named ``shared_key_x`` while the expression ``{{ st2kv('my_key_y') }}`` returns the
+value for the user scoped key named ``my_key_y``. 
+
+Please note that the key name should be in quotes otherwise Jinja treats a key name with a dot
+like ``system.shared_key_x`` as a dict access.
+
+.. note::
+
+  If the retrieved value was stored encrypted, ``st2kv`` no longer attempts decryption by default
+  (as of version 2.4). To decrypt the retrieved value, you must explicitly enable it through the
+  ``decrypt`` parameter: ``st2kv('st2_key_id', decrypt=true)``.
 
 Testing Expressions
-+++++++++++++++++++
-Somtimes Jinja expressions can become complex and the need to verify the expression
-outside of StackStorm is necessary. To accomplish this there are a few options:
+-------------------
+
+Sometimes Jinja expressions can become complex and the need to verify the expression outside of
+|st2| is necessary. To accomplish this there are a few options:
 
 - `Jinja2 online evaluator <http://jinja2test.tk/>`_
-- Write a small test script
+- Write a small test script:
   
   .. code-block:: python
 
@@ -209,12 +242,15 @@ outside of StackStorm is necessary. To accomplish this there are a few options:
         template = "Hello {{ results.name }}"
         print JinjaUtils.render_str(template, context)
 
-.. note::
+  .. note::
 
-    The test script does NOT include the custom StackStorm Jinja filters or functions
+    The test script does NOT include the custom |st2| Jinja filters or functions
     such as ``st2kv``.
 
   
 More Examples
-+++++++++++++
-More workflow examples using Jinja expressions can be found at :github_st2:`/usr/share/doc/st2/examples </contrib/examples/actions/workflows/>`. The examples are prefixed with ``mistral-jinja``.
+-------------
+
+More workflow examples using Jinja expressions can be found at
+:github_st2:`/usr/share/doc/st2/examples </contrib/examples/actions/workflows/>`. The examples are
+prefixed with ``mistral-jinja``.
