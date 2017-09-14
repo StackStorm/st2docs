@@ -56,20 +56,28 @@ Load this file using this command:
     st2 key load mydata.json
 
 The load command also allows you to directly load the output of the ``st2 key list -j`` command.
-This is useful if you want to migrate datastore items from a different cluster or if you want to
+If you have more than 50 key-value pairs, use ``st2 key list -n 0 -j`` to export all keys. This
+is useful if you want to migrate datastore items from a different cluster or if you want to
 version control the datastore items and load them from version controlled files:
+
 
 .. code-block:: bash
 
-    st2 key list -j > mydata.json
+    st2 key list -n 0 -j > mydata.json
     st2 key load mydata.json
 
 Get individual key-value pair or list all:
 
 .. code-block:: bash
 
+    # To list first 50 key-value pairs (default)
     st2 key list
+    # To list all the key-value pairs in the datastore
+    st2 key list -n 0
+
+    # Get value for key "os_keystone_endpoint"
     st2 key get os_keystone_endpoint
+    # Get value for key "os_keystone_endpoint" in json format
     st2 key get os_keystone_endpoint -j
 
 Update an existing key-value pair:
@@ -229,7 +237,7 @@ Update an existing encrypted key-value pair:
     >>> client.keys.get_by_name(name='os_keystone_password', decrypt=True)
     <KeyValuePair name=os_keystone_password,value=New$ecret!>
 
-    
+
 Referencing Key-Value Pairs in Rule Definitions
 -----------------------------------------------
 
