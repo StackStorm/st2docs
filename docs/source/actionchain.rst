@@ -2,13 +2,13 @@ ActionChain
 ===========
 
 ActionChain is a no-frills linear workflow. It is a simple chain of action invocations. The result
-(success or failure) of each action is checked, and used to determine the next action to run. This
+of each action (success or failure) is checked and used to determine the next action to run. This
 provides for simple branching logic, based upon success or failure.
 
 Data can be passed between actions, and results are published for each action.
 
 From the perspective of |st2|, an ActionChain is itself an action. So it has the same operations
-and features, such as definition, registration, exuection from CLI, usage from Rules, etc. An
+and features, such as definition, registration, execution from CLI, usage from Rules, etc. An
 ActionChain can also be called as an Action from another ActionChain, or from a Mistral workflow.
 
 .. note::
@@ -50,16 +50,17 @@ corresponding ActionChain workflow definition referenced above:
 Details:
 ++++++++
 
-* ``chain`` is the array property that contains tasks, which incapsulate action invocation.
-* Tasks are named action execution specifications provided in form of a list. The name is scoped
-  to an ActionChain and is used as a reference to a task.
-* ``ref`` property of a task points to an Action registered in |st2|. This could be in any pack.
-* ``on-success`` is the link to a task to invoke next on a successful action execution. If not
+* ``chain`` is the array property that contains tasks, which encapsulate action invocation.
+* Tasks are named action execution specifications provided in the form of a list. The name is
+  scoped to an ActionChain and is used as a reference to a task.
+* The ``ref`` property of a task points to an Action registered in |st2|. This could be in any
+  pack.
+* ``on-success`` is the link to a task to invoke next upon successful action execution. If not
   provided, the ActionChain will terminate with status set to ``success``.
-* ``on-failure`` is an optional link to a task to invoke next on a failed action execution. If not
-  provided, the ActionChain will terminate with the status set to ``error``.
+* ``on-failure`` is an optional link to a task to invoke next in case of a  failed action execution.
+  If not provided, the ActionChain will terminate with the status set to ``error``.
 * ``default`` is an optional top level property that specifies the start of an ActionChain. If
-  ``default`` not explicitly specified, the ActionChain starts from the first action.
+  ``default`` is not explicitly specified, the ActionChain starts from the first action.
 
 
 Registering the ActionChain
@@ -76,24 +77,21 @@ Once action definition and metadata files are created, load the action:
     # Run it
     st2 run examples.echochain
 
-Any changes in ActionChain workflow definition are picked up automatically.
-However if you change action metadata (e.g. rename or add parameters) - you will have to
-update the action with ``st2 action update <action.ref> <action.metadata.file>```.
-Alternatively, a full reload with ``st2ctl reload --register-all`` will pick up all the changes.
+Any changes in the ActionChain workflow definition are picked up automatically. However if you
+change the action metadata (e.g. rename or add parameters), you will have to update the action with
+``st2 action update <action.ref> <action.metadata.file>```. Alternatively, a full reload with
+``st2ctl reload --register-all`` will pick up all the changes.
 
 Providing Input
 ---------------
 
-To provide input to an ActionChain, input parameters must be defined in the action metadata.
-
-For example:
-
+To provide input to an ActionChain, input parameters must be defined in the action metadata:
 
 .. literalinclude:: /../../st2/contrib/examples/actions/echochain_param.meta.yaml
    :language: yaml
 
-The input parameter ``input1`` can now be referenced in the parameters field of a task in
-the ActionChain definition:
+The input parameter ``input1`` can now be referenced in the parameters field of a task in the
+ActionChain definition:
 
 .. code-block:: yaml
 
@@ -107,8 +105,8 @@ the ActionChain definition:
                action1_input: "{{input1}}"
       # ...
 
-``action1_input`` has value ``{{input1}}``. This syntax is variable referencing as supported
-by `Jinja templating <http://jinja.pocoo.org/docs/dev/templates/>`__.
+``action1_input`` has value ``{{input1}}``. This syntax is variable referencing as supported by
+`Jinja templating <http://jinja.pocoo.org/docs/dev/templates/>`__.
 
 Similar constructs are also used in :doc:`Rule </rules>` criteria and action fields.
 
@@ -119,7 +117,7 @@ ActionChain offers the convenience of named variables. Global vars are set at th
 definition with the ``var`` keyword.
 
 Tasks publish new variables with the ``publish`` keyword. Variables are handy when you need to mash
-up a reusable value from the input, globals, DataStore values, and results of multiple action
+up a reusable value from the input, globals, datastore values, and results of multiple action
 executions.
 
 All variables are referred to using Jinja syntax. The cumulative published variables are also
@@ -174,8 +172,8 @@ In |st2|, a workflow is just an action. This means you pass data from one workfl
 exactly the same manner was you would pass data to an action - you use action parameters.
 
 In the example below, we have two workflows - ``workflow1`` and ``workflow2``. The task named
-``task2`` inside ``workflow1`` calls ``workflow2`` and passes variable ``date`` to it as an action
-parameter. ``workflow2`` then uses this value and prints it to standard output.
+``task2`` inside ``workflow1`` calls ``workflow2`` and passes the variable ``date`` to it as an
+action parameter. ``workflow2`` then uses this value and prints it to standard output.
 
 ``workflow1.yaml``
 
@@ -231,8 +229,8 @@ workflow in another, the most common approach to that is using the built-in key-
 
 Inside the first workflow you store data in the datastore and inside the second workflow you retrieve
 this data from a datastore. This approach creates tighter coupling between two workflows and makes
-them less re-usable and harder to run independently of each other. Because of that, you are encouraged
-to (where possible) design the workflow in a way so you can pass data using action parameters.
+them less re-usable and harder to run independently of each other. Where possible, we encourage you
+to design the workflow in such a way that you can pass data using action parameters instead.
 
 Using action parameters means the second workflow can still be re-used and run independently of the
 first one - you simply need to pass the required parameters to it.
@@ -267,7 +265,7 @@ Using YAML and Jinja implies some constraints on how to name and reference varia
 * Variable names can use letters, underscores, and numbers. No dashes! This applies to all
   variables: global vars, input parameters, :doc:`DataStore keys <datastore>`, and published
   variables.
-* Same naming rules apply to task names: ``this-task-name-is-wrong``! Use
+* The same naming rules apply to task names: ``this-task-name-is-wrong``! Use
   ``task_names_with_underscores``.
 * Always quote variable references ``"{{ my_variable.or.expression }}"`` (remember that ``{ }`` is
   a YAML dictionary). The types are respected inside the Jinja template but converted to strings
@@ -281,9 +279,9 @@ ActionChain errors are classified as:
 * Errors reported by a specific task in the chain. In this case the error is reported as per
   behavior of the particular action in the task.
 
-Sample output:
+  Sample output:
 
-.. code-block:: json
+  .. code-block:: json
 
    {    
         "result": {
@@ -311,9 +309,9 @@ Sample output:
 * Errors experienced by the ActionChain runtime while determining the flow. In this case the error
   is reported as the error property of the ActionChain result.
 
-Sample output:
+  Sample output:
 
-.. code-block:: json
+  .. code-block:: json
 
     {
         "result": {
