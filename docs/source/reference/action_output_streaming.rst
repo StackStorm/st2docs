@@ -79,13 +79,21 @@ API endpoint (see below) or use the executions API endpoint
 
     # Tailing running execution
     $ st2 execution tail last
+    stderr -> Line: 7
+    stdout -> Line: 8
+    stderr -> Line: 9
+
+    $ st2 execution tail last --include-metadata
     [2017-08-31T11:51:06.961844Z][stderr] stderr -> Line: 7
     [2017-08-31T11:51:07.462199Z][stdout] stdout -> Line: 8
     [2017-08-31T11:51:07.963102Z][stderr] stderr -> Line: 9
-    [2017-08-31T11:51:08.463647Z][stdout] stdout -> Line: 10
 
     # Tailing execution which has finished
-    $ st2 execution tail last
+    stderr -> Line: 7
+    stdout -> Line: 8
+    stderr -> Line: 9
+    stdout -> Line: 10
+
     Execution 59a7f8260640fd686303e628 has completed.
 
 2. Via the StackStorm API
