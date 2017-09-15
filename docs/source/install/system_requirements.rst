@@ -18,7 +18,8 @@ testing. Yes, using exactly the same boxes will improve your experience.
 +-------------------+------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Alternatively, you can use the |st2| Docker image. You will need at least version 1.13.0 of
-``docker-compose`` and Docker engine. See our :doc:`Docker Image <docker>` guide for more information.
+Docker engine, and optionally ``docker-compose``. See our :doc:`Docker Image <docker>` guide
+for more information.
 
 .. include:: __64bit_note.rst
 
