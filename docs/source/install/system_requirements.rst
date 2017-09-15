@@ -17,6 +17,9 @@ testing. Yes, using exactly the same boxes will improve your experience.
 | RHEL 6 / CentOS 6 | `bento/centos-6.7 <https://atlas.hashicorp.com/bento/boxes/centos-6.7>`_     | `Red Hat Enterprise Linux (RHEL) 6 (HVM)  <https://aws.amazon.com/marketplace/pp/B00CFQWLS6/ref=srh_res_product_title?ie=UTF8&sr=0-8&qid=1457037733401>`_         |
 +-------------------+------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
+Alternatively, you can use the |st2| Docker image. You will need at least version 1.13.0 of
+``docker-compose`` and Docker engine. See our :doc:`Docker Image <docker>` guide for more information.
+
 .. include:: __64bit_note.rst
 
 While the system can operate with lower specs, these are the recommendations
