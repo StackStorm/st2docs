@@ -10,7 +10,7 @@ disk space issues for busy systems.
 --------------------------------------------------
 
 The Garbage Collector service is designed to periodically remove old data (action executions,
-live action, trigger instance database objects). 
+live action, action execution output and trigger instance database objects). 
 
 The actual collection threshold is very user-specific - it depends on your requirements and
 policies. Therefore garbage collection is disabled by default.
@@ -24,9 +24,11 @@ as shown below:
     logging = st2reactor/conf/logging.garbagecollector.conf
 
     action_executions_ttl = 30
-    trigger_instances_ttl = 30
+    action_executions_output_ttl = 10
+    trigger_instances_ttl = 40
 
-In this case action executions and trigger instances older than 30 days will be
+In this case, action executions older than 30 days, action execution output
+objects older than 10 days and trigger instances older than 40 days will be
 automatically deleted.
 
 The lowest supported TTL is 7 days. If you need to delete old data more frequently, check the
