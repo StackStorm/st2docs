@@ -28,9 +28,9 @@ Or, find a version of libffi-devel compatible with libffi on the box, and instal
 .. code :: bash
 
   [ec2-user@ip-172-30-0-79 ~]$ rpm -qa libffi
-  libffi-3.0.5-3.4.el6.x86_64
+  libffi-3.0.5-3.2.el6.x86_64
 
-  sudo yum localinstall -y ftp://fr2.rpmfind.net/linux/centos/6/os/x86_64/Packages/libffi-devel-3.0.5-3.4.el6.x86_64.rpm
+  sudo yum localinstall -y ftp://rpmfind.net/linux/centos/6.9/os/x86_64/Packages/libffi-devel-3.0.5-3.2.el6.x86_64.rpm
 
 Adjust SELinux Policies
 ~~~~~~~~~~~~~~~~~~~~~~~
