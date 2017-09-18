@@ -8,7 +8,7 @@ BWC adds priority support, advanced features such as fine-tuned access control, 
 and Workflow Designer. To learn more about |bwc|, get an evaluation license,
 or request a quote, visit `brocade.com/bwc <http://www.brocade.com/bwc>`_.
 
-To install |bwc| for a quick evaluation, run the commands below on a clean 64-bit Linux box,
+To install |bwc| for a quick evaluation, run the commands below on a clean 64bit Linux box,
 replacing ``${BWC_LICENSE_KEY}``
 with the key you received when registering for evaluation or purchasing BWC.
 
@@ -16,19 +16,6 @@ with the key you received when registering for evaluation or purchasing BWC.
 
   curl -sSL -O https://brocade.com/bwc/install/install.sh && chmod +x install.sh
   ./install.sh --user=st2admin --password='Ch@ngeMe' --license=${BWC_LICENSE_KEY}
-
-
-.. warning::
-   If you are planning on installing the DC Fabric Automation Suite with this system, please only
-   install BWC version 2.2 or 2.3. There is a known issue with DC Fabric Automation Suite and BWC
-   v2.4.
-
-   To install version 2.3.2, run these installation commands:
-
-   .. code-block:: bash
-
-      curl -sSL -O https://brocade.com/bwc/install/install.sh && chmod +x install.sh
-      ./install.sh --user=st2admin --password='Ch@ngeMe' --license=${BWC_LICENSE_KEY} --version=2.3.2
 
 
 To understand the details of the installation procedure,
