@@ -245,26 +245,27 @@ Like most other resources in StackStorm, we can use the ``get`` subcommand to re
     | tag      | developers                                                   |
     | ttl      | 1440                                                         |
     | schema   | {                                                            |
-    |          |     "required": [                                            |
-    |          |         "continue"                                           |
-    |          |     ],                                                       |
     |          |     "type": "object",                                        |
     |          |     "properties": {                                          |
     |          |         "continue": {                                        |
     |          |             "type": "boolean",                               |
     |          |             "description": "Would you like to continue the   |
     |          | workflow?"                                                   |
+    |          |             "required": true
     |          |         }                                                    |
     |          |     },                                                       |
     |          |     "title": "response_data"                                 |
     |          | }                                                            |
     +----------+--------------------------------------------------------------+
 
-In this view, we see the schema in use requires a single key: ``continue``, whose value must be boolean. We can construct a simple JSON response that validates against this schema, and pass it as a positional argument to ``st2 inquiry respond``:
+In this view, we see the schema in use requires a single key: ``continue``, whose value must be boolean. Fortunately, the ``st2`` client makes this really easy; when you run the command ``st2 inquiry respond <inquiry id>``, it will step through each of these values, prompting you with the provided description, and giving a hint as to what type is expected. You simply respond to each prompt:
 
 .. code-block:: bash
 
-    ~$ st2 inquiry respond 59ab26af32ed35752062d2dc '{"continue": true}'
+    ~$ st2 inquiry respond 59ab26af32ed35752062d2dc
+    Should we continue? (boolean): True
+
+     Response accepted. Successful response data to follow...
     +----------+--------------------------+
     | Property | Value                    |
     +----------+--------------------------+
@@ -274,13 +275,32 @@ In this view, we see the schema in use requires a single key: ``continue``, whos
     |          | }                        |
     +----------+--------------------------+
 
-Note that if the JSON does not validate against the provided schema, we get an error, and the workflow remains paused:
+It's very important that each property in the response schema has a proper description, as shown in the default example, as this is what prompts the user for required values when it's time to respond.
+
+If you provide a value that doesn't conform to the provided schema, an error will be shown, and the workflow will remain paused:
 
 .. code-block:: bash
 
-    ~$ st2 inquiry respond 59ab26af32ed35752062d2dc '{"continue": 123}'
+    ~$ st2 inquiry respond 59ab26af32ed35752062d2dc
+    Should we continue? (boolean): 123
     ERROR: 400 Client Error: Bad Request
     MESSAGE: Response did not pass schema validation. for url: http://127.0.0.1:9101/exp/inquiries/59ab26af32ed35752062d2dc
+
+You can also use the ``-r`` or ``--response`` flag to bypass this interactive mode and provide your own complete JSON object as a string parameter. This can be useful for scripted responses:
+
+.. code-block:: bash
+
+    ~$ st2 inquiry respond -r '{"continue": true}' 59ab26af32ed35752062d2dc
+
+     Response accepted. Successful response data to folow...
+    +----------+--------------------------+
+    | Property | Value                    |
+    +----------+--------------------------+
+    | id       | 59ab26af32ed35752062d2dc |
+    | response | {                        |
+    |          |     "continue": true     |
+    |          | }                        |
+    +----------+--------------------------+
 
 Once an acceptable response is provided, the workflow resumes:
 
