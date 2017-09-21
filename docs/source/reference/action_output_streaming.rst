@@ -68,6 +68,15 @@ The easiest way to access the output is to use the ``st2 execution tail <executi
 This command listens for new data on the StackStorm event stream API and prints it as it becomes
 available.
 
+.. note::
+
+  ``st2 execution tail`` Only displays output for simple actions and workflows which are not
+  nested (e.g. workflow which calls a simple action).
+
+  If you have multiple levels of nested workflows (e.g. workflow which calls a workflow which
+  calls an action) and you want to see output of an action which is called by a nested workflow,
+  you need to directly tail execution of a nested workflow.
+
 Keep in mind that this command utilizes the stream API endpoint so it will only print any new data
 which comes in after you ran the command.
 
