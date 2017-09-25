@@ -1,7 +1,7 @@
 Rules
 =====
 
-|st2| uses rules and worfklows to capture operational patterns as automations. Rules map triggers
+|st2| uses rules and workflows to capture operational patterns as automations. Rules map triggers
 to actions (or workflows), apply matching criteria and map trigger payloads to action inputs.
 
 Rule Structure
