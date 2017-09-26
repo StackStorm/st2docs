@@ -2,7 +2,7 @@ ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 SHELL := /bin/bash
 TOX_DIR := .tox
 VIRTUALENV_DIR ?= virtualenv
-ST2_VIRTUALENV_DIR = st2/virtualenv
+ST2_VIRTUALENV_DIR ?= st2/virtualenv
 
 # Sphinx docs options
 SPHINXBUILD := sphinx-build
@@ -140,7 +140,7 @@ bwclocallivedocs: bwclocaldocs .livedocs
 	rm -rf $(DOC_BUILD_DIR)
 
 .PHONY: distclean
-distclean: clean
+distclean:
 	@echo
 	@echo "==================== distclean ===================="
 	@echo
@@ -153,7 +153,7 @@ requirements: virtualenv
 	@echo
 
 	# Make sure we use latest version of pip
-	$(VIRTUALENV_DIR)/bin/pip install --upgrade "pip<8.0.0"
+	$(VIRTUALENV_DIR)/bin/pip install --upgrade "pip>=8.1.2,<8.2"
 
 	# Install requirements
 	#

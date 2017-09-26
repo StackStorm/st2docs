@@ -1,14 +1,15 @@
 Quick Start
 =================
 
-Got |st2| :doc:`installed </install/index>`? Let's give
-it a try. This guide will walk you through |st2| basics and help you build and run a simple
-automation: a rule that triggers an action on an external event.
+Got |st2| :doc:`installed </install/index>`? Let's take it for a spin.
 
+This guide will walk you through |st2| basics and help you build and run a simple automation: a
+rule that triggers an action on an external event.
 
 Explore |st2| with CLI
-----------------------------
-The best way to explore |st2| is to use CLI. Start by firing a few commands:
+----------------------
+
+The best way to explore |st2| is to use the CLI. Start by running a few commands:
 
 .. code-block:: bash
 
@@ -20,9 +21,9 @@ The best way to explore |st2| is to use CLI. Start by firing a few commands:
     # Authenticate and export the token. Make sure ST2_AUTH_URL and
     # ST2_API_URL are set correctly (http vs https, endpoint, and etc).
     # Replace the username and password in the example below appropriately.
-    export ST2_AUTH_TOKEN=`st2 auth -t -p 'pass123' admin`
+    export ST2_AUTH_TOKEN=`st2 auth -t -p 'Ch@ngeMe' st2admin`
 
-    # List the actions from a 'core' pack
+    # List the actions from the 'core' pack
     st2 action list --pack=core
     st2 trigger list
     st2 rule list
@@ -33,39 +34,42 @@ The best way to explore |st2| is to use CLI. Start by firing a few commands:
     # See the execution results
     st2 execution list
 
-    # Fire a shell comand on remote hosts. Requires passwordless SSH configured.
+    # Run a shell command on remote hosts. Requires passwordless SSH configured.
     st2 run core.remote hosts='localhost' -- uname -a
 
-The installation deploys the CLI along with the |st2| services. CLI can be used to access |st2|
-service remotely. All |st2| operations are also available via REST API, Python, and JavaScript
+All |st2| operations are also available via REST API, Python, and JavaScript
 bindings. Check the :doc:`CLI and Python Client </reference/cli>` reference for details.
 
-|st2| ships with WebUI. You can access it at https://hostname.
+You can also do a lot through the Web UI: Check the history, run actions, configure rules, install
+packs...check it out at https://{YOUR_ST2_IP}. Login is the same as via the ``st2`` CLI. Default is
+``st2admin``/``Ch@ngeMe``.
 
 Authenticate
 ------------
-If :doc:`authentication <authentication>` is enabled, obtain authentication token with
-``st2 auth <username>``, and supply the token to each st2 command using the ``--token`` or ``-t``
-parameter. For convenience, keep the credential in the CLI config file, or set the environment
-variable ``ST2_AUTH_TOKEN``. When using environment variable, make sure that ``ST2_API_URL`` and
-``ST2_AUTH_URL`` are set appropriately. The doc section on authentication
-:ref:`usage <authentication-usage>` contains additional notes. A nice shortcut for now is:
+
+You will almost certainly have authentication enabled. To easiest way to login via CLI is this:
 
 .. code-block:: bash
 
-    export ST2_AUTH_TOKEN=`st2 auth -t -p 'pass123' admin`
+    st2 login st2admin --password 'Ch@ngeMe'
 
+This will obtain an authentication token, and cache it.
+
+There are other options for authentication: check the :doc:`docs<authentication>` for more details.
 
 Work with Actions
 -----------------
 
 |st2| comes with several generic actions out of the box. The catalog of actions can be easily
-extended by getting actions from the community or consuming your existing scripts (`more on that
-later`). Browse the catalog with ``st2 action list``. Action is referred to by `ref` as
-``pack.action_name`` (e.g. ``core.local``). Learn about an action by doing
-``st2 action get <action>``, or, ``st2 run <action> --h (--help)``: the command shows the
-description along with action parameters so that you know how to run it from the CLI or use it
-in rules and workflows.
+extended by getting actions from the community or consuming your existing scripts (more on that
+later). 
+
+Browse the catalog with ``st2 action list``. Actions are referred to by a ``ref``. This takes the
+form ``pack.action_name`` (e.g. ``core.local``).
+
+Learn about an action by running ``st2 action get <action>``, or ``st2 run <action> --help``. This
+will give you the description, along with the action parameters. This tells you how to run it from
+the CLI, or use it in rules and workflows.
 
 .. code-block:: bash
 
@@ -78,8 +82,7 @@ in rules and workflows.
     # Display action details and parameters.
     st2 run core.http --help
 
-To run the action from the CLI, do
-``st2 run <action> key=value positional arguments``.
+To run an action from the CLI, use ``st2 run <action> key=value positional arguments``:
 
 .. code-block:: bash
 
@@ -87,11 +90,11 @@ To run the action from the CLI, do
     st2 run core.local -- uname -a
 
     # HTTP REST call to st2 action endpoint
-    st2 run -j core.http url="http://docs.stackstorm.com" method="GET"
+    st2 run -j core.http url="https://docs.stackstorm.com" method="GET"
 
-Use ``core.remote`` action to run linux command on multiple hosts over ssh. This assumes that
-passwordless SSH access is configured for the hosts, as described in :ref:`config-configure-ssh`
-section.
+Use the ``core.remote`` action to run Linux commands on multiple hosts via SSH. This assumes that
+passwordless SSH access is configured for the hosts, as described in the
+:ref:`config-configure-ssh` section.
 
 .. code-block:: bash
 
@@ -104,10 +107,9 @@ section.
     Alternatively, ``core.local`` and ``core.remote`` actions take the ``cmd`` parameter to pass
     crazily complex commands.
 
-    When specifying a command using the command line tool, you also need to escape all the
-    variables, otherwise the variables will get interpolated locally by a shell. Variables
-    are escaped using a backslash (``\``) - e.g.
-    `\\$user`.
+    When specifying a command using the command line tool, you also need to escape all variables,
+    otherwise the variables will get interpolated locally by a shell. Variables are escaped using
+    a backslash (``\``) - e.g. ``\$user``.
 
 .. code-block:: bash
 
@@ -120,11 +122,12 @@ section.
     # Crazily complex command passed with `cmd`
     st2 run core.remote hosts='localhost' cmd="for u in bob phill luke; do echo \"Logins by \$u per day:\"; grep \$u /var/log/secure | grep opened | awk '{print \$1 \"-\" \$2}' | uniq -c | sort; done;"
 
-Check the action execution history and details of action executions with ``st2 execution`` command:
+Check the action execution history and details of action executions with the ``st2 execution``
+command:
 
 .. code-block:: bash
 
-    # List of executions (recent at the bottom)
+    # List of executions (most recent at the bottom)
     st2 execution list
 
     # Get execution by ID
@@ -133,13 +136,13 @@ Check the action execution history and details of action executions with ``st2 e
     # Get only the last 5 executions
     st2 execution list -n 5
 
-That's it. You have learned to run |st2|'s actions. Let's stitch together other automation.
-
+That's it. You have learned to run |st2|'s actions. Now let's stitch events and actions together
+with rules.
 
 Define a Rule
 -------------
 
-|st2| uses rules to fire actions or workflows when events happen. Events are typically monitored
+|st2| uses rules to run actions or workflows when events happen. Events are typically monitored
 by sensors. When a sensor catches an event, it fires a trigger. Trigger trips the rule, the rule
 checks the criteria and if it matches, it runs an action. Easy enough. Let’s look at an example.
 
@@ -149,18 +152,19 @@ Sample rule: :github_st2:`sample_rule_with_webhook.yaml
 .. literalinclude:: /../../st2/contrib/examples/rules/sample_rule_with_webhook.yaml
     :language: yaml
 
-The rule definition is a YAML file with three sections: trigger, criteria, and action. This example is
-setup to react on a webhook trigger and applies filtering criteria on the content of the trigger.
+The rule definition is a YAML file with three sections: trigger, criteria, and action. This
+example is set up to react on a webhook trigger, and applies filtering criteria to the content of
+the trigger.
+
 The webhook in this example is setup to listen on the ``sample`` sub-url at
-``https://{host}/api/v1/webhooks/sample``. When a POST is made on this URL, the trigger
-fires. If the criteria matches, value in payload is ``st2`` in this case, the payload will be
-appended to the file st2.webhook_sample.out in the home directory of the user setup to run |st2|.
-By default, ``stanley`` is the default user and the file will be located at
+``https://{host}/api/v1/webhooks/sample``. When a POST is made to this URL, the trigger
+fires. If the criteria matches (in this case the value in payload is ``st2``), the payload will be
+appended to the file ``st2.webhook_sample.out`` in the home directory of |st2| system user. By default, this is ``stanley``, so the file will be located at
 ``/home/stanley/st2.webhook_sample.out``. See :doc:`rules` for detailed rule anatomy.
 
-The trigger payload is referred to with ``{{trigger}}``. If the trigger payload is a valid JSON object,
-it is parsed and can be accessed like ``{{trigger.path.to.parameter}}`` (it's
-`Jinja template syntax <http://jinja.pocoo.org/docs/dev/templates/>`__).
+The trigger payload is referred to with ``{{trigger}}``. If the trigger payload is a valid JSON
+object, it is parsed and can be accessed like ``{{trigger.path.to.parameter}}``
+(it's `Jinja template syntax <http://jinja.pocoo.org/docs/dev/templates/>`__).
 
 What are the triggers available to use in rules? Just like with actions, use the CLI to browse
 triggers, learn what the trigger does, how to configure it, and what the payload structure is:
@@ -203,7 +207,7 @@ Fire the POST, check out the file and see that it appends the payload if the nam
     # Post to the webhook
     curl -k https://localhost/api/v1/webhooks/sample -d '{"foo": "bar", "name": "st2"}' -H 'Content-Type: application/json' -H 'X-Auth-Token: put_token_here'
 
-    # Check if the action got executed (this shows last action)
+    # Check if the action was executed (this shows the last action)
     st2 execution list -n 1
 
     # Check that the rule worked. By default, st2 runs as the stanley user.
@@ -212,8 +216,8 @@ Fire the POST, check out the file and see that it appends the payload if the nam
     # And for fun, same post with st2
     st2 run core.http method=POST body='{"you": "too", "name": "st2"}' url=https://localhost/api/v1/webhooks/sample headers='x-auth-token=put_token_here,content-type=application/json' verify_ssl_cert=False
 
-    # And for even more fun, same post with st2 using basic authentication
-    st2 run core.http method=POST body='{"you": "too", "name": "st2"}' url=https://localhost/api/v1/webhooks/sample headers='content-type=application/json' verify_ssl_cert=False username=user1 password=pass1
+    # And for even more fun, using basic authentication over https
+    st2 run core.http url=https://httpbin.org/basic-auth/st2/pwd username=st2 password=pwd
 
     # Check that the rule worked. By default, st2 runs as the stanley user.
     sudo tail /home/stanley/st2.webhook_sample.out
@@ -223,10 +227,11 @@ Congratulations, your first |st2| rule is up and running!
  .. _start-deploy-examples:
 
 Deploy Examples
--------------------------
+---------------
+
 Examples of rules, custom sensors, actions, and workflows are installed with |st2| and located
-at :github_st2:`/usr/share/doc/st2/examples <contrib/examples/>`. To deploy, copy them
-to /opt/stackstorm/packs/, setup, and reload the content:
+at :github_st2:`/usr/share/doc/st2/examples <contrib/examples/>`. To deploy, copy them to 
+``/opt/stackstorm/packs/``, setup, and reload the content:
 
 .. code-block:: bash
 
@@ -239,14 +244,17 @@ to /opt/stackstorm/packs/, setup, and reload the content:
     # Reload stackstorm context
     st2ctl reload --register-all
 
-For more content — actions, sensors, rules — checkout `StackStorm Exchange <https://exchange.stackstorm.org>`__.
+For more content — actions, sensors, rules — check out the `StackStorm Exchange
+<https://exchange.stackstorm.org>`__.
 
 Datastore
 ---------
 
 While most data are retrieved as needed by |st2|, you may need to store and share some common
-variables. Use |st2| datastore service to store the values and reference them in rules and workflows
-as ``{{st2kv.system.my_parameter}}``. This creates ``user=stanley`` key-value pair:
+variables. Use the |st2| datastore service to store the values and reference them in rules and
+workflows as ``{{st2kv.system.my_parameter}}``.
+
+This creates ``user=stanley`` key-value pair:
 
 .. code-block:: bash
 
@@ -256,7 +264,7 @@ as ``{{st2kv.system.my_parameter}}``. This creates ``user=stanley`` key-value pa
     # List the key value pairs in the datastore
     st2 key list
 
-For more information on datastore, check :doc:`datastore`
+For more information on the datastore, check :doc:`datastore`
 
 -------------------------------
 
@@ -265,11 +273,11 @@ For more information on datastore, check :doc:`datastore`
 * Get more actions, triggers, rules:
 
 
-    * Install integration packs from `StackStorm Exchange <https://exchange.stackstorm.org>`__  - follow guide on :doc:`/packs`.
+    * Install integration packs from `StackStorm Exchange <https://exchange.stackstorm.org>`__  - follow the guide at :doc:`/packs`.
     * :ref:`Convert your scripts into StackStorm actions. <ref-actions-converting-scripts>`
     * Learn how to :ref:`write custom actions <ref-actions-writing-custom>`.
 
 * Use workflows to stitch actions into higher level automations - :doc:`/workflows`.
-* Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with StackStorm.
+* Check out `tutorials on stackstorm.com <https://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with StackStorm.
 
 .. include:: __engage_community.rst

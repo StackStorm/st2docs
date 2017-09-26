@@ -1,24 +1,22 @@
 Purging Old Operational Data
 ============================
 
-If your |st2| deployment is used for a sufficiently long period of time or
-you have a lot of executions happening/triggers coming in, the database fills up.
-If you are looking for a way to purge old data in bulk for performance reasons
-or cleaning up the DB, you have two options described below.
+By default, |st2| retains all execution history indefinitely. This can lead to performance and
+disk space issues for busy systems. 
 
-1. Automatic purging via garbage collector service
+|st2| has two options for bulk data purging: Automatic and manual.
+
+1. Automatic Purging via Garbage Collector Service
 --------------------------------------------------
 
-|st2| ships with a special service which is designed to periodically collect
-garbage and old data (old action execution, live action and trigger instance
-database objects).
+The Garbage Collector service is designed to periodically remove old data (action executions,
+live action, action execution output and trigger instance database objects). 
 
-The actual collection threshold is very user-specific (it depends on your
-requirements, policies, etc.) so garbage collection of old data is disabled
-by default.
+The actual collection threshold is very user-specific - it depends on your requirements and
+policies. Therefore garbage collection is disabled by default.
 
-If you want to enable it, you need to configure TTL (in days) for action
-executions and trigger instances in ``st2.conf`` as shown below:
+To enable it, configure a TTL (in days) for action executions and trigger instances in ``st2.conf``
+as shown below:
 
 .. sourcecode:: ini
 
@@ -26,66 +24,66 @@ executions and trigger instances in ``st2.conf`` as shown below:
     logging = st2reactor/conf/logging.garbagecollector.conf
 
     action_executions_ttl = 30
-    trigger_instances_ttl = 30
+    action_executions_output_ttl = 10
+    trigger_instances_ttl = 40
 
-In this case action executions and trigger instances older than 30 days will be
+In this case, action executions older than 30 days, action execution output
+objects older than 10 days and trigger instances older than 40 days will be
 automatically deleted.
 
-Keep in mind that the lowest supported TTL right now is 7 days. If you want to
-delete old data more often then that, you should look at the purge scripts
-described below.
+The lowest supported TTL is 7 days. If you need to delete old data more frequently, check the
+manual purge scripts below.
 
-2. Manual purging using purge scripts
+2. Manual Purging Using Purge Scripts
 -------------------------------------
 
-If for some reason you don't want to use automatic purging via garbage collector
-service you can perform purging manually using the scripts described below.
+If you need to manually purge data, you can use the scripts here.
 
-Purging executions older than some timestamp
+Purging Executions Older than Some Timestamp
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: bash
 
     st2-purge-executions --timestamp="2015-11-25T21:45:00.000000Z"
 
-The timestamp provided is interpreted as UTC timestamp. Please perform all necessary timezone
-conversions and specify UTC timestamp.
+The timestamp provided is interpreted as a UTC timestamp. Please perform all necessary timezone
+conversions and specify time in UTC.
 
-You can also delete executions for a particular ``action_ref`` by specifying an action_ref parameter
-to the tool:
+You can also delete executions for a particular ``action_ref`` by specifying an ``action_ref``
+parameter:
 
-::
+.. code-block:: bash
 
     st2-purge-executions --timestamp="2015-11-25T21:45:00.000000Z" --action-ref="core.localzz"
 
-By default, only executions in completed state, i.e. ``succeeded``, ``failed``, ``canceled``, ``timeout``
-and ``abandoned`` are deleted. If you want to purge all models irrespective of status,
-you can pass the ``--purge-incomplete`` option to the script.
+By default, only executions in completed state are deleted - i.e. ``succeeded``, ``failed``,
+``canceled``, ``timeout`` and ``abandoned``. To delete all models irrespective of status, use the
+``--purge-incomplete`` option:
 
-::
+.. code-block:: bash
 
     st2-purge-executions --timestamp="2015-11-25T21:45:00.000000Z" --purge-incomplete
 
-Depending on how much data there is, the script may take a while to run. Therefore, please run it
+This script may take some time to complete, depending on data volumes. We recommend running it
 inside a screen/tmux session. For example:
 
-::
+.. code-block:: bash
 
     screen -d -m -S purge-execs st2-purge-executions --timestamp="2015-11-25T21:45:00.000000Z"
 
-Purging trigger instances older than some timestamp
+Purging Trigger Instances Older than Some Timestamp
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: bash
 
     st2-purge-trigger-instances --timestamp="2015-11-25T21:45:00.000000Z"
 
-Again, the timestamp provided is interpreted as UTC timestamp. Please perform all necessary timezone
-conversions and specify UTC timestamp.
+Again, the timestamp provided is interpreted as a UTC timestamp. Please perform all necessary
+timezone conversions and specify time in UTC.
 
-Depending on how much data there is, the script may take a while to run. Therefore, please run it
+This script may take some time to complete, depending on data volumes. We recommend running it
 inside a screen/tmux session. For example:
 
-::
+.. code-block:: bash
 
     screen -d -m -S purge-instances st2-purge-trigger-instances --timestamp="2015-11-25T21:45:00.000000Z"

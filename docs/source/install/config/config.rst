@@ -27,8 +27,10 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 
 The ``username`` and ``password`` properties are optional.
 
-|st2| also supports `MongoDB replica sets <https://docs.mongodb.com/v3.2/core/replication-introduction/>`_
-using `MongoDB URI string <https://docs.mongodb.com/v3.2/reference/connection-string/>`_.
+.. _ref-mongo-ha-config:
+
+|st2| also supports `MongoDB replica sets <https://docs.mongodb.com/v3.4/core/replication-introduction/>`_
+using `MongoDB URI string <https://docs.mongodb.com/v3.4/reference/connection-string/>`_.
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
 
@@ -37,9 +39,9 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
     [database]
     host = mongodb://<#MDB_NODE_1>,<#MDB_NODE_2>,<#MDB_NODE_3>/?replicaSet=<#MDB_REPLICA_SET_NAME>
 
-* You can also add ports, usernames and passwords, etc to your connection string - https://docs.mongodb.com/v3.2/reference/connection-string/
+* You can also add ports, usernames and passwords, etc to your connection string - https://docs.mongodb.com/v3.4/reference/connection-string/
 
-* To understand more about setting up a MongoDB replica set - https://docs.mongodb.com/v3.2/tutorial/deploy-replica-set/
+* To understand more about setting up a MongoDB replica set - https://docs.mongodb.com/v3.4/tutorial/deploy-replica-set/
 
 |st2| also supports SSL/TLS to encrypt connections. A few extra properties need be added to
 the configuration apart from the ones outlined above.
@@ -83,6 +85,8 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 
 The ``#RMQ_VHOST`` property is optional and can be left blank.
 
+.. _ref-rabbitmq-cluster-config:
+
 |st2| also supports `RabbitMQ cluster <https://www.rabbitmq.com/clustering.html>`_.
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
@@ -106,9 +110,9 @@ Configure SSH
 
 To run actions on remote hosts, |st2| uses SSH. It is advised to configure identity file based SSH access on all remote hosts.
 
-The |st2| ssh user and path to SSH key are set in ``/etc/st2/st2.conf``. During installation, ``st2_deploy.sh`` script configures ssh on the local box for a user `stanley`.
+The |st2| ssh user and path to SSH key are set in ``/etc/st2/st2.conf``. During installation, ``st2_deploy.sh`` script configures ssh on the local box for a user ``stanley``.
 
-Follow these steps on a remote box to setup `stanley` user on remote boxes.
+Follow these steps on a remote box to setup ``stanley`` user on remote boxes.
 
 .. code-block:: bash
 
@@ -142,7 +146,7 @@ To verify do the following from the |st2| box
 SSH Troubleshooting
 ~~~~~~~~~~~~~~~~~~~
 
-* Validate that passwordless SSH configuration works fine for the destination. Assuming default user `stanley`:
+* Validate that passwordless SSH configuration works fine for the destination. Assuming default user ``stanley``:
 
     .. code-block:: bash
 
@@ -165,7 +169,7 @@ SUDO Access
 
 |st2|'s ``shell`` actions -  ``local-shell-cmd``, ``local-shell-script``, ``remote-shell-cmd``, ``remote-shell-script``- are performed by a special user. By default, this user is named ``stanley``. This is configurable via :github_st2:`st2.conf <conf/st2.prod.conf>`.
 
-.. note:: `stanley` user requires the following access:
+.. note:: ``stanley`` user requires the following access:
 
     * Sudo access to all boxes on which script action will run.
     * SETENV option needs to be set for all the commands. This way environment variables which are
@@ -219,6 +223,8 @@ By default, the logs can be found in ``/var/log/st2``.
   MB) and a maximum of 5 old log files will be kept. For more information, see
   `RotatingFileHandler <https://docs.python.org/2/library/logging.handlers.html#rotatingfilehandler>`_
   docs.
+
+  Keep in mind that log level names need to be uppercase (e.g. ``DEBUG``, ``INFO``, etc.).
 
 * Sensors run in their own process so it is recommended to not allow sensors to share the same
   ``RotatingFileHandler``. To configure a separate handler per sensor
@@ -280,7 +286,7 @@ There are a number of configurable options available under the mistral section i
 | keystone_auth_url     | v3 Auth URL for OpenStack Keystone.                    |
 +-----------------------+--------------------------------------------------------+
 
-::
+.. code-block:: ini
 
     # Example with basic options. The v2_base_url is set to http://workflow.example.com:8989/v2.
     # On connection error, the following configuration sets up the action runner to retry
@@ -294,7 +300,7 @@ There are a number of configurable options available under the mistral section i
     retry_exp_max_msec = 300000
     retry_stop_max_msec = 600000
 
-::
+.. code-block:: ini
 
     # Example with auth options.
 
@@ -324,23 +330,27 @@ Configure ChatOps
 
 Configure secrets masking
 -------------------------
+
 In order to manage secrets masking on a system-wide basis you can also modify ``/etc/st2/st2.conf`` and
 control secrets masking at 2 levels i.e. API and logs. Note that this feature only controls external
 visibility of secrets and does not control how secrets are stored as well as managed by |st2|.
 
 * To mask secrets in API response. This is enabled on a per API basis and only available to admin users.
 
-.. sourcecode:: bash
+.. sourcecode:: ini
 
     [api]
     ...
-    mask_secrets=True
+    mask_secrets = True
 
 
 * To mask secrets in logs
 
-.. sourcecode:: bash
+.. sourcecode:: ini
 
-    [logging]
+    [log]
     ...
-    mask_secrets=True
+    mask_secrets = True
+
+For more information and limitations on secrets masking please refer to
+:doc:`../../reference/secrets_masking`.

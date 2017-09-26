@@ -17,7 +17,7 @@
     st2 run core.remote hosts='localhost' -- uname -a
 
     # Install a pack
-    st2 run packs.install packs=st2
+    st2 pack install st2
 
 Use the supervisor script to manage |st2| services: ::
 
