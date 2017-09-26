@@ -94,7 +94,7 @@ Upgrade Notes
 
   .. code-block:: bash
 
-    st2-apply-rbac-defintions --config-file /etc/st2/st2.conf
+    st2-apply-rbac-definitions --config-file /etc/st2/st2.conf
 
   If you need access to the plain-text version of the password used by StackStorm
   services to talk to MongoDB and PostgreSQL, you can find it in ``/etc/st2/st2.conf``
