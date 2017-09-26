@@ -51,7 +51,7 @@ section below.
 
 Your sensor should generate triggers in Python dict form:
 
-.. code:: python
+.. code-block:: python
 
     trigger = 'pack.name'
     payload = {
@@ -63,7 +63,7 @@ Your sensor should generate triggers in Python dict form:
 The sensor injects such triggers by using the sensor\_service passed into the sensor on
 instantiation.
 
-.. code:: python
+.. code-block:: python
 
     self.sensor_service.dispatch(trigger=trigger, payload=payload, trace_tag=trace_tag)
 
@@ -105,7 +105,7 @@ This method allows the sensor to inject triggers into the system.
 
 For example:
 
-.. code:: python
+.. code-block:: python
 
     trigger = 'pack.name'
     payload = {
@@ -123,7 +123,7 @@ to that sensor.
 
 For example:
 
-.. code:: python
+.. code-block:: python
 
     self._logger = self.sensor_service.get_logger(name=self.__class__.__name__)
     self._logger.debug('Polling 3rd party system for information')
@@ -157,7 +157,7 @@ StackStorm Exchange<twitter/tree/master/sensors/twitter_search_sensor.py>`
 This method allows you to list the values in the datastore. You can also filter by key name prefix
 (key name starts with) by passing ``prefix`` argument to the method:
 
-.. code:: python
+.. code-block:: python
 
     kvps = self.sensor_service.list_values(local=False, prefix='cmdb.')
 
@@ -170,14 +170,14 @@ This method allows you to list the values in the datastore. You can also filter 
 
 This method allows you to retrieve a single value from the datastore:
 
-.. code:: python
+.. code-block:: python
 
     kvp = self.sensor_service.get_value('cmdb.api_host')
     print(kvp.name)
 
 If the value is encrypted, you can decrypt it with this:
 
-.. code:: python
+.. code-block:: python
 
     kvp = self.sensor_service.get_value('cmdb.api_password', decrypt=True)
     print(kvp.name)
@@ -188,14 +188,14 @@ If the value is encrypted, you can decrypt it with this:
 This method allows you to store (set) a value in the datastore. Optionally you can also specify
 time to live (TTL) for the stored value:
 
-.. code:: python
+.. code-block:: python
 
     last_id = 12345
     self.sensor_service.set_value(name='last_id', value=str(last_id))
 
 Secret values can be encrypted in the datastore:
 
-.. code:: python
+.. code-block:: python
 
     ma_password = 'Sup3rS34et'
     self.sensor_service.set_value(name='ma_password', value=ma_password, encrypt=True)
@@ -207,7 +207,7 @@ Secret values can be encrypted in the datastore:
 This method allows you to delete an existing value from the datastore. If a value is not found this
 method will return ``False``, ``True`` otherwise.
 
-.. code:: python
+.. code-block:: python
 
     self.sensor_service.delete_value(name='my_key')
 
