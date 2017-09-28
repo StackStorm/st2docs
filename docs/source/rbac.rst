@@ -159,10 +159,6 @@ For example:
     |                         |                         |           |                         | remotely.               |
     +-------------------------+-------------------------+-----------+-------------------------+-------------------------+
 
-.. note::
-
-   The ``inquiry`` resource is currently implemented a bit differently from other resources, and therefore doesn't follow this UID format. When constructing an RBAC role for Inquiries, you must use the UID ``inquiry:ask``.
-
 How it Works
 ------------
 

@@ -200,6 +200,10 @@ Notifying Users of Inquiries using Rules
 
 When a new Inquiry is raised, a dedicated trigger - ``core.st2.generic.inquiry`` - is used. This trigger can be consumed in Rules, and you can use an action or a workflow to provide notification to the relevant party. For instance, using Slack:
 
+.. TODO - The code snippet below is provided because the Inquiry functionality is not merged yet.
+   Please convert this to a literalinclude statement, referring to workflows in the examples
+   directory of st2, once https://github.com/StackStorm/st2/pull/3653 is merged.
+
 .. code-block:: yaml
 
     ---
