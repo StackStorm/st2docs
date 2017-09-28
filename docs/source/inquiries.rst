@@ -1,7 +1,7 @@
 Inquiries
 ===============================
 
-StackStorm 2.4 introduced a new feature that allows you to pause a workflow
+StackStorm 2.5 introduced a new feature that allows you to pause a workflow
 to wait for additional information. This is done by using a new action:
 ``core.ask``. These are called "Inquiries", and the idea is to allow you
 to "ask a question" in the middle of a workflow. This could be a question like
@@ -65,7 +65,7 @@ action:
 |             | the action. Defaults to empty list, which permits all   |
 |             | users.                                                  |
 +-------------+---------------------------------------------------------+
-| tag         | An arbitrary string that can be used to filter          |
+| route       | An arbitrary string that can be used to filter          |
 |             | different Inquiries inside rules. This can be helpful   |
 |             | for deciding who to notify of an incoming Inquiry.      |
 |             | See "Notifying Users of Inquiries using Rules" for      |
@@ -91,7 +91,7 @@ action and passes in a few parameters:
         - name: task1
           ref: core.ask
           params:
-            tag: developers
+            route: developers
             users:
               - testu
 
@@ -106,24 +106,36 @@ We can run this workflow to see its execution:
 
     ~$ st2 run examples.chain-test-inquiry
     .
-    id: 59a9c85632ed3553fb738c80
+    id: 59ca9aad32ed3514845e7b0c
     action.ref: examples.chain-test-inquiry
     parameters: None
     status: paused
     result_task: task1
     result:
-      response: {}
-    start_timestamp: 2017-09-01T20:51:34.455424Z
+      roles: []
+      schema:
+        properties:
+          continue:
+            description: Would you like to continue the workflow?
+            required: true
+            type: boolean
+        title: response_data
+        type: object
+      route: developers
+      ttl: 1440
+      users:
+      - testu
+    start_timestamp: 2017-09-26T18:21:33.186215Z
     end_timestamp: None
     +--------------------------+---------+-------+----------+-------------------------------+
     | id                       | status  | task  | action   | start_timestamp               |
     +--------------------------+---------+-------+----------+-------------------------------+
-    | 59a9c85632ed3553a76aae06 | pending | task1 | core.ask | Fri, 01 Sep 2017 20:51:34 UTC |
+    | 59ca9aad32ed35143227fe52 | pending | task1 | core.ask | Tue, 26 Sep 2017 18:21:33 UTC |
     +--------------------------+---------+-------+----------+-------------------------------+
 
 As you can see, the status of our ActionChain is ``paused``. Note that ``task2`` hasn't even been
 scheduled, because the use of the ``core.ask`` action prevented further tasks from running. You'll
-also notice that the status for `task1` is `pending`. This indicates to us that this particular
+also notice that the status for ``task1`` is ``pending``. This indicates to us that this particular
 Inquiry has not yet received a valid response, and is currently blocking the Workflow execution.
 
 You can also use ``core.ask`` to ask a question within Mistral workflows:
@@ -142,7 +154,7 @@ You can also use ``core.ask`` to ask a question within Mistral workflows:
             task1:
                 action: core.ask
                 input:
-                  tag: developers
+                  route: developers
                   users:
                     - testu
                 on-complete:
@@ -169,7 +181,7 @@ just like we saw previously with ActionChains:
     id: 59a9c99032ed3553fb738c83
     action.ref: examples.mistral-ask-basic
     parameters: None
-    status: pausing
+    status: paused
     start_timestamp: 2017-09-01T20:56:48.630380Z
     end_timestamp: None
     +--------------------------+---------+-------+----------+-------------------------------+
@@ -177,6 +189,10 @@ just like we saw previously with ActionChains:
     +--------------------------+---------+-------+----------+-------------------------------+
     | 59a9c99132ed3553fb738c86 | pending | task1 | core.ask | Fri, 01 Sep 2017 20:56:49 UTC |
     +--------------------------+---------+-------+----------+-------------------------------+
+
+.. note::
+
+    At the time of this writing, the Inquiry ID is the same as the action execution ID that raised it. So if you're curious which workflow a given Inquiry is part of, use the same ID with the ``st2 execution get`` command.
 
 
 Notifying Users of Inquiries using Rules
@@ -189,14 +205,14 @@ When a new Inquiry is raised, a dedicated trigger - ``core.st2.generic.inquiry``
     ---
     name: "notify_inquiry_developers"
     pack: "examples"
-    description: Notify developers of an Inquiry action that is tagged "developers"
+    description: Notify developers of an Inquiry action with route "developers"
     enabled: true
 
     trigger:
       type: core.st2.generic.inquiry
 
     criteria:
-      trigger.tag:
+      trigger.route:
           type: equals
           pattern: developers
 
@@ -206,7 +222,7 @@ When a new Inquiry is raised, a dedicated trigger - ``core.st2.generic.inquiry``
         channel: "#jarvis-testing"
         message: 'Inquiry {{trigger.id}} is awaiting an approval action'
 
-Note how this Rule uses the ``tag`` parameter to further filter incoming Inquiries; in this case, this notification rule only applies to Inquiries with a tag of ``developers``. You can create multiple rules with different criteria to personalize the notification method for different groups in your organization.
+Note how this Rule uses the ``route`` parameter to further filter incoming Inquiries; in this case, this notification rule only applies to Inquiries with a route of ``developers``. You can create multiple rules with different criteria to personalize the notification method for different groups in your organization.
 
 
 Responding to an Inquiry
@@ -214,16 +230,16 @@ Responding to an Inquiry
 
 In order to resume a Workflow that's been paused by an Inquiry, a response must be provided to that Inquiry, and the response must come in the form of JSON data that validates against the schema in use by that particular Inquiry instance.
 
-In order to respond to an Inquiry, we need its ID. We would already have this if we wrote a Rule like shown in the previous section, but we could also use the ``st2 inquiry list`` command to view all of them:
+In order to respond to an Inquiry, we need its ID. We would already have this if we wrote a Rule like shown in the previous section, but we could also use the ``st2 inquiry list`` command to view all outstanding inquiries:
 
 .. code-block:: bash
 
     ~$ st2 inquiry list
-    +--------------------------+--------------------------+-------+-------+------------+------+
-    | id                       | parent                   | roles | users | tag        | ttl  |
-    +--------------------------+--------------------------+-------+-------+------------+------+
-    | 59ab26af32ed35752062d2dc | 59ab26af32ed3575803bf139 |       | testu | developers | 1440 |
-    +--------------------------+--------------------------+-------+-------+------------+------+
+    +--------------------------+-------+-------+------------+------+
+    | id                       | roles | users | route      | ttl  |
+    +--------------------------+-------+-------+------------+------+
+    | 59ab26af32ed35752062d2dc |       | testu | developers | 1440 |
+    +--------------------------+-------+-------+------------+------+
 
 Like most other resources in StackStorm, we can use the ``get`` subcommand to retrieve details about this Inquiry, using its ID provided in the previous output:
 
@@ -242,7 +258,7 @@ Like most other resources in StackStorm, we can use the ``get`` subcommand to re
     | users    | [                                                            |
     |          |     "testu"                                                  |
     |          | ]                                                            |
-    | tag      | developers                                                   |
+    | route    | developers                                                   |
     | ttl      | 1440                                                         |
     | schema   | {                                                            |
     |          |     "type": "object",                                        |
@@ -258,12 +274,13 @@ Like most other resources in StackStorm, we can use the ``get`` subcommand to re
     |          | }                                                            |
     +----------+--------------------------------------------------------------+
 
-In this view, we see the schema in use requires a single key: ``continue``, whose value must be boolean. Fortunately, the ``st2`` client makes this really easy; when you run the command ``st2 inquiry respond <inquiry id>``, it will step through each of these values, prompting you with the provided description, and giving a hint as to what type is expected. You simply respond to each prompt:
+In this view, we see the schema in use requires a single key: ``continue``, whose value must be boolean. Fortunately, the ``st2`` client makes this really easy; when you run the command ``st2 inquiry respond <inquiry id>``, it will step through each of these values, prompting you with the provided description. You simply respond to each prompt:
 
 .. code-block:: bash
 
     ~$ st2 inquiry respond 59ab26af32ed35752062d2dc
-    Should we continue? (boolean): True
+    continue (boolean): True
+    Should we continue?
 
      Response accepted. Successful response data to follow...
     +----------+--------------------------+
@@ -277,22 +294,22 @@ In this view, we see the schema in use requires a single key: ``continue``, whos
 
 It's very important that each property in the response schema has a proper description, as shown in the default example, as this is what prompts the user for required values when it's time to respond.
 
-If you provide a value that doesn't conform to the provided schema, an error will be shown, and the workflow will remain paused:
+Since the ``st2`` client has a handle on the schema being used for an Inquiry, it can guide you to provide the right datatypes for each attribute, and won't continue until you do:
 
 .. code-block:: bash
 
     ~$ st2 inquiry respond 59ab26af32ed35752062d2dc
-    Should we continue? (boolean): 123
-    ERROR: 400 Client Error: Bad Request
-    MESSAGE: Response did not pass schema validation. for url: http://127.0.0.1:9101/exp/inquiries/59ab26af32ed35752062d2dc
+    continue (boolean): 123
+    Does not look like boolean. Pick from [false, no, nope, nah, n, 1, 0, y, yes, true]
+    Should we continue?
 
-You can also use the ``-r`` or ``--response`` flag to bypass this interactive mode and provide your own complete JSON object as a string parameter. This can be useful for scripted responses:
+However, not every response can be done interactively. You may even want to script some or all of your Inquiry responses, and may be using tools like `jq` to craft your own JSON payload for a response and wish to simply provide this to the CLI. The ``-r`` flag can be used for this:
 
 .. code-block:: bash
 
     ~$ st2 inquiry respond -r '{"continue": true}' 59ab26af32ed35752062d2dc
 
-     Response accepted. Successful response data to folow...
+     Response accepted. Successful response data to follow...
     +----------+--------------------------+
     | Property | Value                    |
     +----------+--------------------------+
@@ -301,6 +318,14 @@ You can also use the ``-r`` or ``--response`` flag to bypass this interactive mo
     |          |     "continue": true     |
     |          | }                        |
     +----------+--------------------------+
+
+Note that this effectively bypasses any client-side validation, so it's quite possible to send a JSON payload that doesn't validate against the schema. However, the API is the ultimate authority on validating an Inquiry response, so in this case, you'll still get an error in return:
+
+.. code-block:: bash
+
+    ~$ st2 inquiry respond -r '{"continue": 123}' 59ab26af32ed35752062d2dc
+    ERROR: 400 Client Error: Bad Request
+    MESSAGE: Response did not pass schema validation. for url: http://127.0.0.1:9101/exp/inquiries/59ab26af32ed35752062d2dc
 
 Once an acceptable response is provided, the workflow resumes:
 
