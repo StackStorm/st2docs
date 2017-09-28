@@ -1,24 +1,37 @@
-  .. code-block:: bash
+The following commands will test your |st2| installation. They should all complete successfully:
 
-    st2 --version
+.. code-block:: bash
 
-    st2 -h
+  st2 --version
 
-    # List the actions from a 'core' pack
-    st2 action list --pack=core
+  st2 -h
 
-    # Run a local shell command
-    st2 run core.local -- date -R
+  # List the actions from a 'core' pack
+  st2 action list --pack=core
 
-    # See the execution results
-    st2 execution list
+  # Run a local shell command
+  st2 run core.local -- date -R
 
-    # Fire a remote comand via SSH (Requires passwordless SSH)
-    st2 run core.remote hosts='localhost' -- uname -a
+  # See the execution results
+  st2 execution list
 
-    # Install a pack
-    st2 pack install st2
+  # Fire a remote comand via SSH (Requires passwordless SSH)
+  st2 run core.remote hosts='localhost' -- uname -a
 
-Use the supervisor script to manage |st2| services: ::
+  # Install a pack
+  st2 pack install st2
 
-    st2ctl start|stop|status|restart|restart-component|reload|clean
+Use the supervisor script to manage |st2| services:
+
+.. code-block:: bash
+
+  sudo st2ctl start|stop|status|restart|restart-component|reload|clean
+
+At this point you have a minimal working installation, and can happily play with |st2|: follow the
+:doc:`/start` tutorial, :ref:`deploy the examples <start-deploy-examples>`, explore and install
+packs from `StackStorm Exchange <https://exchange.stackstorm.org>`__.
+
+But there is no joy without a Web UI, no security without SSL or authentication, no fun without
+ChatOps, and no money without Brocade Workflow Composer. Read on!
+
+-------------------------

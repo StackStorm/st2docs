@@ -1,11 +1,15 @@
-Ubuntu Trusty / Xenial
-======================
+Ubuntu Trusty/Xenial
+====================
 
 If you're just looking for a quick "one-liner" installation, check the :doc:`top-level install guide </install/index>`.
 If you need a customised installation, use this guide for step-by step instructions for installing |st2| on a single
 Ubuntu/Debian 64 bit system as per the :doc:`Reference deployment </install/overview>`.
 
-.. note:: `Use the Source, Luke! <http://c2.com/cgi/wiki?UseTheSourceLuke>`_ We strive to keep the documentation current, but the best way to find out what really happens is to look at the code of the `installer script
+.. note::
+
+  `Use the Source, Luke! <http://c2.com/cgi/wiki?UseTheSourceLuke>`_ We strive to keep the
+  documentation current, but the best way to find out what really happens is to look at the code
+  of the `installer script
   <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-deb.sh>`_.
 
 .. contents::
@@ -25,45 +29,45 @@ Install Dependencies
 
 Install MongoDB, RabbitMQ, and PostgreSQL.
 
-  .. code-block:: bash
+.. code-block:: bash
 
-    sudo apt-get update
-    sudo apt-get install -y gnupg-curl
-    sudo apt-get install -y curl
+  sudo apt-get update
+  sudo apt-get install -y gnupg-curl
+  sudo apt-get install -y curl
 
-    # Add key and repo for the latest stable MongoDB (3.4)
-    wget -qO - https://www.mongodb.org/static/pgp/server-3.4.asc | sudo apt-key add -
-    sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-3.4.list
-    deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/3.4 multiverse
-    EOT"
-    sudo apt-get update
+  # Add key and repo for the latest stable MongoDB (3.4)
+  wget -qO - https://www.mongodb.org/static/pgp/server-3.4.asc | sudo apt-key add -
+  sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-3.4.list
+  deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/3.4 multiverse
+  EOT"
+  sudo apt-get update
 
-    sudo apt-get install -y mongodb-org
-    sudo apt-get install -y rabbitmq-server
-    sudo apt-get install -y postgresql
+  sudo apt-get install -y mongodb-org
+  sudo apt-get install -y rabbitmq-server
+  sudo apt-get install -y postgresql
 
 For Ubuntu ``Xenial`` you may need to enable and start MongoDB.
 
-  .. code-block:: bash
+.. code-block:: bash
 
-    sudo systemctl enable mongod
-    sudo systemctl start mongod
+  sudo systemctl enable mongod
+  sudo systemctl start mongod
 
 Setup Repositories
 ~~~~~~~~~~~~~~~~~~
 
 The following script will detect your platform and architecture and setup the repo accordingly. It will also install the GPG key for repo signing.
 
-  .. code-block:: bash
+.. code-block:: bash
 
-    curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
+  curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
 Install |st2| Components
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-  .. code-block:: bash
+.. code-block:: bash
 
-      sudo apt-get install -y st2 st2mistral
+  sudo apt-get install -y st2 st2mistral
 
 If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or have changed defaults,
 please adjust the settings:
@@ -113,15 +117,6 @@ Verify
 
 .. include:: common/verify.rst
 
------------------
-
-At this point you have a minimal working installation, and can happily play with |st2|:
-follow :doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs from `StackStorm Exchange <https://exchange.stackstorm.org>`__.
-
-But there is no joy without WebUI, no security without SSL termination, no fun without ChatOps, and no money without Brocade Workflow Composer. Read on, move on!
-
------------------
-
 .. _ref-config-auth-deb:
 
 Configure Authentication
@@ -154,7 +149,9 @@ To set up authentication with File Based provider:
     backend_kwargs = {"file_path": "/etc/st2/htpasswd"}
     # ...
 
-* Restart the st2api service: ::
+* Restart the st2api service:
+
+  .. code-block:: bash
 
     sudo st2ctl restart-component st2api
 
@@ -188,31 +185,31 @@ certificates under ``/etc/ssl/st2``, and configure nginx with |st2|'s supplied
 in the package repositories at the time of writing, you will have to include
 the official Nginx repository into the source list:
 
-  .. code-block:: bash
+.. code-block:: bash
 
-    # Add key and repo for the latest stable nginx
-    sudo apt-key adv --fetch-keys http://nginx.org/keys/nginx_signing.key
-    sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/nginx.list
-    deb http://nginx.org/packages/ubuntu/ $(lsb_release -c | awk '{print $2}') nginx
-    EOT"
-    sudo apt-get update
+  # Add key and repo for the latest stable nginx
+  sudo apt-key adv --fetch-keys http://nginx.org/keys/nginx_signing.key
+  sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/nginx.list
+  deb http://nginx.org/packages/ubuntu/ $(lsb_release -c | awk '{print $2}') nginx
+  EOT"
+  sudo apt-get update
 
-    # Install st2web and nginx
-    # note nginx should be > 1.4.6
-    sudo apt-get install -y st2web nginx
+  # Install st2web and nginx
+  # note nginx should be > 1.4.6
+  sudo apt-get install -y st2web nginx
 
-    # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
-    sudo mkdir -p /etc/ssl/st2
-    sudo openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt \
-    -days XXX -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
-    Technology/CN=$(hostname)"
+  # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
+  sudo mkdir -p /etc/ssl/st2
+  sudo openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt \
+  -days XXX -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
+  Technology/CN=$(hostname)"
 
-    # Remove default site, if present
-    sudo rm /etc/nginx/conf.d/default.conf
-    # Copy and enable the supplied nginx config file
-    sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
+  # Remove default site, if present
+  sudo rm /etc/nginx/conf.d/default.conf
+  # Copy and enable the supplied nginx config file
+  sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
 
-    sudo service nginx restart
+  sudo service nginx restart
 
 If you modify ports, or url paths in the nginx configuration, make the corresponding changes in st2web
 configuration at ``/opt/stackstorm/static/webui/config.js``.
@@ -224,9 +221,9 @@ these instructions, use ``https://${EXTERNAL_IP}/api/v1/${REST_ENDPOINT}``.
 
 For example:
 
-  .. code-block:: bash
+.. code-block:: bash
 
-    curl -X GET -H  'Connection: keep-alive' -H  'User-Agent: manual/curl' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'X-Auth-Token: <YOUR_TOKEN>' https://1.2.3.4/api/v1/actions
+  curl -X GET -H  'Connection: keep-alive' -H  'User-Agent: manual/curl' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'X-Auth-Token: <YOUR_TOKEN>' https://1.2.3.4/api/v1/actions
 
 Similarly, you can connect to auth REST endpoints with ``https://${EXTERNAL_IP}/auth/v1/${AUTH_ENDPOINT}``.
 
@@ -235,9 +232,9 @@ by adding a ``--debug`` option to the CLI command for the appropriate resource.
 
 For example, to see the endpoint for getting actions, invoke
 
-  .. code-block:: bash
+.. code-block:: bash
 
-    st2 --debug action list
+  st2 --debug action list
 
 .. _ref-setup-chatops-deb:
 
@@ -300,10 +297,9 @@ A Note on Security
 Upgrade to Brocade Workflow Composer
 ------------------------------------
 
-Brocade Workflow Composer is deployed as an addition on top of StackStorm. You will need an active
-Brocade Workflow Composer subscription, and a license key to access Brocade Workflow Composer repositories.
-To add your license key, replace ``${BWC_LICENSE_KEY}`` in the command below with the key you received when
-registering or purchasing.
+|bwc| is deployed as an addition on top of |st2|. You will need an active |bwc| subscription, and
+a license key to access |bwc| repositories. To add your license key, replace ``${BWC_LICENSE_KEY}``
+in the command below with the key you received when registering or purchasing.
 
 .. code-block:: bash
 
@@ -312,5 +308,5 @@ registering or purchasing.
     # Install Brocade Workflow Composer
     sudo apt-get install -y bwc-enterprise
 
-To learn more about Brocade Workflow Composer, request a quote, or get an evaluation license go
-to `stackstorm.com/product <https://stackstorm.com/product/#enterprise/>`_.
+To learn more about |bwc|, request a quote, or get an evaluation license go to
+`stackstorm.com/product <https://stackstorm.com/product/#enterprise/>`_.

@@ -16,7 +16,7 @@ Configure MongoDB
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
 
-.. code-block:: bash
+.. code-block:: ini
 
     [database]
     host = <MongoDB host>
@@ -34,7 +34,7 @@ using `MongoDB URI string <https://docs.mongodb.com/v3.4/reference/connection-st
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
 
-.. code-block:: bash
+.. code-block:: ini
 
     [database]
     host = mongodb://<#MDB_NODE_1>,<#MDB_NODE_2>,<#MDB_NODE_3>/?replicaSet=<#MDB_REPLICA_SET_NAME>
@@ -48,7 +48,7 @@ the configuration apart from the ones outlined above.
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
 
-.. code-block:: bash
+.. code-block:: ini
 
     [database]
     ...
@@ -66,10 +66,12 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 * ``ssl_ca_certs`` - Certificates file containing a set of concatenated CA certificates, which are used to validate certificates passed from MongoDB.
 * ``ssl_match_hostname`` - Enable or disable hostname matching. Not recommended to disable and defaults to True.
 
-.. note:: Only certain distributions of MongoDB support SSL/TLS.
+.. note:: 
 
-    * MongoDB enterprise versions have SSL/TLS support.
-    * Build MongoDB from source to enable SSL/TLS support. See https://github.com/mongodb/mongo/wiki/Build-Mongodb-From-Source for more information.
+  Only certain distributions of MongoDB support SSL/TLS:
+
+  * MongoDB enterprise versions have SSL/TLS support.
+  * Build MongoDB from source to enable SSL/TLS support. See https://github.com/mongodb/mongo/wiki/Build-Mongodb-From-Source for more information.
 
 Configure RabbitMQ
 ------------------
@@ -78,7 +80,7 @@ Configure RabbitMQ
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section:
 
-.. code-block:: bash
+.. code-block:: ini
 
     [messaging]
     url = <amqp://#RMQ_USER:#RMQ_PASSWD@#RMQ_HOST:#RMQ_PORT/#RMQ_VHOST>
@@ -91,7 +93,7 @@ The ``#RMQ_VHOST`` property is optional and can be left blank.
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
 
-.. code-block:: bash
+.. code-block:: ini
 
     [messaging]
     cluster_urls = <amqp://#RMQ_USER:#RMQ_PASSWD@#RMQ_NODE_1:#RMQ_PORT/#RMQ_VHOST>,
@@ -148,9 +150,9 @@ SSH Troubleshooting
 
 * Validate that passwordless SSH configuration works fine for the destination. Assuming default user ``stanley``:
 
-    .. code-block:: bash
+  .. code-block:: bash
 
-        sudo ssh -i /home/stanley/.ssh/stanley_rsa -t stanley@host.example.com uname -a
+    sudo ssh -i /home/stanley/.ssh/stanley_rsa -t stanley@host.example.com uname -a
 
 Using SSH config
 ~~~~~~~~~~~~~~~~
@@ -158,7 +160,7 @@ Using SSH config
 |st2| allows loading of the SSH config file local to the system user. This is a configurable option. To
 enable, add the following to ``/etc/st2/st2.conf``
 
-.. code-block:: bash
+.. code-block:: ini
 
     [ssh_runner]
     use_ssh_config = True
@@ -171,11 +173,11 @@ SUDO Access
 
 .. note:: ``stanley`` user requires the following access:
 
-    * Sudo access to all boxes on which script action will run.
-    * SETENV option needs to be set for all the commands. This way environment variables which are
-      available to the local runner actions will also be available when user executes local runner
-      action under a different user or with root privileges.
-    * As some actions require sudo privileges password-less sudo access to all boxes.
+  * Sudo access to all boxes on which script action will run.
+  * SETENV option needs to be set for all the commands. This way environment variables which are
+    available to the local runner actions will also be available when user executes local runner
+    action under a different user or with root privileges.
+  * As some actions require sudo privileges password-less sudo access to all boxes.
 
 One way of setting up passwordless sudo is perform the below operation on each remote box:
 
