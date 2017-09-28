@@ -12,6 +12,14 @@ These use cases (and others) require the ability to pause a workflow mid-executi
 and wait for additional information. Inquiries make this possible, and their usage will
 be explained in this document. 
 
+.. warning::
+
+    As of now, Inquiries should be considered an "alpha" feature. We're introducing this
+    in the interest of getting a highly-requested feature out to the community for feedback.
+    The user experience as well as the new API functionality should not be considered "stable"
+    at this point. Please consider using this feature in your test/dev deployments, and send us
+    your feedback.
+
 New ``core.ask`` Action
 ----------------------------------------
 
