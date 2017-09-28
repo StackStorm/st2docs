@@ -355,12 +355,26 @@ Once an acceptable response is provided, the workflow resumes:
     | 59ab26af32ed35752062d2dc | succeeded (0s elapsed) | task1 | core.ask | Sat, 02 Sep 2017 21:46:23 UTC |
     +--------------------------+------------------------+-------+----------+-------------------------------+
 
-.. note::
+.. TODO - Update with chatops when the core PR is merged and an action and action-alias has been added to st2 pack
 
-    In the very near future (definitely before the 2.5 release), an Action for responding
-    to an Inquiry, as well as an action-alias for calling this action via chatops, and a rule
-    for notifying via chatops, will all be provided in a PR. For the time being (alpha stage)
-    the only way to respond is to get the Inquiry ID and use it in the ``st2 inquiry respond``
-    command
+Securing Inquiries with RBAC
+----------------------------------------
 
-.. TODO - Update with chatops when the core PR is merged
+At initial release, Inquiries work a little differently from other system resources with it comes to granting permissions to them via RBAC. The ``users`` and ``roles`` parameters allows you to control who can respond to a specific inquiry, right in the workflow. With this granularity being offered in parameters, RBAC for Inquiries is a bit simpler.
+
+For example, rather than specifying a particular Inquiry when constructing a role, all Inquiry UIDs should be specified as ``inquiry:``. Whatever permissions are granted in the role are granted to all inquiries:
+
+.. code-block:: bash
+
+    ---
+    name: "inquiry_role_respond"
+    description: "Role which grants inquiry powers"
+
+    permission_grants:
+
+    - resource_uid: "inquiry:"
+      permission_types:
+        - "inquiry_respond"
+
+To grant more specific permissions to users or roles, use the ``users`` and ``roles`` parameters when invoking the ``core.ask`` action in a workflow. A user must be in at least one of the roles listed in the ``roles`` parameter, if any, in order to respond to an Inquiry.
+
