@@ -203,27 +203,22 @@ When a new Inquiry is raised, a dedicated trigger - ``core.st2.generic.inquiry``
 .. code-block:: yaml
 
     ---
-    name: "notify_inquiry_developers"
+    name: "notify_inquiry"
     pack: "examples"
-    description: Notify developers of an Inquiry action with route "developers"
-    enabled: true
+    description: Notify relevant users of an Inquiry action
+    enabled: false
 
     trigger:
       type: core.st2.generic.inquiry
 
-    criteria:
-      trigger.route:
-          type: equals
-          pattern: developers
-
     action:
       ref: slack.post_message
       parameters:
-        channel: "#jarvis-testing"
+        channel: "#{{ trigger.route }}"
         message: 'Inquiry {{trigger.id}} is awaiting an approval action'
 
-Note how this Rule uses the ``route`` parameter to further filter incoming Inquiries; in this case, this notification rule only applies to Inquiries with a route of ``developers``. You can create multiple rules with different criteria to personalize the notification method for different groups in your organization.
 
+Note how this Rule uses the ``route`` field to determine to which Slack channel the notification should be sent. You could also use this in the Rule criteria as well, and set up different notification actions depending on the value of ``route``.
 
 Responding to an Inquiry
 ----------------------------------------
