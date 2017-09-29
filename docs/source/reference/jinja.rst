@@ -12,16 +12,29 @@ with Jinja in the context of |st2|. Please refer to the `Jinja docs
 Referencing Datastore Keys in Jinja
 ------------------------------------
 
-You can use ``{{st2kv.system.foo}}`` to access key ``foo`` from datastore. Note that until
-v2.1, the expression to access key ``foo`` from datastore used to be ``{{system.foo}}``
+You can use ``{{ st2kv.system.foo }}`` to access key ``foo`` from datastore. Note that until
+v2.1, the expression to access key ``foo`` from datastore used to be ``{{ system.foo }}``
 but is now deprecated, and the leading ``st2kv.`` namespace is required.
+
+Currently, all data in the datastore is represented as strings. Toto represent
+complext data structures like ``dicts`` and ``lists`` the standard approach is to
+convert the data structure into JSON when storing the data, then parse it when
+retrieving the data.
+
+.. code-block:: bash
+
+    # Pass the result of this expression to the action st2.kv.set
+    {{ '{"complex": "structure", "foo": ["x", "y"]}" | to_json_string }}
+
+    # Read the data back in using the ``st2kv`` and ``from_json_string`` filters
+    {{ st2kv.system.foo | from_json_string }}
 
 .. _jinja-jinja-filters:
 
 Applying Filters with Jinja
 ----------------------------
 
-To use a filter ``my_filter`` on ``foo``, you use the pipe operator, e.g.: ``{{foo | my_filter}}``.
+To use a filter ``my_filter`` on ``foo``, you use the pipe operator, e.g.: ``{{ foo | my_filter }}``.
 Please pay attention to the data type and available filters for each data type. Since Jinja is a
 text templating language, all your input is converted to text and then manipulations happen on that
 value. The necessary casting at the end is done by |st2| based on information you provide in YAML
@@ -64,11 +77,28 @@ function in Mistral workflows natively supports decryption via the ``decrypt`` p
 .. note::
 
     Because of a bug in Mistral, these filters do not currently support the "pipe" operator filter
-    format (`|`) So, instead of ``'{{ _.input_str | regex_match(_.regex_pattern)}}'`` you would
+    format (`|`) So, instead of ``'{{ _.input_str | regex_match(_.regex_pattern) }}'`` you would
     call the filter like a regular function, moving the previously input value into the first
-    positional argument position: ``'{{ regex_match(_.input_str, _.regex_pattern)}}'``. This will
+    positional argument position: ``'{{ regex_match(_.input_str, _.regex_pattern) }}'``. This will
     be addressed in a future release.
 
+from_json_string
+~~~~~~~~~~~~~~~~
+
+Converts a JSON string into an object or array (opposite of ``to_json_string``).
+
+.. code-block:: bash
+
+    {{ value_key | from_json_string }}
+
+from_yaml_string
+~~~~~~~~~~~~~~~~
+
+Converts a YAML string into an object or array (opposite of ``to_yaml_string``).
+
+.. code-block:: bash
+
+    {{ value_key | from_yaml_string }}
 
 json_escape
 ~~~~~~~~~~~
@@ -77,7 +107,28 @@ Adds escape characters to JSON strings.
 
 .. code-block:: bash
 
-    {{value_key | json_escape}}
+    {{ value_key | json_escape }}
+
+jsonpath_query
+~~~~~~~~~~~
+
+Provides the ability to extract data from complex ``object`` data using the
+`JSONPath <http://goessner.net/articles/JsonPath/>` query language. More specifically
+we use the ``jsonpath-rw`` library that has its own extensions, details can be
+found on the `jsonpath-rw GitHub page <https://github.com/kennknowles/python-jsonpath-rw/tree/master/jsonpath_rw>`.
+Data passed into this function should be of type ``object`` or ``array``.
+The result of this function will either be an array of results, or None if the
+query did not return any results.
+If you would like to test out your JSONPath queries prior to utilizing this filter
+an online evaluator can be found `here <http://jsonpath.com/>`.
+
+.. code-block:: bash
+
+    # input  = {'people': [{'first': 'James', 'last': 'd'},
+    #                      {'first': 'Jacob', 'last': 'e'},
+    #                      {'first': 'Jayden', 'last': 'f'}]}
+    # result = ['James', 'Jacob', 'Jayden']
+    {{ input | jmespath_query('people[*].first') }}
 
 regex_match
 ~~~~~~~~~~~
@@ -86,8 +137,8 @@ Search for the pattern at beginning of the string. Returns True if found, False 
 
 .. code-block:: bash
 
-    {{value_key | regex_match('x')}}
-    {{value_key | regex_match("^v(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$")}}
+    {{ value_key | regex_match('x') }}
+    {{ value_key | regex_match("^v(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$") }}
 
 regex_replace
 ~~~~~~~~~~~~~
@@ -100,8 +151,8 @@ Replaces substring that matches pattern with provided replacement value (backref
 
 .. code-block:: bash
 
-    {{value_key | regex_replace("x", "y")}}
-    {{value_key | regex_replace("(blue|white|red)", "beautiful color \\\\1")}}
+    {{ value_key | regex_replace("x", "y") }}
+    {{ value_key | regex_replace("(blue|white|red)", "beautiful color \\\\1") }}
 
 regex_search
 ~~~~~~~~~~~~
@@ -110,8 +161,8 @@ Search for pattern anywhere in the string. Returns True if found, False if not.
 
 .. code-block:: bash
 
-    {{value_key | regex_search("y")}}
-    {{value_key | regex_search("^v(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$")}}
+    {{ value_key | regex_search("y") }}
+    {{ value_key | regex_search("^v(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$") }}
 
 regex_substring
 ~~~~~~~~~~~~~~~
@@ -121,8 +172,8 @@ Searches for the provided pattern in a string, and returns the first matched reg
 
 .. code-block:: bash
 
-    {{value_key | regex_substring("y")}}
-    {{value_key | regex_substring("^v(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$")}}
+    {{ value_key | regex_substring("y") }}
+    {{ value_key | regex_substring("^v(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$") }}
 
 to_complex
 ~~~~~~~~~~
@@ -131,7 +182,7 @@ Convert data to JSON string (see ``to_json_string`` for a more flexible option)
 
 .. code-block:: bash
 
-    {{value_key | to_complex}}
+    {{ value_key | to_complex }}
 
 to_human_time_from_seconds
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -140,7 +191,7 @@ Given time elapsed in seconds, this filter converts it to human readable form li
 
 .. code-block:: bash
 
-    {{ value_key | to_human_time_from_seconds}}
+    {{ value_key | to_human_time_from_seconds }}
 
 to_json_string
 ~~~~~~~~~~~~~~
@@ -149,7 +200,7 @@ Convert data to JSON string.
 
 .. code-block:: bash
 
-    {{value_key | to_json_string}}
+    {{ value_key | to_json_string }}
 
 to_yaml_string
 ~~~~~~~~~~~~~~
@@ -158,7 +209,7 @@ Convert data to YAML string.
 
 .. code-block:: bash
 
-    {{value_key | to_yaml_string}}
+    {{ value_key | to_yaml_string }}
 
 use_none
 ~~~~~~~~
@@ -167,7 +218,7 @@ If value being filtered is None, this filter will return the string ``%*****__%N
 
 .. code-block:: bash
 
-    {{value_key | use_none}}
+    {{ value_key | use_none }}
 
 version_bump_major
 ~~~~~~~~~~~~~~~~~~
@@ -176,7 +227,7 @@ Bumps up the major version of supplied version field.
 
 .. code-block:: bash
 
-    {{version | version_bump_major}}
+    {{ version | version_bump_major }}
 
 version_bump_minor
 ~~~~~~~~~~~~~~~~~~
@@ -185,7 +236,7 @@ Bumps up the minor version of supplied version field.
 
 .. code-block:: bash
 
-    {{version | version_bump_minor}}
+    {{ version | version_bump_minor }}
 
 version_bump_patch
 ~~~~~~~~~~~~~~~~~~
@@ -194,7 +245,7 @@ Bumps up the patch version of supplied version field.
 
 .. code-block:: bash
 
-    {{version | version_bump_patch}}
+    {{ version | version_bump_patch }}
 
 version_compare
 ~~~~~~~~~~~~~~~
@@ -204,7 +255,7 @@ Compare a semantic version to another value. Returns 1 if LHS is greater or -1 i
 
 .. code-block:: bash
 
-    {{version | version_compare("0.10.1")}}
+    {{ version | version_compare("0.10.1") }}
 
 version_equal
 ~~~~~~~~~~~~~
@@ -213,7 +264,7 @@ Returns True if LHS version is equal to RHS version.
 
 .. code-block:: bash
 
-    {{version | version_equal("0.10.0")}}
+    {{ version | version_equal("0.10.0")  }}
 
 version_less_than
 ~~~~~~~~~~~~~~~~~
@@ -221,11 +272,11 @@ version_less_than
 Returns True if LHS version is lesser than RHS version. Both inputs have to follow semantic version
 syntax.
 
-E.g. ``{{“1.6.0” | version_less_than("1.7.0")}}``.
+E.g. ``{{ “1.6.0” | version_less_than("1.7.0") }}``.
 
 .. code-block:: bash
 
-    {{version | version_less_than("0.9.2")}}
+    {{ version | version_less_than("0.9.2") }}
 
 version_match
 ~~~~~~~~~~~~~
@@ -237,7 +288,7 @@ Supports operators ``>``, ``<``, ``==``, ``<=``, and ``>=``.
 
 .. code-block:: bash
 
-    {{version | version_match(">0.10.0")}}
+    {{ version | version_match(">0.10.0") }}
 
 version_more_than
 ~~~~~~~~~~~~~~~~~
@@ -245,11 +296,11 @@ version_more_than
 Returns True if LHS version is greater than RHS version. Both inputs have to follow semantic
 version syntax.
 
-E.g. ``{{"1.6.0” | version_more_than("1.7.0")}}``.
+E.g. ``{{ "1.6.0” | version_more_than("1.7.0") }}``.
 
 .. code-block:: bash
 
-    {{version | version_more_than("0.10.1")}}
+    {{ version | version_more_than("0.10.1") }}
 
 version_strip_patch
 ~~~~~~~~~~~~~~~~~~~
@@ -258,4 +309,4 @@ Drops patch version of supplied version field.
 
 .. code-block:: bash
 
-    {{version | version_strip_patch}}
+    {{ version | version_strip_patch }}
