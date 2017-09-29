@@ -23,9 +23,9 @@ be explained in this document.
 New ``core.ask`` Action
 ----------------------------------------
 
-The primary usage of Inquiries is by referencing a new action - ``core.ask`` - in
-your workflows. This action is built on a new runner type: ``inquirer``, which performs
-the bulk of the logic required to pause workflows and wait for a response.
+The best way to get started using Inquiries is to check out a new core action - ``core.ask`` - 
+and start using it in your workflows. This action is built on a new runner type: ``inquirer``,
+which performs the bulk of the logic required to pause workflows and wait for a response.
 
 .. code-block:: bash
 
@@ -63,12 +63,12 @@ action:
 |             | garbage-collected. Set to 0 to disable garbage          |
 |             | collection for this Inquiry. NOTE - Inquiry garbage     |
 |             | collection is not enabled by default, so this field     |
-|             | does nothing unless it is turned on. See "Garbage       |
-|             | Collection" for more info.                              |
+|             | does nothing unless it is turned on. See                |
+|             | `Garbage Collection for Inquiries`_ for more info.      |
 +-------------+---------------------------------------------------------+
 | roles       | A list of RBAC roles that are permitted to respond to   |
 |             | the action. Defaults to empty list, which permits all   |
-|             | roles. **This requires BWC features**                   |
+|             | roles. **This requires enterprise features**            |
 +-------------+---------------------------------------------------------+
 | users       | A list of users that are permitted to respond to        |
 |             | the action. Defaults to empty list, which permits all   |
@@ -77,7 +77,7 @@ action:
 | route       | An arbitrary string that can be used to filter          |
 |             | different Inquiries inside rules. This can be helpful   |
 |             | for deciding who to notify of an incoming Inquiry.      |
-|             | See "Notifying Users of Inquiries using Rules" for      |
+|             | See `Notifying Users of Inquiries using Rules`_ for     |
 |             | more info.                                              |
 +-------------+---------------------------------------------------------+
 
