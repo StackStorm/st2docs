@@ -1,17 +1,7 @@
 Ubuntu Trusty/Xenial
 ====================
 
-If you're just looking for a quick "one-liner" installation, check the :doc:`top-level install
-guide </install/index>`. If you need a customised installation, use this guide for step-by-step
-instructions for installing |st2| on a single Ubuntu 64-bit system as per the
-:doc:`Reference deployment </install/overview>`.
-
-.. note:: 
-
-  `Use the Source, Luke! <http://c2.com/cgi/wiki?UseTheSourceLuke>`_ We strive to keep the
-  documentation current, but the best way to find out what really happens is to look at the code
-  of the `installer script
-  <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-deb.sh>`_.
+.. include:: common/intro.rst
 
 .. contents::
 
@@ -71,14 +61,7 @@ Install |st2| Components
 
   sudo apt-get install -y st2 st2mistral
 
-If you are not running RabbitMQ, MongoDB or PostgreSQL on the same system, or have changed the
-defaults, please adjust these settings:
-
-* RabbitMQ connection at ``/etc/st2/st2.conf`` and ``/etc/mistral/mistral.conf``
-* MongoDB at ``/etc/st2/st2.conf``
-* PostgreSQL at ``/etc/mistral/mistral.conf``
-
-See the :doc:`Configuration documentation </install/config/config>` for more information.
+.. include:: common/configure_components.rst
 
 Setup Datastore Encryption
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -95,25 +78,7 @@ Setup Mistral Database
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
 
-To run local and remote shell actions, |st2| uses a special system user (by default ``stanley``).
-For remote Linux actions, SSH is used. We recommend configuring public key-based SSH access on all
-remote hosts. We also recommend configuring SSH access to localhost for running examples and
-testing.
-
-* Create |st2| system user, enable passwordless sudo, and set up ssh access to "localhost" so
-  that SSH-based actions can be tested locally. You will need elevated privileges to do this:
-
-  .. include:: common/configure_ssh_and_sudo.rst
-
-* Configure SSH access and enable passwordless sudo on the remote hosts which |st2| will be running
-  remote actions on via SSH. Using the public key generated in the previous step, follow the
-  instructions at :ref:`config-configure-ssh`. To control Windows boxes, configure access for
-  :doc:`Windows runners </install/config/windows_runners>`.
-
-* If you are using a different user, or path to their SSH key, you will need to change this
-  section in ``/etc/st2/st2.conf``: 
-
-  .. include:: common/configure_system_user.rst
+.. include:: common/configure_ssh_and_sudo.rst
 
 Start Services
 ~~~~~~~~~~~~~~
@@ -144,37 +109,7 @@ To set up authentication with file-based provider:
     # Create a user record in a password file.
     echo 'Ch@ngeMe' | sudo htpasswd -i /etc/st2/htpasswd st2admin
 
-* Enable and configure authentication in ``/etc/st2/st2.conf``:
-
-  .. sourcecode:: ini
-
-    [auth]
-    # ...
-    enable = True
-    backend = flat_file
-    backend_kwargs = {"file_path": "/etc/st2/htpasswd"}
-    # ...
-
-* Restart the st2api service:
-
-  .. code-block:: bash
-
-    sudo st2ctl restart-component st2api
-
-* Authenticate, set the token environment variable, and check that it works:
-
-  .. code-block:: bash
-
-    # Get an auth token to use in CLI or API
-    st2 auth st2admin
-
-    # A shortcut to authenticate and export the token
-    export ST2_AUTH_TOKEN=$(st2 auth st2admin -p 'Ch@ngeMe' -t)
-
-    # Check that it works
-    st2 action list
-
-Check out the :doc:`/reference/cli` to learn other convenient ways to authenticate via CLI.
+.. include:: common/configure_authentication.rst
 
 .. _ref-install-webui-ssl-deb:
 
@@ -222,25 +157,7 @@ the st2web configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
 
-If you are trying to access the API from outside the box and you have configured nginx according to
-these instructions, use ``https://${EXTERNAL_IP}/api/v1/${REST_ENDPOINT}``.
-
-For example:
-
-.. code-block:: bash
-
-  curl -X GET -H  'Connection: keep-alive' -H  'User-Agent: manual/curl' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'X-Auth-Token: <YOUR_TOKEN>' https://1.2.3.4/api/v1/actions
-
-Similarly, you can connect to auth REST endpoints with ``https://${EXTERNAL_IP}/auth/v1/${AUTH_ENDPOINT}``.
-
-You can see the actual REST endpoint for a resource by adding a ``--debug`` option to the CLI
-command for the appropriate resource.
-
-For example, to see the endpoint for getting actions, invoke:
-
-.. code-block:: bash
-
-  st2 --debug action list
+.. include:: common/api_access.rst
 
 .. _ref-setup-chatops-deb:
 
@@ -273,24 +190,7 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
 
     sudo apt-get install -y st2chatops
 
-* Review and edit the ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to
-  your |st2| installation and the Chat Service you are using. At a minimum, you should generate an
-  :ref:`API key <authentication-apikeys>` and set the ``ST2_API_KEY`` variable. By default
-  ``st2api`` and ``st2auth`` are expected to be on the same host. If that is not the case, please
-  update the ``ST2_API`` and ``ST2_AUTH_URL`` variables or just point to the correct host with
-  ``ST2_HOSTNAME``.
-
-  The example configuration uses Slack. To set this up, go to the Slack web admin interface, create
-  a Bot, and copy the authentication token into ``HUBOT_SLACK_TOKEN``.
-
-  If you are using a different Chat Service, set the corresponding environment variables under the
-  ``Chat service adapter settings`` section in ``st2chatops.env``:
-  `Slack <https://github.com/slackhq/hubot-slack>`_,
-  `HipChat <https://github.com/hipchat/hubot-hipchat>`_,
-  `Yammer <https://github.com/athieriot/hubot-yammer>`_,
-  `Flowdock <https://github.com/flowdock/hubot-flowdock>`_,
-  `IRC <https://github.com/nandub/hubot-irc>`_ ,
-  `XMPP <https://github.com/markstory/hubot-xmpp>`_.
+.. include:: common/configure_chatops.rst
 
 * Start the service:
 
@@ -314,10 +214,7 @@ A Note on Security
 Upgrade to |bwc|
 ----------------
 
-|bwc| is deployed as a set of additional packages on top of |st2|. You will need an active |bwc|
-subscription, and a license key to access |bwc| repositories. To add your license key, replace
-``${BWC_LICENSE_KEY}`` in the command below with the key you received when registering or
-purchasing.
+.. include:: common/bwc_intro.rst
 
 .. code-block:: bash
 
@@ -325,6 +222,3 @@ purchasing.
   curl -s https://${BWC_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.deb.sh | sudo bash
   # Install Brocade Workflow Composer
   sudo apt-get install -y bwc-enterprise
-
-To learn more about |bwc|, request a quote, or get an evaluation license go to
-`stackstorm.com/product <https://stackstorm.com/product/#enterprise/>`_.
