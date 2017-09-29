@@ -379,6 +379,36 @@ For example, rather than specifying a particular Inquiry when constructing a rol
 
 To grant more specific permissions to users or roles, use the ``users`` and ``roles`` parameters when invoking the ``core.ask`` action in a workflow. A user must be in at least one of the roles listed in the ``roles`` parameter, if any, in order to respond to an Inquiry.
 
+Inquiries also honor execution permissions for the workflow they were generated from. For instance, if user``iinherit`` has ``action_execute`` permissions on the workflow ``examples.mistral-ask-basic``, they don't need to be explicitly granted ``inquiry_respond`` permissions - this is done automatically.
+
+The following is an example role that only grants permissions to execute a workflow that contains a ``core.ask`` action, but doesn't explicitly grant ``inquiry_respond`` permissions. However, any user that's been assigned to this role will still be permitted to respond.
+
+.. code-block:: yaml
+
+    ---
+    name: "inquiry_role_inherit"
+    description: "Role which only grants action powers - will inherit inquiry_respond"
+
+    permission_grants:
+
+    # Grant to run the workflow
+    - resource_uid: "action:examples:mistral-ask-basic"
+      permission_types:
+        - "action_execute"
+        - "action_view"
+
+    # Grant to run the core.ask action
+    - resource_uid: "action:core:ask"
+      permission_types:
+        - "action_execute"
+        - "action_view"
+
+    # Grant to list runners (allows us to test this with `st2 run`)
+    - resource_uid: "runner_type:mistral-v2"
+      permission_types:
+        - "runner_type_list"
+
+
 Garbage Collection for Inquiries
 ----------------------------------------
 As alluded to in :doc:`Purging Old Operational Data </troubleshooting/purging_old_data>`, the ``st2garbagecollector`` service is also responsible for cleaning up old Inquiries. This is done by comparing the ``ttl`` parameter of an Inquiry with its start time. The ``ttl`` field is the number of minutes since the start time the Inquiry will be allowed to receive responses, before it is cleaned up.

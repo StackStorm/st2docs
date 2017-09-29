@@ -199,6 +199,19 @@ pack.
 Note that rule enforcements are ``operational models``. You cannot create/modify/delete them
 via API. So permissions other than ``view`` and ``list`` do not make sense.
 
+**Inquiries**
+
+Inquiries inherit response permissions based on execution permissions of the workflow
+that generated them. This is useful for ensuring that anyone that has rights to execute a
+workflow that generates an Inquiry is also automatically granted permissions to respond to
+that Inquiry.
+
+Specifically, granting ``action_execute`` on a workflow action, or its parent pack, also grants
+``inquiry_respond`` permissions for any Inquiries generated from that Workflow.
+
+For detailed examples, see `Securing Inquiries with RBAC <inquiries.html#securing-inquiries-with-rbac>`__
+
+
 Permissions and Executions Which Are Not Triggered via the API
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
