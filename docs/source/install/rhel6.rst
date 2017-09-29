@@ -3,7 +3,8 @@ RHEL 6/CentOS 6
 
 .. include:: common/intro.rst
 
-.. contents::
+.. contents:: Contents
+   :local:
 
 System Requirements
 -------------------
@@ -287,3 +288,16 @@ Upgrade to |bwc|
   curl -s https://${BWC_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.rpm.sh | sudo bash
   # Install Brocade Workflow Composer
   sudo yum install -y bwc-enterprise
+
+.. rubric:: What's Next?
+
+* Check out the :doc:`/start` Guide to build a simple automation.
+* Get more actions, triggers, rules:
+
+
+    * Install integration packs from `StackStorm Exchange <https://exchange.stackstorm.org>`__  - follow the :doc:`/packs` guide.
+    * :ref:`Convert your scripts into StackStorm actions. <ref-actions-converting-scripts>`
+    * Learn how to :ref:`write custom actions <ref-actions-writing-custom>`.
+
+* Use workflows to stitch actions into higher level automations - :doc:`/workflows`.
+* Check out `tutorials on stackstorm.com <https://stackstorm.com/category/tutorials/>`__

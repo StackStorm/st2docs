@@ -8,6 +8,9 @@ The advantage of using this method, comparing to our demonstrational ``curl | ba
 
 Playbooks source code is available as GitHub repository `StackStorm/ansible-st2 <https://github.com/StackStorm/ansible-st2>`_.
 
+.. contents:: Contents
+   :local:
+
 ---------------------------
 
 Supported platforms
