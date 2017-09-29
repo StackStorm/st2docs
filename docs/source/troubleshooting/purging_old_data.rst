@@ -35,6 +35,11 @@ Keep in mind that the lowest supported TTL right now is 7 days. If you want to
 delete old data more often then that, you should look at the purge scripts
 described below.
 
+The garbage collector service also cleans up old Inquiries by marking them as "timed out".
+Unlike action executions or trigger instances, each Inquiry has its own configured TTL.
+See :doc:`Inquiries </inquiries>` for more information on how to enable garbage collection
+for Inquiries.
+
 2. Manual purging using purge scripts
 -------------------------------------
 

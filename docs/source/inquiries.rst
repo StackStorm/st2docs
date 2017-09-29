@@ -60,10 +60,11 @@ action:
 |             | workflow to continue.                                   |
 +-------------+---------------------------------------------------------+
 | ttl         | Time (in minutes) until an unacknowledged Inquiry is    |
-|             | garbage-collected. Inquiry garbage collection is not    |
-|             | enabled by default, so this field does nothing unless   |
-|             | it is turned on. See "Garbage Collection" for more      |
-|             | info.                                                   |
+|             | garbage-collected. Set to 0 to disable garbage          |
+|             | collection for this Inquiry. NOTE - Inquiry garbage     |
+|             | collection is not enabled by default, so this field     |
+|             | does nothing unless it is turned on. See "Garbage       |
+|             | Collection" for more info.                              |
 +-------------+---------------------------------------------------------+
 | roles       | A list of RBAC roles that are permitted to respond to   |
 |             | the action. Defaults to empty list, which permits all   |
@@ -364,7 +365,7 @@ At initial release, Inquiries work a little differently from other system resour
 
 For example, rather than specifying a particular Inquiry when constructing a role, all Inquiry UIDs should be specified as ``inquiry:``. Whatever permissions are granted in the role are granted to all inquiries:
 
-.. code-block:: bash
+.. code-block:: yaml
 
     ---
     name: "inquiry_role_respond"
@@ -378,3 +379,48 @@ For example, rather than specifying a particular Inquiry when constructing a rol
 
 To grant more specific permissions to users or roles, use the ``users`` and ``roles`` parameters when invoking the ``core.ask`` action in a workflow. A user must be in at least one of the roles listed in the ``roles`` parameter, if any, in order to respond to an Inquiry.
 
+Garbage Collection for Inquiries
+----------------------------------------
+As alluded to in :doc:`Purging Old Operational Data </troubleshooting/purging_old_data>`, the ``st2garbagecollector`` service is also responsible for cleaning up old Inquiries. This is done by comparing the ``ttl`` parameter of an Inquiry with its start time. The ``ttl`` field is the number of minutes since the start time the Inquiry will be allowed to receive responses, before it is cleaned up.
+
+Unlike garbage collection for trigger-instances, or action executions, Inquiries are not deleted when they're "cleaned up". Rather, they're marked as "timed out". This allows workflows to make different decisions based on whether or not an Inquiry was responded to successfully, or if the TTL expired waiting for a response.
+
+To configure garbage collection for Inquiries, you first need to enable this globally. Unlike trigger-instances and action executions, the configuration file only requires a single boolean parameter to enable Inquiry garbage colllection:
+
+.. code-block:: bash
+
+    [garbagecollector]
+
+    # By default, this value is False
+    purge_inquiries = True
+
+Once done, each Inquiry has its own ``ttl`` configured via parameters. The default is 1440 - 24 hours. However, this can be easily overridden for a inquiry by specifying the ``ttl`` in a parameter for the ``core.ask`` action, like in the following Mistral workflow:
+
+.. code-block:: yaml
+
+    version: '2.0'
+
+    examples.mistral-ask-basic:
+        description: A basic Mistral workflow illustrating the use of Inquiries
+        type: direct
+        tasks:
+            task1:
+                action: core.ask
+                input:
+                  ttl: 60
+                  route: developers
+                on-success:
+                  - task2
+
+            task2:
+                action: core.local
+                input:
+                  cmd: echo "Got to task2"
+
+
+.. note::
+
+    Even if Inquiry garbage collection is enabled globally in the st2 config, you can use a TTL value of 0 to
+    disable garbage collection for a specific Inquiry.
+
+Once this option has been enabled, and the ``st2garbagecollector`` service is started, it will begin periodically looking for Inquiries that have been in a ``pending`` state beyond their configured ``ttl``. If we didn't respond to the above inquiry within 60 minutes, then ``task`` would be marked "timeout", and the workflow would fail (since ``task2`` is listed under ``on-success``).
