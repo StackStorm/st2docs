@@ -24,9 +24,9 @@ retrieving the data.
 .. code-block:: bash
 
     # Pass the result of this expression to the action st2.kv.set
-    {{ '{"complex": "structure", "foo": ["x", "y"]}" | to_json_string }}
+    {{ {'complex': 'structure', 'foo': ['x', True]} | to_json_string }}
 
-    # Read the data back in using the ``st2kv`` and ``from_json_string`` filters
+    # Read the data back in using the st2kv and from_json_string filters
     {{ st2kv.system.foo | from_json_string }}
 
 .. _jinja-jinja-filters:
@@ -110,7 +110,7 @@ Adds escape characters to JSON strings.
     {{ value_key | json_escape }}
 
 jsonpath_query
-~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
 Provides the ability to extract data from complex ``object`` data using the
 `JSONPath <http://goessner.net/articles/JsonPath/>` query language. More specifically
