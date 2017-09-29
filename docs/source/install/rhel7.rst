@@ -1,11 +1,16 @@
 RHEL 7/CentOS 7
 ===============
 
-If you're just looking for a quick "one-liner" installation, check the :doc:`top-level install guide </install/index>`.
-If you need a customised installation, use this guide for step-by step instructions for installing |st2| on a single
-RHEL 7/CentOS 7 64 bit system as per the :doc:`Reference deployment </install/overview>`.
+If you're just looking for a quick "one-liner" installation, check the :doc:`top-level install
+guide </install/index>`. If you need a customised installation, use this guide for step-by-step
+instructions for installing |st2| on a single RHEL 7/CentOS 7 64-bit system as per the
+:doc:`Reference deployment </install/overview>`.
 
-.. note:: `Use the Source, Luke! <http://c2.com/cgi/wiki?UseTheSourceLuke>`_ We strive to keep the documentation current, but the best way to find out what really happens is to look at the code of the `installer script
+.. note:: 
+
+  `Use the Source, Luke! <http://c2.com/cgi/wiki?UseTheSourceLuke>`_ We strive to keep the
+  documentation current, but the best way to find out what really happens is to look at the code
+  of the `installer script
   <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-el7.sh>`_.
 
 .. contents::
@@ -13,7 +18,7 @@ RHEL 7/CentOS 7 64 bit system as per the :doc:`Reference deployment </install/ov
 System Requirements
 -------------------
 
-Please check :doc:`supported versions and system requirements <system_requirements>`.
+Please check the :doc:`supported versions and system requirements <system_requirements>`.
 
 Minimal Installation
 --------------------
@@ -21,30 +26,30 @@ Minimal Installation
 Adjust SELinux Policies
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-If your RHEL/CentOS box has SELinux in Enforcing mode, please follow these instructions to adjust SELinux
+If your system has SELinux in Enforcing mode, please follow these instructions to adjust SELinux
 policies. This is needed for successful installation. If you are not happy with these policies,
 you may want to tweak them according to your security practices.
 
-* Check if SELinux is enforcing:
+* First check if SELinux is in Enforcing mode:
 
   .. code-block:: bash
 
     getenforce
 
-* If previous command returns 'Enforcing', then run the following commands to adjust SELinux policies:
+* If the previous command returns 'Enforcing', then run the following commands:
 
   .. code-block:: bash
 
     # SELINUX management tools, not available for some minimal installations
     sudo yum install -y policycoreutils-python
 
-    # Allow rabbitmq to use '25672' port, otherwise it will fail to start
-    sudo semanage port --list | grep -q 25672 || sudo semanage port -a -t amqp_port_t -p tcp 25672
-
     # Allow network access for nginx
     sudo setsebool -P httpd_can_network_connect 1
 
-.. note ::
+    # Allow RabbitMQ to use port '25672', otherwise it will fail to start
+    sudo semanage port --list | grep -q 25672 || sudo semanage port -a -t amqp_port_t -p tcp 25672
+
+.. note::
 
   If you see messages like "SELinux: Could not downgrade policy file", it means you are trying to
   adjust policy configurations when SELinux is disabled. You can ignore this error.
@@ -54,7 +59,7 @@ Install Dependencies
 
 .. include:: __mongodb_note.rst
 
-Install MongoDB, RabbitMQ, and PostgreSQL.
+Install MongoDB, RabbitMQ, and PostgreSQL:
 
 .. code-block:: bash
 
@@ -65,7 +70,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
   sudo sh -c "cat <<EOT > /etc/yum.repos.d/mongodb-org-3.4.repo
   [mongodb-org-3.4]
   name=MongoDB Repository
-  baseurl=https://repo.mongodb.org/yum/redhat/7Server/mongodb-org/3.4/x86_64/
+  baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.4/x86_64/
   gpgcheck=1
   enabled=1
   gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc
@@ -93,7 +98,8 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
 Setup Repositories
 ~~~~~~~~~~~~~~~~~~
 
-The following script will detect your platform and architecture and setup the repo accordingly. It'll also install the GPG key for repo signing.
+The following script will detect your platform and architecture and setup the appropriate |st2|
+repository. It will also add the the GPG key used for package signing.
 
 .. code-block:: bash
 
@@ -106,12 +112,14 @@ Install |st2| Components
 
   sudo yum install -y st2 st2mistral
 
-If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or changed the defaults,
-please adjust the settings:
+If you are not running RabbitMQ, MongoDB or PostgreSQL on the same system, or have changed the
+defaults, please adjust these settings:
 
-  * RabbitMQ connection at ``/etc/st2/st2.conf`` and ``/etc/mistral/mistral.conf``
-  * MongoDB at ``/etc/st2/st2.conf``
-  * PostgreSQL at ``/etc/mistral/mistral.conf``
+* RabbitMQ connection at ``/etc/st2/st2.conf`` and ``/etc/mistral/mistral.conf``
+* MongoDB at ``/etc/st2/st2.conf``
+* PostgreSQL at ``/etc/mistral/mistral.conf``
+
+See the :doc:`Configuration documentation </install/config/config>` for more information.
 
 Setup Datastore Encryption
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -126,26 +134,30 @@ Setup Mistral Database
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
 
-To run local and remote shell actions, |st2| uses a special system user (default ``stanley``).
-For remote Linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
+To run local and remote shell actions, |st2| uses a special system user (by default ``stanley``).
+For remote Linux actions, SSH is used. We recommend configuring public key-based SSH access on all
+remote hosts. We also recommend configuring SSH access to localhost for running examples and
+testing.
 
-* Create |st2| system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally.
+* Create |st2| system user, enable passwordless sudo, and set up ssh access to "localhost" so
+  that SSH-based actions can be tested locally. You will need elevated privileges to do this:
 
   .. include:: common/configure_ssh_and_sudo.rst
 
-* Configure SSH access and enable passwordless sudo on the remote hosts which |st2| would control
-  over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
-  To control Windows boxes, configure access for :doc:`Windows runners </install/config/windows_runners>`.
+* Configure SSH access and enable passwordless sudo on the remote hosts which |st2| will be running
+  remote actions on via SSH. Using the public key generated in the previous step, follow the
+  instructions at :ref:`config-configure-ssh`. To control Windows boxes, configure access for
+  :doc:`Windows runners </install/config/windows_runners>`.
 
-* Adjust configuration in ``/etc/st2/st2.conf`` if you are using a different user or path to the key:
+* If you are using a different user, or path to their SSH key, you will need to change this
+  section in ``/etc/st2/st2.conf``: 
 
-.. include:: common/configure_system_user.rst
+  .. include:: common/configure_system_user.rst
 
 Start Services
 ~~~~~~~~~~~~~~
 
 .. include:: common/start_services.rst
-
 
 Verify
 ~~~~~~
@@ -155,12 +167,10 @@ Verify
 Configure Authentication
 ------------------------
 
-The reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication`
-to configure and use PAM or LDAP authentication backends.
+The reference deployment uses a file-based authentication provider for simplicity. Refer to
+:doc:`/authentication` to configure and use PAM or LDAP authentication backends.
 
-.. include:: __pam_auth_backend_requirements.rst
-
-To set up authentication with File Based provider:
+To set up authentication with file-based provider:
 
 * Create a user with a password:
 
@@ -171,7 +181,7 @@ To set up authentication with File Based provider:
     # Create a user record in a password file.
     echo 'Ch@ngeMe' | sudo htpasswd -i /etc/st2/htpasswd st2admin
 
-* Enable and configure auth in ``/etc/st2/st2.conf``:
+* Enable and configure authentication in ``/etc/st2/st2.conf``:
 
   .. sourcecode:: ini
 
@@ -182,15 +192,17 @@ To set up authentication with File Based provider:
     backend_kwargs = {"file_path": "/etc/st2/htpasswd"}
     # ...
 
-* Restart the st2api service: ::
-
-    sudo st2ctl restart-component st2api
-
-* Authenticate, export the token for st2 CLI, and check that it works:
+* Restart the st2api service:
 
   .. code-block:: bash
 
-    # Get an auth token and use in CLI or API
+    sudo st2ctl restart-component st2api
+
+* Authenticate, set the token environment variable, and check that it works:
+
+  .. code-block:: bash
+
+    # Get an auth token to use in CLI or API
     st2 auth st2admin
 
     # A shortcut to authenticate and export the token
@@ -199,20 +211,19 @@ To set up authentication with File Based provider:
     # Check that it works
     st2 action list
 
-Check out :doc:`/reference/cli` to learn convenient ways to authenticate via CLI.
+Check out the :doc:`/reference/cli` to learn other convenient ways to authenticate via CLI.
 
 Install WebUI and Setup SSL Termination
 ---------------------------------------
 
-`NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS,
-provide SSL termination for HTTPS, and reverse-proxy st2auth and st2api API endpoints.
-To set it up: install ``st2web`` and ``nginx``, generate certificates or place your existing
-certificates under ``/etc/ssl/st2``, and configure nginx with |st2|'s supplied
-:github_st2:`site config file st2.conf<conf/nginx/st2.conf>`.
+`NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS, provide
+SSL termination, and reverse-proxy st2auth and st2api API endpoints. To set it up: install the
+``st2web`` and ``nginx`` packages, generate certificates or place your existing certificates under
+``/etc/ssl/st2``, and configure nginx with |st2|'s supplied :github_st2:`site config file st2.conf
+<conf/nginx/st2.conf>`.
 
-|st2| depends on Nginx version >=1.7.5; since RHEL7 has an older version
-in the package repositories at the time of writing, you will have to include
-the official Nginx repository into the list:
+|st2| depends on Nginx version >=1.7.5. RHEL has an older version in the package repositories, so
+you will need to add the official Nginx repository:
 
 .. code-block:: bash
 
@@ -221,7 +232,7 @@ the official Nginx repository into the list:
   sudo sh -c "cat <<EOT > /etc/yum.repos.d/nginx.repo
   [nginx]
   name=nginx repo
-  baseurl=http://nginx.org/packages/rhel/7/x86_64/
+  baseurl=http://nginx.org/packages/rhel/$releasever/x86_64/
   gpgcheck=1
   enabled=1
   EOT"
@@ -229,7 +240,7 @@ the official Nginx repository into the list:
   # Install st2web and nginx
   sudo yum install -y st2web nginx
 
-  # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
+  # Generate a self-signed certificate or place your existing certificate under /etc/ssl/st2
   sudo mkdir -p /etc/ssl/st2
   sudo openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt \
   -days 365 -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
@@ -244,15 +255,15 @@ the official Nginx repository into the list:
   sudo systemctl restart nginx
   sudo systemctl enable nginx
 
-If you modify ports, or url paths in the nginx configuration, make the corresponding changes in st2web
-configuration at ``/opt/stackstorm/static/webui/config.js``.
+If you modify ports, or url paths in the nginx configuration, make the corresponding changes in
+the st2web configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
 
 .. _ref-rhel7-firewall:
 
-If you are unable to connect to the web browser, you may need to change the default firewall settings.
-You can do this with these commands:
+If you are unable to connect to the web browser, you may need to change the default firewall
+settings. You can do this with these commands:
 
 .. code-block:: bash
 
@@ -269,14 +280,14 @@ For example:
 
 .. code-block:: bash
 
-    curl -X GET -H  'Connection: keep-alive' -H  'User-Agent: manual/curl' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'X-Auth-Token: <YOUR_TOKEN>' https://1.2.3.4/api/v1/actions
+  curl -X GET -H  'Connection: keep-alive' -H  'User-Agent: manual/curl' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'X-Auth-Token: <YOUR_TOKEN>' https://1.2.3.4/api/v1/actions
 
 Similarly, you can connect to auth REST endpoints with ``https://${EXTERNAL_IP}/auth/v1/${AUTH_ENDPOINT}``.
 
-You can see the actual REST endpoint for a resource in |st2|
-by adding a ``--debug`` option to the CLI command for the appropriate resource.
+You can see the actual REST endpoint for a resource by adding a ``--debug`` option to the CLI
+command for the appropriate resource.
 
-For example, to see the endpoint for getting actions, invoke
+For example, to see the endpoint for getting actions, invoke:
 
 .. code-block:: bash
 
@@ -285,12 +296,12 @@ For example, to see the endpoint for getting actions, invoke
 Setup ChatOps
 -------------
 
-If you already run a Hubot instance, you only have to install the
-`hubot-stackstorm plugin <https://github.com/StackStorm/hubot-stackstorm>`_ and configure |st2| env
-variables, as described below. Otherwise, the easiest way to enable :doc:`StackStorm ChatOps </chatops/index>`
+If you already run a Hubot instance, you can install the `hubot-stackstorm plugin
+<https://github.com/StackStorm/hubot-stackstorm>`_ and configure |st2| environment variables, as
+described below. Otherwise, the easiest way to enable :doc:`StackStorm ChatOps </chatops/index>`
 is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
 
-* Validate that ``chatops`` pack is installed, and a notification rule is enabled:
+* Validate that the ``chatops`` pack is installed, and a notification rule is enabled:
 
   .. code-block:: bash
 
@@ -299,29 +310,30 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
     # Create notification rule if not yet enabled
     st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml
 
-* `Add NodeJS v6 repository <https://nodejs.org/en/download/package-manager/>`_:
+* Add `NodeJS v6 repository <https://nodejs.org/en/download/package-manager/>`_:
 
   .. code-block:: bash
 
     curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
 
-* Install st2chatops package:
+* Install the ``st2chatops`` package:
 
   .. code-block:: bash
 
     sudo yum install -y st2chatops
 
 * Review and edit the ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to
-  your |st2| installation and Chat Service you are using. At a minimum, you should generate an
-  :ref:`API key <authentication-apikeys>` and set the ``ST2_API_KEY`` variable. By default ``st2api``
-  and ``st2auth`` are expected to be on the same host. If that is not the case, please update the
-  ``ST2_API`` and ``ST2_AUTH_URL`` variables or just point to the correct host with ``ST2_HOSTNAME``.
+  your |st2| installation and the Chat Service you are using. At a minimum, you should generate an
+  :ref:`API key <authentication-apikeys>` and set the ``ST2_API_KEY`` variable. By default
+  ``st2api`` and ``st2auth`` are expected to be on the same host. If that is not the case, please
+  update the ``ST2_API`` and ``ST2_AUTH_URL`` variables or just point to the correct host with
+  ``ST2_HOSTNAME``.
 
   The example configuration uses Slack. To set this up, go to the Slack web admin interface, create
   a Bot, and copy the authentication token into ``HUBOT_SLACK_TOKEN``.
 
-  If you are using a different Chat Service, set corresponding environment variables under
-  `Chat service adapter settings`:
+  If you are using a different Chat Service, set the corresponding environment variables under the
+  ``Chat service adapter settings`` section in ``st2chatops.env``:
   `Slack <https://github.com/slackhq/hubot-slack>`_,
   `HipChat <https://github.com/hipchat/hubot-hipchat>`_,
   `Yammer <https://github.com/athieriot/hubot-yammer>`_,
@@ -338,7 +350,7 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
     # Start st2chatops on boot
     sudo systemctl enable st2chatops
 
-* Reload st2 packs to make sure ``chatops.notify`` rule is registered:
+* Reload st2 packs to make sure the ``chatops.notify`` rule is registered:
 
   .. code-block:: bash
 
@@ -351,12 +363,13 @@ A Note on Security
 
 .. include:: common/security_notes.rst
 
-Upgrade to Brocade Workflow Composer
-------------------------------------
+Upgrade to |bwc|
+----------------
 
-|bwc| is deployed as an addition on top of |st2|. You will need an active |bwc| subscription, and
-a license key to access |bwc| repositories. To add your license key, replace ``${BWC_LICENSE_KEY}``
-in the command below with the key you received when registering or purchasing.
+|bwc| is deployed as a set of additional packages on top of |st2|. You will need an active |bwc|
+subscription, and a license key to access |bwc| repositories. To add your license key, replace
+``${BWC_LICENSE_KEY}`` in the command below with the key you received when registering or
+purchasing.
 
 .. code-block:: bash
 

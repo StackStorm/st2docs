@@ -2,7 +2,8 @@ RHEL 6/CentOS 6
 ===============
 
 If you're just looking for a quick "one-liner" installation, check the :doc:`top-level install
-guide </install/index>`. If you need a customised installation, use this guide for step-by step instructions for installing |st2| on a single RHEL 6/CentOS 6 64-bit system as per the
+guide </install/index>`. If you need a customised installation, use this guide for step-by-step
+instructions for installing |st2| on a single RHEL 6/CentOS 6 64-bit system as per the
 :doc:`Reference deployment </install/overview>`.
 
 .. note:: 
@@ -53,7 +54,7 @@ you may want to tweak them according to your security practices.
 
     getenforce
 
-* If previous command returns 'Enforcing', then run the following commands:
+* If the previous command returns 'Enforcing', then run the following commands:
 
   .. code-block:: bash
 
@@ -63,7 +64,7 @@ you may want to tweak them according to your security practices.
     # Allow network access for nginx
     sudo setsebool -P httpd_can_network_connect 1
 
-.. note ::
+.. note::
 
   If you see messages like "SELinux: Could not downgrade policy file", it means you are trying to
   adjust policy configurations when SELinux is disabled. You can ignore this error.
@@ -73,7 +74,7 @@ Install Dependencies
 
 .. include:: __mongodb_note.rst
 
-Install MongoDB, RabbitMQ, and PostgreSQL.
+Install MongoDB, RabbitMQ, and PostgreSQL:
 
 .. code-block:: bash
 
@@ -84,7 +85,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL.
   sudo sh -c "cat <<EOT > /etc/yum.repos.d/mongodb-org-3.4.repo
   [mongodb-org-3.4]
   name=MongoDB Repository
-  baseurl=https://repo.mongodb.org/yum/redhat/6Server/mongodb-org/3.4/x86_64/
+  baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.4/x86_64/
   gpgcheck=1
   enabled=1
   gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc
@@ -187,7 +188,6 @@ Verify
 
 .. include:: common/verify.rst
 
-
 Configure Authentication
 ------------------------
 
@@ -246,7 +246,7 @@ SSL termination, and reverse-proxy st2auth and st2api API endpoints. To set it u
 ``/etc/ssl/st2``, and configure nginx with |st2|'s supplied :github_st2:`site config file st2.conf
 <conf/nginx/st2.conf>`.
 
-|st2| depends on Nginx version >=1.7.5. RHEL6 has an older version in the package repositories, so
+|st2| depends on Nginx version >=1.7.5. RHEL has an older version in the package repositories, so
 you will need to add the official Nginx repository:
 
 .. code-block:: bash
@@ -256,7 +256,7 @@ you will need to add the official Nginx repository:
   sudo sh -c "cat <<EOT > /etc/yum.repos.d/nginx.repo
   [nginx]
   name=nginx repo
-  baseurl=http://nginx.org/packages/rhel/6/x86_64/
+  baseurl=http://nginx.org/packages/rhel/$releasever/x86_64/
   gpgcheck=1
   enabled=1
   EOT"
@@ -296,10 +296,10 @@ For example:
 
 Similarly, you can connect to auth REST endpoints with ``https://${EXTERNAL_IP}/auth/v1/${AUTH_ENDPOINT}``.
 
-You can see the actual REST endpoint for a resource in |st2|
-by adding a ``--debug`` option to the CLI command for the appropriate resource.
+You can see the actual REST endpoint for a resource by adding a ``--debug`` option to the CLI
+command for the appropriate resource.
 
-For example, to see the endpoint for getting actions, invoke
+For example, to see the endpoint for getting actions, invoke:
 
 .. code-block:: bash
 
