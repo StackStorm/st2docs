@@ -16,7 +16,7 @@ You can use ``{{ st2kv.system.foo }}`` to access key ``foo`` from datastore. Not
 v2.1, the expression to access key ``foo`` from datastore used to be ``{{ system.foo }}``
 but is now deprecated, and the leading ``st2kv.`` namespace is required.
 
-Currently, all data in the datastore is represented as strings. Toto represent
+Currently, all data in the datastore is represented as strings. To represent
 complext data structures like ``dicts`` and ``lists`` the standard approach is to
 convert the data structure into JSON when storing the data, then parse it when
 retrieving the data.
