@@ -124,11 +124,59 @@ an online evaluator can be found `here <http://jsonpath.com/>`.
 
 .. code-block:: bash
 
+    # Access an element in a data structure. Each level is delimited by a '.'.
+    # Each part of the query is the name of the field in the current level
+    # of the data structure.
+    #
+    # input  = {'a': {'b': {'c': 1234} } }
+    # result = [1234]
+    {{ input | jsonpath_query('a.b.c') }}
+
+    # Access an index in an array/list
+    #
+    # input  = {'animals': ['bird', 'rabbit', 'cat', 'dog', 'cow'] }
+    # result = ['rabbit']
+    {{ input | jsonpath_query('animals[1]') }}
+
+    # Access all indexes in an array/list
+    #
+    # input  = {'animals': ['bird', 'rabbit', 'cat', 'dog', 'cow'] }
+    # result = ['bird', 'rabbit', 'cat', 'dog', 'cow']
+    {{ input | jsonpath_query('animals[*]') }}
+    
+    # Access a range/slice of indexes in an array/list.
+    # These expressions can be read mathematically as [first, last)
+    # Meaning that the index of the first element is inclusive, and the index
+    # of the last element is exclusive (will not be included).
+    #
+    # input  = {'animals': ['bird', 'rabbit', 'cat', 'dog', 'sheep'] }
+    # result = ['rabbit', 'cat']
+    {{ input | jsonpath_query('animals[1:3]') }}
+
+    # If you leave out the first number in the range/slice operator
+    # it will start at the beginning implicitly. It can be read as:
+    # "give me all data from the beginning to the index specified"
+    #
+    # input  = {'animals': ['bird', 'rabbit', 'cat', 'dog', 'sheep'] }
+    # result = ['bird', 'rabbit']
+    {{ input | jsonpath_query('animals[:2]') }}
+
+    # If you leave out the last number in the range/slice operator
+    # it will go all the way to the end of the array implicitly.
+    # It can be read as: "give me all data from the index specified to the end"
+    #
+    # input  = {'animals': ['bird', 'rabbit', 'cat', 'dog', 'sheep'] }
+    # result = ['cat', 'dog', 'sheep']
+    {{ input | jsonpath_query('animals[2:]') }}
+
+    # Access a field within every element of an array.
+    #
     # input  = {'people': [{'first': 'James', 'last': 'd'},
     #                      {'first': 'Jacob', 'last': 'e'},
     #                      {'first': 'Jayden', 'last': 'f'}]}
     # result = ['James', 'Jacob', 'Jayden']
-    {{ input | jmespath_query('people[*].first') }}
+    {{ input | jsonpath_query('people[*].first') }}
+
 
 regex_match
 ~~~~~~~~~~~
