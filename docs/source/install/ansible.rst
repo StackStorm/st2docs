@@ -1,48 +1,53 @@
 Ansible Playbooks
 =================
-Ansible playbooks and roles to install |st2|.
 
-Allows you to deploy and further configure |st2| installation on local or remote machines with Ansible configuration management tool.
+Want to use `Ansible <https://www.ansible.com>`_ to deploy |st2|? Look no further - here's the
+details on Ansible playbooks and roles to install |st2|. Perfect for repeatable, configurable, and
+idempotent production-friendly |st2| installations.
 
-The advantage of using this method, comparing to our demonstrational ``curl | bash`` installer are repeatable, configurable and idempotent production-friendly |st2| installations.
-
-Playbooks source code is available as GitHub repository `StackStorm/ansible-st2 <https://github.com/StackStorm/ansible-st2>`_.
+The source code for all our playbooks is available as a GitHub repo: 
+`StackStorm/ansible-st2 <https://github.com/StackStorm/ansible-st2>`_.
 
 .. contents:: Contents
    :local:
 
 ---------------------------
 
-Supported platforms
----------------------------
+Supported Platforms
+-------------------
+
+Our Ansible playbooks support the same platforms as manual installation, i.e.:
+
 * Ubuntu Trusty (14.04)
 * Ubuntu Xenial (16.04)
-* RHEL6 / CentOS6
-* RHEL7 / CentOS7
+* RHEL 6/CentOS 6
+* RHEL 7/CentOS 7
 
-Requirements
----------------------------
-At least 2GB of memory and 3.5GB of disk space is required, since |st2| is shipped with RabbitMQ, PostgreSQL, Mongo, nginx and OpenStack Mistral.
+The same system size :doc:`requirements </install/system_requirements>` also apply.
 
 Quick Start
----------------------------
-Here are basic instructions to get started with a single node deployment and default configuration settings:
+-----------
 
-.. sourcecode:: bash
+To get started with a single node deployment, and default configuration settings, run these
+commands:
 
-    git clone https://github.com/StackStorm/ansible-st2.git
-    cd ansible-st2
+.. code-block:: bash
 
-    ansible-playbook stackstorm.yml
+  git clone https://github.com/StackStorm/ansible-st2.git
+  cd ansible-st2
+
+  ansible-playbook stackstorm.yml
 
 Roles
----------------------------
-Behind the scenes ``stackstorm.yml`` play composed of the following Ansible ``roles`` for a complete installation:
+-----
+
+Behind the scenes the ``stackstorm.yml`` play is composed of the following Ansible ``roles`` for a
+complete installation:
 
 - ``epel`` - Repository with extra packages for ``RHEL/CentOS``.
-- ``mongodb`` - Main DB storage engine for |st2|.
-- ``rabbitmq`` - Message broker for |st2|.
-- ``postgresql`` - Main DB storage engine for |st2| Mistral.
+- ``mongodb`` - Main DB storage engine.
+- ``rabbitmq`` - Message broker.
+- ``postgresql`` - DB storage engine for Mistral.
 - ``st2repos`` - Adds |st2| PackageCloud repositories.
 - ``st2`` - Install and configure |st2| itself.
 - ``st2mistral`` - Install and configure |st2| Mistral workflow engine.
@@ -50,13 +55,14 @@ Behind the scenes ``stackstorm.yml`` play composed of the following Ansible ``ro
 - ``st2web`` - Nice & shiny WebUI for |st2|.
 - ``nodejs`` - Dependency for ``st2chatops``.
 - ``st2chatops`` - Install and configure st2chatops for hubot adapter integration with |st2|.
-- ``st2smoketests`` - Simple checks to know if |st2| really works.
-- ``bwc`` - Install and configure BWC |st2| enterprise, including ``LDAP`` and ``RBAC``.
-- ``bwc_smoketests`` - Small integration tests to check if ``BWC`` really works.
+- ``st2smoketests`` - Simple checks to see if |st2| is working.
+- ``bwc`` - Install and configure |bwc|, including ``LDAP`` and ``RBAC``.
+- ``bwc_smoketests`` - Simple checks to see if |bwc| is working.
 
 Example Play
 ---------------------------
-Below is more advanced example to customize |st2| deployment:
+
+Here's a more advanced example showing how to customize your |st2| deployment:
 
 .. sourcecode:: yaml
 
@@ -112,11 +118,12 @@ Below is more advanced example to customize |st2| deployment:
         - name: Verify StackStorm Installation
           role: st2smoketests
 
-Here is a `full list of Variables <https://github.com/stackstorm/ansible-st2#variables>`_.
+Check out the `full list of Variables <https://github.com/stackstorm/ansible-st2#variables>`_.
 
 Custom SSL Certificate for ``st2web``
 --------------------------------------
-By default we generate a self-signed certificate for ``nginx`` in ``st2web`` role. It's possible to pass an externally signed SSL certificate instead:
+
+By default we generate a self-signed certificate for ``nginx`` in ``st2web`` role. If you have your own properly signed certificate, you can use that instead:
 
 .. sourcecode:: yaml
 
@@ -127,9 +134,11 @@ By default we generate a self-signed certificate for ``nginx`` in ``st2web`` rol
           st2web_ssl_certificate_key: "{{ lookup('file', 'local/path/to/domain-name.key') }}"
 
 
-Installing behind a Proxy
---------------------------
-If you are installing from behind a proxy, you can use the environment variables ``http_proxy``, ``https_proxy``, and ``no_proxy`` in the play. They will be passed through during the execution.
+Installing Behind a Proxy
+-------------------------
+
+If you are installing from behind a proxy, you can use the environment variables ``http_proxy``,
+``https_proxy``, and ``no_proxy``. They will be passed through during the execution.
 
 .. sourcecode:: yaml
 
@@ -144,9 +153,13 @@ If you are installing from behind a proxy, you can use the environment variables
         - st2
 
 
-BWC (|st2| Enterprise)
----------------------------
-Example to customize |st2| enterprise (`BWC <https://bwc-docs.brocade.com/>`_) with `LDAP <https://bwc-docs.brocade.com/authentication.html#ldap>`_ auth backend and `RBAC <https://bwc-docs.brocade.com/rbac.html>`_ configuration to allow/restrict/limit different |st2| functionality to specific users:
+|bwc|
+-----
+
+Here's an example showing how to add :doc:`Brocade Workflow Composer </install/bwc>`, with
+`LDAP <https://bwc-docs.brocade.com/authentication.html#ldap>`_ authentication and
+`RBAC <https://bwc-docs.brocade.com/rbac.html>`_ configuration to allow/restrict/limit |st2|
+functionality to specific users:
 
 .. sourcecode:: yaml
 
@@ -205,5 +218,6 @@ Example to customize |st2| enterprise (`BWC <https://bwc-docs.brocade.com/>`_) w
 
 .. note::
 
-    Please refer to https://github.com/StackStorm/ansible-st2 for updates and more detailed examples, descriptions and code.
-    Additionally if you're familiar with Ansible, found a bug, would like to propose a feature or pull request, - your contributions are very welcome!
+    Please refer to https://github.com/StackStorm/ansible-st2 for updates and more detailed
+    examples, descriptions and code. Iff you're familiar with Ansible, and think you've found a
+    bug, or would like to propose a feature or pull request, your contributions are very welcome!
