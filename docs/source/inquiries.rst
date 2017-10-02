@@ -377,10 +377,10 @@ Note that the ``stdout`` for ``task2`` (and subsequently, this ActionChain) is "
 
 .. TODO - Update with chatops when the core PR is merged and an action and action-alias has been added to st2 pack
 
-Securing Inquiries with RBAC
+Securing Inquiries
 ----------------------------------------
 
-At initial release, Inquiries work a little differently from other system resources with it comes to granting permissions to them via RBAC. The ``users`` and ``roles`` parameters allows you to control who can respond to a specific inquiry, right in the workflow. With this granularity being offered in parameters, RBAC for Inquiries is a bit simpler.
+At initial release, Inquiries work a little differently from other system resources with it comes to granting permissions to them via RBAC. The ``users`` and ``roles`` parameters for the ``core.ask`` action allows you to control who can respond to a specific inquiry, right in the workflow. With this granularity being offered in parameters, RBAC for Inquiries is a bit simpler, focusing broadly on who has access to Inquiries in general, leaving specific access control to the action parameters.
 
 For example, rather than specifying a particular Inquiry when constructing a role, all Inquiry UIDs should be specified as ``inquiry:``. Whatever permissions are granted in the role are granted to all inquiries:
 
@@ -395,8 +395,6 @@ For example, rather than specifying a particular Inquiry when constructing a rol
     - resource_uid: "inquiry:"
       permission_types:
         - "inquiry_respond"
-
-To grant more specific permissions to users or roles, use the ``users`` and ``roles`` parameters when invoking the ``core.ask`` action in a workflow. A user must be in at least one of the roles listed in the ``roles`` parameter, if any, in order to respond to an Inquiry.
 
 Inquiries also honor execution permissions for the workflow they were generated from. For instance, if user``iinherit`` has ``action_execute`` permissions on the workflow ``examples.mistral-ask-basic``, they don't need to be explicitly granted ``inquiry_respond`` permissions - this is done automatically.
 
@@ -426,6 +424,37 @@ The following is an example role that only grants permissions to execute a workf
     - resource_uid: "runner_type:mistral-v2"
       permission_types:
         - "runner_type_list"
+
+
+To lock down a specific Inquiry to a set of users or RBAC roles (the latter of which is only available with enterprise features), the ``users`` and ``roles`` parameters should be used. These offer additional restriction on a per-Inquiry basis, but they don't remove any restrictions imposed on the aforementioned RBAC settings, if any. These parameter-based restrictions are cumulative with any existing RBAC restrictions.
+
+The ``users`` parameter is a list of users that are permitted to respond to this specific instance of an Inquiry. Similarly, ``roles`` controls which RBAC roles (assuming enterprise features) are allowed to respond to this specific Inquiry. The default value for both of these parameters is an empty list, which permits all. The following ActionChain invokes a ``core.local`` action, passing a list into the ``users`` parameter that specifies only ``st2responduser`` is able to respond:
+
+.. code-block:: yaml
+
+    chain:
+
+      - name: task1
+        ref: core.ask
+        params:
+          route: developers
+          users:
+           - st2responduser
+          schema:
+            type: object
+            properties:
+              secondfactor:
+                type: string
+                description: Please enter second factor for authenticating to "foo" service
+                required: True
+        on-success: "task2"
+
+      - name: task2
+        ref: core.local
+        params:
+          cmd: echo "We can now authenticate to "foo" service with {{ task1.result.response.secondfactor }}"
+
+All other users attempting to respond will be rejected, even if they are granted ``inquiry_respond`` RBAC permissions.
 
 
 Garbage Collection for Inquiries

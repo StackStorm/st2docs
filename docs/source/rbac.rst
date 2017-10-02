@@ -209,7 +209,7 @@ that Inquiry.
 Specifically, granting ``action_execute`` on a workflow action, or its parent pack, also grants
 ``inquiry_respond`` permissions for any Inquiries generated from that Workflow.
 
-For detailed examples, see `Securing Inquiries with RBAC <inquiries.html#securing-inquiries-with-rbac>`__
+For detailed examples, see `Securing Inquiries <inquiries.html#securing-inquiries>`__
 
 
 Permissions and Executions Which Are Not Triggered via the API
