@@ -97,17 +97,26 @@ action and passes in a few parameters:
 .. code-block:: yaml
 
     chain:
-        - name: task1
-          ref: core.ask
-          params:
-            route: developers
-            users:
-              - testu
 
-        - name: task2
-          ref: core.local
-          params:
-            cmd: echo "Reached task 2!"
+      - name: task1
+        ref: core.ask
+        params:
+          route: developers
+          schema:
+            type: object
+            properties:
+              secondfactor:
+                type: string
+                description: Please enter second factor for authenticating to "foo" service
+                required: True
+        on-success: "task2"
+
+      - name: task2
+        ref: core.local
+        params:
+          cmd: echo "We can now authenticate to "foo" service with {{ task1.result.response.secondfactor }}"
+
+Note that we're using a Jinja snippet in ``task2`` to access and make use of the value that we're asking for. In this example we're simply printing this to the screen, but the ``<task>.result.response`` dictionary will contain all of the values that satisfy our schema. More on this later.
 
 We can run this workflow to see its execution:
 
@@ -115,31 +124,29 @@ We can run this workflow to see its execution:
 
     ~$ st2 run examples.chain-test-inquiry
     .
-    id: 59ca9aad32ed3514845e7b0c
+    id: 59d1ecb632ed353f1f340898
     action.ref: examples.chain-test-inquiry
     parameters: None
     status: paused
     result_task: task1
     result:
       roles: []
+      route: developers
       schema:
         properties:
-          continue:
-            description: Would you like to continue the workflow?
+          secondfactor:
+            description: Please enter second factor for authenticating to "foo" service
             required: true
-            type: boolean
-        title: response_data
+            type: string
         type: object
-      route: developers
       ttl: 1440
-      users:
-      - testu
-    start_timestamp: 2017-09-26T18:21:33.186215Z
+      users: []
+    start_timestamp: 2017-10-02T07:37:26.854217Z
     end_timestamp: None
     +--------------------------+---------+-------+----------+-------------------------------+
     | id                       | status  | task  | action   | start_timestamp               |
     +--------------------------+---------+-------+----------+-------------------------------+
-    | 59ca9aad32ed35143227fe52 | pending | task1 | core.ask | Tue, 26 Sep 2017 18:21:33 UTC |
+    | 59d1ecb732ed353ec4aa9a5a | pending | task1 | core.ask | Mon, 02 Oct 2017 07:37:27 UTC |
     +--------------------------+---------+-------+----------+-------------------------------+
 
 As you can see, the status of our ActionChain is ``paused``. Note that ``task2`` hasn't even been
@@ -155,7 +162,7 @@ You can also use ``core.ask`` to ask a question within Mistral workflows:
     version: '2.0'
 
     examples.mistral-ask-basic:
-        description: A basic workflow for testing core.ask
+        description: A basic Mistral workflow illustrating the use of Inquiries
         type: direct
         output:
             result: <% task(task1).result.response %>
@@ -164,15 +171,21 @@ You can also use ``core.ask`` to ask a question within Mistral workflows:
                 action: core.ask
                 input:
                   route: developers
-                  users:
-                    - testu
-                on-complete:
+                  schema:
+                    type: object
+                    properties:
+                      secondfactor:
+                        type: string
+                        description: Please enter second factor for authenticating to "foo" service
+                        required: True
+                on-success:
                   - task2
 
             task2:
                 action: core.local
                 input:
-                  cmd: date
+                  cmd: echo "We can now authenticate to 'foo' service with <% task(task1).result.response.secondfactor %>"
+
 
 When encountering an Inquiry, StackStorm will send a request to Mistral to pause execution of a workflow,
 just like we saw previously with ActionChains:
@@ -246,63 +259,63 @@ In order to respond to an Inquiry, we need its ID. We would already have this if
     +--------------------------+-------+-------+------------+------+
     | id                       | roles | users | route      | ttl  |
     +--------------------------+-------+-------+------------+------+
-    | 59ab26af32ed35752062d2dc |       | testu | developers | 1440 |
+    | 59d1ecb732ed353ec4aa9a5a |       |       | developers | 1440 |
     +--------------------------+-------+-------+------------+------+
 
 Like most other resources in StackStorm, we can use the ``get`` subcommand to retrieve details about this Inquiry, using its ID provided in the previous output:
 
-.. TODO - Might be worth using a little more compelling example in the future, find a service that
-          requires 2FA and provide it using an Inquiry
-
 .. code-block:: bash
 
-    ~$ st2 inquiry get 59ab26af32ed35752062d2dc
+    ~$ st2 inquiry get 59d1ecb732ed353ec4aa9a5a
     +----------+--------------------------------------------------------------+
     | Property | Value                                                        |
     +----------+--------------------------------------------------------------+
-    | id       | 59ab26af32ed35752062d2dc                                     |
-    | parent   | 59ab26af32ed3575803bf139                                     |
+    | id       | 59d1ecb732ed353ec4aa9a5a                                     |
     | roles    |                                                              |
-    | users    | [                                                            |
-    |          |     "testu"                                                  |
-    |          | ]                                                            |
+    | users    |                                                              |
     | route    | developers                                                   |
     | ttl      | 1440                                                         |
     | schema   | {                                                            |
     |          |     "type": "object",                                        |
     |          |     "properties": {                                          |
-    |          |         "continue": {                                        |
-    |          |             "type": "boolean",                               |
-    |          |             "description": "Would you like to continue the   |
-    |          | workflow?"                                                   |
-    |          |             "required": true
+    |          |         "secondfactor": {                                    |
+    |          |             "required": true,                                |
+    |          |             "type": "string",                                |
+    |          |             "description": "Please enter second factor for   |
+    |          | authenticating to "foo" service"                             |
     |          |         }                                                    |
-    |          |     },                                                       |
-    |          |     "title": "response_data"                                 |
+    |          |     }                                                        |
     |          | }                                                            |
     +----------+--------------------------------------------------------------+
 
-In this view, we see the schema in use requires a single key: ``continue``, whose value must be boolean. Fortunately, the ``st2`` client makes this really easy; when you run the command ``st2 inquiry respond <inquiry id>``, it will step through each of these values, prompting you with the provided description. You simply respond to each prompt:
+In this view, we see the schema in use requires a single key: ``secondfactor``, whose value must be a string.
+
+.. note::
+
+    You can omit the ``schema`` parameter when using ``core.ask``, and a basic schema will be used as default - only requiring a single boolean value to continue the workflow. In this example, we've provided our own schema that allows us to use the retrieved value in a later task of the workflow.
+    This allows you to "inject" data into a workflow mid-execution, rather than rely solely on parameters.
+
+Fortunately, the ``st2`` client makes it easy to provide a valid response; when you run the command ``st2 inquiry respond <inquiry id>``, it will step through each of these values, prompting you with the provided description. You simply respond to each prompt:
 
 .. code-block:: bash
 
-    ~$ st2 inquiry respond 59ab26af32ed35752062d2dc
-    continue (boolean): True
-    Should we continue?
+    ~$ st2 inquiry respond 59d1ecb732ed353ec4aa9a5a
+    secondfactor: bar
+    Please enter second factor for authenticating to "foo" service
 
      Response accepted. Successful response data to follow...
-    +----------+--------------------------+
-    | Property | Value                    |
-    +----------+--------------------------+
-    | id       | 59ab26af32ed35752062d2dc |
-    | response | {                        |
-    |          |     "continue": true     |
-    |          | }                        |
-    +----------+--------------------------+
+    +----------+---------------------------+
+    | Property | Value                     |
+    +----------+---------------------------+
+    | id       | 59d1ecb732ed353ec4aa9a5a  |
+    | response | {                         |
+    |          |     "secondfactor": "bar" |
+    |          | }                         |
+    +----------+---------------------------+
 
 It's very important that each property in the response schema has a proper description, as shown in the default example, as this is what prompts the user for required values when it's time to respond.
 
-Since the ``st2`` client has a handle on the schema being used for an Inquiry, it can guide you to provide the right datatypes for each attribute, and won't continue until you do:
+Since the ``st2`` client has a handle on the schema being used for an Inquiry, it can guide you to provide the right datatypes for each attribute, and won't continue until you do. For instance, if our schema required a ``boolean`` value, an integer would be rejected client-side:
 
 .. code-block:: bash
 
@@ -315,23 +328,23 @@ However, not every response can be done interactively. You may even want to scri
 
 .. code-block:: bash
 
-    ~$ st2 inquiry respond -r '{"continue": true}' 59ab26af32ed35752062d2dc
+    ~$ st2 inquiry respond -r '{"secondfactor": "bar"}' 59d1ecb732ed353ec4aa9a5a
 
      Response accepted. Successful response data to follow...
-    +----------+--------------------------+
-    | Property | Value                    |
-    +----------+--------------------------+
-    | id       | 59ab26af32ed35752062d2dc |
-    | response | {                        |
-    |          |     "continue": true     |
-    |          | }                        |
-    +----------+--------------------------+
+    +----------+---------------------------+
+    | Property | Value                     |
+    +----------+---------------------------+
+    | id       | 59d1ecb732ed353ec4aa9a5a  |
+    | response | {                         |
+    |          |     "secondfactor": "bar" |
+    |          | }                         |
+    +----------+---------------------------+
 
 Note that this effectively bypasses any client-side validation, so it's quite possible to send a JSON payload that doesn't validate against the schema. However, the API is the ultimate authority on validating an Inquiry response, so in this case, you'll still get an error in return:
 
 .. code-block:: bash
 
-    ~$ st2 inquiry respond -r '{"continue": 123}' 59ab26af32ed35752062d2dc
+    ~$ st2 inquiry respond -r '{"secondfactor": 123}' 59d1ecb732ed353ec4aa9a5a
     ERROR: 400 Client Error: Bad Request
     MESSAGE: Response did not pass schema validation. for url: http://127.0.0.1:9101/exp/inquiries/59ab26af32ed35752062d2dc
 
@@ -339,22 +352,28 @@ Once an acceptable response is provided, the workflow resumes:
 
 .. code-block:: bash
 
-    ~$ st2 execution get 59ab26af32ed3575803bf139
-    id: 59ab26af32ed3575803bf139
+    ~$ st2 execution get 59d1ecb632ed353f1f340898
+    id: 59d1ecb632ed353f1f340898
     action.ref: examples.chain-test-inquiry
     parameters: None
-    status: succeeded (77s elapsed)
-    result_task: task1
+    status: succeeded (468s elapsed)
+    result_task: task2
     result:
-      response:
-        continue: true
-    start_timestamp: 2017-09-02T21:46:23.165497Z
-    end_timestamp: 2017-09-02T21:47:40.093311Z
-    +--------------------------+------------------------+-------+----------+-------------------------------+
-    | id                       | status                 | task  | action   | start_timestamp               |
-    +--------------------------+------------------------+-------+----------+-------------------------------+
-    | 59ab26af32ed35752062d2dc | succeeded (0s elapsed) | task1 | core.ask | Sat, 02 Sep 2017 21:46:23 UTC |
-    +--------------------------+------------------------+-------+----------+-------------------------------+
+      failed: false
+      return_code: 0
+      stderr: ''
+      stdout: We can now authenticate to foo service with bar
+      succeeded: true
+    start_timestamp: 2017-10-02T07:37:26.854217Z
+    end_timestamp: 2017-10-02T07:45:14.123405Z
+    +--------------------------+------------------------+-------+------------+-------------------------------+
+    | id                       | status                 | task  | action     | start_timestamp               |
+    +--------------------------+------------------------+-------+------------+-------------------------------+
+    | 59d1ecb732ed353ec4aa9a5a | succeeded (0s elapsed) | task1 | core.ask   | Mon, 02 Oct 2017 07:37:27 UTC |
+    | 59d1ee8932ed353ec4aa9a5d | succeeded (1s elapsed) | task2 | core.local | Mon, 02 Oct 2017 07:45:12 UTC |
+    +--------------------------+------------------------+-------+------------+-------------------------------+
+
+Note that the ``stdout`` for ``task2`` (and subsequently, this ActionChain) is "We can now authenticate to foo service with bar". If you recall, this was because we were using a Jinja snippet to print the value of ``secondfactor`` in our response. We just printed the phrase to the screen in this example, but you can just as easily use this to pass a value into another action in your workflow.
 
 .. TODO - Update with chatops when the core PR is merged and an action and action-alias has been added to st2 pack
 
