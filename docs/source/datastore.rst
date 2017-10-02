@@ -19,7 +19,8 @@ Key-Value pairs can also have a TTL associated with them, for automatic expiry.
    simple and fully compatible with existing API and CLI commands.
 
    If you want to store a non-string value, you can store a JSON-serialized version, and then
-   de-serialize it in your action/sensor code.
+   de-serialize it in your action/sensor code, or using the ``from_json_string``
+   Jinja filter. See the :doc:`/reference/jinja` documentation for more details.
 
    This may change in future if there is sufficient interest.
 
