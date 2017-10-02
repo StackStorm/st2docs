@@ -10,7 +10,6 @@ stored using symmetric encryption (AES256). To generate a crypto key, run these 
   sudo st2-generate-symmetric-crypto-key --key-path ${DATASTORE_ENCRYPTION_KEY_PATH}
 
   # Make sure only st2 user can read the file
-  sudo usermod -a -G st2 st2
   sudo chgrp st2 ${DATASTORE_ENCRYPTION_KEYS_DIRECTORY}
   sudo chmod o-r ${DATASTORE_ENCRYPTION_KEYS_DIRECTORY}
   sudo chgrp st2 ${DATASTORE_ENCRYPTION_KEY_PATH}
