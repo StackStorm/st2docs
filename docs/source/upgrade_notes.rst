@@ -14,9 +14,9 @@ Upgrade Notes
   If you have code which utilizes this API endpoint you need to update it to handle success
   response as a dictionary instead of an array with a single item (dictionary).
 
-  Old response:
+  Old response on a successful match:
 
-.. code-block:: json
+  .. code-block:: json
 
     [
         {
@@ -45,9 +45,9 @@ Upgrade Notes
         }
     ]
 
-  New response:
+  New response on a successful match:
 
-.. code-block:: json
+  .. code-block:: json
 
     {
         "actionalias": {
