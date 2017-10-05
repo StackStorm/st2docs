@@ -61,6 +61,31 @@ the `lint-configs repo <https://github.com/StackStorm/lint-configs>`_.
 
 And most importantly, follow the existing style in the file you are editing and **be consistent**.
 
+Deprecation Policy
+------------------
+
+Sometimes we need to deprecate features. Usually this is because there is now a much better way of
+doing something. Where these changes affect users, we must ensure that we give ample warning, and
+a chance to migrate, before we remove the old features completely.
+
+Our general deprecation policy is to provide notice for at least two major (`x.y`) versions,
+before a feature is removed. 
+
+This is an example of a typical deprecation timeline:
+
+* **2.0:** New configuration format introduced. Documentation updated to refer to both old and new
+  versions, with information on migration.
+* **2.1:** ``WARNING`` logs generated on use of old-style configuration, e.g. at time of pack
+  registration. Changelog to include note in "Deprecated" section. Documentation should focus on
+  new style, with reference information on migration. Users can keep using the older configuration.
+* **2.2:** Continue with previous ``WARNING`` logs. Users may still keep the older configuration.
+* **2.3:** Fatal ``ERROR`` logs generated on use of old-style configuration. Documentation should
+  only refer to new style. Changelog entry added in "Removed" section. At this point the feature
+  is no longer supported, and users **must** migrate.
+
+We may choose to have a longer notice period, but in general this will not be more than 4 major
+versions. There is a cost to maintaining legacy features.
+
 General coding guidelines
 -------------------------
 
