@@ -195,7 +195,7 @@ A Mistral task can publish results from a task as variables that can be consumed
                 hostname: <% task(get_hostname).result.stdout %>
 
 In the above example, ``get_hostname`` is a ``core.local`` action which runs the command
-``hostname``. The ```core.local`` action produces output consisting of the fields ``stdout``,
+``hostname``. The ``core.local`` action produces output consisting of the fields ``stdout``,
 ``stderr``, ``exit_code`` etc.
 
 We just want to publish the variable ``stdout`` from it, for the rest of tasks to consume. To

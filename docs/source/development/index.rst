@@ -44,7 +44,7 @@ General Contribution Guidelines
   information, refer to the `Docstring conventions`_ page.
 * If you are adding a new feature, make sure to add corresponding documentation and examples.
 
-Code style guide
+Code Style Guide
 ----------------
 
 * We follow `PEP8 Python Style Guide`_.
@@ -86,7 +86,7 @@ This is an example of a typical deprecation timeline:
 We may choose to have a longer notice period, but in general this will not be more than 4 major
 versions. There is a cost to maintaining legacy features.
 
-General coding guidelines
+General Coding Guidelines
 -------------------------
 
 Logging
@@ -109,7 +109,7 @@ On top of that, we also offer `GELF <http://docs.graylog.org/en/2.3/pages/gelf.h
 log formatters which outputs log messages in GELF format (structured JSON). This formatter can be
 used to ship structured logs to Graylog2, loggly, logstash or a similar service.
 
-Obtaining a reference to the logger object
+Obtaining a Reference to the Logger Object
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To obtain a reference to the logger instance you should use the ``st2common.log.getLogger``
@@ -127,7 +127,7 @@ and reuse this logger throughout that module:
     LOG = logging.getLogger(__name__)
     LOG.debug('....')
 
-Passing context to the logger
+Passing Context to the Logger
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 As noted above, you should always include as much context as possible in the log messages.
@@ -154,7 +154,7 @@ database objects (``ActionDB``, ``RunnerTypeDB``, etc.).
     LOG.debug('New action has been created. ActionDB.id=%s' % (action_db.id),
               extra=extra)
 
-Using the AUDIT log level
+Using the AUDIT Log Level
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 StackStorm code declares a custom ``AUDIT`` log level. This log level is to be used when recording
@@ -167,7 +167,7 @@ For example:
 
     LOG.audit('KeyValuePair updated. KeyValuePair.id=%s' % (kvp_db.id), extra=extra)
 
-Dealing with dates and datetime objects
+Dealing with Dates and Datetime Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 All the ``datetime`` objects used in the codebase should be timezone-aware and represented in UTC.
@@ -181,8 +181,8 @@ If you want to retrieve a ``datetime`` object for the current time, you should u
 ``st2common.util.date.get_datetime_utc_now`` which returns a timezone-aware ``datetime`` object
 in UTC. ``st2common.util.date`` also contains other date- and time-related utility functions.
 
-Instantiating model classes
----------------------------
+Instantiating Model Classes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When instantiating ``mongoengine`` model classes (e.g. ``ActionDB``, ``RuleDB``, ``SensorTypeDB``,
 etc.), make sure to pass all the field values as arguments to the model constructor, instead of

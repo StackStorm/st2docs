@@ -63,7 +63,17 @@ The service can be configured with different backends (i.e. PAM, LDAP, etc.) to 
 authentication. If a backend is not specified, an htpasswd-compatible flat file authentication
 backend is used. To use a different backend, select and install the appropriate python package from
 the |st2| `community repos <https://github.com/StackStorm?utf8=✓&query=st2-auth>`_ and configure
-``st2auth`` accordingly. For example, to install the package for the PAM backend manually, run the
+``st2auth`` accordingly. 
+
+.. note::
+
+    When using the ``pam`` authentication backend you need to make sure that the ``st2auth``
+    process runs as ``root`` otherwise authentication will fail. For security reasons ``st2auth``
+    process runs under ``st2`` user by default. If you want to use ``pam`` auth backend and change
+    it to run as ``root``, you can do that by editing the service manager file for the ``st2``
+    auth service.
+
+For example, to install the package for the PAM backend manually, run the
 following command on the same server where ``st2auth`` is running:
 
 .. sourcecode:: bash

@@ -1,12 +1,14 @@
 Nginx and WSGI
 --------------
 
-Production |st2| installations use `nginx <http://nginx.org/en/>`_ for SSL termination,
-serving static content of WebUI,
-and running st2auth and st2api as WSGI apps via gunicorn/uwsgi. |st2| nginx configurations
-can be found at ``/etc/nginx/sites-enabled/st2*.conf``.
+Production |st2| installations use `nginx <http://nginx.org/en/>`_ for SSL termination, serving
+Web UI static content, and running st2auth and st2api as WSGI apps via gunicorn/uwsgi. |st2| nginx
+configurations can be found at ``/etc/nginx/sites-enabled/st2*.conf``.
 
-``st2auth`` and ``st2api`` can also run using a built-in simple Python server. This is used for development and strongly discouraged for any production. Be aware that some settings in /etc/st2.conf are only effective when running in development mode, and don't apply when running under WSGI servers. Refer to the comments in
+``st2auth`` and ``st2api`` can also run using a built-in simple Python server. This is used for
+development and strongly discouraged for any production. Be aware that some settings in
+``/etc/st2.conf`` are only effective when running in development mode, and don't apply when
+running under WSGI servers. Refer to the comments in
 :github_st2:`st2.conf.sample <conf/st2.conf.sample>`.
 
 Configure MongoDB
@@ -14,9 +16,9 @@ Configure MongoDB
 
 |st2| requires a connection to MongoDB to operate.
 
-In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
+In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section:
 
-.. code-block:: bash
+.. code-block:: ini
 
     [database]
     host = <MongoDB host>
@@ -29,26 +31,29 @@ The ``username`` and ``password`` properties are optional.
 
 .. _ref-mongo-ha-config:
 
-|st2| also supports `MongoDB replica sets <https://docs.mongodb.com/v3.4/core/replication-introduction/>`_
-using `MongoDB URI string <https://docs.mongodb.com/v3.4/reference/connection-string/>`_.
+|st2| also supports `MongoDB replica sets
+<https://docs.mongodb.com/v3.4/core/replication-introduction/>`_ using `MongoDB URI string
+<https://docs.mongodb.com/v3.4/reference/connection-string/>`_.
 
-In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
+In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section:
 
-.. code-block:: bash
+.. code-block:: ini
 
     [database]
     host = mongodb://<#MDB_NODE_1>,<#MDB_NODE_2>,<#MDB_NODE_3>/?replicaSet=<#MDB_REPLICA_SET_NAME>
 
-* You can also add ports, usernames and passwords, etc to your connection string - https://docs.mongodb.com/v3.4/reference/connection-string/
+* You can also add ports, usernames and passwords, etc to your connection string. See
+  https://docs.mongodb.com/v3.4/reference/connection-string/
 
-* To understand more about setting up a MongoDB replica set - https://docs.mongodb.com/v3.4/tutorial/deploy-replica-set/
+* To understand more about setting up a MongoDB replica set, see
+  https://docs.mongodb.com/v3.4/tutorial/deploy-replica-set/
 
-|st2| also supports SSL/TLS to encrypt connections. A few extra properties need be added to
-the configuration apart from the ones outlined above.
+|st2| also supports SSL/TLS to encrypt connections. A few extra properties need be added to the
+configuration apart from the ones outlined above.
 
-In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
+In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section:
 
-.. code-block:: bash
+.. code-block:: ini
 
     [database]
     ...
@@ -60,16 +65,24 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
     ssl_match_hostname = <True or False>
 
 * ``ssl`` - Enable or disable connection over TLS/SSL or not. Default is False.
-* ``ssl_keyfile`` - Private keyfile used to identify the local connection against MongoDB. If specified ssl is assumed to be True.
-* ``ssl_certfile`` - Certificate file used to identify the local connection. If specified ssl is assumed to be True.
-* ``ssl_cert_reqs`` - Specifies whether a certificate is required from the other side of the connection, and whether it will be validated if provided.
-* ``ssl_ca_certs`` - Certificates file containing a set of concatenated CA certificates, which are used to validate certificates passed from MongoDB.
-* ``ssl_match_hostname`` - Enable or disable hostname matching. Not recommended to disable and defaults to True.
+* ``ssl_keyfile`` - Private keyfile used to identify the local connection against MongoDB. If
+  specified ssl is assumed to be True.
+* ``ssl_certfile`` - Certificate file used to identify the local connection. If specified ssl is
+  assumed to be True.
+* ``ssl_cert_reqs`` - Specifies whether a certificate is required from the other side of the
+  connection, and whether it will be validated if provided.
+* ``ssl_ca_certs`` - Certificates file containing a set of concatenated CA certificates, which are
+  used to validate certificates passed from MongoDB.
+* ``ssl_match_hostname`` - Enable or disable hostname matching. Not recommended to disable and
+  defaults to True.
 
-.. note:: Only certain distributions of MongoDB support SSL/TLS.
+.. note:: 
 
-    * MongoDB enterprise versions have SSL/TLS support.
-    * Build MongoDB from source to enable SSL/TLS support. See https://github.com/mongodb/mongo/wiki/Build-Mongodb-From-Source for more information.
+  Only certain distributions of MongoDB support SSL/TLS:
+
+  * MongoDB enterprise versions have SSL/TLS support.
+  * Build MongoDB from source to enable SSL/TLS support. See
+    https://github.com/mongodb/mongo/wiki/Build-Mongodb-From-Source for more information.
 
 Configure RabbitMQ
 ------------------
@@ -78,10 +91,10 @@ Configure RabbitMQ
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section:
 
-.. code-block:: bash
+.. code-block:: ini
 
     [messaging]
-    url = <amqp://#RMQ_USER:#RMQ_PASSWD@#RMQ_HOST:#RMQ_PORT/#RMQ_VHOST>
+    url = amqp://#RMQ_USER:#RMQ_PASSWD@#RMQ_HOST:#RMQ_PORT/#RMQ_VHOST
 
 The ``#RMQ_VHOST`` property is optional and can be left blank.
 
@@ -89,17 +102,18 @@ The ``#RMQ_VHOST`` property is optional and can be left blank.
 
 |st2| also supports `RabbitMQ cluster <https://www.rabbitmq.com/clustering.html>`_.
 
-In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section :
+In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section:
 
-.. code-block:: bash
+.. code-block:: ini
 
     [messaging]
-    cluster_urls = <amqp://#RMQ_USER:#RMQ_PASSWD@#RMQ_NODE_1:#RMQ_PORT/#RMQ_VHOST>,
-                   <amqp://#RMQ_USER:#RMQ_PASSWD@#RMQ_NODE_2:#RMQ_PORT/#RMQ_VHOST>,
-                   <amqp://#RMQ_USER:#RMQ_PASSWD@#RMQ_NODE_3:#RMQ_PORT/#RMQ_VHOST>
+    cluster_urls = amqp://#RMQ_USER:#RMQ_PASSWD@#RMQ_NODE_1:#RMQ_PORT/#RMQ_VHOST,
+                   amqp://#RMQ_USER:#RMQ_PASSWD@#RMQ_NODE_2:#RMQ_PORT/#RMQ_VHOST,
+                   amqp://#RMQ_USER:#RMQ_PASSWD@#RMQ_NODE_3:#RMQ_PORT/#RMQ_VHOST
 
 
-* To understand more about setting up a RabbitMQ cluster - https://www.rabbitmq.com/clustering.html
+* To understand more about setting up a RabbitMQ cluster, see
+  https://www.rabbitmq.com/clustering.html
 * RabbitMQ HA guide - https://www.rabbitmq.com/ha.html
 
 
@@ -108,11 +122,13 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 Configure SSH
 -------------
 
-To run actions on remote hosts, |st2| uses SSH. It is advised to configure identity file based SSH access on all remote hosts.
+To run actions on remote hosts, |st2| uses SSH. We recommend using public key-based based SSH
+access on all remote hosts.
 
-The |st2| ssh user and path to SSH key are set in ``/etc/st2/st2.conf``. During installation, ``st2_deploy.sh`` script configures ssh on the local box for a user ``stanley``.
+The |st2| ssh user and path to SSH key are set in ``/etc/st2/st2.conf``. During installation,, the
+one-line install script configures ssh on the local box for the user ``stanley``.
 
-Follow these steps on a remote box to setup ``stanley`` user on remote boxes.
+Follow these steps to configure a ``stanley`` user on remote sytems:
 
 .. code-block:: bash
 
@@ -133,7 +149,7 @@ Follow these steps on a remote box to setup ``stanley`` user on remote boxes.
     # ensure requiretty is not set to default in the /etc/sudoers file.
     sudo sed -i -r "s/^Defaults\s+\+requiretty/# Defaults +requiretty/g" /etc/sudoers
 
-To verify do the following from the |st2| box
+To verify, run this from your |st2| system:
 
 .. code-block:: bash
 
@@ -146,19 +162,20 @@ To verify do the following from the |st2| box
 SSH Troubleshooting
 ~~~~~~~~~~~~~~~~~~~
 
-* Validate that passwordless SSH configuration works fine for the destination. Assuming default user ``stanley``:
+* Validate that passwordless SSH configuration works for the destination. Assuming the default
+  user ``stanley``:
 
-    .. code-block:: bash
+  .. code-block:: bash
 
-        sudo ssh -i /home/stanley/.ssh/stanley_rsa -t stanley@host.example.com uname -a
+    sudo ssh -i /home/stanley/.ssh/stanley_rsa -t stanley@host.example.com uname -a
 
 Using SSH config
 ~~~~~~~~~~~~~~~~
 
-|st2| allows loading of the SSH config file local to the system user. This is a configurable option. To
+|st2| allows loading an SSH config file local to the system user. This is a configurable option. To
 enable, add the following to ``/etc/st2/st2.conf``
 
-.. code-block:: bash
+.. code-block:: ini
 
     [ssh_runner]
     use_ssh_config = True
@@ -167,15 +184,17 @@ enable, add the following to ``/etc/st2/st2.conf``
 SUDO Access
 -----------
 
-|st2|'s ``shell`` actions -  ``local-shell-cmd``, ``local-shell-script``, ``remote-shell-cmd``, ``remote-shell-script``- are performed by a special user. By default, this user is named ``stanley``. This is configurable via :github_st2:`st2.conf <conf/st2.prod.conf>`.
+|st2|'s ``shell`` actions -  ``local-shell-cmd``, ``local-shell-script``, ``remote-shell-cmd``,
+``remote-shell-script``- are performed by a special user. By default, this user is named
+``stanley``. This is configurable via :github_st2:`st2.conf <conf/st2.prod.conf>`.
 
-.. note:: ``stanley`` user requires the following access:
+.. note:: the ``stanley`` user requires the following access:
 
-    * Sudo access to all boxes on which script action will run.
-    * SETENV option needs to be set for all the commands. This way environment variables which are
-      available to the local runner actions will also be available when user executes local runner
-      action under a different user or with root privileges.
-    * As some actions require sudo privileges password-less sudo access to all boxes.
+  * Sudo access to all boxes on which the script action will run.
+  * SETENV option needs to be set for all the commands. This way environment variables which are
+    available to the local runner actions will also be available when the user executes local
+    runner actions under a different user or with root privileges.
+  * As some actions require sudo privileges, password-less sudo access to all boxes.
 
 One way of setting up passwordless sudo is perform the below operation on each remote box:
 
@@ -190,26 +209,28 @@ Configure Logging
 
 By default, the logs can be found in ``/var/log/st2``.
 
-* With the standard logging setup you will see files like ``st2*.log`` and
-  ``st2*.audit.log`` in the log folder.
+* With the standard logging setup you will see files like ``st2*.log`` and ``st2*.audit.log`` in
+  the log folder.
 
-* Per component logging configuration can be found in ``/etc/st2/logging.<component>.conf``.
-  Those files use `Python logging configuration format <https://docs.python.org/2/library/logging.config.html#configuration-file-format>`_.
+* Per-component logging configuration can be found in ``/etc/st2/logging.<component>.conf``.
+  Those files use `Python logging configuration format
+  <https://docs.python.org/2/library/logging.config.html#configuration-file-format>`_.
   Log file location and other settings can be modified in these configuration files, e.g. to
   change the output to use syslog instead.
 
 * |st2| ships with example configuration files to show how to use syslog - these are at
-  ``/etc/st2/syslog.<component>.conf``. To use them, edit ``/etc/st2/st2.conf``, and change
-  the ``logging =`` lines to point to the syslog configuration file. You can also see more
-  instructions and example configurations at :github_exchange:`exchange-misc/syslog <exchange-misc/tree/master/syslog>`.
+  ``/etc/st2/syslog.<component>.conf``. To use them, edit ``/etc/st2/st2.conf``, and change the
+  ``logging =`` lines to point to the syslog configuration file. You can also see more
+  instructions and example configurations at :github_exchange:`exchange-misc/syslog
+  <exchange-misc/tree/master/syslog>`.
 
 * By default, log rotation is handled via logrotate. Default log rotation config
-  (:github_st2:`logrotate.conf <conf/logrotate.conf>`) is included with all the
-  package based installations. Note that ``handlers.RotatingFileHandler`` is used by
-  default in ``/etc/st2*/logging.conf``, but the ``maxBytes`` and ``backupCount`` args are not
-  specified so no rotation is performed by default which then lets logrotate handle the rotation.
-  If you want Python services instead of logrotate to handle the log rotation, update the
-  logging configs as shown below:
+  (:github_st2:`logrotate.conf <conf/logrotate.conf>`) is included with all package-based
+  installations. Note that ``handlers.RotatingFileHandler`` is used by default in
+  ``/etc/st2*/logging.conf``, but the ``maxBytes`` and ``backupCount`` args are not specified so
+  no rotation is performed by default which then lets logrotate handle the rotation. If you want
+  Python services instead of logrotate to handle the log rotation, update the logging configs as
+  shown below:
 
   .. code-block:: ini
 
@@ -219,10 +240,9 @@ By default, the logs can be found in ``/var/log/st2``.
       formatter=verboseConsoleFormatter
       args=("logs/st2api.log", "a", 100000000, 5)
 
-  In this case the log file will be rotated when it reaches 100000000 bytes (100
-  MB) and a maximum of 5 old log files will be kept. For more information, see
-  `RotatingFileHandler <https://docs.python.org/2/library/logging.handlers.html#rotatingfilehandler>`_
-  docs.
+  In this case the log file will be rotated when it reaches 100000000 bytes (100MB) and a maximum
+  of 5 old log files will be kept. For more information, see `RotatingFileHandler
+  <https://docs.python.org/2/library/logging.handlers.html#rotatingfilehandler>`_ docs.
 
   Keep in mind that log level names need to be uppercase (e.g. ``DEBUG``, ``INFO``, etc.).
 
@@ -258,13 +278,17 @@ By default, the logs can be found in ``/var/log/st2``.
       args=("logs/mysensor.audit.log",)
 
 
-* Check out LogStash configuration and Kibana dashboard for pretty logging and
-  audit at :github_exchange:`exchange-misc/logstash <exchange-misc/tree/master/logstash>`
+* Check out LogStash configuration and Kibana dashboard for pretty logging and audit at
+  :github_exchange:`exchange-misc/logstash <exchange-misc/tree/master/logstash>`
 
 
 Configure Mistral
 -----------------
-There are a number of configurable options available under the mistral section in ``/etc/st2/st2.conf``. If the mistral section is not provided, default values will be used. By default, all Keystone related options are unset and |st2| will not pass any credentials for authentication to Mistral. Please refer to OpenStack and Mistral documentation for Keystone setup.
+
+There are a number of configurable options available under the mistral section in
+``/etc/st2/st2.conf``. If the mistral section is not provided, default values will be used. By
+default, all Keystone related options are unset and |st2| will not pass any credentials for
+authentication to Mistral. Please refer to OpenStack and Mistral documentation for Keystone setup.
 
 +-----------------------+--------------------------------------------------------+
 | options               | description                                            |
@@ -331,22 +355,24 @@ Configure ChatOps
 Configure secrets masking
 -------------------------
 
-In order to manage secrets masking on a system-wide basis you can also modify ``/etc/st2/st2.conf`` and
-control secrets masking at 2 levels i.e. API and logs. Note that this feature only controls external
-visibility of secrets and does not control how secrets are stored as well as managed by |st2|.
+In order to manage secrets masking on a system-wide basis you can also modify ``/etc/st2/st2.conf``
+and control secrets masking at 2 levels i.e. API and logs. Note that this feature only controls
+external visibility of secrets and does not control how secrets are stored as well as managed by
+|st2|.
 
-* To mask secrets in API response. This is enabled on a per API basis and only available to admin users.
+* To mask secrets in API response. This is enabled on a per API basis and only available to admin
+  users.
 
-.. sourcecode:: ini
+  .. sourcecode:: ini
 
     [api]
     ...
     mask_secrets = True
 
 
-* To mask secrets in logs
+* To mask secrets in logs:
 
-.. sourcecode:: ini
+  .. sourcecode:: ini
 
     [log]
     ...
