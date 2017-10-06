@@ -182,7 +182,7 @@ datastore. When setting the value, the ``--encrypt`` flag should be used, as sho
 
     st2 key set api_secret "my super secret api secret" --scope=user --encrypt
 
-See more about :ref:`storing secrets in datastore here<datastore-storing-secrets-in-key-value-store>`).
+See more about :ref:`storing secrets in datastore here<datastore-storing-secrets-in-key-value-store>`.
 
 In the above example, ``private_key_path`` is a regular dynamic configuration value, which means
 that a datastore item corresponding to this key (``private_key_path``) will be loaded from the
