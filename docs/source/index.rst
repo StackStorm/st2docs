@@ -34,6 +34,7 @@ Contents:
 
     authentication
     rbac
+    inquiries
     reference/index
     troubleshooting/index
     development/index
