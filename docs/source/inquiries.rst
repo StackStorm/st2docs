@@ -85,36 +85,17 @@ Using ``core.ask`` in a Workflow
 ----------------------------------------
 
 While it's possible to use this action on its own (i.e. with ``st2 run``), the real value comes
-from using it in a Workflow.
+from using it in a Workflow. The ``core.ask`` action supports a number of parameters, but the most
+important one by far is the ``schema`` parameter. This parameter defines exactly what kind of responses
+will satisfy the Inquiry, and allow the workflow to continue. When users respond to this Inquiry,
+their response must come in the form of a JSON payload that will satisfy this schema. We cover
+responses in `Responding to an Inquiry`_ - the ``st2`` client makes this pretty easy.
 
-The following example shows a simple ActionChain with two tasks. ``task1`` executes the ``core.ask``
-action and passes in a few parameters:
+Now we'll use this action in an example workflow. The following example shows a simple ActionChain with
+two tasks. ``task1`` executes the ``core.ask`` action and passes in a few parameters:
 
-.. TODO - The code snippet below is provided because the Inquiry functionality is not merged yet.
-   Please convert this to a literalinclude statement, referring to workflows in the examples
-   directory of st2, once https://github.com/StackStorm/st2/pull/3653 is merged.
-
-.. code-block:: yaml
-
-    chain:
-
-      - name: task1
-        ref: core.ask
-        params:
-          route: developers
-          schema:
-            type: object
-            properties:
-              secondfactor:
-                type: string
-                description: Please enter second factor for authenticating to "foo" service
-                required: True
-        on-success: "task2"
-
-      - name: task2
-        ref: core.local
-        params:
-          cmd: echo "We can now authenticate to "foo" service with {{ task1.result.response.secondfactor }}"
+.. literalinclude:: /../../st2/contrib/examples/actions/chains/chain_test_inquiry.yaml
+   :language: yaml
 
 Note that we're using a Jinja snippet in ``task2`` to access and make use of the value that we're asking for. In this example we're simply printing this to the screen, but the ``<task>.result.response`` dictionary will contain all of the values that satisfy our schema. More on this later.
 
@@ -156,36 +137,8 @@ Inquiry has not yet received a valid response, and is currently blocking the Wor
 
 You can also use ``core.ask`` to ask a question within Mistral workflows:
 
-.. code-block:: yaml
-
-    ---
-    version: '2.0'
-
-    examples.mistral-ask-basic:
-        description: A basic Mistral workflow illustrating the use of Inquiries
-        type: direct
-        output:
-            result: <% task(task1).result.response %>
-        tasks:
-            task1:
-                action: core.ask
-                input:
-                  route: developers
-                  schema:
-                    type: object
-                    properties:
-                      secondfactor:
-                        type: string
-                        description: Please enter second factor for authenticating to "foo" service
-                        required: True
-                on-success:
-                  - task2
-
-            task2:
-                action: core.local
-                input:
-                  cmd: echo "We can now authenticate to 'foo' service with <% task(task1).result.response.secondfactor %>"
-
+.. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-ask-basic.yaml
+   :language: yaml
 
 When encountering an Inquiry, StackStorm will send a request to Mistral to pause execution of a workflow,
 just like we saw previously with ActionChains:
@@ -222,27 +175,8 @@ Notifying Users of Inquiries using Rules
 
 When a new Inquiry is raised, a dedicated trigger - ``core.st2.generic.inquiry`` - is used. This trigger can be consumed in Rules, and you can use an action or a workflow to provide notification to the relevant party. For instance, using Slack:
 
-.. TODO - The code snippet below is provided because the Inquiry functionality is not merged yet.
-   Please convert this to a literalinclude statement, referring to workflows in the examples
-   directory of st2, once https://github.com/StackStorm/st2/pull/3653 is merged.
-
-.. code-block:: yaml
-
-    ---
-    name: "notify_inquiry"
-    pack: "examples"
-    description: Notify relevant users of an Inquiry action
-    enabled: false
-
-    trigger:
-      type: core.st2.generic.inquiry
-
-    action:
-      ref: slack.post_message
-      parameters:
-        channel: "#{{ trigger.route }}"
-        message: 'Inquiry {{trigger.id}} is awaiting an approval action'
-
+.. literalinclude:: /../../st2/contrib/examples/rules/notify_inquiry.yaml
+   :language: yaml
 
 Note how this Rule uses the ``route`` field to determine to which Slack channel the notification should be sent. You could also use this in the Rule criteria as well, and set up different notification actions depending on the value of ``route``.
 
