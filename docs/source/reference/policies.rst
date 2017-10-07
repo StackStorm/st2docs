@@ -69,7 +69,7 @@ the host where the remote command or script runs. By using the policy type
 we can limit the number of concurrent ``demo.my_remote_action`` actions running for a given remote
 host.
 
-.. sourcecode:: yaml
+.. code-block:: yaml
    :emphasize-lines: 5,9,10
 
     name: my_remote_action.concurrency

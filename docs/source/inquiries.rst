@@ -1,29 +1,27 @@
 Inquiries
-===============================
+=========
 
-StackStorm 2.5 introduced a new feature that allows you to pause a workflow
-to wait for additional information. This is done by using a new action:
-``core.ask``. These are called "Inquiries", and the idea is to allow you
-to "ask a question" in the middle of a workflow. This could be a question like
-"do I have approval to continue?" or "what is the second factor I should provide
-to this authentication service?"
+|st2| 2.5 introduced a new feature that allows you to pause a workflow to wait for additional
+information. This is done by using a new action: ``core.ask``. These are called "Inquiries", and
+the idea is to allow you to "ask a question" in the middle of a workflow. This could be a question
+like "do I have approval to continue?" or "what is the second factor I should provide to this
+authentication service?"
 
-These use cases (and others) require the ability to pause a workflow mid-execution
-and wait for additional information. Inquiries make this possible, and their usage will
-be explained in this document. 
+These use cases (and others) require the ability to pause a workflow mid-execution and wait for
+additional information. Inquiries make this possible. This document explains how to use them.
 
 .. warning::
 
-    As of now, Inquiries should be considered an "alpha" feature. We're introducing this
-    in the interest of getting a highly-requested feature out to the community for feedback.
-    The user experience as well as the new API functionality should not be considered "stable"
-    at this point. Please consider using this feature in your test/dev deployments, and send us
-    your feedback.
+    As of now, Inquiries should be considered an "alpha" feature. We're introducing this in the
+    interest of getting a highly-requested feature out to the community for feedback. The user
+    experience as well as the new API functionality should not be considered "stable" at this
+    point. Please consider using this feature in your test/dev deployments, and send us your
+    feedback.
 
 New ``core.ask`` Action
-----------------------------------------
+-----------------------
 
-The best way to get started using Inquiries is to check out a new core action - ``core.ask`` - 
+The best way to get started using Inquiries is to check out the new core action - ``core.ask`` - 
 and start using it in your workflows. This action is built on a new runner type: ``inquirer``,
 which performs the bulk of the logic required to pause workflows and wait for a response.
 
@@ -47,8 +45,8 @@ which performs the bulk of the logic required to pause workflows and wait for a 
     | tags        |                                                          |
     +-------------+----------------------------------------------------------+
 
-The ``inquirer`` runner imposes a number of parameters that are, in turn, required by the ``core.ask``
-action:
+The ``inquirer`` runner imposes a number of parameters that are, in turn, required by the
+``core.ask`` action:
 
 +-------------+---------------------------------------------------------+
 | Parameter   | Description                                             |
@@ -82,22 +80,28 @@ action:
 +-------------+---------------------------------------------------------+
 
 Using ``core.ask`` in a Workflow
-----------------------------------------
+--------------------------------
 
-While it's possible to use this action on its own (i.e. with ``st2 run``), the real value comes
-from using it in a Workflow. The ``core.ask`` action supports a number of parameters, but the most
-important one by far is the ``schema`` parameter. This parameter defines exactly what kind of responses
-will satisfy the Inquiry, and allow the workflow to continue. When users respond to this Inquiry,
-their response must come in the form of a JSON payload that will satisfy this schema. We cover
-responses in `Responding to an Inquiry`_ - the ``st2`` client makes this pretty easy.
+While you can use this action on its own (i.e. with ``st2 run``), the real value comes from using
+it in a :doc:`Workflow</workflows>`.
 
-Now we'll use this action in an example workflow. The following example shows a simple ActionChain with
-two tasks. ``task1`` executes the ``core.ask`` action and passes in a few parameters:
+The ``core.ask`` action supports a number of parameters, but the most important one by far is the
+``schema`` parameter. This parameter defines exactly what kind of responses will satisfy the
+Inquiry, and allow the workflow to continue. When users respond to this Inquiry, their response
+must come in the form of a JSON payload that will satisfy this schema. We cover responses in
+:ref:`Responding to an Inquiry<ref_responding_inquiry>` below - the ``st2`` client makes this
+pretty easy.
+
+Now we'll use this action in an example workflow. The following example shows a simple ActionChain
+with two tasks. ``task1`` executes the ``core.ask`` action and passes in a few parameters:
 
 .. literalinclude:: /../../st2/contrib/examples/actions/chains/chain_test_inquiry.yaml
    :language: yaml
 
-Note that we're using a Jinja snippet in ``task2`` to access and make use of the value that we're asking for. In this example we're simply printing this to the screen, but the ``<task>.result.response`` dictionary will contain all of the values that satisfy our schema. More on this later.
+Note that we're using a Jinja snippet in ``task2`` to access and make use of the value that we're
+asking for. In this example we're simply printing this to the screen, but the
+``<task>.result.response`` dictionary will contain all of the values that satisfy our schema. More
+on this later.
 
 We can run this workflow to see its execution:
 
@@ -140,14 +144,15 @@ You can also use ``core.ask`` to ask a question within Mistral workflows:
 .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-ask-basic.yaml
    :language: yaml
 
-When encountering an Inquiry, StackStorm will send a request to Mistral to pause execution of a workflow,
-just like we saw previously with ActionChains:
+When encountering an Inquiry, StackStorm will send a request to Mistral to pause execution of a
+workflow, just like we saw previously with ActionChains:
 
 .. note::
 
-   Due to the latency involved with sending a pause request to Mistral, you may temporarily see a ``pausing``
-   status in your Mistral workflows - especially if running directly with ``st2 run``. This is nothing to be
-   concerned about; the status will quickly change to ``paused``, and further tasks will not execute.
+   Due to the latency involved with sending a pause request to Mistral, you may temporarily see a
+   ``pausing`` status in your Mistral workflows - especially if running directly with ``st2 run``.
+   This is nothing to be concerned about; the status will quickly change to ``paused``, and
+   further tasks will not execute.
 
 .. code-block:: bash
 
@@ -167,25 +172,37 @@ just like we saw previously with ActionChains:
 
 .. note::
 
-    At the time of this writing, the Inquiry ID is the same as the action execution ID that raised it. So if you're curious which workflow a given Inquiry is part of, use the same ID with the ``st2 execution get`` command.
+    At the time of this writing, the Inquiry ID is the same as the action execution ID that raised
+    it. So if you're curious which workflow a given Inquiry is part of, use the same ID with the
+    ``st2 execution get`` command.
 
 
 Notifying Users of Inquiries using Rules
 ----------------------------------------
 
-When a new Inquiry is raised, a dedicated trigger - ``core.st2.generic.inquiry`` - is used. This trigger can be consumed in Rules, and you can use an action or a workflow to provide notification to the relevant party. For instance, using Slack:
+When a new Inquiry is raised, a dedicated trigger - ``core.st2.generic.inquiry`` - is used. This
+trigger can be consumed in Rules, and you can use an action or a workflow to provide notification
+to the relevant party. For instance, using Slack:
 
 .. literalinclude:: /../../st2/contrib/examples/rules/notify_inquiry.yaml
    :language: yaml
 
-Note how this Rule uses the ``route`` field to determine to which Slack channel the notification should be sent. You could also use this in the Rule criteria as well, and set up different notification actions depending on the value of ``route``.
+Note how this Rule uses the ``route`` field to determine to which Slack channel the notification
+should be sent. You could also use this in the Rule criteria as well, and set up different
+notification actions depending on the value of ``route``.
+
+.. _ref_responding_inquiry:
 
 Responding to an Inquiry
-----------------------------------------
+------------------------
 
-In order to resume a Workflow that's been paused by an Inquiry, a response must be provided to that Inquiry, and the response must come in the form of JSON data that validates against the schema in use by that particular Inquiry instance.
+In order to resume a Workflow that's been paused by an Inquiry, a response must be provided to
+that Inquiry, and the response must come in the form of JSON data that validates against the
+schema in use by that particular Inquiry instance.
 
-In order to respond to an Inquiry, we need its ID. We would already have this if we wrote a Rule like shown in the previous section, but we could also use the ``st2 inquiry list`` command to view all outstanding inquiries:
+In order to respond to an Inquiry, we need its ID. We would already have this if we wrote a Rule
+like shown in the previous section, but we could also use the ``st2 inquiry list`` command to view
+all outstanding inquiries:
 
 .. code-block:: bash
 
@@ -196,7 +213,8 @@ In order to respond to an Inquiry, we need its ID. We would already have this if
     | 59d1ecb732ed353ec4aa9a5a |       |       | developers | 1440 |
     +--------------------------+-------+-------+------------+------+
 
-Like most other resources in StackStorm, we can use the ``get`` subcommand to retrieve details about this Inquiry, using its ID provided in the previous output:
+Like most other resources in StackStorm, we can use the ``get`` subcommand to retrieve details
+about this Inquiry, using its ID provided in the previous output:
 
 .. code-block:: bash
 
@@ -222,14 +240,20 @@ Like most other resources in StackStorm, we can use the ``get`` subcommand to re
     |          | }                                                            |
     +----------+--------------------------------------------------------------+
 
-In this view, we see the schema in use requires a single key: ``secondfactor``, whose value must be a string.
+In this view, we see the schema in use requires a single key: ``secondfactor``, whose value must
+be a string.
 
 .. note::
 
-    You can omit the ``schema`` parameter when using ``core.ask``, and a basic schema will be used as default - only requiring a single boolean value to continue the workflow. In this example, we've provided our own schema that allows us to use the retrieved value in a later task of the workflow.
-    This allows you to "inject" data into a workflow mid-execution, rather than rely solely on parameters.
+    You can omit the ``schema`` parameter when using ``core.ask``, and a basic schema will be used
+    as default - only requiring a single boolean value to continue the workflow. In this example,
+    we've provided our own schema that allows us to use the retrieved value in a later task of the
+    workflow. This allows you to "inject" data into a workflow mid-execution, rather than rely
+    solely on parameters.
 
-Fortunately, the ``st2`` client makes it easy to provide a valid response; when you run the command ``st2 inquiry respond <inquiry id>``, it will step through each of these values, prompting you with the provided description. You simply respond to each prompt:
+Fortunately, the ``st2`` client makes it easy to provide a valid response; when you run the
+command ``st2 inquiry respond <inquiry id>``, it will step through each of these values, prompting
+you with the provided description. You simply respond to each prompt:
 
 .. code-block:: bash
 
@@ -247,9 +271,13 @@ Fortunately, the ``st2`` client makes it easy to provide a valid response; when 
     |          | }                         |
     +----------+---------------------------+
 
-It's very important that each property in the response schema has a proper description, as shown in the default example, as this is what prompts the user for required values when it's time to respond.
+It's very important that each property in the response schema has a proper description, as shown
+in the default example, as this is what prompts the user for required values when it's time to
+respond.
 
-Since the ``st2`` client has a handle on the schema being used for an Inquiry, it can guide you to provide the right datatypes for each attribute, and won't continue until you do. For instance, if our schema required a ``boolean`` value, an integer would be rejected client-side:
+Since the ``st2`` client has a handle on the schema being used for an Inquiry, it can guide you to
+provide the right datatypes for each attribute, and won't continue until you do. For instance, if
+our schema required a ``boolean`` value, an integer would be rejected client-side:
 
 .. code-block:: bash
 
@@ -258,7 +286,9 @@ Since the ``st2`` client has a handle on the schema being used for an Inquiry, i
     Does not look like boolean. Pick from [false, no, nope, nah, n, 1, 0, y, yes, true]
     Should we continue?
 
-However, not every response can be done interactively. You may even want to script some or all of your Inquiry responses, and may be using tools like `jq` to craft your own JSON payload for a response and wish to simply provide this to the CLI. The ``-r`` flag can be used for this:
+However, not every response can be done interactively. You may even want to script some or all of
+your Inquiry responses, and may be using tools like `jq` to craft your own JSON payload for a
+response and wish to simply provide this to the CLI. The ``-r`` flag can be used for this:
 
 .. code-block:: bash
 
@@ -274,7 +304,9 @@ However, not every response can be done interactively. You may even want to scri
     |          | }                         |
     +----------+---------------------------+
 
-Note that this effectively bypasses any client-side validation, so it's quite possible to send a JSON payload that doesn't validate against the schema. However, the API is the ultimate authority on validating an Inquiry response, so in this case, you'll still get an error in return:
+Note that this effectively bypasses any client-side validation, so it's possible to send a JSON
+payload that doesn't validate against the schema. However, the API is the ultimate authority on
+validating an Inquiry response, so in this case, you'll still get an error in return:
 
 .. code-block:: bash
 
@@ -307,16 +339,29 @@ Once an acceptable response is provided, the workflow resumes:
     | 59d1ee8932ed353ec4aa9a5d | succeeded (1s elapsed) | task2 | core.local | Mon, 02 Oct 2017 07:45:12 UTC |
     +--------------------------+------------------------+-------+------------+-------------------------------+
 
-Note that the ``stdout`` for ``task2`` (and subsequently, this ActionChain) is "We can now authenticate to foo service with bar". If you recall, this was because we were using a Jinja snippet to print the value of ``secondfactor`` in our response. We just printed the phrase to the screen in this example, but you can just as easily use this to pass a value into another action in your workflow.
+Note that the ``stdout`` for ``task2`` (and subsequently, this ActionChain) is "We can now
+authenticate to foo service with bar". If you recall, this was because we were using a Jinja
+snippet to print the value of ``secondfactor`` in our response. We just printed the phrase to the
+screen in this example, but you can just as easily use this to pass a value into another action in
+your workflow.
 
 .. TODO - Update with chatops when the core PR is merged and an action and action-alias has been added to st2 pack
 
+.. _ref-securing-inquiries:
+
 Securing Inquiries
-----------------------------------------
+------------------
 
-At initial release, Inquiries work a little differently from other system resources with it comes to granting permissions to them via RBAC. The ``users`` and ``roles`` parameters for the ``core.ask`` action allows you to control who can respond to a specific inquiry, right in the workflow. With this granularity being offered in parameters, RBAC for Inquiries is a bit simpler, focusing broadly on who has access to Inquiries in general, leaving specific access control to the action parameters.
+At initial release, Inquiries work a little differently from other system resources with it comes
+to granting permissions to them via :doc:`RBAC</rbac>`. The ``users`` and ``roles`` parameters for
+the ``core.ask`` action allows you to control who can respond to a specific inquiry, right in the
+workflow. With this granularity being offered in parameters, RBAC for Inquiries is a bit simpler,
+focusing broadly on who has access to Inquiries in general, leaving specific access control to the
+action parameters.
 
-For example, rather than specifying a particular Inquiry when constructing a role, all Inquiry UIDs should be specified as ``inquiry:``. Whatever permissions are granted in the role are granted to all inquiries:
+For example, rather than specifying a particular Inquiry when constructing a role, all Inquiry
+UIDs should be specified as ``inquiry:``. Whatever permissions are granted in the role are granted
+to all inquiries:
 
 .. code-block:: yaml
 
@@ -330,9 +375,14 @@ For example, rather than specifying a particular Inquiry when constructing a rol
       permission_types:
         - "inquiry_respond"
 
-Inquiries also honor execution permissions for the workflow they were generated from. For instance, if user``iinherit`` has ``action_execute`` permissions on the workflow ``examples.mistral-ask-basic``, they don't need to be explicitly granted ``inquiry_respond`` permissions - this is done automatically.
+Inquiries also honor execution permissions for the workflow they were generated from. For
+instance, if user``inherit`` has ``action_execute`` permissions on the workflow
+``examples.mistral-ask-basic``, they don't need to be explicitly granted ``inquiry_respond``
+permissions - this is done automatically.
 
-The following is an example role that only grants permissions to execute a workflow that contains a ``core.ask`` action, but doesn't explicitly grant ``inquiry_respond`` permissions. However, any user that's been assigned to this role will still be permitted to respond.
+The following is an example role that only grants permissions to execute a workflow that contains
+a ``core.ask`` action, but doesn't explicitly grant ``inquiry_respond`` permissions. However, any
+user that's been assigned to this role will still be permitted to respond.
 
 .. code-block:: yaml
 
@@ -360,9 +410,17 @@ The following is an example role that only grants permissions to execute a workf
         - "runner_type_list"
 
 
-To lock down a specific Inquiry to a set of users or RBAC roles (the latter of which is only available with enterprise features), the ``users`` and ``roles`` parameters should be used. These offer additional restriction on a per-Inquiry basis, but they don't remove any restrictions imposed on the aforementioned RBAC settings, if any. These parameter-based restrictions are cumulative with any existing RBAC restrictions.
+To lock down a specific Inquiry to a set of users or RBAC roles (the latter of which is only
+available with :doc:`enterprise features</install/bwc>`), the ``users`` and ``roles`` parameters
+should be used. These offer additional restriction on a per-Inquiry basis, but they don't remove
+any restrictions imposed on the aforementioned RBAC settings, if any. These parameter-based
+restrictions are cumulative with any existing RBAC restrictions.
 
-The ``users`` parameter is a list of users that are permitted to respond to this specific instance of an Inquiry. Similarly, ``roles`` controls which RBAC roles (assuming enterprise features) are allowed to respond to this specific Inquiry. The default value for both of these parameters is an empty list, which permits all. The following ActionChain invokes a ``core.local`` action, passing a list into the ``users`` parameter that specifies only ``st2responduser`` is able to respond:
+The ``users`` parameter is a list of users that are permitted to respond to this specific instance
+of an Inquiry. Similarly, ``roles`` controls which RBAC roles (assuming enterprise features) are
+allowed to respond to this specific Inquiry. The default value for both of these parameters is an
+empty list, which permits all. The following ActionChain invokes a ``core.local`` action, passing
+a list into the ``users`` parameter that specifies only ``st2responduser`` is able to respond:
 
 .. code-block:: yaml
 
@@ -388,25 +446,38 @@ The ``users`` parameter is a list of users that are permitted to respond to this
         params:
           cmd: echo "We can now authenticate to "foo" service with {{ task1.result.response.secondfactor }}"
 
-All other users attempting to respond will be rejected, even if they are granted ``inquiry_respond`` RBAC permissions.
+All other users attempting to respond will be rejected, even if they are granted
+``inquiry_respond`` RBAC permissions.
 
 
 Garbage Collection for Inquiries
-----------------------------------------
-As alluded to in :doc:`Purging Old Operational Data </troubleshooting/purging_old_data>`, the ``st2garbagecollector`` service is also responsible for cleaning up old Inquiries. This is done by comparing the ``ttl`` parameter of an Inquiry with its start time. The ``ttl`` field is the number of minutes since the start time the Inquiry will be allowed to receive responses, before it is cleaned up.
+--------------------------------
 
-Unlike garbage collection for trigger-instances, or action executions, Inquiries are not deleted when they're "cleaned up". Rather, they're marked as "timed out". This allows workflows to make different decisions based on whether or not an Inquiry was responded to successfully, or if the TTL expired waiting for a response.
+As alluded to in :doc:`Purging Old Operational Data </troubleshooting/purging_old_data>`, the
+``st2garbagecollector`` service is also responsible for cleaning up old Inquiries. This is done by
+comparing the ``ttl`` parameter of an Inquiry with its start time. The ``ttl`` field is the number
+of minutes since the start time the Inquiry will be allowed to receive responses, before it is
+cleaned up.
 
-To configure garbage collection for Inquiries, you first need to enable this globally. Unlike trigger-instances and action executions, the configuration file only requires a single boolean parameter to enable Inquiry garbage colllection:
+Unlike garbage collection for trigger-instances, or action executions, Inquiries are not deleted
+when they're "cleaned up". Rather, they're marked as "timed out". This allows workflows to make
+different decisions based on whether or not an Inquiry was responded to successfully, or if the
+TTL expired waiting for a response.
 
-.. code-block:: bash
+To configure garbage collection for Inquiries, you first need to enable this globally. Unlike
+trigger-instances and action executions, the configuration file only requires a single boolean
+parameter to enable Inquiry garbage colllection:
+
+.. code-block:: ini
 
     [garbagecollector]
 
     # By default, this value is False
     purge_inquiries = True
 
-Once done, each Inquiry has its own ``ttl`` configured via parameters. The default is 1440 - 24 hours. However, this can be easily overridden for a inquiry by specifying the ``ttl`` in a parameter for the ``core.ask`` action, like in the following Mistral workflow:
+Once done, each Inquiry has its own ``ttl`` configured via parameters. The default is 1440 - 24
+hours. However, this can be easily overridden for a inquiry by specifying the ``ttl`` in a
+parameter for the ``core.ask`` action, like in the following Mistral workflow:
 
 .. code-block:: yaml
 
@@ -432,7 +503,11 @@ Once done, each Inquiry has its own ``ttl`` configured via parameters. The defau
 
 .. note::
 
-    Even if Inquiry garbage collection is enabled globally in the st2 config, you can use a TTL value of 0 to
-    disable garbage collection for a specific Inquiry.
+    Even if Inquiry garbage collection is enabled globally in the st2 config, you can use a TTL
+    value of 0 to disable garbage collection for a specific Inquiry.
 
-Once this option has been enabled, and the ``st2garbagecollector`` service is started, it will begin periodically looking for Inquiries that have been in a ``pending`` state beyond their configured ``ttl``. If we didn't respond to the above inquiry within 60 minutes, then ``task`` would be marked "timeout", and the workflow would fail (since ``task2`` is listed under ``on-success``).
+Once this option has been enabled, and the ``st2garbagecollector`` service is started, it will
+begin periodically looking for Inquiries that have been in a ``pending`` state beyond their
+configured ``ttl``. If we didn't respond to the above inquiry within 60 minutes, then ``task``
+would be marked "timeout", and the workflow would fail (since ``task2`` is listed under
+``on-success``).
