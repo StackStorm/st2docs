@@ -21,6 +21,7 @@ When that happens, the new database tables, relationships, and indices must be d
 ``mistral-db-manage upgrade head`` command can be re-run. For more details, review the specific
 section for the version being upgraded in :doc:`/install/upgrades`.
 
+.. _mistral-workflows-latency:
 
 Troubleshooting Mistral Workflow Completion Latency
 ---------------------------------------------------
