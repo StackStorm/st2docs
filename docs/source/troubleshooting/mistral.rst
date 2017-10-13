@@ -21,6 +21,7 @@ When that happens, the new database tables, relationships, and indices must be d
 ``mistral-db-manage upgrade head`` command can be re-run. For more details, review the specific
 section for the version being upgraded in :doc:`/install/upgrades`.
 
+.. _mistral-workflows-latency:
 
 Troubleshooting Mistral Workflow Completion Latency
 ---------------------------------------------------
@@ -46,13 +47,14 @@ the ``results_tracker`` section in ``/etc/st2/st2.conf``:
     thread_pool_size = 10
 
 These numbers are subject to load conditions in your infrastructure and the number of workflows
-you run. The default value for ``query_interval`` is set to ``20`` (seconds). With |st2| 2.2 and
-earlier, this value was ``0.1``. We have now set the default value to ``20`` seconds to be
+you run. The default value for ``query_interval`` is set to ``5`` (seconds) which is a balance
+between the workflow speed and CPU overhead. With |st2| 2.2 and
+earlier, this value was ``0.1``. We have now set the default value to ``5`` seconds to be
 conservative. This also means the time to detect a completed workflow in Mistral by |st2| could
-take as long as 20 seconds.
+take as long as 5 seconds.
 
 If this is unacceptable for you, you can reduce the ``query_interval`` and also
-simultaneously check CPU usage for the ``st2resultstracker`` process. 
+simultaneously check CPU usage for the ``st2resultstracker`` process.
 
 We are reworking the design to use HTTP callbacks from Mistral to |st2|. Until then, these tunable
 knobs should help.
