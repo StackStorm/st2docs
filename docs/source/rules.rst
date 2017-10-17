@@ -199,14 +199,14 @@ This section describes all the available operators which can be used in the crit
                   greater than the provided value.
 ``exists``        Key exists in payload.
 ``nexists``       Key doesn't exist in payload.
-``inside``        Trigger value is inside provided value. (e.g. testing if
-                  "`trigger.payload` in `provided_value`"). Reverse of `contains`.
-                  (where `contains` would test for "`trigger.payload` contains
-                  `provided_value`").
-``ninside``       Trigger value is not inside provided value. (e.g. testing if
-                  "`trigger_value not in `provided_value`"). Reverse of
-                  `ncontains` (where `contains` would test for "`trigger_value`
-                  does not contain `provided_value`").
+``inside``        Trigger payload is inside provided value. (e.g. testing if
+                  "``trigger.payload`` in ``provided_value``"). Reverse of ``contains``.
+                  (where ``contains`` would test for "``trigger.payload`` contains
+                  ``provided_value``").
+``ninside``       Trigger payload is not inside provided value. (e.g. testing if
+                  "``trigger.payload`` not in ``provided_value``"). Reverse of
+                  ``ncontains`` (where ``contains`` would test for "``trigger.payload``
+                  does not contain ``provided_value``").
 ================= =================================================================
 
 Action
