@@ -47,8 +47,8 @@ corresponding ActionChain workflow definition referenced above:
 .. literalinclude:: /../../st2/contrib/examples/actions/chains/echochain.yaml
    :language: yaml
 
-Details:
-++++++++
+Definition Details:
++++++++++++++++++++
 
 * ``chain`` is the array property that contains tasks, which encapsulate action invocation.
 * Tasks are named action execution specifications provided in the form of a list. The name is

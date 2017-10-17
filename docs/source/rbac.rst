@@ -209,7 +209,7 @@ that Inquiry.
 Specifically, granting ``action_execute`` on a workflow action, or its parent pack, also grants
 ``inquiry_respond`` permissions for any Inquiries generated from that Workflow.
 
-For detailed examples, see `Securing Inquiries <inquiries.html#securing-inquiries>`__
+For detailed examples, see :ref:`Securing Inquiries<ref-securing-inquiries>`.
 
 
 Permissions and Executions Which Are Not Triggered via the API
@@ -402,8 +402,8 @@ Once the mapping definitions files are written, the |st2| administrator needs to
 ``st2-apply-rbac-definitions`` tool to store those definitions in the database. This tool also
 needs to be run after any change or removal of mappings files.
 
-How it Works
-~~~~~~~~~~~~
+How LDAP Group-Based Role Assignments Work
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Role assignments based on the LDAP group to |st2| role mappings are synchronized each time a user
 authenticates with the |st2| auth API and receives a fresh auth token.
