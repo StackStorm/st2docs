@@ -240,6 +240,8 @@ more secure than personal access tokens and can be configured on a per-repo basi
 Other git hosting services should also support either SSH or HTTPS auth, and would be configured
 in a similar fashion.
 
+.. _packs-behind-proxy:
+
 Installing Packs from Behind a Proxy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

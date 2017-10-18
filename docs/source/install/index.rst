@@ -62,6 +62,9 @@ If you're installing behind a proxy, just export the proxy ENV variables
   export https_proxy=http://proxy.server.io:port
   export no_proxy=localhost,127.0.0.1
 
+In case of MITM proxy, you may need to export additional ``proxy_ca_bundle_path``, see :ref:`packs-behind-proxy`.
+
+
 If you have problems accessing the Web UI on a RHEL 7/CentOS 7 system, check the
 :ref:`system firewall settings <ref-rhel7-firewall>`.
 
