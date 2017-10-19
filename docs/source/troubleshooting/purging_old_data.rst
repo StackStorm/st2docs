@@ -42,7 +42,7 @@ Purging Executions Older than Some Timestamp
 
 .. code-block:: bash
 
-    st2-purge-executions --timestamp="2015-11-25T21:45:00.000000Z"
+    /opt/stackstorm/st2/bin/st2-purge-executions --config-file /etc/st2/st2.conf --timestamp="2015-11-25T21:45:00.000000Z"
 
 The timestamp provided is interpreted as a UTC timestamp. Please perform all necessary timezone
 conversions and specify time in UTC.
@@ -52,7 +52,7 @@ parameter:
 
 .. code-block:: bash
 
-    st2-purge-executions --timestamp="2015-11-25T21:45:00.000000Z" --action-ref="core.localzz"
+    /opt/stackstorm/st2/bin/st2-purge-executions --config-file /etc/st2/st2.conf --timestamp="2015-11-25T21:45:00.000000Z" --action-ref="core.localzz"
 
 By default, only executions in completed state are deleted - i.e. ``succeeded``, ``failed``,
 ``canceled``, ``timeout`` and ``abandoned``. To delete all models irrespective of status, use the
@@ -60,21 +60,21 @@ By default, only executions in completed state are deleted - i.e. ``succeeded``,
 
 .. code-block:: bash
 
-    st2-purge-executions --timestamp="2015-11-25T21:45:00.000000Z" --purge-incomplete
+    /opt/stackstorm/st2/bin/st2-purge-executions --config-file /etc/st2/st2.conf --timestamp="2015-11-25T21:45:00.000000Z" --purge-incomplete
 
 This script may take some time to complete, depending on data volumes. We recommend running it
 inside a screen/tmux session. For example:
 
 .. code-block:: bash
 
-    screen -d -m -S purge-execs st2-purge-executions --timestamp="2015-11-25T21:45:00.000000Z"
+    screen -d -m -S purge-execs /opt/stackstorm/st2/bin/st2-purge-executions --config-file /etc/st2/st2.conf --timestamp="2015-11-25T21:45:00.000000Z"
 
 Purging Trigger Instances Older than Some Timestamp
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
-    st2-purge-trigger-instances --timestamp="2015-11-25T21:45:00.000000Z"
+    /opt/stackstorm/st2/bin/st2-purge-trigger-instances --config-file /etc/st2/st2.conf --timestamp="2015-11-25T21:45:00.000000Z"
 
 Again, the timestamp provided is interpreted as a UTC timestamp. Please perform all necessary
 timezone conversions and specify time in UTC.
@@ -84,4 +84,4 @@ inside a screen/tmux session. For example:
 
 .. code-block:: bash
 
-    screen -d -m -S purge-instances st2-purge-trigger-instances --timestamp="2015-11-25T21:45:00.000000Z"
+    screen -d -m -S purge-instances /opt/stackstorm/st2/bin/st2-purge-trigger-instances --config-file /etc/st2/st2.conf --timestamp="2015-11-25T21:45:00.000000Z"
