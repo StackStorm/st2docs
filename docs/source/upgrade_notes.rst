@@ -3,6 +3,71 @@
 Upgrade Notes
 =============
 
+|st2| v2.5
+----------
+
+* ``POST /v1/actionalias/match`` API endpoint has been updated to correctly return a dictionary
+  instead of a list with a single item (dictionary). It made no sense for this API endpoint to
+  return a list since there will always be at most one matching item.
+
+  Example response on a successful match before this change:
+
+  .. code-block:: json
+
+    [
+        {
+            "actionalias": {
+                "description": "Retrieve details for a single execution.",
+                "extra": {},
+                "ack": {},
+                "enabled": true,
+                "result": {},
+                "formats": [
+                    "st2 get execution {{ id }}",
+                    "st2 show execution {{ id }}",
+                    "st2 executions get {{ id }}",
+                    "st2 executions show {{ id }}"
+                ],
+                "uid": "action:st2:st2_executions_get",
+                "action_ref": "st2.executions.get",
+                "pack": "st2",
+                "ref": "st2.st2_executions_get",
+                "id": "59d2522a0640fd7e919fee81",
+                "name": "st2_executions_get"
+            },
+            "display": "st2 get execution {{ id }}",
+            "representation": "st2 get execution {{ id }}"
+        }
+    ]
+
+  Example response on a successful match after this change:
+
+  .. code-block:: json
+
+      {
+          "actionalias": {
+              "description": "Retrieve details for a single execution.",
+              "extra": {},
+              "ack": {},
+              "enabled": true,
+              "result": {},
+              "formats": [
+                  "st2 get execution {{ id }}",
+                  "st2 show execution {{ id }}",
+                  "st2 executions get {{ id }}",
+                  "st2 executions show {{ id }}"
+              ],
+              "uid": "action:st2:st2_executions_get",
+              "action_ref": "st2.executions.get",
+              "pack": "st2",
+              "ref": "st2.st2_executions_get",
+              "id": "59d2522a0640fd7e919fee81",
+              "name": "st2_executions_get"
+          },
+          "display": "st2 get execution {{ id }}",
+          "representation": "st2 get execution {{ id }}"
+      }
+
 |st2| v2.4
 ----------
 
