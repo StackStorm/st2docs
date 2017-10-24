@@ -43,6 +43,12 @@ This is the recommended minimum sizing for testing and deploying |st2|:
 |  * Recommended EC2: **t2.medium**    | * Recommended EC2: **m4.xlarge**  |
 +--------------------------------------+-----------------------------------+
 
+.. note::
+
+  If you are planning to add the `DC Fabric Automation Suite <https://bwc-docs.brocade.com/solutions/dcfabric/>`_
+  to your system later, you will need additional RAM. Check the `DC Fabric Automation Suite System Requirements
+  <https://bwc-docs.brocade.com/solutions/dcfabric/install.html#system-requirements>`_
+
 If you split your filesystem into multiple partitions and mount points, ensure you have at least
 1GB of free space in ``/var`` and ``/opt``. RabbitMQ and MongoDB may not operate correctly without
 sufficient free space. 
