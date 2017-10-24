@@ -1,19 +1,15 @@
-Ubuntu Trusty / Xenial
-======================
+Ubuntu Trusty/Xenial
+====================
 
-If you're just looking for a quick "one-liner" installation, check the :doc:`top-level install guide </install/index>`.
-If you need a customised installation, use this guide for step-by step instructions for installing |st2| on a single
-Ubuntu/Debian 64 bit system as per the :doc:`Reference deployment </install/overview>`.
+.. include:: common/intro.rst
 
-.. note:: `Use the Source, Luke! <http://c2.com/cgi/wiki?UseTheSourceLuke>`_ We strive to keep the documentation current, but the best way to find out what really happens is to look at the code of the `installer script
-  <https://github.com/StackStorm/st2-packages/blob/master/scripts/st2bootstrap-deb.sh>`_.
-
-.. contents::
+.. contents:: Contents
+   :local:
 
 System Requirements
 -------------------
 
-Please check :doc:`supported versions and system requirements <system_requirements>`.
+Please check the :doc:`supported versions and system requirements <system_requirements>`.
 
 Minimal Installation
 --------------------
@@ -23,54 +19,50 @@ Install Dependencies
 
 .. include:: __mongodb_note.rst
 
-Install MongoDB, RabbitMQ, and PostgreSQL.
+Install MongoDB, RabbitMQ, and PostgreSQL:
 
-  .. code-block:: bash
+.. code-block:: bash
 
-    sudo apt-get update
-    sudo apt-get install -y gnupg-curl
-    sudo apt-get install -y curl
+  sudo apt-get update
+  sudo apt-get install -y gnupg-curl
+  sudo apt-get install -y curl
 
-    # Add key and repo for the latest stable MongoDB (3.4)
-    wget -qO - https://www.mongodb.org/static/pgp/server-3.4.asc | sudo apt-key add -
-    sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-3.4.list
-    deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/3.4 multiverse
-    EOT"
-    sudo apt-get update
+  # Add key and repo for the latest stable MongoDB (3.4)
+  wget -qO - https://www.mongodb.org/static/pgp/server-3.4.asc | sudo apt-key add -
+  sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-3.4.list
+  deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/3.4 multiverse
+  EOT"
+  sudo apt-get update
 
-    sudo apt-get install -y mongodb-org
-    sudo apt-get install -y rabbitmq-server
-    sudo apt-get install -y postgresql
+  sudo apt-get install -y mongodb-org
+  sudo apt-get install -y rabbitmq-server
+  sudo apt-get install -y postgresql
 
 For Ubuntu ``Xenial`` you may need to enable and start MongoDB.
 
-  .. code-block:: bash
+.. code-block:: bash
 
-    sudo systemctl enable mongod
-    sudo systemctl start mongod
+  sudo systemctl enable mongod
+  sudo systemctl start mongod
 
 Setup Repositories
 ~~~~~~~~~~~~~~~~~~
 
-The following script will detect your platform and architecture and setup the repo accordingly. It will also install the GPG key for repo signing.
+The following script will detect your platform and architecture and setup the appropriate |st2|
+repository. It will also add the the GPG key used for package signing.
 
-  .. code-block:: bash
+.. code-block:: bash
 
-    curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
+  curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
 Install |st2| Components
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-  .. code-block:: bash
+.. code-block:: bash
 
-      sudo apt-get install -y st2 st2mistral
+  sudo apt-get install -y st2 st2mistral
 
-If you are not running RabbitMQ, MongoDB or PostgreSQL on the same box, or have changed defaults,
-please adjust the settings:
-
-  * RabbitMQ connection at ``/etc/st2/st2.conf`` and ``/etc/mistral/mistral.conf``
-  * MongoDB at ``/etc/st2/st2.conf``
-  * PostgreSQL at ``/etc/mistral/mistral.conf``
+.. include:: common/configure_components.rst
 
 Setup Datastore Encryption
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -87,52 +79,27 @@ Setup Mistral Database
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
 
-To run local and remote shell actions, |st2| uses a special system user (default ``stanley``).
-For remote Linux actions, SSH is used. It is advised to configure identity file based SSH access on all remote hosts. We also recommend configuring SSH access to localhost for running examples and testing.
-
-* Create |st2| system user, enable passwordless sudo, and set up ssh access to "localhost" so that SSH-based action can be tried and tested locally. You will need elevated privileges to do this.
-
 .. include:: common/configure_ssh_and_sudo.rst
-
-* Configure SSH access and enable passwordless sudo on the remote hosts which |st2| would control
-  over SSH. Use the public key generated in the previous step; follow instructions at :ref:`config-configure-ssh`.
-  To control Windows boxes, configure access for :doc:`Windows runners </install/config/windows_runners>`.
-
-* Adjust configuration in ``/etc/st2/st2.conf`` if you are using a different user or path to the key:
-
-.. include:: common/configure_system_user.rst
 
 Start Services
 ~~~~~~~~~~~~~~
 
 .. include:: common/start_services.rst
 
-
 Verify
 ~~~~~~
 
 .. include:: common/verify.rst
-
------------------
-
-At this point you have a minimal working installation, and can happily play with |st2|:
-follow :doc:`/start` tutorial, :ref:`deploy examples <start-deploy-examples>`, explore and install packs from `StackStorm Exchange <https://exchange.stackstorm.org>`__.
-
-But there is no joy without WebUI, no security without SSL termination, no fun without ChatOps, and no money without Brocade Workflow Composer. Read on, move on!
-
------------------
 
 .. _ref-config-auth-deb:
 
 Configure Authentication
 ------------------------
 
-The reference deployment uses File Based auth provider for simplicity. Refer to :doc:`/authentication`
-to configure and use PAM or LDAP authentication backends.
+The reference deployment uses a file-based authentication provider for simplicity. Refer to
+:doc:`/authentication` to configure and use PAM or LDAP authentication backends.
 
-.. include:: __pam_auth_backend_requirements.rst
-
-To set up authentication with File Based provider:
+To set up authentication with file-based provider:
 
 * Create a user with a password:
 
@@ -143,174 +110,129 @@ To set up authentication with File Based provider:
     # Create a user record in a password file.
     echo 'Ch@ngeMe' | sudo htpasswd -i /etc/st2/htpasswd st2admin
 
-* Enable and configure auth in ``/etc/st2/st2.conf``:
-
-  .. sourcecode:: ini
-
-    [auth]
-    # ...
-    enable = True
-    backend = flat_file
-    backend_kwargs = {"file_path": "/etc/st2/htpasswd"}
-    # ...
-
-* Restart the st2api service: ::
-
-    sudo st2ctl restart-component st2api
-
-* Authenticate, export the token for st2 CLI, and check that it works:
-
-  .. code-block:: bash
-
-    # Get an auth token and use in CLI or API
-    st2 auth st2admin
-
-    # A shortcut to authenticate and export the token
-    export ST2_AUTH_TOKEN=$(st2 auth st2admin -p 'Ch@ngeMe' -t)
-
-    # Check that it works
-    st2 action list
-
-Check out :doc:`/reference/cli` to learn convenient ways to authenticate via CLI.
+.. include:: common/configure_authentication.rst
 
 .. _ref-install-webui-ssl-deb:
 
 Install WebUI and Setup SSL Termination
 ---------------------------------------
 
-`NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS,
-provide SSL termination for HTTPS, and reverse-proxy st2auth and st2api API endpoints.
-To set it up, install ``st2web`` and ``nginx``, generate certificates or place your existing
-certificates under ``/etc/ssl/st2``, and configure nginx with |st2|'s supplied
-:github_st2:`site config file st2.conf<conf/nginx/st2.conf>`.
+`NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS, provide
+SSL termination, and reverse-proxy st2auth and st2api API endpoints. To set it up: install the
+``st2web`` and ``nginx`` packages, generate certificates or place your existing certificates under
+``/etc/ssl/st2``, and configure nginx with |st2|'s supplied :github_st2:`site config file st2.conf
+<conf/nginx/st2.conf>`.
 
-|st2| depends on Nginx version >=1.7.5; since Ubuntu 14 has an older version
-in the package repositories at the time of writing, you will have to include
-the official Nginx repository into the source list:
+|st2| depends on Nginx version >=1.7.5. Ubuntu has an older version in the package repositories, so
+you will need to add the official Nginx repository:
 
-  .. code-block:: bash
 
-    # Add key and repo for the latest stable nginx
-    sudo apt-key adv --fetch-keys http://nginx.org/keys/nginx_signing.key
-    sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/nginx.list
-    deb http://nginx.org/packages/ubuntu/ $(lsb_release -c | awk '{print $2}') nginx
-    EOT"
-    sudo apt-get update
+.. code-block:: bash
 
-    # Install st2web and nginx
-    # note nginx should be > 1.4.6
-    sudo apt-get install -y st2web nginx
+  # Add key and repo for the latest stable nginx
+  sudo apt-key adv --fetch-keys http://nginx.org/keys/nginx_signing.key
+  sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/nginx.list
+  deb http://nginx.org/packages/ubuntu/ $(lsb_release -c | awk '{print $2}') nginx
+  EOT"
+  sudo apt-get update
 
-    # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
-    sudo mkdir -p /etc/ssl/st2
-    sudo openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt \
-    -days XXX -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
-    Technology/CN=$(hostname)"
+  # Install st2web and nginx
+  # note nginx should be > 1.4.6
+  sudo apt-get install -y st2web nginx
 
-    # Remove default site, if present
-    sudo rm /etc/nginx/conf.d/default.conf
-    # Copy and enable the supplied nginx config file
-    sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
+  # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
+  sudo mkdir -p /etc/ssl/st2
+  sudo openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt \
+  -days XXX -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
+  Technology/CN=$(hostname)"
 
-    sudo service nginx restart
+  # Remove default site, if present
+  sudo rm /etc/nginx/conf.d/default.conf
+  # Copy and enable the supplied nginx config file
+  sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
 
-If you modify ports, or url paths in the nginx configuration, make the corresponding changes in st2web
-configuration at ``/opt/stackstorm/static/webui/config.js``.
+  sudo service nginx restart
+
+If you modify ports, or url paths in the nginx configuration, make the corresponding changes in
+the st2web configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
 
-If you are trying to access the API from outside the box and you have configured nginx according to
-these instructions, use ``https://${EXTERNAL_IP}/api/v1/${REST_ENDPOINT}``.
-
-For example:
-
-  .. code-block:: bash
-
-    curl -X GET -H  'Connection: keep-alive' -H  'User-Agent: manual/curl' -H  'Accept-Encoding: gzip, deflate' -H  'Accept: */*' -H  'X-Auth-Token: <YOUR_TOKEN>' https://1.2.3.4/api/v1/actions
-
-Similarly, you can connect to auth REST endpoints with ``https://${EXTERNAL_IP}/auth/v1/${AUTH_ENDPOINT}``.
-
-You can see the actual REST endpoint for a resource in |st2|
-by adding a ``--debug`` option to the CLI command for the appropriate resource.
-
-For example, to see the endpoint for getting actions, invoke
-
-  .. code-block:: bash
-
-    st2 --debug action list
+.. include:: common/api_access.rst
 
 .. _ref-setup-chatops-deb:
 
 Setup ChatOps
 -------------
 
-If you already run a Hubot instance, you only have to install the
-`hubot-stackstorm plugin <https://github.com/StackStorm/hubot-stackstorm>`_ and configure |st2| env
-variables, as described below. Otherwise, the easiest way to enable :doc:`StackStorm ChatOps </chatops/index>`
+If you already run a Hubot instance, you can install the `hubot-stackstorm plugin
+<https://github.com/StackStorm/hubot-stackstorm>`_ and configure |st2| environment variables, as
+described below. Otherwise, the easiest way to enable :doc:`StackStorm ChatOps </chatops/index>`
 is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
 
-* Validate that ``chatops`` pack is installed, and a notification rule is enabled: ::
+* Validate that the ``chatops`` pack is installed, and a notification rule is enabled:
+
+  .. code-block:: bash
 
     # Ensure chatops pack is in place
     ls /opt/stackstorm/packs/chatops
     # Create notification rule if not yet enabled
     st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml
 
-* `Add NodeJS v4 repository <https://nodejs.org/en/download/package-manager/>`_: ::
+* Add `NodeJS v6 repository <https://nodejs.org/en/download/package-manager/>`_:
 
-      curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+  .. code-block:: bash
 
-* Install st2chatops package: ::
+    curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 
-      sudo apt-get install -y st2chatops
+* Install the ``st2chatops`` package:
 
-* Review and edit the ``/opt/stackstorm/chatops/st2chatops.env`` configuration file to point it to
-  your |st2| installation and Chat Service you are using. At a minimum, you should generate an
-  `API key <authentication-apikeys>` and set the ``ST2_API_KEY`` variable. By default ``st2api``
-  and ``st2auth`` are expected to be on the same host. If that is not the case, please update the
-  ``ST2_API`` and ``ST2_AUTH_URL`` variables or just point to the correct host with ``ST2_HOSTNAME``.
+  .. code-block:: bash
 
-  The example configuration uses Slack. To set this up, go to the Slack web admin interface, create
-  a Bot, and copy the authentication token into ``HUBOT_SLACK_TOKEN``.
+    sudo apt-get install -y st2chatops
 
-  If you are using a different Chat Service, set corresponding environment variables under
-  `Chat service adapter settings`:
-  `Slack <https://github.com/slackhq/hubot-slack>`_,
-  `HipChat <https://github.com/hipchat/hubot-hipchat>`_,
-  `Yammer <https://github.com/athieriot/hubot-yammer>`_,
-  `Flowdock <https://github.com/flowdock/hubot-flowdock>`_,
-  `IRC <https://github.com/nandub/hubot-irc>`_ ,
-  `XMPP <https://github.com/markstory/hubot-xmpp>`_.
+.. include:: common/configure_chatops.rst
 
-* Start the service: ::
+* Start the service:
 
-      sudo service st2chatops start
+  .. code-block:: bash
 
-* Reload st2 packs to make sure ``chatops.notify`` rule is registered: ::
+    sudo service st2chatops start
 
-      sudo st2ctl reload --register-all
+* Reload st2 packs to make sure ``chatops.notify`` rule is registered:
 
-* That's it! Go to your Chat room and begin ChatOpsing. Read more in the :doc:`/chatops/index` section.
+  .. code-block:: bash
+
+    sudo st2ctl reload --register-all
+
+* That's it! Go to your Chat room and begin ChatOps-ing. Read more in the :doc:`/chatops/index` section.
 
 A Note on Security
 ------------------
 
 .. include:: common/security_notes.rst
 
-Upgrade to Brocade Workflow Composer
-------------------------------------
+Upgrade to |bwc|
+----------------
 
-Brocade Workflow Composer is deployed as an addition on top of StackStorm. You will need an active
-Brocade Workflow Composer subscription, and a license key to access Brocade Workflow Composer repositories.
-To add your license key, replace ``${BWC_LICENSE_KEY}`` in the command below with the key you received when
-registering or purchasing.
+.. include:: common/bwc_intro.rst
 
 .. code-block:: bash
 
-    # Set up Brocade Workflow Composer repository access
-    curl -s https://${BWC_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.deb.sh | sudo bash
-    # Install Brocade Workflow Composer
-    sudo apt-get install -y bwc-enterprise
+  # Set up Brocade Workflow Composer repository access
+  curl -s https://${BWC_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.deb.sh | sudo bash
+  # Install Brocade Workflow Composer
+  sudo apt-get install -y bwc-enterprise
 
-To learn more about Brocade Workflow Composer, request a quote, or get an evaluation license go
-to `stackstorm.com/product <https://stackstorm.com/product/#enterprise/>`_.
+.. rubric:: What's Next?
+
+* Check out the :doc:`/start` Guide to build a simple automation.
+* Get more actions, triggers, rules:
+
+
+    * Install integration packs from `StackStorm Exchange <https://exchange.stackstorm.org>`__  - follow the :doc:`/packs` guide.
+    * :ref:`Convert your scripts into StackStorm actions. <ref-actions-converting-scripts>`
+    * Learn how to :ref:`write custom actions <ref-actions-writing-custom>`.
+
+* Use workflows to stitch actions into higher level automations - :doc:`/workflows`.
+* Check out `tutorials on stackstorm.com <https://stackstorm.com/category/tutorials/>`__

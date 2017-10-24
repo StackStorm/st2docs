@@ -1,49 +1,58 @@
 Authentication
 ==============
 
+.. hint::
+
+   Just need the default password? Try username ``st2admin``, password ``Ch@ngeMe``.
+
+   Need to change the password? Run: ``sudo htpasswd /etc/st2/htpasswd st2admin``.
+
+   Something more complex? Read on to learn about |st2| authentication.
+
+
 |st2| includes an auth service that is responsible for handling user authentication and generating
-time limited access tokens. When authentication mode is enabled (default), those access tokens are
+time-limited access tokens. When authentication is enabled (the default), those access tokens are
 used to authenticate against the |st2| REST APIs.
 
 .. figure:: /_static/images/st2auth_standalone_mode.png
     :align: center
 
+
 Configuring the Service
 -----------------------
 
-By default, the |st2| configuration file is located at ``/etc/st2/st2.conf``. The available settings
-listed below are configured under the ``auth`` section in the configuration file. The service can
-be configured with different backends (i.e. PAM, LDAP, etc.) to handle the authentication. If
-backend is not specified, a htpasswd compatible flat file authentication backend is used. It is
-recommended that the service be configured to listen on https (use_ssl option) and be accessible
-to the st2 clients.
+By default, the |st2| configuration file is located at ``/etc/st2/st2.conf``. The settings listed
+below are configured under the ``auth`` section in the configuration file. The service can be
+configured with different backends (i.e. PAM, LDAP, etc.) to handle authentication. If a backend is
+not specified, an htpasswd-compatible flat file authentication backend is used. 
 
-* ``host`` - Hostname for the service to listen on.
-* ``port`` - Port for the service to listen on.
-* ``use_ssl`` - Set to True to enable SSL / TLS mode.
-* ``cert`` - Path to the SSL certificate file. Only used when "use_ssl" is set to True.
-* ``key`` - Path to the SSL private key file. Only used when "use_ssl" is set to True.
-* ``mode`` - Mode to use (``proxy`` or ``standalone``). Default is ``standalone``.
-* ``backend`` - Authentication backend to use in standalone mode (i.e. pam, flat_file). Please
-  review the supported list of authentication backends below.
-* ``backend_kwargs`` - JSON serialized arguments which are passed to the authentication backend in
+We recommend that the service be configured to listen on https (``use_ssl`` option) and be
+accessible to st2 clients.
+
+* ``host`` Hostname for the service to listen on.
+* ``port`` Port for the service to listen on.
+* ``use_ssl`` Set to True to enable SSL/TLS mode.
+* ``cert`` Path to the SSL certificate file. Only used when ``use_ssl`` is set to True.
+* ``key`` Path to the SSL private key file. Only used when ``use_ssl`` is set to True.
+* ``mode`` Mode to use (``proxy`` or ``standalone``). Default is ``standalone``.
+* ``backend`` Authentication backend to use in standalone mode (i.e. ``pam``, ``flat_file``).
+  Please review the supported list of authentication backends below.
+* ``backend_kwargs`` JSON-serialized arguments which are passed to the authentication backend in
   standalone mode.
-* ``token_ttl`` - The value in seconds when the token expires. By default, the token expires in 24
-  hours.
-* ``api_url`` - Authentication service also acts as a service catalog. It returns a URL to the API
-  endpoint on successful authentication. This information is used by clients such as command line
-  tool and web UI. The setting needs to contain a public base URL to the API endpoint (excluding
+* ``token_ttl`` The token lifetime, in seconds. By default, the token expires in 24 hours.
+* ``api_url`` The authentication service also acts as a service catalog. It returns a URL to the
+  API endpoint on successful authentication. This information is used by clients such as the CLI
+  and web UI. The setting needs to contain a public base URL to the API endpoint (excluding
   the API version). Example: ``https://myhost.example.com/api/``
-* ``enable`` - Authentication is not enabled for the |st2| API until this is set to True. If
-  running |st2| on multiple servers, please ensure that this is set to True on all |st2|
-  configuration files.
-* ``debug`` - Specify to enable debug mode.
+* ``enable`` Authentication is not enabled for the |st2| API until this is set to True. If
+  running |st2| on multiple servers, please ensure that this is set to True on all |st2| systems.
+* ``debug`` Enable debug mode.
 
-After the configuration change, restart all st2 components.
+If you make any changes, you must restart |st2|:
 
 .. sourcecode:: bash
 
-    st2ctl restart
+    $ sudo st2ctl restart
 
 
 .. _ref-auth-backends:
@@ -51,15 +60,25 @@ After the configuration change, restart all st2 components.
 Auth Backends
 -------------
 The service can be configured with different backends (i.e. PAM, LDAP, etc.) to handle the
-authentication. If backend is not specified, a htpasswd compatible flat file authentication
-backend is used. To use a different backend, select and install the appropriate python package
-from the |st2| `community repos <https://github.com/StackStorm?utf8=✓&query=st2-auth>`_ and
-configure st2auth accordingly. For example, to install the package for the PAM backend manually,
-run the following command on the same server where st2auth is running.
+authentication. If a backend is not specified, an htpasswd-compatible flat file authentication
+backend is used. To use a different backend, select and install the appropriate python package from
+the |st2| `community repos <https://github.com/StackStorm?utf8=✓&query=st2-auth>`_ and configure
+``st2auth`` accordingly. 
+
+.. note::
+
+    When using the ``pam`` authentication backend you need to make sure that the ``st2auth``
+    process runs as ``root`` otherwise authentication will fail. For security reasons ``st2auth``
+    process runs under ``st2`` user by default. If you want to use ``pam`` auth backend and change
+    it to run as ``root``, you can do that by editing the service manager file for the ``st2``
+    auth service.
+
+For example, to install the package for the PAM backend manually, run the
+following command on the same server where ``st2auth`` is running:
 
 .. sourcecode:: bash
 
-    /opt/stackstorm/st2/bin/pip install git+https://github.com/StackStorm/st2-auth-backend-pam.git@master#egg=st2_auth_backend_pam
+    $ sudo /opt/stackstorm/st2/bin/pip install git+https://github.com/StackStorm/st2-auth-backend-pam.git@master#egg=st2_auth_backend_pam
 
 .. include:: /_includes/__st2_packages_virtualenv_notice.rst
 
@@ -76,7 +95,7 @@ repo. The following is a sample auth section in the config file for the PAM back
     use_ssl = True
     cert = /path/to/ssl/cert/file
     key = /path/to/ssl/key/file
-    logging = /etc/st2/st2auth.logging.conf
+    logging = /etc/st2/logging.auth.conf
     api_url = https://myhost.examples.com/api/
     debug = False
 
@@ -88,10 +107,9 @@ The following is a list of auth backends for the community edition to help get t
 
 LDAP (Enterprise Edition)
 -------------------------
-|st2|-developed auth backends such as LDAP are only available in |bwc|. For
-more information on |bwc|, please visit http://www.brocade.com/en/products-services/network-automation/workflow-composer.html
-The auth backends included with |bwc| are developed, tested, maintained, and
-supported by Brocade.
+|st2|-developed auth backends such as LDAP are only available in |bwc|. For more information on
+|bwc|, please visit https://www.brocade.com/en/products-services/network-automation/workflow-composer.html
+The auth backends included with |bwc| are developed, tested, maintained, and supported by Brocade.
 
 LDAP
 ^^^^
@@ -138,11 +156,11 @@ configuration options for the backend:
 
 .. note::
 
-  By default ``and`` check is performed when validating user group membership against groups
-  defined in ``group_dns`` config option. This means if multiple groups are specified, user
-  needs to be member of **all** the specified groups for authentication to succeeed. If you want
-  to use ``or`` behavior instead (user needs to be a member of one or more of the specified
-  groups), you can achieve that by setting ``group_dns_check`` config option to ``or``.
+  By default a logical ``and`` check is performed when validating user group membership against
+  groups defined in ``group_dns`` config option. This means if multiple groups are specified, the
+  user needs to be member of **all** the specified groups for authentication to succeed. If you
+  want to use ``or`` behavior instead (user needs to be a member of one or more of the specified
+  groups), you can achieve that by setting the ``group_dns_check`` config option to ``or``.
 
 The following is a sample auth section for the LDAP backend in the st2 config file:
 
@@ -162,30 +180,28 @@ The following is a sample auth section for the LDAP backend in the st2 config fi
 
 Running the Service
 -------------------
-The installer sets up st2auth to run as a service. The service is setup to run under
-nginx with uwsgi. Alternate configuration with gunicorn or apache is also possible using wsgi.py
-under st2auth but we leave as an exercise for the reader.
+``st2auth`` is set up to run as a service. It runs under gunicorn.
 
-The service can be started with one of the options below.
+The service can be started with one of the options below:
 
 .. sourcecode:: bash
 
     # Individually
-    service st2auth start
+    sudo service st2auth start
 
     # Individually via st2ctl
-    st2ctl start st2auth
+    sudo st2ctl start st2auth
 
     # Collectively with other st2 components
-    st2ctl start
+    sudo st2ctl start
 
     # Using the launcher for debugging purposes
-    /usr/bin/st2auth --config-file /etc/st2/st2.conf
+    sudo /usr/bin/st2auth --config-file /etc/st2/st2.conf
 
 Testing
 -------
 
-Run the following curl commands to test.
+Run the following ``curl`` commands to test:
 
 .. sourcecode:: bash
 
@@ -207,7 +223,7 @@ Run the following curl commands to test.
 Usage
 -----
 
-Once st2auth is setup, API calls require the token to be passed via the headers. CLI calls
+Once st2auth is enabled, API calls require the token to be passed via the headers. CLI calls
 require the token to be included as a CLI argument or as an environment variable.
 
 .. include:: __auth_usage.rst
@@ -217,12 +233,12 @@ require the token to be included as a CLI argument or as an environment variable
 API Keys
 --------
 
-|st2| also supports API keys which differ from tokens in the sense that they do not expire and are
-therefore suited for use with integrations like webhooks etc.
+|st2| also supports API keys. These differ from tokens in that they do not expire. This makes them
+suited for integrations with other applications, e.g. through webhooks.
 
-All API key management is currently available via the |st2| CLI.
+All API key management is currently available via the |st2| CLI or API.
 
-To create an API key -
+To create an API key:
 
 .. sourcecode:: bash
 
@@ -250,63 +266,65 @@ API Key Usage
 
 API keys are designed for API access. As of now they cannot be used via clients like the UI and CLI.
 
-The following are sample API calls via curl using API Keys. ::
+The following are sample API calls via ``curl`` using API Keys:
 
-    curl -H "St2-Api-Key: <API-KEY-VALUE>" https://myhost.example.com/api/v1/actions
+.. sourcecode:: bash
 
-    curl https://myhost.example.com/api/v1/actions?st2-api-key=<API-KEY-VALUE>
+   $ curl -H "St2-Api-Key: <API-KEY-VALUE>" https://myhost.example.com/api/v1/actions
+   $ curl https://myhost.example.com/api/v1/actions?st2-api-key=<API-KEY-VALUE>
 
 API Key Migration
 ^^^^^^^^^^^^^^^^^
 
-API keys can be migrated from one |st2| instance to another. This way external services that have already
-been configuered with API Keys do not need to be updated with a new set of keys. Follow these steps to migrate -
+API keys can be migrated from one |st2| instance to another. This way external services that have
+already been configured with API Keys do not need to be updated with a new set of keys. Follow
+these steps to migrate:
 
-On old |st2| instance run the following command to save API keys into a file. Note that secrets are masked based
-on configuration setting. If masking is enabled an admin can on a per call basis disable the masking without having
-to make config changes. See :ref:`mask-secrets` to see how to disable masking on a system wide basis.
+1. On the old |st2| instance run the following command to save API keys into a file. Note that
+   secrets are masked, based on configuration setting. If masking is enabled an admin can on a
+   per-API call basis disable the masking without having to make config changes. 
+   See :ref:`mask-secrets` to see how to disable masking on a system wide basis.
 
-.. sourcecode:: bash
+  .. sourcecode:: bash
 
-    st2 apikey list -dy --show-secrets > apikeys.yaml
+     $ st2 apikey list -dy --show-secrets > apikeys.yaml
 
 
-On new |st2| instance load API keys from the file.
+2. Transfer the file to the new |st2| instance, and load the keys from file:
 
-.. sourcecode:: bash
+  .. sourcecode:: bash
 
-    st2 apikey load apikeys.yaml
+     $ st2 apikey load apikeys.yaml
 
 
 Using Authentication Tokens or API Keys with the API
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To authenticate against the |st2| API, either an authentication token or an API key
-(but not both) should be provided in the HTTP request headers. The headers are
-named ``X-Auth-Token`` and ``St2-Api-Key`` respectively.
+To authenticate against the |st2| API, either an authentication token or an API key (but not both)
+should be provided in the HTTP request headers. The headers are named ``X-Auth-Token`` and
+``St2-Api-Key`` respectively.
 
-If for some reason you can't specify auth token or API key in the headers (e.g.
-you are using a third party service to integrate with |st2| and this service
-doesn't allow you to specify custom headers), you can provide it as a query
-parameter named ``x-auth-token`` and ``st2-api-key`` respectively.
+If for some reason you can't specify an auth token or API key in the headers (e.g. you are using a
+third party service to integrate with |st2| and this service doesn't allow you to specify custom
+headers), you can provide it as a query parameter named ``x-auth-token`` and ``st2-api-key``
+respectively.
 
-Keep in mind that using HTTP header is preferred since some of the web servers
-and third party services log query parameters which are sent with each request
-which could be a security risk.
+Keep in mind that using HTTP header is preferred since some web servers and third party services
+log query parameters which are sent with each request, which could be a security risk.
 
-Below you can find some examples on how to send authentication token and API
-key in the headers and as a query parameter using cURL.
+Here's some examples of how to send authentication token and API key in the headers, and as a query
+parameter using ``curl``:
 
-Providing it in the request headers:
+* Providing it in the request headers:
 
-.. sourcecode:: bash
+  .. sourcecode:: bash
 
-    curl -H "X-Auth-Token: <auth token value>" https://myhost.example.com/api/v1/actions
-    curl -H "St2-Api-Key: <api key value>" https://myhost.example.com/api/v1/actions
+     $ curl -H "X-Auth-Token: <auth token value>" https://myhost.example.com/api/v1/actions
+     $ curl -H "St2-Api-Key: <api key value>" https://myhost.example.com/api/v1/actions
 
-Providing it as a query parameter:
+* Providing it as a query parameter:
 
-.. sourcecode:: bash
+  .. sourcecode:: bash
 
-    curl "https://myhost.example.com/api/v1/actions?x-auth-token=<auth token value>"
-    curl "https://myhost.example.com/api/v1/actions?st2-api-key=<api key value>"
+     $ curl "https://myhost.example.com/api/v1/actions?x-auth-token=<auth token value>"
+     $ curl "https://myhost.example.com/api/v1/actions?st2-api-key=<api key value>"

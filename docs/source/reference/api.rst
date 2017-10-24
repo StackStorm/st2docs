@@ -1,13 +1,13 @@
 REST API Reference
 ===================
 
-Check our new `API documentation <https://api.stackstorm.com>_`! It includes information
+Check our new `API documentation <https://api.stackstorm.com>`_! It includes information
 on how to use the API, references for all API options, etc.
 
-Yo can also use the ``--debug`` flag with any CLI command. It will print out the
+You can also use the ``--debug`` flag with any CLI command. It will print out the
 equivalent ``curl`` commands and responses, e.g.:
 
-::
+.. code-block:: bash
 
     $ st2 --debug action list
     ...

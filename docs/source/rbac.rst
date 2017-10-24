@@ -3,21 +3,21 @@ Role Based Access Control
 
 .. note::
 
-   Role Based Access Control (RBAC) is only available in Brocade Workflow Composer. For
-   information about Brocade Workflow Composer and differences between Stackstorm and Brocade Workflow Composer,
-   please see `stackstorm.com/product <https://stackstorm.com/product/#enterprise>`_.
+   Role Based Access Control (RBAC) is only available in Brocade Workflow Composer. For information
+   about Brocade Workflow Composer and the differences between StackStorm and Brocade Workflow
+   Composer, please see `stackstorm.com/product <https://stackstorm.com/product/#enterprise>`_.
 
-|st2| implements Role Based Access (abbreviated RBAC) control which allows system administrators
-and operators to restrict users access and limit the operations they can perform.
-For instance, you could give your database operator access only to the database related actions.
+Role Based Access Control (RBAC) allows system administrators to restrict users' access and limit
+the operations they can perform. For instance, you could give your database operator access only
+to the database-related actions.
 
-Read through the detailed overview below, or jump straight to an :ref:`example of usage <rbac-using_rbac>`.
+Read through the detailed overview below, or jump straight to a :ref:`usage example <rbac-using_rbac>`.
 
 Terminology
 -----------
 
-This section describes basic concepts with which you need to be familiar to understand and
-efficiently utilize the RBAC system.
+This section describes basic concepts with which you need to familiarize yourself, in order to
+understand and efficiently utilize RBAC.
 
 User
 ~~~~
@@ -34,8 +34,8 @@ doesn't have access to perform any API operation which is behind the RBAC wall.
 Role
 ~~~~
 
-Role contains a set of permissions (permission grants) which apply to the resources. Permission
-grants are usually grouped together in a role using a specific criteria (e.g. by project, location,
+A role contains a set of permissions (permission grants) which apply to the resources. Permission
+grants are usually grouped together in a role using specific criteria (e.g. by project, location,
 team, responsibility, etc.).
 
 Roles are assigned to the users. Each user can have multiple roles assigned to it and each role can
@@ -44,7 +44,7 @@ be assigned to multiple users.
 System Roles
 ------------
 
-System roles are roles which are available by default and can't be manipulated (modified and / or
+System roles are roles which are available by default and can't be manipulated (modified and/or
 deleted).
 
 Currently, the following system roles are available:
@@ -86,7 +86,7 @@ workflow.
 
 As described in the table below, ``create``, ``modify``, ``delete`` and ``execute`` permissions
 also implicitly grant corresponding ``view`` permission. This means that, for example, if you
-grant ``action_execute`` permission on a particular action, user will also be able to view and
+grant ``action_execute`` permission on a particular action, the user will also be able to view and
 retrieve details for this particular action.
 
 .. _ref-rbac-available-permission-types:
@@ -106,7 +106,7 @@ User Permissions
 User permissions (also called effective user permission set) are represented as a union of all
 the permission grants which are assigned to the user roles.
 
-For example, if user has the following two roles assigned to it:
+For example, if a user has the following two roles assigned to it:
 
 .. literalinclude:: ../../st2/st2tests/st2tests/fixtures/rbac/roles/role_five.yaml
     :language: yaml
@@ -114,20 +114,20 @@ For example, if user has the following two roles assigned to it:
 .. literalinclude:: ../../st2/st2tests/st2tests/fixtures/rbac/roles/role_six.yaml
     :language: yaml
 
-The effective user permission set which is used during RBAC checks is:
+The effective user permission set is:
 
 * ``action_execute`` on ``action:dummy_pack_1:my_action_1``
 * ``action_execute`` on ``action:dummy_pack_1:my_action_2``
 
-RBAC system uses a whitelist approach which means there is no possibility of a conflicting and
-contradictory permission grants in different roles (e.g. one role would grant a particular
-permission and other role would revoke it).
+RBAC system uses a whitelist approach which means there is no possibility of conflicting and
+contradictory permission grants in different roles (e.g. one role granting a particular
+permission and another role revoking it).
 
 Resource
 ~~~~~~~~
 
-In the context of RBAC, resource refers to the resource to which the permission grant applies to.
-Currently permission grants can be applied to the following resource types:
+In the context of RBAC, a resource refers to the resource to which the permission grant applies to.
+Permission grants can be applied to the following resource types:
 
 * packs
 * sensors
@@ -136,14 +136,15 @@ Currently permission grants can be applied to the following resource types:
 * rules
 * executions
 * webhooks
+* inquiries
 
-Resource is identified by and you refer to it in the permission grants using ``uid``. UID is a
-identifier which is unique for each resource in the |st2| installation. UIDs follow this
-format: ``<resource type>:<resourc specific identifier value>`` (e.g. ``pack:libcloud``,
+A resource is identified by a ``uid``, and referenced as such in permission grants. UID is an
+identifier which is unique for each resource in the |st2| installation. UIDs follow this format:
+``<resource type>:<resource specific identifier value>`` (e.g. ``pack:libcloud``,
 ``action:libcloud:list_vms``, etc.).
 
 You can retrieve the UID of a particular resource by listing all the resources of a particular
-type or by retrieving details of a single resource using either an API or CLI.
+type or by retrieving details of a single resource using either API or CLI.
 
 For example:
 
@@ -170,18 +171,18 @@ Permission Inheritance
 
 **Pack resources**
 
-Pack resources inherit all the permission from a pack. This means that if you grant
-``action_execute`` permission to a pack, the user will be able to execute all the actions inside that
-pack. Similarly, if you grant ``rule_create`` permission to a pack, the user will be able to create
-new rules in that pack.
+Pack resources inherit all the permissions from a pack. This means that if you grant
+``action_execute`` permission to a pack, the user will be able to execute all the actions inside
+that pack. Similarly, if you grant ``rule_create`` permission to a pack, the user will be able to
+create new rules in that pack.
 
 **Executions**
 
 Executions inherit permissions from the action they belong to and from the action's parent pack. This
 means that if you grant ``action_view`` permission on a particular action, the user will be able to
-view all the executions which belong to that action. Similarly, if you grant ``action_view`` to a
-parent pack of the action execution belongs to, the user will be able to view all the executions which
-belong to the action with that parent pack.
+view all the executions which belong to that action. Similarly, if you grant ``action_view`` to the
+parent pack which the action execution belongs to, the user will be able to view all the executions
+which belong to the action with that parent pack.
 
 On top of that, granting ``action_execute`` on a particular pack or action also grants
 ``execution_rerun`` and ``execution_stop`` to all the executions which belong to that action.
@@ -189,39 +190,88 @@ On top of that, granting ``action_execute`` on a particular pack or action also 
 **Rule enforcements**
 
 Rule enforcements (models that represent when a rule evaluated actually resulted in an action)
-inherit permissions from the rule they belong and from the rule's parent pack. This means, if
+inherit permissions from the rule they belong to and from the rule's parent pack. This means, if
 a user has a ``rule_view`` permission on a particular rule, then they also have permissions to
-view the rule enforcement model for the rule. Similarly, if you grant ``rule_view`` to a
+view the rule enforcement model for the rule. Similarly, if you grant ``rule_view`` to the
 parent pack of the rule, users will be able to see all enforcements of rules belonging to that
 pack.
 
-Note that rule enforcements are ``operational models``. You cannot create / modify / delete them
+Note that rule enforcements are ``operational models``. You cannot create/modify/delete them
 via API. So permissions other than ``view`` and ``list`` do not make sense.
+
+**Inquiries**
+
+Inquiries inherit response permissions based on execution permissions of the workflow
+that generated them. This is useful for ensuring that anyone that has rights to execute a
+workflow that generates an Inquiry is also automatically granted permissions to respond to
+that Inquiry.
+
+Specifically, granting ``action_execute`` on a workflow action, or its parent pack, also grants
+``inquiry_respond`` permissions for any Inquiries generated from that Workflow.
+
+For detailed examples, see :ref:`Securing Inquiries<ref-securing-inquiries>`.
+
 
 Permissions and Executions Which Are Not Triggered via the API
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Normally when an execution is triggered via the API (POST to ``/actionexecutions/``), the authenticated
-|st2| user who triggered the execution is the effective user for the RBAC purposes, but
-there are some exceptions which are described below.
+Normally when an execution is triggered via the API (POST to ``/actionexecutions/``), the
+authenticated |st2| user who triggered the execution is the effective user for RBAC purposes.
+There are some exceptions, described below:
 
-**Rules** - Effective user for executions which are triggered by a rule is a system user
-(``stanley``).
+**Rules** - Effective user for executions which are triggered by a rule is the system user
+(by default, ``stanley``).
 
 **ChatOps** - Effective user for executions which are triggered via ChatOps (POST to
 ``/aliasexecutions/``) using hubot is the |st2| user that is configured in hubot
 (``ST2_AUTH_USERNAME`` - by default that is ``chatops_bot``).
 
-By default, ``stanley`` and ``chatops_bot`` user have ``admin`` role assigned to them, which
-means they have all the permissions.
+
+Enabling RBAC
+-------------
+
+If you installed BWC using the :doc:`one-line install </install/bwc>`, RBAC will be automatically
+enabled. It will assign the ``admin`` role to ``stanley`` and ``st2admin``. 
+
+If you installed BWC separately, by installing the ``bwc-enterprise`` package on top of |st2|, you
+will need to manually enable RBAC, and assign ``admin`` privileges to ``stanley``. It is not
+enabled by default. To enable it, add this section to ``/etc/st2/st2.conf``:
+
+.. code-block:: ini
+
+   [rbac]
+   enable = True
+
+Run ``sudo st2ctl restart-component st2api`` to apply that change.
+
+To assign ``admin`` privileges to ``stanley`` and ``st2admin``, create these two files:
+
+* ``/opt/stackstorm/rbac/assignments/stanley.yaml``:
+  
+  .. code-block:: yaml
+
+    ---
+    username: "stanley"
+    roles:
+      - "admin"
+* ``/opt/stackstorm/rbac/assignments/st2admin.yaml``:
+  
+  .. code-block:: yaml
+
+    ---
+    username: "st2admin"
+    roles:
+      - "admin"
+
+Run ``sudo st2-apply-rbac-definitions --config-file /etc/st2/st2.conf`` to apply those changes.
 
 Defining Roles and Assignments
 ------------------------------
 
 To follow the infrastructure as code approach, roles and user role assignments are defined in YAML
-files which are stored on a filesystem in the following directory: ``/opt/stackstorm/rbac/``.
+files which are stored in ``/opt/stackstorm/rbac/``.
 
-Those definitions being simple YAML files means you can (and should) version control and manage
+Those definitions are simple YAML files means you can (and should) version control and manage
 them in the same way you version control and manage other source code and infrastructure artifacts.
 
 Both roles and user role assignments are loaded in lexicographical order based on the filename.
@@ -231,44 +281,43 @@ For example, if you have two role definitions in the files named ``role_b.yaml``
 Defining Roles and Permission Grants
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Roles and permission grants are defined in YAML files which are located on a filesystem in the
-following directory: ``/opt/stackstorm/rbac/roles/``. Each file defines role information and
-associated permission grants for a single role which means that if you want to define **n** roles
-you will need **n** files.
+Roles and permission grants are defined in YAML files which are stored in
+``/opt/stackstorm/rbac/roles/``. Each file defines role information and associated permission
+grants for a single role which means that if you want to define **n** roles you will need **n** files.
 
-Example role definition (``/opt/stackstorm/rbac/roles/role_sample.yaml``) is shown below:
+Example role definition (``/opt/stackstorm/rbac/roles/role_sample.yaml``):
 
 .. literalinclude:: ../../st2/st2tests/st2tests/fixtures/rbac/roles/role_sample.yaml
     :language: yaml
 
-The example above contains a variety of permission grants with the corresponding explanation
+The example above contains a variety of permission grants with corresponding explanations
 (comments).
 
 Defining User Role Assignments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-User role assignments are defined in YAML files which are located in the following directory:
+User role assignments are defined in YAML files which are located in
 ``/opt/stackstorm/rbac/assignments/``. Each file defines assignments for a single user
 which means that if you want to define assignments for **n** users, you will need **n** files.
 
-Example role definition (``/opt/stackstorm/rbac/assignments/user4.yaml``) is shown below:
+Example role definition (``/opt/stackstorm/rbac/assignments/user4.yaml``):
 
 .. literalinclude:: ../../st2/st2tests/st2tests/fixtures/rbac/assignments/user4.yaml
     :language: yaml
 
 In the example above we assign two roles to the user named ``user4``:
-``role_one`` (a custom role which needs to be defined as described above) and
-``observer`` (system role).
+
+* ``role_one`` (a custom role which needs to be defined as described above) and
+* ``observer`` (system role).
 
 Applying RBAC Definitions
 -------------------------
 
 As described above, RBAC definitions are defined in YAML files located in the
-``/opt/stackstorm/rbac/`` directory. For those definitions to take an effect,
-you need to apply them using the ``st2-apply-rbac-definitions`` script.
+``/opt/stackstorm/rbac/`` directory. For those definitions to take effect, you need to apply them
+using the ``st2-apply-rbac-definitions`` script.
 
-Usually you will want to run this script every time you modify the RBAC
-definitions.
+Usually, you will want to run this script every time you modify the RBAC definitions.
 
 For example:
 
@@ -295,13 +344,13 @@ For example:
 
 .. _rbac-using_rbac:
 
-Automatically Granting Roles Based on the User LDAP Group Membership
---------------------------------------------------------------------
+Automatically Granting Roles Based on LDAP Group Membership
+------------------------------------------------------------
 
 .. note::
 
-   This functionality is only available in |st2| v2.3.0 and above when LDAP auth backend is used
-   for authentication.
+   This functionality is only available in |st2| v2.3.0 and above, with the LDAP auth backend
+   used for authentication.
 
 In addition to manually assigning roles to the users based on the definitions in the
 ``/opt/stackstorm/rbac/assignments/`` directory, |st2| also supports automatically granting roles
@@ -323,51 +372,51 @@ To be able to utilize this feature it first needs to be enabled in ``st2.conf`` 
 After this feature is enabled, the |st2| administrator needs to write mapping files that tell |st2|
 which roles to automatically grant to users, based upon LDAP group membership.
 
-Mapping files are located in the ``/opt/stackstorm/rbac/mappings/`` directory and map an LDAP group to one
-or more |st2| roles.
+Mapping files are located in the ``/opt/stackstorm/rbac/mappings/`` directory and map an LDAP group
+to one or more |st2| roles.
 
 Two examples of such mapping files can be found below:
 
 .. note::
 
-  LDAP group names referenced in ``group`` attribute are case-sensitive.
+  LDAP group names referenced in the ``group`` attribute are case-sensitive.
 
-``/opt/stackstorm/rbac/mappings/stormers.yaml``
+* ``/opt/stackstorm/rbac/mappings/stormers.yaml``
 
-.. literalinclude:: ../../st2/st2tests/st2tests/fixtures/rbac/mappings/stormers.yaml
-    :language: yaml
+  .. literalinclude:: ../../st2/st2tests/st2tests/fixtures/rbac/mappings/stormers.yaml
+     :language: yaml
 
-Each user who is a member of the ``CN=stormers,OU=groups,DC=stackstorm,DC=net`` LDAP group will
-automatically be granted ``admin`` |st2| role when they successfully authenticate with |st2|.
+  Each user who is a member of the ``CN=stormers,OU=groups,DC=stackstorm,DC=net`` LDAP group will
+  automatically be granted ``admin`` |st2| role when they successfully authenticate with |st2|.
 
-``/opt/stackstorm/rbac/mappings/testers.yaml``
+* ``/opt/stackstorm/rbac/mappings/testers.yaml``
 
-.. literalinclude:: ../../st2/st2tests/st2tests/fixtures/rbac/mappings/testers.yaml
-    :language: yaml
+  .. literalinclude:: ../../st2/st2tests/st2tests/fixtures/rbac/mappings/testers.yaml
+     :language: yaml
 
-Each user who is a member of the ``CN=testers,OU=groups,DC=stackstorm,DC=net`` LDAP group will
-automatically be granted ``observer`` and ``qa_admin`` |st2| roles when they successfully
-authenticate with |st2|.
+  Each user who is a member of the ``CN=testers,OU=groups,DC=stackstorm,DC=net`` LDAP group will
+  automatically be granted ``observer`` and ``qa_admin`` |st2| roles when they successfully
+  authenticate with |st2|.
 
 Once the mapping definitions files are written, the |st2| administrator needs to run the
 ``st2-apply-rbac-definitions`` tool to store those definitions in the database. This tool also
 needs to be run after any change or removal of mappings files.
 
-How it Works
-~~~~~~~~~~~~
+How LDAP Group-Based Role Assignments Work
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Role assignments based on the LDAP group to |st2| role mappings are synchronized each time a user
-authenticates with |st2| auth API and receives a fresh auth token.
+authenticates with the |st2| auth API and receives a fresh auth token.
 
-If for some reason you want user roles to be synchronized before existing auth token expires
-(default TTL is 24 hours), you can simply ask user to re-authenticate to retrieve a new auth token.
-Alternatively, administrators can manually expire or disable an active auth token which will
-force the user to re-authenticate with |st2|.
+If for some reason you want user roles to be synchronized before the existing auth token expires
+(default TTL is 24 hours), you can simply ask the user to re-authenticate to retrieve a new auth
+token. Alternatively, administrators can manually expire or disable an active auth token which will
+force the user to re-authenticate.
 
-A similar workflow can be used when removing / deprovisioning a user from your system. By default,
-when a user is removed from LDAP they will still be able to use |st2| if they have a valid auth token,
-until that auth token expires. If you want user access to be revoked as soon as they are removed
-from LDAP, you can manually purge active auth tokens for a particular user from |st2| user database.
+A similar workflow can be used when removing a user from your system. By default, when a user is
+removed from LDAP they will still be able to use |st2| if they have a valid auth token, until that
+auth token expires. If you want user access to be revoked as soon as they are removed from LDAP,
+you can manually purge active auth tokens for a particular user from the user database.
 
 Using RBAC Example
 ------------------
@@ -377,7 +426,7 @@ Using RBAC Example
 1. A user owns a pack i.e is able to view, create, delete, modify and where applicable execute
    various resources like actions, rules, sensors.
 2. A user can create rules, execute actions and view a handful of actions.
-3. A user capable of viewing actions in a pack but cannot execute any action.
+3. A user is capable of viewing actions in a pack but cannot execute any action.
 
 This example provides a walk-through of scenario 1 i.e configuring a user as a pack owner. The
 steps to be followed are by a |st2| Administrator, on a system running |st2|.
@@ -411,7 +460,7 @@ Role Creation
 ~~~~~~~~~~~~~
 
 A newly created user has no assigned permissions. Each permission must be explicitly assigned to a
-user. To assign permission grants |st2| requires creation of a role and then associating this role
+user. To assign permission grants requires creation of a role and then associating this role
 with a user. In this case we are trying to create a pack owner role.
 
 Lets first make sure there is a pack ``example`` we can use to experiment.
@@ -426,10 +475,10 @@ Lets first make sure there is a pack ``example`` we can use to experiment.
     $ touch requirements.txt
     $ cp core/icon.png example/icon.png
 
-Now we setup a role. Create file ``/opt/stackstorm/rbac/roles/example_pack_owner.yaml`` with the
+Now we setup a role. Create ``/opt/stackstorm/rbac/roles/example_pack_owner.yaml`` with the
 following content:
 
-.. sourcecode:: bash
+.. sourcecode:: yaml
 
     ---
     name: "example_pack_owner"
@@ -457,7 +506,7 @@ Creation of a role is followed by assignment of a role to the user. Create the f
 ``/opt/stackstorm/rbac/assignments/rbac_user1.yaml`` with the following content:
 
 
-.. sourcecode:: bash
+.. sourcecode:: yaml
 
     ---
     username: "rbac_user1"
@@ -475,17 +524,17 @@ As a |st2| administrator, run:
 
     st2-apply-rbac-definitions --config-file=/etc/st2/st2.conf
 
-This command will sync up the |st2| RBAC state with the filesystem state. Only after running this
+This command will sync the |st2| RBAC state with the filesystem state. Only after running this
 command does |st2| know of the latest changes to RBAC permission grants.
 
 Validation
 ~~~~~~~~~~
 
-Lets take what we have achieved for a spin using the |st2| CLI.
+Lets take this for a spin using the |st2| CLI.
 
 1. Setup Authentication token:
 
-.. sourcecode:: bash
+  .. sourcecode:: bash
 
     $ st2 auth rbac_user1 -p '<RBACU1_PASSWORD>'
     $ export ST2_AUTH_TOKEN=<USER_SCOPED_AUTH_TOKEN>
@@ -493,7 +542,7 @@ Lets take what we have achieved for a spin using the |st2| CLI.
 
 2. Validate rule visibility and creation:
 
-.. sourcecode:: bash
+  .. sourcecode:: bash
 
     $ cd /opt/stackstorm/packs/example
     $ cp /usr/share/doc/st2/examples/rules/sample_rule_with_timer.yaml rules/
@@ -507,7 +556,7 @@ Lets take what we have achieved for a spin using the |st2| CLI.
 
 3. Validation action visibility, creation and execute:
 
-.. sourcecode:: bash
+  .. sourcecode:: bash
 
     $ cd /opt/stackstorm/packs/example
     $ cp /usr/share/doc/st2/examples/actions/local.yaml actions/

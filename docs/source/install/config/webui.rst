@@ -12,25 +12,25 @@ st2web is installed via the st2web RPM or deb package. This is installed by defa
 one-line :doc:`install method </install/index>`. You can access the UI by pointing your browser to
 ``https://<server hostname>/``. If you are using st2vagrant, it would be https://192.168.16.20/.
 
-st2web is a pure HTML5 application and consist only of js scripts, html templates, css styles and
-a number of static files including custom fonts and svg images. For the application to work
-correctly, all files should be served to the browser. By default they are served by nginx. For your
-custom deployments, you can also use Apache or a similar dedicated web server.
+st2web is a pure HTML5 application and consists only of js scripts, html templates, css styles and
+static files including custom fonts and svg images. For the application to work correctly, all
+files should be served to the browser. By default they are served by nginx. For your custom
+deployments, you can also use Apache or a similar dedicated web server.
 
 Note that the |st2| API endpoint should be accessible from the browser, not the web server running
 static content.
 
-
 Configuration
 -------------
 
-For the UI to work properly, both web client and |st2| server side should be configured accordingly.
+For the UI to work properly, both the web client and |st2| server side should be configured
+appropriately.
 
 On the web client side, the file ``config.js`` in the project contains the list of servers this UI
 can connect to. This is typically ``/opt/stackstorm/static/webui/config.js``. The file consists of
 an array of objects, each with ``name``, ``url`` and ``auth`` properties.
 
-::
+.. code-block:: js
 
    hosts: [{
      name: 'Express Deployment',
@@ -47,12 +47,12 @@ Multiple servers can be configured for the user to pick from. To disconnect from
 and return to login screen, pick 'Disconnect' from the drop down at the top right corner of the UI.
 
 On the |st2| side, `CORS <https://en.wikipedia.org/wiki/Cross-origin_resource_sharing>`__ should
-also be properly configured. In ``st2.conf``, the ``allow_origin`` property of the ``[api]``
-section should contain the Origin header the browser sends with every request. For example, if you
-have deployed the UI on its own server and are accessing it using ``http://webui.example.com``,
-your config should look like this:
+also be configured. In ``st2.conf``, the ``allow_origin`` property of the ``[api]`` section should
+contain the Origin header the browser sends with every request. For example, if you have deployed
+the UI on its own server and are accessing it using ``http://webui.example.com``, your config
+should look like this:
 
-::
+.. code-block:: ini
 
    [api]
    # Host and port to bind the API server.
@@ -73,8 +73,8 @@ configuration:
 * ``http://localhost:9101,http://127.0.0.1:9101`` - ``st2api`` pecan deployment
 * ``api_url`` from ``[auth]`` section of ``st2.conf``
 
-Also, please note that although this is not recommended and will undermine your security, you can
-allow every web UI deployment to connect to your server by setting ``allow_origin = *``.
+Although this is not recommended and will undermine your security, you can allow every web UI
+deployment to connect to your server by setting ``allow_origin = *``.
 
 Authentication
 --------------

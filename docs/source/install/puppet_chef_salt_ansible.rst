@@ -31,15 +31,15 @@ As of this writing, the following operating systems are supported:
 * RedHat/CentOS 7.x
 * RedHat/CentOS 6.x
 
-Installation
-------------
+Puppet Installation
+-------------------
 The Puppet module is updated frequently, and uploaded to the Puppet Forge on each release. You can find the module at https://forge.puppetlabs.com/stackstorm/st2
 
 Manual Installation
 ~~~~~~~~~~~~~~~~~~~
 The ``puppet module install`` action will install a module and all of its dependencies. By default, it will install into the first directory in Puppet’s modulepath. To install the module from the Puppet Forge, simply type the following command:
 
-::
+.. code-block:: bash
 
    puppet module install stackstorm-st2
 
@@ -47,7 +47,7 @@ Puppetfile
 ~~~~~~~~~~
 Alternatively, you can install this module using ``librarian-puppet`` or ``r10k`` and add this file to your ``Puppetfile``. Add the following line:
 
-::
+.. code-block:: bash
 
    mod "stackstorm/st2"
 
@@ -60,7 +60,7 @@ Quick Start
 ~~~~~~~~~~~
 For a full installation on a single node, a profile already exists to get you setup and going with minimal effort. Simply add the following class declaration to your site or node manifest.
 
-::
+.. code-block:: bash
 
    include ::st2::profile::fullinstall
 
@@ -109,7 +109,7 @@ Class Configuration
 ~~~~~~~~~~~~~~~~~~~
 Any of the module configuration settings can be set at declaration. An example of this:
 
-::
+.. code-block:: puppet
 
    class { '::st2':
      auth     => true,
@@ -122,7 +122,7 @@ Hiera Configuration
 ~~~~~~~~~~~~~~~~~~~
 Likewise, module configuration can be set via Hiera. For example in a hiera data file:
 
-::
+.. code-block:: yaml
 
    st2::auth: true
    st2::auth_url: https://st2auth.stackstorm.net
@@ -135,7 +135,7 @@ Pack Installation and Management
 Defined Types
 ~~~~~~~~~~~~~
 
-::
+.. code-block:: puppet
 
     st2::pack { 'linux': }
     st2::pack { ['librato', 'consul']:
@@ -154,7 +154,7 @@ Hiera
 ~~~~~
 In order to load packs via hiera, you will need to include the `::st2::packs` class in your site profile. Then, values will be read from Hiera.
 
-::
+.. code-block:: yaml
 
     st2::packs:
     linux:
@@ -205,7 +205,7 @@ Requirements
 ---------------------------
 At least 2GB of memory and 3.5GB of disk space is required, since |st2| is shipped with RabbitMQ, MySQL, Mongo, OpenStack Mistral and dozens of Python dependencies.
 
-Installation
+Ansible Installation
 ---------------------------
 .. sourcecode:: bash
 

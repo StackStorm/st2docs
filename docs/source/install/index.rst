@@ -1,72 +1,78 @@
 Installation
 ============
 
-That's OK! You're busy, we get it. How do you just get started? Get yourself a **clean** 64-bit Linux
-box that fits the :doc:`system requirements <system_requirements>`. Make sure that ``curl`` is up to date
-using ``sudo apt-get install curl`` on Ubuntu, or ``sudo yum install curl nss`` on RHEL/CentOS. Then run
-this command:
+Ready to install |st2|? Here's an overview of how to get your system up and running.
+
+|st2| is distributed as RPMs and Debs for RedHat/CentOS and Ubuntu Linux systems, and as Docker
+images. You can either use a script to automatically install and configure all components on a
+single system, or you can follow the manual instructions for your OS.
+
+Here's an overview of the options:
+
+* **One-line Install:** Run our installation script for an opinionated install of all components
+  on a single system. This is a our recommended way to get started. See the :ref:`Quick Install
+  <ref-one-line-install>` section below for details.
+* **Manual Installation:** Have custom needs? Maybe no Internet access from your servers? Or just
+  don't like using scripted installs? Read the manual installation instructions for your OS
+  (:doc:`Ubuntu 14/16 </install/deb>`, :doc:`RHEL/CentOS 6 </install/rhel6>`, :doc:`RHEL/CentOS 7
+  </install/rhel7>`), and adapt them to your needs. Here's some `additional guidance
+  <https://stackstorm.com/2017/02/10/installing-stackstorm-offline-systems/>`_ for setting up an
+  internal mirror for the |st2| repos. 
+* **Ansible Playbooks:** If you are an Ansible user, check these :doc:`/install/ansible` for
+  installing |st2|. Ideal for repeatable, consistent, idempotent installation of |st2|.
+* **Docker:** |st2| is now supported on Docker - check out our :doc:`docker` instructions.
+* **Vagrant:** Vagrant is a quick way to spin up a test system - see  `st2vagrant
+  <https://github.com/StackStorm/st2vagrant>`_. This will bring up a new VM, and install |st2|.
+
+Choose the option that best suits your needs.
+
+Upgrading to |bwc|? This is installed as a set of additional packages on top of StackStorm. You
+can either install StackStorm + |bwc| in one go, or add the |bwc| packages to an existing
+StackStorm system. If you are using |bwc|, you can also add Brocade Network Automation Suites.
+Read the :doc:`/install/bwc` documentation for more.
+
+.. _ref-one-line-install:
+
+.. rubric:: Quick Install
+
+Grab a **clean** 64-bit Linux system that fits the :doc:`system requirements
+<system_requirements>`. Make sure that ``curl`` is up to date using ``sudo apt-get install curl``
+on Ubuntu, or ``sudo yum install curl nss`` on RHEL/CentOS. Then run this command:
 
 .. code-block:: bash
 
    curl -sSL https://stackstorm.com/packages/install.sh | bash -s -- --user=st2admin --password='Ch@ngeMe'
 
-.. danger::
+This is an opinionated installation of |st2|. It will download and install all components, as per
+the :doc:`single host reference deployment <./overview>`. It assumes that you have a clean, basic
+installation of Ubuntu or RHEL/CentOS. 
 
-  The installation script is an opinionated installation of |st2|. It assumes that you have a clean, basic
-  installation of Ubuntu or RHEL/CentOS, similar to what you get with a basic installation from ISO. If
-  you are trying to install |st2| on a server with other applications running, you may run into problems.
+If you are trying to install |st2| on a server with other applications, or local customisations,
+you may run into problems. In that case, you should use one of the manual installation methods.
 
-  The same applies for VMs that are built from special 'templates' provided by your IT department.
-  If they have customised $HOME locations, or changed default authentication methods, then the script may
-  break. Don't worry though! Scroll down for the manual instructions for your specific OS. Follow those,
-  with any site-specific modifications you need.
-  
-  The script itself is not idempotent. If you try to re-run the script on top of a failed installation, it
-  will almost certainly fail. Start again with a clean system, or switch to a manual install.
+The script itself is not idempotent. If you try to re-run the script on top of a failed
+installation, it fail. Start again with a clean system, or switch to a manual install.
 
-It will install and configure the stable version of StackStorm, as per the
-:doc:`single host reference deployment <./overview>`. The installation takes about 4 minutes. Once it
-completes successfully, you will see the following output:
+If you're installing behind a proxy, just export the proxy ENV variables
+``http_proxy``, ``https_proxy``, ``no_proxy`` before running the script.
 
-::
+.. code-block:: bash
 
-  For more information, please refer to documentation at
-  https://docs.stackstorm.com/install/deb.html#setup-chatops
-  ########################################################
+  export http_proxy=http://proxy.server.io:port
+  export https_proxy=http://proxy.server.io:port
+  export no_proxy=localhost,127.0.0.1
 
+In case of MITM proxy, you may need to export additional ``proxy_ca_bundle_path``, see :ref:`packs-behind-proxy`.
 
-  ███████╗████████╗██████╗      ██████╗ ██╗  ██╗
-  ██╔════╝╚══██╔══╝╚════██╗    ██╔═══██╗██║ ██╔╝
-  ███████╗   ██║    █████╔╝    ██║   ██║█████╔╝
-  ╚════██║   ██║   ██╔═══╝     ██║   ██║██╔═██╗
-  ███████║   ██║   ███████╗    ╚██████╔╝██║  ██╗
-  ╚══════╝   ╚═╝   ╚══════╝     ╚═════╝ ╚═╝  ╚═╝
-
-    st2 is installed and ready to use.
-
-  Head to https://YOUR_HOST_IP/ to access the WebUI
-
-  Don't forget to dive into our documentation! Here are some resources
-  for you:
-
-  * Documentation  - https://docs.stackstorm.com
-  * Knowledge Base - https://stackstorm.reamaze.com
-
-  Thanks for installing StackStorm! Come visit us in our Slack Channel
-  and tell us how it's going. We'd love to hear from you!
-
-.. include:: __installer_passwords.rst
-
-If you want to install |st2| on a host that does not have Internet access,
-`this guide <https://stackstorm.com/2017/02/10/installing-stackstorm-offline-systems/>`_
-shows how to do it using a mirror. 
 
 If you have problems accessing the Web UI on a RHEL 7/CentOS 7 system, check the
 :ref:`system firewall settings <ref-rhel7-firewall>`.
 
-.. rubric:: Installations
+.. include:: __installer_passwords.rst
 
-For more detail on reference deployments, or OS-specific manual installation instructions, see below:
+.. rubric:: Other Installation Options
+
+For more details on reference deployments, or OS-specific installation instructions, see below:
 
 .. toctree::
     :maxdepth: 1
@@ -76,6 +82,7 @@ For more detail on reference deployments, or OS-specific manual installation ins
     Ubuntu 14.04 / 16.04 <deb>
     RHEL 7 / CentOS 7 <rhel7>
     RHEL 6 / CentOS 6 <rhel6>
+    Docker <docker>
     Ansible Playbooks <ansible>
     Brocade Workflow Composer <bwc>
     config/index

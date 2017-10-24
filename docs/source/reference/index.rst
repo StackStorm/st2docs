@@ -9,6 +9,7 @@ References and Guides
    pack_configs
    packs
    pack_management_transition
+   action_output_streaming
    jinja
    policies
    runners
