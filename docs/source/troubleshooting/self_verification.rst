@@ -1,7 +1,7 @@
 Running Self-Verification
 =========================
 
-|st2| includes a script to verify the installation, using |st2| itself.
+Brocade Workflow Composer includes a script for verifying the BWC installation.
 
 The script covers the following aspects of |st2|:
 
@@ -11,14 +11,14 @@ The script covers the following aspects of |st2|:
 * :doc:`/packs` actions
 * :doc:`/actionchain` and :doc:`/mistral` Workflows
 
-To run the self-verification:
+To run the BWC self-verification script:
 
 1. If you don't have :ref:`encryption keys setup already<admin-setup-for-encrypted-datastore>`, do so.
-   This requires both |st2| and system admin privileges.
+   This will require both |st2| and system admin privileges when setting it up.
 
-2. Run the self-check script. This also copies the examples from ``/usr/share/doc/st2/examples``
-   to ``/opt/stackstorm/packs/`` and registers the content. This step pollutes your |st2| environment by
-   downloading fixtures from `st2tests <https://github.com/StackStorm/st2tests/tree/master/packs/>`__.
+2. Run the self-check script "/opt/stackstorm/st2/bin/st2-self-check". This also copies the examples from ``/usr/share/doc/st2/examples``
+   to ``/opt/stackstorm/packs/`` and registers the content. Running this step will pollute your |st2| environment because it will download
+   ixtures from `st2tests <https://github.com/StackStorm/st2tests/tree/master/packs/>`__.
 
 .. code-block:: bash
 
