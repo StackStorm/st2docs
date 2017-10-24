@@ -132,11 +132,11 @@ closes the connection.
 Once requested, the API endpoint returns any data which has been produced so far and after that,
 any new data as it becomes available.
 
-Similar to the CLI command, you can also use ``last`` for the execution id, and the ID of the 
+Similar to the CLI command, you can also use ``last`` for the execution id, and the ID of the
 execution which has been scheduled last will be used.
 
 3. Via the StackStorm Stream API
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In addition to the |st2| API above, output can also be accessed using the event stream API.
 
