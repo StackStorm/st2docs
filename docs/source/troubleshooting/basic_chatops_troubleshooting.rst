@@ -7,7 +7,7 @@ reply to your commands and send manually triggered messages via ``chatops.post_m
 .. note::
     
     The recommended way to install ``st2chatops`` is using the steps mentioned 
-    in :doc:`Installation Section <../install/index>` for your OS.
+    in the :doc:`Installation Section <../install/index>` for your OS.
 
 ----------------------------------------------
 Troubleshooting Using Hubot Self-check Script:
@@ -16,7 +16,7 @@ Troubleshooting Using Hubot Self-check Script:
 We have a `self-check script <https://github.com/StackStorm/st2chatops/blob/master/scripts/self-check.sh>`_ 
 to help you debug ChatOps issues in StackStorm 1.5 and above.
 
-Just copy and run it on your server. It runs a few essential tests giving you basic troubleshooting steps in
+Just copy the script and run it on your server. It will run a few essential tests that will provide you basic troubleshooting steps in
 case of a failure.
 
 -----------------------------
@@ -30,11 +30,11 @@ These are the issues that users usually face with ChatOps:
 Your bot is not Online:
 -----------------------
 
-You've installed StackStorm, but Hubot didn't come online in your ChatOps client (Slack, HipChat, etc.)
+You've installed StackStorm, but Hubot did not come online in your ChatOps client (Slack, HipChat, etc.)
 
 **Possible reasons:**
 
-- Incorrect adapter settings. Check ``/opt/stackstorm/chatops/st2chatops.env`` for settings.
+- Incorrect adapter settings. Check the settings using ``/opt/stackstorm/chatops/st2chatops.env`` and verify if correct.
   For example, for the Slack adapter, we need to uncomment the following lines and update the
   Slack token:
 
@@ -57,7 +57,7 @@ You've installed StackStorm, but Hubot didn't come online in your ChatOps client
 
     $ service st2chatops status
 
-In case the installation is outdated or corrupt, reinstall the ``st2chatops`` package with
+In case the installation is outdated or became corrupt, reinstall the ``st2chatops`` package with
 ``apt-get`` or ``yum`` depending on your distro.
 
 Note that in most chat services you have to manually invite the bot into your chatroom first: for example,
@@ -76,7 +76,7 @@ listed (The ``pack`` and ``st2`` sets of commands should be installed by default
 - Hubot can't connect to StackStorm API. Look in the st2chatops logs for errors: 
   ``/var/log/st2/st2chatops.log`` or for systemd based distros ``journalctl --unit=st2chatops``
 - Actions and/or ChatOps aliases aren't registered. Try running ``st2ctl reload --register-all``.
-- It's also possible you changed the bot's name or you have not invited your bot to a channel in
+- It's also possible you may have changed the bot's name or you have not invited your bot to a channel in
   the chat client.
 - If you're sending the bot a private message instead of messaging it in a channel, do not prepend
   ``!`` (a known Hubot limitation). In private messages ``help`` will work, but ``!help`` will not;
@@ -99,12 +99,12 @@ either throws an error, or gives an acknowledgement message without result, or n
     
 2. Throws an error (no acknowledgement):
      Should be debugged according to the error, could be both client-side and server-side,
-     or an alias problem. Normally, a look into an error or logs will give you ideas on
+     or an alias problem. Normally, a look into an error or logs will provide ideas on
      how to proceed.
 
 3. Gives an acknowledgement message without result:
      If you get an acknowledgement message, but then nothing happens, Hubot is most likely 
-     disconnected from StackStorm stream. The main reason for it is a wrong
+     disconnected from the StackStorm stream. The main reason for it is a wrong
      networking setup (Hubot can't connect to your StackStorm instance); check nginx
      configuration and the parameters in ``/opt/stackstorm/chatops/st2chatops.env`` 
      (most importantly, ``ST2_HOSTNAME``).
@@ -117,7 +117,7 @@ either throws an error, or gives an acknowledgement message without result, or n
      aliases throw errors, the format of your alias or the underlying action is most
      likely the problem. Debug according to the error.
 
-5.  Bonus: have you tried turning it off and on again?
+5.  Bonus: have you tried turning BWC off and on again?
      ``sudo st2ctl restart`` or ``sudo st2ctl reload --register-all`` sometimes seem to 
      magically fix problems, often quite unexpectedly. Restarting just the
      ``st2chatops`` service also works sometimes: ``sudo service st2chatops restart``.
@@ -141,7 +141,7 @@ but you can't trigger ``chatops.post_message`` action manually from CLI or Web U
   every parameter in ``chatops.post_message`` (the last step of the workflow) as is. 
 
 - ``st2 run chatops.post_message channel=<channel_name>`` to post on a channel. This step
-  assumes that a bot was created and invited it to the channel on ChatOps application.
+  assumes that a bot was created and is invited to the channel on ChatOps application.
 
 - ``st2 run chatops.post_message channel=<username> whisper=True`` to post to a user. Note 
   that some chat services have limitations on private messages from bots to users (e.g. in 
