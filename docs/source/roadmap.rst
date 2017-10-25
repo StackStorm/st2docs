@@ -17,7 +17,6 @@ Roadmap
   * **Permissions**: Permissions on key value objects, arbitrary triggers, support for a default role to be assigned to new users.
   * **WebUI**: UI for RBAC configuration.
   * **ChatOps**: Allow users to authenticate with |st2| via bot on chat. Check permissions of the user who triggered an action / ran a command. Introduce a special set of permission types for ChatOps.
-* **st2.ask:** Support ability to request/provide permission to proceed with workflow.
 
 * **More integration packs:** push more content to the community to help work with most common and widely used tools. Tell us if there is a tool you love and think we should integrate with, or better yet write a pack!
 
@@ -25,6 +24,11 @@ Is there some other feature you're desperately missing? Submit an `issue <https:
 
 Release History
 ---------------
+
+.. rubric:: Done in v2.5
+
+* **st2.ask:** Support ability to request/provide permission to proceed with workflow.
+* **Streaming Output:** Provide streaming output from long-running actions as it is received.
 
 .. rubric:: Done in v2.4
 
