@@ -176,7 +176,7 @@ pygments_style = 'sphinx'
 
 # If true, keep warnings as "system message" paragraphs in the built documents.
 # keep_warnings = False
-
+suppress_warnings = ['image.nonlocal_uri']
 # If true, Sphinx will warn about all references where the target cannot be
 # found. Default is False. You can activate this mode temporarily using the
 # -n command-line switch.

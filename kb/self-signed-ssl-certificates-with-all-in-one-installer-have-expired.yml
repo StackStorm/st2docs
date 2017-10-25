@@ -1,0 +1,15 @@
+body: "# Overview\r\n\r\nAfter using the StackStorm All-in-one installer for some\
+  \ time (greater than 30 days), the self-signed SSL certificate has expired. As a\
+  \ result, access to the WebUI may not be possible.\r\n\r\n## Detail\r\n\r\nDuring\
+  \ initial design of the self-signed certificate in the AIO designer, we went back\
+  \ and forth on the expiration date for a self-signed certificate. Initially, we\
+  \ set this to only 30 days, but after feedback from our users we increased this\
+  \ to five (5) years. However, there may still be some installations that have certificates\
+  \ that expire in the <30 day window.\r\n\r\nNew generated certificates will be created\
+  \ with the 5-year expiration.\r\n\r\n# Workaround\r\n\r\nTo generate a new self-signed\
+  \ certificate, perform the following steps\r\n\r\n* Delete the file `/etc/ssl/st2/ca.cnf`\
+  \ and `/etc/ssl/st2/cert.cnf`.\r\n* Re-run installer to re-generate SSL certificates\
+  \ with `update-system`."
+status: 0
+title: Self-signed SSL Certificates with All-in-one installer have expired
+topic: Installation

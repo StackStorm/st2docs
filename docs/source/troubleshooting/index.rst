@@ -21,3 +21,4 @@ and how to troubleshoot and debug them.
     submit_debug_info
     debug_mode
     ask_for_support
+    kb

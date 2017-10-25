@@ -1,0 +1,25 @@
+body: "If you've installed StackStorm using the All-in-one Installer, decided *not*\
+  \ to install ChatOps/Hubot, but changed your mind? This is the place for you!\r\n\
+  \r\n# Editing Configuration\r\n\r\nIn order to get Hubot installed on your system,\
+  \ you need to add Hubot keys to the Answers file, located in `/opt/puppet/hieradata/answers.yaml`.\
+  \ An example is located below:\r\n\r\n```\r\nhubot::docker: true\r\nhubot::chat_alias:\
+  \ !\r\nhubot::adapter: slack\r\nhubot::external_scripts:\r\n    - hubot-stackstorm\r\
+  \nhubot::env_export:\r\n    HUBOT_LOG_LEVEL: debug\r\n    ST2_AUTH_USERNAME: chatops_bot\r\
+  \n    ST2_AUTH_PASSWORD: \r\n    ST2_API: https://vonnegut.hq.thebikeshed.io:443/api\r\
+  \n    ST2_AUTH_URL: https://vonnegut.hq.thebikeshed.io:443/auth\r\n    ST2_WEBUI_URL:\
+  \ https://st2.thebikeshed.io\r\n    NODE_TLS_REJECT_UNAUTHORIZED: 0\r\n    EXPRESS_PORT:\
+  \ 8081\r\n```\r\n\r\nEnsure that the values `hubot::docker`, `hubot::chat_alias`,\
+  \ `hubot::adapter`, and `hubot::external_scripts` are configured. You will need\
+  \ to ensure that `hubot::adapter` is configured to the correct adapter type. \r\n\
+  \r\nEnsure your environment variables are set properly. Set `hubot::env_export`,\
+  \ and include all the environment variables you see in the example above. Pay careful\
+  \ attention to ensure that `ST2_API` and `ST2_AUTH_URL`, and `ST2_WEBUI_URL` are\
+  \ set for your environment.\r\n\r\nFinally, add the chat adapter specific environment\
+  \ variables to `hubot::env_export`. You can find examples of different chat providers\
+  \ at https://github.com/StackStorm/st2workroom/blob/master/hieradata/workroom.yaml.example.\r\
+  \n\r\n# Finishing\r\n\r\nOnce you have your configuration set, simply re-run `update-system`,\
+  \ and Hubot should be installed. You can also use this same command to edit and\
+  \ update configuration for Hubot in an existing install.\r\n\r\n\r\n"
+status: 0
+title: Installing Hubot after running /setup
+topic: Installation
