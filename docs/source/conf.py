@@ -279,6 +279,7 @@ htmlhelp_basename = info.htmlhelp_basename
 
 # Variables to be used by templates
 html_context = {
+    'github_user': info.github_user,
     'github_repo': info.github_repo,
     'github_version': info.github_version,
     'conf_py_path': '/docs/source/',
