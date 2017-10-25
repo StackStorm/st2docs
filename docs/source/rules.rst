@@ -318,7 +318,7 @@ contains a trigger instance definition:
 
 .. code-block:: bash
 
-    st2-rule-tester --rule=${RULE_FILE} --trigger-instance=${TRIGGER_INSTANCE_DEFINITION}
+    st2-rule-tester --rule=${RULE_FILE} --trigger-instance=${TRIGGER_INSTANCE_DEFINITION} --config-file=/etc/st2/st2.conf
     echo $?
 
 Both files need to contain definitions in YAML or JSON format. For the rule, you can use the same
