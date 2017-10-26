@@ -78,6 +78,12 @@ a look at the detailed :doc:`/changelog` for each version.
 The following sections call out the migration scripts that need to be run before upgrading to the
 respective version:
 
+v2.5
+'''''
+
+* If you have the `Brocade DC Fabric Automation Suite <https://bwc-docs.brocade.com/solutions/dcfabric/overview.html>`_
+  version 1.1 installed, you must upgrade this to >= v1.1.1. Follow `these instructions <https://bwc-docs.brocade.com/solutions/dcfabric/install.html#upgrade-from-previous-version>`_:
+
 v2.4
 '''''
 
