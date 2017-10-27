@@ -522,7 +522,7 @@ Writing Custom Python Actions
 -----------------------------
 
 In the simplest form, a Python action is a module which exposes a class which inherits from 
-:class:`st2actions.runners.pythonrunner.Action` and implements a ``run`` method.
+:class:`st2common.runners.base_action.Action` and implements a ``run`` method.
 
 Sample Python Action
 ~~~~~~~~~~~~~~~~~~~~
@@ -551,7 +551,7 @@ Action script file (``my_echo_action.py``):
 
     import sys
 
-    from st2actions.runners.pythonrunner import Action
+    from st2common.runners.base_action import Action
 
     class MyEchoAction(Action):
         def run(self, message):
