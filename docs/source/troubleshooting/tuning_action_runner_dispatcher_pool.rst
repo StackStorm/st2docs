@@ -14,10 +14,10 @@ delay policy, this limit can cause a deadlock to occur. (NB this deadlock
 can be reset by restarting action runner process which has dead locked).
 
 To prevent such issues from occurring and to allow for a good server and action
-runner process resource utilization you should adjust those pool sizes based on
-your configuration and workload.
+runner process resource utilization, you should adjust those pool sizes based on
+your configuration and workload requirements.
 
-These settings are very hardware- and workload-specific (how many action runner
+These settings are very hardware- and workload-specific (i.e. how many action runner
 processes are used, on how many servers, the type of actions being executed - long
 running vs short running, CPU intensive vs non-CPU intensive, etc.).
 
@@ -28,7 +28,7 @@ parameters:
 * Action runner process resource usage (CPU and memory)
 
 Once you have established baselines and have a good idea of your resource
-utilization and workloads you can increase resource utilization and prevent
+utilization and workloads, you can increase resource utilization and prevent
 deadlocks by tuning pool sizes and/or increasing/decreasing the number of
 action runner processes.
 
