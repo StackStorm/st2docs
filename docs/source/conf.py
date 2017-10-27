@@ -185,6 +185,7 @@ nitpicky = True
 # XXX: temp fix before we figure how to make autodocs work
 nitpick_ignore = [
     ('py:class', 'st2actions.runners.pythonrunner.Action'),
+    ('py:class', 'st2common.runners.base_action.Action'),
     ('py:class', 'KeyValuePair')]
 
 # -- Options for HTML output ----------------------------------------------
