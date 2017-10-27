@@ -18,8 +18,9 @@ in the database is now different than its specifications, and it no longer can c
 objects. 
 
 When that happens, the new database tables, relationships, and indices must be deleted before the
-``mistral-db-manage upgrade head`` command can be re-run. For more details, review the specific
-section in :doc:`/install/upgrades` for the version of Minstral Database being upgraded in :doc:`/install/upgrades`.
+``mistral-db-manage upgrade head`` command can be re-run. For more details, review the version-specific
+notes in the :doc:`/install/upgrades` documentation, for the version of Mistral and |st2| you are upgrading
+too.
 
 .. _mistral-workflows-latency:
 
@@ -35,7 +36,7 @@ of outstanding workflow executions in the database, and once a workflow is compl
 state from the database. The process uses eventlets to simultaneously query multiple workflow
 results. This can consume significant CPU cycles. 
 
-As of |st2| v2.3 onwards, there are two configurable values for controlling this from happening. These are3
+As of |st2| v2.3 onwards, there are two configurable values for controlling this from happening. These are
 ``thread_pool_size`` (number of eventlets) and ``query_interval`` (interval to space out the
 subsequent queries to Mistral for a single execution). You can configure these values by editing
 the ``results_tracker`` section in ``/etc/st2/st2.conf``:
