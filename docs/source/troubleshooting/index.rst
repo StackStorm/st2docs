@@ -1,7 +1,7 @@
 Troubleshooting
 ===============
 
-This section includes common problems you might encounter while using the Brocade Workflow Composer platform,
+This section includes common problems you might encounter while using the |fullname| platform,
 and how to debug and troubleshoot them.
 
 .. toctree::
