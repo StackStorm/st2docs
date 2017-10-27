@@ -10,7 +10,7 @@ For example, to see the endpoint for listing actions, invoke
 
    st2 --debug action list
 
-You'll see the list of endpoints we hit as well as a ``curl`` command for you to try them manually.
+You will see the list of endpoints we hit as well as a ``curl`` command for you to try them manually.
 
 If you are trying to access the API from outside the server, note that the URL will look like:
 ``https://${EXTERNAL_IP}/api/v1/${REST_ENDPOINT}``.
@@ -30,7 +30,7 @@ You can see a full API reference at `api.stackstorm.com <https://api.stackstorm.
 Unable to access REST APIs
 --------------------------
 
-If you are unable to access the API, please go through the following steps:
+If you are unable to access the API, perform the following steps:
 
 1. Verify nginx is installed on the |st2| box. Based on the OS, commands will be
    ``sudo apt-cache policy nginx`` or ``sudo yum list installed nginx``.
@@ -41,11 +41,11 @@ If you are unable to access the API, please go through the following steps:
 3. Verify if you have |st2|-specific nginx configuration. This is usually in
    ``/etc/nginx/conf.d/``.
 
-4. Verify that no firewall is blocking is ports on the box. It's usually ``ufw`` for ubuntu
+4. Verify that no firewall is blocking the ports on the box. It's usually ``ufw`` for ubuntu
    or ``firewall-cmd`` in RHEL/CentOS.
 
 5. Verify nginx is listening on port 443. You can use ``netstat -tupln | grep 443``.
 
 
-If none of these steps work, please have the ``curl`` command and info you collected for the above
-steps before engaging support.
+If none of these steps work, have the ``curl`` command and the infoemation you collected for the above
+steps available before engaging our technical support.
