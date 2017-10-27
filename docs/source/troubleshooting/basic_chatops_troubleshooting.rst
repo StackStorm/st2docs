@@ -65,8 +65,8 @@ Note that in most chat services you have to manually invite the bot into your ch
 
 ----------
 
-There is no StackStorm Commands in ``!help``:
----------------------------------------------
+There are no StackStorm Commands in ``!help``:
+----------------------------------------------
 
 Hubot is online and present in your room, however when you say ``!help``, there are no commands listed except ``!help`` itself. (The ``pack`` and ``st2`` sets of commands should be installed by default).
 
@@ -86,7 +86,7 @@ Hubot is online and present in your room, however when you say ``!help``, there 
 StackStorm Commands Throw Errors:
 ---------------------------------
 
-Hubot is online, you can see ``st2`` commands, however, it is saying something like ``!st2 list actions``
+Hubot is online, you can see ``st2`` commands, but entering something like ``!st2 list actions``
 either throws an error, or gives an acknowledgement message without result, or no response at all.
 
 **Possible reasons:**
