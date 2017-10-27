@@ -38,7 +38,7 @@ To send debug information to Brocade, run this CLI command:
     2015-02-10 16:44:02,591  INFO - Debug tarball successfully uploaded to Brocade
 
 By default, the command will run in an interactive mode. If you want to run it in a
-non-interactive mode and assuming "yes"  as the answer to all the questions, you
+non-interactive mode and assuming "yes" as the answer to all the questions, you
 can use the ``--yes`` flag. For example:
 
 .. sourcecode:: bash
