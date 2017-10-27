@@ -3,6 +3,26 @@
 Upgrade Notes
 =============
 
+|st2| v2.6
+----------
+
+* ``st2actions.runners.pythonrunner.Action`` class path for base Python runner actions has been
+  deprecated since StackStorm v1.6.0 and will be fully removed in StackStorm v2.7.0. If you have
+  any actions still using this path you are encouraged to update them to use
+  ``st2common.runners.base_action.Action`` path.
+
+  Old code:
+
+  ..code-block:: python
+
+    from st2actions.runners.pythonrunner import Action
+
+  New code
+
+  ..code-block:: python
+
+    from st2common.runners.base_action import Action
+
 |st2| v2.5
 ----------
 
