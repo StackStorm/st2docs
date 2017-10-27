@@ -47,5 +47,5 @@ If you are unable to access the API, perform the following steps:
 5. Verify nginx is listening on port 443. You can use ``netstat -tupln | grep 443``.
 
 
-If none of these steps work, have the ``curl`` command and the infoemation you collected for the above
+If none of these steps work, have the ``curl`` command and the information you collected for the above
 steps available before engaging our technical support.
