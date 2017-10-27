@@ -3,15 +3,14 @@
 Submitting Debugging Information 
 ================================
 
-The first step when trying to help you debug an issue is for us to try to
-reproduce the problem. To be able to do that, our setup needs to resemble
-yours as closely as possible.
+The first step to help debug and troubleshoot an issue for you is for us to try to
+reproduce the problem by making sure our setup resemble yours as closely as possible.
 
-To save time and make yours and our lives easier, |st2| includes a utility
+To save time and make it convenient, |st2| includes a utility
 which allows you to easily and securely send us the information we need to
-help you debug or troubleshoot an issue.
+help us debug or troubleshoot your issue.
 
-By default, this script sends us the following information:
+By default, this utility sends us the following information:
 
 * All the |st2| services log files from ``/var/log/st2``
 * Mistral service log file from ``/var/log/mistral.log``
@@ -21,11 +20,11 @@ By default, this script sends us the following information:
 * |st2| content (integration packs) minus the pack configs.
 
 All this information is bundled up in a tarball and encrypted using our
-public key via public-key cryptography. Once submitted, this information
+public key via public-key cryptography. Once submitted, this bundled information
 is only accessible to Brocade employees and it is used solely for
 debugging purposes.
 
-To send debug information to Brocade, run this command:
+To send debug information to Brocade, run this CLI command:
 
 .. sourcecode:: bash
 
@@ -38,8 +37,8 @@ To send debug information to Brocade, run this command:
     2015-02-10 16:43:55,892  INFO - Encrypting tarball...
     2015-02-10 16:44:02,591  INFO - Debug tarball successfully uploaded to Brocade
 
-By default, the tool will run in an interactive mode. If you want to run it in a
-non-interactive mode and assume "yes" as the answer to all the questions you
+By default, the command will run in an interactive mode. If you want to run it in a
+non-interactive mode and assuming "yes" as the answer to all the questions, you
 can use the ``--yes`` flag. For example:
 
 .. sourcecode:: bash
@@ -52,7 +51,7 @@ can use the ``--yes`` flag. For example:
     2015-02-10 16:45:43,926  INFO - Debug tarball successfully uploaded to StackStorm
 
 If you want to only send specific information, or exclude particular information
-you can use the ``--exclude-<content>`` flag. For example, to only send us log files:
+you can use the ``--exclude-<content>`` flag. For example, to only send us the log files:
 
 .. sourcecode:: bash
 
@@ -116,7 +115,7 @@ Sample config yaml file:
 .. literalinclude:: __debug_info_config.yaml
    :language: yaml
 
-To send debug information, simply invoke the command shown below passing it the path to
+To send debug information, simply invoke the CLI command shown below passing it the path to
 the YAML config file:
 
 .. sourcecode:: bash
@@ -147,7 +146,7 @@ For example:
     2016-01-19 06:25:13,727  INFO - Debug tarball successfully uploaded to Brocade (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:25:09.tar.gz.asc)
     2016-01-19 06:25:13,727  INFO - When communicating with support, please let them know the tarball name - st2-debug-output-70386ae8e4fe-2016-01-19-06:25:09.tar.gz.asc
 
-* To send specific information or to exclude particular information use the
+* To send specific information or to exclude particular information, use the
   ``--exclude-<content>`` flag:
 
   .. sourcecode:: bash
