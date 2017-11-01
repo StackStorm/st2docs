@@ -13,13 +13,13 @@ Upgrade Notes
 
   Old code:
 
-  ..code-block:: python
+  .. code-block:: python
 
     from st2actions.runners.pythonrunner import Action
 
   New code
 
-  ..code-block:: python
+  .. code-block:: python
 
     from st2common.runners.base_action import Action
 
