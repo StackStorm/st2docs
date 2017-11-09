@@ -207,7 +207,156 @@ This section describes all the available operators which can be used in the crit
                   "``trigger.payload`` not in ``provided_value``"). Reverse of
                   ``ncontains`` (where ``contains`` would test for "``trigger.payload``
                   does not contain ``provided_value``").
+``search``        Search an array (list) in the trigger payload that matches child
+                  criteria.
+                  See the `Advanced Comparison`_ section for more information and
+                  examples.
 ================= =================================================================
+
+Advanced Comparison
+-------------------
+
+.. warning::
+
+    The ``search`` operator has some complexity and performance caveats to using
+    it. Ensure that you understand all of the implications before attempting to use it.
+    Remember that it is very easy to create complex criteria or a slow rule when you use
+    it. See the `Search Operator Caveats`_ subsection below for more.
+
+The ``search`` operator is slightly more complex than any of the other operators. It
+takes an additional ``condition`` parameter as well as additional nested criteria that it
+applies to each element of the search list.
+
+The ``condition`` parameter controls how the ``search`` operator matches the list.
+With the ``any`` condition, if *at least one* item in the trigger payload list matches
+all of the child criteria, the search operator will return a successful match.
+Conversely, with the ``all`` condition, every single item in the trigger payload list
+must match all of the child criteria for the search operator to return a successful
+match.
+
+Here's an example criteria that uses the ``search`` operator with the ``any`` condition:
+
+.. code-block:: yaml
+
+    ---
+    criteria:
+      trigger.issue_fields:
+        type: "search"
+          # Controls whether all items in the trigger payload must match the child criteria,
+          # or if any single item matching the child criteria is sufficient
+          condition: any  # <- *At least one* item must match all child patterns
+          pattern:
+            # Here our context is each item of the list
+            # All of these patterns must match the item for the item to be considered a match
+            # These are simply other operators applied to each item of the list
+            item.field_name:
+              type: "equals"
+              pattern: "Status"
+
+            item.to_value:
+              type: "equals"
+              pattern: "Approved"
+
+This criteria would match the following trigger payload, because the ``Status`` field was
+changed to ``Approved``:
+
+.. code-block:: json
+
+    {
+      "issue_fields": [
+        {
+          "field_type": "Custom",
+          "field_name": "Status",
+          "to_value": "Approved"
+        }, {
+          "field_type": "Custom",
+          "field_name": "Signed off by",
+          "to_value": "Stanley"
+        }
+      ]
+    }
+
+The ``condition`` parameter can also be ``all``, in which case all of the items in the list
+must match all of the child pattern:
+
+.. code-block:: yaml
+
+    ---
+    criteria:
+      trigger.issue_fields:
+        type: "search"
+          condition: all  # <- *All* items must match all patterns
+          pattern:
+            item.field_type:
+              type: "equals"
+              pattern: "Custom"
+
+That criteria would also match the trigger payload from above.
+
+However, the following trigger payload would not match with the ``all`` condition because the
+``Summary`` field is not a custom field:
+
+.. code-block:: json
+
+    {
+      "issue_fields": [
+        {
+          "field_type": "Built-in",
+          "field_name": "Summary",
+          "to_value": "Lorem Ipsum"
+        }, {
+          "field_type": "Custom",
+          "field_name": "Status",
+          "to_value": "Approved"
+        }, {
+          "field_type": "Custom",
+          "field_name": "Signed off by",
+          "to_value": "Stanley"
+        }
+      ]
+    }
+
+The search operator is very powerful, but more options for the ``condition`` parameter are
+possible. At this point, only the ``any`` and ``all`` conditions are implemented, but
+future improvements could include:
+
+* ``count``
+* ``count_gt``
+* ``count_gte``
+* ``count_lt``
+* ``count_lte``
+
+Search Operator Caveats
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``search`` operator has some caveats regarding its usage.
+
+First, it turns the rules engine into a recursive descent parser, which can reduce
+the performance of the rules engine. So if you have a rule that must remain fast regardless
+of system load, you should avoid using the ``search`` operator unless you absolutely have
+to.
+
+Second, the cognitive complexity of the ``search`` operator makes it a little difficult to
+grasp at a glance. If you are sharing your code with others you may need to extensively
+document your rules and patterns to explain your intent more clearly.
+
+Lastly, the algorithmic complexity of the ``search`` operator is much different
+than the other operators:
+
+* O(n\ :sub:`patterns`) in terms of n\ :sub:`patterns`, the number of child patterns
+* O(n\ :sub:`payloads`) in terms of n\ :sub:`payloads`, the number of trigger payload fields
+
+However, it has O(n\ :sub:`patterns` * n\ :sub:`payloads`) algorithmic complexity overall.
+
+It is therefore **very easy to write a slow rule when using this operator** if you have a
+large number of child criteria or if you are searching through a long list in your trigger
+payload.
+
+Usage of the ``search`` operator should largely be limited to trying to match a small number
+of child criteria, and a small number of expected payload list items. However, as slow as
+the ``search`` operator might make the rules engine, it will still be faster and more
+lightweight to use the ``search`` operator in your rules than it would be to run the rules
+engine, unconditionally run a workflow, and do the filtering there.
 
 Action
 ------
