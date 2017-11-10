@@ -21,3 +21,4 @@ and how to debug and troubleshoot them.
     submit_debug_info
     debug_mode
     ask_for_support
+    webhooks
