@@ -172,6 +172,12 @@ To list all registered webhooks, run:
 
     st2 webhook list
 
+My Webhook Isn't Working!
+-------------------------
+
+If you're encountering issues with webhooks, such as |st2| failing to recognize incoming webhooks, or trigger
+instances not showing when expected, please see :doc:`Troubleshooting Webhooks</troubleshooting/webhooks>`.
+
 When Not to Use Webhooks
 ------------------------
 
