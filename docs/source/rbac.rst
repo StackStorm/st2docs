@@ -136,10 +136,11 @@ Permission grants can be applied to the following resource types:
 * rules
 * executions
 * webhooks
+* inquiries
 
 A resource is identified by a ``uid``, and referenced as such in permission grants. UID is an
 identifier which is unique for each resource in the |st2| installation. UIDs follow this format:
-``<resource type>:<resourc specific identifier value>`` (e.g. ``pack:libcloud``,
+``<resource type>:<resource specific identifier value>`` (e.g. ``pack:libcloud``,
 ``action:libcloud:list_vms``, etc.).
 
 You can retrieve the UID of a particular resource by listing all the resources of a particular
@@ -197,6 +198,19 @@ pack.
 
 Note that rule enforcements are ``operational models``. You cannot create/modify/delete them
 via API. So permissions other than ``view`` and ``list`` do not make sense.
+
+**Inquiries**
+
+Inquiries inherit response permissions based on execution permissions of the workflow
+that generated them. This is useful for ensuring that anyone that has rights to execute a
+workflow that generates an Inquiry is also automatically granted permissions to respond to
+that Inquiry.
+
+Specifically, granting ``action_execute`` on a workflow action, or its parent pack, also grants
+``inquiry_respond`` permissions for any Inquiries generated from that Workflow.
+
+For detailed examples, see :ref:`Securing Inquiries<ref-securing-inquiries>`.
+
 
 Permissions and Executions Which Are Not Triggered via the API
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -388,8 +402,8 @@ Once the mapping definitions files are written, the |st2| administrator needs to
 ``st2-apply-rbac-definitions`` tool to store those definitions in the database. This tool also
 needs to be run after any change or removal of mappings files.
 
-How it Works
-~~~~~~~~~~~~
+How LDAP Group-Based Role Assignments Work
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Role assignments based on the LDAP group to |st2| role mappings are synchronized each time a user
 authenticates with the |st2| auth API and receives a fresh auth token.

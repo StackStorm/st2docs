@@ -240,6 +240,8 @@ more secure than personal access tokens and can be configured on a per-repo basi
 Other git hosting services should also support either SSH or HTTPS auth, and would be configured
 in a similar fashion.
 
+.. _packs-behind-proxy:
+
 Installing Packs from Behind a Proxy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -264,50 +266,24 @@ Proxy Configuration via Environment Variables
 On Ubuntu systems, edit ``/etc/default/st2actionrunner`` and ``/etc/default/st2api`` to set the
 proxy configuration environment variables.
 For RHEL/CentOS systems, edit ``/etc/sysconfig/st2actionrunner`` and ``/etc/sysconfig/st2api``.
+
 |st2| will use these environment variables for pack installation.
 The file contents should look as follows:
-
-Ubuntu 16.04 or RHEL 7
-######################
-
-Create/edit ``/etc/default/st2api`` and ``/etc/default/st2actionrunner`` for Ubuntu 16.04.
-Create/edit ``/etc/sysconfig/st2api`` and ``/etc/sysconfig/st2actionrunner`` for RHEL 7.
-
-For HTTP proxy:
 
 .. code-block:: ini
 
     http_proxy=http://proxy.server.io:port
-    no_proxy=localhost,127.0.0.1,0.0.0.0
+    https_proxy=http://proxy.server.io:port
+    no_proxy=localhost,127.0.0.1
 
-For HTTPS proxy with cert:
+For HTTPS proxy with cert specify additional ``proxy_ca_bundle_path`` ENV:
 
 .. code-block:: ini
 
+    http_proxy=http://proxy.server.io:port
     https_proxy=http://proxy.server.io:port
     proxy_ca_bundle_path=/etc/ssl/certs/proxy-ca.pem
-    no_proxy=localhost,127.0.0.1,0.0.0.0
-
-Ubuntu 14.04 or RHEL 6
-######################
-
-Create/edit ``/etc/default/st2api`` and ``/etc/default/st2actionrunner`` for Ubuntu 14.04.
-Create/edit ``/etc/sysconfig/st2api`` and ``/etc/sysconfig/st2actionrunner`` for RHEL 6.
-
-For HTTP proxy:
-
-.. code-block:: ini
-
-    export http_proxy=http://proxy.server.io:port
-    export no_proxy=localhost,127.0.0.1,0.0.0.0
-
-For HTTPS proxy with cert:
-
-.. code-block:: ini
-
-    export https_proxy=http://proxy.server.io:port
-    export proxy_ca_bundle_path=/etc/ssl/certs/proxy-ca.pem
-    export no_proxy=localhost,127.0.0.1,0.0.0.0
+    no_proxy=localhost,127.0.0.1
 
 After editing these files, restart the ``st2api`` and ``st2actionrunner`` services:
 

@@ -86,32 +86,37 @@ Available Runners
 The environment in which the action runs is specified by the runner. Currently the system provides
 the following runners:
 
-1. ``local-shell-cmd`` - This is the local runner. This runner executes a Linux command on the
-   host where |st2| is running.
-2. ``local-shell-script`` - This is the local runner. Actions are implemented as scripts. They are
-   executed on the hosts where |st2| is running.
-3. ``remote-shell-cmd`` - This is a remote runner. This runner executes a Linux command on one or
-   more remote hosts provided by the user.
-4. ``remote-shell-script`` - This is a remote runner. Actions are implemented as scripts. They run
-   on one or more remote hosts provided by the user.
-5. ``python-script`` - This is a Python runner. Actions are implemented as Python classes with a
-   ``run()`` method. They run locally on the same machine where |st2| components are running. The
-   return value from the action ``run()`` method is either a tuple of success status flag and the
-   result object respectively or it is just the result object. For more information, please refer
-   to the :doc:`Action Runners </reference/runners>` section in the documentation.
-6. ``http-request`` - HTTP client which performs HTTP requests for running HTTP actions.
-7. ``action-chain`` - This runner supports executing simple linear work-flows. For more
-   information, please refer to the :doc:`Workflows </workflows>` and
-   :doc:`ActionChain </actionchain>` documentation.
-8. ``mistral-v2`` - This runner is built on top of the Mistral OpenStack project and supports
-   executing complex work-flows. For more information, please refer to the
-   :doc:`Workflows </workflows>` and :doc:`Mistral </mistral>` documentation.
-9. ``cloudslang`` - This runner is built on top of the CloudSlang project and supports executing
-   complex workflows. For more information, please refer to the :doc:`Workflows </workflows>` and
-   :doc:`CloudSlang </cloudslang>` documentation.
+1.  ``local-shell-cmd`` - This is the local runner. This runner executes a Linux command on the
+    host where |st2| is running.
+2.  ``local-shell-script`` - This is the local runner. Actions are implemented as scripts. They are
+    executed on the hosts where |st2| is running.
+3.  ``remote-shell-cmd`` - This is a remote runner. This runner executes a Linux command on one or
+    more remote hosts provided by the user.
+4.  ``remote-shell-script`` - This is a remote runner. Actions are implemented as scripts. They run
+    on one or more remote hosts provided by the user.
+5.  ``python-script`` - This is a Python runner. Actions are implemented as Python classes with a
+    ``run()`` method. They run locally on the same machine where |st2| components are running. The
+    return value from the action ``run()`` method is either a tuple of success status flag and the
+    result object respectively or it is just the result object. For more information, please refer
+    to the :doc:`Action Runners </reference/runners>` section in the documentation.
+6.  ``http-request`` - HTTP client which performs HTTP requests for running HTTP actions.
+7.  ``action-chain`` - This runner supports executing simple linear work-flows. For more
+    information, please refer to the :doc:`Workflows </workflows>` and
+    :doc:`ActionChain </actionchain>` documentation.
+8.  ``mistral-v2`` - This runner is built on top of the Mistral OpenStack project and supports
+    executing complex work-flows. For more information, please refer to the
+    :doc:`Workflows </workflows>` and :doc:`Mistral </mistral>` documentation.
+9.  ``cloudslang`` - This runner is built on top of the CloudSlang project and supports executing
+    complex workflows. For more information, please refer to the :doc:`Workflows </workflows>` and
+    :doc:`CloudSlang </cloudslang>` documentation.
 
-   Note: This runner is currently in an experimental phase which means that there might be
-   bugs and the external user-facing API might change.
+    Note: This runner is currently in an experimental phase which means that there might be
+    bugs and the external user-facing API might change.
+10. ``inquirer`` - This runner provides the core logic of the :doc:`Inquiries </inquiries>`
+    feature.
+
+    Note: This runner is an implementation detail for the ``core.ask`` action, and in most cases
+    should not be referenced in other actions.
 
 
 Runners come with their own set of input parameters. When an action is executed, it inherits the
@@ -517,7 +522,7 @@ Writing Custom Python Actions
 -----------------------------
 
 In the simplest form, a Python action is a module which exposes a class which inherits from 
-:class:`st2actions.runners.pythonrunner.Action` and implements a ``run`` method.
+:class:`st2common.runners.base_action.Action` and implements a ``run`` method.
 
 Sample Python Action
 ~~~~~~~~~~~~~~~~~~~~
@@ -546,7 +551,7 @@ Action script file (``my_echo_action.py``):
 
     import sys
 
-    from st2actions.runners.pythonrunner import Action
+    from st2common.runners.base_action import Action
 
     class MyEchoAction(Action):
         def run(self, message):

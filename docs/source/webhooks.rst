@@ -28,7 +28,7 @@ service that already offers webhook integration - e.g. GitHub.
 Authentication
 --------------
 
-All the requests to the ``/webhooks`` endpoints needs to be authenticated in the same way as other
+All requests to the ``/api/v1/webhooks`` endpoints need to be authenticated in the same way as other
 API requests. There are two possible authentication approaches - :ref:`API keys
 <authentication-apikeys>` and tokens. API keys are recommended for webhooks, as they do not
 expire. Tokens have a fixed expiry.
@@ -77,13 +77,16 @@ Here is an excerpt from a rule which registers a new webhook named ``sample``:
                 url: "sample"
     ...
 
-Once this rule is created, you can use this webhook by POST-ing data to ``/v1/webhooks/sample``.
+The ``url:`` parameter above is added as a suffix to ``/api/v1/webhooks/`` to create the URL to
+POST data to. So once you have created the rule above, you can use this webhook by POST-ing data
+to your |st2| server at ``https://{$ST2_IP}/api/v1/webhooks/sample``.
+
 The request body needs to be JSON and may contain arbitrary data which you can match against in
 the rule criteria.
 
 Note that all trailing and leading ``/`` of the ``url`` parameter are ignored by |st2|. e.g. a
 value of ``/sample``, ``sample/``, ``/sample/`` and ``sample`` are all treated the same, i.e.
-considered identical.
+considered identical. They all result in an effective URL of ``/api/v1/webhooks/sample``.
 
 POST-ing data to a custom webhook will cause a trigger with the following attributes to be
 dispatched:
@@ -168,6 +171,12 @@ To list all registered webhooks, run:
 .. code-block:: bash
 
     st2 webhook list
+
+My Webhook Isn't Working!
+-------------------------
+
+If you're encountering issues with webhooks, such as |st2| failing to recognize incoming webhooks, or trigger
+instances not showing when expected, please see :doc:`Troubleshooting Webhooks</troubleshooting/webhooks>`.
 
 When Not to Use Webhooks
 ------------------------

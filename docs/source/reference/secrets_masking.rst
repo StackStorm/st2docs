@@ -108,13 +108,13 @@ For example, for a log method call in the code which looks like this:
 
 With masking disabled, the actual log line in the log file looks like this:
 
-.. sourcecode:: python
+.. sourcecode:: bash
 
   2017-04-07 12:20:09,368 INFO [-] User authenticated (username=dummy, token=supersecret)
 
 With masking enabled (the default), it looks like this:
 
-.. sourcecode:: python
+.. sourcecode:: bash
 
   2017-04-07 12:20:09,368 INFO [-] User authenticated (username=dummy, token=********)
 

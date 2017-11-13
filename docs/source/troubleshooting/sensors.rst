@@ -7,15 +7,15 @@ triggers are not emitted) follow these steps to debug it:
 1. Verify Sensor is Registered
 ------------------------------
 
-The first step is verifying that sensor is registered in the database. You can
-do that by inspecting the output of the command below and making sure your
+The first step is verifying that the sensor is registered in the database. You can
+do that by inspecting the output of the CLI command below and making sure that your
 sensor is present:
 
 .. sourcecode:: bash
 
     st2 sensor list
 
-If your sensor is not listed, this means it's not registered. You can
+If your sensor is not listed, this means it is not registered. You can
 register it by running the ``st2ctl`` script:
 
 .. sourcecode:: bash
@@ -38,7 +38,7 @@ virtual environment has been created for that sensor's pack.
 
 You can check this by confirming the existence of the
 ``/opt/stackstorm/virtualenvs/<pack name>`` directory. If the directory and
-virtual environment doesn't exist, you can create it using this command:
+virtual environment does not exist, you can create it using this command:
 
 .. sourcecode:: bash
 
@@ -47,7 +47,7 @@ virtual environment doesn't exist, you can create it using this command:
 3. Checking st2sensorcontainer Logs
 -----------------------------------
 
-If the sensor still doesn't appear to be running or working, you should run the sensor
+If the sensor still does not appear to be running or working, you should run the sensor
 container service in the foreground in debug and single sensor mode. In this mode the sensor
 container will only run the sensor you specified and all log messages with level DEBUG and
 higher will be printed directly to the console.
