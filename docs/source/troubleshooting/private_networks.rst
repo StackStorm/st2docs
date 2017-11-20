@@ -2,8 +2,7 @@ WebUI Access on Private Networks
 ================================
 
 If you are installing |st2| on a host you do not have direct (or VPN) network access to (such as an
-AWS instance with only private IP addresses), you may find you may have some difficulty connecting to
-the Web UI. 
+AWS instance with only private IP addresses), you may have some difficulty connecting to the Web UI. 
 
 Simply creating an SSH tunnel through a bastion host, and then using a URL on localhost, such
 as https://localhost:8443/ will fail. You will see an error message such as ``Unable to reach auth
