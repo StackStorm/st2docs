@@ -28,13 +28,13 @@ This is the standard upgrade procedure:
 
    .. sourcecode:: bash
 
-      sudo apt-get install --only-upgrade st2 st2web st2chatops st2mistral bwc-enterprise
+      sudo apt-get install --only-upgrade st2 st2web st2chatops st2mistral
 
    RHEL/CentOS:
 
    .. sourcecode:: bash
 
-      sudo yum update st2 st2web st2chatops st2mistral bwc-enterprise
+      sudo yum update st2 st2web st2chatops st2mistral
 
 3. Upgrade Mistral database:
 
