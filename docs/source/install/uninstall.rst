@@ -1,20 +1,16 @@
 Uninstall
 =========
 
-We strongly believe in Automation, and believe that servers should be treated as `Pets not Cattle <http://cloudscaling.com/blog/cloud-computing/the-history-of-pets-vs-cattle/>`_. So our usual response to the question "How do I uninstall |st2|?" is: "Don't uninstall. Destroy the VM or container, and spin up a new base system." This is faster and more reliable than any other method.
+We strongly believe in Automation, and advise that servers should be treated as `Pets not Cattle <http://cloudscaling.com/blog/cloud-computing/the-history-of-pets-vs-cattle/>`_. Therefore, our recommendation is to destroy the VM or container, rather than uninstalling |st2|.
 
-However, some users are not able to get a new VM on demand, or perhaps they are trying to re-run a failed installation.
+Unfortunately some users operate in environments where it is difficult to get a new VM on demand, or they need to re-run a failed |st2| installation. For them, we offer this guidance on how to remove |st2| and related applications.
 
-For those users, we offer this guidance on how to remove |st2| and related applications.
+.. warning::
 
-Caveats
--------
-
-* The instructions given here will delete data. Do not execute them unless you are sure about what you are doing.
-* If you are trying to recover from a failed installation, some of these steps may fail, depending on what stage your install failed at. Proceed with all instructions, and ignore any errors.
-* If you have a distributed system, you will need to modify these instructions to suit your environment.
-* Proceed with caution if you have other applications running on this system, especially if you are re-using components such as RabbitMQ, MongoDB, Nginx or PostgreSQL. In that case you will need to manually delete the relevant databases & configurations, rather than completely removing them.
-* Removing the |st2| packages will not automatically remove all dependencies installed. Because we don't know exactly which applications were installed originally, we can't know for sure which dependencies are safe to remove. It should not cause any issues if any of these are left on your system. They will use some disk space, but no other resources.
+  * The instructions given here will delete data. 
+  * If you are trying to recover from a failed installation, some of these steps may fail. Proceed with all instructions, and ignore any errors.
+  * Proceed with caution if you have other applications running on this system, especially if you are re-using components such as RabbitMQ, MongoDB, Nginx or PostgreSQL. You will need to manually delete the relevant databases & configurations.
+  * Removing the |st2| packages will not automatically remove all dependencies that may have been installed. Because we don't know exactly which applications were installed originally, we can't know for sure which dependencies are safe to remove. These can be left on your system.
 
 Overview
 --------
@@ -26,77 +22,136 @@ The uninstallation procedure follows this outline:
 3. Remove |st2| system user.
 4. Remove databases and other dependencies.
 5. Remove repositories.
-6. Clean up any remaining logs and configuration files.
+6. Clean up any remaining logs, configurations and directories.
 
 
-The exact steps vary slightly between Linux distributions. This is highlighted in the instructions below.
+The exact steps vary slightly between Linux distributions. This is highlighted in the instructions below. Only execute the instructions for your distribution.
 
 1. Stop Services
 ----------------
 
-Ubuntu systems:
-
-   .. sourcecode:: bash
-
-      sudo st2ctl stop
-      sudo service nginx stop
-      sudo service postgresql stop
-      sudo service mongod stop
-      sudo service rabbitmq-server stop
-
-RHEL/CentOS:
+* Ubuntu systems:
 
   .. sourcecode:: bash
 
-    <some command>
+    sudo st2ctl stop
+    sudo service nginx stop
+    sudo service postgresql stop
+    sudo service mongod stop
+    sudo service rabbitmq-server stop
+
+* RHEL/CentOS 6.x:
+
+  .. sourcecode:: bash
+
+    sudo st2ctl stop
+    sudo service nginx stop
+    sudo service postgresql-9.4 stop
+    sudo service mongod stop
+
+
+* RHEL/CentOS 7.x:
+
+  .. sourcecode:: bash
+
+    sudo st2ctl stop
+    sudo systemctl stop nginx
+    sudo systemctl stop postgresql
+    sudo systemctl stop mongod
+    sudo systemctl stop rabbitmq-server
 
 
 2. Remove Packages
 ------------------
 
-|st2| on Ubuntu systems:
+* Ubuntu:
 
-   .. sourcecode:: bash
+  If you are using StackStorm only:
 
-      sudo apt-get purge st2 st2mistral st2chatops st2web
+  .. sourcecode:: bash
 
-If you are running |bwc|, you should instead use:
+    sudo apt-get purge st2 st2mistral st2chatops st2web
 
-   .. sourcecode:: bash
+  If you have |bwc| installed, instead use:
 
-      sudo apt-get purge st2 st2mistral st2chatops st2web bwc-ui st2flow
+  .. sourcecode:: bash
 
-|st2| on RHEL/CentOS systems:
+    sudo apt-get purge st2 st2mistral st2chatops st2web bwc-ui st2flow
 
-   .. sourcecode:: bash
 
-      sudo yum remove st2 st2mistral st2chatops st2web
+* RHEL/CentOS:
 
-If you are running |bwc|, you should instead use:
+  If you are using StackStorm only:
 
-   .. sourcecode:: bash
+  .. sourcecode:: bash
 
-      sudo yum remove st2 st2mistral st2chatops st2web bwc-ui st2flow
+    sudo yum erase st2 st2mistral st2chatops st2web st2python
+
+  If you have |bwc| installed, instead use:
+
+  .. sourcecode:: bash
+
+    sudo yum erase st2 st2mistral st2chatops st2web st2python bwc-ui st2flow
 
 
 3. Remove |st2| System User
 ---------------------------
 
-Ubuntu/RHEL/CentOS:
+* Ubuntu/RHEL/CentOS:
 
   .. sourcecode:: bash
 
-  sudo userdel -r stanley
-  sudo rm -f /etc/sudoers.d/st2
+    sudo userdel -r stanley
+    sudo rm -f /etc/sudoers.d/st2
 
 
 4. Remove Databases and Other Dependencies
 ------------------------------------------
 
-Ubuntu:
+* Ubuntu:
 
   .. sourcecode:: bash
 
-    sudo apt-get purge postgresql 
+    sudo apt-get purge mongodb-org* postgresql* rabbitmq-server erlang* nginx nodejs
 
-RHEL/CentOS:
+* RHEL/CentOS:
+
+  .. sourcecode:: bash
+
+    sudo yum erase mongodb-org* postgresql* rabbitmq-server erlang* nginx nodejs
+
+5. Remove Repositories
+----------------------
+
+* Ubuntu:
+
+  .. sourcecode:: bash
+
+    sudo rm -f /etc/apt/sources.list.d/mongo* /etc/apt/sources.list.d/nginx.list /etc/apt/sources.list.d/nodesource.list /etc/apt/sources.list.d/StackStorm* 
+
+* RHEL/CentOS:
+
+  .. sourcecode:: bash
+
+    sudo rm -rf /etc/yum.repos.d/mongodb-org* /etc/yum.repos.d/nginx.repo /etc/yum.repos.d/pgdg-94* /etc/yum.repos.d/StackStorm* /etc/yum.repos.d/nodesource*
+
+
+5. Clean Up Remaining Content
+-----------------------------
+
+Some files and directories will still remain after removing packages. This step will remove those last pieces.
+
+* Ubuntu:
+
+  .. sourcecode:: bash
+
+    sudo rm -rf /etc/st2 /opt/stackstorm /var/log/st2 /var/log/mistral /var/log/mongodb /var/lib/mongodb /var/run/mongodb.pid 
+
+* RHEL/CentOS:
+
+  .. sourcecode:: bash
+
+    sudo rm -rf /etc/st2 /etc/mongod* /etc/rabbitmq /etc/nginx /opt/stackstorm /var/log/st2 /var/log/mistral /var/log/mongodb /var/log/rabbitmq /var/log/nginx /var/lib/pgsql /var/lib/rabbitmq /var/lib/mongo
+
+
+At this point, your system is no longer running any |st2|-related services, and all the main dependencies have been removed. You can either re-install |st2|, or use this system for other applications.
