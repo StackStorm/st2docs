@@ -52,6 +52,16 @@ This is a remote runner. This runner executes a Linux command on one or more rem
 by the user. The last newline character is stripped from ``stdout`` and ``stderr`` fields in the
 output.
 
+.. note::
+
+   By default |st2| uses paswordless sudo for system user which is used to execute commands on
+   local and remote systems. In addition to paswordless sudo, local and remote runners also support
+   password protected sudo via ``sudo_password`` runner parameter. With the remote runner, sudo
+   password is passed to the sudo command as a command line argument which means it has some
+   security implications - if bash history is enabled for the system user under which |st2|
+   remote commands run, this command which includes sudo password will be saved in bash history
+   and any system user which access to that user bash history file will be able to view it.
+
 Runner Parameters
 ^^^^^^^^^^^^^^^^^
 
