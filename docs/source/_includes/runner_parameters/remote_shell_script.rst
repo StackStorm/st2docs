@@ -2,6 +2,7 @@
 
 * ``username`` (string) - Username used to log-in. If not provided, default username from config is used.
 * ``private_key`` (string) - Private key material to log in. Note: This needs to be actual private key data and NOT path.
+* ``sudo_password`` (string) - Sudo password. To be used when paswordless sudo is not allowed.
 * ``timeout`` (integer) - Action timeout in seconds. Action will get killed if it doesn't finish in timeout seconds.
 * ``env`` (object) - Environment variables which will be available to the script(e.g. key1=val1,key2=val2)
 * ``sudo`` (boolean) - The remote command will be executed with sudo.
