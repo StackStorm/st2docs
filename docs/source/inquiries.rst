@@ -345,7 +345,61 @@ snippet to print the value of ``secondfactor`` in our response. We just printed 
 screen in this example, but you can just as easily use this to pass a value into another action in
 your workflow.
 
-.. TODO - Update with chatops when the core PR is merged and an action and action-alias has been added to st2 pack
+The ``st2`` pack also now contains an ``inquiry.respond`` action, which may be useful for
+responding to inquiries within another workflow:
+
+.. code-block:: bash
+
+    ~$ st2 inquiry get 5a1f4411c4da5f4486b09364
+    +----------+--------------------------------------------------------------+
+    | Property | Value                                                        |
+    +----------+--------------------------------------------------------------+
+    | id       | 5a1f4411c4da5f4486b09364                                     |
+    | roles    |                                                              |
+    | users    |                                                              |
+    | route    | developers                                                   |
+    | ttl      | 1440                                                         |
+    | schema   | {                                                            |
+    |          |     "type": "object",                                        |
+    |          |     "properties": {                                          |
+    |          |         "secondfactor": {                                    |
+    |          |             "required": true,                                |
+    |          |             "type": "string",                                |
+    |          |             "description": "Please enter second factor for   |
+    |          | authenticating to "foo" service"                             |
+    |          |         }                                                    |
+    |          |     }                                                        |
+    |          | }                                                            |
+    +----------+--------------------------------------------------------------+
+    vagrant@st2vagrant:~$ st2 run st2.inquiry.respond id=5a1f4411c4da5f4486b09364 response='{"secondfactor": "foo"}'
+    .
+    id: 5a1f444ec4da5f4486b09366
+    status: succeeded
+    parameters:
+    id: 5a1f4411c4da5f4486b09364
+    response:
+        secondfactor: '********'
+    result:
+    exit_code: 0
+    result: null
+    stderr: ''
+    stdout: ''
+
+.. note::
+
+    You'll notice that the value for the key ``secondfactor`` is masked within  the response body
+    in the execution output for this action. The ``st2.inquiry.respond`` action doesn't actually
+    know the inquiry response schema at all - it is merely a thin layer on top of the |st2|
+    client. As a result, it doesn't know which fields are marked with the ``secret`` attribute.
+    To avoid potentially leaking secrets, all field values are masked in this way for the output
+    of this action, regardless of whether or not the schema has declared them as secrets.
+
+The ``st2`` pack also contains an action alias for responding to Inquiries via ChatOps. Using this
+alias, you can respond to an Inquiry within Slack, as an example:
+
+.. code-block:: text
+
+    !st2 respond to inquiry 5a1f4860c4da5f4486b093bf with {“secondfactor”: “supersecret”}
 
 .. _ref-securing-inquiries:
 
