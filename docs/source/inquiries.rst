@@ -389,12 +389,12 @@ responding to inquiries within another workflow:
 
     You'll notice that the value for the key ``secondfactor`` is masked within  the response body
     in the execution output for this action. The ``st2.inquiry.respond`` action doesn't actually
-    know the inquiry response schema at all - it is merely a thin layer on top of the StackStorm
+    know the inquiry response schema at all - it is merely a thin layer on top of the |st2|
     client. As a result, it doesn't know which fields are marked with the ``secret`` attribute.
     To avoid potentially leaking secrets, all field values are masked in this way for the output
     of this action, regardless of whether or not the schema has declared them as secrets.
 
-The ``st2`` pack also contains an action alias for responding to Inquiries via chatops. Using this
+The ``st2`` pack also contains an action alias for responding to Inquiries via ChatOps. Using this
 alias, you can respond to an Inquiry within Slack, as an example:
 
 .. code-block:: text
