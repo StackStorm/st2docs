@@ -6,7 +6,7 @@ Upgrade Notes
 |st2| v2.5
 ----------
 
-* ``POST /v1/actionalias/match`` API endpoint now correctly return a dictionary. Previously the
+* ``POST /v1/actionalias/match`` API endpoint now correctly returnis a dictionary. Previously the
   code incorrectly returned an array with a single item (dictionary) on success. There is no need
   for this API endpoint to return an array since on success there will always only be a single
   item.
