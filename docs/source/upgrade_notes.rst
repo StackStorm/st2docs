@@ -6,67 +6,73 @@ Upgrade Notes
 |st2| v2.5
 ----------
 
-* ``POST /v1/actionalias/match`` API endpoint has been updated to correctly returns a dictionary
-  instead of a list with a single item (dictionary). It made no sense for this API endpoint to
-  return a list since there will always be at most one matching item.
+* ``POST /v1/actionalias/match`` API endpoint now correctly returns a dictionary. Previously the
+  code incorrectly returned an array with a single item (dictionary) on success. There is no need
+  for this API endpoint to return an array since on success there will always only be a single
+  item.
 
-  Example response on a successful match before this change:
+  If you have code which utilizes this API endpoint you need to update it to handle success
+  response as a dictionary instead of an array with a single item (dictionary).
+
+  Old response on a successful match:
 
   .. code-block:: json
 
     [
         {
             "actionalias": {
-                "description": "Retrieve details for a single execution.",
+                "description": "Execute a command on a remote host via SSH.",
                 "extra": {},
-                "ack": {},
+                "ack": {
+                    "format": "Hold tight while I run command: *{{execution.parameters.cmd}}* on hosts *{{execution.parameters.hosts}}*"
+                },
                 "enabled": true,
-                "result": {},
+                "name": "remote_shell_cmd",
+                "result": {
+                    "format": "Ran command *{{execution.parameters.cmd}}* on *{{ execution.result | length }}* hosts.\n\nDetails are as follows:\n{% for host in execution.result -%}\n    Host: *{{host}}*\n    ---> stdout: {{execution.result[host].stdout}}\n    ---> stderr: {{execution.result[host].stderr}}\n{%+ endfor %}\n"
+                },
                 "formats": [
-                    "st2 get execution {{ id }}",
-                    "st2 show execution {{ id }}",
-                    "st2 executions get {{ id }}",
-                    "st2 executions show {{ id }}"
+                    "run {{cmd}} on {{hosts}}"
                 ],
-                "uid": "action:st2:st2_executions_get",
-                "action_ref": "st2.executions.get",
-                "pack": "st2",
-                "ref": "st2.st2_executions_get",
-                "id": "59d2522a0640fd7e919fee81",
-                "name": "st2_executions_get"
+                "action_ref": "core.remote",
+                "pack": "examples",
+                "ref": "examples.remote_shell_cmd",
+                "id": "59d2522a0640fd7e919fee7d",
+                "uid": "action:examples:remote_shell_cmd"
             },
-            "display": "st2 get execution {{ id }}",
-            "representation": "st2 get execution {{ id }}"
+            "display": "run {{cmd}} on {{hosts}}",
+            "representation": "run {{cmd}} on {{hosts}}"
         }
     ]
 
-  Example response on a successful match after this change:
+  New response on a successful match:
 
   .. code-block:: json
 
-      {
-          "actionalias": {
-              "description": "Retrieve details for a single execution.",
-              "extra": {},
-              "ack": {},
-              "enabled": true,
-              "result": {},
-              "formats": [
-                  "st2 get execution {{ id }}",
-                  "st2 show execution {{ id }}",
-                  "st2 executions get {{ id }}",
-                  "st2 executions show {{ id }}"
-              ],
-              "uid": "action:st2:st2_executions_get",
-              "action_ref": "st2.executions.get",
-              "pack": "st2",
-              "ref": "st2.st2_executions_get",
-              "id": "59d2522a0640fd7e919fee81",
-              "name": "st2_executions_get"
-          },
-          "display": "st2 get execution {{ id }}",
-          "representation": "st2 get execution {{ id }}"
-      }
+    {
+        "actionalias": {
+            "description": "Execute a command on a remote host via SSH.",
+            "extra": {},
+            "ack": {
+                "format": "Hold tight while I run command: *{{execution.parameters.cmd}}* on hosts *{{execution.parameters.hosts}}*"
+            },
+            "enabled": true,
+            "name": "remote_shell_cmd",
+            "result": {
+                "format": "Ran command *{{execution.parameters.cmd}}* on *{{ execution.result | length }}* hosts.\n\nDetails are as follows:\n{% for host in execution.result -%}\n    Host: *{{host}}*\n    ---> stdout: {{execution.result[host].stdout}}\n    ---> stderr: {{execution.result[host].stderr}}\n{%+ endfor %}\n"
+            },
+            "formats": [
+                "run {{cmd}} on {{hosts}}"
+            ],
+            "action_ref": "core.remote",
+            "pack": "examples",
+            "ref": "examples.remote_shell_cmd",
+            "id": "59d2522a0640fd7e919fee7d",
+            "uid": "action:examples:remote_shell_cmd"
+        },
+        "display": "run {{cmd}} on {{hosts}}",
+        "representation": "run {{cmd}} on {{hosts}}"
+    }
 
 |st2| v2.4
 ----------
