@@ -1,8 +1,8 @@
 Troubleshooting
 ===============
 
-This section includes common problems you might encounter while using the platform,
-and how to troubleshoot and debug them.
+This section includes common problems you might encounter while using the |fullname| platform,
+and how to debug and troubleshoot them.
 
 .. toctree::
     :maxdepth: 1
@@ -21,3 +21,4 @@ and how to troubleshoot and debug them.
     submit_debug_info
     debug_mode
     ask_for_support
+    webhooks

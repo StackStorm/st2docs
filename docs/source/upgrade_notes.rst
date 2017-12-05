@@ -3,6 +3,26 @@
 Upgrade Notes
 =============
 
+|st2| v2.6
+----------
+
+* ``st2actions.runners.pythonrunner.Action`` class path for base Python runner actions has been
+  deprecated since StackStorm v1.6.0 and will be fully removed in StackStorm v2.7.0. If you have
+  any actions still using this path you are encouraged to update them to use
+  ``st2common.runners.base_action.Action`` path.
+
+  Old code:
+
+  .. code-block:: python
+
+    from st2actions.runners.pythonrunner import Action
+
+  New code
+
+  .. code-block:: python
+
+    from st2common.runners.base_action import Action
+
 |st2| v2.5
 ----------
 
@@ -518,7 +538,7 @@ need to perform the following steps:
     st2::revision: 8
     st2::mistral_git_branch: st2-1.2.0
     hubot::docker: true
-  
+
   If ``answers.yaml`` does not exist, create it. If you changed any install parameters manually
   (e.g. password, ChatOps token, SSH user), put these values into ``answers.yaml`` as well,
   otherwise they'll be overwritten.
@@ -528,7 +548,7 @@ need to perform the following steps:
 4. Remove ``/etc/facter/facts.d/st2web_bootstrapped.txt`` and execute ``update-system``:
 
   .. code-block:: bash
-  
+
      sudo rm /etc/facter/facts.d/st2web_bootstrapped.txt
      sudo update-system
 
@@ -588,7 +608,7 @@ Changes
 ------------
 
 * Rules now have to be part of a pack. If you don't specify a pack, the pack name is assumed to be
-  ``default``. A migration script is installed at 
+  ``default``. A migration script is installed at
   ``${dist_packages}/st2common/bin/migrate_rules_to_include_pack.py``. This migration script
   is run as part of ``st2_deploy.sh`` when you upgrade from versions < 0.9 to 0.11.
 

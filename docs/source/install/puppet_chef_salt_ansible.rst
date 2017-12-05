@@ -31,8 +31,8 @@ As of this writing, the following operating systems are supported:
 * RedHat/CentOS 7.x
 * RedHat/CentOS 6.x
 
-Installation
-------------
+Puppet Installation
+-------------------
 The Puppet module is updated frequently, and uploaded to the Puppet Forge on each release. You can find the module at https://forge.puppetlabs.com/stackstorm/st2
 
 Manual Installation
@@ -205,7 +205,7 @@ Requirements
 ---------------------------
 At least 2GB of memory and 3.5GB of disk space is required, since |st2| is shipped with RabbitMQ, MySQL, Mongo, OpenStack Mistral and dozens of Python dependencies.
 
-Installation
+Ansible Installation
 ---------------------------
 .. sourcecode:: bash
 

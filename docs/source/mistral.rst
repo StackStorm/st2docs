@@ -195,7 +195,7 @@ A Mistral task can publish results from a task as variables that can be consumed
                 hostname: <% task(get_hostname).result.stdout %>
 
 In the above example, ``get_hostname`` is a ``core.local`` action which runs the command
-``hostname``. The ```core.local`` action produces output consisting of the fields ``stdout``,
+``hostname``. The ``core.local`` action produces output consisting of the fields ``stdout``,
 ``stderr``, ``exit_code`` etc.
 
 We just want to publish the variable ``stdout`` from it, for the rest of tasks to consume. To
@@ -296,3 +296,13 @@ There are more workflow examples under :github_st2:`/usr/share/doc/st2/examples 
 Check out this step-by-step tutorial on building a workflow in |st2| https://stackstorm.com/2015/07/08/automating-with-mistral-workflow/
 
 More details about Mistral can be found at https://docs.openstack.org/mistral/latest/.
+
+
+Mistral Workflows Latency and Performance
+-----------------------------------------
+|st2| interacts with Mistral via HTTP APIs. This applies when kicking off a workflow execution
+or collecting the results for a running workflow. |st2| queries Mistral to check on workflow
+execution status and the status of individual tasks. This mechanism has a number of configuration settings.
+
+See :ref:`mistral-workflows-latency` section about how to fine-tune
+the Mistral workflows completion time opposed to CPU usage.

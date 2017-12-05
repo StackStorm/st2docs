@@ -5,15 +5,15 @@ SSH Troubleshooting
 file (``/etc/st2/st2.conf``) to authenticate to remote boxes. The default username is ``stanley``,
 and the default ``ssh_key_file`` is ``/home/stanley/.ssh/stanley_rsa``.
 
-This can be changed by modifying those values in ``/etc/st2/st2.conf``.
+This can be changed by modifying these values in ``/etc/st2/st2.conf``.
 
-In case of key compromise, revoking the public key for ``system_user`` from target boxes will
+In case of key compromise occurring, revoking the public key for ``system_user`` from target boxes will
 revoke access for |st2|. 
 
 .. note::
 
   If you are changing ``system_user`` or ``ssh_key_file`` configuration values in
-  ``/etc/st2/st2.conf``, you must restart |st2| to pick up the changes. You can just
+  ``/etc/st2/st2.conf``, you must restart |st2| for your changes to take effect. You can just
   restart the st2actionrunner component, e.g. ``sudo service st2actionrunner restart``.
 
 To validate remote actions are working correctly, you can use the following command:
@@ -75,10 +75,10 @@ By default, all actions that use remote commands or scripts will use this userna
 combination.
 
 If you are not using the default SSH port 22, you can specify the port as part of the host string
-in hosts list, e.g. ``hosts=localhost:55,st2build001:56``. As of |st2| version 2.1, you can also
+in the hosts list, e.g. ``hosts=localhost:55,st2build001:56``. As of |st2| version 2.1, you can also
 specify custom ports via an SSH config file.
 
-To use an SSH config file, setup ``/home/stanley/.ssh/config`` for user ``stanley`` on |st2| action
+To use an SSH config file, setup ``/home/stanley/.ssh/config`` for user ``stanley`` on the |st2| action
 runner boxes, and add the following configuration lines in ``/etc/st2/st2.conf``:
 
 .. code-block:: ini
@@ -92,7 +92,7 @@ would require you to setup private_key for the users on |st2| action runner boxe
 the public keys of the users in target boxes. This increases the risk surface area and
 is discouraged.
 
-However, if you have st2client installed and want to run one-off commands on remote
+However, if you have st2client installed and you want to run one-off commands on the remote
 boxes as a different user, you can use:
 
 .. code-block:: bash
@@ -113,7 +113,7 @@ boxes as a different user, you can use:
   }
 
 For the above example to work, the key file ``/home/stanley/ssh_keys/.ssh/id_rsa`` has to be
-available on action runner boxes. We also support ``password`` as a parameter. As of version 2.1,
+available on the action runner boxes. We also support ``password`` as a parameter. As of version 2.1,
 you can also specify custom keys for hosts via SSH config file. A sample SSH config is shown below:
 
 .. code-block:: ini

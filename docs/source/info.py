@@ -30,7 +30,8 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 
-github_repo = 'StackStorm/st2docs'
+github_user = 'StackStorm'
+github_repo = 'st2docs'
 github_version = 'master'
 
 theme_base_url = u'https://docs.stackstorm.com/'

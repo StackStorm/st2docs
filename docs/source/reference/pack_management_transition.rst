@@ -137,7 +137,3 @@ Some highlights:
 * A pack is no longer named and referenced by its parent directory or git source: the ``name`` (or
   ``ref``, if specified) field from ``pack.yaml`` will be used. The repository name is entirely up
   to you (a convention we use in StackStorm Exchange is ``stackstorm-<pack name>``).
-
--------------
-
-.. include:: ../__engage_community.rst
