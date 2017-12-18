@@ -10,9 +10,9 @@ disk space issues for busy systems.
 --------------------------------------------------
 
 The Garbage Collector service is designed to periodically remove old data (action executions,
-live action, action execution output and trigger instance database objects). 
+live action, action execution output, and trigger instance database objects). 
 
-The actual collection threshold is very user-specific - it depends on your requirements and
+The actual collection threshold is very user-specific because it depends on your requirements and
 policies. Therefore garbage collection is disabled by default.
 
 To enable it, configure a TTL (in days) for action executions and trigger instances in ``st2.conf``

@@ -87,3 +87,4 @@ For more details on reference deployments, or OS-specific installation instructi
     Brocade Workflow Composer <bwc>
     config/index
     upgrades
+    uninstall

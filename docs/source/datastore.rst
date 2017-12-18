@@ -34,39 +34,6 @@ Set the value of a key-value pair:
     st2 key set os_keystone_endpoint http://localhost:5000/v2.0
     st2 key set aws_cfn_endpoint https://cloudformation.us-west-1.amazonaws.com
 
-Load a list of key-value pairs from a JSON file. The following is a JSON example using the same
-keys from the examples above:
-
-.. code-block:: json
-
-    [
-        {
-            "name": "os_keystone_endpoint",
-            "value": "http://localhost:5000/v2.0"
-        },
-        {
-            "name": "aws_cfn_endpoint",
-            "value": "https://cloudformation.us-west-1.amazonaws.com"
-        }
-    ]
-
-Load this file using this command:
-
-.. code-block:: bash
-
-    st2 key load mydata.json
-
-The load command also allows you to directly load the output of the ``st2 key list -j`` command.
-If you have more than 50 key-value pairs, use ``st2 key list -n 0 -j`` to export all keys. This
-is useful if you want to migrate datastore items from a different cluster or if you want to
-version control the datastore items and load them from version controlled files:
-
-
-.. code-block:: bash
-
-    st2 key list -n 0 -j > mydata.json
-    st2 key load mydata.json
-
 Get individual key-value pair or list all:
 
 .. code-block:: bash
@@ -93,6 +60,155 @@ Delete an existing key-value pair:
 
     st2 key delete os_keystone_endpoint
 
+Loading Key-Value Pairs from a File
+-----------------------------------
+
+Load a list of key-value pairs from a JSON file. The following is a JSON example using the same
+keys from the examples above:
+
+.. code-block:: json
+
+    [
+        {
+            "name": "os_keystone_endpoint",
+            "value": "http://localhost:5000/v2.0"
+        },
+        {
+            "name": "aws_cfn_endpoint",
+            "value": "https://cloudformation.us-west-1.amazonaws.com"
+        }
+    ]
+
+Load this file using this command:
+
+.. code-block:: bash
+
+    st2 key load mydata.json
+
+The load command can also accept a YAML file. The following example is YAML for the same
+key-value pairs as the JSON file above:
+
+.. code-block:: yaml
+
+    ---
+    - name: os_keystone_endpoint
+      value: http://localhost:5000/v2.0
+    - name: aws_cfn_endpoint
+      value: https://cloudformation.us-west-1.amazonaws.com
+
+Load this file using this command:
+
+.. code-block:: bash
+
+    st2 key load mydata.yaml
+
+The load command also allows you to directly load the output of the ``st2 key list -j`` command.
+If you have more than 50 key-value pairs, use ``st2 key list -n 0 -j`` to export all keys. This
+is useful if you want to migrate datastore items from a different cluster or if you want to
+version control the datastore items and load them from version controlled files:
+
+.. code-block:: bash
+
+    # JSON
+    st2 key list -n 0 -j > mydata.json
+    st2 key load mydata.json
+
+    # YAML
+    st2 key list -n 0 -y > mydata.yaml
+    st2 key load mydata.yaml
+
+
+By default, all values for keys in the file must be strings. However, it is also
+possible to set the value to any arbitrary data type supported by JSON/YAML
+(hash, array, int, boolean, etc) in the file and have StackStorm convert it to JSON before
+loading it into the datastore. To accomplish this, you need to explicity pass the
+``-c/--convert`` flag: ``st2 key load -c mydata.json``
+
+Loading non-string content via JSON:
+
+.. code-block:: json
+
+    [
+        {
+            "name": "managed_hosts",
+            "value": [
+                {
+                    "ip_address": "192.168.1.1",
+                    "fqdn": "myhost.domain.tld"
+                },
+                {
+                    "ip_address": "192.168.1.2",
+                    "fqdn": "myotherhost.domain.tld"
+                }
+            ]
+        },
+        {
+            "name": "primary_vlan",
+            "value": {
+                "tag": 123,
+                "note": "General purpose traffic"
+            }
+        }
+    ]
+
+Load this file using this command (values will be converted into JSON strings):
+
+.. code-block:: bash
+
+    $ st2 key load -c mydata.json
+    +---------------+-----------------------+--------+--------+------+-----+
+    | name          | value                 | secret | scope  | user | ttl |
+    +---------------+-----------------------+--------+--------+------+-----+
+    | managed_hosts | [{"ip_address":       |        | system |      |     |
+    |               | "192.168.1.1",        |        |        |      |     |
+    |               | "fqdn":               |        |        |      |     |
+    |               | "myhost.domain.tld"}, |        |        |      |     |
+    |               | {"ip_address":        |        |        |      |     |
+    |               | "192.168.1.2",        |        |        |      |     |
+    |               | "fqdn": "myotherhost. |        |        |      |     |
+    |               | domain.tld"}]         |        |        |      |     |
+    | primary_vlan  | {"note": "General     |        | system |      |     |
+    |               | purpose traffic",     |        |        |      |     |
+    |               | "tag": 123}           |        |        |      |     |
+    +---------------+-----------------------+--------+--------+------+-----+
+
+Loading non-string content via YAML:
+    
+.. code-block:: yaml
+
+    ---
+    - name: managed_hosts
+      value:
+          - ip_address: 192.168.1.1
+            fqdn: myhost.domain.tld
+          - ip_address: 192.168.1.2
+            fqdn: myotherhost.domain.tld
+    - name: primary_vlan
+      value:
+          tag: 123
+          note: General purpose traffic
+
+Load this file using this command (values will be converted into JSON strings):
+
+.. code-block:: bash
+
+    $ st2 key load -c mydata.yaml
+    +---------------+-----------------------+--------+--------+------+-----+
+    | name          | value                 | secret | scope  | user | ttl |
+    +---------------+-----------------------+--------+--------+------+-----+
+    | managed_hosts | [{"ip_address":       |        | system |      |     |
+    |               | "192.168.1.1",        |        |        |      |     |
+    |               | "fqdn":               |        |        |      |     |
+    |               | "myhost.domain.tld"}, |        |        |      |     |
+    |               | {"ip_address":        |        |        |      |     |
+    |               | "192.168.1.2",        |        |        |      |     |
+    |               | "fqdn": "myotherhost. |        |        |      |     |
+    |               | domain.tld"}]         |        |        |      |     |
+    | primary_vlan  | {"note": "General     |        | system |      |     |
+    |               | purpose traffic",     |        |        |      |     |
+    |               | "tag": 123}           |        |        |      |     |
+    +---------------+-----------------------+--------+--------+------+-----+
+    
 .. _datastore-scopes-in-key-value-store:
 
 Scoping Datastore Items
@@ -142,6 +258,29 @@ manually. The notion of ``st2kv.user`` is non-existent when actions or workflows
 via rules. So the use of user scoped variables is limited to manual execution of actions or
 workflows.
 
+Scope can be set in a JSON/YAML key file by adding the ``scope`` property:
+
+JSON
+
+.. code-block:: json
+
+    [
+        {
+            "name": "date_cmd",
+            "value": "date -u",
+            "scope": "user"
+        }
+    ]
+
+YAML
+
+.. code-block:: yaml
+
+    ---
+    - name: date_cmd
+      value: date -u
+      scope: user
+    
 .. _datastore-ttl:
 
 Setting a Key-Value Pair TTL
@@ -163,7 +302,30 @@ workflow is triggered again, it could check if the value is still set, and if so
 the remediation action.
 
 Some users keep a count of executions in the key-value store to set a maximum number of executions
-in a time period. 
+in a time period.
+
+TTL can be set in a JSON/YAML key file by adding the ``ttl`` property with an integer value:
+
+JSON
+
+.. code-block:: json
+
+    [
+        {
+            "name": "date_cmd",
+            "value": "date -u",
+            "ttl": 3600
+        }
+    ]
+
+YAML
+
+.. code-block:: yaml
+
+    ---
+    - name: date_cmd
+      value: date -u
+      ttl: 3600
 
 Storing and Retrieving via Python Client
 ----------------------------------------
@@ -362,6 +524,30 @@ to pass a decrypted password as a parameter, use:
     aws_key: "{{st2kv.system.aws_key | decrypt_kv}}"
 
 Decrypting user scoped variables is currently unsupported.
+
+Secret keys can be loaded from a JSON/YAML key file by adding the ``secret`` property with
+a boolean value.
+
+JSON
+
+.. code-block:: json
+
+    [
+        {
+            "name": "api_token",
+            "value": "SECRET_TOKEN",
+            "secret": true
+        }
+    ]
+
+YAML
+
+.. code-block:: yaml
+
+    ---
+    - name: api_token
+      value: SECRET_TOKEN
+      secret: true
 
 Security notes
 --------------

@@ -4,8 +4,9 @@ Upgrades
 When new versions of |st2| are released, they are published to our APT and Yum repositories. You
 can use standard Linux package management tools to install these upgraded packages.
 
-Depending on the versions you are upgrading to and from, you may need to run additional data model
-:ref:`migration scripts<migration-scripts-to-run>`.
+As part of the general upgrade procedure, you will need to run scripts to upgrade the Mistral Database prior
+to restarting |st2| services. See below for more details. Depending on the versions you are upgrading to and
+from, you may need to run additional :ref:`migration scripts<migration-scripts-to-run>`.
 
 If you skipped a version and are upgrading to a newer version, please make sure you also run the
 migration scripts for skipped versions.
@@ -13,7 +14,7 @@ migration scripts for skipped versions.
 General Upgrade Procedure
 -------------------------
 
-The typical **upgrade** procedure is:
+This is the standard upgrade procedure:
 
 1. Stop ``st2*`` services:
 
@@ -21,20 +22,19 @@ The typical **upgrade** procedure is:
 
       sudo st2ctl stop
 
-2. Upgrade |st2| packages (``st2``, ``st2web``, ``st2chatops``, ``st2mistral`` and
-   ``bwc-enterprise`` using distro-specific tools:
+2. Upgrade |st2| packages using distro-specific tools:
 
    Ubuntu:
 
    .. sourcecode:: bash
 
-      sudo apt-get install --only-upgrade $PKG_NAME
+      sudo apt-get install --only-upgrade st2 st2web st2chatops st2mistral
 
-   RHEL / CentOS:
+   RHEL/CentOS:
 
    .. sourcecode:: bash
 
-      sudo yum update $PKG_NAME
+      sudo yum update st2 st2web st2chatops st2mistral
 
 3. Upgrade Mistral database:
 
@@ -49,15 +49,6 @@ The typical **upgrade** procedure is:
       restarted before the mistral-db-manage commands are run, then the
       ``mistral-db-manage upgrade head`` command may fail.
 
-   .. note::
-
-       When running the ``populate`` command, if there are errors for
-       ``mistral.actions.openstack.action_generator.base``, these can be ignored. These indicate
-       that the command encountered errors when registering the native OpenStack actions in
-       Mistral. |st2| does not support these native OpenStack actions. Please use the OpenStack
-       pack from the StackStorm Exchange.
-       https://github.com/StackStorm-Exchange/stackstorm-openstack
-
 4. Run the migration scripts (if any). See below for version-specific migration scripts.
 
 5. Start |st2| services:
@@ -71,12 +62,19 @@ The typical **upgrade** procedure is:
 Version-specific Migration Scripts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-We document :ref:`upgrade notes<upgrade_notes>` for the various versions. The upgrade notes
-section gives an idea of what major changes happened with each release. You may also want to take
-a look at the detailed :doc:`/changelog` for each version.
+We document :ref:`upgrade notes<upgrade_notes>` for the various versions. The upgrade notes section gives
+an idea of what major changes happened with each release. You may also want to take a look at the detailed
+:doc:`/changelog` for each version.
 
-The following sections call out the migration scripts that need to be run before upgrading to the
-respective version:
+The following sections call out the migration scripts that need to be run when upgrading to the
+respective version. If you are upgrading across multiple versions, make sure you run the scripts for
+any skipped versions:
+
+v2.5
+'''''
+
+* If you have the `Brocade DC Fabric Automation Suite <https://bwc-docs.brocade.com/solutions/dcfabric/overview.html>`_
+  version 1.1 installed, you must upgrade this to >= v1.1.1. Follow `these instructions <https://bwc-docs.brocade.com/solutions/dcfabric/install.html#upgrade-from-previous-version>`_.
 
 v2.4
 '''''

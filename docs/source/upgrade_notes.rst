@@ -3,70 +3,97 @@
 Upgrade Notes
 =============
 
+|st2| v2.6
+----------
+
+* ``st2actions.runners.pythonrunner.Action`` class path for base Python runner actions has been
+  deprecated since StackStorm v1.6.0 and will be fully removed in StackStorm v2.7.0. If you have
+  any actions still using this path you are encouraged to update them to use
+  ``st2common.runners.base_action.Action`` path.
+
+  Old code:
+
+  .. code-block:: python
+
+    from st2actions.runners.pythonrunner import Action
+
+  New code
+
+  .. code-block:: python
+
+    from st2common.runners.base_action import Action
+
 |st2| v2.5
 ----------
 
-* ``POST /v1/actionalias/match`` API endpoint has been updated to correctly return a dictionary
-  instead of a list with a single item (dictionary). It made no sense for this API endpoint to
-  return a list since there will always be at most one matching item.
+* ``POST /v1/actionalias/match`` API endpoint now correctly returns a dictionary. Previously the
+  code incorrectly returned an array with a single item (dictionary) on success. There is no need
+  for this API endpoint to return an array since on success there will always only be a single
+  item.
 
-  Example response on a successful match before this change:
+  If you have code which utilizes this API endpoint you need to update it to handle success
+  response as a dictionary instead of an array with a single item (dictionary).
+
+  Old response on a successful match:
 
   .. code-block:: json
 
     [
         {
             "actionalias": {
-                "description": "Retrieve details for a single execution.",
+                "description": "Execute a command on a remote host via SSH.",
                 "extra": {},
-                "ack": {},
+                "ack": {
+                    "format": "Hold tight while I run command: *{{execution.parameters.cmd}}* on hosts *{{execution.parameters.hosts}}*"
+                },
                 "enabled": true,
-                "result": {},
+                "name": "remote_shell_cmd",
+                "result": {
+                    "format": "Ran command *{{execution.parameters.cmd}}* on *{{ execution.result | length }}* hosts.\n\nDetails are as follows:\n{% for host in execution.result -%}\n    Host: *{{host}}*\n    ---> stdout: {{execution.result[host].stdout}}\n    ---> stderr: {{execution.result[host].stderr}}\n{%+ endfor %}\n"
+                },
                 "formats": [
-                    "st2 get execution {{ id }}",
-                    "st2 show execution {{ id }}",
-                    "st2 executions get {{ id }}",
-                    "st2 executions show {{ id }}"
+                    "run {{cmd}} on {{hosts}}"
                 ],
-                "uid": "action:st2:st2_executions_get",
-                "action_ref": "st2.executions.get",
-                "pack": "st2",
-                "ref": "st2.st2_executions_get",
-                "id": "59d2522a0640fd7e919fee81",
-                "name": "st2_executions_get"
+                "action_ref": "core.remote",
+                "pack": "examples",
+                "ref": "examples.remote_shell_cmd",
+                "id": "59d2522a0640fd7e919fee7d",
+                "uid": "action:examples:remote_shell_cmd"
             },
-            "display": "st2 get execution {{ id }}",
-            "representation": "st2 get execution {{ id }}"
+            "display": "run {{cmd}} on {{hosts}}",
+            "representation": "run {{cmd}} on {{hosts}}"
         }
     ]
 
-  Example response on a successful match after this change:
+  New response on a successful match:
 
   .. code-block:: json
 
-      {
-          "actionalias": {
-              "description": "Retrieve details for a single execution.",
-              "extra": {},
-              "ack": {},
-              "enabled": true,
-              "result": {},
-              "formats": [
-                  "st2 get execution {{ id }}",
-                  "st2 show execution {{ id }}",
-                  "st2 executions get {{ id }}",
-                  "st2 executions show {{ id }}"
-              ],
-              "uid": "action:st2:st2_executions_get",
-              "action_ref": "st2.executions.get",
-              "pack": "st2",
-              "ref": "st2.st2_executions_get",
-              "id": "59d2522a0640fd7e919fee81",
-              "name": "st2_executions_get"
-          },
-          "display": "st2 get execution {{ id }}",
-          "representation": "st2 get execution {{ id }}"
-      }
+    {
+        "actionalias": {
+            "description": "Execute a command on a remote host via SSH.",
+            "extra": {},
+            "ack": {
+                "format": "Hold tight while I run command: *{{execution.parameters.cmd}}* on hosts *{{execution.parameters.hosts}}*"
+            },
+            "enabled": true,
+            "name": "remote_shell_cmd",
+            "result": {
+                "format": "Ran command *{{execution.parameters.cmd}}* on *{{ execution.result | length }}* hosts.\n\nDetails are as follows:\n{% for host in execution.result -%}\n    Host: *{{host}}*\n    ---> stdout: {{execution.result[host].stdout}}\n    ---> stderr: {{execution.result[host].stderr}}\n{%+ endfor %}\n"
+            },
+            "formats": [
+                "run {{cmd}} on {{hosts}}"
+            ],
+            "action_ref": "core.remote",
+            "pack": "examples",
+            "ref": "examples.remote_shell_cmd",
+            "id": "59d2522a0640fd7e919fee7d",
+            "uid": "action:examples:remote_shell_cmd"
+        },
+        "display": "run {{cmd}} on {{hosts}}",
+        "representation": "run {{cmd}} on {{hosts}}"
+    }
+
 
 |st2| v2.4
 ----------
@@ -511,7 +538,7 @@ need to perform the following steps:
     st2::revision: 8
     st2::mistral_git_branch: st2-1.2.0
     hubot::docker: true
-  
+
   If ``answers.yaml`` does not exist, create it. If you changed any install parameters manually
   (e.g. password, ChatOps token, SSH user), put these values into ``answers.yaml`` as well,
   otherwise they'll be overwritten.
@@ -521,7 +548,7 @@ need to perform the following steps:
 4. Remove ``/etc/facter/facts.d/st2web_bootstrapped.txt`` and execute ``update-system``:
 
   .. code-block:: bash
-  
+
      sudo rm /etc/facter/facts.d/st2web_bootstrapped.txt
      sudo update-system
 
@@ -581,7 +608,7 @@ Changes
 ------------
 
 * Rules now have to be part of a pack. If you don't specify a pack, the pack name is assumed to be
-  ``default``. A migration script is installed at 
+  ``default``. A migration script is installed at
   ``${dist_packages}/st2common/bin/migrate_rules_to_include_pack.py``. This migration script
   is run as part of ``st2_deploy.sh`` when you upgrade from versions < 0.9 to 0.11.
 
