@@ -4,6 +4,7 @@ References and Guides
 .. toctree::
    :maxdepth: 2
 
+   sharing_code_sensors_actions
    cli
    pack_configs
    packs

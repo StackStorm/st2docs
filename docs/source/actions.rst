@@ -148,7 +148,7 @@ present in the metadata file:
 * ``name`` - Name of the action.
 * ``runner_type`` - The type of runner to execute the action.
 * ``enabled`` - Action cannot be invoked when disabled.
-* ``entry_point`` - Location of the action launch script relative to the 
+* ``entry_point`` - Location of the action launch script relative to the
   ``/opt/stackstorm/packs/${pack_name}/actions/`` directory.
 * ``parameters`` - A dictionary of parameters and optional metadata describing type and default.
   The metadata is structured data following the `JSON Schema`_ specification draft 4. The common
@@ -655,6 +655,12 @@ Example storing a dict as JSON:
 
       # Delete a value
       self.action_service.delete_value('cache')
+
+Sharing code between Python Sensors and Actions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Refer to :ref:`documentation <ref-shared-libs-python-sensors-actions>` on sharing common code
+between python actions and sensors.
 
 Pre-defined Actions
 -------------------
