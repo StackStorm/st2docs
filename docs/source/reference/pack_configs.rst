@@ -1,41 +1,34 @@
 Pack Configuration
 ==================
 
-.. note::
+.. include:: /_includes/config_yaml_deprecation_notice.rst
 
-    Support for pack config files which are located outside the pack directory
-    in ``/opt/stackstorm/configs/`` directory has been introduced in |st2| v1.5
-    and is only available in |st2| v1.5 and above.
+Packs can use a configuration file to set values that are common to resources in the pack, e.g.
+API credentials, connection details, limits, and thresholds. These values are available to actions
+and sensors at run-time. 
 
-Pack configuration file contain common attributes which are usually configured
-by a |st2| operator and are available to actions and sensors during run-time.
+The difference between pack configuration and action parameters is that configuration usually
+contains values which are common to all the resources in the pack, and rarely change. Action
+parameters are dynamically provided with each action invocation, and may change - e.g. they may
+come from a rule mapping some input event.
 
-The difference between pack configuration and action parameters is that
-configuration usually contains values which are usually common to all the
-resources in the pack (e.g. API credentials, connection details, different
-limits and thresholds, etc.) and rarely change. Pack configuration follows
-infrastructure as code approach and is stored in a YAML formated file in a
-special directory (this means all the files in that directory can be version
-controlled, reviewed, audited, etc.).
-
-On the other hand, pack parameters are values which are dynamically provided
-for every action invocation. They can be provided by the user when manually
-invoking an action or they can come from a triggered based on a mapping inside
-a rule.
+Pack configuration follows an infrastructure as code approach, and is stored in a YAML format file
+in a special directory (by default ``/opt/stackstorm/configs``). Each pack defines its own schema
+for this configuration file.
 
 Basic Concepts and Terminology
 ------------------------------
 
-Configuration schema
+Configuration Schema
 ~~~~~~~~~~~~~~~~~~~~
 
-Configuration schema is a YAML formatted file which contains schema for a
-configuration file. This schema is usually written by pack author and contains
-different information about every available configuration item (name, type, is
-value a secret, etc). The file is named ``config.schema.yaml`` and is located
-in root of the pack directory.
+The configuration schema is a YAML formatted file which defines the schema for that pack's
+configuration file. This schema is written by the pack author and contains information about every
+available configuration item (name, type, is value a secret, etc). The file is named
+``config.schema.yaml`` and is located in the root of the pack directory
+(``/opt/stackstorm/packs/<mypack>/``).
 
-An example schema file can be found below:
+Here is an example schema file:
 
 .. sourcecode:: yaml
 
@@ -59,117 +52,141 @@ An example schema file can be found below:
         type: "string"
         required: false
 
-In this example, configuration consists of 4 items (``api_key``,
-``api_secret``, ``region`` and ``private_key_path``).
+In this example, the configuration consists of 4 items (``api_key``, ``api_secret``, ``region``
+and ``private_key_path``).
 
-``api_secret`` value is marked as secret which means this value will be stored
-encrypted in the datastore if a dynamic value is used (more on dynamic values
-can be found below).
+Note that ``api_secret`` value is marked as **secret** which means this value will be stored
+encrypted in the datastore if a dynamic value is used (more on dynamic values can be found below).
 
-.. note::
+In addition to 'flat' configs as shown above, schemas also support nested objects. For example:
 
-    Right now config schema is optional and it's only required if you wish to
-    utilize dynamic config values from datastore (more on that below).
+.. sourcecode:: yaml
 
-Configuration file
+    ---
+      consumer_key:
+        description: "Your consumer key."
+        type: "string"
+        required: true
+        secret: true
+      consumer_secret:
+        description: "Your consumer secret."
+        type: "string"
+        required: true
+        secret: true
+      access_token:
+        description: "Your access token."
+        type: "string"
+        required: true
+        secret: true
+      access_token_secret:
+        description: "Your access token secret."
+        type: "string"
+        required: true
+        secret: true
+      sensor:
+        description: "Sensor specific settings."
+        type: "object"
+        required: false
+        additionalProperties: false
+        properties:
+          device_uids:
+            type: "array"
+            description: "A list of device UIDs to poll metrics for."
+            items:
+              type: "string"
+            required: false
+
+In this example, the config file can contain a ``sensor`` item which is an object with a single
+``device_uuids`` attribute.
+
+Configuration File
 ~~~~~~~~~~~~~~~~~~
 
-Configuration file is a YAML formatted file which contains pack configuration.
-This file can contain "static" or "dynamic" values. Configuration file is named
-by a pack name (``<pack name>.yaml``) and located in ``/opt/stackstorm/configs/``
-directory.
+The configuration file is a YAML formatted file which contains site-specific configuration values.
+This file can contain 'static' or 'dynamic' values. The configuration file is named
+``<pack name>.yaml`` and located in the ``/opt/stackstorm/configs/`` directory. File ownership
+should be ``st2:st2``.
 
-For example, for a pack named ``libcloud``, configuration file is located at
+For example, for a pack named ``libcloud``, the configuration file is located at
 ``/opt/stackstorm/configs/libcloud.yaml``.
 
-An example configuration which matches the configuration schema above is
-provided below:
+This example configuration matches the configuration schema above:
 
 .. sourcecode:: yaml
 
     ---
       api_key: "some_api_key"
-      api_secret: "{{user.api_secret}}"  # user scoped configuration value which is also a secret as declared in config schema
+      api_secret: "{{st2kv.user.api_secret}}"  # user-scoped configuration value which is also a secret as declared in config schema
       region: "us-west-1"
-      private_key_path: "{{system.private_key_path}}"  # global datastore value
+      private_key_path: "{{st2kv.system.private_key_path}}"  # global datastore value
 
-Configuration files are registered in the same way as other resources by running
-``st2ctl reload`` / ``st2-register-content`` script. For configs, you need to run
-this script with the ``--register-configs`` flag as shown below.
+Configuration files are **not** read dynamically at run-time. Instead, they must be registered, and
+values are then loaded into the |st2| DB. They are registered in the same way as other resources by
+running ``st2ctl reload``/``st2-register-content`` script. For configs, you need to run this script
+with the ``--register-configs`` flag:
 
 .. sourcecode:: bash
 
-    st2ctl reload --register-configs
+    sudo st2ctl reload --register-configs
 
 Or:
 
 .. sourcecode:: bash
 
-    st2-register-content --register-configs
+    sudo st2-register-content --register-configs
 
 When loading and registering configs using the commands described above, static values in the
-config file are validated against the schema defined in the pack (``config.schema.yaml``). If no
-schema exists, validation is not performed.
+config file are validated against the schema. If no schema exists, validation is not performed.
 
-Keep in mind that only static values in the config are validated. Dynamic values (ones which use
-Jinja notation to reference values in the datastore) are resolve during run-time so they can't be
-validated during register / load phase.
+Keep in mind that only static values in the config are validated. Dynamic values (those using
+Jinja notation to reference values in the datastore) are resolved during run-time, so they can't be
+validated during the register/load phase.
 
-Static configuration value
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Static Configuration Values
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Static configuration value is a value which is loaded from the config file and
-used as-is.
+A static configuration value is one which is loaded from the config file and used as-is.
 
-In the previous / old configuration file, every value was static since there
-was no support for dynamic values.
-
-Dynamic configuration value
+Dynamic Configuration Value
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
 
-    Right now only strings (string types) are supported for dynamic
-    configuration values.
+    Currently, only strings (string types) support dynamic configuration values.
 
-Dynamic configuration value is a config value which contains a Jinja template
-expression. This template expression is evaluated during run-time and resolves
-to a name (key) of the datastore value. This datastore value is then used as
-the configuration value.
+A dynamic configuration value is one that contains a Jinja template expression. This template
+expression is evaluated during run-time and resolves to a name (key) of the :doc:`/datastore`
+value. This datastore value is then used as the configuration value.
 
-Dynamic configuration values offer additional flexibility and they include
-support for user-scoped datastore values. This comes handy when you want to use
-a different configuration value (e.g. different API credentials) based on the
-user who invoked the action.
-
-Dynamic configuration value are stored in the datastore and are configured using
-CLI as shown in the section below.
+Dynamic configuration values offer additional flexibility, and include support for user-scoped
+datastore values. This is useful when you want to use different configuration values, based upon
+the user who invoked the action.
 
 In the config, dynamic configuration values are referred to as shown below:
 
 .. sourcecode:: yaml
 
     ---
-      api_secret: "{{user.api_secret}}"  # user scoped configuration value which is also a secret as declared in config schema
-      private_key_path: "{{system.private_key_path}}"  # global datastore value
+      api_secret: "{{st2kv.user.api_secret}}"  # user-scoped configuration value which is also a secret as declared in config schema
+      private_key_path: "{{st2kv.system.private_key_path}}"  # global datastore value
 
-``api_secret`` is a user-scoped dynamic configuration value which means that
-``user`` part will be replaced by the username of the user who triggered the
-action execution.
+``api_secret`` is a user-scoped dynamic configuration value which means that the ``user`` part will
+be replaced by the username of the user who triggered the action execution.
 
-Since that value is marked as secret in the config schema, this value will
-need to be stored encrypted in the datastore. This means user who is setting
-the value needs to also pass  ``--encrypt`` flag to the CLI command as shown
-below (more about --encrypt flag and
-:ref:`storing secrets in datastore<datastore-storing-secrets-in-key-value-store>`):
+Dynamic configuration values are stored in the datastore and are configured using the CLI or API.
+
+If a value is marked as secret in the config schema, it will need to be stored encrypted in the
+datastore. When setting the value, the ``--encrypt`` flag should be used, as shown below:
 
 .. sourcecode:: bash
 
     st2 key set api_secret "my super secret api secret" --scope=user --encrypt
 
-``private_key_path`` is a regular dynamic configuration value which means that
-a datastore item which corresponds to this key (``private_key_path``) will be
-loaded from the datastore.
+See more about :ref:`storing secrets in datastore here<datastore-storing-secrets-in-key-value-store>`.
+
+In the above example, ``private_key_path`` is a regular dynamic configuration value, which means
+that a datastore item corresponding to this key (``private_key_path``) will be loaded from the
+datastore.
 
 In this case, using the CLI, the value would be set as displayed below:
 
@@ -177,35 +194,27 @@ In this case, using the CLI, the value would be set as displayed below:
 
     st2 key set private_key_path "/home/myuser/.ssh/my_private_rsa_key"
 
-Configuration loading and dynamic value resolving
+Configuration Loading and Dynamic Value Resolving
 -------------------------------------------------
 
-Configuration file is loaded and dynamic values are resolved during run-time.
-For sensors this is when sensor container spawns a subprocess for sensor
-instance and for actions that is when action is executed.
+The configuration file is loaded at registration. Dynamic values are resolved during run-time.
+For sensors, this is when the sensor container spawns a subprocess for a sensor instance and for
+actions it is when the action is executed.
 
-Previous versions of |st2| supported pack-local configuration files which were
-named ``config.yaml`` and stored in a root of the pack directory. For backward
-compatibility and ease of migration, those files are still supported, but
-new-style configuration files have precedence over it. If both files are
-present, old-style configuration file is loaded first and values from new-style
-configuration file are loaded and merged in second.
+When resolving and loading user-scoped configuration values, the authenticated user who triggered
+the action execution is used for the context when resolving the value.
 
-When resolving and loading user-scoped configuration value, authenticated user
-which triggered the action execution is used for the context when resolving the
-value.
-
-Configuring dynamic configuration values using the CLI
+Configuring Dynamic Configuration Values Using the CLI
 ------------------------------------------------------
 
-Dynamic pack configuration values can be manipulated in the same way as any
-other datastore item using ``st2 key`` set of CLI commands.
+Dynamic pack configuration values can be manipulated in the same way as any other datastore item
+using the ``st2 key`` set of CLI commands.
 
-Configuring a regular (non user-scoped) dynamic configuration value
+Configuring a Regular (non user-scoped) Dynamic Configuration Value
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Regular dynamic configuration value can be configured by an administrator or
-any user.
+Regular dynamic configuration values can be configured by an administrator or
+any user:
 
 .. sourcecode:: bash
 
@@ -214,7 +223,7 @@ any user.
     # For example
     st2 key set private_key_path "/home/myuser/.ssh/my_private_rsa_key"
 
-To view a value, you use get command as shown below:
+To view a value, use the ``st2 key get`` command:
 
 .. sourcecode:: bash
 
@@ -225,11 +234,11 @@ To view a value, you use get command as shown below:
 
 Keep in mind that secret values will be masked by default.
 
-Configuring a user-scoped dynamic configuration value
+Configuring a User-scoped Dynamic Configuration Value
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Dynamic configuration value can be configured by each user themselves or by an
-administrator for any available system user.
+Dynamic configuration values can be configured by each user themselves or by an administrator for
+any available system user:
 
 .. sourcecode:: bash
 
@@ -247,49 +256,43 @@ administrator for any available system user.
     st2 key set --scope=user --user=user1 default_region "us-west-1"
     st2 key set --scope=user --user=user2 default_region "us-east-1"
 
-Similar as above, you can use get command to view the values. Same rules which
-apply to ``set`` also apply to ``get`` (users can only see values which are
-local to them, administrator can see all the values, secrets are masked by
-default).
+Similarly to above, you can use the ``st2 key get`` command to view values. The same rules which
+apply to ``set`` also apply to ``get`` (users can only see values which are local to them,
+administrators can see all the values, secrets are masked by default).
 
 Limitations
 -----------
 
-There are some limitation with the dynamic config values and
-``{{user.key_name}}`` context you should be aware of.
+There are some limitation with dynamic config values and the ``{{st2kv.user.key_name}}`` context
+you should be aware of.
 
-Dynamic config values
+Dynamic Config Values
 ~~~~~~~~~~~~~~~~~~~~~
 
-Right now only string type is supported for dynamic config values (config items
-who's value is retrieved from the datastore). This was done intentionally to
-keep the feature simple and fully compatible with the existing datastore
+Right now only the ``string`` type is supported for dynamic config values. This was done
+intentionally to keep the feature simple and fully compatible with the existing datastore
 operations (this means you can re-use the same API, CLI commands, etc.).
 
-To work-around this (in case you want to use a non-string value) you can, for
-example, store a JSON serialized version of the your value in the datastore and
-then de-serialize it in the action / sensor code.
+To work around this (in case you want to use a non-string value) you can store a JSON serialized
+version of your value in the datastore and then de-serialize it in the action/sensor code.
 
-If this turns out to be a big problem for many users, we might consider
-introducing support for arbitrary types, but this would most likely mean we
-will need to implement a new API and CLI commands for managing dynamic config
-values and that's something we want to avoid.
+If this turns out to be a big problem for many users, we will consider introducing support for
+arbitrary types, but this would most likely mean we will need to implement a new API and CLI
+commands for managing dynamic config values. That's something we want to avoid.
 
-User context
+User Context
 ~~~~~~~~~~~~
 
-User context is right now only available for actions which are triggered via
-the |st2| API.
+User context is right now only available for actions which are triggered via the |st2| API.
 
-This means that dynamic config values which utilize ``{{user.some_value}}``
-notation will only resolve to the correct user when an action is triggered
-through the API.
+This means that dynamic config values which utilize ``{{st2kv.user.some_value}}`` notation will
+only resolve to the correct user when an action is triggered through the API.
 
-The reason for that is that user context is currently only available in the
-API. If an action is triggered via rule, user context is not available. This
-means ``{{user}}`` will resolve to the system user (``stanley``).
+The reason for that is that the user context is currently only available in the API. If an action
+is triggered via a rule, user context is not available. In this case, ``{{st2kv.user}}`` will
+resolve to the system user (by default, ``stanley``).
 
-We plan to address this in a future release, but we haven't decided on the
-approach yet, so your feedback is welcome. No mater the approach we will go
-with, carrying the user context with a trigger and mapping this external user
-to the |st2| user will require some additional work on the user-side.
+We plan to address this in a future release, but we haven't decided on the best approach yet, so
+your feedback is welcome. Whatever approach we go with, carrying the user context with a trigger
+and mapping this external user to the |st2| user will require some additional work on the user
+side.

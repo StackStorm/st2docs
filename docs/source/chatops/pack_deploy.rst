@@ -1,89 +1,76 @@
 Packs
 =====
 
-Installing packs from st2incubator or st2contrib via ChatOps
-------------------------------------------------------------
+Installing Packs with ChatOps
+-----------------------------
 
-When you have the bot listening for ChatOps commands in a channel, installing extra packs 
-can be done by running a single command:
-
-.. code-block:: bash
-
-    ! pack deploy st2contrib elasticsearch,travis_ci
-    bot: Deploying the requested pack(s) from *st2contrib* for you....
-    @my_user: Successful deployment of *elasticsearch* *travis_ci* !
-    > from https://github.com/StackStorm/st2contrib.git (branch: _master_).
-
-If you're adventurous and wish to install and help develop a pack that's
-currently in st2incubator you can install one with the following command:
+When you have the bot listening for ChatOps commands in a channel, installing extra packs from
+|st2| Exchange can be done with a single command:
 
 .. code-block:: bash
 
-    ! pack deploy st2incubator vsphere,debian
-    Deploying the requested pack(s) from *st2incubator* for you
-    @my_user: Successful deployment of *vsphere* *debian* !
-    > from https://github.com/StackStorm/st2incubator.git (branch: _master_).
+    !pack install github,slack,trello
+    bot: Installing the requested pack(s) for you.
+    @my_user:
+    > Successful deployment of *github*, *slack*, *trello* packs!
 
-The command takes the following very simple format:
-
-.. code-block:: bash
- 
-    ! pack deploy {{repo_name}} {{packs}} {{branch=master}} - Download StackStorm packs via ChatOps
-
-Deploying Custom packs via ChatOps
-----------------------------------
-
-The same commands can be used to install your own packs just by adding an entry to `/opt/stackstorm/packs/packs/config.yaml` in the following format:
-
-.. code-block:: yaml
-
-    ---
-    repositories:
-    NameOfRep:
-      repo: "https://github.com/<my-GitHub-user>/my-st2.git"
-      subtree: true
-
-This will allow you to install a pack via:
+You can install a pack from any GitHub repository just as easily: supply the full URL to the bot.
+The pack name is unnecessary, as it will be read from ``pack.yaml`` later:
 
 .. code-block:: bash
 
-    ! pack deploy NameOfRep MyAwesomePack
+    !pack install https://github.com/stackstorm/openstack
+    bot: Installing the requested pack(s) for you.
 
-If you don't have multiple packs within the same repository under a `packs` directory, just set `subtree` to `false` and issue the following command:
+You can even mix the two formats in one string:
 
 .. code-block:: bash
 
-    ! pack deploy NameOfRep NameOfRep
+    !pack install github,slack,trello,https://github.com/stackstorm/openstack
 
-Automating Custom Pack Deployment
----------------------------------
+.. figure :: /_static/images/packs-chatops-install.png
+    :align: center
 
-Building on the above it's possible to enable auto deployment for a single branch of a 
-repository which has has `subtree` set to `false` by adding an `auto_deployment` section as shown below:
 
-.. code-block:: yaml
+Getting Information About an Installed Pack
+-------------------------------------------
 
-    ---
-    repositories:
-       my-st2:
-         repo: "https://github.com/<my-GitHub-user>/my-st2.git"
-         subtree: false
-         auto_deployment:
-           branch: "master"
-           notify_channel: "my-chatops-channel"
+The ``!pack get <pack>`` command shows you information about an installed pack. There are two
+sections in the output: the first is pack metadata from ``pack.yaml``, and the optional second is
+git information, if your pack has been installed from a git source like StackStorm Exchange or a
+single repo.
 
-Then you need a rule (or a sensor) that will trigger the `packs.deploy` action with the right 
-parameters. The following is based on an post-commit hook from BitBucket Server:
+Git status will tell you if there's a difference between your local pack version and the latest
+version in the origin repository, and also show the remotes for your pack.
 
-.. code-block:: yaml
+If a pack is not installed, but available in |st2| Exchange, the bot will gallantly offer to
+install it:
 
-    action:
-      ref: "packs.deploy"
-      parameters:
-        auto_deploy: true
-        repo_name:  "{{trigger.body.repository.name}}"
-        branch:     "{{trigger.body.refChanges[0].refId}}"
-        packs:      [ "{{trigger.body.repository.name}}" ]
-        message:    "{{trigger.body.changesets.get('values')[0].toCommit.message}}"
-        author:     "{{trigger.body.changesets.get('values')[0].toCommit.author.name}}"
+.. figure :: /_static/images/packs-chatops-get.png
+    :align: center
 
+Getting Information About an Available Pack
+-------------------------------------------
+
+The remote counterpart to ``pack get`` is ``pack show``: it will show an entry from the StackStorm
+Exchange, our pack directory, if a pack with the given name is available.
+
+.. figure :: /_static/images/packs-chatops-show.png
+    :align: center
+
+Searching for a Pack
+--------------------
+
+To search for a pack in StackStorm Exchange, use ``!pack search <query>``. Note that your query
+will match results in all pack parameters: for example, you can search for an author or a keyword,
+not just name and description. The results are ordered by relevance: if you search for "cloud",
+first you will get packs with "cloud" in their name — because they are the most likely to be what
+you were looking for - and then packs with "cloud" in keywords or description. And then packs
+authored by "Mr. Cloud", if any.
+
+**Pro-tip:** if you configure an additional pack index (see "Working with pack indexes" in
+:doc:`/packs`), it will be queried alongside StackStorm Exchange by commands like ``show`` or
+``search``.
+
+.. figure :: /_static/images/packs-chatops-search.png
+    :align: center

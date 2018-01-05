@@ -1,15 +1,14 @@
 Actions
 =======
 
-Actions are pieces of code which can perform arbitrary automation or remediation
-tasks in your environment. They can be written in any programming language.
+Actions are pieces of code that can perform arbitrary automation or remediation tasks in your
+environment. They can be written in any programming language.
 
-To give you a better idea, here is a short list of tasks which can be
-implemented as actions:
+To give you a better idea, here is a short list of tasks which can be implemented as actions:
 
 * restart a service on a server
 * create a new cloud server
-* acknowledge a Nagios / PagerDuty alert
+* acknowledge a Nagios/PagerDuty alert
 * send a notification or alert via email or SMS
 * send a notification to an IRC channel
 * send a message to Slack
@@ -17,26 +16,29 @@ implemented as actions:
 * snapshot a VM
 * run a Nagios check
 
-Actions can be executed when a :doc:`Rule </rules>` with a matching criteria is triggered.
-Multiple Actions can be strung together into a :doc:`Workflow </workflows>`. Actions can
-also be executed directly from the clients via CLI, API, or UI.
+Actions can be executed when a :doc:`Rule </rules>` with matching criteria is triggered. Multiple
+actions can be strung together into a :doc:`Workflow </workflows>`. Actions can also be executed
+directly from the clients via CLI, API, or UI.
 
 Managing and Running Actions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------
 
-The CLI provides access to action management commands using the ``st2 action <command>`` format. To see a list of available commands and their description, run:
+The CLI provides access to action management commands using the ``st2 action <command>`` format.
+To see a list of available commands and their description, run:
 
 .. code-block:: bash
 
    st2 action --help
 
-To get more information on a particular action command, run: ``st2 action <command> -h``. For example the following will provide help for action list command:
+To get more information on a particular action command, run: ``st2 action <command> -h``. For
+example, the following will provide help for the action list command:
 
 .. code-block:: bash
 
    st2 action list -h
 
-The following commands show examples on how to obtain information on available actions and their arguments:
+The following commands show examples of how to obtain information on available actions and their
+arguments:
 
 .. code-block:: bash
 
@@ -52,7 +54,8 @@ The following commands show examples on how to obtain information on available a
    # Alternatively, use CLI's run script to obtain information on an action's arguments:
    st2 run linux.check_loadavg -h
 
-To execute an action manually, you can use ``st2 run <action with parameters>`` or ``st2 action execute <action with parameters>`` command, as shown below:
+To execute an action manually, you can use ``st2 run <action with parameters>`` or
+``st2 action execute <action with parameters>``:
 
 .. code-block:: bash
 
@@ -68,70 +71,69 @@ To execute an action manually, you can use ``st2 run <action with parameters>`` 
    # If you want to add a trace tag to execution when you run it, you can use:
    st2 run core.local cmd=date --trace-tag="simple-date-check-`date +%s`"
 
-Action Runner
-^^^^^^^^^^^^^
+Action Runners
+--------------
 
-An action runner is the execution environment for user-implemented
-actions. |st2| comes with pre-canned action runners such as a
-remote runner and shell runner which provide for user-implemented
-actions to be run remotely (via SSH) and locally. The objective is to
-allow the Action author to concentrate only on the implementation of the
-action itself rather than setting up the environment.
+An action runner is the execution environment for user-implemented actions. |st2| comes with
+pre-canned action runners such as a remote runner and shell runner which provide for
+user-implemented actions to be run remotely (via SSH) and locally. The objective is to allow the
+action author to concentrate only on the implementation of the action itself rather than setting
+up the environment.
 
 Available Runners
 ~~~~~~~~~~~~~~~~~
 
-The environment in which the action runs is specified by the runner.
-Currently the system provides the following runners:
+The environment in which the action runs is specified by the runner. Currently the system provides
+the following runners:
 
-1. ``local-shell-cmd`` - This is the local runner. This runner executes
-   a Linux command on the same host where |st2| components are running.
-2. ``local-shell-script`` - This is the local runner. Actions are implemented as
-   scripts. They are executed on the same hosts where |st2| components are
-   running.
-3. ``remote-shell-cmd`` - This is a remote runner. This runner executes
-   a Linux command on one or more remote hosts provided by the user.
-4. ``remote-shell-script`` - This is a remote runner. Actions are implemented as scripts.
-   They run on one or more remote hosts provided by the user.
-5. ``python-script`` - This is a Python runner. Actions are implemented as Python
-   classes with a ``run()`` method. They run locally on the same machine where
-   |st2| components are running. The return value from the action ``run()`` method is either a
-   tuple of success status flag and the result object respectively or it is just the
-   result object. For more information, please refer to the :doc:`Action Runners </reference/runners>`
-   section in the documentations.
-6. ``http-request`` - HTTP client which performs HTTP requests for running HTTP
-   actions.
-7. ``action-chain`` - This runner supports executing simple linear work-flows.
-   For more information, please refer to the :doc:`Workflows </workflows>`
-   and :doc:`ActionChain </actionchain>` sections of the documentation.
-8. ``mistral-v2`` - Those runners are built on top of the
-   Mistral OpenStack project and support executing complex work-flows. For more
-   information, please refer to the :doc:`Workflows </workflows>` and
-   :doc:`Mistral </mistral>` sections of the documentation.
-9. ``cloudslang`` - This runner is built on top of the
-   CloudSlang project and supports executing complex workflows. For more
-   information, please refer to the :doc:`Workflows </workflows>` and
-   :doc:`CloudSlang </cloudslang>` sections of the documentation.
+1.  ``local-shell-cmd`` - This is the local runner. This runner executes a Linux command on the
+    host where |st2| is running.
+2.  ``local-shell-script`` - This is the local runner. Actions are implemented as scripts. They are
+    executed on the hosts where |st2| is running.
+3.  ``remote-shell-cmd`` - This is a remote runner. This runner executes a Linux command on one or
+    more remote hosts provided by the user.
+4.  ``remote-shell-script`` - This is a remote runner. Actions are implemented as scripts. They run
+    on one or more remote hosts provided by the user.
+5.  ``python-script`` - This is a Python runner. Actions are implemented as Python classes with a
+    ``run()`` method. They run locally on the same machine where |st2| components are running. The
+    return value from the action ``run()`` method is either a tuple of success status flag and the
+    result object respectively or it is just the result object. For more information, please refer
+    to the :doc:`Action Runners </reference/runners>` section in the documentation.
+6.  ``http-request`` - HTTP client which performs HTTP requests for running HTTP actions.
+7.  ``action-chain`` - This runner supports executing simple linear work-flows. For more
+    information, please refer to the :doc:`Workflows </workflows>` and
+    :doc:`ActionChain </actionchain>` documentation.
+8.  ``mistral-v2`` - This runner is built on top of the Mistral OpenStack project and supports
+    executing complex work-flows. For more information, please refer to the
+    :doc:`Workflows </workflows>` and :doc:`Mistral </mistral>` documentation.
+9.  ``cloudslang`` - This runner is built on top of the CloudSlang project and supports executing
+    complex workflows. For more information, please refer to the :doc:`Workflows </workflows>` and
+    :doc:`CloudSlang </cloudslang>` documentation.
 
-   Note: This runner is currently in an experimental phase which means that there might be
-   bugs and the external user-facing API might change.
+    Note: This runner is currently in an experimental phase which means that there might be
+    bugs and the external user-facing API might change.
+10. ``inquirer`` - This runner provides the core logic of the :doc:`Inquiries </inquiries>`
+    feature.
+
+    Note: This runner is an implementation detail for the ``core.ask`` action, and in most cases
+    should not be referenced in other actions.
 
 
-Runners come with their own set of input parameters and when an action
-picks a runner\_type it also inherits the runner parameters.
+Runners come with their own set of input parameters. When an action is executed, it inherits the
+runner parameters, in addition to its own parameters.
 
 .. _ref-actions-writing-custom:
 
 Writing Custom Actions
-^^^^^^^^^^^^^^^^^^^^^^
+----------------------
 
 An action is composed of two parts:
 
-1. A script file which implements the action logic
-2. A YAML metadata file which describes the action
+1. A YAML metadata file which describes the action, and its inputs.
+2. A script file which implements the action logic
 
-As noted above, an action script can be written in an arbitrary programming
-language, as long as it follows these conventions:
+As noted above, an action script can be written in an arbitrary programming language, as long as
+it follows these conventions:
 
 1. Script should exit with ``0`` status code on success and non-zero on error
    (e.g. ``1``)
@@ -140,14 +142,20 @@ language, as long as it follows these conventions:
 Action Metadata
 ~~~~~~~~~~~~~~~
 
-Action metadata is used to describe the action and is defined as YAML (JSON is supported for backward
-compatibility). These attributes can be present in the metadata file:
+Action metadata is used to describe the action and is defined as YAML. These attributes can be
+present in the metadata file:
 
 * ``name`` - Name of the action.
 * ``runner_type`` - The type of runner to execute the action.
 * ``enabled`` - Action cannot be invoked when disabled.
-* ``entry_point`` - Location of the action launch script relative to the /opt/stackstorm/packs/${pack_name}/actions/.
-* ``parameters`` - A dictionary of parameters and optional metadata describing type and default. The metadata is structured data following the `JSON Schema`_ specification draft 4. If metadata is provided, input args are validated on action execution. Otherwise, validation is skipped.
+* ``entry_point`` - Location of the action launch script relative to the
+  ``/opt/stackstorm/packs/${pack_name}/actions/`` directory.
+* ``parameters`` - A dictionary of parameters and optional metadata describing type and default.
+  The metadata is structured data following the `JSON Schema`_ specification draft 4. The common
+  parameter types allowed are ``string``, ``boolean``, ``number`` (whole numbers and decimal
+  numbers - e.g. ``1.0``, ``1``, ``3.3333``, etc.), ``object``, ``integer`` (whole numbers only -
+  ``1``, ``1000``, etc.) and ``array``. If metadata is provided, input args are validated on
+  action execution. Otherwise, validation is skipped.
 
 This is a sample metadata file for a Python action which sends an SMS via the Twilio web service:
 
@@ -176,24 +184,23 @@ This is a sample metadata file for a Python action which sends an SMS via the Tw
             description: "Body of the message."
             required: true
             position: 2
-            default: "Hello {% if system.user %} {{ system.user }} {% else %} dude {% endif %}!"
+            default: "Hello {% if system.user %} {{ st2kv.system.user }} {% else %} dude {% endif %}!"
 
 
-This action is using a Python runner (``python-script``). The class which
-implements a ``run`` method is contained in a file called ``send_sms.py`` which
-is located in the same directory as the metadata file. The action takes three
-parameters (from_number, to_number, body).
+This action is using a Python runner (``python-script``). The class that implements a ``run``
+method is contained in a file called ``send_sms.py`` which is located in the same directory as the
+metadata file. The action takes three parameters (``from_number``, ``to_number``, ``body``).
 
-In the example above, ``to_number`` parameter contains attribute ``secret``
-with value:``true``. If an attribute is marked as a secret, the value of that
-attribute will be masked in the |st2| service logs.
+In the example above, the ``to_number`` parameter contains the attribute ``secret`` with value:
+``true``. If an attribute is marked as a secret, the value of that attribute will be masked in the
+|st2| service logs.
 
 Parameters in Actions
 ~~~~~~~~~~~~~~~~~~~~~
 
-In the previous example, you probably noticed how you can access parameters from
-key value store by using the ``system`` prefix in the template. You can also
-get access to variables from the context of the execution. For example:
+In the previous example, you probably noticed how you can access parameters from the key-value
+store by using the ``st2kv.system`` prefix in the template. You can also get access to variables
+from the context of the execution. For example:
 
 .. code-block:: yaml
 
@@ -204,18 +211,50 @@ get access to variables from the context of the execution. For example:
         required: true
         default: "{{action_context.api_user}}"
 
-
 The prefix ``action_context`` is used to refer to variables in action context. Depending on how
-the execution is executed and nature of action (simple vs workflow), variables in action_context change.
+the execution is executed and nature of action (simple vs workflow), variables in
+``action_context`` change.
 
-A simple execution via the API will only contain variable ``user``. An execution triggered via
-chatops will contain variables such as ``api_user``, ``user`` and ``source_channel``. In
-chatops case, ``api_user`` is the user who's kicking off the chatops command from
-client and ``user`` is the |st2| user configured in hubot. ``source_channel`` is the channel
-in which the chatops command was kicked off.
+A simple execution via the API will only contain the variables ``user`` and ``pack``. An execution
+triggered  via ChatOps will contain variables such as ``api_user``, ``user``, ``pack``, and
+``source_channel``. In the ChatOps case, ``api_user`` is the user who entered the ChatOps command
+from the Chat client and ``user`` is the |st2| user configured in hubot. ``source_channel`` is the
+channel in which the ChatOps command was entered.
 
-In case of action chains and workflows (see :doc:`Workflow </workflows>`), every task in the workflow could access the parent's ``execution_id``.
-For example, a task in an action chain is shown below:
+In addition to ``action_context`` you can also access ``config_context`` which contains the
+key-value contents of your :doc:`pack configuration </reference/pack_configs>`. The example below
+shows how you could use this for the default value for a parameter:
+
+.. code-block:: yaml
+
+    ---
+    name: "send_sms"
+    runner_type: "python-script"
+    description: "This sends an SMS using twilio."
+    enabled: true
+    entry_point: "send_sms.py"
+    parameters:
+        from_number:
+            type: "string"
+            description: "Your twilio 'from' number in E.164 format. Example +14151234567."
+            required: false
+            position: 0
+            default: "{{config_context.from_number}}"
+        to_number:
+            type: "string"
+            description: "Recipient number in E.164 format. Example +14151234567."
+            required: true
+            position: 1
+            secret: true
+        body:
+            type: "string"
+            description: "Body of the message."
+            required: true
+            position: 2
+            default: "Hello {% if system.user %} {{ st2kv.system.user }} {% else %} dude {% endif %}!"
+
+In ActionChains and workflows (see :doc:`Workflow </workflows>`), every task in the workflow can
+access the parent's ``execution_id``. For example, a task in an action chain is shown below:
 
 .. code-block:: yaml
 
@@ -238,49 +277,51 @@ To register a new action:
 1. Place it into the content location.
 2. Tell the system that the action is available.
 
-The actions are grouped in :doc:`packs </packs>` and located
-at ``/opt/stackstorm/packs`` (default, configured, multiple locations supported).
-For hacking one-off actions, the convention is to use `default` pack - just create your action in
-``/opt/stackstorm/packs/default/actions``.
+The actions are grouped in :doc:`packs </packs>` and located at ``/opt/stackstorm/packs``
 
-Register an individual action by calling `st2 action create my_action_metadata.yaml`.
-To reload all the actions, use ``st2ctl reload --register-actions``
+For hacking one-off actions, the convention is to use the ``default`` pack - just
+create your action in ``/opt/stackstorm/packs/default/actions``. Once you have tested it out, you
+should move it to a dedicated pack.
+
+Register an individual action by calling ``st2 action create my_action_metadata.yaml``.
+To reload all actions, use ``st2ctl reload --register-actions``
 
 
 Built-in Parameters
-^^^^^^^^^^^^^^^^^^^
+-------------------
 
-When configuring the metadata, there are several built-in parameters that
-can be used and overwritten to change the default functionality of the
-various runners:
+When configuring the metadata, there are several built-in parameters that can be used and
+overwritten to change the default functionality of the various runners:
 
 * ``args`` - (``local-shell-script``, ``remote-shell-script``) By default, |st2| will assemble
-  arguments based on whether a user defines named or positional arguments.
-  Adjusts the format of arguments passed to ``cmd``.
+  arguments based on whether a user defines named or positional arguments. Adjusts the format of
+  arguments passed to ``cmd``.
 * ``cmd``  - (``local-shell-script``, ``remote-shell-script``) Configure the command to be run
   on the target system.
 * ``cwd``  - (``local-shell-script``, ``remote-shell-script``) Configure the directory where
   remote commands will be executed from.
 * ``env``  - (``local-shell-script``, ``local-shell-script-script``, ``remote-shell-script``,
   ``remote-shell-script-script``, ``python-script``) Environment variables which will be
-  available to the executed command / script.
+  available to the executed command/script.
 * ``dir``  - (``local-shell-script``, ``remote-shell-script``) Configure the directory where
   scripts are copied from a pack to the target machine prior to execution.
   Defaults to ``/tmp``.
 
 Overriding Runner Parameters
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------
 
 Parameters of runners can be overridden. Sometimes it's necessary to customize and simplify an
-action. Take the following ``linux.rsync`` action that is included in the linux pack on st2 install.
-The linux.rsync action overrides the ``cmd`` parameter in the ``run-remote`` runner with the
-``rsync`` command with appropriate args passed from the action parameters defined for the
-linux.rsync action.
+action. Take the following ``linux.rsync`` action that is included in the linux pack.
+
+The ``linux.rsync`` action overrides the ``cmd`` parameter in the ``remote-shell-cmd`` runner with
+the ``rsync`` command with appropriate args passed from the action parameters defined for the
+``linux.rsync`` action:
 
 .. literalinclude:: /../../st2/contrib/linux/actions/rsync.yaml
+   :language: yaml
 
-Not all attributes for the runner parameters can be overridden. A list of attributes which can be
-overriden is included below.
+Not all attributes for runner parameters can be overridden. A list of attributes which can be
+overriden is included below:
 
 .. include:: _includes/runner_parameters_overridable_attributes.rst
 
@@ -289,16 +330,16 @@ potentially break the action since the runner will not be able to consume the ty
 passed (e.g. runner parameter is expecting an integer but a string is passed).
 
 Environment Variables Available to Actions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------------
 
-By default, local, remote and python runner make the following environment variables available
+By default, local, remote and Python runners make the following environment variables available
 to the actions:
 
 * ``ST2_ACTION_PACK_NAME`` - Name of the pack to which the currently executed action belongs to.
 * ``ST2_ACTION_EXECUTION_ID`` - Execution ID of the action being currently executed.
 * ``ST2_ACTION_API_URL`` - Full URL to the public API endpoint.
 * ``ST2_ACTION_AUTH_TOKEN`` - Auth token which is available to the action until it completes.
-  When the action completes, the token gets revoked and it's not valid anymore.
+  When the action completes, the token gets revoked.
 
 Here is an example of how you can use these environment variables inside a local shell script
 action.
@@ -316,28 +357,27 @@ action.
 .. _ref-actions-converting-scripts:
 
 Converting Existing Scripts into Actions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------------
 
-If you have an existing standalone script written in an arbitrary programming
-or scripting language and you want to convert it to an action, the process is
-very simple.
+If you have an existing standalone script written in an arbitrary programming or scripting
+language and you want to convert it to an action, the process is very simple.
 
 Follow these steps:
 
-1. Make sure the script conforms to the conventions described above
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. Make sure the script conforms to conventions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You should make sure that the script exits with a zero status code on success
-and non-zero on error. This is important since the exit code is used by |st2| to
-determine if the script has finished successfully.
+You should make sure that the script exits with a zero status code on success and non-zero on
+error. This is important since the exit code is used by |st2| to determine if the script has
+finished successfully.
 
-2. Add a metadata file
-~~~~~~~~~~~~~~~~~~~~~~
+2. Create a metadata file
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You need to add a metadata file which describes the script name, description,
-entry point, which runner to use and script parameters (if any).
+You need to create a metadata file which describes the script name, description, entry point,
+which runner to use and script parameters (if any).
 
-When converting an existing script, you will want to either use ``local-shell-script``
+When converting an existing script, you will want to use either the ``local-shell-script``
 or ``remote-shell-script`` runner.
 
 2. Update argument parsing in the script
@@ -349,20 +389,20 @@ or ``remote-shell-script`` runner.
 
 Local and remote script runners recognize two types of parameters:
 
-1. ``named`` - those parameters don't include ``position`` attribute
-2. ``positional`` - those parameters include ``position`` attribute
+1. ``named`` - those parameters do not include the ``position`` attribute.
+2. ``positional`` - those parameters include the ``position`` attribute.
 
-All of the parameters are passed to the script via the command-line arguments.
+All parameters are passed to the script via command-line arguments.
 
 Named argument are passed to the script in the following format:
 
-::
+.. code-block:: bash
 
     script.sh --param1=value --param2=value --param3=value
 
-By default, each parameter is prefixed with two dashes (``--``). If you want to
-use a single dash (``-``), some other prefix or no prefix at all, you can
-configure that using ``kwarg_op`` parameter in the metadata file.
+By default, each parameter is prefixed with two dashes (``--``). If you want to use a single dash
+(``-``), some other prefix or no prefix at all, you can configure that using the ``kwarg_op``
+parameter in the metadata file.
 
 For example:
 
@@ -391,62 +431,58 @@ For example:
 
 In this case, arguments are passed to the script in the following format:
 
-::
+.. code-block:: bash
 
     script.sh -key1=value1 -key2=value2 -key3=value3
 
-And positional arguments are passed to the script ordered by the ``position``
-value in the following format:
+Positional arguments are passed to the script ordered by the ``position`` value in the following
+format:
 
-::
+.. code-block:: bash
 
     script.sh value2 value1 value3
 
 .. _ref-positional-parameters-serialization:
 
-If your script only uses positional arguments (which is usually the case for
-a lot of scripts out there), you simply need to declare parameters with correct
-value for the ``position`` attribute in the metadata file. Positional arguments
-are serialized based on the simple rules described below:
+If your script only uses positional arguments (which is often the case for existing scripts), you
+simply need to declare parameters with the correct value for the ``position`` attribute in the metadata file. Positional arguments are serialized based on the simple rules described below:
 
 1. ``string``, ``integer``, ``float`` - Serialized as a string.
 2. ``boolean`` - Serialized as a string ``1`` (true) or ``0`` (false).
-3. ``lists`` - Serialized as a comma delimited string (e.g. ``foo,bar,baz``).
-4. ``objects`` - Serialized as JSON.
+3. ``array`` - Serialized as a comma delimited string (e.g. ``foo,bar,baz``).
+4. ``object`` - Serialized as JSON.
 
-Using this simple serialization format allows users to easily utilize those
-values in their scripts by using standard Bash functionality (``-z`` for check
-if a value is provided, ``-eq`` for comparison to 1/0 and ``IFS`` for splitting
-a string into an array). For working with objects, you can use a tool such as
-`jq`_.
+Using this simple serialization format allows users to easily utilize those values in their
+scripts by using standard Bash functionality (``-z`` for check if a value is provided, ``-eq`` for
+comparison to 1/0 and ``IFS`` for splitting a string into an array). For working with objects, you
+can use a tool such as `jq`_.
 
-In addition to that, if no value is provided for a particular positional
-parameter, |st2| will pass an empty string ``""`` as a value for that parameter
-to the script.
+If no value is provided for a particular positional parameter, |st2| will pass an empty string
+``""`` as a value for that parameter to the script.
 
-For example, if a second positional parameter is optional and user provides no
-value, the script will be called like this:
+For example, if a second positional parameter is optional and user provides no value, the script
+will be called like this:
 
-::
+.. code-block:: bash
 
-    script.sh value2 "" value3
+    script.sh value1 "" value3
 
 
-The ``immutable`` value defines whether the default value of a parameter can be
-overridden. This is particularly important if you expose commands via chatops and
-do not like security related parameters to be manipulated by user input.
+The ``immutable`` value defines whether the default value of a parameter can be overridden. This
+is particularly important if you expose commands via ChatOps and do not like security related
+parameters to be manipulated by user input.
 
 
 Example 1 - existing Bash script with positional arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Let's say we have a simple Bash script named ``send_to_syslog.sh`` which
-writes a message provided via the command line argument to syslog.
+Let's say we have a simple Bash script named ``send_to_syslog.sh`` which writes the message
+provided via the command line argument to syslog.
 
 The script takes two arguments:
 
-1. Argument #1 is the address of the syslog server
-2. Argument #2 is the message to write
+1. The address of the syslog server
+2. The message to write
 
 .. sourcecode:: bash
 
@@ -456,8 +492,7 @@ The script takes two arguments:
     MESSAGE=$2
     logger -n ${SERVER} ${MESSAGE}
 
-Since this script is only using positional arguments, you only need to define
-them in the metadata file:
+Since this script is using positional arguments, you only need to define them in the metadata file:
 
 .. code-block:: yaml
 
@@ -479,29 +514,18 @@ them in the metadata file:
             required: true
             position: 1
 
-As you can see above, we declare two parameters - ``server`` and ``message``.
-Both of them declare a ``position`` attribute (0 for server and 1 for message),
-which means they will be passed to the action script as positional arguments so
-your script doesn't require any changes.
+As you can see above, we declare two parameters - ``server`` and ``message``. Both of them declare
+a ``position`` attribute (0 for server and 1 for message), which means they will be passed to the
+action script as positional arguments, so your script doesn't require any changes.
 
 Writing Custom Python Actions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------
 
-In the simplest form, a Python action is a module which exposes a class which
-inherits from :class:`st2actions.runners.pythonrunner.Action` and implements
-a ``run`` method.
+In the simplest form, a Python action is a module which exposes a class which inherits from 
+:class:`st2common.runners.base_action.Action` and implements a ``run`` method.
 
-Sample Python action
+Sample Python Action
 ~~~~~~~~~~~~~~~~~~~~
-
-This example Python action prints text provided via the ``message`` parameter to
-the standard output.
-
-In addition to printing the message, the action also returns a tuple as a result.
-If the ``message`` parameter passed to the action is ``working``, the action will be
-considered as succeeded (first flag in the result indicating action status is
-``True``) and in case another message is passed in, action will be considered as
-failed (first flag in the result tuple indicating action status is ``False``).
 
 Metadata file (``my_echo_action.yaml``):
 
@@ -527,50 +551,63 @@ Action script file (``my_echo_action.py``):
 
     import sys
 
-    from st2actions.runners.pythonrunner import Action
+    from st2common.runners.base_action import Action
 
     class MyEchoAction(Action):
         def run(self, message):
             print(message)
 
-            if message == 'working'
+            if message == 'working':
                 return (True, message)
             return (False, message)
 
-As you can see above, user-supplied action parameters are passed to the ``run``
-method as keyword arguments. The return value from the  runner is a tuple consisting of
-success status flag and the result object respectively.
+This Python action prints text provided via the ``message`` parameter to the standard output. As
+you can see, user-supplied action parameters are passed to the ``run`` method as keyword arguments.
+
+If the ``run`` method finishes without exceptions, the execution is successful, and the value
+returned by the method (any value: boolean, string, list, dict, etc.) is considered its result.
+Raising an exception will report the execution as failed.
+
+Another way to specify the status of an execution is returning a tuple with two items: the first
+item is a boolean indicating status, the second item is the result itself.
+
+For example, ``return False`` will result in a successful execution with the result being
+``False``, and ``return (False, "Failed!")`` is a failed execution with ``"Failed!"`` as its
+result.
+
+In the example above, if the ``message`` parameter passed to the action is ``working``, the action
+will be considered as succeeded (first flag in the result indicating action status is ``True``).
+If another message is passed in, action will be considered as failed (first flag in the result
+tuple indicating action status is ``False``).
 
 For a more complex example, please refer to the `actions in the Libcloud pack in
-the contrib repository <https://github.com/StackStorm/st2contrib/tree/master/packs/libcloud/actions>`_.
+StackStorm Exchange <https://github.com/StackStorm-Exchange/libcloud/tree/master/actions>`_.
 
 Configuration File
 ~~~~~~~~~~~~~~~~~~
 
 .. note::
 
-    The configuration file should be used to store "static" configuration options
-    which don't change between the action runs (e.g. service credentials,
-    different constants, etc.).
+    The configuration file should be used to store "static" configuration options which don't
+    change between the action runs (e.g. service credentials, different constants, etc.).
 
-    For options / parameters which are user defined or change often, you should
-    use action parameters which are defined in the metadata file.
+    For options/parameters which are user defined or change often, you should use action
+    parameters which are defined in the metadata file.
 
-Python actions can store arbitrary configuration in the configuration file
-which is global to the whole pack. The configuration is stored in a file
-named ``config.yaml`` in the root directory of the pack.
+Python actions can store arbitrary configuration in the configuration file which is global to the whole pack. The configuration is stored in a file named ``<pack_name>.yaml``, in the
+``/opt/stackstorm/configs/`` directory.
 
-The configuration file format is YAML. Configuration is automatically parsed and
-passed to the action class constructor via the ``config`` argument.
+The configuration file format is YAML. Configuration is automatically parsed and passed to the action class constructor via the ``config`` argument.  See the
+:doc:`pack configuration doc</reference/pack_configs>` for more details.
 
 Logging
 ~~~~~~~
 
-All the logging inside the action should be performed via the logger which
-is specific to this action and available via the ``self.logger`` class attribute.
+All logging inside the action should be performed via the logger which is specific to this action
+and available via the ``self.logger`` class attribute.
 
-This logger is a standard Python logger from the ``logging`` module so all the
-logger methods work as expected (e.g. ``logger.debug``, ``logger.info``, etc).
+This logger is a standard Python logger from the ``logging`` module so all the logger methods work
+as expected (e.g. ``logger.debug``, ``logger.info``, etc).
 
 For example:
 
@@ -588,15 +625,14 @@ For example:
 Action Service
 ~~~~~~~~~~~~~~
 
-Similar to sensors, ``action_service`` is available on each action instance
-after instantiation.
+Similar to sensors, ``action_service`` is available on each action instance after instantiation.
 
-Action service provides different services to the action via public methods.
-Right now it supports datastore management methods. This allows actions to
-utilize the datastore to store arbitrary data between executions.
+Action service provides different services to the action via public methods. Right now it supports
+datastore management methods. This allows actions to utilize the datastore to store arbitrary data
+between executions.
 
-The action service provides the same datastore management methods as the ones
-available on the sensor service. You can find more details in the
+The action service provides the same datastore management methods as the ones available on the
+sensor service. You can find more details in the
 :ref:`sensor datastore management documentation<ref-sensors-datastore-management-operations>`.
 
 Example storing a dict as JSON:
@@ -613,46 +649,63 @@ Example storing a dict as JSON:
       value = self.action_service.get_value('cache')
       retrieved_data = json.loads(value)
 
+      # Retrieve an encrypted value
+      value = self.action_service.get_value('ma_password', decrypt=True)
+      retrieved_data = json.loads(value)
+
       # Delete a value
       self.action_service.delete_value('cache')
 
+Sharing code between Python Sensors and Actions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Refer to :ref:`documentation <ref-shared-libs-python-sensors-actions>` on sharing common code
+between python actions and sensors.
+
 Pre-defined Actions
-^^^^^^^^^^^^^^^^^^^
+-------------------
 
-There are several predefined actions that come out of the box when |st2|
-is installed via packages.
+There are several predefined actions that come out of the box with |st2|. These are in the ``core``
+pack:
 
-``core.local`` : This action allows execution of arbitrary \*nix/shell commands
-locally. You can excute this command via the CLI using:
+* ``core.local`` : This action allows execution of arbitrary \*nix/shell commands locally. You can
+  execute this command via the CLI using:
 
-::
+  .. code-block:: bash
 
     st2 run core.local cmd='ls -l'
 
-``core.remote`` : This action allows execution of arbitrary \*nix/shell commands
-on a set of boxes. Execute this command via the CLI with:
+* ``core.remote`` : This action allows execution of arbitrary \*nix/shell commands on a set of
+  boxes. Execute this command via the CLI with:
 
-::
+  .. code-block:: bash
 
     st2 run core.remote cmd='ls -l' hosts='host1,host2' username='user1'
 
-``core.http`` : This action allows execution of http requests. Think cURL
-executed from the |st2| box:
+* ``core.http`` : This action allows execution of http requests. Think ``curl`` executed from the
+  |st2| box:
 
-::
+  .. code-block:: bash
 
     st2 run core.http url="http://httpbin.org/get" method="GET"
 
-To see all predefined actions:
+  Similar to ``curl``, this action supports basic authentication when provided a username and
+  password:
 
-::
+  .. code-block:: bash
+
+    st2 run core.http url="http://httpbin.org/get" method="GET" username=user1 password=pass1
+
+To see all actions in the ``core`` pack:
+
+.. code-block:: bash
 
     st2 action list --pack=core
 
 .. rubric:: What's Next?
 
-* Explore packs and actions contributed by |st2| developers and community in the `StackStorm st2contrib repo on Github <https://github.com/StackStorm/st2contrib/>`_.
-* Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ on creating actions, and other practical examples of automating with |st2|.
+* Explore packs and actions contributed by |st2| developers and community in the `StackStorm Exchange <https://exchange.stackstorm.org>`_.
+* Check out `tutorials on stackstorm.com <https://stackstorm.com/category/tutorials/>`__ on creating actions, and other practical examples of automating with |st2|.
 
 .. _JSON Schema: http://json-schema.org/documentation.html
 .. _jq: https://stedolan.github.io/jq/

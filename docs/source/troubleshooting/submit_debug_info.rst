@@ -3,15 +3,14 @@
 Submitting Debugging Information 
 ================================
 
-The first step when trying to help you debug an issue is for us to try to
-reproduce the problem. To be able to do that, our setup needs to resemble
-yours as closely as possible.
+The first step to help debug and troubleshoot an issue for you is for us to try to
+reproduce the problem by making sure our setup resemble yours as closely as possible.
 
-To save time and make yours and our lives easier, the default distribution of
-|st2| includes a utility which allows you to easily and in a secure manner
-send us the information we need to help you debug or troubleshoot an issue.
+To save time and make it convenient, |st2| includes a utility
+which allows you to easily and securely send us the information we need to
+help us debug or troubleshoot your issue.
 
-By default, this script sends us the following information:
+By default, this utility sends us the following information:
 
 * All the |st2| services log files from ``/var/log/st2``
 * Mistral service log file from ``/var/log/mistral.log``
@@ -21,12 +20,11 @@ By default, this script sends us the following information:
 * |st2| content (integration packs) minus the pack configs.
 
 All this information is bundled up in a tarball and encrypted using our
-public key via public-key cryptography. Once submitted, this information
+public key via public-key cryptography. Once submitted, this bundled information
 is only accessible to Brocade employees and it is used solely for
 debugging purposes.
 
-To send debug information to Brocade, simply invoke the command shown
-below:
+To send debug information to Brocade, run this CLI command:
 
 .. sourcecode:: bash
 
@@ -39,11 +37,9 @@ below:
     2015-02-10 16:43:55,892  INFO - Encrypting tarball...
     2015-02-10 16:44:02,591  INFO - Debug tarball successfully uploaded to Brocade
 
-By default, the tool will run in an interactive mode. If you want to run it in a
-non-interactive mode and assume "yes" as the answer to all the questions you
-can use the ``--yes`` flag.
-
-For example:
+By default, the command will run in an interactive mode. If you want to run it in a
+non-interactive mode and assuming "yes" as the answer to all the questions, you
+can use the ``--yes`` flag. For example:
 
 .. sourcecode:: bash
 
@@ -54,25 +50,20 @@ For example:
     2015-02-10 16:45:37,193  INFO - Encrypting tarball...
     2015-02-10 16:45:43,926  INFO - Debug tarball successfully uploaded to StackStorm
 
-If you want to only send specific information to Brocade or exclude particular information
-you can use the ``--exclude-<content>`` flag.
-
-For example, if you want to only send us log files, you would run the command
-like this:
+If you want to only send specific information, or exclude particular information
+you can use the ``--exclude-<content>`` flag. For example, to only send us the log files:
 
 .. sourcecode:: bash
 
     st2-submit-debug-info --exclude-configs --exclude-content --exclude-system-info
 
-Reviewing the debug information
+Reviewing the Debug Information
 -------------------------------
 
-If you want to review and/or manipulate information (e.g. remove log lines
-which you might find sensitive) which is sent to Brocade, you can do that
-using ``--review`` flag.
+If you want to review and/or manipulate the information (e.g. remove log lines
+which you might find sensitive), you can do that using the ``--review`` flag.
 
-When this flag is used, the archive with debug information won't be encrypted
-and uploaded to Brocade.
+When this flag is used, the archive will not be encrypted and uploaded:
 
 .. sourcecode:: bash
 
@@ -82,8 +73,8 @@ and uploaded to Brocade.
     2015-02-10 17:43:49,770  INFO - Creating tarball...
     2015-02-10 17:43:49,912  INFO - Debug tarball successfully generated and can be reviewed at: /tmp/st2-debug-output-vagrant-ubuntu-trusty-64-2015-02-10-174349.tar.gz
 
-By default, the archive will be written to the /tmp directory. This can be controlled by using
-the ``--output`` option to specify the location/filename of the archive.
+By default, the archive will be written to the ``/tmp`` directory. This can be controlled by using
+the ``--output`` option to specify the location/filename of the archive:
 
 .. sourcecode:: bash
 
@@ -93,7 +84,7 @@ the ``--output`` option to specify the location/filename of the archive.
     2016-02-24 23:53:26,423  INFO - Creating tarball...
     2016-02-24 23:53:26,526  INFO - Debug tarball successfully generated and can be reviewed at: my-st2-debug-file.tar.gz
 
-After review, the archive can be uploaded to Brocade using the ``--existing-file`` option.
+After review, the archive can be uploaded using the ``--existing-file`` option:
 
 .. sourcecode:: bash
 
@@ -104,11 +95,11 @@ After review, the archive can be uploaded to Brocade using the ``--existing-file
     2016-02-24 23:56:13,814  INFO - When communicating with support, please let them know the tarball name - my-st2-debug-file.tar.gz.asc
 
 
-Customizing the debug information gathered
+Customizing the Debug Information Gathered
 ------------------------------------------
 
-st2-submit-debug-info can be customized for specific deployments by loading a set of overrides from
-a YAML file. The following config options are supported:
+``st2-submit-debug-info`` can be customized for specific deployments by loading a set of overrides
+from a YAML file. The following config options are supported:
 
 * ``log_file_paths`` - an additional set of log files to gather
 * ``st2_config_file_path`` - path to st2.conf
@@ -122,8 +113,9 @@ a YAML file. The following config options are supported:
 Sample config yaml file:
 
 .. literalinclude:: __debug_info_config.yaml
+   :language: yaml
 
-To send debug information to Brocade, simply invoke the command shown below passing it the path to
+To send debug information, simply invoke the CLI command shown below passing it the path to
 the YAML config file:
 
 .. sourcecode:: bash
@@ -138,13 +130,13 @@ the YAML config file:
     2016-01-19 06:12:43,949  INFO - Debug tarball successfully uploaded to Brocade (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:12:18.tar.gz.asc)
     2016-01-19 06:12:43,949  INFO - When communicating with support, please let them know the tarball name - st2-debug-output-70386ae8e4fe-2016-01-19-06:12:18.tar.gz.asc
 
-We can pass through any command line arguments provided to st2-submit-debug-info.
+We can pass through any command line arguments provided to ``st2-submit-debug-info``.
 
-For Example:
+For example:
 
-* To run it in a non-interactive mode use the '--yes' option.
+* To run it in a non-interactive mode use the '--yes' option:
 
-.. sourcecode:: bash
+  .. sourcecode:: bash
 
     st2-submit-debug-info --yes --config <path to config file>
 
@@ -154,9 +146,10 @@ For Example:
     2016-01-19 06:25:13,727  INFO - Debug tarball successfully uploaded to Brocade (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:25:09.tar.gz.asc)
     2016-01-19 06:25:13,727  INFO - When communicating with support, please let them know the tarball name - st2-debug-output-70386ae8e4fe-2016-01-19-06:25:09.tar.gz.asc
 
-* To send specific information to Brocade or to exclude particular information use the ``--exclude-<content>`` flag.
+* To send specific information or to exclude particular information, use the
+  ``--exclude-<content>`` flag:
 
-.. sourcecode:: bash
+  .. sourcecode:: bash
 
     st2-submit-debug-info --exclude-shell-commands --config <path to config file>
 
@@ -168,9 +161,9 @@ For Example:
     2016-01-19 06:28:29,559  INFO - Debug tarball successfully uploaded to Brocade (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:28:25.tar.gz.asc)
     2016-01-19 06:28:29,559  INFO - When communicating with support, please let them know the tarball name - st2-debug-output-70386ae8e4fe-2016-01-19-06:28:25.tar.gz.asc
 
-* To review the debugging information without encrypting and uploading to Brocade.
+* To review the debugging information without encrypting and uploading:
 
-.. sourcecode:: bash
+  .. sourcecode:: bash
 
     st2-submit-debug-info --review --config <path to config file>
 

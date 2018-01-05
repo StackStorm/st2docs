@@ -1,7 +1,11 @@
-* Start services ::
+* Start services:
+
+  .. code-block:: bash
 
     sudo st2ctl start
 
-* Register sensors and actions ::
+* Register sensors, rules and actions:
 
-    st2ctl reload
+  .. code-block:: bash
+
+    sudo st2ctl reload

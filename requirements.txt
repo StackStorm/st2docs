@@ -1,2 +1,2 @@
-sphinx
-git+https://github.com/StackStorm/sphinx-autobuild.git@develop
+sphinx>=1.6.5,<1.7
+sphinx-autobuild

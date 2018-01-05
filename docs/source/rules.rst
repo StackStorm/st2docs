@@ -1,9 +1,8 @@
 Rules
 =====
 
-|st2| uses rules and worfklows to capture operational patterns as automations.
-Rules map triggers to actions (or workflows), apply matching criteria and
-map trigger payload to action inputs.
+|st2| uses rules and workflows to capture operational patterns as automations. Rules map triggers
+to actions (or workflows), apply matching criteria and map trigger payloads to action inputs.
 
 Rule Structure
 --------------
@@ -34,19 +33,17 @@ listed below:
             ref: "action_ref"
             parameters:                        # optional
                 foo: "bar"
-                baz: "{{trigger.payload_parameter_1}}"
+                baz: "{{ trigger.payload_parameter_1 }}"
 
 The generic form of a rule is:
 
 * The ``name`` of the rule.
-* The ``pack`` that the rule belongs to. `default` is assumed if a pack is not specified.
+* The ``pack`` that the rule belongs to. ``default`` is assumed if a pack is not specified.
 * The ``description`` of the rule.
 * The ``enabled`` state of a rule (``true`` or ``false``).
-* The type of ``trigger`` emitted from sensors to monitor, which may consist of:
-
-  * parameters associated with a sensor/trigger.
-
-* An optional set of **criteria**, consisting of:
+* The type of ``trigger`` emitted from sensors to monitor, and optionally parameters associated
+  with that trigger.
+* An optional set of ``criteria``, consisting of:
 
   * An attribute of the trigger payload.
   * The ``type`` of criteria comparison.
@@ -60,8 +57,9 @@ The generic form of a rule is:
 Trigger
 -------
 
-The trigger in a rule specifies which incoming events should be inspected for potential match against this rule.
-View all the triggers configured on a system via the command line with the ``st2 trigger list`` command:
+The trigger in a rule specifies which incoming events should be inspected for potential match
+against this rule. View all the triggers configured on a system via the command line with the
+``st2 trigger list`` command:
 
 .. code-block:: shell
 
@@ -90,13 +88,13 @@ View all the triggers configured on a system via the command line with the ``st2
     +--------------------------------+-----------+---------------------------+---------------------------------------------------------------------------------+
 
 
-To learn more about Sensors/Triggers, take a look at the :doc:`sensors` page.
-
+To learn more about Sensors/Triggers, check the :doc:`sensors` page.
 
 Criteria
 --------
 
-Rule criteria are the rule(s) needed to be matched against (logical ``AND``). Criteria in the rule is expressed as:
+Rule criteria are the rule(s) needed to be matched against (logical ``AND``). Criteria in the rule
+is expressed as:
 
 .. code-block:: yaml
 
@@ -121,12 +119,11 @@ which gets passed to the operator function.
 In the ``regex`` case, ``pattern`` is a regular expression pattern which the trigger value
 needs to match.
 
-A list of all the available criteria operators is described below. If you are missing some
-operator, you are welcome to code it up and submit a patch :)
+A list of all the available criteria operators is described below. 
 
-If the criteria key contains an special characters (like ``-``) then use the dictionary lookup format for specifying
-the criteria key. In case of a webhook based rule it is typical for the header of the posted event to
-contain such values e.g.:
+If the criteria key contains any special characters (like ``-``) then use the dictionary lookup
+format for specifying the criteria key. In case of a webhook based rule it is typical for the
+header of the posted event to contain such values:
 
 .. code-block:: yaml
 
@@ -135,17 +132,16 @@ contain such values e.g.:
             type: "eq"
             pattern : "customvalue"
 
-The ``pattern`` value can also reference a datastore value using a Jinja
-variable access syntax as shown below:
+The ``pattern`` value can also reference a datastore value using Jinja variable access syntax:
 
 .. code-block:: yaml
 
     criteria:
         trigger.payload.build_number:
             type: "equals"
-            pattern : "{{ system.current_build_number }}"
+            pattern : "{{ st2kv.system.current_build_number }}"
 
-In this example we are referencing a value of a datastore item with the name
+In this example we are referencing the value of a datastore item with the name
 ``current_build_number``.
 
 Critera Comparison
@@ -203,15 +199,171 @@ This section describes all the available operators which can be used in the crit
                   greater than the provided value.
 ``exists``        Key exists in payload.
 ``nexists``       Key doesn't exist in payload.
+``inside``        Trigger payload is inside provided value. (e.g. testing if
+                  "``trigger.payload`` in ``provided_value``"). Reverse of ``contains``.
+                  (where ``contains`` would test for "``trigger.payload`` contains
+                  ``provided_value``").
+``ninside``       Trigger payload is not inside provided value. (e.g. testing if
+                  "``trigger.payload`` not in ``provided_value``"). Reverse of
+                  ``ncontains`` (where ``contains`` would test for "``trigger.payload``
+                  does not contain ``provided_value``").
+``search``        Search an array (list) in the trigger payload that matches child
+                  criteria.
+                  See the `Advanced Comparison`_ section for more information and
+                  examples.
 ================= =================================================================
+
+Advanced Comparison
+-------------------
+
+.. warning::
+
+    The ``search`` operator has some complexity and performance caveats to using
+    it. Ensure that you understand all of the implications before attempting to use it.
+    Remember that it is very easy to create complex criteria or a slow rule when you use
+    it. See the `Search Operator Caveats`_ subsection below for more.
+
+The ``search`` operator is slightly more complex than any of the other operators. It
+takes an additional ``condition`` parameter as well as additional nested criteria that it
+applies to each element of the search list.
+
+The ``condition`` parameter controls how the ``search`` operator matches the list.
+With the ``any`` condition, if *at least one* item in the trigger payload list matches
+all of the child criteria, the search operator will return a successful match.
+Conversely, with the ``all`` condition, every single item in the trigger payload list
+must match all of the child criteria for the search operator to return a successful
+match.
+
+Here's an example criteria that uses the ``search`` operator with the ``any`` condition:
+
+.. code-block:: yaml
+
+    ---
+    criteria:
+      trigger.issue_fields:
+        type: "search"
+          # Controls whether all items in the trigger payload must match the child criteria,
+          # or if any single item matching the child criteria is sufficient
+          condition: any  # <- *At least one* item must match all child patterns
+          pattern:
+            # Here our context is each item of the list
+            # All of these patterns must match the item for the item to be considered a match
+            # These are simply other operators applied to each item of the list
+            item.field_name:
+              type: "equals"
+              pattern: "Status"
+
+            item.to_value:
+              type: "equals"
+              pattern: "Approved"
+
+This criteria would match the following trigger payload, because the ``Status`` field was
+changed to ``Approved``:
+
+.. code-block:: json
+
+    {
+      "issue_fields": [
+        {
+          "field_type": "Custom",
+          "field_name": "Status",
+          "to_value": "Approved"
+        }, {
+          "field_type": "Custom",
+          "field_name": "Signed off by",
+          "to_value": "Stanley"
+        }
+      ]
+    }
+
+The ``condition`` parameter can also be ``all``, in which case all of the items in the list
+must match all of the child pattern:
+
+.. code-block:: yaml
+
+    ---
+    criteria:
+      trigger.issue_fields:
+        type: "search"
+          condition: all  # <- *All* items must match all patterns
+          pattern:
+            item.field_type:
+              type: "equals"
+              pattern: "Custom"
+
+That criteria would also match the trigger payload from above.
+
+However, the following trigger payload would not match with the ``all`` condition because the
+``Summary`` field is not a custom field:
+
+.. code-block:: json
+
+    {
+      "issue_fields": [
+        {
+          "field_type": "Built-in",
+          "field_name": "Summary",
+          "to_value": "Lorem Ipsum"
+        }, {
+          "field_type": "Custom",
+          "field_name": "Status",
+          "to_value": "Approved"
+        }, {
+          "field_type": "Custom",
+          "field_name": "Signed off by",
+          "to_value": "Stanley"
+        }
+      ]
+    }
+
+The search operator is very powerful, but more options for the ``condition`` parameter are
+possible. At this point, only the ``any`` and ``all`` conditions are implemented, but
+future improvements could include:
+
+* ``count``
+* ``count_gt``
+* ``count_gte``
+* ``count_lt``
+* ``count_lte``
+
+Search Operator Caveats
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``search`` operator has some caveats regarding its usage.
+
+First, it turns the rules engine into a recursive descent parser, which can reduce
+the performance of the rules engine. So if you have a rule that must remain fast regardless
+of system load, you should avoid using the ``search`` operator unless you absolutely have
+to.
+
+Second, the cognitive complexity of the ``search`` operator makes it a little difficult to
+grasp at a glance. If you are sharing your code with others you may need to extensively
+document your rules and patterns to explain your intent more clearly.
+
+Lastly, the algorithmic complexity of the ``search`` operator is much different
+than the other operators:
+
+* O(n\ :sub:`patterns`) in terms of n\ :sub:`patterns`, the number of child patterns
+* O(n\ :sub:`payloads`) in terms of n\ :sub:`payloads`, the number of trigger payload fields
+
+However, it has O(n\ :sub:`patterns` * n\ :sub:`payloads`) algorithmic complexity overall.
+
+It is therefore **very easy to write a slow rule when using this operator** if you have a
+large number of child criteria or if you are searching through a long list in your trigger
+payload.
+
+Usage of the ``search`` operator should largely be limited to trying to match a small number
+of child criteria, and a small number of expected payload list items. However, as slow as
+the ``search`` operator might make the rules engine, it will still be faster and more
+lightweight to use the ``search`` operator in your rules than it would be to run the rules
+engine, unconditionally run a workflow, and do the filtering there.
 
 Action
 ------
 
-This section describes the subsequent action/workflow to be executed on a successful match of a trigger
-and an optional set of criteria. At a minimum, a rule should specify the action to execute. Additionally,
-a rule can also specify parameters that will be supplied to an action upon execution.
-
+This section describes the subsequent action/workflow to be executed on successful match of a
+trigger and an optional set of criteria. At a minimum, a rule should specify the action to
+execute. A rule can also specify parameters that will be supplied to an action upon execution.
 
 .. code-block:: yaml
 
@@ -224,8 +376,9 @@ a rule can also specify parameters that will be supplied to an action upon execu
 Variable Interpolation
 ----------------------
 
-Occasionally, it will be necessary to pass along context of a trigger to an action when a rule is matched.
-The rules engine is able to interpolate variables by leveraging `Jinja templating syntax <http://jinja.pocoo.org/docs/dev/templates/>`__.
+Occasionally, it will be necessary to pass along context of a trigger to an action when a rule is \
+matched. The rules engine is able to interpolate variables by leveraging `Jinja templating syntax
+<http://jinja.pocoo.org/docs/dev/templates/>`__.
 
 .. code-block:: yaml
 
@@ -233,13 +386,11 @@ The rules engine is able to interpolate variables by leveraging `Jinja templatin
             ref: "action_ref"
             parameters:
                 foo: "bar"
-                baz: "{{trigger.payload_parameter_1}}"
+                baz: "{{ trigger.payload_parameter_1 }}"
 
 .. note::
 
-    Value of trigger attribute can be ``null`` and ``None``. It is also a valid value of the action
-    parameter in question. You need to use the ``use_none`` Jinja template filter to make sure that
-    ``null`` / ``None`` values are correctly serialized when invoking an action.
+    The value of a trigger attribute can be ``null`` and ``None``. It is also a valid value of the action parameter in question. You need to use the ``use_none`` Jinja template filter to make sure that ``null``/``None`` values are correctly serialized when invoking an action.
 
 .. code-block:: yaml
 
@@ -247,25 +398,22 @@ The rules engine is able to interpolate variables by leveraging `Jinja templatin
                 ref: "action_ref"
                 parameters:
                     foo: "bar"
-                    baz: "{{trigger.payload_parameter_1|use_none}}"
+                    baz: "{{ trigger.payload_parameter_1 | use_none }}"
 
-This workaround is required because of the limitation of our current templating system Jinja
-which doesn't support non-string types. We are forced to perform type casting based on the
-action parameters definition before invoking an action.
-
+This workaround is required because of the limitation of our current Jinja templating system which
+doesn't support non-string types. We are forced to perform type casting based on the action
+parameters definition before invoking an action.
 
 Managing Rules
 --------------
 
-To deploy a rule, use CLI ``st2 rule create ${PATH_TO_RULE}`` command, To reload all the rules,
-use ``st2ctl reload --register-rules`` for example:
-=======
-To deploy a rule, use the CLI command: ``st2 rule create ${PATH_TO_RULE}``, for example:
-
+To deploy a rule, use the CLI command: ``st2 rule create ${PATH_TO_RULE}``,  for example:
 
 .. code-block:: bash
 
     st2 rule create /usr/share/doc/st2/examples/rules/sample_rule_with_webhook.yaml
+
+To reload all the rules, use ``st2ctl reload --register-rules``.
 
 If a rule with the same name already exists, the above command will return an error:
 
@@ -274,7 +422,8 @@ If a rule with the same name already exists, the above command will return an er
     ERROR: 409 Client Error: Conflict
     MESSAGE: Tried to save duplicate unique keys (E11000 duplicate key error index: st2.rule_d_b.$uid_1  dup key: { : "rule:examples:sample_rule_with_webhook" })
 
-To update the rule, edit the rule definition file and run the command: ``st2 rule update``, as in the following example:
+To update the rule, edit the rule definition file and run the command: ``st2 rule update``, as in
+the following example:
 
 .. code-block:: bash
 
@@ -291,7 +440,8 @@ To see all the rules, or to get an individual rule, use commands below:
     st2 rule list
     st2 rule get examples.sample_rule_with_webhook
 
-To undeploy a rule, run ``st2 rule delete ${RULE_NAME_OR_ID}``. For example, to undeploy the ``examples.sample_rule_with_webhook`` rule we deployed previously, run:
+To undeploy a rule, run ``st2 rule delete ${RULE_NAME_OR_ID}``. For example, to undeploy the
+``examples.sample_rule_with_webhook`` rule we deployed previously, run:
 
 .. code-block:: bash
 
@@ -301,26 +451,23 @@ To undeploy a rule, run ``st2 rule delete ${RULE_NAME_OR_ID}``. For example, to 
 Rule Location
 -------------
 
-Custom rules can be placed in any accessible folder on local system. By convention, custom rules are placed
-in the ``/opt/stackstorm/packs/default/rules`` directory.  By default, |st2| doesn't load the rules
-deployed under ``/opt/stackstorm/packs/${pack_name}/rules/``. However you can force load them with
-``st2 run packs.load register=rules`` or ``st2 run packs.load register=all``.
-
+Custom rules can be placed in any accessible folder on local system. By convention, custom rules
+are placed in the ``/opt/stackstorm/packs/<pack_name>/rules`` directory. 
 
 .. _testing-rules:
 
 Testing Rules
 -------------
 
-To make testing the rules easier we provide a ``st2-rule-tester`` tool which allows evaluating rules against
+To make testing rules easier we provide a ``st2-rule-tester`` tool which can evaluate rules against
 trigger instances without running any of the |st2| components.
 
 The tool works by taking a path to the file which contains rule definition and a file which
-contains trigger instance definition:
+contains a trigger instance definition:
 
 .. code-block:: bash
 
-    st2-rule-tester --rule=${RULE_FILE} --trigger-instance=${TRIGGER_INSTANCE_DEFINITION}
+    st2-rule-tester --rule=${RULE_FILE} --trigger-instance=${TRIGGER_INSTANCE_DEFINITION} --config-file=/etc/st2/st2.conf
     echo $?
 
 Both files need to contain definitions in YAML or JSON format. For the rule, you can use the same
@@ -332,16 +479,16 @@ For the trigger instance, the definition file needs contain the following keys:
   ``slack.message``, ``irc.pubmsg``, ``twitter.matched_tweet``, etc.).
 * ``payload`` - Trigger payload. The payload itself is specific to the trigger in question. To
   figure out the trigger structure you can look at the pack README or look for the
-  ``trigger_types`` section in the sensor metadata file which is located in the ``packs/<pack
-  name>/sensors/`` directory.
+  ``trigger_types`` section in the sensor metadata file which is located in the
+  ``packs/<pack_name>/sensors/`` directory.
 
 If the trigger instance matches, ``=== RULE MATCHES ===`` will be printed and the tool will exit
-with ``0`` status code. On the other hand, if the rule doesn't match,
-``=== RULE DOES NOT MATCH ===`` will be printed and the tool will exit with ``1`` status code.
+with ``0`` status code. If the rule doesn't match, ``=== RULE DOES NOT MATCH ===`` will be printed
+and the tool will exit with status code ``1``.
 
 Here are some examples of how to use the tool:
 
-my_rule.yaml:
+``my_rule.yaml``:
 
 .. code-block:: yaml
 
@@ -363,10 +510,10 @@ my_rule.yaml:
       action:
         ref: "slack.post_message"
         parameters:
-            message: "{{trigger.source.nick}} on {{trigger.channel}}: {{trigger.message}}"
+            message: "{{ trigger.source.nick }} on {{ trigger.channel }}: {{ trigger.message }}"
             channel: "#irc-relay"
 
-trigger_instance_1.yaml:
+``trigger_instance_1.yaml``:
 
 .. code-block:: yaml
 
@@ -380,7 +527,7 @@ trigger_instance_1.yaml:
           timestamp: 1419166748,
           message: "stackstorm is cool!"
 
-trigger_instance_2.yaml:
+``trigger_instance_2.yaml``:
 
 .. code-block:: yaml
 
@@ -433,11 +580,12 @@ Output:
 .. _ref-rule-tester-post-mortem-debug:
 
 ``st2-rule-tester`` further allows a kind of post-mortem debugging where you can answer the
-question ``Why did my rule not match the trigger that just fired?``. This means there is known
-``Rule`` identifiable by its reference loaded in |st2| and similarly a TriggerInstance
-with a known id.
+question ``Why did my rule not match the trigger that just fired?``. This means there is a known
+``Rule`` identifiable by its reference loaded in |st2| and similarly a TriggerInstance with a
+known id.
 
-Lets say we have rule reference `my_pack.fire_on_execution` and a trigger instance `566b4be632ed352a09cd347d`
+Lets say we have rule reference ``my_pack.fire_on_execution`` and a trigger instance
+``566b4be632ed352a09cd347d``:
 
 .. code-block:: bash
 
@@ -463,7 +611,7 @@ The output also identifies the source of the mismatch i.e. whether it was the tr
 did not match or one of the criteria.
 
 If you are debugging and would like to see the list of trigger instances sent to |st2|,
-you can use the CLI to do so:
+you can use the CLI:
 
 .. code-block:: bash
 
@@ -475,16 +623,15 @@ You can also filter trigger instances by trigger:
 
   st2 trigger-instance list --trigger=core.f9e09284-b2b1-4127-aedd-dcde7a752819
 
-
-Also, you can get trigger instances within a time range by using ``timestamp_gt`` and ``timestamp_lt`` filter
-options:
+Also, you can get trigger instances within a time range by using ``timestamp_gt`` and
+``timestamp_lt`` filter options:
 
 .. code-block:: bash
 
   st2 trigger-instance list --trigger="core.f9e09284-b2b1-4127-aedd-dcde7a752819" -timestamp_gt=2015-06-01T12:00:00Z -timestamp_lt=2015-06-02T12:00:00Z
 
-Note that you can also specify one of ``timestamp_lt`` or ``timestamp_gt`` too. You can
-get details about a trigger instance by using ``get``.
+Note that you can also specify one of ``timestamp_lt`` or ``timestamp_gt`` too. You can get
+details about a trigger instance by using ``get``:
 
 .. code-block:: bash
 
@@ -502,27 +649,27 @@ can use the ``re-emit`` command for that.
 Timers
 ------
 
-Timers allow running a particular action repeatedly based on a defined time interval or one
-time at a particular date and time. You can think of them as cron jobs, but with additional
-flexibility, e.g. ability to run actions only once, at the provided date and time.
+Timers allow running a particular action repeatedly based on a defined time interval, or at one
+particular date and time. You can think of them as cron jobs, but with additional flexibility,
+e.g. the ability to run actions only once, at the provided date and time.
 
 Currently, we support the following timer trigger types:
 
-* ``core.st2.IntervalTimer`` - Run an action at predefined time intervals (e.g. every
-  30 seconds, every 24 hours, every week, etc.).
+* ``core.st2.IntervalTimer`` - Run an action at predefined time intervals (e.g. every 30 seconds,
+  every 24 hours, every week, etc.).
 * ``core.st2.DateTimer`` - Run an action at the specified date and time.
 * ``core.st2.CronTimer`` - Run an action when current time matches the time constraint
   defined in UNIX cron format.
 
 Timers are implemented as triggers, which means you can use them inside the rules. In the section
-below, you can find some examples on how to use timers in the rule definitions.
+below, you can find some examples of how to use timers in the rule definitions.
 
 core.st2.IntervalTimer
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Available parameters:``unit``, ``delta``.
-Supported values for ``unit`` parameter: ``seconds``, ``minutes``, ``hours``, ``days``,
-``weeks``.
+
+Supported values for ``unit`` parameter: ``seconds``, ``minutes``, ``hours``, ``days``, ``weeks``.
 
 Run action every 30 seconds
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -608,9 +755,9 @@ fire on every value.
 
 .. note::
 
-    Unlike with cron where first day (``0``) in ``day_of_week`` is a Sunday, in |st2| CronTimer
+    Unlike with cron where the first day (``0``) in ``day_of_week`` is a Sunday, in |st2| CronTimer
     first day of the week is always Monday. To make it more explicit and avoid confusion, you are
-    encouraged to use name of the weekdays instead (e.g. ``mon-fri`` instead of ``0-4``, or in
+    encouraged to use the name of the weekdays instead (e.g. ``mon-fri`` instead of ``0-4``, or in
     cron case, ``1-5``).
 
 Available parameter ``timezone``, ``year``, ``month``, ``day``, ``week``, ``day_of_week``,
@@ -657,7 +804,7 @@ Run action every day at midnight
     ...
 
 As noted above, ``*`` is assumed if no value is provided for a particular parameter, which means
-the following is equivalent to the above.
+the following is equivalent to the above:
 
 .. code-block:: yaml
 
@@ -718,9 +865,7 @@ Run action every full hour every day of the week
 
 .. rubric:: What's Next?
 
-* Explore automations on the `st2contrib`_ community repo.
+* Explore automations in the `StackStorm Exchange <https://exchange.stackstorm.org>`_.
 * Learn more about :doc:`sensors`.
-* Check out `tutorials on stackstorm.com <http://stackstorm.com/category/tutorials/>`__ - a growing set of practical examples of automating with |st2|.
-
-
-.. include:: __engage_community.rst
+* Check out `tutorials on stackstorm.com <https://stackstorm.com/category/tutorials/>`__ - a
+  growing set of practical examples of automating with |st2|.

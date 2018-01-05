@@ -1,12 +1,14 @@
 History and Audit
 =================
 
-These are records maintained by |st2| of past action executions.  These records include information about what events triggered what rules and then what actions. Common uses for this information includes root cause analysis reporting, operational control, and collaboration.
+|st2| maintains records of past action executions. These records include information about what
+events triggered what rules, and then what actions were executed. Common uses for this information
+includes root cause analysis reporting, operational control, and collaboration.
 
 This information is stored in two forms:
 
 * Database (accessible via CLI)
-* Audit log (/var/log/st2/st2*.audit.log)
+* Audit log (``/var/log/st2/st2*.audit.log``)
 
 There are two options to access history and audit records:
 
@@ -48,12 +50,15 @@ All execution records are accessible by the ``st2 execution *`` command family.
         "id": "5452ed4e0640fd6b59e75908"
     }
 
-Use ``st2 execution list -h`` and ``st2 execution get -h`` to explore options available with each of these commands.
+Use ``st2 execution list -h`` and ``st2 execution get -h`` to explore options available with each
+of these commands.
 
-The execution history can contain many records. Limiting output using ``st2 execution list --action ${action_reference} -n 10`` is particularly useful. It provides the last 10 executions of a specified action.
+The execution history can contain many records. Limiting output using ``st2 execution list --action
+${action_reference} -n 10`` is particularly useful. It provides the last 10 executions of a
+specified action.
 
 You can also filter executions by timestamps. For example, to get all executions between dates
-``2015-07-05T12:00:00.000000Z`` and ``2015-07-06T12:00:00.000000Z``, you can use the following command:
+``2015-07-05T12:00:00.000000Z`` and ``2015-07-06T12:00:00.000000Z``, use the following command:
 
 .. code-block:: bash
 
@@ -80,12 +85,9 @@ by the shell. Otherwise, timestamps could be misinterpreted and might show undes
 Logstash
 --------
 
-The audit logs are a lot more comprehensive in the information they contain. It is useful to view these in a tool like LogStash, which provides excellent search, sort and aggregation features.
+The audit logs contain much more comprehensive information. We recommend using tools like the 
+`Elastic Stack <https://elastic.co>`_ or `Splunk <https://splunk.com>`_ to view these. Much easier
+to view, sort, aggregate logs, and slice and dice them.
 
-Check out the LogStash configuration and Kibana dashboard for pretty logging and audit at :github_contrib:`st2contrib/extra/logstash </extra/logstash>`
-
-
-Coming soon
------------
-
-We are working on analytics for system operations, which may include analysis based upon underlying logs as well as enhancements to our GUI for this purpose.
+Check out the LogStash configuration and Kibana dashboard for pretty logging and audit at
+:github_exchange:`exchange-misc/logstash <exchange-misc/tree/master/logstash>`

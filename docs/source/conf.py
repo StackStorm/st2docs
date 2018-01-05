@@ -79,7 +79,7 @@ version = '.'.join(__version__.split('.')[:2])
 # The full version, including alpha/beta/rc tags.
 release = __version__
 # The complete list of current StackStorm versions.
-release_versions = ['2.0', '1.6', '1.5', '1.4', '1.3', '1.2', '1.1', '0.13', '0.12', '0.11', '0.9', '0.8']
+release_versions = ['2.5', '2.4', '2.3', '2.2', '2.1', '2.0', '1.6', '1.5', '1.4', '1.3', '1.2', '1.1', '0.13', '0.12', '0.11', '0.9', '0.8']
 
 # Some loveliness that we have to do to make this work.  Otherwise it defaults to contents.rst
 master_doc = info.master_doc
@@ -103,13 +103,12 @@ version_minus_2 = previous_version(version_minus_1)
 # extlink configurator sphinx.ext.extlinks
 extlinks = {
     'github_st2': ('https://github.com/StackStorm/st2/tree/master/%s', None),
+    'github_st2mistral': ('https://github.com/StackStorm/st2mistral/tree/master/%s', None),
     'github_mistral': ('https://github.com/StackStorm/mistral/tree/master/%s', None),
-    'github_contrib':
-        ('https://github.com/StackStorm/st2contrib/tree/master/%s', None),
-    'github_devenv': ('https://github.com/StackStorm/devenv/tree/master/%s', None),
-    'github_st2web': ('https://github.com/StackStorm/st2web/tree/master/%s', None),
-    'ops_latest':
-        ('https://downloads.stackstorm.net/releases/st2/' + release + '/%s/', None)
+    'github_exchange':
+        ('https://github.com/StackStorm-Exchange/%s', None),
+    'web_exchange':
+        ('https://exchange.stackstorm.org/#%s', None),
 }
 
 # Inserted at the bottom of all rst files.
@@ -124,8 +123,7 @@ else:
 
 rst_epilog = """
 %s
-.. _st2contrib: http://www.github.com/stackstorm/st2contrib
-.. _st2incubator: http://www.github.com/stackstorm/st2incubator
+.. _exchange: https://exchange.stackstorm.org/
 .. |bwc| replace:: Brocade Workflow Composer
 .. |ipf| replace:: IP Fabric Automation Suite
 """ % product_replace
@@ -187,6 +185,7 @@ nitpicky = True
 # XXX: temp fix before we figure how to make autodocs work
 nitpick_ignore = [
     ('py:class', 'st2actions.runners.pythonrunner.Action'),
+    ('py:class', 'st2common.runners.base_action.Action'),
     ('py:class', 'KeyValuePair')]
 
 # -- Options for HTML output ----------------------------------------------
@@ -200,7 +199,8 @@ html_theme = "sphinx_rtd_theme"
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-    'base_url': info.theme_base_url
+    'base_url': info.theme_base_url,
+    'canonical_url': info.theme_base_url
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
@@ -232,6 +232,7 @@ html_static_path = ['_static']
 # .htaccess) here, relative to this directory. These files are copied
 # directly to the root of the documentation.
 # html_extra_path = []
+html_extra_path = ['_redirects']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -279,6 +280,7 @@ htmlhelp_basename = info.htmlhelp_basename
 
 # Variables to be used by templates
 html_context = {
+    'github_user': info.github_user,
     'github_repo': info.github_repo,
     'github_version': info.github_version,
     'conf_py_path': '/docs/source/',
@@ -290,7 +292,10 @@ html_context = {
         (version_minus_1, '%s%s' % (info.base_url, version_minus_1)),
         (version_minus_2, '%s%s' % (info.base_url, version_minus_2)),
     ],
-    'current_version': version
+    'current_version': version,
+    'css_files': [
+        '_static/theme_overrides.css',
+        ],
 }
 
 
@@ -382,6 +387,6 @@ texinfo_documents = info.texinfo_documents
 # texinfo_no_detailmenu = False
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'http://docs.python.org/': None}
+intersphinx_mapping = {'https://docs.python.org/2': None}
 
 autoclass_content = 'both'

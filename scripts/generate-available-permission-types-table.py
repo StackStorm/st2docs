@@ -36,9 +36,14 @@ RESOURCE_DISPLAY_ORDER = [
     ResourceType.SENSOR,
     ResourceType.ACTION,
     ResourceType.ACTION_ALIAS,
+    ResourceType.API_KEY,
+    ResourceType.KEY_VALUE_PAIR,
     ResourceType.RULE,
+    ResourceType.RUNNER,
     ResourceType.EXECUTION,
-    ResourceType.WEBHOOK
+    ResourceType.TRIGGER,
+    ResourceType.WEBHOOK,
+    ResourceType.TRACE,
 ]
 
 

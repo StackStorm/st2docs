@@ -5,13 +5,15 @@
 # change from one version to another in conf.py should be 
 # placed here, otherwise you WILL break the build.
 
+from datetime import datetime
+
 master_doc = 'index'
 
 project = u'StackStorm'
-copyright = u'2016, StackStorm'
+copyright = u'2014 - %s, StackStorm' % (datetime.now().strftime("%Y"))
 author = u'Brocade Communications Inc'
 
-base_url = u'http://docs.stackstorm.com/'
+base_url = u'https://docs.stackstorm.com/'
 htmlhelp_basename = 'StackStormDoc'
 
 man_pages = [
@@ -28,7 +30,8 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 
-github_repo = 'StackStorm/st2docs'
+github_user = 'StackStorm'
+github_repo = 'st2docs'
 github_version = 'master'
 
-theme_base_url = u'http://docs.stackstorm.com/'
+theme_base_url = u'https://docs.stackstorm.com/'
