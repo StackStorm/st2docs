@@ -209,7 +209,6 @@ developers when the values are available and allows us to perform basic "static"
 code.
 
 .. _`PEP8 Python Style Guide`: http://www.python.org/dev/peps/pep-0008/
-.. _irc`: http://webchat.freenode.net/?channels=stackstorm
 .. _`Docstring conventions`: https://libcloud.readthedocs.org/en/latest/development.html#docstring-conventions
 
 .. toctree::
