@@ -156,7 +156,7 @@ If you are installing from behind a proxy, you can use the environment variables
 |bwc|
 -----
 
-Here's an example showing how to add :doc:`Brocade Workflow Composer </install/bwc>`, with
+Here's an example showing how to add :doc:`Extreme Workflow Composer </install/bwc>`, with
 `LDAP <https://bwc-docs.brocade.com/authentication.html#ldap>`_ authentication and
 `RBAC <https://bwc-docs.brocade.com/rbac.html>`_ configuration to allow/restrict/limit |st2|
 functionality to specific users:
@@ -166,7 +166,7 @@ functionality to specific users:
     - name: Install StackStorm Enterprise
       hosts: all
       roles:
-        - name: Install and configure StackStorm Enterprise (BWC)
+        - name: Install and configure StackStorm Enterprise (EWC)
           role: bwc
           vars:
             bwc_repo: enterprise
@@ -187,7 +187,7 @@ functionality to specific users:
             # Configure RBAC
             # See: https://bwc-docs.brocade.com/rbac.html
             bwc_rbac:
-              # Define BWC roles and permissions
+              # Define EWC roles and permissions
               # https://bwc-docs.brocade.com/rbac.html#defining-roles-and-permission-grants
               roles:
                 - name: core_local_only
@@ -213,7 +213,7 @@ functionality to specific users:
                   roles:
                     - system_admin
 
-        - name: Verify BWC Installation
+        - name: Verify EWC Installation
           role: bwc_smoketests
 
 .. note::

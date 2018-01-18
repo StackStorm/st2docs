@@ -73,7 +73,7 @@ any skipped versions:
 v2.5
 '''''
 
-* If you have the `Brocade DC Fabric Automation Suite <https://bwc-docs.brocade.com/solutions/dcfabric/overview.html>`_
+* If you have the `DC Fabric Automation Suite <https://bwc-docs.brocade.com/solutions/dcfabric/overview.html>`_
   version 1.1 installed, you must upgrade this to >= v1.1.1. Follow `these instructions <https://bwc-docs.brocade.com/solutions/dcfabric/install.html#upgrade-from-previous-version>`_.
 
 v2.4

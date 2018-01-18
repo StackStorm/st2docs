@@ -70,7 +70,7 @@ restricted to localhost.
 --------------------------------------
 * **nginx** provides SSL termination, redirects HTTP to HTTPS, serves WebUI static components, and
   reverse-proxies REST API endpoints to st2* web services.
-* **StackStorm WebUI** (st2web, and Workflow Designer, for Brocade Workflow Composer) are
+* **StackStorm WebUI** (st2web, and Workflow Designer, for Extreme Workflow Composer) are
   installed at ``/opt/stackstorm/static/webui`` and configured via ``webui/config.js``. ``st2web``
   comes in its own ``deb`` and ``rpm`` package. Workflow Designer is deployed as part of the
   ``bwc-enterprise`` package. They are HTML5 applications, served as static HTML, and call |st2|
@@ -94,7 +94,7 @@ The required dependencies are RabbitMQ, MongoDB, and PostgreSQL. The optional de
 
   - nginx for SSL termination, reverse-proxying API endpoints and serving static HTML.
   - Redis or Zookeeper for concurrency policies (see :doc:`/reference/policies`).
-  - LDAP for Brocade Workflow Composer LDAP authentication.
+  - LDAP for |bwc| LDAP authentication.
 
 
 Multi-box/HA deployment

@@ -3,9 +3,9 @@ Role Based Access Control
 
 .. note::
 
-   Role Based Access Control (RBAC) is only available in Brocade Workflow Composer. For information
-   about Brocade Workflow Composer and the differences between StackStorm and Brocade Workflow
-   Composer, please see `stackstorm.com/product <https://stackstorm.com/product/#enterprise>`_.
+   Role Based Access Control (RBAC) is only available in |bwc|. For information
+   about |bwc| and the differences between StackStorm and |bwc|, please see
+   `stackstorm.com/product <https://stackstorm.com/product/#enterprise>`_.
 
 Role Based Access Control (RBAC) allows system administrators to restrict users' access and limit
 the operations they can perform. For instance, you could give your database operator access only
@@ -230,10 +230,10 @@ There are some exceptions, described below:
 Enabling RBAC
 -------------
 
-If you installed BWC using the :doc:`one-line install </install/bwc>`, RBAC will be automatically
+If you installed |bwc| using the :doc:`one-line install </install/bwc>`, RBAC will be automatically
 enabled. It will assign the ``admin`` role to ``stanley`` and ``st2admin``. 
 
-If you installed BWC separately, by installing the ``bwc-enterprise`` package on top of |st2|, you
+If you installed |bwc| separately, by installing the ``bwc-enterprise`` package on top of |st2|, you
 will need to manually enable RBAC, and assign ``admin`` privileges to ``stanley``. It is not
 enabled by default. To enable it, add this section to ``/etc/st2/st2.conf``:
 

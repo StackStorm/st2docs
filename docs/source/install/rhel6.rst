@@ -284,9 +284,9 @@ Upgrade to |bwc|
 
 .. code-block:: bash
 
-  # Set up Brocade Workflow Composer repository access
-  curl -s https://${BWC_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.rpm.sh | sudo bash
-  # Install Brocade Workflow Composer
+  # Set up Extreme Workflow Composer repository access
+  curl -s https://${EWC_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.rpm.sh | sudo bash
+  # Install Extreme Workflow Composer
   sudo yum install -y bwc-enterprise
 
 .. rubric:: What's Next?
