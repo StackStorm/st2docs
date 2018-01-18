@@ -1,7 +1,7 @@
 Uninstall
 =========
 
-We strongly believe in Automation, and advise that servers should be treated as `Pets not Cattle
+We strongly believe in Automation, and advise that servers should be treated as `Cattle not Pets
 <http://cloudscaling.com/blog/cloud-computing/the-history-of-pets-vs-cattle/>`_. Therefore, our
 recommendation is to destroy the VM or container, rather than uninstalling |st2|.
 
