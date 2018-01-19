@@ -21,21 +21,21 @@ By default, this utility sends us the following information:
 
 All this information is bundled up in a tarball and encrypted using our
 public key via public-key cryptography. Once submitted, this bundled information
-is only accessible to Brocade employees and it is used solely for
+is only accessible to Extreme Networks employees and it is used solely for
 debugging purposes.
 
-To send debug information to Brocade, run this CLI command:
+To send debug information to Extreme Networks, run this CLI command:
 
 .. sourcecode:: bash
 
     st2-submit-debug-info
 
-    This will submit the following information to Brocade: logs, configs, content, system_info
+    This will submit the following information to Extreme Networks: logs, configs, content, system_info
     Are you sure you want to proceed? [y/n] y
     2015-02-10 16:43:54,733  INFO - Collecting files...
     2015-02-10 16:43:55,714  INFO - Creating tarball...
     2015-02-10 16:43:55,892  INFO - Encrypting tarball...
-    2015-02-10 16:44:02,591  INFO - Debug tarball successfully uploaded to Brocade
+    2015-02-10 16:44:02,591  INFO - Debug tarball successfully uploaded to Extreme Networks
 
 By default, the command will run in an interactive mode. If you want to run it in a
 non-interactive mode and assuming "yes" as the answer to all the questions, you
@@ -91,7 +91,7 @@ After review, the archive can be uploaded using the ``--existing-file`` option:
     st2-submit-debug-info --config /etc/st2debug/submit-debug-info.yaml --existing-file my-st2-debug-file.tar.gz
 
     2016-02-24 23:56:13,019  INFO - Encrypting tarball...
-    2016-02-24 23:56:13,814  INFO - Debug tarball successfully uploaded to Brocade (name=my-st2-debug-file.tar.gz.asc)
+    2016-02-24 23:56:13,814  INFO - Debug tarball successfully uploaded to Extreme Networks (name=my-st2-debug-file.tar.gz.asc)
     2016-02-24 23:56:13,814  INFO - When communicating with support, please let them know the tarball name - my-st2-debug-file.tar.gz.asc
 
 
@@ -122,12 +122,12 @@ the YAML config file:
 
     st2-submit-debug-info --config <path to config file>
 
-    This will submit the following information to Brocade: logs, configs, content, system_info, shell_commands
+    This will submit the following information to Extreme Networks: logs, configs, content, system_info, shell_commands
     Are you sure you want to proceed? [y/n] y
     2016-01-19 06:12:18,587  INFO - Collecting files...
     2016-01-19 06:12:19,602  INFO - Creating tarball...
     2016-01-19 06:12:19,708  INFO - Encrypting tarball...
-    2016-01-19 06:12:43,949  INFO - Debug tarball successfully uploaded to Brocade (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:12:18.tar.gz.asc)
+    2016-01-19 06:12:43,949  INFO - Debug tarball successfully uploaded to Extreme Networks (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:12:18.tar.gz.asc)
     2016-01-19 06:12:43,949  INFO - When communicating with support, please let them know the tarball name - st2-debug-output-70386ae8e4fe-2016-01-19-06:12:18.tar.gz.asc
 
 We can pass through any command line arguments provided to ``st2-submit-debug-info``.
@@ -143,7 +143,7 @@ For example:
     2016-01-19 06:25:09,024  INFO - Collecting files...
     2016-01-19 06:25:09,617  INFO - Creating tarball...
     2016-01-19 06:25:09,725  INFO - Encrypting tarball...
-    2016-01-19 06:25:13,727  INFO - Debug tarball successfully uploaded to Brocade (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:25:09.tar.gz.asc)
+    2016-01-19 06:25:13,727  INFO - Debug tarball successfully uploaded to Extreme Networks (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:25:09.tar.gz.asc)
     2016-01-19 06:25:13,727  INFO - When communicating with support, please let them know the tarball name - st2-debug-output-70386ae8e4fe-2016-01-19-06:25:09.tar.gz.asc
 
 * To send specific information or to exclude particular information, use the
@@ -153,12 +153,12 @@ For example:
 
     st2-submit-debug-info --exclude-shell-commands --config <path to config file>
 
-    This will submit the following information to Brocade: logs, configs, content, system_info
+    This will submit the following information to Extreme Networks: logs, configs, content, system_info
     Are you sure you want to proceed? [y/n] y
     2016-01-19 06:28:25,533  INFO - Collecting files...
     2016-01-19 06:28:25,895  INFO - Creating tarball...
     2016-01-19 06:28:26,002  INFO - Encrypting tarball...
-    2016-01-19 06:28:29,559  INFO - Debug tarball successfully uploaded to Brocade (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:28:25.tar.gz.asc)
+    2016-01-19 06:28:29,559  INFO - Debug tarball successfully uploaded to Extreme Networks (name=st2-debug-output-70386ae8e4fe-2016-01-19-06:28:25.tar.gz.asc)
     2016-01-19 06:28:29,559  INFO - When communicating with support, please let them know the tarball name - st2-debug-output-70386ae8e4fe-2016-01-19-06:28:25.tar.gz.asc
 
 * To review the debugging information without encrypting and uploading:

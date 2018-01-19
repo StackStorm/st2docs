@@ -32,4 +32,4 @@ At this point you have a minimal working installation, and can happily play with
 packs from `StackStorm Exchange <https://exchange.stackstorm.org>`__.
 
 But there is no joy without a Web UI, no security without SSL or authentication, no fun without
-ChatOps, and no money without Brocade Workflow Composer. Read on!
+ChatOps, and no money without |bwc|. Read on!

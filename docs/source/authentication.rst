@@ -108,8 +108,8 @@ The following is a list of auth backends for the community edition to help get t
 LDAP (Enterprise Edition)
 -------------------------
 |st2|-developed auth backends such as LDAP are only available in |bwc|. For more information on
-|bwc|, please visit https://www.brocade.com/en/products-services/network-automation/workflow-composer.html
-The auth backends included with |bwc| are developed, tested, maintained, and supported by Brocade.
+|bwc|, please visit https://www.extremenetworks.com/product/workflow-composer/
+The auth backends included with |bwc| are developed, tested, maintained, and supported by Extreme Networks.
 
 LDAP
 ^^^^

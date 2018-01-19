@@ -115,8 +115,8 @@ extlinks = {
 # Use for variables substitutions
 
 if tags.has('enterprise'):
-    print "Building BWC docs"
-    product_replace = "\n.. |st2| replace:: BWC\n.. |fullname| replace:: Brocade Workflow Composer"
+    print "Building EWC docs"
+    product_replace = "\n.. |st2| replace:: EWC\n.. |fullname| replace:: Extreme Workflow Composer"
 else:
     print "Building StackStorm docs"
     product_replace = "\n.. |st2| replace:: StackStorm\n.. |fullname| replace:: StackStorm"
@@ -124,7 +124,7 @@ else:
 rst_epilog = """
 %s
 .. _exchange: https://exchange.stackstorm.org/
-.. |bwc| replace:: Brocade Workflow Composer
+.. |bwc| replace:: Extreme Workflow Composer
 .. |ipf| replace:: IP Fabric Automation Suite
 """ % product_replace
 
