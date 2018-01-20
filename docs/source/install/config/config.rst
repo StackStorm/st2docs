@@ -336,7 +336,7 @@ authentication to Mistral. Please refer to OpenStack and Mistral documentation f
     keystone_username = mistral
     keystone_password = pass123
     keystone_project_name = default
-    keystone_auht_url = http://identity.example.com:5000/v3
+    keystone_auth_url = http://identity.example.com:5000/v3
 
 
 Authentication
