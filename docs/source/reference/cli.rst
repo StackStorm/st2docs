@@ -412,7 +412,7 @@ like this:
 
 .. sourcecode:: bash
 
-    st2 run mypack.set_interfaces \
+    st2 run --auto-dict mypack.set_interfaces \
       nic_info="target:eth0,ipaddr:192.168.0.10,netmask:255.255.255.0,mtu:1454" \
       nic_info="target:eth1,ipaddr:192.168.0.11,netmask:255.255.255.0,mtu:2000"
 
@@ -423,6 +423,14 @@ and look like this:
 
     [{'netmask': '255.255.255.0', 'ipaddr': '192.168.0.10', 'target': 'eth0', 'mtu': 1454},
      {'netmask': '255.255.255.0', 'ipaddr': '192.168.0.11', 'target': 'eth1', 'mtu': 2000}]
+
+.. note::
+
+  The st2 cli option ``--auto-dict`` is required to use this functionality. When you run action
+  without this option, each colon separated parameters are not parsed as dict object but just string.
+
+  And this option and its functionality will be deprecated in the next release in favor of a more
+  robust conversion method.
 
 To parse each value in the object as an expected type, you need to specify the type of each value
 in the action metadata, like this.
