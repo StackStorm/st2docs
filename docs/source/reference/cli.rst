@@ -413,8 +413,8 @@ like this:
 .. sourcecode:: bash
 
     st2 run mypack.set_interfaces \
-      nic_info="target:eth0,ipaddr:192.168.0.10,netmask:255.255.255.0,mtu=1454" \
-      nic_info="target:eth1,ipaddr:192.168.0.11,netmask:255.255.255.0,mtu=2000"
+      nic_info="target:eth0,ipaddr:192.168.0.10,netmask:255.255.255.0,mtu:1454" \
+      nic_info="target:eth1,ipaddr:192.168.0.11,netmask:255.255.255.0,mtu:2000"
 
 In this case, the ``nic_info`` value passed to the ``mypack.set_interfaces`` action would be parsed
 and look like this:
