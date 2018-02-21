@@ -122,6 +122,7 @@ coordination backend. The coordination backend must support the ``Locking``
 functionality as defined by the ``Tooz`` interface. Please refrence the
 `OpenStack Tooz compatability page <https://docs.openstack.org/tooz/latest/user/compatibility.html>`_
 for more information what interfaces are implemented by various backends.
+
 For the full list of the supported backends and how to configure them, please visit
 `OpenStack Tooz documentation <https://docs.openstack.org/tooz/latest/>`_.
 
