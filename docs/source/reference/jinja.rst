@@ -12,12 +12,12 @@ with Jinja in the context of |st2|. Please refer to the `Jinja docs
 Referencing Datastore Keys in Jinja
 ------------------------------------
 
-You can use ``{{ st2kv.system.foo }}`` to access key ``foo`` from datastore. Note that until
-v2.1, the expression to access key ``foo`` from datastore used to be ``{{ system.foo }}``
-but is now deprecated, and the leading ``st2kv.`` namespace is required.
+You can use ``{{ st2kv.system.foo }}`` to access key ``foo`` from the datastore. Note that prior to
+v2.1, the expression to access key ``foo`` from the datastore was ``{{ system.foo }}``. This is now
+deprecated, and the leading ``st2kv.`` namespace is required.
 
 Currently, all data in the datastore is represented as strings. To represent
-complext data structures like ``dicts`` and ``lists`` the standard approach is to
+complex data structures like ``dicts`` and ``lists`` the standard approach is to
 convert the data structure into JSON when storing the data, then parse it when
 retrieving the data.
 
@@ -34,7 +34,7 @@ retrieving the data.
 Applying Filters with Jinja
 ----------------------------
 
-To use a filter ``my_filter`` on ``foo``, you use the pipe operator, e.g.: ``{{ foo | my_filter }}``.
+To use the filter ``my_filter`` on ``foo``, you use the pipe operator, e.g.: ``{{ foo | my_filter }}``.
 Please pay attention to the data type and available filters for each data type. Since Jinja is a
 text templating language, all your input is converted to text and then manipulations happen on that
 value. The necessary casting at the end is done by |st2| based on information you provide in YAML
