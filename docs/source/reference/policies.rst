@@ -117,6 +117,12 @@ Other supported coordination backends include:
 * PostgreSQL
 * file (for testing when all the services are running on a single host)
 
+StackStorm utilizes the ``OpenStack Tooz`` library for communicating with the
+coordination backend. The coordination backend must support the ``Locking``
+functionality as defined by the ``Tooz`` interface. Please refrence the
+`OpenStack Tooz compatability page <https://docs.openstack.org/tooz/latest/user/compatibility.html>`_
+for more information what interfaces are implemented by various backends.
+
 For the full list of the supported backends and how to configure them, please visit
 `OpenStack Tooz documentation <https://docs.openstack.org/tooz/latest/>`_.
 
