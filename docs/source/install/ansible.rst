@@ -38,6 +38,12 @@ commands:
 
   ansible-playbook stackstorm.yml
 
+
+.. note::
+
+    Please keep in mind that the default StackStorm login credentials according to https://github.com/StackStorm/ansible-st2#variables  are: ``testu:testp``. Don't forget to change them to a more secure settings.
+
+
 Roles
 -----
 
@@ -85,8 +91,8 @@ Here's a more advanced example showing how to customize your |st2| deployment:
           vars:
             st2_version: latest
             st2_auth_enable: yes
-            st2_auth_username: demo
-            st2_auth_password: demo
+            st2_auth_username: testu
+            st2_auth_password: testp
             st2_save_credentials: yes
             st2_system_user: stanley
             st2_system_user_in_sudoers: yes
