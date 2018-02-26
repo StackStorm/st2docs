@@ -155,3 +155,7 @@ times out:
 
 Keep in mind that retrying an execution results in a new execution which shares all the attributes
 from the retried execution (parameters, context, etc).
+
+Maximum value of the ``delay`` parameter is ``120`` seconds. Keep in mind that right now, retry
+functionality is not ``st2notifier`` service restart safe. This means if there are any pending
+executions to be retried and ``st2notifier`` is restarted, those executions will be lost.
