@@ -4,7 +4,7 @@ Mistral
 `Mistral <https://docs.openstack.org/mistral/latest/overview.html>`_ is an OpenStack project that
 manages and executes workflows as a service. Mistral is automatically installed as a separate
 service named "mistral" along with |st2|. A Mistral workflow can be defined as a |st2| action in a
-Mistral workbook using the `v2 DSL <https://docs.openstack.org/mistral/latest/user/dsl_v2.html>`_.
+Mistral workbook using the `v2 Workflow Language <https://docs.openstack.org/mistral/latest/user/wf_lang_v2.html>`_.
 
 Expression languages such as YAQL are used for formatting variables and condition evaluations.
 Starting with |st2| v2.2, Jinja2 is also supported where YAQL expressions are accepted. Both
@@ -17,8 +17,8 @@ workflow can be traced back to the original parent action that invoked the workf
 
 **Essential Mistral Links:**
 
-* Mistral workflow definition language, aka `v2 DSL
-  <https://docs.openstack.org/mistral/latest/user/dsl_v2.html>`_
+* Mistral workflow definition language, aka `v2 WorkFlow Language
+  <https://docs.openstack.org/mistral/latest/user/wf_lang_v2.html>`_
 * `YAQL documentation <https://yaql.readthedocs.io/en/latest/>`_ and `YAQL online evaluator
   <http://yaqluator.com/>`_
 * `Jinja2 template engine documentation <http://jinja.pocoo.org>`_ and `Jinja2 online evaluator
