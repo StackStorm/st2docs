@@ -19,7 +19,7 @@ received when registering for evaluation or purchasing EWC.
 
 .. code-block:: bash
 
-  curl -sSL -O https://brocade.com/bwc/install/install.sh && chmod +x install.sh
+  curl -sSL -O https://stackstorm.com/bwc/install.sh && chmod +x install.sh
   ./install.sh --user=st2admin --password='Ch@ngeMe' --license=${EWC_LICENSE_KEY}
 
 Already have a working StackStorm system, and want to add |bwc|? No problem! No need to install a
