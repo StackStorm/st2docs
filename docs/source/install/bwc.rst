@@ -10,7 +10,7 @@ learn more about |bwc|, get an evaluation license, or request a quote, visit `ex
 <https://www.extremenetworks.com/product/workflow-composer/>`_.
 
 You can also add Network Automation Suites on top of an |bwc| system. See
-`bwc-docs.brocade.com/solutions/overview.html <https://bwc-docs.brocade.com/solutions/overview.html>`_
+`ewc-docs.extremenetworks.com/solutions/overview.html <https://ewc-docs.extremenetworks.com/solutions/overview.html>`_
 to learn more.
 
 To install |bwc| for a quick evaluation, run the commands below on a clean 64-bit Linux box that
