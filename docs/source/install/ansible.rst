@@ -163,8 +163,8 @@ If you are installing from behind a proxy, you can use the environment variables
 -----
 
 Here's an example showing how to add :doc:`Extreme Workflow Composer </install/bwc>`, with
-`LDAP <https://bwc-docs.brocade.com/authentication.html#ldap>`_ authentication and
-`RBAC <https://bwc-docs.brocade.com/rbac.html>`_ configuration to allow/restrict/limit |st2|
+`LDAP <https://ewc-docs.extremenetworks.com/authentication.html#ldap>`_ authentication and
+`RBAC <https://ewc-docs.extremenetworks.com/rbac.html>`_ configuration to allow/restrict/limit |st2|
 functionality to specific users:
 
 .. sourcecode:: yaml
@@ -179,7 +179,7 @@ functionality to specific users:
             bwc_license: CHANGE-ME-PLEASE
             bwc_version: latest
             # Configure LDAP backend
-            # See: https://bwc-docs.brocade.com/authentication.html#ldap
+            # See: https://ewc-docs.extremenetworks.com/authentication.html#ldap
             bwc_ldap:
               backend_kwargs:
                 bind_dn: "cn=Administrator,cn=users,dc=change-you-org,dc=net"
@@ -191,10 +191,10 @@ functionality to specific users:
                 port: 389
                 id_attr: "samAccountName"
             # Configure RBAC
-            # See: https://bwc-docs.brocade.com/rbac.html
+            # See: https://ewc-docs.extremenetworks.com/rbac.html
             bwc_rbac:
               # Define EWC roles and permissions
-              # https://bwc-docs.brocade.com/rbac.html#defining-roles-and-permission-grants
+              # https://ewc-docs.extremenetworks.com/rbac.html#defining-roles-and-permission-grants
               roles:
                 - name: core_local_only
                   description: "This role has access only to action core.local in pack 'core'"
@@ -207,7 +207,7 @@ functionality to specific users:
                     - permission_types:
                       - runner_type_list
               # Assign roles to specific users
-              # https://bwc-docs.brocade.com/rbac.html#defining-user-role-assignments
+              # https://ewc-docs.extremenetworks.com/rbac.html#defining-user-role-assignments
               assignments:
                 - name: test_user
                   roles:
