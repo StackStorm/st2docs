@@ -432,12 +432,7 @@ rule-related syntax.
 Securing Secrets (admin only)
 -----------------------------
 
-.. note::
-
-    This guide and the corresponding implementation is alpha quality. We are working on the feature
-    and feedback is welcome. Until the feature matures, no guarantee is made about the security of the credentials stored in the key-value store.
-
-The key-value store now allows users to store encrypted values (secrets). Symmetric encryption
+The key-value store allows users to store encrypted values (secrets). Symmetric encryption
 using AES-256 is used to encrypt secrets. The |st2| administrator is responsible for generating the
 symmetric key used for encryption/decryption. Note that the |st2| operator and administrator
 (or anyone else who has access to the key) can decrypt the encrypted values.
