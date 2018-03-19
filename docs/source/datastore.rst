@@ -41,7 +41,7 @@ Get individual key-value pair or list all:
     # To list first 50 key-value pairs (default)
     st2 key list
     # To list all the key-value pairs in the datastore
-    st2 key list -n 0
+    st2 key list -n -1
 
     # Get value for key "os_keystone_endpoint"
     st2 key get os_keystone_endpoint
@@ -103,18 +103,18 @@ Load this file using this command:
     st2 key load mydata.yaml
 
 The load command also allows you to directly load the output of the ``st2 key list -j`` command.
-If you have more than 50 key-value pairs, use ``st2 key list -n 0 -j`` to export all keys. This
+If you have more than 50 key-value pairs, use ``st2 key list -n -1 -j`` to export all keys. This
 is useful if you want to migrate datastore items from a different cluster or if you want to
 version control the datastore items and load them from version controlled files:
 
 .. code-block:: bash
 
     # JSON
-    st2 key list -n 0 -j > mydata.json
+    st2 key list -n -1 -j > mydata.json
     st2 key load mydata.json
 
     # YAML
-    st2 key list -n 0 -y > mydata.yaml
+    st2 key list -n -1 -y > mydata.yaml
     st2 key load mydata.yaml
 
 
