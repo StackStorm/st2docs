@@ -36,7 +36,7 @@ or obtain a pre-built binary.
 
 * **Ubuntu**: Instructions and binary packages for 14.04 and 16.04 are available `here <https://doublefault0.wordpress.com/2017/02/21/winexe-1-1-ubuntu-16-04/>`_.
 
-* **RHEL/CentOS**:  Instructions for compiling RPMs are `here <https://github.com/beardedeagle/winexe-rpm>`_.
+* **RHEL/CentOS**:  `These instructions <https://github.com/beardedeagle/winexe-rpm>`_ explain how to build RPMs for RHEL/CentOS systems.
 
 Supported Windows Versions
 --------------------------
