@@ -403,7 +403,7 @@ also be made to offer different services.
 
   .. code-block:: bash
 
-      $ /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
+      $ /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate | grep -v -e openstack -e keystone
 
 8. Replace ``/etc/st2/st2.conf`` with the sample ``st2.conf`` provided below. This config points to
    the controller node or configuration values of ``database``, ``messaging`` and ``mistral``.

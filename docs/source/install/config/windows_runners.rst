@@ -31,11 +31,12 @@ To install on RHEL/CentOS, run:
 
     sudo yum install samba-client
 
-You will need to compile `winexe <https://sourceforge.net/p/winexe/winexe-waf/ci/master/tree/>`_
-packages for your system. This `script <https://github.com/beardedeagle/winexe-rpm>`_ can be used
-to build RPM packages. The instructions `here
-<https://sourceforge.net/p/winexe/winexe-waf/ci/master/tree/>`_ can be used to build binaries for
-Ubuntu systems.
+``winexe`` is not distributed in normal RHEL/Ubuntu package repositories. You will need to compile it yourself,
+or obtain a pre-built binary.
+
+* **Ubuntu**: Instructions and binary packages for 14.04 and 16.04 are available `here <https://doublefault0.wordpress.com/2017/02/21/winexe-1-1-ubuntu-16-04/>`_.
+
+* **RHEL/CentOS**:  `These instructions <https://github.com/beardedeagle/winexe-rpm>`_ explain how to build RPMs for RHEL/CentOS systems.
 
 Supported Windows Versions
 --------------------------
