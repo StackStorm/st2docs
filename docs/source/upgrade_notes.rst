@@ -3,6 +3,49 @@
 Upgrade Notes
 =============
 
+|st2| v2.7
+----------
+
+* Update output (result) object returned by the Windows runner so it's consistent with and matches
+  the format returned by the local and remote runners.
+
+  ``result`` attribute has been removed (same information is available in the ``stdout``
+  attribute), ``exit_code`` renamed to ``return_code`` and two new attributes added -
+  ``succeeded`` and ``failed``.
+
+  Before:
+
+  .. code-block:: python
+
+    status: succeeded (1s elapsed)
+    parameters:
+      host: 10.0.0.1
+      password: '********'
+    result:
+      stdout: "Uptime: 0 days, 18 hours, 15 minutes"
+      stderr: ''
+      result: "Uptime: 0 days, 18 hours, 15 minutes"
+      exit_code: 0
+
+  After:
+
+  .. code-block:: python
+
+    status: succeeded (1s elapsed)
+    parameters:
+      host: 10.0.0.1
+      password: '********'
+    result:
+      stdout: "Uptime: 0 days, 18 hours, 15 minutes"
+      stderr: ''
+      return_code: 0
+      succeeded: true
+      failed: false
+
+  Keep in mind that information contained in the ``result`` attribute which has been removed is
+  also contained in ``stdout`` attribute so you only need to update your code if it relied on
+  ``result`` and / or ``exit_code`` attribute being present.
+
 |st2| v2.6
 ----------
 
