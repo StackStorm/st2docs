@@ -55,6 +55,31 @@ If you make any changes, you must restart |st2|:
     $ sudo st2ctl restart
 
 
+Standalone Auth Mode
+--------------------
+
+Standalone mode is the default auth mode where external users authenticate directly with
+StackStorm. Under the hood the ``st2auth`` service delegates to the configured
+``backend`` to perform the authentication. When the backend service properly
+authenticates the user, an auth token is returned. This token can then be used
+to make further API calls.
+
+
+Proxy Auth Mode
+---------------
+
+Proxy mode can be used when there is a service that sits in front of StackStorm
+that performs user authentication (ex: load balancer, apache, nginx, etc). When
+the frontend service authenticates a user it will need to make an API call
+``POST https://<stackstorm>/auth/v1/tokens`` to the ``st2auth`` service in order
+to obtain an auth token. In this request the following headers need to be added:
+
+* ``remote_addr`` Source of the request (hostname/ip).
+* ``remote_user`` User identity of proxy authenticated user.
+
+The request will return an auth token that can be used to make further API calls.
+
+
 .. _ref-auth-backends:
 
 Auth Backends
