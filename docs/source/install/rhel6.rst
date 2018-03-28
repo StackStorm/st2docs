@@ -197,8 +197,11 @@ you will need to add the official Nginx repository:
   enabled=1
   EOT"
 
-  # Install st2web and nginx
-  sudo yum -y install st2web nginx
+  # Install nginx, avoid epel repo in favor of nginx.org
+  sudo yum --disablerepo='epel' install -y nginx
+
+  # Install st2web
+  sudo yum install -y st2web
 
   # Generate a self-signed certificate or place your existing certificate under /etc/ssl/st2
   sudo mkdir -p /etc/ssl/st2
