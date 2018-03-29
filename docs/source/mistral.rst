@@ -316,8 +316,8 @@ With the callback mechanism, it is possible to trace the events sent to |st2|.
     # Identify the Mistral workflow execution ID which is different
     st2 execution get <st2-action-execution-id> -dj | grep workflow_execution_id
 
-    # Grep the log entries from /var/log/mistral.log
-    sudo tail -n 1000 /var/log/mistral.log | grep stackstorm_notifier | grep <mistral-wf-ex-id>
+    # Grep the log entries from the Mistral log, typically at /var/log/mistral/mistral-server.log
+    sudo tail -n 1000 /var/log/mistral/mistral-server.log | grep stackstorm_notifier | grep <mistral-wf-ex-id>
 
 The returned list of log entries would look something similar to the following.
 
