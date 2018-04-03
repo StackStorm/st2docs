@@ -418,6 +418,142 @@ removed from LDAP they will still be able to use |st2| if they have a valid auth
 auth token expires. If you want user access to be revoked as soon as they are removed from LDAP,
 you can manually purge active auth tokens for a particular user from the user database.
 
+Allowing Users to Only View Resources Created / Owned by Them
+-------------------------------------------------------------
+
+.. note::
+
+   This functionality is disabled by default and only available in |st2| v2.7.0 and above.
+
+   To enable it, you need to set ``rbac.permission_isolation`` config option in
+   ``/etc/st2/st2.conf`` to ``True`` and restart the API service (``sudo st2ctl restart-component
+   st2api``).
+
+   Keep in mind that right now it's only supported by the ``/v1/executions`` and ``/v1/rules``
+   API endpoint.
+
+By default, a user needs ``RESOURCE_LIST`` (e.g. ``EXECUTION_LIST``) permission type to be able to
+use "get all" API endpoint and view all the resources of a specific type.
+
+Same goes for viewing a single resource (using "get one" API endpoint) - user needs
+``RESOURCE_VIEW`` (e.g. ``RULE_VIEW``) permission on a specific resource (or on a parent pack).
+
+When this feature is enabled, non-admin users can only view resources which belong / are owned by
+them (resource ``context.user`` matches the currently authenticated user) when using "get all" and
+"get one" API endpoints (that is in addition to needing ``RESOURCE_LIST`` / ``RESOURCE_VIEW``
+permission).
+
+Some examples with this feature enabled.
+
+1. Admin user (can view all the resources)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Authenticated as a user with admin role.
+
+.. sourcecode:: javascript
+
+    curl "https://localhost/api/v1/rules"
+
+    [
+        {
+            "name": "rule1",
+            "ref": "examples.rule1",
+            ...
+            "context": {
+                "user": "admin"
+            },
+        },
+        {
+            "name": "rule2",
+            "ref": "examples.rule2",
+            ...
+            "context": {
+                "user": "user2"
+            },
+        },
+        {
+            "name": "rule3",
+            "ref": "examples.rule3",
+            ...
+            "context": {
+                "user": "user2"
+            },
+        },
+        {
+            "name": "rule4",
+            "ref": "examples.rule4",
+            ...
+            "context": {
+                "user": "user3"
+            },
+        },
+        {
+            "name": "rule5",
+            "ref": "examples.rule5",
+            ...
+            "context": {
+                "user": "user3"
+            },
+        }
+    ]
+
+2. User "user2" can only view their own resources
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Authenticated as "user2".
+
+.. sourcecode:: javascript
+
+    curl "https://localhost/api/v1/rules"
+
+    [
+        {
+            "name": "rule2",
+            "ref": "examples.rule2",
+            ...
+            "context": {
+                "user": "user2"
+            },
+        },
+        {
+            "name": "rule3",
+            "ref": "examples.rule3",
+            ...
+            "context": {
+                "user": "user2"
+            },
+        }
+    ]
+
+
+3. User "user3" can only view their own resources
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Authenticated as "user3".
+
+.. sourcecode:: javascript
+
+    curl "https://localhost/api/v1/rules"
+
+    [
+        {
+            "name": "rule4",
+            "ref": "examples.rule4",
+            ...
+            "context": {
+                "user": "user3"
+            },
+        },
+        {
+            "name": "rule5",
+            "ref": "examples.rule5",
+            ...
+            "context": {
+                "user": "user3"
+            },
+        }
+    ]
+
 Using RBAC Example
 ------------------
 
