@@ -18,6 +18,6 @@ To run the |st2| self-verification script:
 
 2. Run the self-check script ``/opt/stackstorm/st2/bin/st2-self-check``. This also copies the examples from ``/usr/share/doc/st2/examples`` to ``/opt/stackstorm/packs/`` and registers the content. Running this step will pollute your |st2| environment because it will download fixtures from `st2tests <https://github.com/StackStorm/st2tests/tree/master/packs/>`__.
 
-..code-block:: bash
+.. code-block:: bash
 
     sudo ST2_AUTH_TOKEN=$(st2 auth st2admin -p '<PASSWORD>' -t) /opt/stackstorm/st2/bin/st2-self-check
