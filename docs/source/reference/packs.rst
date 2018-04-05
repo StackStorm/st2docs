@@ -155,6 +155,10 @@ available at :github_st2:`st2/contrib/hello_st2 <contrib/hello_st2>`.
      set the ``ref`` value explicitly in ``pack.yaml``. Finally the email attribute in
      ``pack.yaml`` must contain a properly formatted email address.
 
+  2.1 Set Python 3 requirements (**optional**)
+
+  See :doc:`Python 3 <reference/python3>` guide for configuration of Python 3 virtual environments for packs.
+
 3. Create the :doc:`action </actions>`. An action consists of meta data, and entrypoint. The following
    example simply echoes a greeting.
 

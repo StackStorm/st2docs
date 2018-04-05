@@ -184,6 +184,8 @@ By default, this script will create and use a new temporary virtual environment 
 run and install all the dependencies which are required to run the tests inside this virtual
 environment.
 
+All pack tests will be executed under Python 2.7.
+
 If you want to avoid virtual environment creation (e.g. the virtual environment already exists or
 you have created one manually), you can pass the ``-x`` flag to the script. This flag will tell it
 to skip virtual environment creation, but all the necessary dependencies will still be installed.
