@@ -418,32 +418,31 @@ removed from LDAP they will still be able to use |st2| if they have a valid auth
 auth token expires. If you want user access to be revoked as soon as they are removed from LDAP,
 you can manually purge active auth tokens for a particular user from the user database.
 
-Allowing Users to Only View Resources Created / Owned by Them
--------------------------------------------------------------
+Restricting Users to Only View Resources They Own or Created
+------------------------------------------------------------
 
 .. note::
 
-   This functionality is disabled by default and only available in |st2| v2.7.0 and above.
+   This functionality is disabled by default and is only available in |st2| v2.7.0 and above.
 
-   To enable it, you need to set ``rbac.permission_isolation`` config option in
+   To enable it, you need to set the ``rbac.permission_isolation`` config option in
    ``/etc/st2/st2.conf`` to ``True`` and restart the API service (``sudo st2ctl restart-component
    st2api``).
 
-   Keep in mind that right now it's only supported by the ``/v1/executions`` and ``/v1/rules``
-   API endpoint.
+   Currently it is only supported by the ``/v1/executions`` and ``/v1/rules`` API endpoints.
 
 By default, a user needs ``RESOURCE_LIST`` (e.g. ``EXECUTION_LIST``) permission type to be able to
-use "get all" API endpoint and view all the resources of a specific type.
+use "get all" API endpoints and view all the resources of a specific type.
 
-Same goes for viewing a single resource (using "get one" API endpoint) - user needs
+The same applies to viewing a single resource (using "get one" API endpoint) - the user needs
 ``RESOURCE_VIEW`` (e.g. ``RULE_VIEW``) permission on a specific resource (or on a parent pack).
 
-When this feature is enabled, non-admin users can only view resources which belong / are owned by
+When this feature is enabled, non-admin users can only view resources which belong to or are owned by
 them (resource ``context.user`` matches the currently authenticated user) when using "get all" and
-"get one" API endpoints (that is in addition to needing ``RESOURCE_LIST`` / ``RESOURCE_VIEW``
+"get one" API endpoints (that is in addition to needing ``RESOURCE_LIST``/``RESOURCE_VIEW``
 permission).
 
-Some examples with this feature enabled.
+Examples with this feature enabled:
 
 1. Admin user (can view all the resources)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
