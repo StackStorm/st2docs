@@ -336,7 +336,7 @@ basis in case |st2| or Mistral services is offline during a callback operation.
 .. code-block:: bash
 
     # Enable the results tracking for an individual workflow execution
-    st2-track-result <st2-action-execution-id>
+    st2-track-result <st2-action-execution-id> --config-dir /etc/st2
 
     # Disable the results tracking for an individual workflow execution
-    st2-track-result <st2-action-execution-id> --delete
+    st2-track-result <st2-action-execution-id> --config-dir /etc/st2 --delete
