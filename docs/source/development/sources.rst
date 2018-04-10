@@ -57,6 +57,9 @@ tests:
 
     git clone https://github.com/StackStorm/st2.git
     cd st2
+    # Note: Some of the tests rely on the submodules so you need to check them
+    # out to make sure all the tests will pass locally
+    git submodule update --init --recursive
     make requirements
 
 Configure System User
