@@ -240,30 +240,6 @@ more secure than personal access tokens and can be configured on a per-repo basi
 Other git hosting services should also support either SSH or HTTPS auth, and would be configured
 in a similar fashion.
 
-Using Python 3 for Pack Python Virtual Environment
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. note::
-
-   This functionality is only available in |st2| v2.7.0 and above.
-
-When installing a pack, a Python virtual environment is created using the Python binary defined by
-the ``actionrunner.python_binary`` config option. By default, the same Python 2.7.x binary which is
-used by all the |st2| components and services is used for pack virtual environments (majority of
-the packs in the Exchange only support Python 2 right now).
-
-If for some reason you want to use Python 3 for running your pack Python actions, you can do that
-by passing ``--python3`` flag to the ``st2 pack install`` command (e.g. ``st2 pack install libcloud
---python3``).
-
-This will create pack virtual environment using Python 3 binary defined by
-``actionrunner.python3_binary`` config option. This value defaults to ``/usr/bin/python3`` and for
-it to work, Python 3 needs to be installed on the system.
-
-Keep in mind that this feature only means Python runner actions will be executed using Python 3
-binary. All the |st2| components and services, including the action runner will still use Python 2
-binary.
-
 .. _packs-behind-proxy:
 
 Installing Packs from Behind a Proxy
