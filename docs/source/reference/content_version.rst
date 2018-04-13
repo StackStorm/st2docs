@@ -7,14 +7,14 @@ Using a Specific Version of Pack Content When Running an Action
   the latest stable version of git is recommended.
 
   If you are using Ubuntu 14.04, the latest stable version of git can be installed directly from the
-  `official git ppa <https://launchpad.net/~git-core/+archive/ubuntu/ppa>`_. For RHEL/CentOS,
+  `official git ppa <https://launchpad.net/~git-core/+archive/ubuntu/ppa>`_. For RHEL / CentOS,
   the latest version can be found in the `IUS repos <https://ius.io/>`_.
 
 By default, when running an execution for an action from a pack on disk which is a git repository,
 |st2| will use the currently checked out git revision of the pack content. That is the version you
 have specified when installing the pack using ``st2 pack install <pack name>[=pack version]``.
 
-If you did not explicitly specify a version, the latest stable version will be installed and used
+If you don't explicitly specify a version, the latest stable version will be installed and used
 for the action executions.
 
 |st2| v2.7.0 introduced a new ``content_version`` runner parameter for the local and Python runner
@@ -35,7 +35,7 @@ The easiest way to demonstrate this functionality is using a pack which was buil
 demonstrating and testing it - https://github.com/StackStorm-Exchange/stackstorm-test-content-version.
 
 This pack contains 3 different actions which sole purpose is to print out the current pack version.
-The pack itself contains 4 different versions/tags (v0.1.0, v0.2.0, v0.3.0, v0.4.0). In a standard
+The pack itself contains 4 different versions / tags (v0.1.0, v0.2.0, v0.3.0, v0.4.0). In a standard
 |st2| pack git repository layout each pack version should have a corresponding git tag.
 
 Installing the pack
@@ -74,7 +74,7 @@ the same behavior as before:
     id: 5ad0ce8b0640fd27f7b97845
     status: succeeded
     parameters: None
-    result: 
+    result:
       exit_code: 0
       result: v0.4.0
       stderr: ''
@@ -92,9 +92,9 @@ In this case we specify that we want to use git tag ``v0.2.0`` which matches the
 
     id: 5ad0cee40640fd27f7b97848
     status: succeeded
-    parameters: 
+    parameters:
       content_version: v0.2.0
-    result: 
+    result:
       exit_code: 0
       result: v0.2.0
       stderr: ''
