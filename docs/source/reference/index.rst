@@ -10,6 +10,7 @@ References and Guides
    packs
    pack_management_transition
    action_output_streaming
+   content_version
    jinja
    policies
    runners
