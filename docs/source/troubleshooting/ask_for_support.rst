@@ -6,6 +6,7 @@ Ask for help!
 We stand behind |st2| and make our best effort to support you. Ask for support via one of these
 channels:
 
+* `Support Forum <https://forum.stackstorm.com>`_: Ask questions, search the archives.
 * `Slack <https://stackstorm-community.slack.com>`_: If you're not a Slacker yet, here's a good
   excuse to become one! Come hang out, chat to us, search the archives to see if anyone else has
   faced the same problem. Register `here <https://stackstorm.com/community-signup>`_.
