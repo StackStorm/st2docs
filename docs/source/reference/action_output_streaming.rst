@@ -3,10 +3,9 @@ Real-time Action Output Streaming
 
 .. note::
 
-  This feature is experimental. It is available in |st2| v2.5.0 and above. Because it is
-  experimental, it is disabled by default, and must be explicitly enabled (opt-in). To enable it,
-  set the ``actionrunner.stream_output`` config option to ``True`` in ``st2.conf`` and restart all
-  services (``sudo st2ctl restart``).
+  This feature was adding in |st2| v2.5.0 and above. Initially it was disabled by default. From v2.6.0,
+  it is enabled by default. This can be changed with the ``actionrunner.stream_output`` config option
+  in ``st2.conf``.
 
 How it Works
 ------------
