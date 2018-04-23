@@ -1,5 +1,5 @@
 .. rubric:: Questions? Problems? Suggestions? Engage!
 
-* Technical Questions: Email out support at support@brocade.com
-* Sales-related or direct communications: Email BWC-Team@brocade.com
-* Community-friendly messages: post on StackStorm-community.slack.com
+* Technical Questions: Email our support at support@extremenetworks.com
+* Support Forum: `forum.stackstorm.com <https://forum.stackstorm.com/>`_.
+* Sales-related or direct communications: Email sales@stackstorm.com
