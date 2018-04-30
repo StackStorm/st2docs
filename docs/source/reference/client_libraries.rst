@@ -54,6 +54,8 @@ C# / .net
 +-----------------+---------------------------------------------------------+
 | **Package**     | https://www.nuget.org/packages/St2.Client/              |
 +-----------------+---------------------------------------------------------+
+| **Docs**        | http://st2client.readthedocs.io/en/latest/St2.Client/   |
++-----------------+---------------------------------------------------------+
 
 .. sourcecode:: bash
 
@@ -68,6 +70,8 @@ Provides a client to talk to a |st2| API via PowerShell.
 | **Source code** | https://github.com/tonybaloney/St2Client                |
 +-----------------+---------------------------------------------------------+
 | **Package**     | https://www.nuget.org/packages/St2.Client/              |
++-----------------+---------------------------------------------------------+
+| **Docs**        | http://st2client.readthedocs.io/en/latest/powershell/   |
 +-----------------+---------------------------------------------------------+
 
 Installation:
