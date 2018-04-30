@@ -51,7 +51,13 @@ This is the standard upgrade procedure:
 
 4. Run the migration scripts (if any). See below for version-specific migration scripts.
 
-5. Start |st2| services:
+5. Ensure all content is registered:
+
+   .. sourcecode:: bash
+
+      sudo st2ctl reload --register-all
+
+6. Start |st2| services:
 
    .. sourcecode:: bash
 
