@@ -16,11 +16,14 @@ General Upgrade Procedure
 
 This is the standard upgrade procedure:
 
-1. Stop ``st2*`` services:
+1. Stop ``st2*`` services, and check all processes have terminated:
 
    .. sourcecode:: bash
 
       sudo st2ctl stop
+      ps auxww | grep st2
+      
+   If any `st2`-related processes are still running, kill them with `kill -9`.
 
 2. Upgrade |st2| packages using distro-specific tools:
 
@@ -51,7 +54,13 @@ This is the standard upgrade procedure:
 
 4. Run the migration scripts (if any). See below for version-specific migration scripts.
 
-5. Start |st2| services:
+5. Ensure all content is registered:
+
+   .. sourcecode:: bash
+
+      sudo st2ctl reload --register-all
+
+6. Start |st2| services:
 
    .. sourcecode:: bash
 
