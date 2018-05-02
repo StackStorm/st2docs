@@ -1,7 +1,7 @@
 Web UI
 ======
 
-st2web is an Angular-based HTML5 web application. It allows you to control the whole process of
+st2web is a React-based HTML5 web application. It allows you to control the whole process of
 execution, from running an action to seeing the results of the execution. It also helps you to
 explore workflow executions up to the results of individual tasks. All in real time.
 
@@ -34,8 +34,8 @@ an array of objects, each with ``name``, ``url`` and ``auth`` properties.
 
    hosts: [{
      name: 'Express Deployment',
-     url: 'http://172.168.90.50:9101',
-     auth: true
+     url: 'http://172.168.90.50/api',
+     auth: 'http://172.168.90.50/auth'
    },{
      name: 'Development Environment',
      url: 'http://:9101'
@@ -79,6 +79,7 @@ deployment to connect to your server by setting ``allow_origin = *``.
 Authentication
 --------------
 
-To configure st2web to support authentication, edit ``config.js`` and add ``auth:true`` to every
-server that supports authentication. To enable authentication on the server side, please refer to
-:doc:`/authentication`.
+To configure st2web to support authentication, edit ``config.js`` and add an ``auth:`` line for
+every server that supports authentication. This should specify the URL to the auth service - usually
+this will look something like ``auth: 'https://192.168.16.20/auth'``. To enable authentication on the
+server side, please refer to :doc:`/authentication`.
