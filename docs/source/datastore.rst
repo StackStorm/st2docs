@@ -400,6 +400,15 @@ Update an existing encrypted key-value pair:
     >>> client.keys.get_by_name(name='os_keystone_password', decrypt=True)
     <KeyValuePair name=os_keystone_password,value=New$ecret!>
 
+Set the TTL when creating a key-value pair:
+
+.. code-block:: python
+
+    >>> from st2client.client import Client
+    >>> from st2client.models import KeyValuePair
+    >>> client = Client(base_url='http://localhost')
+    >>> client.keys.update(KeyValuePair(name='os_keystone_endpoint', value='http://localhost:5000/v2.0', ttl=600))
+
 
 Referencing Key-Value Pairs in Rule Definitions
 -----------------------------------------------
