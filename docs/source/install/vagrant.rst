@@ -11,7 +11,7 @@ It's already pre-installed, configured and tested virtual appliance image and so
 time-consuming installation and configuration steps. Perfect for a quick platform overview,
 testing, demo or even using |st2| in isolated from the internet air-gapped systems.
 
-We highly recommend to use a Vagrant box to get familiar with the |st2| platform.
+We highly recommend using a Vagrant box to get familiar with the |st2| platform.
 
 .. contents:: Contents
    :local:
@@ -24,7 +24,7 @@ The source code is available as a GitHub repo:
 Requirements
 ------------
 `Vagrant <https://www.vagrantup.com/>`_ and `Virtualbox <https://www.virtualbox.org/>`_ are required.
-If you're not familiar with Vagrant, we recommend to take a look at `Introduction to Vagrant <https://www.vagrantup.com/intro/index.html>`_.
+If you're not familiar with Vagrant, we recommend looking at `Introduction to Vagrant <https://www.vagrantup.com/intro/index.html>`_.
 
 Quick Start
 -----------
