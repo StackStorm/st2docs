@@ -128,6 +128,13 @@ rst_epilog = """
 .. |ipf| replace:: IP Fabric Automation Suite
 """ % product_replace
 
+# A string of reStructuredText that will be included at the beginning of every source file that is read
+rst_prolog = """
+.. |br| raw:: html
+
+   <br />
+"""
+
 # Show or hide TODOs. See http://sphinx-doc.org/ext/todo.html
 todo_include_todos = True
 

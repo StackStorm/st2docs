@@ -1,8 +1,3 @@
-.. |br| raw:: html
-
-   <br />
-
-
 Vagrant & Virtual Appliance
 ============================
 Vagrant / OVA is a quick and easy way to try |st2| in a VM.
