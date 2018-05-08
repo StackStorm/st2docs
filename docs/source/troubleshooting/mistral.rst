@@ -27,19 +27,18 @@ too.
 Troubleshooting Mistral Workflow Completion Latency
 ---------------------------------------------------
 
-|st2| interacts with Mistral via HTTP APIs. This interaction occurs when kicking off a workflow execution
-or collecting the results for a running workflow. |st2| queries Mistral to check on the workflow
-execution status and the status of individual tasks.
+Since v2.7, the results tracking mechanism is replaced with a callback mechanism from Mistral. Instead of |st2|
+querying Mistral at regular interval, Mistral is configured to callback |st2| on task and workflow completion.
+See :ref:`mistral-workflows-completion-latency-and-performance`
 
-The process in |st2| that does the querying is called ``st2resultstracker``. This process saves the state
-of outstanding workflow executions in the database, and once a workflow is complete, deletes the
-state from the database. The process uses eventlets to simultaneously query multiple workflow
-results. This can consume significant CPU cycles. 
+Prior to v2.7, |st2| queries Mistral to check on workflow execution status and the status of individual tasks
+via st2resultstracker. This ``st2resultstracker`` process saves the state of outstanding workflow executions
+in the database, and once a workflow is complete, deletes the state from the database. The process uses
+eventlets to simultaneously query multiple workflow results. This can consume significant CPU cycles. 
 
-As of |st2| v2.3 onwards, there are two configurable values for controlling this from happening. These are
-``thread_pool_size`` (number of eventlets) and ``query_interval`` (interval to space out the
-subsequent queries to Mistral for a single execution). You can configure these values by editing
-the ``results_tracker`` section in ``/etc/st2/st2.conf``:
+There are two configurable values for controlling this from happening. These are ``thread_pool_size`` (number
+of eventlets) and ``query_interval`` (interval to space out the subsequent queries to Mistral for a single
+execution). You can configure these values by editing the ``results_tracker`` section in ``/etc/st2/st2.conf``:
 
 .. sourcecode:: ini
 
@@ -56,6 +55,3 @@ take as long as 5 seconds.
 
 If this is unacceptable for you, you can reduce the ``query_interval`` and also
 simultaneously check CPU usage for the ``st2resultstracker`` process.
-
-We are reworking the design to use HTTP callbacks from Mistral to |st2|. Until then, these tunable
-knobs should help.
