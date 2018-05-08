@@ -142,7 +142,8 @@ library in |st2| virtualenv, run:
 
 Retry
 -----
-
+action.retry in st2 actions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Retry policy (``action.retry``) allows you to automatically retry (re-run) an action when a
 particular failure condition is met. Right now we support retrying actions which have failed or
 timed out.
@@ -159,3 +160,7 @@ from the retried execution (parameters, context, etc).
 Maximum value of the ``delay`` parameter is ``120`` seconds. Keep in mind that right now, retry
 functionality is not ``st2notifier`` service restart safe. This means if there are any pending
 executions to be retried and ``st2notifier`` is restarted, those executions will be lost.
+
+action.retry in workflows
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Retry policy is not supported for action executions under workflows. Each specific workflow engine handles retries by its own means where applicable. Currently, action execution will retry on failure and timeout but workflow fails immediately.
