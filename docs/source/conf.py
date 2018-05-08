@@ -126,14 +126,10 @@ rst_epilog = """
 .. _exchange: https://exchange.stackstorm.org/
 .. |bwc| replace:: Extreme Workflow Composer
 .. |ipf| replace:: IP Fabric Automation Suite
-""" % product_replace
-
-# A string of reStructuredText that will be included at the beginning of every source file that is read
-rst_prolog = """
 .. |br| raw:: html
 
    <br />
-"""
+""" % product_replace
 
 # Show or hide TODOs. See http://sphinx-doc.org/ext/todo.html
 todo_include_todos = True
