@@ -75,7 +75,7 @@ StackStorm only support Ubuntu and RHEL/CentOS Linux distributions. In general, 
 on the two most recent major supported releases for those distributions. Specifically:
 
 * **Ubuntu**: All current LTS releases are supported, from the time of their first ``.1`` release
-   - e.g. ``16.04.1`` - until the Ubuntu end of life date. Currently we support Ubuntu ``14.04`` and
+  - e.g. ``16.04.1`` - until the Ubuntu end of life date. Currently we support Ubuntu ``14.04`` and
   ``16.04``. We aim to test and validate Ubuntu ``18.04``, when it is released later in 2018.
 
   At that point, Ubuntu ``14.04`` will be considered deprecated. It will continue to be supported until
@@ -84,6 +84,8 @@ on the two most recent major supported releases for those distributions. Specifi
 * **RHEL/CentOS**: We currently support RHEL/CentOS ``6.x`` and ``7.x``. In general, we recommend using
   the most recent version in that series, but any version may be used. When RHEL ``8.0`` is released,
   we will test and validate it. At that point, RHEL 6.x should be considered deprecated.
-
+  
   When RHEL ``8.1`` is released, |st2| support for RHEL ``6.x`` will finish. No ongoing testing will be
   done with RHEL ``6.x`` after that date. 
+
+
