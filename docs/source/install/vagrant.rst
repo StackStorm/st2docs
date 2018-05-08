@@ -1,7 +1,12 @@
+.. |br| raw:: html
+
+   <br />
+
+
 Vagrant & Virtual Appliance
 ============================
+Vagrant / OVA is a quick and easy way to try StackStorm in a VM.
 
-Vagrant / OVA is a quick and easy way to try StackStorm in a VM.|br|
 It's already pre-installed, configured and tested virtual appliance image and so saves time avoiding
 time-consuming installation and configuration steps. Perfect for a quick platform overview,
 testing, demo or even using StackStorm in isolated from the internet air-gapped systems.
@@ -12,8 +17,7 @@ We highly recommend to use a Vagrant box to get familiar with the StackStorm pla
    :local:
 
 The source code is available as a GitHub repo:
-`StackStorm/packer-st2 <https://github.com/StackStorm/packer-st2>`_.
-We're welcoming bug reports, feature requests or better pull requests and contributions.
+`StackStorm/packer-st2 <https://github.com/StackStorm/packer-st2>`_
 
 ---------------------------
 
@@ -41,13 +45,13 @@ page. It might be especially helpful for the isolated from the internet air-gapp
 
 .. note::
 
-    _Linux login credentials:
-    Username: ``vagrant``
-    Password: ``vagrant``
+    *Linux login credentials:* |br|
+    Username: ``vagrant`` |br|
+    Password: ``vagrant`` |br|
 
-    _StackStorm login details:
-    Username: ``st2admin``
-    Password: ``Ch@ngeMe``
+    *StackStorm login details:* |br|
+    Username: ``st2admin`` |br|
+    Password: ``Ch@ngeMe`` |br|
 
 .. warning::
 
@@ -62,7 +66,6 @@ Ask `StackStorm Support <support@stackstorm.com>`_ for more info.
 
 Tips & Tricks
 -------------
-
 Updating the Vagrant box
 ~~~~~~~~~~~~~~~~~~~~~~~~
 Once the newer box version is released, Vagrant will warn you about the available update.
@@ -101,12 +104,12 @@ Debugging
 ---------
 st2-integration-tests
 ~~~~~~~~~~~~~~~~~~~~~
-Sometimes StackStorm does not run properly for some reason.<br>
+Sometimes StackStorm does not run properly for some reason. |br|
 Discovering why at a infra level is the responsibility of ``st2-integration-tests`` which will
-perform StackStorm infrastructure/integration tests and report back with more detailed info.<br>
+perform StackStorm infrastructure/integration tests and report back with more detailed info.
 This can save time for both you & community to avoid extensive troubleshooting steps.
 
-If something went wrong, - just run ``st2-integration-tests``!
+If something went wrong, - just run ``st2-integration-tests``
 
 Bugs & Issues & Contributions
 -----------------------------
