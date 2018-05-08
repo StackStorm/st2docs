@@ -1,7 +1,7 @@
 Vagrant & Virtual Appliance
 ============================
 
-Vagrant / OVA is a quick and easy way to try StackStorm in a VM.<br>
+Vagrant / OVA is a quick and easy way to try StackStorm in a VM.|br|
 It's already pre-installed, configured and tested virtual appliance image and so saves time avoiding
 time-consuming installation and configuration steps. Perfect for a quick platform overview,
 testing, demo or even using StackStorm in isolated from the internet air-gapped systems.
@@ -19,8 +19,8 @@ We're welcoming bug reports, feature requests or better pull requests and contri
 
 Requirements
 ------------
-`Vagrant https://www.vagrantup.com/`_ and `Virtualbox https://www.virtualbox.org/`_ are required.
-If you're not familiar with Vagrant, we recommend to take a look at `Introduction to Vagrant https://www.vagrantup.com/intro/index.html`_.
+`Vagrant <https://www.vagrantup.com/>`_ and `Virtualbox <https://www.virtualbox.org/>`_ are required.
+If you're not familiar with Vagrant, we recommend to take a look at `Introduction to Vagrant <https://www.vagrantup.com/intro/index.html>`_.
 
 Quick Start
 -----------
@@ -36,7 +36,7 @@ Starting a StackStorm Vagrant VM is easy:
 Virtual Appliance / OVA
 -----------------------
 As alternative to Vagrant box is Virtual appliance which is available for download as ``.OVA``
-image from the `StackStorm/packer-st2 Github Releases https://github.com/StackStorm/packer-st2/releases`_
+image from the `StackStorm/packer-st2 Github Releases <https://github.com/StackStorm/packer-st2/releases>`_
 page. It might be especially helpful for the isolated from the internet air-gapped environments.
 
 .. note::
@@ -56,8 +56,8 @@ page. It might be especially helpful for the isolated from the internet air-gapp
 
 
 At the moment only Virtualbox provider is supported. VMWare-compatible virtual appliance is
-available with `StackStorm Enterprise (EWC) https://stackstorm.com/#product`_ image.
-Ask `StackStorm Support support@stackstorm.com`_ for more info.
+available with `StackStorm Enterprise (EWC) <https://stackstorm.com/#product>`_ image.
+Ask `StackStorm Support <support@stackstorm.com>`_ for more info.
 
 
 Tips & Tricks
@@ -94,7 +94,7 @@ Or directly in ``Vagrantfile``:
       config.vm.box_version = "2.7.1-20180507"
     end
 
-The list of available box versions can be found at `Vagrant Cloud https://app.vagrantup.com/stackstorm/boxes/st2`_.
+The list of available box versions can be found at `Vagrant Cloud <https://app.vagrantup.com/stackstorm/boxes/st2>`_.
 
 
 Debugging
