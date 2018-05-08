@@ -297,6 +297,7 @@ Check out this step-by-step tutorial on building a workflow in |st2| https://sta
 
 More details about Mistral can be found at https://docs.openstack.org/mistral/latest/.
 
+.. _mistral-workflows-completion-latency-and-performance:
 
 Mistral Workflows Completion, Latency, and Performance
 ------------------------------------------------------
