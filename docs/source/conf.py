@@ -126,9 +126,6 @@ rst_epilog = """
 .. _exchange: https://exchange.stackstorm.org/
 .. |bwc| replace:: Extreme Workflow Composer
 .. |ipf| replace:: IP Fabric Automation Suite
-.. |br| raw:: html
-
-   <br />
 """ % product_replace
 
 # Show or hide TODOs. See http://sphinx-doc.org/ext/todo.html

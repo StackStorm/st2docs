@@ -40,13 +40,13 @@ page. It might be especially helpful for the isolated from the internet air-gapp
 
 .. note::
 
-    *Linux login credentials:* |br|
-    Username: ``vagrant`` |br|
-    Password: ``vagrant`` |br|
-
-    *StackStorm login details:* |br|
-    Username: ``st2admin`` |br|
-    Password: ``Ch@ngeMe`` |br|
+  | *Linux login credentials:*
+  | Username: ``vagrant``
+  | Password: ``vagrant``
+  |
+  | *StackStorm login details:*
+  | Username: ``st2admin``
+  | Password: ``Ch@ngeMe``
 
 .. warning::
 
@@ -102,7 +102,8 @@ Debugging
 ---------
 st2-integration-tests
 ~~~~~~~~~~~~~~~~~~~~~
-Sometimes |st2| does not run properly for some reason. |br|
+Sometimes |st2| does not run properly for some reason.
+
 Discovering why at a infra level is the responsibility of ``st2-integration-tests`` which will
 perform |st2| infrastructure/integration tests and report back with more detailed info.
 This can save time for both you & community to avoid extensive troubleshooting steps.
