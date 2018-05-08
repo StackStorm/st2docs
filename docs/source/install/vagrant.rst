@@ -5,13 +5,13 @@
 
 Vagrant & Virtual Appliance
 ============================
-Vagrant / OVA is a quick and easy way to try StackStorm in a VM.
+Vagrant / OVA is a quick and easy way to try |st2| in a VM.
 
 It's already pre-installed, configured and tested virtual appliance image and so saves time avoiding
 time-consuming installation and configuration steps. Perfect for a quick platform overview,
-testing, demo or even using StackStorm in isolated from the internet air-gapped systems.
+testing, demo or even using |st2| in isolated from the internet air-gapped systems.
 
-We highly recommend to use a Vagrant box to get familiar with the StackStorm platform.
+We highly recommend to use a Vagrant box to get familiar with the |st2| platform.
 
 .. contents:: Contents
    :local:
@@ -28,7 +28,7 @@ If you're not familiar with Vagrant, we recommend to take a look at `Introductio
 
 Quick Start
 -----------
-Starting a StackStorm Vagrant VM is easy:
+Starting a |st2| Vagrant VM is easy:
 
 .. code-block:: bash
 
@@ -80,7 +80,7 @@ To update the box:
 
 Pinning the Vagrant box version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Whether you want to pin StackStorm, it's possible to use specific box version.
+Whether you want to pin |st2|, it's possible to use specific box version.
 While adding the box for the first time:
 
 .. code-block:: bash
@@ -104,9 +104,9 @@ Debugging
 ---------
 st2-integration-tests
 ~~~~~~~~~~~~~~~~~~~~~
-Sometimes StackStorm does not run properly for some reason. |br|
+Sometimes |st2| does not run properly for some reason. |br|
 Discovering why at a infra level is the responsibility of ``st2-integration-tests`` which will
-perform StackStorm infrastructure/integration tests and report back with more detailed info.
+perform |st2| infrastructure/integration tests and report back with more detailed info.
 This can save time for both you & community to avoid extensive troubleshooting steps.
 
 If something went wrong, - just run ``st2-integration-tests``
