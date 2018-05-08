@@ -28,7 +28,7 @@ Troubleshooting Mistral Workflow Completion Latency
 ---------------------------------------------------
 
 Since v2.7, the results tracking mechanism is replaced with a callback mechanism from Mistral. Instead of |st2|
-querying Mistral at regular interval, Mistral is configured to callback |st2| on task and workflow completion.
+querying Mistral at regular intervals, Mistral is configured to callback |st2| on task and workflow completion.
 See :ref:`mistral-workflows-completion-latency-and-performance`
 
 Prior to v2.7, |st2| queries Mistral to check on workflow execution status and the status of individual tasks
@@ -36,9 +36,9 @@ via st2resultstracker. This ``st2resultstracker`` process saves the state of out
 in the database, and once a workflow is complete, deletes the state from the database. The process uses
 eventlets to simultaneously query multiple workflow results. This can consume significant CPU cycles. 
 
-There are two configurable values for controlling this from happening. These are ``thread_pool_size`` (number
-of eventlets) and ``query_interval`` (interval to space out the subsequent queries to Mistral for a single
-execution). You can configure these values by editing the ``results_tracker`` section in ``/etc/st2/st2.conf``:
+There are two configurable values for controlling this. These are ``thread_pool_size`` (number of eventlets)
+and ``query_interval`` (interval to space out the subsequent queries to Mistral for a single execution). You
+can configure these values by editing the ``results_tracker`` section in ``/etc/st2/st2.conf``:
 
 .. sourcecode:: ini
 
@@ -48,10 +48,9 @@ execution). You can configure these values by editing the ``results_tracker`` se
 
 These values are subject to load conditions in your infrastructure and the number of workflows
 you are running. The default value for ``query_interval`` is set to ``5`` (seconds) which is a balance
-between the workflow speed and the CPU overhead. With |st2| 2.2 and
-earlier, this value was ``0.1``. We have now set the default value to ``5`` seconds to be
-conservative. This also means the time to detect a completed workflow in Mistral by |st2| could
-take as long as 5 seconds.
+between the workflow speed and the CPU overhead. With |st2| 2.2 and earlier, this value was ``0.1``.
+We have now set the default value to ``5`` seconds to be conservative. This also means the time to detect
+a completed workflow in Mistral by |st2| could take as long as 5 seconds.
 
 If this is unacceptable for you, you can reduce the ``query_interval`` and also
 simultaneously check CPU usage for the ``st2resultstracker`` process.
