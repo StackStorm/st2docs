@@ -227,7 +227,7 @@ By default, the logs can be found in ``/var/log/st2``.
 * By default, log rotation is handled via logrotate. Default log rotation config
   (:github_st2:`logrotate.conf <conf/logrotate.conf>`) is included with all package-based
   installations. Note that ``handlers.RotatingFileHandler`` is used by default in
-  ``/etc/st2*/logging.conf``, but the ``maxBytes`` and ``backupCount`` args are not specified so
+  ``/etc/st2/logging.*.conf``, but the ``maxBytes`` and ``backupCount`` args are not specified so
   no rotation is performed by default which then lets logrotate handle the rotation. If you want
   Python services instead of logrotate to handle the log rotation, update the logging configs as
   shown below:
@@ -248,7 +248,7 @@ By default, the logs can be found in ``/var/log/st2``.
 
 * Sensors run in their own process so it is recommended to not allow sensors to share the same
   ``RotatingFileHandler``. To configure a separate handler per sensor
-  ``/etc/st2reactor/logging.sensorcontainer.conf`` can be updated as follows, where ``MySensor`` is
+  ``/etc/st2/logging.sensorcontainer.conf`` can be updated as follows, where ``MySensor`` is
   the sensor in the ``mypack`` pack that will have its own log file:
 
   .. code-block:: ini

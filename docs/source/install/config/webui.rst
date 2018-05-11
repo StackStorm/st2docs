@@ -58,7 +58,7 @@ should look like this:
    # Host and port to bind the API server.
    host = 0.0.0.0
    port = 9101
-   logging = st2api/conf/logging.conf
+   logging = /etc/st2/logging.api.conf
    # List of allowed origins for CORS, use when deploying st2web client
    # The URL must match the one the browser uses to access the st2web
    allow_origin = http://webui.example.com
