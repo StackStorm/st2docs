@@ -94,10 +94,6 @@ Or directly in ``Vagrantfile``:
 
 The list of available box versions can be found at `Vagrant Cloud <https://app.vagrantup.com/stackstorm/boxes/st2>`_.
 
-
-.. TODO: Add a Vagrant port forwarding example
-
-
 Debugging
 ---------
 st2-integration-tests
