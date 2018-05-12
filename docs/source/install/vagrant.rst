@@ -31,6 +31,8 @@ Starting a |st2| Vagrant VM is easy:
   vagrant up
   vagrant ssh
 
+This will boot up a fresh |st2| installation along with the Mistral workflow engine on Ubuntu 16.04 LTS.
+You can access Web UI at ``https://10.10.10.10/`` or SSH to the box ``vagrant ssh`` if you prefer st2 CLI.
 
 Virtual Appliance / OVA
 -----------------------
