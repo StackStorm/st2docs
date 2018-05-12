@@ -2,7 +2,7 @@ Vagrant & Virtual Appliance
 ============================
 Vagrant / OVA is a quick and easy way to try |st2| in a VM.
 
-It's already pre-installed, configured and tested virtual appliance image and so saves time avoiding
+It's already pre-installed, configured and tested virtual machine image and so saves time avoiding
 time-consuming installation and configuration steps. Perfect for a quick platform overview,
 testing, demo or even using |st2| in isolated from the internet air-gapped systems.
 
@@ -18,11 +18,11 @@ The source code is available as a GitHub repo:
 
 Requirements
 ------------
-`Vagrant <https://www.vagrantup.com/>`_ and `Virtualbox <https://www.virtualbox.org/>`_ are required.
-If you're not familiar with Vagrant, we recommend looking at `Introduction to Vagrant <https://www.vagrantup.com/intro/index.html>`_.
+`Virtualbox <https://www.virtualbox.org/>`_ is required along with `Vagrant <https://www.vagrantup.com/>`_
+when it's used. If you're not familiar with Vagrant, we recommend looking at `Introduction to Vagrant <https://www.vagrantup.com/intro/index.html>`_.
 
-Quick Start
------------
+Vagrant Quick Start
+-------------------
 Starting a |st2| Vagrant VM is easy:
 
 .. code-block:: bash
