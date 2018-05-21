@@ -9,6 +9,12 @@ single system, or you can follow the manual instructions for your OS.
 
 Here's an overview of the options:
 
+* **Vagrant / Virtual Appliance:** Vagrant / OVA is a quick and easy way to try StackStorm.
+  It's already pre-installed, tested and shipped as a virtual image and so saves your time going
+  through time-consuming installation and configuration steps. Works best as a testing,
+  pack development or demo system and recommended to get familiar with StackStorm platform.
+  ``vagrant init stackstorm/st2 && vagrant up`` is all you need to get started.
+  See :doc:`Vagrant </install/vagrant>` for more detailed instructions.
 * **One-line Install:** Run our installation script for an opinionated install of all components
   on a single system. This is a our recommended way to get started. See the :ref:`Quick Install
   <ref-one-line-install>` section below for details.
@@ -21,8 +27,6 @@ Here's an overview of the options:
 * **Ansible Playbooks:** If you are an Ansible user, check these :doc:`/install/ansible` for
   installing |st2|. Ideal for repeatable, consistent, idempotent installation of |st2|.
 * **Docker:** |st2| is now supported on Docker - check out our :doc:`docker` instructions.
-* **Vagrant:** Vagrant is a quick way to spin up a test system - see  `st2vagrant
-  <https://github.com/StackStorm/st2vagrant>`_. This will bring up a new VM, and install |st2|.
 
 Choose the option that best suits your needs.
 
@@ -79,6 +83,7 @@ For more details on reference deployments, or OS-specific installation instructi
 
     Reference Deployment Overview <overview>
     system_requirements
+    Vagrant / OVA <vagrant>
     Ubuntu 14.04 / 16.04 <deb>
     RHEL 7 / CentOS 7 <rhel7>
     RHEL 6 / CentOS 6 <rhel6>
