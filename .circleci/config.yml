@@ -5,13 +5,33 @@ jobs:
       - image: circleci/python:2.7
     steps:
       - checkout
+      - run:
+          name: Clone ST2
+          command: |
+            make .clone-st2
+      - restore_cache:
+          key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}
       - run: make docs
+      - save_cache:
+          key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}
+          paths:
+            - ~/.cache/pip
   ewcdocs:
     docker:
       - image: circleci/python:2.7
     steps:
       - checkout
-      - run: make bwcdocs
+      - run:
+          name: Clone ST2
+          command: |
+            make .clone-st2
+      - restore_cache:
+          key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}
+      - run: make ewcdocs
+      - save_cache:
+          key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}
+          paths:
+            - ~/.cache/pip
 workflows:
   version: 2
   docs_checks:

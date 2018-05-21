@@ -98,11 +98,11 @@ livedocs: docs .livedocs
 	. $(VIRTUALENV_DIR)/bin/activate; sphinx-autobuild -H 0.0.0.0 -b html $(DOC_SOURCE_DIR) $(DOC_BUILD_DIR)/html
 	@echo
 
-.PHONY: bwcdocs
-bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .bwcdocs
+.PHONY: ewcdocs
+ewcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .ewcdocs
 
-.PHONY: .bwcdocs
-.bwcdocs: .patch-solutions .enterprise-docs .git-checkout-local-changes
+.PHONY: .ewcdocs
+.ewcdocs: .patch-solutions .enterprise-docs .git-checkout-local-changes
 
 .PHONY: .patch-solutions
 .patch-solutions:
@@ -124,10 +124,10 @@ bwcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .bwcdocs
 	git checkout docs/source/_includes/solutions.rst
 
 .PHONY: bwclivedocs
-bwclivedocs: bwcdocs .livedocs
+bwclivedocs: ewcdocs .livedocs
 
 .PHONY: bwclocaldocs
-bwclocaldocs: .clone-st2 requirements .requirements-st2 .bwcdocs .clean-bwc-solutions-folders
+bwclocaldocs: .clone-st2 requirements .requirements-st2 .ewcdocs .clean-bwc-solutions-folders
 
 .PHONY: bwclocallivedocs
 bwclocallivedocs: bwclocaldocs .livedocs
