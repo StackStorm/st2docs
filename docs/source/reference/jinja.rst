@@ -26,8 +26,16 @@ retrieving the data.
     # Pass the result of this expression to the action st2.kv.set
     {{ {'complex': 'structure', 'foo': ['x', True]} | to_json_string }}
 
+    # Or set it on the CLI
+    st2 key set foo '{"complex": "structure", "foo": ["x", True]}'
+
     # Read the data back in using the st2kv and from_json_string filters
     {{ st2kv.system.foo | from_json_string }}
+
+When accessing ``numbers``, ``integers``, ``objects`` and ``arrays`` in an action
+definition file, utilizing the ``from_json_string`` filter is NOT necessary. For
+more information on accessing key-value pairs from Actions see:
+:ref:`Referencing Key-Value Pairs in Action Definitions<referencing-key-value-pairs-in-action-definitions>`
 
 .. _jinja-jinja-filters:
 
