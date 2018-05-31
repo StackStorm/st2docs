@@ -32,10 +32,13 @@ retrieving the data.
     # Read the data back in using the st2kv and from_json_string filters
     {{ st2kv.system.foo | from_json_string }}
 
-When accessing ``numbers``, ``integers``, ``objects`` and ``arrays`` in an action
-definition file, utilizing the ``from_json_string`` filter is NOT necessary. For
+When accessing ``numbers``, ``integers``, ``objects`` and ``arrays`` in an Action
+Definition file, utilizing the ``from_json_string`` filter is NOT necessary. For
 more information on accessing key-value pairs from Actions see:
 :ref:`Referencing Key-Value Pairs in Action Definitions<referencing-key-value-pairs-in-action-definitions>`
+
+Accessing ``numbers``, ``integers``, ``objects`` and ``arrays`` in other places,
+such as Mistral workflows, utilizing ``from_json_string`` is still necessary.
 
 .. _jinja-jinja-filters:
 
