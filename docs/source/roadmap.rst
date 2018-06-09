@@ -2,55 +2,85 @@ Roadmap
 =======
 
 |st2| is still under active development. We welcome community feedback, and encourage
-contributions. Here's what we see as our top priorities:
+contributions. Here's our plans for the next few releases:
 
-* **Multi-node deployments:** Provide platform support for content deployment to multiple worker
-  nodes, with better integration with git/GitHub. Simplify development and deployment of
-  "automation as code" at scale.
-* **Multi target configurations for integration packs:** For a given integration pack, define and
-  manage multiple targets. This should allow the user to choose which one of a set of
-  configurations to use for a given action.
+2.8 - ETA June 2018
+-------------------
+
+* **Orchestra Beta:** Public beta of new "Orchestra" workflow engine.
+* **WebUI:** Update look & feel of Web UI, and add "Triggers" tab for troubleshooting rules.
+* **Python3 Actions:** Support Python 3 actions on a per-pack basis.
+* **Metrics Framework:** New framework for metrics collection for action results, time, etc.
+
+2.9 - ETA August 2018
+---------------------
+
+* **Orchestra Second Beta:** Second beta of new "Orchestra" workflow engine.
+* **Action Output Structure Definition**: Enable optional definition of action payload, so that it
+  can be inspected and used when passing data between actions in workflows.
+* **WebUI:** Add st2.ask and streaming output to the web UI.
+* **ChatOps:** Update ChatOps components, and add support for Microsoft Teams.
+* **k8s:** Reference configuration for running |st2| on k8s.
+* **Ubuntu 18.04:** Support Ubuntu 18.04 LTS.
+* **Windows Runners:** Add pywinrm-based Windows runner.
+
+3.0 - ETA October 2018
+----------------------
+
+* **Orchestra GA:** GA version of Orchestra.
+* **WebUI:** Datastore viewer/editor, and RBAC UI.
+* **ChatOps:** RBAC support.
+* **HA:** Simplify & streamline running |st2| in HA mode.
+* **Workflow Designer:** Updated Workflow Designer.
+* **SAML:** Support SAML authentication.
+
+This list above is subject to change, based upon customer feedback, and development progress.
+Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
+
+See something you really like? Make sure to get involved with testing and PR feedback. 
+
+Backlog
+-------
+
+Here's some more things on our list that we haven't scheduled yet:
+
 * **History and Audit service:** History view with advanced search over years worth of execution
   records, over multiple versions of continuously upgraded |st2|.
 * **At-scale refinements:** Ensure event handling reliability, and event storm resilience. Complete
   support for multi-node deployment of sensor containers and rules engines for resilience and
   throughput.
-* **Security hardening:** Complete security audit and address issues discovered so far.
-* **First class Windows support:** switch to pywinrm for better license. Remote PowerShell via
-  Powershell.REST.API. Windows-native ActionRunners. 
-* **Projects and Uber-flow:** Introduce projects to group and manage rules and workflows. Handle
-  versions and dependencies. "Productize" flow-rule-flow-rule chain pattern, aka "uber-flow".
-  Manage large number of automations across users and teams, on a single |st2| deployment at
-  enterprise scale.
-* **Action Output Structure Definition**: Enable optional definition of action payload, so that it
-  can be inspected and used when passing data between actions in workflows.
+* **RHEL 8.x:** Support RHEL/CentOS 8.x when it is released. Drop RHEL 6.x at that time.
+* **DB/Filesystem Consistency:** Provide better tooling for managing consistency between database and
+  filesystem consistency for rules, actions, sensors, etc.
+* **Configurable Sensors:** Run multiple instances of the same sensor, with different configurations.
+* **Pack Dependency:** Better automatic handling of pack dependencies.
+* **Python 3:** Complete Python 3 support. We are progressively updating code and adding support, but
+  do not yet have a final date for when everything can run via Python 3.
 * **RBACv2:**
 
   * **Filters**: Tag and property based filters, more refined and convenient access control.
-  * **Permissions**: Permissions on key value objects, arbitrary triggers, support for a default
-    role to be assigned to new users.
-  * **WebUI**: UI for RBAC configuration.
-  * **ChatOps**: Allow users to authenticate with |st2| via bot on chat. Check permissions of the
-    user who triggered an action/ran a command. Introduce a special set of permission types for
-    ChatOps.
+  * **Permissions**: Permissions on key value objects, arbitrary triggers, support for a default role.
 
-* **More integration packs:** push more content to the community to help work with most common and
-  widely used tools. Tell us if there is a tool you love and think we should integrate with, or
-  better yet write a pack!
-
-Is there some other feature you're desperately missing? Submit an
-`issue <https://github.com/StackStorm/st2docs/issues>`_!
+Something else you'd like to see on the backlog? Submit an
+`issue <https://github.com/StackStorm/st2/issues>`_. Or want to see something implemented sooner?
+Submit a PR!
 
 Release History
 ---------------
 
+.. rubric:: Done in v2.7
+
+* **Action Versioning:** Allow running specific action version - better management of rolling upgrades.
+* **Mistral Callbacks:** Refactor Mistral to support callbacks instead of polling.
+* **UTF-8/Unicode:** Allow UTF-8/Unicode characters in pack config files.
+* **Virtual Appliance:** Vagrantbox/Virtual Appliance with ST2 already installed, for quicker testing.
+
 .. rubric:: Done in v2.6
 
-* **React Web UI:** Rewrote st2web Web UI to use React framework
-* **Streaming Output:** Streaming output enabled by default
-* **Pack Development:** Shared ``lib`` directory for actions and sensors
+* **React Web UI:** Rewrote st2web Web UI to use React framework.
+* **Streaming Output:** Streaming output enabled by default.
+* **Pack Development:** Shared ``lib`` directory for actions and sensors.
 * **st2client:** Python 3 support for ``st2client``.
-
 
 .. rubric:: Done in v2.5
 
