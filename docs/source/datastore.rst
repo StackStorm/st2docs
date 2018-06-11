@@ -13,17 +13,6 @@ evaluation.
 
 Key-Value pairs can also have a TTL associated with them, for automatic expiry. 
 
-.. note::
-
-   Currently only string values are supported. This was done intentionally, to keep the feature
-   simple and fully compatible with existing API and CLI commands.
-
-   If you want to store a non-string value, you can store a JSON-serialized version, and then
-   de-serialize it in your action/sensor code, or using the ``from_json_string``
-   Jinja filter. See the :doc:`/reference/jinja` documentation for more details.
-
-   This may change in future if there is sufficient interest.
-
 Storing and Retrieving Key-Value Pairs via CLI
 ----------------------------------------------
 
@@ -59,6 +48,38 @@ Delete an existing key-value pair:
 .. code-block:: bash
 
     st2 key delete os_keystone_endpoint
+
+    
+Storing and Retrieving Numbers, Objects and Arrays via CLI
+----------------------------------------------------------
+
+Currently, all datastore values are stored as ``string``.  If you want to store
+a non-string value, you can store a JSON-serialized version, and then
+de-serialize it in your action/sensor code (see
+:ref:`Referencing Key-Value Pairs in Action Definitions <referencing-key-value-pairs-in-action-definitions>`
+for more info on using Key-Values in Actions).
+
+Storing an ``number`` / ``integer``:
+
+.. code-block:: bash
+
+    st2 key set retention_days 7
+
+    
+Storing an ``object`` using a JSON-serialized string representation:
+
+.. code-block:: bash
+
+    st2 key set complex_data '{"name": "Dave Smith", "age": 7, "is_parent": True}'
+
+    
+Storing an ``array`` using a JSON-serialized string representation:
+
+.. code-block:: bash
+
+    st2 key set number_list '[1, 2, 3, 4]'
+    st2 key set object_list '[{"name": "Eric Jones"}, {"name": "Bob Seger"}]'
+    
 
 Loading Key-Value Pairs from a File
 -----------------------------------
@@ -327,6 +348,7 @@ YAML
       value: date -u
       ttl: 3600
 
+   
 Storing and Retrieving via Python Client
 ----------------------------------------
 
@@ -409,13 +431,90 @@ Set the TTL when creating a key-value pair:
     >>> client = Client(base_url='http://localhost')
     >>> client.keys.update(KeyValuePair(name='os_keystone_endpoint', value='http://localhost:5000/v2.0', ttl=600))
 
-
-Referencing Key-Value Pairs in Rule Definitions
------------------------------------------------
+.. _referencing-key-value-pairs-in-action-definitions:
+    
+Referencing Key-Value Pairs in Action Definitions
+-------------------------------------------------
 
 Key-value pairs are referenced via specific string substitution syntax in rules. In general, the
 variable for substitution is enclosed with double brackets (i.e. ``{{var1}}``). To refer to a
 key-value pair, prefix the name with "st2kv.system", e.g. ``{{st2kv.system.os_keystone_endpoint}}``.
+
+A simple action example:
+
+.. code-block:: bash
+   
+    st2 key set error_message "Remediation failure"
+
+.. code-block:: yaml
+                
+    ---
+    description: Remediates a host.
+    enabled: true
+    runner_type: mistral-v2
+    entry_point: workflows/remediate.yaml
+    name: remediate
+    pack: default
+    parameters:
+      host:
+        required: true
+        type: string
+      error_message:
+        type: string
+        default: "{{ st2kv.system.error_message }}"    
+    
+
+There is also support for retrieving ``integer``, ``number``, ``object`` and ``array``
+key-value pairs from the datastore. If the values are stored as JSON-serialized
+strings, then the data will be automatically parsed into the datatype defined in
+the parameter definition:
+
+.. code-block:: bash
+   
+    st2 key set username "stanley"
+    st2 key set -e password "$ecret1!"
+    st2 key set num_network_adapters 1
+    st2 key set vlan_config '{"vlan_100_general_use": {"tag": 100, "subnet": "10.1.1.0/24"}, "vlan_200_dmz": {"tag": 200, "subnet": "10.99.1.0/24"}}'
+    st2 key set dns_servers '["10.0.0.10", "10.0.0.11"]'
+
+.. code-block:: yaml
+                    
+    ---
+    description: Provisions a VM
+    enabled: true
+    runner_type: mistral-v2
+    entry_point: workflows/vm_provision.yaml
+    name: vm_provision
+    pack: default
+    parameters:
+      fqdn:
+        type: string
+        required: true
+      username:
+        type: string
+        default: "{{ st2kv.system.username }}"
+      password:
+        type: string
+        default: "{{ st2kv.system.password | decrypt_kv }}"
+      num_network_adapters:
+        type: integer
+        default: "{{ st2kv.system.num_network_adapters }}"
+      vlan:
+        type: string
+        required: true
+      vlan_config:
+        type: array
+        default: "{{ st2kv.system.vlan_config }}"
+      dns_servers:
+        type: object
+        default: "{{ st2kv.system.dns_servers }}"
+
+
+Referencing Key-Value Pairs in Rule Definitions
+-----------------------------------------------
+
+Similar to Action Definitions above, one can refer to a key-value pair by prefixing
+the name with ``st2kv.system``, e.g. ``{{ st2kv.system.os_keystone_endpoint }}``.
 
 An example rule is provided below. Please refer to the :doc:`Rules </rules>` documentation for
 rule-related syntax.
@@ -431,7 +530,7 @@ rule-related syntax.
         "action": {
             "name": "daily_clean_up_action",
             "parameters": {
-                "os_keystone_endpoint": "{{st2kv.system.os_keystone_endpoint}}"
+                "os_keystone_endpoint": "{{ st2kv.system.os_keystone_endpoint }}"
             }
         }
     }
