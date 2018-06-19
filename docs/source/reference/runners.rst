@@ -87,6 +87,13 @@ Runner Parameters
 Windows Command Runner (windows-cmd)
 ------------------------------------
 
+.. note::
+
+  Windows runners will be DEPRECATED in a future release. These runners are being replaced
+  by :doc:`WinRM Runners<ref-winrm-runners>` which use a native Python implementation
+  of the WinRM protocol. Please migrate all existing actions over to these new runners. Any new
+  code should prefer WinRM Runners over the Windows Runners.
+  
 The Windows command runner allows you to run the command-line interpreter (``cmd``) and PowerShell
 commands on Windows hosts.
 
@@ -101,6 +108,13 @@ Runner Parameters
 Windows Script Runner (windows-script)
 --------------------------------------
 
+.. note::
+
+  Windows runners will be DEPRECATED in a future release. These runners are being replaced
+  by :ref:`WinRM Runners<ref-winrm-runners>` which use a native Python implementation
+  of the WinRM protocol. Please migrate all existing actions over to these new runners. Any new
+  code should prefer WinRM Runners over the Windows Runners.
+  
 Windows script runner allows you to run PowerShell scripts on Windows hosts.
 
 For more information on enabling and setting up the Windows runner, please see the following
@@ -111,6 +125,8 @@ Runner Parameters
 
 .. include:: /_includes/runner_parameters/windows_script.rst
 
+.. _ref-winrm-runners:
+             
 WinRM Command Runner (winrm-cmd)
 ------------------------------------
 

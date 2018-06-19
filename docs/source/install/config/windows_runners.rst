@@ -3,10 +3,10 @@ Windows Runners Configuration
 
 .. note::
 
-  Windows runners are currently in beta which means there might be rough edges and things might
-  break.
-
-  If you do encounter an issue, please get in touch and we will do our best to assist you.
+  Windows runners will be DEPRECATED in a future release. These runners are being replaced
+  by :doc:`WinRM Runners<ref-winrm-runners>` which use a native Python implementation
+  of the WinRM protocol. Please migrate all existing actions over to these new runners. Any new
+  code should prefer WinRM Runners over the Windows Runners.
 
 Pre-requisites
 --------------
