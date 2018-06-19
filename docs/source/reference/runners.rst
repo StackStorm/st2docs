@@ -111,6 +111,47 @@ Runner Parameters
 
 .. include:: /_includes/runner_parameters/windows_script.rst
 
+WinRM Command Runner (winrm-cmd)
+------------------------------------
+
+The WinRM command runner allows you to run the command-line interpreter (``cmd``) commands on Windows hosts using the WinRM protocol.
+
+For more information on enabling and setting up the WinRM runner, please see the following
+section - :doc:`/install/config/winrm_runners`.
+
+Runner Parameters
+^^^^^^^^^^^^^^^^^
+
+.. include:: /_includes/runner_parameters/winrm_cmd.rst
+
+WinRM PowerShell Command Runner (winrm-ps-cmd)
+----------------------------------------------
+
+The WinRM PowerShell command runner allows you to run the PowerShell commands on Windows hosts using the WinRM protocol.
+
+For more information on enabling and setting up the WinRM runner, please see the following
+section - :doc:`/install/config/winrm_runners`.
+
+Runner Parameters
+^^^^^^^^^^^^^^^^^
+
+.. include:: /_includes/runner_parameters/winrm_ps_cmd.rst
+             
+WinRM PowerShell Script Runner (winrm-ps-script)
+------------------------------------------------
+
+WinRM PowerShell script runner allows you to run PowerShell scripts on Windows hosts.
+To specify what script to execute, use the ``entry_point`` option in the
+:ref:`Action metadata<ref-action-metadata>` file.
+
+For more information on enabling and setting up the WinRM runner, please see the following
+section - :doc:`/install/config/winrm_runners`.
+
+Runner Parameters
+^^^^^^^^^^^^^^^^^
+
+.. include:: /_includes/runner_parameters/winrm_ps_script.rst
+
 HTTP Runner (http-request)
 --------------------------
 
