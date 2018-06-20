@@ -3,6 +3,39 @@
 Upgrade Notes
 =============
 
+|st2| v2.9
+----------
+
+* |st2| timers used to be run as part of ``st2rulesengine`` process until versions older than ``v2.9``.
+  From versions ``v2.9`` onwards, timers are run separately than rules engine allowing them to scale
+  independently of ``st2rulesengine``. ``st2timersengine`` is the new process that schedules all the user
+  timers. Please note that when upgrading from older versions, you will need to carefully accept
+  changes to ``st2.conf`` file. Otherwise, you risk losing access to ``st2`` database in MongoDB.
+
+  .. Warning
+
+    Please back up ``/etc/st2/st2.conf`` before upgrade.
+
+  Please ensure that the following configuration section is enabled in ``/etc/st2/st2.conf``:
+
+  .. code-block:: ini
+
+    [timersengine]
+    logging = /etc/st2/logging.timersengine.conf
+
+  If you are already using a ``timer`` section in ``/etc/st2/st2.conf``, you can append the logging
+  configuration parameter to the timer section too.
+
+  .. code-block:: ini
+
+    [timer]
+    local_timezone = America/Los_Angeles
+    logging = conf/logging.timersengine.conf
+
+  Though ``timer`` section in config is supported for backward compatibility, it is recommended to
+  rename the config section to ``timersengine`` as this will be only one supported in
+  future versions.
+
 |st2| v2.7
 ----------
 
