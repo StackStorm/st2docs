@@ -66,19 +66,21 @@ def main():
         result.append(HEADER)
         result.append('')
 
-        for name, values in runner['runner_parameters'].items():
-            format_values = {'name': name}
-            format_values.update(values)
-            line = '* ``%(name)s`` (%(type)s) - %(description)s' % format_values
-            result.append(line)
+        runner_parameters = runner.get('runner_parameters', None)
+        if runner_parameters:
+            for name, values in runner_parameters.items():
+                format_values = {'name': name}
+                format_values.update(values)
+                line = '* ``%(name)s`` (%(type)s) - %(description)s' % format_values
+                result.append(line)
 
-        file_name = runner['name'].replace('-', '_')
-        path = '../docs/source/_includes/runner_parameters/%s.rst' % (file_name)
-        destination_path = os.path.join(CURRENT_DIR, path)
-        result = '\n'.join(result)
+            file_name = runner['name'].replace('-', '_')
+            path = '../docs/source/_includes/runner_parameters/%s.rst' % (file_name)
+            destination_path = os.path.join(CURRENT_DIR, path)
+            result = '\n'.join(result)
 
-        with open(destination_path, 'w') as fp:
-            fp.write(result)
+            with open(destination_path, 'w') as fp:
+                fp.write(result)
 
 if __name__ == '__main__':
     main()
