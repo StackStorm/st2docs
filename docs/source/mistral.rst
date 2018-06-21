@@ -38,7 +38,7 @@ Similarly to ActionChains, Mistral workflows have an action metadata file in
 
 Let's start with a very basic workflow that calls a |st2| action and notifies |st2| when the
 workflow is done. The files used in this example are also located under
-:github_st2:`/usr/share/doc/st2/examples </contrib/examples>` if |st2| is already installed (see
+:github_st2:`/usr/share/doc/st2/examples <contrib/examples>` if |st2| is already installed (see
 also :ref:`deploy examples <start-deploy-examples>`).
 
 The first task is named ``run-cmd``. It executes a shell command on the server where |st2| is
@@ -291,7 +291,7 @@ files:
 More Examples
 -------------
 
-There are more workflow examples under :github_st2:`/usr/share/doc/st2/examples </contrib/examples/actions/workflows/>`. These include error handling, repeat, and retries.
+There are more workflow examples under :github_st2:`/usr/share/doc/st2/examples <contrib/examples/actions/workflows/>`. These include error handling, repeat, and retries.
 
 Check out this step-by-step tutorial on building a workflow in |st2| https://stackstorm.com/2015/07/08/automating-with-mistral-workflow/
 
