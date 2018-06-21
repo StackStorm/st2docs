@@ -8,8 +8,7 @@ Upgrade Notes
 
 * |st2| timers moved from ``st2rulesengine`` to ``st2timersengine`` process in ``v2.9``. Moving timers
   out of rules engine allows scaling rules and timers independently. ``st2timersengine`` is the new
-  process that schedules all the user timers. ``st2timersengine`` is the new process that schedules all the user
-  timers. Please note that when upgrading from older versions, you will need to carefully accept
+  process that schedules all the user timers. Please note that when upgrading from older versions, you will need to carefully accept
   changes to ``st2.conf`` file. Otherwise, you risk losing access to ``st2`` database in MongoDB.
 
   .. Warning
