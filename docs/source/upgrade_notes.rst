@@ -6,9 +6,9 @@ Upgrade Notes
 |st2| v2.9
 ----------
 
-* |st2| timers used to be run as part of ``st2rulesengine`` process until versions older than ``v2.9``.
-  From versions ``v2.9`` onwards, timers are run separately than rules engine allowing them to scale
-  independently of ``st2rulesengine``. ``st2timersengine`` is the new process that schedules all the user
+* |st2| timers moved from ``st2rulesengine`` to ``st2timersengine`` process in ``v2.9``. Moving timers
+  out of rules engine allows scaling rules and timers independently. ``st2timersengine`` is the new
+  process that schedules all the user timers. ``st2timersengine`` is the new process that schedules all the user
   timers. Please note that when upgrading from older versions, you will need to carefully accept
   changes to ``st2.conf`` file. Otherwise, you risk losing access to ``st2`` database in MongoDB.
 
@@ -32,9 +32,10 @@ Upgrade Notes
     local_timezone = America/Los_Angeles
     logging = conf/logging.timersengine.conf
 
-  Though ``timer`` section in config is supported for backward compatibility, it is recommended to
-  rename the config section to ``timersengine`` as this will be only one supported in
-  future versions.
+  We recommend renaming the ``timer`` config section to ``timersengine``. Though deprecated,
+  using the ``timer`` section is still supported for backwards compatibility. In a future release,
+  support for the ``timer`` section will be removed and ``timersengine`` will be the only way to
+  configure timers.
 
 |st2| v2.7
 ----------
