@@ -252,5 +252,5 @@ More Examples
 -------------
 
 More workflow examples using Jinja expressions can be found at
-:github_st2:`/usr/share/doc/st2/examples </contrib/examples/actions/workflows/>`. The examples are
+:github_st2:`/usr/share/doc/st2/examples <contrib/examples/actions/workflows/>`. The examples are
 prefixed with ``mistral-jinja``.
