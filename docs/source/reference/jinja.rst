@@ -65,9 +65,9 @@ In addition to the `standard filters <http://jinja.pocoo.org/docs/dev/
 templates/#builtin-filters>`_ available in Jinja, |st2| also comes with some custom filters.
 
 **For Developers:** These filters are defined in
-:github_st2:`st2/st2common/st2common/jinja/filters/ </st2common/st2common/jinja/filters/>`.
+:github_st2:`st2/st2common/st2common/jinja/filters/ <st2common/st2common/jinja/filters/>`.
 The equivalent Mistral filters are located in the ``st2mistral`` repo at
-:github_st2mistral:`st2mistral/st2mistral/filters/ </st2mistral/st2mistral/filters/>`.
+:github_st2mistral:`st2mistral/st2mistral/functions/ <st2mistral/functions/>`.
 To ensure filters maintain parity across StackStorm workflows, changes to one location must be
 replicated to the other in a separate PR.
 
@@ -75,7 +75,7 @@ For brevity, only simple Jinja patterns for each filter are documented below. "R
 will depend on the type of content where the filters are being applied (sensors, triggers, rules,
 action and workflows) and their syntax. More detailed examples can be found in the ActionChains
 in the ``examples`` pack:
-:github_st2:`st2/contrib/examples/actions/chains/ </contrib/examples/actions/chains/>`.
+:github_st2:`st2/contrib/examples/actions/chains/ <contrib/examples/actions/chains/>`.
 
 ..  TODO We should consider separating each specific usage into individual ActionChains and refer to
     it using literalinclude (i.e. .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-jinja-branching.yaml)
