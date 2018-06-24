@@ -43,6 +43,4 @@ Learn how to define and run workflows:
 
     actionchain
     mistral
-    mistral_yaql
-    mistral_jinja
     cloudslang
