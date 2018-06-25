@@ -28,7 +28,7 @@ actions in a workflow definition, and provide the usual action meta data.
 
   **Use Mistral when you need power and resilience**.
 
-* :doc:`Orchestra <orchestra>` is the latest workflow engine designed specifically for |st2| that
+* :doc:`Orchestra <orchestra/index>` is the latest workflow engine designed specifically for |st2| that
   will eventually replace Action Chain and Mistral. With Orchestra, you can define simple sequential
   workflows to complex workflows with forks, joins, and sophisticated data transformation and
   queries.
@@ -49,5 +49,5 @@ Learn how to define and run workflows:
 
     actionchain
     mistral
-    orchestra
+    Orchestra <orchestra/index>
     cloudslang

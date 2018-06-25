@@ -43,7 +43,7 @@ endif
 all: requirements check tests docs
 
 .PHONY: docs
-docs: .clone-st2 requirements .requirements-st2 .docs
+docs: .clone-st2 .clone-orchestra requirements .requirements-st2 .docs
 
 PHONY: .docs
 .docs: .community-docs
@@ -196,6 +196,13 @@ $(VIRTUALENV_DIR)/bin/activate:
 	@echo "==================== cloning st2 ===================="
 	@echo
 	./scripts/clone-st2.sh
+
+.PHONY: .clone-orchestra
+.clone-orchestra:
+	@echo
+	@echo "==================== cloning orchestra ===================="
+	@echo
+	./scripts/clone-orchestra.sh
 
 .PHONY: .clone-ipfabric
 .clone-ipfabric:
