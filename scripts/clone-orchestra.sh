@@ -1,6 +1,6 @@
 #!/bin/sh
 
-REPO_DIR=/tmp/orchestra
+REPO_DIR=orchestra
 
 if [ -d $REPO_DIR ]; then
     rm -rf $REPO_DIR

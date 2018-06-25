@@ -7,8 +7,8 @@ During the workflow runtime, |st2| and Mistral handshake multiple times over HTT
 the workflow execution, completing a task, or completing the workflow.
 
 Prior to v2.7, |st2| queries Mistral to check on workflow execution status and the status of individual tasks
-via st2resultstracker. This mechanism has a number of configuration settings. See :ref:`mistral-workflows-latency`
-section about how to fine-tune the Mistral workflows completion time opposed to CPU usage.
+via ``st2resultstracker``. This mechanism has a number of configuration settings. See :ref:`mistral-workflows-latency`
+section about how to fine-tune the Mistral workflows completion time vs CPU consumption.
 
 Since v2.7, the results tracking mechanism is replaced with a callback mechanism from Mistral. Instead of |st2|
 querying Mistral at regular interval, Mistral is configured to callback |st2| on task and workflow completion.
@@ -22,7 +22,7 @@ With the callback mechanism, it is possible to trace the events sent to |st2|.
     # Grep the log entries from the Mistral log, typically at /var/log/mistral/mistral-server.log
     sudo tail -n 1000 /var/log/mistral/mistral-server.log | grep stackstorm_notifier | grep <mistral-wf-ex-id>
 
-The returned list of log entries would look something similar to the following.
+The returned list of log entries will look similar to the following:
 
 ::
 
@@ -34,7 +34,7 @@ The returned list of log entries would look something similar to the following.
     2018-03-28 22:40:07,371 140124956804432 INFO stackstorm_notifier [-] [839925d9-02c7-47be-ad8e-ce0943749a7b] The workflow event WORKFLOW_SUCCEEDED for 839925d9-02c7-47be-ad8e-ce0943749a7b is published to st2.
 
 The results tracking mechanism is still available for manual intervention and can be enabled on an individual workflow
-basis in case |st2| or Mistral services is offline during a callback operation.
+basis in case |st2| or Mistral services are offline during a callback operation.
 
 .. code-block:: bash
 

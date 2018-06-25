@@ -20,20 +20,20 @@ actions in a workflow definition, and provide the usual action meta data.
   simple syntax to define a chain of actions, runs them one after another, passing data from one
   action to another until it succeeds or fails. 
 
-  **Use ActionChain when you want speed and simplicity**.
+  **Use ActionChain when you want speed and simplicity.**
 
 * :doc:`Mistral <mistral>` is a dedicated workflow service, originated in OpenStack, integrated
   and bundled with |st2|. With Mistral, you can define complex workflow logic with nested
   workflows, forks, joins, and policies for error handling, retries, and delays.
 
-  **Use Mistral when you need power and resilience**.
+  **Use Mistral when you need power and resilience.**
 
-* :doc:`Orchestra <orchestra/index>` is the latest workflow engine designed specifically for |st2| that
-  will eventually replace Action Chain and Mistral. With Orchestra, you can define simple sequential
-  workflows to complex workflows with forks, joins, and sophisticated data transformation and
-  queries.
+* :doc:`Orchestra <orchestra/index>` is a new workflow engine, designed specifically for |st2|. It
+  is currently in public beta. In future this will replace both Action Chain and Mistral. With
+  Orchestra, you can define simple sequential workflows or complex workflows with forks, joins,
+  and sophisticated data transformation and queries.
 
-  **Use Orchestra because ActionChain and Mistral will be deprecated**.
+  **Use Orchestra to test-drive the future of workflows.** 
 
 In addition, |st2| offers experimental support for :doc:`CloudSlang <cloudslang>` workflows.
 

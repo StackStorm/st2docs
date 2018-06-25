@@ -245,7 +245,7 @@ The following sections go into more details on specific topics.
 .. toctree::
    :maxdepth: 1
 
-   YAQL Expression <mistral_yaql>
-   Jinja Expression <mistral_jinja>
+   YAQL Expressions <mistral_yaql>
+   Jinja Expressions <mistral_jinja>
    Completion and Latency <mistral_result>
    Workflow Operations <mistral_operations>

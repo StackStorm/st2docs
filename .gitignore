@@ -19,6 +19,7 @@ docs/source/_static/images/ztp_usecase_2.jpg
 .vscode
 
 # Orchestra Copies
+/orchestra/
 docs/source/orchestra/overview.rst
 docs/source/orchestra/expressions.rst
 docs/source/orchestra/context.rst
