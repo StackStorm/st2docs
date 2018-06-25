@@ -15,6 +15,7 @@ it does not require a separate authentication system and database like Mistral.
    :maxdepth: 2
 
    Overview <overview>
+   Getting Started <start>
    Workflow Definition <languages/orchestra>
    Expressions and Context <expressions>
    Workflow Operations <operations>
