@@ -29,13 +29,6 @@ actions in a workflow definition, and provide the usual action meta data.
 
   **Use Mistral when you need power and resilience**.
 
-In addition, |st2| offers experimental support for :doc:`CloudSlang <cloudslang>` workflows.
-
-* `CloudSlang <http://www.cloudslang.io/>`_ is a language for defining workflows run by the
-  CloudSlang Orchestration Engine. With the CloudSlang runner, you can define your own complex
-  workflows or leverage the power of the ready-made CloudSlang `content repository
-  <https://github.com/CloudSlang/cloud-slang-content>`_.
-
 Learn how to define and run workflows:
 
 .. toctree::
@@ -45,4 +38,3 @@ Learn how to define and run workflows:
     mistral
     mistral_yaql
     mistral_jinja
-    cloudslang
