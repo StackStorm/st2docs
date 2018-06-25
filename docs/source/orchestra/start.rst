@@ -16,7 +16,7 @@ passed as input from the workflow to the task. The ``core.local`` action is alre
 |st2|. Let's save this as ``/opt/stackstorm/packs/examples/actions/workflows/orchestra-basic.yaml``
 on the |st2| server.
 
-.. literalinclude:: /../../../st2/contrib/examples/actions/workflows/orchestra-basic.yaml
+.. literalinclude:: /../../st2/contrib/examples/actions/workflows/orchestra-basic.yaml
    :language: yaml
 
 As for the corresponding |st2| action metadata file for the example above. The |st2| pack for this
@@ -24,7 +24,7 @@ workflow action is named ``examples``. The |st2| action runner is ``orchestra``.
 point for the |st2| action is the relative path to the YAML file of the workflow definition. Let's
 save this metadata as ``/opt/stackstorm/packs/examples/actions/orchestra-basic.yaml``:
 
-.. literalinclude:: /../../../st2/contrib/examples/actions/orchestra-basic.yaml
+.. literalinclude:: /../../st2/contrib/examples/actions/orchestra-basic.yaml
    :language: yaml
 
 The files used in this example are also located under
