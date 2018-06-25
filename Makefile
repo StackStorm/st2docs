@@ -99,7 +99,7 @@ livedocs: docs .livedocs
 	@echo
 
 .PHONY: ewcdocs
-ewcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .ewcdocs
+ewcdocs: .clone-st2 .clone-orchestra .clone-ipfabric requirements .requirements-st2 .ewcdocs
 
 .PHONY: .ewcdocs
 .ewcdocs: .patch-solutions .enterprise-docs .git-checkout-local-changes
@@ -127,7 +127,7 @@ ewcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .ewcdocs
 bwclivedocs: ewcdocs .livedocs
 
 .PHONY: bwclocaldocs
-bwclocaldocs: .clone-st2 requirements .requirements-st2 .ewcdocs .clean-bwc-solutions-folders
+bwclocaldocs: .clone-st2 .clone-orchestra requirements .requirements-st2 .ewcdocs .clean-bwc-solutions-folders
 
 .PHONY: bwclocallivedocs
 bwclocallivedocs: bwclocaldocs .livedocs
