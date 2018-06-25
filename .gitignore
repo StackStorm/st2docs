@@ -17,3 +17,12 @@ docs/source/_static/images/ztp_topology.jpg
 docs/source/_static/images/ztp_usecase_1.jpg
 docs/source/_static/images/ztp_usecase_2.jpg
 .vscode
+
+# Orchestra Copies
+/orchestra/
+docs/source/orchestra/overview.rst
+docs/source/orchestra/expressions.rst
+docs/source/orchestra/context.rst
+docs/source/orchestra/yaql.rst
+docs/source/orchestra/jinja.rst
+docs/source/orchestra/languages
