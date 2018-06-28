@@ -19,3 +19,4 @@ it does not require a separate authentication system and database like Mistral.
    Workflow Definition <languages/orchestra>
    Expressions and Context <expressions>
    Workflow Operations <operations>
+   Upcoming Features <upcoming>
