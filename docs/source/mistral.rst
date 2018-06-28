@@ -53,7 +53,7 @@ definition appropriately before sending it to Mistral. Let's save this as
 
 This is the corresponding |st2| action metadata for the example above. The |st2| pack for this
 workflow action is named "examples". Note that the workflow is named fully qualified as
-``<pack>.<action`` in the definition above. The |st2| action runner is ``mistral-v2``. The entry
+``<pack>.<action>`` in the definition above. The |st2| action runner is ``mistral-v2``. The entry
 point for the |st2| action refers to the YAML file of the workflow definition. Let's save this
 metadata as ``/opt/stackstorm/packs/examples/actions/mistral-basic.yaml``:
 
