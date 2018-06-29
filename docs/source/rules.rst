@@ -762,6 +762,7 @@ fire on every value.
 
 Available parameter ``timezone``, ``year``, ``month``, ``day``, ``week``, ``day_of_week``,
 ``hour``, ``minute``, ``second``.
+Note ``timezone`` use the pytz format, e.g. ``Asia/Shanghai``.
 
 Run action every Sunday at midnight
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
