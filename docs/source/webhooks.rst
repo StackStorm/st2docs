@@ -136,7 +136,7 @@ The body of this request needs to be JSON and must contain the following attribu
 * ``payload`` - Object with a trigger payload.
 
 This example shows how to send data to the generic webhook using ``curl``, and how to match this
-data using rule criteria (replace ``localhost`` with your st2 host if called remotely):
+data using rule criteria (replace ``localhost`` with your |st2| host if called remotely):
 
 .. sourcecode:: bash
 
