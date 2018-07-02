@@ -12,13 +12,13 @@ Upgrade Notes
   If you are installing StackStorm on a new server using the official installation script this
   service is automatically installed and started.
 
-  If you are  upgrading from a previous release using instructions from the "Upgrades"
+  If you are  upgrading from a previous release using instructions from the :doc:`/install/upgrades`
   documentation page, you need to ensure ``/etc/st2/st2.conf`` file contains a new
-  ``workflow_engine`` section with the corresponding ``logging`` config option otherwise the
+  ``workflow_engine`` section with the corresponding ``logging`` config option, otherwise the
   service won't start.
 
-  After you have completed all the steps from the "Upgrades" page, you need to add the following
-  entry to ``/etc/st2/st2.conf`` config file:
+  After you have completed all the steps from the "General Upgrade Procedure" page, you need to add
+  the following entry to ``/etc/st2/st2.conf`` config file:
 
   .. code-block:: ini
 
