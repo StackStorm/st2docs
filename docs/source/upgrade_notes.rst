@@ -6,7 +6,7 @@ Upgrade Notes
 |st2| v2.8
 ----------
 
-* This version introduces new ``Orchestra`` runner and Orchestra workflows. For this functionality
+* This version introduces new Orchestra runner and Orchestra workflows. For this functionality
   to work, new ``st2workflowengine`` service needs to be installed and running.
 
   If you are installing StackStorm on a new server using the official installation script this
@@ -31,6 +31,10 @@ Upgrade Notes
   .. code-block:: ini
 
     sudo st2ctl start
+
+  You can verify that the new ``st2workflowengine`` service has indeed been started by running
+  ``sudo st2ctl`` status and inspecting the service log file at
+  ``/var/log/st2/st2workflowengine.log``.
 
 |st2| v2.7
 ----------
