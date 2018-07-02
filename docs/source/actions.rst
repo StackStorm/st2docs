@@ -156,6 +156,8 @@ present in the metadata file:
   numbers - e.g. ``1.0``, ``1``, ``3.3333``, etc.), ``object``, ``integer`` (whole numbers only -
   ``1``, ``1000``, etc.) and ``array``. If metadata is provided, input args are validated on
   action execution. Otherwise, validation is skipped.
+* ``tags`` - An array with tags for this actions for the purpose of providing supplemental
+  information
 
 This is a sample metadata file for a Python action which sends an SMS via the Twilio web service:
 
@@ -521,7 +523,7 @@ action script as positional arguments, so your script doesn't require any change
 Writing Custom Python Actions
 -----------------------------
 
-In the simplest form, a Python action is a module which exposes a class which inherits from 
+In the simplest form, a Python action is a module which exposes a class which inherits from
 :class:`st2common.runners.base_action.Action` and implements a ``run`` method.
 
 Sample Python Action
