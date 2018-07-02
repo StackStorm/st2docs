@@ -33,7 +33,7 @@ Upgrade Notes
     sudo st2ctl start
 
   You can verify that the new ``st2workflowengine`` service has indeed been started by running
-  ``sudo st2ctl`` status and inspecting the service log file at
+  ``sudo st2ctl status`` and by inspecting the service log file at
   ``/var/log/st2/st2workflowengine.log``.
 
 |st2| v2.7
