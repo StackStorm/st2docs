@@ -3,6 +3,8 @@
 Upgrade Notes
 =============
 
+.. _ref-upgrade-nptes-v2-8:
+
 |st2| v2.8
 ----------
 
