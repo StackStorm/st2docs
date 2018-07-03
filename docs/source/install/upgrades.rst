@@ -79,14 +79,21 @@ The following sections call out the migration scripts that need to be run when u
 respective version. If you are upgrading across multiple versions, make sure you run the scripts for
 any skipped versions:
 
+v2.8
+''''
+
+* This version introduced new ``st2workflowengine`` service which needs to be configured in
+  ``/etc/st2/st2.conf`` config file for it to work. For more information, please refer to Upgrade
+  Notes - :ref:`ref-upgrade-nptes-v2-8`.
+
 v2.5
-'''''
+''''
 
 * If you have the `DC Fabric Automation Suite <https://ewc-docs.extremenetworks.com/solutions/dcfabric/overview.html>`_
   version 1.1 installed, you must upgrade this to >= v1.1.1. Follow `these instructions <https://ewc-docs.extremenetworks.com/solutions/dcfabric/install.html#upgrade-from-previous-version>`_.
 
 v2.4
-'''''
+''''
 
 * Node.js v6 is now used by ChatOps (previously v4 was used). The following procedure should be
   used to upgrade:
@@ -117,7 +124,7 @@ This is a known issue, and will be resolved in a future release. This only appli
 It is not required for those using Open Source StackStorm.
 
 v2.2
-'''''
+''''
 
 * The database schema for Mistral has changed. The executions_v2 table is no longer used. The
   table is being broken down into workflow_executions_v2, task_executions_v2, and
@@ -159,7 +166,7 @@ v2.2
      sudo service mistral-api start
 
 v2.1
-'''''
+''''
 
 * Datastore model migration - Scope names are now ``st2kv.system`` and ``st2kv.user`` as
   opposed to ``system`` and ``user``.
@@ -180,7 +187,7 @@ v2.1
   and workflows have changed.
 
 v1.5
-'''''
+''''
 
 * Datastore model migration
 
