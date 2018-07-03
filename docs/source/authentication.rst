@@ -70,15 +70,18 @@ Proxy Auth Mode
 
 Proxy mode can be used when there is a service that sits in front of StackStorm
 that performs user authentication (ex: load balancer, apache, nginx, etc). When
-the frontend service authenticates a user it will need to make an API call
+the frontend service authenticates a user, it will need to make an API call
 ``POST https://<stackstorm>/auth/v1/tokens`` to the ``st2auth`` service in order
-to obtain an auth token. In this request the following headers need to be added:
+to obtain an auth token. In this request the following CGI environment variables
+need to be set:
 
 * ``remote_addr`` Source of the request (hostname/ip).
-* ``remote_user`` User identity of proxy authenticated user.
+* ``remote_user`` User identity (username) of proxy authenticated user.
+
+When using a reverse proxy such as Apache, this is usually done automatically by
+a proxy upon successful authentication.
 
 The request will return an auth token that can be used to make further API calls.
-
 
 .. _ref-auth-backends:
 
