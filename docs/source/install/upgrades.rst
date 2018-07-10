@@ -84,7 +84,7 @@ v2.8
 
 * This version introduced new ``st2workflowengine`` service which needs to be configured in
   ``/etc/st2/st2.conf`` config file for it to work. For more information, please refer to Upgrade
-  Notes - :ref:`ref-upgrade-nptes-v2-8`.
+  Notes - :ref:`ref-upgrade-notes-v2-8`.
 
 v2.5
 ''''
