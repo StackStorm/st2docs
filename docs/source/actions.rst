@@ -117,10 +117,16 @@ the following runners:
 
     Note: This runner is an implementation detail for the ``core.ask`` action, and in most cases
     should not be referenced in other actions.
+11. ``winrm-cmd`` - The WinRM command runner allows you to run the command-line interpreter (``cmd``) commands on Windows hosts using the WinRM protocol.
+12. ``winrm-ps-cmd`` - The WinRM PowerShell command runner allows you to run the PowerShell commands on Windows hosts using the WinRM protocol.
+13. ``winrm-ps-script`` - WinRM PowerShell script runner allows you to run PowerShell scripts on Windows hosts.
 
 
 Runners come with their own set of input parameters. When an action is executed, it inherits the
 runner parameters, in addition to its own parameters.
+
+For a complete list of Runners and their parameters, see :doc:`/reference/runners`
+
 
 .. _ref-actions-writing-custom:
 
@@ -138,6 +144,8 @@ it follows these conventions:
 1. Script should exit with ``0`` status code on success and non-zero on error
    (e.g. ``1``)
 2. All log messages should be printed to standard error
+
+.. _ref-action-metadata:
 
 Action Metadata
 ~~~~~~~~~~~~~~~

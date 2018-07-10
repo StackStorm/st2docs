@@ -13,6 +13,7 @@ config file with all configuration options can be found at
     config
     webui
     windows_runners
+    winrm_runners
 
 
 .. include:: /__engage_community.rst
