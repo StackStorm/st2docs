@@ -4,16 +4,8 @@ Roadmap
 |st2| is still under active development. We welcome community feedback, and encourage
 contributions. Here's our plans for the next few releases:
 
-2.8 - ETA June 2018
--------------------
-
-* **Orchestra Beta:** Public beta of new "Orchestra" workflow engine.
-* **WebUI:** Update look & feel of Web UI, and add "Triggers" tab for troubleshooting rules.
-* **Python3 Actions:** Support Python 3 actions on a per-pack basis.
-* **Metrics Framework:** New framework for metrics collection for action results, time, etc.
-
-2.9 - ETA August 2018
----------------------
+2.9 - ETA September 2018
+------------------------
 
 * **Orchestra Second Beta:** Second beta of new "Orchestra" workflow engine.
 * **Action Output Structure Definition**: Enable optional definition of action payload, so that it
@@ -24,8 +16,8 @@ contributions. Here's our plans for the next few releases:
 * **Ubuntu 18.04:** Support Ubuntu 18.04 LTS.
 * **Windows Runners:** Add pywinrm-based Windows runner.
 
-3.0 - ETA October 2018
-----------------------
+3.0 - ETA November 2018
+-----------------------
 
 * **Orchestra GA:** GA version of Orchestra.
 * **WebUI:** Datastore viewer/editor, and RBAC UI.
@@ -67,6 +59,13 @@ Submit a PR!
 
 Release History
 ---------------
+
+.. rubric:: Done in v2.8
+
+* **Orchestra Beta:** Public beta of new "Orchestra" workflow engine.
+* **WebUI:** Update look & feel of Web UI, and add "Triggers" tab for troubleshooting rules.
+* **Python3 Actions:** Support Python 3 actions on a per-pack basis.
+* **Metrics Framework:** New framework for metrics collection for action results, time, etc.
 
 .. rubric:: Done in v2.7
 
