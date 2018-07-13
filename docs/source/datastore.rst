@@ -4,14 +4,14 @@ Datastore
 The goal of the datastore service is to allow users to store common parameters and their values
 within |st2| for reuse in the definition of sensors, actions, and rules. The datastore service
 stores the data as a key-value pair. They can be get/set using the |st2| CLI or the |st2|
-Python client. 
+Python client.
 
 From the sensor and action plugins, since they are implemented in Python, the key-value pairs are
 accessed from the |st2| Python client. For rule definitions in YAML/JSON, the key-value pairs are
 referenced with a specific string substitution syntax and the references are resolved on rule
 evaluation.
 
-Key-Value pairs can also have a TTL associated with them, for automatic expiry. 
+Key-Value pairs can also have a TTL associated with them, for automatic expiry.
 
 Storing and Retrieving Key-Value Pairs via CLI
 ----------------------------------------------
@@ -31,6 +31,17 @@ Get individual key-value pair or list all:
     st2 key list
     # To list all the key-value pairs in the datastore
     st2 key list -n -1
+    # To list all the system and user scoped datstore items (default behavior)
+    st2 key list --scope=all
+    # To list all the system scoped key-value pairs
+    st2 key list --scope=system
+    # To list all the key-value pairs scoped to the current user
+    st2 key list --scope=user
+    # To list all the key-value pairs scoped to a particular user
+    # NOTE: When RBAC is enabled, only admins can list key-value pairs scoped to
+    # a different user. Regular users can only list key-value pairs scoped to
+    # themselves.
+    st2 key list --scope=user --user=john
 
     # Get value for key "os_keystone_endpoint"
     st2 key get os_keystone_endpoint
@@ -49,7 +60,6 @@ Delete an existing key-value pair:
 
     st2 key delete os_keystone_endpoint
 
-    
 Storing and Retrieving Numbers, Objects and Arrays via CLI
 ----------------------------------------------------------
 
@@ -65,21 +75,19 @@ Storing an ``number`` / ``integer``:
 
     st2 key set retention_days 7
 
-    
 Storing an ``object`` using a JSON-serialized string representation:
 
 .. code-block:: bash
 
     st2 key set complex_data '{"name": "Dave Smith", "age": 7, "is_parent": True}'
 
-    
+
 Storing an ``array`` using a JSON-serialized string representation:
 
 .. code-block:: bash
 
     st2 key set number_list '[1, 2, 3, 4]'
     st2 key set object_list '[{"name": "Eric Jones"}, {"name": "Bob Seger"}]'
-    
 
 Loading Key-Value Pairs from a File
 -----------------------------------
@@ -194,7 +202,7 @@ Load this file using this command (values will be converted into JSON strings):
     +---------------+-----------------------+--------+--------+------+-----+
 
 Loading non-string content via YAML:
-    
+
 .. code-block:: yaml
 
     ---
@@ -229,7 +237,7 @@ Load this file using this command (values will be converted into JSON strings):
     |               | purpose traffic",     |        |        |      |     |
     |               | "tag": 123}           |        |        |      |     |
     +---------------+-----------------------+--------+--------+------+-----+
-    
+
 .. _datastore-scopes-in-key-value-store:
 
 Scoping Datastore Items
@@ -272,7 +280,7 @@ or simply:
     st2 key set date_cmd "date +%s"
 
 This variable won't clash with user variables with the same name. Also, you can refer to user
-variables in actions or workflows. The Jinja syntax to do so is ``{{st2kv.user.date_cmd}}``. 
+variables in actions or workflows. The Jinja syntax to do so is ``{{st2kv.user.date_cmd}}``.
 
 Note that the notion of ``st2kv.user`` is available only when actions or workflows are run
 manually. The notion of ``st2kv.user`` is non-existent when actions or workflows are kicked off
@@ -301,7 +309,7 @@ YAML
     - name: date_cmd
       value: date -u
       scope: user
-    
+
 .. _datastore-ttl:
 
 Setting a Key-Value Pair TTL
@@ -348,7 +356,7 @@ YAML
       value: date -u
       ttl: 3600
 
-   
+
 Storing and Retrieving via Python Client
 ----------------------------------------
 
@@ -432,7 +440,7 @@ Set the TTL when creating a key-value pair:
     >>> client.keys.update(KeyValuePair(name='os_keystone_endpoint', value='http://localhost:5000/v2.0', ttl=600))
 
 .. _referencing-key-value-pairs-in-action-definitions:
-    
+
 Referencing Key-Value Pairs in Action Definitions
 -------------------------------------------------
 
@@ -443,11 +451,11 @@ key-value pair, prefix the name with "st2kv.system", e.g. ``{{st2kv.system.os_ke
 A simple action example:
 
 .. code-block:: bash
-   
+
     st2 key set error_message "Remediation failure"
 
 .. code-block:: yaml
-                
+
     ---
     description: Remediates a host.
     enabled: true
@@ -461,8 +469,8 @@ A simple action example:
         type: string
       error_message:
         type: string
-        default: "{{ st2kv.system.error_message }}"    
-    
+        default: "{{ st2kv.system.error_message }}"
+
 
 There is also support for retrieving ``integer``, ``number``, ``object`` and ``array``
 key-value pairs from the datastore. If the values are stored as JSON-serialized
@@ -470,7 +478,7 @@ strings, then the data will be automatically parsed into the datatype defined in
 the parameter definition:
 
 .. code-block:: bash
-   
+
     st2 key set username "stanley"
     st2 key set -e password "$ecret1!"
     st2 key set num_network_adapters 1
@@ -478,7 +486,7 @@ the parameter definition:
     st2 key set dns_servers '["10.0.0.10", "10.0.0.11"]'
 
 .. code-block:: yaml
-                    
+
     ---
     description: Provisions a VM
     enabled: true
