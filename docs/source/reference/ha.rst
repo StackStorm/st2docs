@@ -79,18 +79,21 @@ sensors is likely to be an enhancement to |st2| in future releases.
 
 st2rulesengine
 ^^^^^^^^^^^^^^
-This is a dual purpose process. Its main function is to evaluate rules when it sees
+``st2rulesengine`` evaluates rules when it sees
 TriggerInstances and decide if an ActionExecution is to be requested. It needs access to MongoDB to
-locate rules and RabbitMQ to listen for TriggerInstances and request ActionExecutions. The
-auxiliary purpose of this process is to run all the defined timers. See 
-:ref:`timers <ref-rule-timers>` for the specifics on setting up timers via rules.
+locate rules and RabbitMQ to listen for TriggerInstances and request ActionExecutions.
 
 Multiple ``st2rulesengine`` processes can run in active-active with only connections to MongoDB and
 RabbitMQ. All these will share the TriggerInstance load and naturally pick up more work if one or
-more of the processes becomes unavailable. The timer function in each of the RulesEngine is not HA 
-compatible. In the interim it is possible to disable the timer in all but one of the
-``st2rulesengine`` to avoid duplicate timer events. Expect this to be fixed in a future |st2|
-release.
+more of the processes becomes unavailable.
+
+st2timersengine
+^^^^^^^^^^^^^^^
+
+``st2timersengine`` is responsible for scheduling all user specified timers. See
+:ref:`timers <ref-rule-timers>` for the specifics on setting up timers via rules.
+
+You have to have one active ``st2timersengine`` process running to schedule all timers. This is trivial to setup in Kubernetes so there is exactly one active container running ``st2timersengine`` process. Failover is handled natively by Kubernetes. In non Kubernetes deployments, external monitoring needs to setup and a new ``st2timersengine`` process needs to be spun up to address failover.
 
 st2actionrunner
 ^^^^^^^^^^^^^^^
@@ -167,7 +170,7 @@ MongoDB
 ^^^^^^^
 |st2| uses this to cache Actions, Rules and Sensor metadata which already live in the filesystem.
 All the content should ideally be source-control managed, preferably in a git repository. |st2|
-also stores operational data like ActionExecution, TriggerInstance etc. The Key-Value datastore 
+also stores operational data like ActionExecution, TriggerInstance etc. The Key-Value datastore
 contents are also maintained in MongoDB.
 
 MongoDB supports `replica set high-availability
@@ -216,7 +219,7 @@ Nginx and Load Balancing
 An load balancer is required to reverse proxy each instance of ``st2api``, ``st2auth``,
 ``st2stream`` and ``mistral-api``. In the reference setup, Nginx is used for this. This server
 terminates SSL connections, shields clients from internal port numbers of various services
-and only require ports 80 and 443 to be open on containers. 
+and only require ports 80 and 443 to be open on containers.
 
 Often it is best to deploy one set of all these services on a compute instance and share an Nginx
 server.
@@ -281,10 +284,10 @@ managed outside of |st2|. The two shared components (``st2chatops`` and ``st2web
 for the sake of convenience. They could be placed anywhere with the right configuration.
 
 The Nginx load balancer can easily be switched out for Amazon ELB, HAProxy or any other of your
-choosing. In that case ``st2web`` which is being served off this Nginx instance will also need a 
+choosing. In that case ``st2web`` which is being served off this Nginx instance will also need a
 new home.
 
-``st2chatops`` which uses ``hubot`` is not easily deployed in HA. Using something like 
+``st2chatops`` which uses ``hubot`` is not easily deployed in HA. Using something like
 `keepalived <http://www.keepalived.org/>`__ to maintain ``st2chatops`` in active-passive
 configuration is an option.
 
@@ -341,7 +344,7 @@ Install Required Dependencies
 
       $ curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
 
-9. Setup ``st2web`` and SSL termination. Follow :ref:`install webui and setup 
+9. Setup ``st2web`` and SSL termination. Follow :ref:`install webui and setup
    ssl<ref-install-webui-ssl-deb>`. You will need to stop after removing the default Nginx config
    file.
 
