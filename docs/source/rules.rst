@@ -152,7 +152,7 @@ This section describes all the available operators which can be used in the crit
 .. note::
 
     **For Developers:** The criteria comparison functions are defined in
-    :github_st2:`st2/st2common/st2common/operators.py </st2common/st2common/operators.py>`.
+    :github_st2:`st2/st2common/st2common/operators.py <st2common/st2common/operators.py>`.
 
 ================= =================================================================
  Operator          Description
@@ -762,6 +762,7 @@ fire on every value.
 
 Available parameter ``timezone``, ``year``, ``month``, ``day``, ``week``, ``day_of_week``,
 ``hour``, ``minute``, ``second``.
+Note ``timezone`` use the pytz format, e.g. ``Asia/Shanghai``.
 
 Run action every Sunday at midnight
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

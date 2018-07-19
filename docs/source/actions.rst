@@ -117,10 +117,16 @@ the following runners:
 
     Note: This runner is an implementation detail for the ``core.ask`` action, and in most cases
     should not be referenced in other actions.
+11. ``winrm-cmd`` - The WinRM command runner allows you to run the command-line interpreter (``cmd``) commands on Windows hosts using the WinRM protocol.
+12. ``winrm-ps-cmd`` - The WinRM PowerShell command runner allows you to run the PowerShell commands on Windows hosts using the WinRM protocol.
+13. ``winrm-ps-script`` - WinRM PowerShell script runner allows you to run PowerShell scripts on Windows hosts.
 
 
 Runners come with their own set of input parameters. When an action is executed, it inherits the
 runner parameters, in addition to its own parameters.
+
+For a complete list of Runners and their parameters, see :doc:`/reference/runners`
+
 
 .. _ref-actions-writing-custom:
 
@@ -139,6 +145,8 @@ it follows these conventions:
    (e.g. ``1``)
 2. All log messages should be printed to standard error
 
+.. _ref-action-metadata:
+
 Action Metadata
 ~~~~~~~~~~~~~~~
 
@@ -156,6 +164,8 @@ present in the metadata file:
   numbers - e.g. ``1.0``, ``1``, ``3.3333``, etc.), ``object``, ``integer`` (whole numbers only -
   ``1``, ``1000``, etc.) and ``array``. If metadata is provided, input args are validated on
   action execution. Otherwise, validation is skipped.
+* ``tags`` - An array with tags for this actions for the purpose of providing supplemental
+  information
 
 This is a sample metadata file for a Python action which sends an SMS via the Twilio web service:
 
@@ -521,7 +531,7 @@ action script as positional arguments, so your script doesn't require any change
 Writing Custom Python Actions
 -----------------------------
 
-In the simplest form, a Python action is a module which exposes a class which inherits from 
+In the simplest form, a Python action is a module which exposes a class which inherits from
 :class:`st2common.runners.base_action.Action` and implements a ``run`` method.
 
 Sample Python Action

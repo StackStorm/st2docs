@@ -126,7 +126,7 @@ Using a Generic Webhook
 -----------------------
 
 By default, a special-purpose webhook with the name ``st2`` is already registered. Instead of
-using ``st2.core.webhook``, it allows you to specify any trigger that is known to |st2| (either by
+using ``core.st2.webhook``, it allows you to specify any trigger that is known to |st2| (either by
 default or from custom sensors and triggers in packs), so you can use it to trigger rules that
 aren’t explicitly set up to be triggered by webhooks.
 
@@ -136,7 +136,7 @@ The body of this request needs to be JSON and must contain the following attribu
 * ``payload`` - Object with a trigger payload.
 
 This example shows how to send data to the generic webhook using ``curl``, and how to match this
-data using rule criteria (replace ``localhost`` with your st2 host if called remotely):
+data using rule criteria (replace ``localhost`` with your |st2| host if called remotely):
 
 .. sourcecode:: bash
 

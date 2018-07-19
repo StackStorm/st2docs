@@ -43,7 +43,7 @@ endif
 all: requirements check tests docs
 
 .PHONY: docs
-docs: .clone-st2 requirements .requirements-st2 .docs
+docs: .clone-st2 .clone-orchestra requirements .requirements-st2 .docs
 
 PHONY: .docs
 .docs: .community-docs
@@ -99,7 +99,7 @@ livedocs: docs .livedocs
 	@echo
 
 .PHONY: ewcdocs
-ewcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .ewcdocs
+ewcdocs: .clone-st2 .clone-orchestra .clone-ipfabric requirements .requirements-st2 .ewcdocs
 
 .PHONY: .ewcdocs
 .ewcdocs: .patch-solutions .enterprise-docs .git-checkout-local-changes
@@ -127,7 +127,7 @@ ewcdocs: .clone-st2 .clone-ipfabric requirements .requirements-st2 .ewcdocs
 bwclivedocs: ewcdocs .livedocs
 
 .PHONY: bwclocaldocs
-bwclocaldocs: .clone-st2 requirements .requirements-st2 .ewcdocs .clean-bwc-solutions-folders
+bwclocaldocs: .clone-st2 .clone-orchestra requirements .requirements-st2 .ewcdocs .clean-bwc-solutions-folders
 
 .PHONY: bwclocallivedocs
 bwclocallivedocs: bwclocaldocs .livedocs
@@ -196,6 +196,13 @@ $(VIRTUALENV_DIR)/bin/activate:
 	@echo "==================== cloning st2 ===================="
 	@echo
 	./scripts/clone-st2.sh
+
+.PHONY: .clone-orchestra
+.clone-orchestra:
+	@echo
+	@echo "==================== cloning orchestra ===================="
+	@echo
+	./scripts/clone-orchestra.sh
 
 .PHONY: .clone-ipfabric
 .clone-ipfabric:

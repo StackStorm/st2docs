@@ -38,7 +38,7 @@ Similarly to ActionChains, Mistral workflows have an action metadata file in
 
 Let's start with a very basic workflow that calls a |st2| action and notifies |st2| when the
 workflow is done. The files used in this example are also located under
-:github_st2:`/usr/share/doc/st2/examples </contrib/examples>` if |st2| is already installed (see
+:github_st2:`/usr/share/doc/st2/examples <contrib/examples>` if |st2| is already installed (see
 also :ref:`deploy examples <start-deploy-examples>`).
 
 The first task is named ``run-cmd``. It executes a shell command on the server where |st2| is
@@ -53,7 +53,7 @@ definition appropriately before sending it to Mistral. Let's save this as
 
 This is the corresponding |st2| action metadata for the example above. The |st2| pack for this
 workflow action is named "examples". Note that the workflow is named fully qualified as
-``<pack>.<action`` in the definition above. The |st2| action runner is ``mistral-v2``. The entry
+``<pack>.<action>`` in the definition above. The |st2| action runner is ``mistral-v2``. The entry
 point for the |st2| action refers to the YAML file of the workflow definition. Let's save this
 metadata as ``/opt/stackstorm/packs/examples/actions/mistral-basic.yaml``:
 
@@ -119,68 +119,8 @@ workflow branches and aggregate their data.
 .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-basic-two-tasks-with-notifications.yaml
    :language: yaml
 
-Pausing and Resuming Workflow Execution
----------------------------------------
-
-An execution of a Mistral workflow can be paused by running ``st2 execution pause <execution-id>``.
-An execution must be in a running state in order for pause to be successful. The execution will
-initially go into a ``pausing`` state, and will go into a ``paused`` state when no more tasks are
-in an active state such as ``running``, ``pausing``, or ``canceling``. When a workflow execution
-is paused, it can be resumed by running ``st2 execution resume <execution-id>``.
-
-The ``pause`` and ``resume`` operation will cascade down to subworkflows, whether it's another
-workflow defined in a workbook or it's another |st2| action that is a Mistral workflow or Action
-Chain. If the ``pause`` operation is performed from a subworkflow or subchain, then the ``pause``
-will cascade up to the parent workflow or parent chain. However, if the ``resume`` operation is
-performed from a subworkflow or subchain, the ``resume`` will not cascade up to the parent workflow
-or parent chain. This allows users to resume and troubleshoot branches individually.
-
-Canceling Workflow Execution
-----------------------------
-
-An execution of a Mistral workflow can be cancelled by running
-``st2 execution cancel <execution-id>``. Workflow tasks that are still running will not be
-canceled and will run to completion. No new tasks for the workflow will be scheduled.
-
-Re-running Workflow Execution
------------------------------
-
-An execution of a Mistral workflow can be re-run on error. The execution either can be re-run from
-the beginning or from the task(s) that failed. The latter is useful for long running workflows with
-temporary service or network outages. Re-running the workflow execution from the beginning is
-exactly like re-running any |st2| execution with the command
-``st2 execution re-run <execution-id>``.
-
-The re-run is a completely separate execution with a new execution ID in both |st2| and Mistral.
-Re-running the workflow from where it errored is slightly different. To retain context, the
-original workflow execution is reused in Mistral but a new |st2| execution will be created to stay
-consistent in |st2|. The re-run command has a new ``--tasks`` option that takes a list of task
-names to re-run.
-
-For example, given a workflow that fails at task3 and task4 on separate parallel branches, the
-command ``st2 execution re-run <execution-id> --tasks task3 task4`` will resume the Mistral
-workflow execution and re-run both task3 and task4 using original inputs. Both the workflow and
-task execution in Mistral have to be in an ``errored`` state for re-run.
-
-If using a Mistral workbook, tasks of subworkflows can also be re-run. For example, if the main
-workflow has a task1 that calls subflow1, then to re-run subtask1 of subflow1, the syntax for the
-``st2 execution re-run`` command would be
-``st2 execution re-run <execution-id> --tasks task1.subtask1``.
-
-If the task to re-run is a "with-items" task, there is an option to re-run only failed iterations.
-For example, task1 is a with-items task with 5 items. Let's say 2 of the items failed. By
-specifying the ``st2 execution re-run --tasks task1 task2 --no-reset task1`` option, task1 will
-only re-run the 2 items that failed. If the ``--no-reset`` option is not provided, then all 5
-items will be re-run.
-
-.. note::
-
-    Re-running workflow execution from the task(s) that failed is currently an experimental
-    feature and subject to bug(s) and change(s). Please also note that re-running a subtask nested
-    in another |st2| action is not currently supported.
-
-Publishing Variables in Mistral Workflows
------------------------------------------
+Publishing Variables
+--------------------
 
 A Mistral task can publish results from a task as variables that can be consumed in other tasks:
 
@@ -291,53 +231,21 @@ files:
 More Examples
 -------------
 
-There are more workflow examples under :github_st2:`/usr/share/doc/st2/examples </contrib/examples/actions/workflows/>`. These include error handling, repeat, and retries.
+There are more workflow examples under :github_st2:`/usr/share/doc/st2/examples <contrib/examples/actions/workflows/>`. These include error handling, repeat, and retries.
 
 Check out this step-by-step tutorial on building a workflow in |st2| https://stackstorm.com/2015/07/08/automating-with-mistral-workflow/
 
 More details about Mistral can be found at https://docs.openstack.org/mistral/latest/.
 
-.. _mistral-workflows-completion-latency-and-performance:
+More Topics
+-----------
 
-Mistral Workflows Completion, Latency, and Performance
-------------------------------------------------------
-During the workflow runtime, |st2| and Mistral handshake multiple times over HTTP. This applies when launching
-the workflow execution, completing a task, or completing the workflow.
+The following sections go into more details on specific topics.
 
-Prior to v2.7, |st2| queries Mistral to check on workflow execution status and the status of individual tasks
-via st2resultstracker. This mechanism has a number of configuration settings. See :ref:`mistral-workflows-latency`
-section about how to fine-tune the Mistral workflows completion time opposed to CPU usage.
+.. toctree::
+   :maxdepth: 1
 
-Since v2.7, the results tracking mechanism is replaced with a callback mechanism from Mistral. Instead of |st2|
-querying Mistral at regular interval, Mistral is configured to callback |st2| on task and workflow completion.
-With the callback mechanism, it is possible to trace the events sent to |st2|.
-
-.. code-block:: bash
-
-    # Identify the Mistral workflow execution ID which is different
-    st2 execution get <st2-action-execution-id> -dj | grep workflow_execution_id
-
-    # Grep the log entries from the Mistral log, typically at /var/log/mistral/mistral-server.log
-    sudo tail -n 1000 /var/log/mistral/mistral-server.log | grep stackstorm_notifier | grep <mistral-wf-ex-id>
-
-The returned list of log entries would look something similar to the following.
-
-::
-
-    2018-03-28 22:40:05,811 140124959618704 INFO stackstorm_notifier [-] [839925d9-02c7-47be-ad8e-ce0943749a7b] The workflow event WORKFLOW_LAUNCHED for 839925d9-02c7-47be-ad8e-ce0943749a7b will be published to st2.
-    2018-03-28 22:40:05,844 140124959618704 INFO stackstorm_notifier [-] [839925d9-02c7-47be-ad8e-ce0943749a7b] The workflow event WORKFLOW_LAUNCHED for 839925d9-02c7-47be-ad8e-ce0943749a7b is published to st2.
-    2018-03-28 22:40:06,492 140124958584912 INFO stackstorm_notifier [-] [839925d9-02c7-47be-ad8e-ce0943749a7b] The task event TASK_SUCCEEDED for c8731e6a-2464-4a59-bf46-501a80215298 will be processed for st2.
-    2018-03-28 22:40:06,492 140124958584912 INFO stackstorm_notifier [-] [839925d9-02c7-47be-ad8e-ce0943749a7b] The task event TASK_SUCCEEDED for c8731e6a-2464-4a59-bf46-501a80215298 is processed for st2.
-    2018-03-28 22:40:07,195 140124956804432 INFO stackstorm_notifier [-] [839925d9-02c7-47be-ad8e-ce0943749a7b] The workflow event WORKFLOW_SUCCEEDED for 839925d9-02c7-47be-ad8e-ce0943749a7b will be published to st2.
-    2018-03-28 22:40:07,371 140124956804432 INFO stackstorm_notifier [-] [839925d9-02c7-47be-ad8e-ce0943749a7b] The workflow event WORKFLOW_SUCCEEDED for 839925d9-02c7-47be-ad8e-ce0943749a7b is published to st2.
-
-The results tracking mechanism is still available for manual intervention and can be enabled on an individual workflow
-basis in case |st2| or Mistral services is offline during a callback operation.
-
-.. code-block:: bash
-
-    # Enable the results tracking for an individual workflow execution
-    st2-track-result <st2-action-execution-id> --config-dir /etc/st2
-
-    # Disable the results tracking for an individual workflow execution
-    st2-track-result <st2-action-execution-id> --config-dir /etc/st2 --delete
+   YAQL Expressions <mistral_yaql>
+   Jinja Expressions <mistral_jinja>
+   Completion and Latency <mistral_result>
+   Workflow Operations <mistral_operations>

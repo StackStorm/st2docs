@@ -1,12 +1,7 @@
 Windows Runners Configuration
 =============================
 
-.. note::
-
-  Windows runners are currently in beta which means there might be rough edges and things might
-  break.
-
-  If you do encounter an issue, please get in touch and we will do our best to assist you.
+.. include:: /_includes/__windows_runners_deprecation_notice.rst
 
 Pre-requisites
 --------------
@@ -44,7 +39,7 @@ Supported Windows Versions
 Windows runners have been tested on the following versions of Windows:
 
 * Windows Server 2008
-* Windows server 2012
+* Windows Server 2012
 
 The underlying library we use to talk to the Windows hosts also supports other versions
 (2000/XP/2003/Vista), but we haven't tested our runners with those versions, so we can't guarantee
