@@ -92,8 +92,15 @@ st2timersengine
 
 ``st2timersengine`` is responsible for scheduling all user specified timers. See
 :ref:`timers <ref-rule-timers>` for the specifics on setting up timers via rules.
+``st2timersengine`` process needs access to both Mongo database and RabbitMQ message bus.
 
-You have to have one active ``st2timersengine`` process running to schedule all timers. This is trivial to setup in Kubernetes so there is exactly one active container running ``st2timersengine`` process. Failover is handled natively by Kubernetes. In non Kubernetes deployments, external monitoring needs to setup and a new ``st2timersengine`` process needs to be spun up to address failover.
+You have to have exactly one active ``st2timersengine`` process running to schedule all timers.
+Having more than one active ``st2timersengine`` will result in duplicate timer events and therefore
+duplicate rule evaluations leading to duplicate workflows or actions.
+
+In HA deployments, external monitoring needs to setup and a new ``st2timersengine`` process needs
+to be spun up to address failover. Losing the ``st2timersengine`` will mean no timer events will be
+injected into |st2| and therefore no timer rules would be evaluated.
 
 st2actionrunner
 ^^^^^^^^^^^^^^^
