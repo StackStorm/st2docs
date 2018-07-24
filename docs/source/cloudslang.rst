@@ -3,10 +3,10 @@
 CloudSlang
 ==========
 
-.. note::
+.. warning::
 
-    This runner is currently experimental. There may be bugs, and the external user-facing API
-    may change.
+    This runner is deprecated as of |st2| v2.9. In v3.1 it will be removed from the core codebase,
+    and will require additional manual steps to install.
 
 `CloudSlang <http://cloudslang.io>`_ is an open source orchestration tool for managing deployed
 applications. It allows you to rapidly automate your DevOps and everyday IT operations use cases.
