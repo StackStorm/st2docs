@@ -34,22 +34,17 @@ The first step is installing Puppet, for this please consule the
 To get started with a single node deployment, and default configuration settings, run these
 commands (expected to run as `root`):
 
+.. note::
+   
+  Puppet versions <= 3.x are no longer supported. Please utilize Puppet >= 4.
+
 .. code-block:: bash
 
-  mkdir modules/
-  git clone https://github.com/StackStorm/puppet-st2 modules/st2
-  
-  # run librarian-puppet to download all of our module dependencies defined in
-  # ./modules/st2/build/<os_name>/Puppetfile
-  # valid <os_name> values are (NOTE: Puppet 3.x installs are deprecated):
-  #  centos6   # Puppet 3.x on RHEL/CentOS 6
-  #  centos7   # Puppet 3.x on RHEL/CentOS 7
-  #  ubuntu14  # Puppet 3.x on Ubuntu 14
-  #  ubuntu16  # Puppet 3.x on Ubuntu 16
-  #  puppet4   # Puppet 4 on any OS
-  #  puppet5   # Puppet 5 on any OS
+  # create a Puppetfile that defines our StackStorm module
+  echo -e "forge 'https://forgeapi.puppetlabs.com'\n mod 'stackstorm/st2'" > Puppetfile
+
+  # setup librarian-puppet to download and install our module and its dependencies
   /opt/puppetlabs/puppet/bin/gem install librarian-puppet
-  cp modules/st2/build/<os_name>/Puppetfile .
   /opt/puppetlabs/puppet/bin/librarian-puppet install --path=./modules
 
   # run StackStorm full install using puppet
@@ -146,11 +141,11 @@ authentication see the :doc:`authentication documentation </authentication>` pag
 
 The following backends are currently available:
 
-- ``flat_file`` - Authenticates against an htpasswd file (default) `link <https://github.com/StackStorm/st2-auth-backend-flat-file>`_
-- ``keystone`` - Authenticates against an OpenStack Keystone service `link <https://github.com/StackStorm/st2-auth-backend-keystone>`_
-- ``ldap`` - Authenticates against an LDAP server such as OpenLDAP or Active Directory `link <https://github.com/StackStorm/st2-auth-backend-ldap>`_
-- ``mongodb`` - Authenticates against a collection named users in MongoDB `link <https://github.com/StackStorm/st2-auth-backend-mongodb>`_
-- ``pam`` - Authenticates against the PAM Linux service `link <https://github.com/StackStorm/st2-auth-backend-pam>`_
+- ``flat_file`` - Authenticates against an htpasswd file (default). See the `flat-file backend documentation <https://github.com/StackStorm/st2-auth-backend-flat-file>`_
+- ``keystone`` - Authenticates against an OpenStack Keystone service See the `keystone backend documentation <https://github.com/StackStorm/st2-auth-backend-keystone>`_
+- ``ldap`` - Authenticates against an LDAP server such as OpenLDAP or Active Directory . See the `LDAP backend documentation <https://github.com/StackStorm/st2-auth-backend-ldap>`_
+- ``mongodb`` - Authenticates against a collection named users in MongoDB. See the `MongoDB backend <https://github.com/StackStorm/st2-auth-backend-mongodb>`_
+- ``pam`` - Authenticates against the PAM Linux service. See the `PAM backend documentation <https://github.com/StackStorm/st2-auth-backend-pam>`_
   
 By default the ``flat_file`` backend is used. To change this you can configure
 it when instantiating the ``::st2`` class in a manifest file:
