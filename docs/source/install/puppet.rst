@@ -1,7 +1,7 @@
 Puppet Module
 =============
 
-If you're ready to take complete control of your |st2| instances, then ``puppet-st2``
+If you're ready to take complete control of your |st2| instances, then the ``stackstorm-st2``
 is for you! It offers repeatable, configurable, and idempotent production-friendly
 |st2| installations.
 
@@ -28,33 +28,22 @@ The same system size :doc:`requirements </install/system_requirements>` also app
 Quick Start
 -----------
 
-The first step is installing Puppet, for this please consule the
-`Puppet Installation documentation <https://puppet.com/docs/puppet/latest/install_linux.html>`_
-
-To get started with a single node deployment, and default configuration settings, run these
-commands (expected to run as `root`):
+The first step is installing Puppet, for this please consult the
+`official Puppet installation documentation <https://puppet.com/docs/puppet/latest/install_linux.html>`_
 
 .. note::
 
   Puppet versions <= 3.x are no longer supported. Please utilize Puppet >= 4.
 
-First, create a file called ``Puppetfile`` with the following content:
-
-.. code-block:: ruby
-
-  forge 'https://forgeapi.puppetlabs.com'
-  mod 'stackstorm/st2'
-
-Next, utilize ``librarian-puppet`` to download and install the ``puppet-st2`` module
-and its dependencies, then execute Puppet to install StackStorm and all of its dependencies:
+To get started with a single node deployment, and default configuration settings,
+we're going to install the ``stackstorm-st2`` module and its dependencies, then
+tell Puppet to perform a full install of StackStorm: In order to accmplish this
+run the following commands (expected to run as `root`):
 
 .. code-block:: bash
 
-  /opt/puppetlabs/puppet/bin/gem install librarian-puppet
-  # note: you must execute this command in the same directory where the Puppetfile resides
-  /opt/puppetlabs/puppet/bin/librarian-puppet install --path=./modules
-
-  /opt/puppetlabs/bin/puppet apply --modulepath=./modules -e "include ::st2::profile::fullinstall"
+  puppet module install stackstorm-st2
+  puppet apply -e "include ::st2::profile::fullinstall"
 
 .. note::
 
@@ -65,7 +54,7 @@ Classes
 -------
 
 ``::st2::profile::fullinstall`` is the quick and easy way to get StackStorm up
-and running. The ``puppet-st2`` module provides numerous additional classes
+and running. The ``stackstorm-st2`` module provides numerous additional classes
 in order to configure StackStorm just the way you like it. Below is a list of
 classes available for configuration:
 
@@ -216,7 +205,7 @@ Configuration via Hiera:
 Configuring ChatOps
 -------------------
 
-``puppet-st2`` can be used to managed the ChatOps configuration of your StackStorm
+``stackstorm-st2`` can be used to managed the ChatOps configuration of your StackStorm
 installation. We provide support for configuring all Hubot settings, installing
 custom ChatOps adapters, and finally configuring any and all adapter settings.
 
