@@ -1,11 +1,11 @@
 Puppet Module
 =============
 
-If you're ready to take complete control of your |st2| instances, then ``puppet-st2`` 
+If you're ready to take complete control of your |st2| instances, then ``puppet-st2``
 is for you! It offers repeatable, configurable, and idempotent production-friendly
 |st2| installations.
 
-The source code for all the Puppet module is available as a GitHub repo: 
+The source code for all the Puppet module is available as a GitHub repo:
 `StackStorm/puppet-st2 <https://github.com/stackstorm/puppet-st2/>`_
 
 .. contents:: Contents
@@ -35,19 +35,25 @@ To get started with a single node deployment, and default configuration settings
 commands (expected to run as `root`):
 
 .. note::
-   
+
   Puppet versions <= 3.x are no longer supported. Please utilize Puppet >= 4.
+
+First, create a file called ``Puppetfile`` with the following content:
+
+.. code-block:: ruby
+
+  forge 'https://forgeapi.puppetlabs.com'
+  mod 'stackstorm/st2'
+
+Next, utilize ``librarian-puppet`` to download and install the ``puppet-st2`` module
+and its dependencies, then execute Puppet to install StackStorm and all of its dependencies:
 
 .. code-block:: bash
 
-  # create a Puppetfile that defines our StackStorm module
-  echo -e "forge 'https://forgeapi.puppetlabs.com'\n mod 'stackstorm/st2'" > Puppetfile
-
-  # setup librarian-puppet to download and install our module and its dependencies
   /opt/puppetlabs/puppet/bin/gem install librarian-puppet
+  # note: you must execute this command in the same directory where the Puppetfile resides
   /opt/puppetlabs/puppet/bin/librarian-puppet install --path=./modules
 
-  # run StackStorm full install using puppet
   /opt/puppetlabs/bin/puppet apply --modulepath=./modules -e "include ::st2::profile::fullinstall"
 
 .. note::
@@ -87,7 +93,7 @@ provided that allow installation and configuration of StackStorm's components.
 - ``::st2::kv`` - Defines a key/value pair in the |st2| datastore
 - ``::st2::pack`` - Installs and configures a |st2| pack
 - ``::st2::user`` - Configures a system-level (linux) user and SSH keys
-  
+
 Installing and Configuring Packs
 --------------------------------
 
@@ -97,15 +103,15 @@ be done via the ``::st2::pack`` and ``st2::pack::config`` defined types.
 Installation/Configuration via Manifest:
 
 .. code-block:: puppet
-                
+
   # install pack from the exchange
   st2::pack { 'linux': }
-  
+
   # install pack from a git URL
   st2::pack { 'private':
     repo_url => 'https://private.domain.tld/git/stackstorm-private.git',
   }
-  
+
   # install pack and apply configuration
   st2::pack { 'slack':
     config   => {
@@ -114,11 +120,11 @@ Installation/Configuration via Manifest:
       },
     },
   }
-  
+
 Installation/Configuration via Hiera:
 
 .. code-block:: yaml
-                
+
   st2::packs:
     linux:
       ensure: present
@@ -146,23 +152,23 @@ The following backends are currently available:
 - ``ldap`` - Authenticates against an LDAP server such as OpenLDAP or Active Directory . See the `LDAP backend documentation <https://github.com/StackStorm/st2-auth-backend-ldap>`_
 - ``mongodb`` - Authenticates against a collection named users in MongoDB. See the `MongoDB backend <https://github.com/StackStorm/st2-auth-backend-mongodb>`_
 - ``pam`` - Authenticates against the PAM Linux service. See the `PAM backend documentation <https://github.com/StackStorm/st2-auth-backend-pam>`_
-  
+
 By default the ``flat_file`` backend is used. To change this you can configure
 it when instantiating the ``::st2`` class in a manifest file:
 
 Configuration via Manifest:
 
 .. code-block:: puppet
-                
+
   class { '::st2':
     auth_backend => 'ldap',
   }
-  
+
 
 Configuration via Hiera:
 
 .. code-block:: yaml
-                
+
   st2::auth_backend: ldap
 
 Each backend has their own custom configuration settings. The settings can be
@@ -175,7 +181,7 @@ the ``::st2`` class in a manifest file:
 Configuration via Manifest:
 
 .. code-block:: puppet
-                
+
   class { '::st2':
     auth_backend        => 'ldap',
     auth_backend_config => {
@@ -190,11 +196,11 @@ Configuration via Manifest:
       },
     },
   }
-  
+
 Configuration via Hiera:
 
 .. code-block:: yaml
-                
+
   st2::auth_backend: ldap
   st2::auth_backend_config:
     ldap_uri: "ldaps://ldap.domain.tld"
@@ -206,7 +212,7 @@ Configuration via Hiera:
       search_filter: "(&(objectClass=user)(sAMAccountName={username})(memberOf=cn=stackstorm_users,ou=groups,dc=domain,dc=tld))"
       scope: "subtree"
 
-      
+
 Configuring ChatOps
 -------------------
 
@@ -217,7 +223,7 @@ custom ChatOps adapters, and finally configuring any and all adapter settings.
 Configuration via Manifest:
 
 .. code-block:: puppet
-                
+
   class { '::st2':
     chatops_hubot_alias  => "'!'",
     chatops_hubot_name   => '"@RosieRobot"',
@@ -244,20 +250,20 @@ Configuration via Manifest:
 Configuration via Hiera:
 
 .. code-block:: yaml
-                
+
   # character to trigger the bot that the message is a command
   # example: !help
   st2::chatops_hubot_alias: "'!'"
-  
+
   # name of the bot in chat, sometimes requires special characters like @
   st2::chatops_hubot_name: '"@RosieRobot"'
-  
+
   # API key generated by: st2 apikey create
   st2::chatops_api_key: '"xxxxyyyyy123abc"'
- 
+
   # Public URL used by ChatOps to offer links to execution details via the WebUI.
   st2::chatops_web_url: '"stackstorm.domain.tld"'
-  
+
   # install and configure hubot adapter (rocketchat, nodejs module installed by ::nodejs)
   st2::chatops_adapter:
     hubot-adapter:
@@ -285,7 +291,7 @@ StackStorm :doc:`datastore </datastore>`:
 Configuring via Manifests:
 
 .. code-block:: puppet
-                
+
   st2::kv { 'my_key_name':
     value => 'SomeValue',
   }
@@ -297,7 +303,7 @@ Configuring via Manifests:
 Configuration via Hiera:
 
 .. code-block:: yaml
-                
+
   st2::kvs:
     my_key_name:
       value: SomeValue
