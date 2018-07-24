@@ -34,6 +34,49 @@ Upgrade Notes
   Keep in mind that having this functionality enabled is strongly advised since it allows users
   to catch various issues related to typos, invalid payload, etc. much easier and faster.
 
+  Before (webhook references an invalid trigger which doesn't exist in the database):
+
+  .. code-block:: bash
+
+    $ curl -X POST "http://127.0.0.1:9101/v1/webhooks/st2" -H "Content-Type: application/json" -data '{"trigger": "doesnt.exist", "payload": {"attribute1": "value1"}}' -H "St2-Trace-Tag: woo"
+    {
+        "trigger": "doesnt.exist",
+        "payload": {
+            "attribute1": "value1"
+        }
+    }
+
+  After:
+
+  .. code-block:: bash
+
+    $ curl -X POST "http://127.0.0.1:9101/v1/webhooks/st2" -H "Content-Type: application/json" -data '{"trigger": "doesnt.exist", "payload": {"attribute1": "value1"}}' -H "St2-Trace-Tag: woo"
+    {
+        "faultstring": "Trigger payload validation failed and validation is enabled, not dispatching a trigger \"doesnt.exist\" ({u'attribute1': u'value1'}): Trigger type with reference \"doesnt.exist\" doesn't exist in the database"
+    }
+
+  Before (trigger payload doesn't validate against the payload schema):
+
+  .. code-block:: bash
+
+    $ curl -X POST "http://127.0.0.1:9101/v1/webhooks/st2" -H "Content-Type: application/json" -data '{"trigger": "core.st2.webhook", "payload": {"headers": "invalid", "body": {}}}' -H "St2-Trace-Tag: woo"
+    {
+        "trigger": "core.st2.webhook",
+        "payload": {
+            "body": {},
+            "headers": "invalid"
+        }
+    }
+
+  After:
+
+  .. code-block:: bash
+
+    $ curl -X POST "http://127.0.0.1:9101/v1/webhooks/st2" -H "Content-Type: application/json" -data '{"trigger": "core.st2.webhook", "payload": {"headers": "invalid", "body": {}}}' -H "St2-Trace-Tag: woo"
+    {
+        "faultstring": "Trigger payload validation failed and validation is enabled, not dispatching a trigger \"core.st2.webhook\" ({u'body': {}, u'headers': u'invalid'}): u'invalid' is not of type 'object', 'null'\n\nFailed validating 'type' in schema['properties']['headers']:\n    {'type': ['object', 'null']}\n\nOn instance['headers']:\n    u'invalid'"
+    }
+
 .. _ref-upgrade-notes-v2-8:
 
 |st2| v2.8
