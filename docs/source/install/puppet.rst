@@ -29,7 +29,7 @@ Quick Start
 -----------
 
 The first step is installing Puppet, for this please consule the
-`Puppet Installation documentation <https://puppet.com/docs/puppet/latest/install_linux.html>`
+`Puppet Installation documentation <https://puppet.com/docs/puppet/latest/install_linux.html>`_
 
 To get started with a single node deployment, and default configuration settings, run these
 commands (expected to run as `root`):
@@ -146,11 +146,11 @@ authentication see the :doc:`authentication documentation </authentication>` pag
 
 The following backends are currently available:
 
-- ``flat_file`` - Authenticates against an htpasswd file (default) `link <https://github.com/StackStorm/st2-auth-backend-flat-file>`
-- ``keystone`` - Authenticates against an OpenStack Keystone service `link <https://github.com/StackStorm/st2-auth-backend-keystone>`
-- ``ldap`` - Authenticates against an LDAP server such as OpenLDAP or Active Directory `link <https://github.com/StackStorm/st2-auth-backend-ldap>`
-- ``mongodb`` - Authenticates against a collection named users in MongoDB `link <https://github.com/StackStorm/st2-auth-backend-mongodb>`
-- ``pam`` - Authenticates against the PAM Linux service `link <https://github.com/StackStorm/st2-auth-backend-pam>`
+- ``flat_file`` - Authenticates against an htpasswd file (default) `link <https://github.com/StackStorm/st2-auth-backend-flat-file>`_
+- ``keystone`` - Authenticates against an OpenStack Keystone service `link <https://github.com/StackStorm/st2-auth-backend-keystone>`_
+- ``ldap`` - Authenticates against an LDAP server such as OpenLDAP or Active Directory `link <https://github.com/StackStorm/st2-auth-backend-ldap>`_
+- ``mongodb`` - Authenticates against a collection named users in MongoDB `link <https://github.com/StackStorm/st2-auth-backend-mongodb>`_
+- ``pam`` - Authenticates against the PAM Linux service `link <https://github.com/StackStorm/st2-auth-backend-pam>`_
   
 By default the ``flat_file`` backend is used. To change this you can configure
 it when instantiating the ``::st2`` class in a manifest file:
