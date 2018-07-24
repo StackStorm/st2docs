@@ -37,7 +37,7 @@ The first step is installing Puppet, for this please consult the
 
 To get started with a single node deployment, and default configuration settings,
 we're going to install the ``stackstorm-st2`` module and its dependencies, then
-tell Puppet to perform a full install of StackStorm: In order to accmplish this
+tell Puppet to perform a full install of StackStorm. In order to accomplish this,
 run the following commands (expected to run as `root`):
 
 .. code-block:: bash
