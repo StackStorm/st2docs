@@ -26,7 +26,7 @@ Here's an overview of the options:
   internal mirror for the |st2| repos. 
 * **Ansible Playbooks:** If you are an Ansible user, check these :doc:`/install/ansible` for
   installing |st2|. Ideal for repeatable, consistent, idempotent installation of |st2|.
-* **Puppet Module:** For Puppet users, check these :doc:`/install/puppet` for
+* **Puppet Module:** For Puppet users, check this :doc:`/install/puppet` for
   installing |st2|. A robust and idempotent method of installing and configuring |st2|.
 * **Docker:** |st2| is now supported on Docker - check out our :doc:`docker` instructions.
 
