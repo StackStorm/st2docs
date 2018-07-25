@@ -1,11 +1,14 @@
 Puppet Module
 =============
 
-If you're ready to take complete control of your |st2| instances, then the ``stackstorm-st2``
-is for you! It offers repeatable, configurable, and idempotent production-friendly
-|st2| installations.
+If you're ready to take complete control of your |st2| instances, then ``stackstorm-st2``
+Puppet module is for you! It offers repeatable, configurable, and idempotent
+production-friendly |st2| installations.
 
-The source code for all the Puppet module is available as a GitHub repo:
+The ``stackstorm-st2`` Puppet Module is available on Puppet Forge:
+`stackstorm-st2 <https://forge.puppet.com/stackstorm/st2>`_
+
+Source code for the module is available as a GitHub repo:
 `StackStorm/puppet-st2 <https://github.com/stackstorm/puppet-st2/>`_
 
 .. contents:: Contents
