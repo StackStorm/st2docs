@@ -40,8 +40,8 @@ The first step is installing Puppet, for this please consult the
 
 To get started with a single node deployment, and default configuration settings,
 we're going to install the ``stackstorm-st2`` module and its dependencies, then
-tell Puppet to perform a full install of StackStorm. In order to accomplish this,
-run the following commands (expected to run as `root`):
+tell Puppet to perform a full install of |st2|. In order to accomplish this,
+run the following commands as ``root``:
 
 .. code-block:: bash
 
@@ -50,21 +50,21 @@ run the following commands (expected to run as `root`):
 
 .. note::
 
-    Please keep in mind that the default StackStorm login credentials according to https://github.com/StackStorm/puppet-st2/blob/master/manifests/params.pp are: ``st2admin:Ch@ngeMe``. Don't forget to change them to a more secure settings.
+    The default |st2| login credentials according to https://github.com/StackStorm/puppet-st2/blob/master/manifests/params.pp are: ``st2admin:Ch@ngeMe``. Don't forget to change them.
 
 
 Classes
 -------
 
-``::st2::profile::fullinstall`` is the quick and easy way to get StackStorm up
+``::st2::profile::fullinstall`` is the quick and easy way to get |st2| up
 and running. The ``stackstorm-st2`` module provides numerous additional classes
-in order to configure StackStorm just the way you like it. Below is a list of
+in order to configure |st2| just the way you like it. Below is a list of
 classes available for configuration:
 
 
 - ``::st2`` - The main configuration point for the |st2| installation.
 - ``::st2::profile::client`` - Profile to install all client libraries for |st2|
-- ``::st2::profile::fullinstall`` - Full installation of StackStorm and dependencies
+- ``::st2::profile::fullinstall`` - Full installation of |st2| and dependencies
 - ``::st2::profile::mistral`` - Install of OpenStack Mistral
 - ``::st2::profile::mongodb`` - |st2| configured MongoDB installation
 - ``::st2::profile::nodejs`` - |st2| configured NodeJS installation
@@ -79,7 +79,7 @@ Resource Types
 --------------
 
 Along with the configuration classes, there are a number of defined resources
-provided that allow installation and configuration of StackStorm's components.
+provided that allow installation and configuration of |st2|'s components.
 
 - ``::st2::auth_user`` - Configures a user (and password) in ``flat_file`` auth
 - ``::st2::kv`` - Defines a key/value pair in the |st2| datastore
@@ -89,7 +89,7 @@ provided that allow installation and configuration of StackStorm's components.
 Installing and Configuring Packs
 --------------------------------
 
-StackStorm packs can be installed and configured directly from Puppet. This can
+|st2| packs can be installed and configured directly from Puppet. This can
 be done via the ``::st2::pack`` and ``st2::pack::config`` defined types.
 
 Installation/Configuration via Manifest:
@@ -132,10 +132,10 @@ Installation/Configuration via Hiera:
 Configuring Authentication
 --------------------------
 
-StackStorm uses a pluggable authentication system where auth is delegated to an
+|st2| uses a pluggable authentication system where authentication is delegated to an
 external service called a "backend". The ``st2auth`` service can be configured
-to use various backends (only one active). For more information on StackStorm
-authentication see the :doc:`authentication documentation </authentication>` page.
+to use various backends. Note only one is active at any one time. For more information on |st2|
+authentication see the :doc:`authentication documentation </authentication>`.
 
 The following backends are currently available:
 
@@ -164,8 +164,8 @@ Configuration via Hiera:
   st2::auth_backend: ldap
 
 Each backend has their own custom configuration settings. The settings can be
-found by looking at the backend class in the manifests/st2/auth/ directory.
-These parameters map 1-for-1 to the configuration options defined in each backends
+found by looking at the backend class in the ``manifests/st2/auth/`` directory.
+These parameters map 1-for-1 to the configuration options defined in each backend's
 GitHub page (links above). Backend configurations are passed in as a hash using
 the ``auth_backend_config`` option. This option can be changed when instantiating
 the ``::st2`` class in a manifest file:
@@ -208,9 +208,9 @@ Configuration via Hiera:
 Configuring ChatOps
 -------------------
 
-``stackstorm-st2`` can be used to managed the ChatOps configuration of your StackStorm
+``stackstorm-st2`` can manage the ChatOps configuration of your |st2|
 installation. We provide support for configuring all Hubot settings, installing
-custom ChatOps adapters, and finally configuring any and all adapter settings.
+custom ChatOps adapters, and configuring all adapter settings.
 
 Configuration via Manifest:
 
@@ -277,8 +277,8 @@ Configuration via Hiera:
 Configuring Key/Value pairs
 ---------------------------
 
-The puppet type ``::st2::kv`` can be used to manage key/value pairs in the
-StackStorm :doc:`datastore </datastore>`:
+The puppet type ``::st2::kv`` can manage key/value pairs in the
+|st2| :doc:`datastore </datastore>`:
 
 Configuring via Manifests:
 
