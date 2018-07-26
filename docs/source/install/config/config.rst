@@ -154,7 +154,7 @@ To verify, run this from your |st2| system:
 .. code-block:: bash
 
     # ssh should not require a password since the key is already provided
-    ssh -i /home/stanley/.ssh/stanley_rsa stanely@host.example.com
+    ssh -i /home/stanley/.ssh/stanley_rsa stanley@host.example.com
 
     # make sure that no password is required
     sudo su
