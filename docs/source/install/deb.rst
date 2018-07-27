@@ -34,6 +34,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL:
   EOT"
   sudo apt-get update
 
+  sudo apt-get install -y crudini
   sudo apt-get install -y mongodb-org
   sudo apt-get install -y rabbitmq-server
   sudo apt-get install -y postgresql
