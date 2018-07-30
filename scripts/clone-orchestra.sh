@@ -7,7 +7,7 @@ if [ -d $REPO_DIR ]; then
 fi
 
 # Only supports master branch for duration of beta.
-REQUIRED_BRANCH="master"
+REQUIRED_BRANCH="v0.1"
 
 echo "Cloning branch $REQUIRED_BRANCH of orchestra..."
 git clone -b $REQUIRED_BRANCH https://github.com/StackStorm/orchestra.git ${REPO_DIR}
