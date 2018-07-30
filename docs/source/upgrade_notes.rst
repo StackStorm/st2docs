@@ -8,7 +8,7 @@ Upgrade Notes
 |st2| v2.8
 ----------
 
-* This version introduces new Orchestra runner and Orchestra workflows. For this functionality
+* This version introduces new Orquesta runner and Orquesta workflows. For this functionality
   to work, new ``st2workflowengine`` service needs to be installed and running.
 
   If you are installing StackStorm on a new server using the official installation script this
