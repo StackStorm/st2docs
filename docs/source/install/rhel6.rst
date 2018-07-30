@@ -20,8 +20,7 @@ Install libffi-devel Package
 RHEL 6 may not ship with ``libffi-devel`` package, which is a dependency for |st2|. If that is the
 case, set up the ``server-optional`` repository, following the instructions at
 https://access.redhat.com/solutions/265523.
-Or, find a version of ``libffi-devel`` compatible with the ``libffi`` version installed. For
-example:
+Or, find a version of ``libffi-devel`` compatible with the ``libffi`` version installed. For example:
 
 .. code :: bash
 
