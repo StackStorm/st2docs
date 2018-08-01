@@ -82,6 +82,7 @@ Install MongoDB, RabbitMQ, and PostgreSQL:
   gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc
   EOT"
 
+  sudo yum -y install crudini
   sudo yum -y install mongodb-org
   sudo yum -y install rabbitmq-server
   sudo service mongod start
