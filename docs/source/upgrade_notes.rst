@@ -3,6 +3,20 @@
 Upgrade Notes
 =============
 
+.. _ref-upgrade-notes-v2-9:
+
+|st2| v2.9
+----------
+
+* ``GET /v1/executions/<execution id>/output[?output_type=stdout/stderr/other]`` API endpoint has
+  been made non-blocking and it now only returns data produced by the execution so far (or all data
+  if the execution has already finished).
+
+  If you are interested in the real-time execution output as it's produced, you should utilize the
+  general purpose stream API endpoint or a new execution output stream API endpoint which has been
+  added in |st2| v2.9. For more information, please refer to the
+  :doc:`/reference/action_output_streaming` documentation page.
+
 .. _ref-upgrade-notes-v2-8:
 
 |st2| v2.8
