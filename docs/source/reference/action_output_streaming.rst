@@ -109,7 +109,7 @@ API endpoint (see below) or use the executions API endpoint
 
 Output can also be accessed using the |st2| API:
 
-* ``GET /v1/executions/<execution id>/output[?type=stdout/stderr/other]``
+* ``GET /v1/executions/<execution id>/output[?output_type=stdout/stderr/other]``
 
 .. code-block:: bash
 
@@ -134,8 +134,8 @@ execution which has been scheduled last will be used.
 If you are interested in a real-time output as it comes in, you should use one of the stream API
 endpoints documented below.
 
-3. Via the StackStorm Stream API
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3. Via the general purpose StackStorm Stream API endpoint
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you are interested in real-time output as it's produced by the execution, you can access it
 using the event stream API.
@@ -143,7 +143,9 @@ using the event stream API.
 This API endpoint follows the server-sent events specification (JSON messages delimited by a new
 line - ``\n\n``) and is also used for other events.
 
- The name of the event is ``st2.execution.output__create``:
+The name of the event is ``st2.execution.output__create``:
+
+* ``GET /v1/stream?events=st2.execution.output__create``
 
 .. code-block:: bash
 
@@ -170,18 +172,22 @@ Keep in mind that this feature is still behind a feature flag and that's why you
 pass ``?events=st2.execution.output__create`` query param to the API endpoint to make sure you also
 receive these events.
 
+3. Via the special purpose execution output StackStorm Stream API endpoint
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. note::
 
-  ``GET /v1/stream/executions/<id>/output`` API endpoint has been added in |st2| v2.9.0.
+  This stream API endpoint has been added in |st2| v2.9.0.
+
+* ``GET /v1/stream/executions/<execution id>/output[?output_type=stdout/stderr/other]``
 
 In addition to the general purpose stream API endpoint, you can also utilize special purpose
-``/v1/stream/executions/<id>/output`` stream API endpoint which also follows server-sent events
-specification.
+execution output stream API endpoint which also follows server-sent events specification.
 
 The main difference between this endpoint and the one above is that this one operates on a single
 execution and in addition to the real-time data produced by the execution, it also returns data
-which has been produced by the execution so far (before the connection to the
-endpoint has been established).
+which has been produced by the execution so far (before the connection to the endpoint has been
+established).
 
 .. code-block:: bash
 
