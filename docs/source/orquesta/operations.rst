@@ -4,13 +4,13 @@ Workflow Operations
 Pausing and Resuming Workflow Execution
 ---------------------------------------
 
-Orchestra workflow execution can be paused by running ``st2 execution pause <execution-id>``. An
+Orquesta workflow execution can be paused by running ``st2 execution pause <execution-id>``. An
 execution must be in a running state in order for pause to be successful. The execution will
 initially go into a ``pausing`` state, and will go into a ``paused`` state when no more tasks are
 in an active state such as ``running``, ``pausing``, or ``canceling``. When a workflow execution
 is paused, it can be resumed by running ``st2 execution resume <execution-id>``.
 
-The ``pause`` and ``resume`` operation will cascade down to subworkflows. Orchestra allows for
+The ``pause`` and ``resume`` operation will cascade down to subworkflows. Orquesta allows for
 finer control to workflow with multiple branches. If the ``pause`` operation is requested from
 a subworkflow, the ``pause`` will not cascade up to the parent workflow and down to other peers.
 This supports use case where the user wants to pause only a specific branch but let the rest of

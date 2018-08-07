@@ -107,9 +107,9 @@ API endpoint (see below) or use the executions API endpoint
 2. Via the StackStorm API
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Output can also be accessed in real-time using the |st2| API:
+Output can also be accessed using the |st2| API:
 
-* ``GET /v1/executions/<execution id>/output[?type=stdout/stderr/other]``
+* ``GET /v1/executions/<execution id>/output[?output_type=stdout/stderr/other]``
 
 .. code-block:: bash
 
@@ -125,23 +125,27 @@ Output can also be accessed in real-time using the |st2| API:
     stderr -> Line: 9
     stdout -> Line: 10
 
-The API endpoints keep a long running connection open until the execution completes or the user
-closes the connection.
-
-Once requested, the API endpoint returns any data which has been produced so far and after that,
-any new data as it becomes available.
+This API endpoint returns data produced by the execution so far and closes the connection. If the
+execution has already completed, it will return all data produced by that execution.
 
 Similar to the CLI command, you can also use ``last`` for the execution id, and the ID of the
 execution which has been scheduled last will be used.
 
-3. Via the StackStorm Stream API
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+If you are interested in a real-time output as it comes in, you should use one of the stream API
+endpoints documented below.
 
-In addition to the |st2| API above, output can also be accessed using the event stream API.
+3. Via the general purpose StackStorm Stream API endpoint
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This API endpoint follows the server-sent event specification (JSON messages delimited by a new line
-- ``\n``) and is also used for other events. The name of the event is
-``st2.execution.output__create``:
+If you are interested in real-time output as it's produced by the execution, you can access it
+using the event stream API.
+
+This API endpoint follows the server-sent events specification (JSON messages delimited by a new
+line - ``\n\n``) and is also used for other events.
+
+The name of the event is ``st2.execution.output__create``:
+
+* ``GET /v1/stream?events=st2.execution.output__create``
 
 .. code-block:: bash
 
@@ -159,9 +163,54 @@ This API endpoint follows the server-sent event specification (JSON messages del
     event: st2.execution.output__create
     data: {"timestamp": "2017-09-12T13:31:29.100242Z", "runner_ref": "remote-shell-cmd", "output_type": "stdout", "action_ref": "examples.remote_command_runner_print_to_stdout_and_stderr", "data": "stdout line 4\n", "id": "59b7e1b10640fd119d79835c", "execution_id": "59b7e1ae0640fd0f72fdc746"}
 
+This endpoint will only return new events which have been generated after you have established a
+connection to the endpoint. If you are also interested in the output which has been generated
+before you have established a connection to this endpoint, you should use a special purposed
+execution output stream API endpoint documented below.
+
 Keep in mind that this feature is still behind a feature flag and that's why you need to explicitly
 pass ``?events=st2.execution.output__create`` query param to the API endpoint to make sure you also
 receive these events.
+
+3. Via the special purpose execution output StackStorm Stream API endpoint
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+  This stream API endpoint has been added in |st2| v2.9.0.
+
+* ``GET /v1/stream/executions/<execution id>/output[?output_type=stdout/stderr/other]``
+
+In addition to the general purpose stream API endpoint, you can also utilize special purpose
+execution output stream API endpoint which also follows server-sent events specification.
+
+The main difference between this endpoint and the one above is that this one operates on a single
+execution and in addition to the real-time data produced by the execution, it also returns data
+which has been produced by the execution so far (before the connection to the endpoint has been
+established).
+
+.. code-block:: bash
+
+    $ curl http://127.0.0.1:9102/v1/stream/executions/5b62dbce962d747a93e9e4c9/output
+
+    event: st2.execution.output__create
+    data: {"timestamp": "2018-08-02T10:08:32.473143Z", "runner_ref": "local-shell-cmd", "output_type": "stdout", "action_ref": "core.local", "data": "1\n", "id": "5b62d820962d74784ef53da3", "execution_id": "5b62d815962d747771af2596"}
+
+    event: st2.execution.output__create
+    data: {"timestamp": "2018-08-02T10:08:37.474653Z", "runner_ref": "local-shell-cmd", "output_type": "stdout", "action_ref": "core.local", "data": "2\n", "id": "5b62d825962d74784ef53da4", "execution_id": "5b62d815962d747771af2596"}
+
+    event: st2.execution.output__create
+    data: {"timestamp": "2018-08-02T10:08:42.480517Z", "runner_ref": "local-shell-cmd", "output_type": "stdout", "action_ref": "core.local", "data": "3\n", "id": "5b62d82a962d74784ef53da5", "execution_id": "5b62d815962d747771af2596"}
+
+    event: st2.execution.output__create
+    data: {"timestamp": "2018-08-02T10:08:47.481681Z", "runner_ref": "local-shell-cmd", "output_type": "stdout", "action_ref": "core.local", "data": "6\n", "id": "5b62d82f962d74784ef53da6", "execution_id": "5b62d815962d747771af2596"}
+
+    event: EOF
+    data: ''
+
+To signal that the execution has finished and no more events will be produced on this endpoint and
+that the client doesn't need to re-establish a connection, it sends a special ``EOF`` event before
+closing the connection.
 
 Security Implications
 ---------------------

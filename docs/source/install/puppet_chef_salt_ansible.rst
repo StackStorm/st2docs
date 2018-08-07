@@ -26,7 +26,7 @@ Puppet
 
 |st2| provides a community-supported Puppet module. This module is actively maintained, and sees frequent updates.
 
-Check the `puppet-st2 <https://github.com/stackstorm/puppet-st2/>`_ repository for more details on how to use this module.
+See :doc:`/install/puppet` for details on how to get started.
 
 Chef
 ====
