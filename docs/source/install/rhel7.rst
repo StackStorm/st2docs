@@ -61,12 +61,13 @@ Install MongoDB, RabbitMQ, and PostgreSQL:
   sudo sh -c "cat <<EOT > /etc/yum.repos.d/mongodb-org-3.4.repo
   [mongodb-org-3.4]
   name=MongoDB Repository
-  baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.4/x86_64/
+  baseurl=https://repo.mongodb.org/yum/redhat/\\\$releasever/mongodb-org/3.4/x86_64/
   gpgcheck=1
   enabled=1
   gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc
   EOT"
 
+  sudo yum -y install crudini
   sudo yum -y install mongodb-org
   sudo yum -y install rabbitmq-server
   sudo systemctl start mongod rabbitmq-server
@@ -168,7 +169,7 @@ you will need to add the official Nginx repository:
   sudo sh -c "cat <<EOT > /etc/yum.repos.d/nginx.repo
   [nginx]
   name=nginx repo
-  baseurl=http://nginx.org/packages/rhel/$releasever/x86_64/
+  baseurl=http://nginx.org/packages/rhel/\\\$releasever/x86_64/
   gpgcheck=1
   enabled=1
   EOT"

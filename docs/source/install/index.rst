@@ -26,6 +26,8 @@ Here's an overview of the options:
   internal mirror for the |st2| repos. 
 * **Ansible Playbooks:** If you are an Ansible user, check these :doc:`/install/ansible` for
   installing |st2|. Ideal for repeatable, consistent, idempotent installation of |st2|.
+* **Puppet Module:** For Puppet users, check this :doc:`/install/puppet` for
+  installing |st2|. A robust and idempotent method of installing and configuring |st2|.
 * **Docker:** |st2| is now supported on Docker - check out our :doc:`docker` instructions.
 
 Choose the option that best suits your needs.
@@ -89,6 +91,7 @@ For more details on reference deployments, or OS-specific installation instructi
     RHEL 6 / CentOS 6 <rhel6>
     Docker <docker>
     Ansible Playbooks <ansible>
+    Puppet Module <puppet>
     Extreme Workflow Composer <bwc>
     config/index
     upgrades

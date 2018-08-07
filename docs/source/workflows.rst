@@ -28,12 +28,12 @@ actions in a workflow definition, and provide the usual action meta data.
 
   **Use Mistral when you need power and resilience.**
 
-* :doc:`Orchestra <orchestra/index>` is a new workflow engine, designed specifically for |st2|. It
+* :doc:`Orquesta <orquesta/index>` is a new workflow engine, designed specifically for |st2|. It
   is currently in public beta. In future this will replace both Action Chain and Mistral. With
-  Orchestra, you can define simple sequential workflows or complex workflows with forks, joins,
+  Orquesta, you can define simple sequential workflows or complex workflows with forks, joins,
   and sophisticated data transformation and queries.
 
-  **Use Orchestra to test-drive the future of workflows.** 
+  **Use Orquesta to test-drive the future of workflows.** 
 
 Learn how to define and run workflows:
 
@@ -44,4 +44,4 @@ Learn how to define and run workflows:
     mistral
     mistral_yaql
     mistral_jinja
-    Orchestra <orchestra/index>
+    Orquesta <orquesta/index>

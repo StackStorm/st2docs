@@ -77,12 +77,21 @@ Upgrade Notes
         "faultstring": "Trigger payload validation failed and validation is enabled, not dispatching a trigger \"core.st2.webhook\" ({u'body': {}, u'headers': u'invalid'}): u'invalid' is not of type 'object', 'null'\n\nFailed validating 'type' in schema['properties']['headers']:\n    {'type': ['object', 'null']}\n\nOn instance['headers']:\n    u'invalid'"
     }
 
+* ``GET /v1/executions/<execution id>/output[?output_type=stdout/stderr/other]`` API endpoint has
+  been made non-blocking and it now only returns data produced by the execution so far (or all data
+  if the execution has already finished).
+
+  If you are interested in the real-time execution output as it's produced, you should utilize the
+  general purpose stream API endpoint or a new execution output stream API endpoint which has been
+  added in |st2| v2.9. For more information, please refer to the
+  :doc:`/reference/action_output_streaming` documentation page.
+
 .. _ref-upgrade-notes-v2-8:
 
 |st2| v2.8
 ----------
 
-* This version introduces new Orchestra runner and Orchestra workflows. For this functionality
+* This version introduces new Orquesta runner and Orquesta workflows. For this functionality
   to work, new ``st2workflowengine`` service needs to be installed and running.
 
   If you are installing StackStorm on a new server using the official installation script this

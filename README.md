@@ -3,7 +3,7 @@
 **StackStorm** is a platform for integration and automation across services and tools, taking
 actions in response to events. Learn more at [www.stackstorm.com](http://www.stackstorm.com/product).
 
-[![Build Status](https://api.travis-ci.org/StackStorm/st2docs.svg?branch=master)](https://travis-ci.org/StackStorm/st2docs)
+[![Build Status](https://circleci.com/gh/StackStorm/st2docs.png?style=shield)](https://circleci.com/gh/StackStorm/st2docs)
 
 # Writing the Docs
 
