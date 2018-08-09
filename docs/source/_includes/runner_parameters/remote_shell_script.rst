@@ -7,7 +7,7 @@
 * ``env`` (object) - Environment variables which will be available to the script(e.g. key1=val1,key2=val2)
 * ``sudo`` (boolean) - The remote command will be executed with sudo.
 * ``cwd`` (string) - Working directory where the script will be executed in.
-* ``kwarg_op`` (string) - Operator to use in front of keyword args i.e. "--" or "-".
+* ``kwarg_op`` (string) - Operator to use in front of keyword args i.e. ``--`` or ``-``.
 * ``bastion_host`` (string) - The host SSH connections will be proxied through. Note: This connection is made using the same parameters as the final connection, and is only used in ParamikoSSHRunner.
 * ``hosts`` (string) - A comma delimited string of a list of hosts where the remote command will be executed.
 * ``passphrase`` (string) - Passphrase for the private key, if needed.
