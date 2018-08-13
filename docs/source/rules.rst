@@ -736,7 +736,7 @@ Run action on a specific date
   ...
 
   trigger:
-    type: "core.st2.IntervalTimer"
+    type: "core.st2.DateTimer"
     parameters:
         timezone: "UTC"
         date: "2014-12-31 23:59:59"
