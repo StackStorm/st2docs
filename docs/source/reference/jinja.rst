@@ -189,9 +189,12 @@ an online evaluator can be found `here <http://jsonpath.com/>`_.
     {{ input | jsonpath_query('people[*].first') }}
 
     # Access a field whose name contains a period.
-    # NOTE: Field names that contain a period MUST be quoted within the query string.
-    #       In this example there are double quotes on the outside and single quotes
-    #       around the field name that contains periods.
+    # NOTE: JSONPath uses the '.' as the field name separator in its queries.
+    #       Field names that contain a period MUST be quoted within the query string
+    #       in orer to be interpreted as a full string rather than multiple fields.
+    #       In this example there are double quotes on the outside of the query and
+    #       single quotes around the field name that contains periods in order to
+    #       denote that it is a single field.
     #
     # input  = {'hosts': {'server.domain.tld': {'uptime': 9999},
     #                     'client.domain.tld': {'uptime': 12}}}
@@ -278,7 +281,7 @@ compact JSON simply pass in the ``indent=None`` option to the filter (default in
 
     {{ value_key | to_json_string(indent=None) }}
 
-To alphabetically sort dictionary/hash/object keys, pass in the ``sort_keys=True`` option (defaul = ``False``).
+To alphabetically sort dictionary/hash/object by their keys, pass in the ``sort_keys=True`` option (default = ``False``).
 
 .. code-block:: bash
 
