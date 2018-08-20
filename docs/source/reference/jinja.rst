@@ -272,13 +272,13 @@ Convert data to JSON string.
     {{ value_key | to_json_string }}
 
 By default ``to_json-string`` produces "pretty" JSON formatted output. To produce
-compact JSON simply pass in the ``indent=None`` option to the filter.
+compact JSON simply pass in the ``indent=None`` option to the filter (default indent = 4).
 
 .. code-block:: bash
 
     {{ value_key | to_json_string(indent=None) }}
 
-To alphabetically sort dictionary/hash/object keys, pass in the ``sort_keys=True`` option.
+To alphabetically sort dictionary/hash/object keys, pass in the ``sort_keys=True`` option (defaul = ``False``).
 
 .. code-block:: bash
 
