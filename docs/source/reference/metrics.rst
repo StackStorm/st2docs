@@ -49,17 +49,17 @@ This section describes which metrics are currently exposed by various |st2| serv
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
 | Name                                                       | Type       | Service                     | Description                                                                                                    |
 +============================================================+============+=============================+================================================================================================================+
-| st2.action.executions                                      | counter    | st2actionrunner             | Current number of action executions being processed by st2actionrunner service.                                |
+| st2.action.executions                                      | counter    | st2actionrunner             | Number of action executions processed by st2actionrunner service.                                              |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
 | st2.action.executions                                      | timer      | st2actionrunner             | How long it took to process (run) a particular action execution inside st2actionrunner service.                |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
-| st2.action.<action ref>.executions                         | counter    | st2actionrunner             | Current number of action execution for a particular action being processed by st2actionrunner.                 |
+| st2.action.<action ref>.executions                         | counter    | st2actionrunner             | Number of action execution for a particular action processed by st2actionrunner.                               |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
 | st2.action.<action ref>.executions                         | timer      | st2actionrunner             | How long it took to process (run) action execution for a particular action inside st2actionrunner.             |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
 | st2.action.executions.<execution status>                   | counter    | st2actionrunner             | Number of executions which are currently in a particular state (succeeded, failed, timeout, delayed, etc).     |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
-| st2.rule.processed                                         | counter    | st2rulesengine              | Number of rules (trigger instances) currently being processed by st2rulesengine service.                       |
+| st2.rule.processed                                         | counter    | st2rulesengine              | Number of rules (trigger instances) processed by st2rulesengine service.                                       |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
 | st2.rule.processed                                         | timer      | st2rulesengine              | How long it took to process a particular rule (trigger instance) inside st2rulesengine.                        |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
@@ -73,9 +73,9 @@ This section describes which metrics are currently exposed by various |st2| serv
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
 | st2.trigger_instance.<trigger instance id>.processed       | timer      | st2rulesengine              | How long it took to process a particular trigger instance inside st2rulesengine.                               |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
-| st2.{auth,api,stream}.request.total                        | counter    | st2auth, st2api, st2stream  | Total number of requests processed by st2auth / st2api / st2stream.                                            |
+| st2.{auth,api,stream}.request.total                        | counter    | st2auth, st2api, st2stream  | Number of requests processed by st2auth / st2api / st2stream.                                                  |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
-| st2.{auth,api,stream}.request                              | counter    | st2auth, st2api, st2stream  | Number of requests currently being processed by st2auth / st2api / st2stream.                                  |
+| st2.{auth,api,stream}.request                              | counter    | st2auth, st2api, st2stream  | Number of requests processed by st2auth / st2api / st2stream.                                                  |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
 | st2.{auth,api,stream}.request                              | timer      | st2auth, st2api, st2stream  | How long it took to process a particular HTTP request.                                                         |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
@@ -86,5 +86,5 @@ This section describes which metrics are currently exposed by various |st2| serv
 | st2.{auth,api,stream}.response.status.<status code>        | counter    | st2auth, st2api, st2stream  | Number of requests which resulted in a response with a particular HTTP status code.                            |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
 
-Depending on the metric backend used and metric type, some of those metrics will also be averaged,
-aggregated and converted into a rate (operations / seconds for ``counter`` metrics), etc.
+Depending on the metric backend used and metric type, some of those metrics will also be sampled,
+averaged, aggregated and converted into a rate (operations / seconds for ``counter`` metrics), etc.
