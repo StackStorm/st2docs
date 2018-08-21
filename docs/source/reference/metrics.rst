@@ -11,7 +11,7 @@ Configuring and Enabling Metrics Collection
 
 .. note::
 
-  This feature was added and is available in |st2| v2.8.0 and above.
+  This feature was added and is available in |st2| v2.9.0 and above.
 
 By default metrics collection is disabled. To enable it, you need to configure ``metrics.driver``
 and depending on the driver, also ``metrics.host`` and ``metrics.port`` option in
