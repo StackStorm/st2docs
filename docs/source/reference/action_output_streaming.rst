@@ -3,9 +3,9 @@ Real-time Action Output Streaming
 
 .. note::
 
-  This feature was adding in |st2| v2.5.0 and above. Initially it was disabled by default. From v2.6.0,
-  it is enabled by default. This can be changed with the ``actionrunner.stream_output`` config option
-  in ``st2.conf``.
+  This feature was added and is available in |st2| v2.5.0 and above. Initially it was disabled by 
+  default. From v2.6.0, it is enabled by default. This can be changed with the
+  ``actionrunner.stream_output`` config option in ``st2.conf``.
 
 How it Works
 ------------
