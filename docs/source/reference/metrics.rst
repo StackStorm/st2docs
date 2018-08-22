@@ -24,6 +24,10 @@ Right now, the only supported driver is ``statsd``. To configure it, add the fol
 
     [metrics]
     driver = statsd
+    # Optional prefix which is prepended to each metric key. E.g. if prefix is
+    # "production" and key is "st2.action.executions" actual key would be
+    # "production.st2.action.executions". This comes handy when you want to
+    # utilize the same backend instance for multiple environments or similar.
     host = 127.0.0.1  # statsd collection and aggregation server address
     port = 8125  # statsd collection and aggregation server port
 
