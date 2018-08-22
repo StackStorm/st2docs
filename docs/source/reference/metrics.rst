@@ -55,7 +55,7 @@ hosted or managed graphite instance or to other compatible projects and services
 and hostedgraphite.
 
 Configuring those services is out of scope of this documentation, because it's very environment
-specific (aggregation resolution, retention period, etc.), but some sample config which can help
+specific (aggregation resolution, retention period, etc.), but some sample configs which can help
 you get started with statsd and self hosted graphite and carbon cache instance
 can be found at https://github.com/StackStorm/st2/tree/master/conf/metrics.
 
