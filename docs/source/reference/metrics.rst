@@ -37,6 +37,24 @@ For debugging and troubleshooting purposes, you can also set driver to ``echo``.
 |st2| to log under ``DEBUG`` log level any metrics operation which would have otherwise be performed
 (increasing a counter, timing an operation, etc.) without actually performing it.
 
+Configuring StatsD
+==================
+
+|st2| ``statsd`` metrics driver is compatible with any service which exposes statsd compatible
+interface for receiving metrics via UDP.
+
+This includes original statsd service written in Node.js, but also compatible projects such as
+Telegraf and others.
+
+This provides for a lot of flexibility and allows statsd service to submit those metrics to self
+hosted or managed graphite instance or to other compatible projects and services such as InfluxDB
+and hostedgraphite.
+
+Configuring those services is out of scope of this documentation, because it's very environment
+specific (aggregation resolution, retention period, etc.), but some sample config which can help
+you get started with statsd and self hosted graphite and carbon cache instance
+can be found at https://github.com/StackStorm/st2/tree/master/conf/metrics.
+
 Exposed Metrics
 ===============
 
