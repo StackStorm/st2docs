@@ -108,5 +108,14 @@ This section describes which metrics are currently exposed by various |st2| serv
 | st2.{auth,api,stream}.response.status.<status code>        | counter    | st2auth, st2api, st2stream  | Number of requests which resulted in a response with a particular HTTP status code.                            |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
 
-Depending on the metric backend used and metric type, some of those metrics will also be sampled,
+Depending on the metric backend and metric type, some of those metrics will also be sampled,
 averaged, aggregated and converted into a rate (operations / seconds for ``counter`` metrics), etc.
+
+Keep in mind that for the counter metrics, statsd automatically calculates rates. If you are
+interested in more than a rate (events per second), you will need to derive those metrics from the
+raw "count" metric.
+
+For example, if you are interested in a total number of executions scheduled or a total number of
+API requests in a particular time frame, you would use ``integral()`` graphite function (e.g.
+``integral(stats.counters.st2.action.executions.scheduled.count)`` and
+``integral(stats.counters.st2.api.requests.count)``).
