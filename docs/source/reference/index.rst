@@ -22,3 +22,4 @@ References and Guides
    sensor_partitioning
    history
    secrets_masking
+   metrics

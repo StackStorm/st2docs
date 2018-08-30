@@ -92,7 +92,8 @@ Key metrics for |st2| administrators to watch are the number of running and sche
 the average execution time. Busy systems will need to scale out the number of ``st2actionrunner``
 processes.
 
-We recommend storing metrics in a time-series database, such as `InfluxDB <https://influxdata.com>`_
+|st2| exposes some of those metrics via statsd using the metrics framework. For more information,
+please refert to :doc:`/reference/metrics` section.
 
 MongoDB
 -------
