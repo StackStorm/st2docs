@@ -124,14 +124,14 @@ jsonpath_query
 ~~~~~~~~~~~~~~
 
 Provides the ability to extract data from complex ``object`` data using the
-`JSONPath <http://goessner.net/articles/JsonPath/>` query language. More specifically
+`JSONPath <https://goessner.net/articles/JsonPath/>`_ query language. More specifically
 we use the ``jsonpath-rw`` library that has its own extensions, details can be
-found on the `jsonpath-rw GitHub page <https://github.com/kennknowles/python-jsonpath-rw/tree/master/jsonpath_rw>`.
+found on the `jsonpath-rw GitHub page <https://github.com/kennknowles/python-jsonpath-rw/tree/master/jsonpath_rw>`_.
 Data passed into this function should be of type ``object`` or ``array``.
 The result of this function will either be an array of results, or None if the
 query did not return any results.
 If you would like to test out your JSONPath queries prior to utilizing this filter
-an online evaluator can be found `here <http://jsonpath.com/>`.
+an online evaluator can be found `here <http://jsonpath.com/>`_.
 
 .. code-block:: bash
 

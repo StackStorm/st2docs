@@ -27,7 +27,7 @@ checking the response:
     ## Execute "date -R" using the core.local action:
     curl -X POST 'content-type: application/json' -H  'St2-Api-Key: my_api_key' --data-binary '{"action": "core.local", "user": null, "parameters": {"cmd": "date -R"}}' -k https://192.0.2.1/api/v1/executions
     {"status": "requested", "start_timestamp": "2016-10-10T01:37:45.937153Z", "log": [{"status": "requested", "timestamp": "2016-10-10T01:37:45.950751Z"}], "parameters": {"cmd": "date -R"}, "runner": {"runner_module": "st2actions.runners.localrunner", "uid": "runner_type:local-shell-cmd", "description": "A runner to execute local actions as a fixed user.", "enabled": true, "runner_parameters": {"sudo": {"default": false, "type": "boolean", "description": "The command will be executed with sudo."}, "env": {"type": "object", "description": "Environment variables which will be available to the command(e.g. key1=val1,key2=val2)"}, "cmd": {"type": "string", "description": "Arbitrary Linux command to be executed on the host."}, "kwarg_op": {"default": "--", "type": "string", "description": "Operator to use in front of keyword args i.e. \"--\" or \"-\"."}, "timeout": {"default": 60, "type": "integer", "description": "Action timeout in seconds. Action will get killed if it doesn't finish in timeout seconds."}, "cwd": {"type": "string", "description": "Working directory where the command will be executed in"}}, "id": "57fa74ad1d41c8249e5664f4", "name": "local-shell-cmd"}, "web_url": "https://ubuntu/#/history/57faf0e91d41c805055a1110/general", "context": {"user": "st2admin"}, "action": {"description": "Action that executes an arbitrary Linux command on the localhost.", "runner_type": "local-shell-cmd", "tags": [], "enabled": true, "pack": "core", "entry_point": "", "notify": {}, "uid": "action:core:local", "parameters": {"cmd": {"required": true, "type": "string", "description": "Arbitrary Linux command to be executed on the remote host(s)."}, "sudo": {"immutable": true}}, "ref": "core.local", "id": "57fa74ae1d41c8249e566509", "name": "local"}, "liveaction": {"runner_info": {}, "parameters": {"cmd": "date -R"}, "action_is_workflow": false, "callback": {}, "action": "core.local", "id": "57faf0e91d41c805055a110f"}, "id": "57faf0e91d41c805055a1110"}
-    
+
     ## Check the execution status using the id from above:
     $ curl -X GET -H  St2-Api-Key: my_api_key' -k https://192.0.2.1/api/v1/executions/57faf0e91d41c805055a1110
     {"status": "succeeded", "start_timestamp": "2016-10-10T01:37:45.937153Z", "log": [{"status": "requested", "timestamp": "2016-10-10T01:37:45.950000Z"}, {"status": "scheduled", "timestamp": "2016-10-10T01:37:46.039000Z"}, {"status": "running", "timestamp": "2016-10-10T01:37:46.157000Z"}, {"status": "succeeded", "timestamp": "2016-10-10T01:37:46.305000Z"}], "parameters": {"cmd": "date -R"}, "runner": {"runner_module": "st2actions.runners.localrunner", "uid": "runner_type:local-shell-cmd", "enabled": true, "name": "local-shell-cmd", "runner_parameters": {"sudo": {"default": false, "type": "boolean", "description": "The command will be executed with sudo."}, "env": {"type": "object", "description": "Environment variables which will be available to the command(e.g. key1=val1,key2=val2)"}, "cmd": {"type": "string", "description": "Arbitrary Linux command to be executed on the host."}, "kwarg_op": {"default": "--", "type": "string", "description": "Operator to use in front of keyword args i.e. \"--\" or \"-\"."}, "timeout": {"default": 60, "type": "integer", "description": "Action timeout in seconds. Action will get killed if it doesn't finish in timeout seconds."}, "cwd": {"type": "string", "description": "Working directory where the command will be executed in"}}, "id": "57fa74ad1d41c8249e5664f4", "description": "A runner to execute local actions as a fixed user."}, "elapsed_seconds": 0.339103, "web_url": "https://ubuntu/#/history/57faf0e91d41c805055a1110/general", "result": {"failed": false, "stderr": "", "return_code": 0, "succeeded": true, "stdout": "Sun, 09 Oct 2016 18:37:46 -0700"}, "context": {"user": "st2admin"}, "action": {"runner_type": "local-shell-cmd", "name": "local", "parameters": {"cmd": {"required": true, "type": "string", "description": "Arbitrary Linux command to be executed on the remote host(s)."}, "sudo": {"immutable": true}}, "tags": [], "enabled": true, "entry_point": "", "notify": {}, "uid": "action:core:local", "pack": "core", "ref": "core.local", "id": "57fa74ae1d41c8249e566509", "description": "Action that executes an arbitrary Linux command on the localhost."}, "liveaction": {"runner_info": {"hostname": "ubuntu", "pid": 1014}, "parameters": {"cmd": "date -R"}, "action_is_workflow": false, "callback": {}, "action": "core.local", "id": "57faf0e91d41c805055a110f"}, "id": "57faf0e91d41c805055a1110", "end_timestamp": "2016-10-10T01:37:46.276256Z"}
@@ -55,6 +55,7 @@ You can use ``sudo st2ctl status`` to get a quick overview of current process st
     st2notifier PID: 916
     st2resultstracker PID: 913
     st2rulesengine PID: 920
+    st2timersengine PID: 925
     st2sensorcontainer PID: 907
     st2chatops is not running.
     mistral-server PID: 1031
@@ -68,7 +69,11 @@ example here ``st2chatops`` is not configured on this system.
 
 Tools such as nagios or check_mk can be used to monitor the process list. Some services spawn more
 than one process. The exact number will depend upon your system configuration - e.g.
-``st2actionrunner`` will spawn additional processes on a multi-core system. 
+``st2actionrunner`` will spawn additional processes on a multi-core system.
+
+Some of the processes such as ``st2timersengine`` do not run always. For example, when timer
+service is disable by configuration, then the process exits with exit code 0. The monitoring
+system should account for this behavior.
 
 Additional processes to monitor:
 
@@ -85,9 +90,10 @@ Metrics
 
 Key metrics for |st2| administrators to watch are the number of running and scheduled actions, and
 the average execution time. Busy systems will need to scale out the number of ``st2actionrunner``
-processes. 
+processes.
 
-We recommend storing metrics in a time-series database, such as `InfluxDB <https://influxdata.com>`_
+|st2| exposes some of those metrics via statsd using the metrics framework. For more information,
+please refert to :doc:`/reference/metrics` section.
 
 MongoDB
 -------

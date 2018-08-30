@@ -114,7 +114,7 @@ Variables
 ---------
 
 ActionChain offers the convenience of named variables. Global vars are set at the top of the
-definition with the ``var`` keyword.
+definition with the ``vars`` keyword.
 
 Tasks publish new variables with the ``publish`` keyword. Variables are handy when you need to mash
 up a reusable value from the input, globals, datastore values, and results of multiple action

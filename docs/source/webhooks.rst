@@ -20,7 +20,7 @@ Sensors are the preferred integration method since they offer a more granular an
 integration.
 
 On the other hand, webhooks come in handy when you have an existing script or software which you
-can easily modify to send a webhook to the |st2| API when an intersting event occurs.
+can easily modify to send a webhook to the |st2| API when an interesting event occurs.
 
 Another example where webhooks are useful is when you want to consume events from a 3rd party
 service that already offers webhook integration - e.g. GitHub.

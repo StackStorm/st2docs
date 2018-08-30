@@ -85,6 +85,36 @@ Upgrade Notes
   general purpose stream API endpoint or a new execution output stream API endpoint which has been
   added in |st2| v2.9. For more information, please refer to the
   :doc:`/reference/action_output_streaming` documentation page.
+* |st2| timers moved from ``st2rulesengine`` to ``st2timersengine`` service in ``v2.9``. Moving timers
+  out of rules engine allows scaling rules and timers independently. ``st2timersengine`` is the new
+  process that schedules all the user timers. Please note that when upgrading from older versions, you
+  will need to carefully accept changes to ``st2.conf`` file. Otherwise, you risk losing access to
+  ``st2`` database in MongoDB.
+
+  .. Warning
+
+    Please back up ``/etc/st2/st2.conf`` before upgrade.
+
+  Please ensure that the following configuration section is enabled in ``/etc/st2/st2.conf``:
+
+  .. code-block:: ini
+
+    [timersengine]
+    logging = /etc/st2/logging.timersengine.conf
+
+  If you are already using a ``timer`` section in ``/etc/st2/st2.conf``, you can append the logging
+  configuration parameter to the timer section too.
+
+  .. code-block:: ini
+
+    [timer]
+    local_timezone = America/Los_Angeles
+    logging = conf/logging.timersengine.conf
+
+  We recommend renaming the ``timer`` config section to ``timersengine``. Though deprecated,
+  using the ``timer`` section is still supported for backwards compatibility. In a future release,
+  support for the ``timer`` section will be removed and ``timersengine`` will be the only way to
+  configure timers.
 
 .. _ref-upgrade-notes-v2-8:
 
