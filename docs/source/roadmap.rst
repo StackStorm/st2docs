@@ -12,8 +12,6 @@ contributions. Here's our plans for the next few releases:
   can be inspected and used when passing data between actions in workflows.
 * **WebUI:** Add st2.ask and streaming output to the web UI.
 * **ChatOps:** Update ChatOps components, and add support for Microsoft Teams.
-* **k8s:** Reference configuration for running |st2| on k8s.
-* **Ubuntu 18.04:** Support Ubuntu 18.04 LTS.
 * **Windows Runners:** Add pywinrm-based Windows runner.
 
 3.0 - ETA November 2018
@@ -24,6 +22,14 @@ contributions. Here's our plans for the next few releases:
 * **ChatOps:** RBAC support.
 * **HA:** Simplify & streamline running |st2| in HA mode.
 * **Workflow Designer:** Updated Workflow Designer.
+* **k8s:** Reference configuration for running |st2| Community on k8s.
+* **Ubuntu 18.04:** Support Ubuntu 18.04 LTS.
+
+3.1 - ETA February 2019
+-----------------------
+
+* **Job Scheduling:** Schedule one-off action executions, view in UI.
+* **Orquesta:** Updates & Bug fixes.
 * **SAML:** Support SAML authentication.
 
 This list above is subject to change, based upon customer feedback, and development progress.
@@ -60,9 +66,19 @@ Submit a PR!
 Release History
 ---------------
 
+.. rubric:: Done in v2.9
+
+* **Orquesta Second Beta:** Second beta of new "Orquesta" workflow engine.
+* **WebUI:** Real-time streaming output, and Inquiries support
+* **Action Output Structure Definition:** Enable optional definition of action payload, so that it
+  can be inspected and used when passing data between actions in workflows.
+* **ChatOps:** Support for Microsoft Teams.
+* **k8s:** Reference configuration for running |st2| Enterprise on k8s.
+* **Windows Runners:** Add pywinrm-based Windows runner.
+
 .. rubric:: Done in v2.8
 
-* **Orquesta Beta:** Public beta of new "Orquesta" workflow engine (nb this was originally named "Orchestra" in early development).
+* **Orquesta Beta:** Public beta of new "Orquesta" workflow engine (nb this was originally named "Orchestra").
 * **WebUI:** Update look & feel of Web UI, and add "Triggers" tab for troubleshooting rules.
 * **Python3 Actions:** Support Python 3 actions on a per-pack basis.
 * **Metrics Framework:** New framework for metrics collection for action results, time, etc.
