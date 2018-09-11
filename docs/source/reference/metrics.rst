@@ -115,6 +115,8 @@ This section describes which metrics are currently exposed by various |st2| serv
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
 | st2.{auth,api,stream}.response.status.<status code>        | counter    | st2auth, st2api, st2stream  | Number of requests which resulted in a response with a particular HTTP status code.                            |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.stream.connections                                     | gauge      | st2stream                   | Number of open connections to the stream service.                                                              |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
 
 Depending on the metric backend and metric type, some of those metrics will also be sampled,
 averaged, aggregated and converted into a rate (operations / seconds for ``counter`` metrics), etc.

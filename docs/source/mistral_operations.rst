@@ -60,3 +60,48 @@ items will be re-run.
     Re-running workflow execution from the task(s) that failed is currently an experimental
     feature and subject to bug(s) and change(s). Please also note that re-running a subtask nested
     in another |st2| action is not currently supported.
+
+Task Timeout vs Action Timeout
+------------------------------
+
+Mistral supports a task ``timeout:`` parameter. This sets the maximum amount of time Mistral will
+wait before marking a task as failed.  **However**, |st2| actions implement their own timeouts.
+The default value for each action timeout depends upon the action runner used. Typically this is
+60s for SSH-based actions, and 600s for Python actions. The default can be changed on a per-action
+basis, and can be over-ridden for each execution.
+
+This can cause confusion when you need to extend the timeout for some tasks. Setting a longer Mistral
+timeout does **not** extend the underlying action timeout. For example, if you have a long-running
+command, this will **not** achieve the desired result:
+
+.. code-block:: yaml
+
+    version: '2.0'
+
+    examples.task-timeout:
+        type: direct
+        input:
+            - command
+        tasks:
+            task1:
+                timeout: 120
+                action: core.local
+                input:
+                    cmd: <% $.command %>
+
+Instead, set the timeout on the underlying action. Note the indentation here:
+
+.. code-block:: yaml
+
+    version: '2.0'
+
+    examples.action-timeout:
+        type: direct
+        input:
+            - command
+        tasks:
+            task1:
+                action: core.local
+                input:
+                    cmd: <% $.command %>
+                    timeout: 120

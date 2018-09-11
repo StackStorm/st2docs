@@ -11,6 +11,7 @@ jobs:
             make .clone-st2
       - restore_cache:
           key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}
+      - run: sudo apt install python-dev
       - run: make docs
       - save_cache:
           key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}
@@ -27,6 +28,7 @@ jobs:
             make .clone-st2
       - restore_cache:
           key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}
+      - run: sudo apt install python-dev
       - run: make ewcdocs
       - save_cache:
           key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}

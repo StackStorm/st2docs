@@ -188,6 +188,19 @@ an online evaluator can be found `here <http://jsonpath.com/>`_.
     # result = ['James', 'Jacob', 'Jayden']
     {{ input | jsonpath_query('people[*].first') }}
 
+    # Access a field whose name contains a period.
+    # NOTE: JSONPath uses the '.' as the field name separator in its queries.
+    #       Field names that contain a period MUST be quoted within the query string
+    #       in orer to be interpreted as a full string rather than multiple fields.
+    #       In this example there are double quotes on the outside of the query and
+    #       single quotes around the field name that contains periods in order to
+    #       denote that it is a single field.
+    #
+    # input  = {'hosts': {'server.domain.tld': {'uptime': 9999},
+    #                     'client.domain.tld': {'uptime': 12}}}
+    # result = [{'uptime': 9999}]
+    {{ input | jsonpath_query("hosts.'server.domain.tld'") }}
+
 
 regex_match
 ~~~~~~~~~~~
@@ -260,6 +273,19 @@ Convert data to JSON string.
 .. code-block:: bash
 
     {{ value_key | to_json_string }}
+
+By default ``to_json-string`` produces "pretty" JSON formatted output. To produce
+compact JSON simply pass in the ``indent=None`` option to the filter (default indent = 4).
+
+.. code-block:: bash
+
+    {{ value_key | to_json_string(indent=None) }}
+
+To alphabetically sort dictionary/hash/object by their keys, pass in the ``sort_keys=True`` option (default = ``False``).
+
+.. code-block:: bash
+
+    {{ value_key | to_json_string(sort_keys=True) }}
 
 to_yaml_string
 ~~~~~~~~~~~~~~

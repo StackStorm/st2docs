@@ -64,7 +64,7 @@ engine. The context contains all the workflow inputs, published variables, and r
 tasks up to this point of workflow execution, including the current task. The YAQL expression can
 refer to one or more variables in the context. The reserved symbol ``$`` is used to reference the
 context. For example, given the context ``{"ip": "127.0.0.1", "port": 8080}``, the string
-``https://<% $.ip %>:<% $.port>/api`` returns ``https://127.0.0.1:8080/api``. The following is the
+``https://<% $.ip %>:<% $.port %>/api`` returns ``https://127.0.0.1:8080/api``. The following is the
 same example used in a workflow:
 
 .. code-block:: yaml
@@ -80,7 +80,7 @@ same example used in a workflow:
             task1:
                 action: examples.call-api
                 input:
-                    endpoint: https://<% $.ip %>:<% $.port>/api
+                    endpoint: https://<% $.ip %>:<% $.port %>/api
 
 Certain statements in Mistral such as on-success and on-error can evaluate boolean logic. The
 ``on-condition`` related statements are used for transition from one task to another. If a
