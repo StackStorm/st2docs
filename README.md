@@ -46,10 +46,8 @@ validate changes locally prior to committing any code.
 
 #### Run with Docker
 ```bash
-git clone https://github.com/StackStorm/st2docs.git
-cd st2docs
-./scripts/docker-build.sh
-./scripts/docker-run.sh
+make docker-build
+make docker-run
 ```
 This will build a docker image and run it in a container, serving docs live at [http://localhost:8000](http://localhost:8000).
 Edit the sources and enjoy live updates.
