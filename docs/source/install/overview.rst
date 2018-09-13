@@ -100,4 +100,4 @@ The required dependencies are RabbitMQ, MongoDB, and PostgreSQL. The optional de
 Multi-box/HA deployment
 -----------------------
 For specific information on multi-box deployments to achieve HA or horizontal scale see
-:doc:`/reference/ha`.
+:doc:`/reference/ha` and :doc:`/install/ewc_ha`.
