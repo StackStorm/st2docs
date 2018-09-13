@@ -7,7 +7,7 @@ learn more about |bwc|, get an evaluation license, or request a quote, visit `ex
 <https://www.extremenetworks.com/product/workflow-composer/>`_.
 
 This document provides an installation blueprint for a Highly Availabile StackStorm Enterprise (|bwc|) cluster
-based on `Kubernetes <https://kubernetes.io/>`_, a container orchestration platform with a planet scale.
+based on `Kubernetes <https://kubernetes.io/>`__, a container orchestration platform with a planet scale.
 
 The cluster deploys minimum 2 replicas for each component of StackStorm microservices for redundancy and reliability,
 as well as configures backends like MongoDB HA Replicaset, RabbitMQ HA and etcd cluster that st2 relies on for database,
@@ -29,7 +29,7 @@ The source code for K8s resource templates is available as a GitHub repo (TODO):
 
 Requirements
 ------------
-* `Kubernetes <https://kubernetes.io/docs/setup/pick-right-solution/>`_ cluster
+* `Kubernetes <https://kubernetes.io/docs/setup/pick-right-solution/>`__ cluster
 * `Helm <https://docs.helm.sh/using_helm/#install-helm>`_, the K8s package manager and `Tiller <https://docs.helm.sh/using_helm/#initialize-helm-and-install-tiller>`_
 * Enough computing resources for production use, respecting :doc:`/install/system_requirements`
 
