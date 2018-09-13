@@ -29,6 +29,9 @@ Here's an overview of the options:
 * **Puppet Module:** For Puppet users, check this :doc:`/install/puppet` for
   installing |st2|. A robust and idempotent method of installing and configuring |st2|.
 * **Docker:** |st2| is now supported on Docker - check out our :doc:`docker` instructions.
+* **High Availability** Entrusting business critical automation tasks to a system like StackStorm
+  leads to a higher demands from that system. StackStorm can run in a HA mode to ensure these needs.
+  :doc:`/install/ewc_ha` automates entire complex infrastructure as a reproducible blueprint.
 
 Choose the option that best suits your needs.
 
@@ -93,6 +96,7 @@ For more details on reference deployments, or OS-specific installation instructi
     Ansible Playbooks <ansible>
     Puppet Module <puppet>
     Extreme Workflow Composer <bwc>
+    Extreme Workflow Composer HA <ewc_ha>
     config/index
     upgrades
     uninstall

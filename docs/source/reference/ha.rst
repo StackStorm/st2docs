@@ -16,6 +16,10 @@ a reference to layer on some HA deployment-specific details.
 
 .. source https://docs.google.com/drawings/d/1X6u8BB9bnWkW8C81ERBvjIKRfo9mDos4XEKeDv6YiF0/edit
 
+.. note::
+
+    A reproducible blueprint of StackStorm HA cluster is available as a code based on Docker and Kubernetes, see :doc:`/install/ewc_ha`.
+
 
 Components
 ----------
