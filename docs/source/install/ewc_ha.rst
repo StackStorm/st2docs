@@ -30,13 +30,13 @@ The source code for K8s resource templates is available as a GitHub repo (TODO):
 Requirements
 ------------
 * `Kubernetes <https://kubernetes.io/docs/setup/pick-right-solution/>`__ cluster
-* `Helm <https://docs.helm.sh/using_helm/#install-helm>`_, the K8s package manager and `Tiller <https://docs.helm.sh/using_helm/#initialize-helm-and-install-tiller>`_
+* `Helm <https://docs.helm.sh/using_helm/#install-helm>`__, the K8s package manager and `Tiller <https://docs.helm.sh/using_helm/#initialize-helm-and-install-tiller>`_
 * Enough computing resources for production use, respecting :doc:`/install/system_requirements`
 
 Usage
 -----
 This document assumes some basic knowledge of Kubernetes and Helm.
-Please refer to `K8s <https://kubernetes.io/docs/home/>`_ and `Helm <https://docs.helm.sh/>`_
+Please refer to `K8s <https://kubernetes.io/docs/home/>`__ and `Helm <https://docs.helm.sh/>`__
 documentation if you find any difficulties using these tools.
 
 However here are some minimal instructions to get started.
