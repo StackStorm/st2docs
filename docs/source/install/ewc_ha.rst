@@ -262,6 +262,14 @@ StackStorm employs etcd as a distributed coordination backend, required for Stac
 Currently, due to low demands, only ``1`` instance of etcd is created via K8s Deployment.
 Future plans to switch to official Helm chart and configure etcd/Raft cluster properly with ``3`` nodes by default.
 
+Docker registry
+_______________
+If you do not already have an appropriate docker registry for storing custom st2 packs images, we made it
+very easy to deploy one in your k8s cluster. You can optionally enable in-cluster Docker registry via
+``values.yaml`` by setting ``docker-registry.enabled: true`` and additional 3rd party charts `docker-registry <https://github.com/helm/charts/tree/master/stable/docker-registry>`_
+and `kube-registry-proxy <https://github.com/helm/charts/tree/master/incubator/kube-registry-proxy>`_ will be configured.
+
+
 Feedback Needed!
 ----------------
 As this deployment method new and beta is in progress, we ask you to try it and provide your feedback via
