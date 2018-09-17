@@ -9,9 +9,9 @@ learn more about |bwc|, get an evaluation license, or request a quote, visit `ex
 This document provides an installation blueprint for a Highly Availabile StackStorm Enterprise (|bwc|) cluster
 based on `Kubernetes <https://kubernetes.io/>`__, a container orchestration platform at planet scale.
 
-The cluster deploys minimum 2 replicas for each component of StackStorm microservices for redundancy and reliability,
+The cluster deploys minimum of 2 replicas for each component of StackStorm microservices for redundancy and reliability,
 as well as configures backends like MongoDB HA Replicaset, RabbitMQ HA and etcd cluster that st2 relies on for database,
-communication bus, and distributed coordination respectively. That raises a fleet of more than a ``30`` pods total.
+communication bus, and distributed coordination respectively. That raises a fleet of more than ``30`` pods total.
 
 The source code for K8s resource templates is available as a GitHub repo (TODO):
 `StackStorm/stackstorm-enterprise-ha <https://github.com/StackStorm/stackstorm-enterprise-ha>`_.
@@ -37,7 +37,7 @@ This document assumes some basic knowledge of Kubernetes and Helm.
 Please refer to `K8s <https://kubernetes.io/docs/home/>`__ and `Helm <https://docs.helm.sh/>`__
 documentation if you find any difficulties using these tools.
 
-However here are some minimal instructions to get started.
+However, here are some minimal instructions to get started.
 
 Deployment
 __________
@@ -67,7 +67,7 @@ The installation uses some unsafe defaults which we recommend you change thought
 
 Helm values.yaml
 ________________
-Helm package ``stackstorm-enterprise-ha`` comes with the default settings in ``values.yaml``.
+Helm package ``stackstorm-enterprise-ha`` comes with default settings in ``values.yaml``.
 Fine-tune them to achieve desired configuration for the StackStorm Enterprise HA K8s cluster.
 
 You can configure:
@@ -95,13 +95,13 @@ Once you make any changes to Helm values, upgrade the cluster:
   helm repo update
   helm upgrade <release-name> stackstorm/stackstorm-enterprise-ha
 
-It will redeploy components which were affected by the change, taking care about keeping
-desired number of replicas to sustain every service alive during the rolling upgrade.
+It will redeploy components which were affected by the change, taking care to keep
+the desired number of replicas to sustain every service alive during the rolling upgrade.
 
 
 Tips & Tricks
 _____________
-Save custom Helm values you want to override in a separated file, upgrade the cluster:
+Save custom Helm values you want to override in a separate file, upgrade the cluster:
 
 .. code-block:: bash
 
@@ -124,17 +124,17 @@ Custom st2 packs
 ----------------
 To follow the stateless model, shipping custom st2 packs is now part of the deployment process.
 It means that ``st2 pack install`` won't work in a distributed environment and you have to bundle all the
-required packs into a Docker image that you could codify, version, package and distribute in a repeatable way.
+required packs into a Docker image that you can codify, version, package and distribute in a repeatable way.
 The responsibility of such Docker image is to hold pack content and their virtualenvs.
-So custom st2 pack Docker image you have to build is just read-only dirs that are shared with the corresponding
-st2 services in a cluster.
+So custom st2 pack docker image you have to build is essentially a couple read-only directories that
+are shared with the corresponding st2 services in the cluster.
 
-For the convenience we created new ``st2-pack-install <pack1> <pack2> <pack3>`` command
+For your convenience, we created new ``st2-pack-install <pack1> <pack2> <pack3>`` command
 that'll help to install custom packs during the Docker build process without relying on DB and MQ connection.
 
 Helm chart brings helpers to simplify this experience like `stackstorm/st2pack:builder <https://hub.docker.com/r/stackstorm/st2packs/>`_
-Docker image and private Docker registry you can optionally enable in Helm values.yaml to push/pull
-your custom packs within a cluster easily.
+Docker image and private Docker registry you can optionally enable in Helm values.yaml to easily push/pull
+your custom packs within the cluster.
 
 For more detailed instructions see `StackStorm/stackstorm-enterprise-ha#Installing packs in the cluster <https://github.com/StackStorm/stackstorm-enterprise-ha#Installing-packs-in-the-cluster>`_.
 
@@ -167,7 +167,7 @@ All resources like credentials, configs, RBAC, packs, keys and secrets are share
 st2web
 ______
 st2web is a StackStorm Web UI admin dashboard. By default, st2web K8s config includes a Pod Deployment and a Service.
-``2`` replicas (configurable) of st2web serve the web app and proxify requests to st2auth, st2api, st2stream.
+``2`` replicas (configurable) of st2web serve the web app and proxy requests to st2auth, st2api, st2stream.
 
 .. note::
   K8s Service uses only NodePort at the moment, so installing this chart will not provision a K8s resource of type LoadBalancer or Ingress (TODO!).
@@ -200,7 +200,7 @@ K8s config includes Pod Deployment with ``2`` (configurable) replicas by default
 st2timersengine
 _______________
 st2timersengine is responsible for scheduling all user specified `timers <https://docs.stackstorm.com/rules.html#timers>`_ aka st2 cron.
-Only single replica is created via K8s Deployment as timersengine can't work in active-active mode at the moment
+Only a single replica is created via K8s Deployment as timersengine can't work in active-active mode at the moment
 (multiple timers will produce duplicated events) and it relies on K8s failover/reschedule capabilities to address cases of process failure.
 
 st2workflowengine
@@ -217,7 +217,8 @@ st2notifier
 ___________
 Multiple st2notifier processes can run in active-active mode, using connections to RabbitMQ and MongoDB and generating triggers based on
 action execution completion as well as doing action rescheduling.
-In an HA deployment minimum ``2`` replicas of st2notifier is running, requiring coordination backend, which is ``etcd`` in our case.
+In an HA deployment there must be a minimum of ``2`` replicas of st2notifier running, requiring a coordination backend,
+which in our case is etcd.
 
 st2sensorcontainer
 __________________
