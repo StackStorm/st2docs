@@ -16,10 +16,8 @@ communication bus, and distributed coordination respectively. That raises a flee
 The source code for K8s resource templates is available as a GitHub repo (TODO):
 `StackStorm/stackstorm-enterprise-ha <https://github.com/StackStorm/stackstorm-enterprise-ha>`_.
 
-.. note::
-
-    **Warning! Beta quality!**
-
+.. warning::
+    **Beta quality!**
     As this deployment method available in beta version, documentation and code may be substantially modified and refactored.
 
 .. contents:: Contents
@@ -55,7 +53,6 @@ makes installing complex StackStorm infrastructure easy as:
   helm install --set secrets.st2.license=<EWC_LICENSE_KEY> stackstorm/stackstorm-enterprise-ha
 
 .. note::
-
     Don't have StackStorm Enterprise License?
 
     Request a 90-day free trial at https://stackstorm.com/#product
@@ -85,9 +82,8 @@ You can configure:
 - K8s resources and settings to control pod/deployment placement
 - configuration for Mongo, RabbitMQ clusters
 
-.. note::
-
-    **NB!** It's highly recommended to set your own secrets as file contains unsafe defaults like self-signed SSL certificates, SSH keys, StackStorm access credentials and MongoDB/RabbitMQ passwords!
+.. warning::
+    It's highly recommended to set your own secrets as file contains unsafe defaults like self-signed SSL certificates, SSH keys, StackStorm access credentials and MongoDB/RabbitMQ passwords!
 
 Upgrading
 _________
@@ -127,22 +123,21 @@ Custom st2 packs
 ----------------
 To follow the stateless model, shipping custom st2 packs is now part of the deployment process.
 It means that ``st2 pack install`` won't work in a distributed environment and you have to bundle all the
-required packs into a Docker image that you could codify, version and distribute via preferred Docker registry,
-is it private or not. The responsibility of such Docker image is to hold pack content and their virtualenvs.
+required packs into a Docker image that you could codify, version, package and distribute in a repeatable way.
+The responsibility of such Docker image is to hold pack content and their virtualenvs.
 So custom st2 pack Docker image you have to build is just read-only dirs that are shared with the corresponding
 st2 services in a cluster.
 
 For the convenience we created new ``st2-pack-install <pack1> <pack2> <pack3>`` command
 that'll help to install custom packs during the Docker build process without relying on DB and MQ connection.
 
-Helm chart brings helpers to simplify this experience like `stackstorm/st2pack-builder <https://hub.docker.com/r/stackstorm/st2packs-builder/>`_
+Helm chart brings helpers to simplify this experience like `stackstorm/st2pack:builder <https://hub.docker.com/r/stackstorm/st2packs/>`_
 Docker image and private Docker registry you can optionally enable in Helm values.yaml to push/pull
 your custom packs within a cluster easily.
 
 For more detailed instructions see `StackStorm/stackstorm-enterprise-ha#Installing packs in the cluster <https://github.com/StackStorm/stackstorm-enterprise-ha#Installing-packs-in-the-cluster>`_.
 
 .. note::
-
   There is an alternative approach, - sharing pack content via read-write-many NFS (Network File System) as :doc:`/reference/ha` recommends.
   As beta is in progress and both methods have their pros and cons, we'd like to hear your feedback and which way would work better for you.
 
@@ -174,7 +169,6 @@ st2web is a StackStorm Web UI admin dashboard. By default, st2web K8s config inc
 ``2`` replicas (configurable) of st2web serve the web app and proxify requests to st2auth, st2api, st2stream.
 
 .. note::
-
   K8s Service uses only NodePort at the moment, so installing this chart will not provision a K8s resource of type LoadBalancer or Ingress (TODO!).
   Depending on your Kubernetes cluster setup you may need to add additional configuration to access the Web UI service or expose it to public net.
 
@@ -213,6 +207,10 @@ _________________
 st2workflowengine drives the execution of orquesta workflows and actually schedules actions to run by another component ``st2actionrunner``.
 Multiple st2workflowengine processes can run in active-active mode and so minimum ``2`` K8s Deployment replicas are created by default.
 All the workflow engine processes will share the load and pick up more work if one or more of the processes become available.
+
+.. note::
+  As Mistral is going to be deprecated and removed from StackStorm platform soon, Helm chart relies only on
+  :doc:`Orquesta st2workflowengine </orquesta/index>` as a new native workflow engine.
 
 st2notifier
 ___________
