@@ -7,11 +7,11 @@ learn more about |bwc|, get an evaluation license, or request a quote, visit `ex
 <https://www.extremenetworks.com/product/workflow-composer/>`_.
 
 This document provides an installation blueprint for a Highly Availabile StackStorm Enterprise (|bwc|) cluster
-based on `Kubernetes <https://kubernetes.io/>`__, a container orchestration platform with a planet scale.
+based on `Kubernetes <https://kubernetes.io/>`__, a container orchestration platform at planet scale.
 
 The cluster deploys minimum 2 replicas for each component of StackStorm microservices for redundancy and reliability,
 as well as configures backends like MongoDB HA Replicaset, RabbitMQ HA and etcd cluster that st2 relies on for database,
-communication bus, and distributed coordination respectively. That raises a fleet of more than a ``30`` pods in summ.
+communication bus, and distributed coordination respectively. That raises a fleet of more than a ``30`` pods total.
 
 The source code for K8s resource templates is available as a GitHub repo (TODO):
 `StackStorm/stackstorm-enterprise-ha <https://github.com/StackStorm/stackstorm-enterprise-ha>`_.
@@ -63,7 +63,7 @@ Once the deployment is finished, it'll show you first steps how to start working
     :align: center
 
 
-The installation uses some unsafe defaults which are recommended to change thoughtfully for production use via Helm ``values.yaml``.
+The installation uses some unsafe defaults which we recommend you change thoughtfully for production use via Helm ``values.yaml``.
 
 Helm values.yaml
 ________________
@@ -76,11 +76,12 @@ You can configure:
 - st2 auth secrets
 - st2.conf settings
 - RBAC roles, assignments and mappings
-- custom st2 pack configs
+- custom st2 packs and its configs
 - st2web SSL certificate
 - SSH private key
 - K8s resources and settings to control pod/deployment placement
 - configuration for Mongo, RabbitMQ clusters
+- configuration for in-cluster Docker registry
 
 .. warning::
     It's highly recommended to set your own secrets as file contains unsafe defaults like self-signed SSL certificates, SSH keys, StackStorm access credentials and MongoDB/RabbitMQ passwords!
@@ -143,7 +144,7 @@ For more detailed instructions see `StackStorm/stackstorm-enterprise-ha#Installi
 
 Components
 ----------
-For HA reasons, by default and at a minimum StackStorm K8s cluster deploys more than a ``30`` pods in total.
+For HA reasons, by default and at a minimum StackStorm K8s cluster deploys more than ``30`` pods in total.
 This section describes their role and deployment specifics.
 
 st2client
