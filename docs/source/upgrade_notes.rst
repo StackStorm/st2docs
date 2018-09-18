@@ -116,6 +116,43 @@ Upgrade Notes
   support for the ``timer`` section will be removed and ``timersengine`` will be the only way to
   configure timers.
 
+.. _ref-upgrade-notes-v2-9:
+
+|st2| v2.9
+----------
+
+* In 2.9 we've split the timer engine out from the rules engine. This is to
+  accommodate the kubernetes (k8s) HA story. We are going to rely on a single timers
+  engine container with failover handed natively by k8s.
+
+  If you are installing StackStorm on a new server using the official
+  installation script this service is automatically installed and started.
+
+  If you are  upgrading from a previous release using instructions from the
+  :doc:`/install/upgrades` documentation page, you need to ensure
+  ``/etc/st2/st2.conf`` file contains a new ``timersengine`` section with the
+  corresponding ``logging`` config option, otherwise the service won't start.
+
+  After you have completed all the steps from the "General Upgrade Procedure"
+  page, you need to add the following entry to ``/etc/st2/st2.conf`` config
+  file:
+
+  .. code-block:: ini
+
+    [timersengine]
+    logging = st2reactor/conf/logging.timersengine.conf
+
+  After you have saved the configuration file you need to start the ``st2workflowengine`` service
+  (all other services should already be running).
+
+  .. code-block:: ini
+
+    sudo st2ctl start
+
+  You can verify that the new ``st2workflowengine`` service has indeed been started by running
+  ``sudo st2ctl status`` and by inspecting the service log file at
+  ``/var/log/st2/st2workflowengine.log``.
+
 .. _ref-upgrade-notes-v2-8:
 
 |st2| v2.8
