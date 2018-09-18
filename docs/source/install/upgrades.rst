@@ -79,6 +79,13 @@ The following sections call out the migration scripts that need to be run when u
 respective version. If you are upgrading across multiple versions, make sure you run the scripts for
 any skipped versions:
 
+v2.9
+''''
+
+* This version introduced new ``st2timersengine`` service which needs to be configured in
+  ``/etc/st2/st2.conf`` config file for it to work. For more information, please refer to Upgrade
+  Notes - :ref:`ref-upgrade-notes-v2-9`.
+
 v2.8
 ''''
 
