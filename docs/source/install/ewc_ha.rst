@@ -3,13 +3,13 @@
 
 |bwc| (EWC) is the commercial version of the StackStorm automation platform. EWC adds priority
 support, advanced features such as fine-tuned access control, LDAP, and Workflow Designer. To
-learn more about |bwc|, get an evaluation license, or request a quote, visit `extremenetworks.com/product/workflow-composer
-<https://www.extremenetworks.com/product/workflow-composer/>`_.
+learn more about |bwc|, get an evaluation license, or request a quote, visit
+`stackstorm.com/#product <https://stackstorm.com/#product>`_.
 
 This document provides an installation blueprint for a Highly Availabile StackStorm Enterprise (|bwc|) cluster
 based on `Kubernetes <https://kubernetes.io/>`__, a container orchestration platform at planet scale.
 
-The cluster deploys minimum of 2 replicas for each component of StackStorm microservices for redundancy and reliability,
+The cluster deploys a minimum of 2 replicas for each component of StackStorm microservices for redundancy and reliability,
 as well as configures backends like MongoDB HA Replicaset, RabbitMQ HA and etcd cluster that st2 relies on for database,
 communication bus, and distributed coordination respectively. That raises a fleet of more than ``30`` pods total.
 
@@ -129,7 +129,7 @@ The responsibility of such Docker image is to hold pack content and their virtua
 So custom st2 pack docker image you have to build is essentially a couple read-only directories that
 are shared with the corresponding st2 services in the cluster.
 
-For your convenience, we created new ``st2-pack-install <pack1> <pack2> <pack3>`` command
+For your convenience, we created a new ``st2-pack-install <pack1> <pack2> <pack3>`` command
 that'll help to install custom packs during the Docker build process without relying on DB and MQ connection.
 
 Helm chart brings helpers to simplify this experience like `stackstorm/st2pack:builder <https://hub.docker.com/r/stackstorm/st2packs/>`_
