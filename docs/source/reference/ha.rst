@@ -77,6 +77,22 @@ implemented with HA in mind so that the same sensor can be deployed on multiple 
 sensor managing active-active or active-passive. Providing some platform level HA support for
 sensors is likely to be an enhancement to |st2| in future releases.
 
+By default sensor container service runs in managed mode. This means that the sensor container
+process manages child processes for all the running containers and restarts them if they crash or
+similar.
+
+In some scenarios this is not desired and service / process life-cycle (restarting, scaling out,
+etc.) is handled by a third party service such as Kubernetes.
+
+To account for such deployments, sensor container can be started in single sensor mode using
+``--single-sensor-mode`` and ``--sensor-ref`` command line options. When those options are
+provided, sensor container service will run a single sensor and exit immediately if a sensor
+crashes or similar.
+
+.. code-block:: bash
+
+  st2sensorcontainer --single-sensor-mode --sensor-ref linux.FileWatchSensor
+
 st2rulesengine
 ^^^^^^^^^^^^^^
 ``st2rulesengine`` evaluates rules when it sees
