@@ -115,6 +115,9 @@ Upgrade Notes
   using the ``timer`` section is still supported for backwards compatibility. In a future release,
   support for the ``timer`` section will be removed and ``timersengine`` will be the only way to
   configure timers.
+* Support for new **output_schema** attribute has been added to the action metadata file. Keep in
+  mind that action metadata files which contain this attribute will only work with |st2| v2.9.0
+  and above.
 
 .. _ref-upgrade-notes-v2-8:
 
