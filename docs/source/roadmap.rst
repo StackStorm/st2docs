@@ -2,37 +2,28 @@ Roadmap
 =======
 
 |st2| is still under active development. We welcome community feedback, and encourage
-contributions. Here's our plans for the next few releases:
-
-2.9 - ETA September 2018
-------------------------
-
-* **Orquesta Second Beta:** Second beta of new "Orquesta" workflow engine.
-* **Action Output Structure Definition**: Enable optional definition of action payload, so that it
-  can be inspected and used when passing data between actions in workflows.
-* **WebUI:** Add st2.ask and streaming output to the web UI.
-* **ChatOps:** Update ChatOps components, and add support for Microsoft Teams.
-* **Windows Runners:** Add pywinrm-based Windows runner.
+contributions. Here's our plans for the next two releases - remember these are subject to change!
 
 3.0 - ETA November 2018
 -----------------------
 
 * **Orquesta GA:** GA version of Orquesta.
-* **WebUI:** Datastore viewer/editor, and RBAC UI.
-* **ChatOps:** RBAC support.
+* **ChatOps:** Update ChatOps components, and add support for Microsoft Teams.
+* **WebUI:** Datastore viewer/editor.
 * **HA:** Simplify & streamline running |st2| in HA mode.
 * **Workflow Designer:** Updated Workflow Designer.
-* **k8s:** Reference configuration for running |st2| Community on k8s.
+* **k8s:** GA reference configurations for running |st2| Community and Enterprise in HA mode on k8s.
 * **Ubuntu 18.04:** Support Ubuntu 18.04 LTS.
 
 3.1 - ETA February 2019
 -----------------------
 
 * **Job Scheduling:** Schedule one-off action executions, view in UI.
+* **WebUI:** RBAC Configuration.
 * **Orquesta:** Updates & Bug fixes.
+* **ChatOps:** RBAC.
 * **SAML:** Support SAML authentication.
 
-This list above is subject to change, based upon customer feedback, and development progress.
 Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
 
 See something you really like? Make sure to get involved with testing and PR feedback. 
@@ -72,8 +63,7 @@ Release History
 * **WebUI:** Real-time streaming output, and Inquiries support
 * **Action Output Structure Definition:** Enable optional definition of action payload, so that it
   can be inspected and used when passing data between actions in workflows.
-* **ChatOps:** Support for Microsoft Teams.
-* **k8s:** Reference configuration for running |st2| Enterprise on k8s.
+* **k8s:** Beta reference configuration for running |st2| Enterprise in HA mode on k8s.
 * **Windows Runners:** Add pywinrm-based Windows runner.
 
 .. rubric:: Done in v2.8
