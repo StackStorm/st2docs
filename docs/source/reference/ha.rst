@@ -77,6 +77,8 @@ implemented with HA in mind so that the same sensor can be deployed on multiple 
 sensor managing active-active or active-passive. Providing some platform level HA support for
 sensors is likely to be an enhancement to |st2| in future releases.
 
+.. _st2sensorcontainer-single-sensor-mode:
+
 By default sensor container service runs in managed mode. This means that the sensor container
 process manages child processes for all the running containers and restarts them if they crash or
 similar.
