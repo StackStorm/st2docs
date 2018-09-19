@@ -80,7 +80,7 @@ sensors is likely to be an enhancement to |st2| in future releases.
 .. _st2sensorcontainer-single-sensor-mode:
 
 By default sensor container service runs in managed mode. This means that the sensor container
-process manages child processes for all the running containers and restarts them if they crash or
+process manages child processes for all the running sensors and restarts them if they crash or
 similar.
 
 In some scenarios this is not desired and service / process life-cycle (restarting, scaling out,
@@ -90,6 +90,8 @@ To account for such deployments, sensor container can be started in single senso
 ``--single-sensor-mode`` and ``--sensor-ref`` command line options. When those options are
 provided, sensor container service will run a single sensor and exit immediately if a sensor
 crashes or similar.
+
+For example:
 
 .. code-block:: bash
 
