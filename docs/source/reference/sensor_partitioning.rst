@@ -1,6 +1,14 @@
 Partitioning Sensors
 ====================
 
+.. note::
+
+   If the life-cycle of your |st2| services is handled by a third party orchestrator such as
+   Kubernetes, you will likely need to manually create sensor node assignments (single sensor
+   running inside a single sensor container) for all the running / configured sensors.
+   For more information, please refer to the :ref:`st2sensorcontainer single sensor mode
+   <st2sensorcontainer-single-sensor-mode>`.
+
 It may be desirable to partition sensors across multiple sensor nodes, either for load management
 or security purposes. |st2| offers several ways of doing this.
 
@@ -14,7 +22,6 @@ property ``sensor_node_name`` as follows:
     [sensorcontainer]
     ...
     sensor_node_name = sensornode.example.net_f7aeb3ed
-
 
 1. Default
 ~~~~~~~~~~
@@ -30,7 +37,6 @@ No change is required to the config file but for completeness the config would b
     ...
     sensor_node_name = sensornode.example.net_f7aeb3ed
     partition_provider = name:default
-
 
 2. Key-Value Store
 ~~~~~~~~~~~~~~~~~~
