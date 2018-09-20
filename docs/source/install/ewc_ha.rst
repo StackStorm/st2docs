@@ -13,7 +13,7 @@ The cluster deploys a minimum of 2 replicas for each component of StackStorm mic
 as well as configures backends like MongoDB HA Replicaset, RabbitMQ HA and etcd cluster that st2 relies on for database,
 communication bus, and distributed coordination respectively. That raises a fleet of more than ``30`` pods total.
 
-The source code for K8s resource templates is available as a GitHub repo (TODO):
+The source code for K8s resource templates is available as a GitHub repo:
 `StackStorm/stackstorm-enterprise-ha <https://github.com/StackStorm/stackstorm-enterprise-ha>`_.
 
 .. warning::
@@ -170,7 +170,8 @@ st2web is a StackStorm Web UI admin dashboard. By default, st2web K8s config inc
 ``2`` replicas (configurable) of st2web serve the web app and proxy requests to st2auth, st2api, st2stream.
 
 .. note::
-  K8s Service uses only NodePort at the moment, so installing this chart will not provision a K8s resource of type LoadBalancer or Ingress (TODO!).
+  K8s Service uses only NodePort at the moment, so installing this chart will not provision a K8s resource of type LoadBalancer or Ingress
+  (`#6 <https://github.com/StackStorm/stackstorm-enterprise-ha/issues/6>`_).
   Depending on your Kubernetes cluster setup you may need to add additional configuration to access the Web UI service or expose it to public net.
 
 st2auth
@@ -261,7 +262,7 @@ etcd
 ____
 StackStorm employs etcd as a distributed coordination backend, required for StackStorm cluster components to work properly in HA scenario.
 Currently, due to low demands, only ``1`` instance of etcd is created via K8s Deployment.
-Future plans to switch to official Helm chart and configure etcd/Raft cluster properly with ``3`` nodes by default.
+Future plans to switch to official Helm chart and configure etcd/Raft cluster properly with ``3`` nodes by default (`#8 <https://github.com/StackStorm/stackstorm-enterprise-ha/issues/8>`_).
 
 Docker registry
 _______________
