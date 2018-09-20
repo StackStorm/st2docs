@@ -166,7 +166,7 @@ $(VIRTUALENV_DIR)/bin/activate:
 	@echo
 	@echo "==================== st2docs virtualenv ===================="
 	@echo
-	test -d $(VIRTUALENV_DIR) || virtualenv --no-site-packages --python=/usr/bin/python2 $(VIRTUALENV_DIR)
+	test -d $(VIRTUALENV_DIR) || virtualenv --no-site-packages --python=python2.7 $(VIRTUALENV_DIR)
 
 	# Setup PYTHONPATH in bash activate script...
 	echo '' >> $(VIRTUALENV_DIR)/bin/activate
