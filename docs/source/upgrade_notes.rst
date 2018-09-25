@@ -32,6 +32,10 @@ Upgrade Notes
   This change also makes ``content.runners_base_paths`` and ``content.system_runners_base_paths``
   config option obsolete and unused.
 
+  If you previously had any custom runners installed in ``/opt/stackstorm/runners/`` directory, you
+  need to make sure they follow Python package specification and install them in StackStorm virtual
+  environment.
+
 .. _ref-upgrade-notes-v2-9:
 
 |st2| v2.9
