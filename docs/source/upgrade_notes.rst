@@ -3,6 +3,35 @@
 Upgrade Notes
 =============
 
+.. _ref-upgrade-notes-v3-0:
+
+|st2| v3.0
+----------
+
+* In |st2| v2.7 action runner modules have been refactored so they are now fully standalone and
+  re-distributable Python packages.
+
+  In this release we updated our runner loading mechanism which makes ``/opt/stackstorm/runners``
+  directory obsolete.
+
+  All the runners are now installed as Python packages into |st2| virtual environment
+  (``/opt/stackstorm/st2``) during package build process and dynamically loaded when requested.
+
+  This provides for more flexible installation and loading of runner modules. To install a custom
+  runner, user now just needs to install Python package which contains runner module into |st2|
+  virtual environment and run ``sudo st2ctl reload --register-runners`` command.
+
+  For examples:
+
+  .. code-block:: bash
+
+   /opt/stackstorm/st2/bin/pip install "git+https://github.com/stackstorm/st2.git#egg=stackstorm-runner-cloudslang&subdirectory=contrib/runners/cloudslang_runner"
+
+   sudo st2ctl reload --register-runners
+
+  This change also makes ``content.runners_base_paths`` and ``content.system_runners_base_paths``
+  config option obsolete and unused.
+
 .. _ref-upgrade-notes-v2-9:
 
 |st2| v2.9
