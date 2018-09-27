@@ -8,6 +8,15 @@ Upgrade Notes
 |st2| v3.0
 ----------
 
+* Old runner names which have been deprecated in |st2| v0.9.0 have been removed. If you still have
+  any actions which refer to runners using old names you need to update them to keep them working.
+
+  * ``run-local`` -> ``local-shell-cmd``
+  * ``run-local-script`` -> ``local-shell-script``
+  * ``run-remote`` -> ``remote-shell-cmd``
+  * ``run-remote-script`` -> ``remote-shell-script``
+  * ``run-python`` -> ``python-script``
+  * ``run-http`` -> ``http-request``
 * In |st2| v2.7 action runner modules have been refactored so they are now fully standalone and
   re-distributable Python packages.
 
