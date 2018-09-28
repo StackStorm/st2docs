@@ -116,6 +116,14 @@ version, branch, tag, or even a commit hash. Just use `=`:
     # Or a branch
     st2 pack install https://github.com/emedvedev/chatops_tutorial=testing
 
+Finally, you can install a pack from existing local dir:
+
+.. code-block:: bash
+
+    # Install a pack from '/tmp/bitcoin' dir
+    st2 pack install file:///tmp/bitcoin
+
+
 Running ``st2 pack install`` on an already installed pack will **replace** it with the requested
 version or **upgrade to latest** if the version is not specified. Your config file will not be
 overwritten, so you can revert to an older version just as easily, but for production deployments
