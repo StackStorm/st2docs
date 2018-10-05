@@ -93,6 +93,7 @@ For more details on reference deployments, or OS-specific installation instructi
     RHEL 7 / CentOS 7 <rhel7>
     RHEL 6 / CentOS 6 <rhel6>
     Docker <docker>
+    Kubernetes / HA <k8s_ha>
     Ansible Playbooks <ansible>
     Puppet Module <puppet>
     Extreme Workflow Composer <bwc>
