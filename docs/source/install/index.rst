@@ -97,7 +97,6 @@ For more details on reference deployments, or OS-specific installation instructi
     Ansible Playbooks <ansible>
     Puppet Module <puppet>
     Extreme Workflow Composer <bwc>
-    Extreme Workflow Composer HA <ewc_ha>
     config/index
     upgrades
     uninstall
