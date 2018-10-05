@@ -36,8 +36,8 @@ However, here are some minimal instructions to get started.
 
 Deployment
 __________
-StackStorm HA cluster available as a Helm chart, a bundled K8s package which
-makes installing complex StackStorm infrastructure easy as:
+The StackStorm HA cluster is available as a Helm chart, a bundled K8s package which
+makes installing the complex StackStorm infrastructure as easy as:
 
 .. code-block:: bash
 
@@ -73,11 +73,11 @@ You can configure:
 - st2web SSL certificate
 - SSH private key
 - K8s resources and settings to control pod/deployment placement
-- configuration for Mongo, RabbitMQ clusters
-- configuration for in-cluster Docker registry
+- Mongo, RabbitMQ clusters
+- in-cluster Docker registry
 
 .. warning::
-    It's highly recommended to set your own secrets as file contains unsafe defaults like self-signed SSL certificates, SSH keys, StackStorm access credentials and MongoDB/RabbitMQ passwords!
+    It's highly recommended to set your own secrets as the file contains unsafe defaults like self-signed SSL certificates, SSH keys, StackStorm access credentials and MongoDB/RabbitMQ passwords!
 
 Upgrading
 _________
@@ -108,7 +108,7 @@ If you want to install :doc:`StackStorm Enterprise (Extreme Workflow Composer) <
     --set enterprise.license=<EWC_LICENSE_KEY> \
     stackstorm/stackstorm-ha
 
-It will pull enterprise images from private Docker registry as well as adds more advanced functionality and enterprise support.
+It will pull enterprise images from private Docker registry as well as add more advanced functionality and enterprise support.
 
 .. note::
     Don't have StackStorm Enterprise License?
