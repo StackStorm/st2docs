@@ -92,6 +92,8 @@ It will redeploy components which were affected by the change, taking care to ke
 the desired number of replicas to sustain every service alive during the rolling upgrade.
 
 
+.. _ref-ewc-ha:
+
 Enterprise (EWC)
 ________________
 
