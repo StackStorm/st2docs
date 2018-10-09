@@ -31,7 +31,7 @@ Here's an overview of the options:
 * **Docker:** |st2| is now supported on Docker - check out our :doc:`docker` instructions.
 * **High Availability** Entrusting business critical automation tasks to a system like StackStorm
   leads to higher demands on that system. StackStorm can run in a HA mode to ensure these needs.
-  :doc:`/install/ewc_ha` automates entire complex infrastructure as a reproducible blueprint.
+  :doc:`/install/k8s_ha` automates entire complex infrastructure as a reproducible blueprint.
 
 Choose the option that best suits your needs.
 
@@ -93,10 +93,10 @@ For more details on reference deployments, or OS-specific installation instructi
     RHEL 7 / CentOS 7 <rhel7>
     RHEL 6 / CentOS 6 <rhel6>
     Docker <docker>
+    Kubernetes / HA <k8s_ha>
     Ansible Playbooks <ansible>
     Puppet Module <puppet>
     Extreme Workflow Composer <bwc>
-    Extreme Workflow Composer HA <ewc_ha>
     config/index
     upgrades
     uninstall
