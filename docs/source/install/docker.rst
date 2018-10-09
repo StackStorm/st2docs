@@ -21,8 +21,7 @@ Host Requirements
     We require at least version 1.13.0 of Docker engine. If you choose to use ``docker-compose``
     it must also be at least version 1.13.0.
 
-* If you use Kubernetes, check the `Kubernetes README
-  <https://github.com/StackStorm/st2-docker/blob/master/runtime/kubernetes-1ppc/README.md>`_
+* If you use Kubernetes, check the :doc:`/install/k8s_ha`
   for more information.
 
 Docker Images
