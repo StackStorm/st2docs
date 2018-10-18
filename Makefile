@@ -16,6 +16,7 @@ BINARIES := bin
 
 # All components are prefixed by st2
 COMPONENTS := $(wildcard st2*)
+COMPONENTS_RUNNERS := $(wildcard st2/contrib/runners/*)
 
 # Components that implement a component-controlled test-runner. These components provide an
 # in-component Makefile. (Temporary fix until I can generalize the pecan unittest setup. -mar)
@@ -27,8 +28,6 @@ space_char :=
 space_char +=
 comma := ,
 COMPONENT_PYTHONPATH = $(subst $(space_char),:,$(realpath $(COMPONENTS)))
-COMPONENTS_TEST := $(foreach component,$(filter-out $(COMPONENT_SPECIFIC_TESTS),$(COMPONENTS)),$(component))
-COMPONENTS_TEST_COMMA := $(subst $(space_char),$(comma),$(COMPONENTS_TEST))
 
 PYTHON_TARGET := 2.7
 
@@ -43,7 +42,7 @@ endif
 all: requirements check tests docs
 
 .PHONY: docs
-docs: .clone-st2 .clone-orquesta requirements .requirements-st2 .docs
+docs: .clone-st2 .clone-orquesta requirements .requirements-st2 .install-runners .docs
 
 PHONY: .docs
 .docs: .community-docs
@@ -99,7 +98,7 @@ livedocs: docs .livedocs
 	@echo
 
 .PHONY: ewcdocs
-ewcdocs: .clone-st2 .clone-orquesta .clone-ipfabric requirements .requirements-st2 .ewcdocs
+ewcdocs: .clone-st2 .clone-orquesta .clone-ipfabric requirements .requirements-st2 .install-runners .ewcdocs
 
 .PHONY: .ewcdocs
 .ewcdocs: .patch-solutions .enterprise-docs .git-checkout-local-changes
@@ -189,6 +188,18 @@ $(VIRTUALENV_DIR)/bin/activate:
 	echo '  functions -e old_deactivate' >> $(VIRTUALENV_DIR)/bin/activate.fish
 	echo 'end' >> $(VIRTUALENV_DIR)/bin/activate.fish
 	touch $(VIRTUALENV_DIR)/bin/activate.fish
+
+.PHONY: .install-runners
+.install-runners:
+	@echo ""
+	@echo "================== install runners ===================="
+	@echo ""
+	@for component in $(COMPONENTS_RUNNERS); do \
+		echo "==========================================================="; \
+		echo "Installing runner:" $$component; \
+		echo "==========================================================="; \
+        (. $(ST2_VIRTUALENV_DIR)/bin/activate; cd $$component; python setup.py develop); \
+	done
 
 .PHONY: .clone-st2
 .clone-st2:

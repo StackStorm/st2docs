@@ -21,52 +21,32 @@ available runner parameters.
 
 import os
 
-import yaml
+from st2common.runners import get_available_backends
+from st2common.runners import get_backend_instance
 
-from st2common.content.loader import RunnersLoader, RUNNER_MANIFEST_FILE_NAME
+__all__ = [
+    'main'
+]
 
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 HEADER = '.. NOTE: This file has been generated automatically, don\'t manually edit it'
 
 
-def _get_runners_dir():
-    runner_loader = RunnersLoader()
-    runner_dir = os.path.join(CURRENT_DIR, '../st2/contrib/runners')
-
-    runner_types = runner_loader.get_runners([runner_dir])
-
-    return runner_types
-
-
-def _get_runners():
-    runners = []
-    runners_dir = _get_runners_dir()
-
-    for runner, runner_dir in runners_dir.iteritems():
-        manifest_path = os.path.join(runner_dir, RUNNER_MANIFEST_FILE_NAME)
-
-        with open(manifest_path, 'r') as manifest_file:
-            manifest_contents = manifest_file.read()
-            manifest = yaml.load(manifest_contents)
-
-            runners.extend(manifest)
-
-    return runners
-
-
-RUNNER_TYPES = _get_runners()
-
 def main():
-    for runner in RUNNER_TYPES:
-        if runner.get('experimental', False):
+    runner_names = get_available_backends()
+    for runner_name in runner_names:
+        runner_driver = get_backend_instance(runner_name)
+        runner_metadata = runner_driver .get_metadata()
+
+        if runner_metadata.get('experimental', False):
             continue
 
         result = []
         result.append(HEADER)
         result.append('')
 
-        runner_parameters = runner.get('runner_parameters', None)
+        runner_parameters = runner_metadata.get('runner_parameters', None)
         if runner_parameters:
             for name, values in runner_parameters.items():
                 format_values = {'name': name}
@@ -74,7 +54,7 @@ def main():
                 line = '* ``%(name)s`` (%(type)s) - %(description)s' % format_values
                 result.append(line)
 
-            file_name = runner['name'].replace('-', '_')
+            file_name = runner_metadata['name'].replace('-', '_')
             path = '../docs/source/_includes/runner_parameters/%s.rst' % (file_name)
             destination_path = os.path.join(CURRENT_DIR, path)
             result = '\n'.join(result)
