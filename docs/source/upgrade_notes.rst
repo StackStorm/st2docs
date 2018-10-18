@@ -3,6 +3,54 @@
 Upgrade Notes
 =============
 
+.. _ref-upgrade-notes-v3-0:
+
+|st2| v3.0
+----------
+
+* Old runner names which have been deprecated in |st2| v0.9.0 have been removed. If you still have
+  any actions which refer to runners using old names you need to update them to keep them working.
+
+  * ``run-local`` -> ``local-shell-cmd``
+  * ``run-local-script`` -> ``local-shell-script``
+  * ``run-remote`` -> ``remote-shell-cmd``
+  * ``run-remote-script`` -> ``remote-shell-script``
+  * ``run-python`` -> ``python-script``
+  * ``run-http`` -> ``http-request``
+* In |st2| v2.7 action runner modules have been refactored so they are now fully standalone and
+  re-distributable Python packages.
+
+  In this release we updated our runner loading mechanism which makes ``/opt/stackstorm/runners``
+  directory obsolete.
+
+  All the runners are now installed as Python packages into |st2| virtual environment
+  (``/opt/stackstorm/st2``) during package build process and dynamically loaded when requested.
+
+  This provides for more flexible installation and loading of runner modules. To install a custom
+  runner, user now just needs to install Python package which contains runner module into |st2|
+  virtual environment and restart |st2| services (``sudo st2ctl restart``) or run
+  ``sudo st2ctl reload --register-runners`` command.
+  
+  Keep in mind that all the runners which are installed inside |st2| virtual environment are now
+  automatically loaded and registered on each |st2| service start up. You only need to run 
+  ``sudo st2ctl reload --register-runners`` if you are using runner outside the service context or
+  if you didn't restart the services.
+
+  For examples:
+
+  .. code-block:: bash
+
+   /opt/stackstorm/st2/bin/pip install "git+https://github.com/stackstorm/st2.git#egg=stackstorm-runner-cloudslang&subdirectory=contrib/runners/cloudslang_runner"
+
+   sudo st2ctl reload --register-runners
+
+  This change also makes ``content.runners_base_paths`` and ``content.system_runners_base_paths``
+  config option obsolete and unused.
+
+  If you previously had any custom runners installed in ``/opt/stackstorm/runners/`` directory, you
+  need to make sure they follow Python package specification and install them in StackStorm virtual
+  environment.
+
 .. _ref-upgrade-notes-v2-9:
 
 |st2| v2.9
