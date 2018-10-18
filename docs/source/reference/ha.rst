@@ -18,7 +18,7 @@ a reference to layer on some HA deployment-specific details.
 
 .. note::
 
-    A reproducible blueprint of StackStorm HA cluster is available as a code based on Docker and Kubernetes, see :doc:`/install/ewc_ha`.
+    A reproducible blueprint of StackStorm HA cluster is available as a code based on Docker and Kubernetes, see :doc:`/install/k8s_ha`.
 
 
 Components

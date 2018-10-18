@@ -13,6 +13,8 @@ You can also add Network Automation Suites on top of an |bwc| system. See
 `ewc-docs.extremenetworks.com/solutions/overview.html <https://ewc-docs.extremenetworks.com/solutions/overview.html>`_
 to learn more.
 
+Quick Evaluation
+----------------
 To install |bwc| for a quick evaluation, run the commands below on a clean 64-bit Linux box that
 meets the :doc:`/install/system_requirements`. Replace ``${EWC_LICENSE_KEY}`` with the key you
 received when registering for evaluation or purchasing EWC.
@@ -22,6 +24,8 @@ received when registering for evaluation or purchasing EWC.
   curl -sSL -O https://stackstorm.com/bwc/install.sh && chmod +x install.sh
   ./install.sh --user=st2admin --password='Ch@ngeMe' --license=${EWC_LICENSE_KEY}
 
+Upgrading from Community
+------------------------
 Already have a working StackStorm system, and want to add |bwc|? No problem! No need to install a
 new system. You can install |bwc| on top of your existing system. Just run these commands, again
 replacing ``${EWC_LICENSE_KEY}`` with the license key you received when registering:
@@ -49,6 +53,11 @@ To understand the full details of the installation procedure, or to install |bwc
 the installation guide for your Linux version: :doc:`/install/deb`, :doc:`/install/rhel7`, or
 :doc:`/install/rhel6`. It will walk you through installing and configuring StackStorm and |bwc|.
 The last step of the instructions is "Upgrade to |bwc|".
+
+High Availability deployment
+----------------------------
+Using |bwc| in production and need better safety for all important operations you delegate to automation engine?
+StackStorm was built with High Availability in mind - check out :ref:`StackStorm Enterprise HA in Kubernetes <ref-ewc-ha>` for  deployment blueprint.
 
 .. only:: community
 

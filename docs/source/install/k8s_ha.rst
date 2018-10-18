@@ -1,12 +1,7 @@
-|bwc| HA Cluster - BETA
-=======================
+|st2| HA Cluster in Kubernetes - BETA
+=====================================
 
-|bwc| (EWC) is the commercial version of the StackStorm automation platform. EWC adds priority
-support, advanced features such as fine-tuned access control, LDAP, and Workflow Designer. To
-learn more about |bwc|, get an evaluation license, or request a quote, visit
-`stackstorm.com/#product <https://stackstorm.com/#product>`_.
-
-This document provides an installation blueprint for a Highly Availabile StackStorm Enterprise (|bwc|) cluster
+This document provides an installation blueprint for a Highly Availabile StackStorm cluster
 based on `Kubernetes <https://kubernetes.io/>`__, a container orchestration platform at planet scale.
 
 The cluster deploys a minimum of 2 replicas for each component of StackStorm microservices for redundancy and reliability,
@@ -14,7 +9,7 @@ as well as configures backends like MongoDB HA Replicaset, RabbitMQ HA and etcd 
 communication bus, and distributed coordination respectively. That raises a fleet of more than ``30`` pods total.
 
 The source code for K8s resource templates is available as a GitHub repo:
-`StackStorm/stackstorm-enterprise-ha <https://github.com/StackStorm/stackstorm-enterprise-ha>`_.
+`StackStorm/stackstorm-ha <https://github.com/StackStorm/stackstorm-ha>`_.
 
 .. warning::
     **Beta quality!**
@@ -41,21 +36,15 @@ However, here are some minimal instructions to get started.
 
 Deployment
 __________
-StackStorm Enterprise HA cluster available as a Helm chart, a bundled K8s package which
-makes installing complex StackStorm infrastructure easy as:
+The StackStorm HA cluster is available as a Helm chart, a bundled K8s package which
+makes installing the complex StackStorm infrastructure as easy as:
 
 .. code-block:: bash
 
   # Add Helm StackStorm repository
   helm repo add stackstorm https://helm.stackstorm.com/
 
-  # Replace `<EWC_LICENSE_KEY>` with a real license key, obtained in Email
-  helm install --set secrets.st2.license=<EWC_LICENSE_KEY> stackstorm/stackstorm-enterprise-ha
-
-.. note::
-    Don't have StackStorm Enterprise License?
-
-    Request a 90-day free trial at https://stackstorm.com/#product
+  helm install stackstorm/stackstorm-ha
 
 Once the deployment is finished, it'll show you first steps how to start working with the new cluster via WebUI or st2 client:
 
@@ -65,26 +54,30 @@ Once the deployment is finished, it'll show you first steps how to start working
 
 The installation uses some unsafe defaults which we recommend you change thoughtfully for production use via Helm ``values.yaml``.
 
-Helm values.yaml
-________________
-Helm package ``stackstorm-enterprise-ha`` comes with default settings in ``values.yaml``.
-Fine-tune them to achieve desired configuration for the StackStorm Enterprise HA K8s cluster.
+Helm Values
+___________
+Helm package ``stackstorm-ha`` comes with default settings (see `values.yaml <https://github.com/StackStorm/stackstorm-ha/blob/master/values.yaml>`_).
+Fine-tune them to achieve desired configuration for the StackStorm HA K8s cluster.
+
+.. note::
+    Keep custom values you want to override in a separated yaml file so they won't get lost.
+    Example: ``helm install -f custom_values.yaml`` or ``helm upgrade -f custom_values.yaml``
 
 You can configure:
 
 - number of replicas for each component
 - st2 auth secrets
 - st2.conf settings
-- RBAC roles, assignments and mappings
+- RBAC roles, assignments and mappings (enterprise only)
 - custom st2 packs and its configs
 - st2web SSL certificate
 - SSH private key
 - K8s resources and settings to control pod/deployment placement
-- configuration for Mongo, RabbitMQ clusters
-- configuration for in-cluster Docker registry
+- Mongo, RabbitMQ clusters
+- in-cluster Docker registry
 
 .. warning::
-    It's highly recommended to set your own secrets as file contains unsafe defaults like self-signed SSL certificates, SSH keys, StackStorm access credentials and MongoDB/RabbitMQ passwords!
+    It's highly recommended to set your own secrets as the file contains unsafe defaults like self-signed SSL certificates, SSH keys, StackStorm access credentials and MongoDB/RabbitMQ passwords!
 
 Upgrading
 _________
@@ -93,10 +86,100 @@ Once you make any changes to Helm values, upgrade the cluster:
 .. code-block:: bash
 
   helm repo update
-  helm upgrade <release-name> stackstorm/stackstorm-enterprise-ha
+  helm upgrade <release-name> stackstorm/stackstorm-ha
 
 It will redeploy components which were affected by the change, taking care to keep
 the desired number of replicas to sustain every service alive during the rolling upgrade.
+
+
+.. _ref-ewc-ha:
+
+Enterprise (EWC)
+________________
+
+Installation
+~~~~~~~~~~~~
+By default, StackStorm Community free and open-source version is deployed via Helm chart.
+If you want to install :doc:`StackStorm Enterprise (Extreme Workflow Composer) </install/bwc>`, run:
+
+.. code-block:: bash
+
+  # Replace `<EWC_LICENSE_KEY>` with a real license key, obtained in Email
+  helm install \
+    --set enterprise.enabled=true \
+    --set enterprise.license=<EWC_LICENSE_KEY> \
+    stackstorm/stackstorm-ha
+
+It will pull enterprise images from private Docker registry as well as add more advanced functionality and enterprise support.
+
+.. note::
+    Don't have StackStorm Enterprise License?
+
+    Request a 90-day free trial at https://stackstorm.com/#product
+
+RBAC & LDAP Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Enterprise edition allows configuring features like :doc:`/rbac` and :doc:`LDAP Authentication </authentication>`.
+Include ``enterprise`` section in Helm values with preferred RBAC and LDAP settings:
+
+.. code-block:: yaml
+
+  ##
+  ## StackStorm Enterprise settings (Optional)
+  ##
+  enterprise:
+    # Enable/Disable StackStorm Enterprise. Enabling will download StackStorm Enterprise Docker images.
+    enabled: true
+    # Required StackStorm Enterprise license key.
+    license: ""
+
+    # StackStorm Role Based Access Control settings (https://docs.stackstorm.com/rbac.html)
+    rbac:
+      # Custom StackStorm RBAC roles, shipped in '/opt/stackstorm/rbac/roles/'
+      # See https://docs.stackstorm.com/rbac.html#defining-roles-and-permission-grants
+      roles:
+        sample.yaml: |
+          # sample RBAC role file, see https://docs.stackstorm.com/rbac.html#defining-roles-and-permission-grants
+          ---
+          name: "sample"
+          description: "Example Role which contains no permission grants and serves for demonstration purposes"
+
+      # Custom StackStorm RBAC role assignments, shipped in '/opt/stackstorm/rbac/assignments/'
+      # See: https://docs.stackstorm.com/rbac.html#defining-user-role-assignments
+      assignments:
+        st2admin.yaml: |
+          ---
+          username: st2admin
+          roles:
+            - system_admin
+        stanley.yaml: |
+          ---
+          username: stanley
+          roles:
+            - admin
+
+      # StackStorm RBAC LDAP groups-to-roles mapping rules, shipped in '/opt/stackstorm/rbac/mappings/'
+      # See RBAC Roles Based on LDAP Groups: https://docs.stackstorm.com/rbac.html#automatically-granting-roles-based-on-ldap-group-membership
+      mappings:
+        stormers.yaml: |
+          ---
+          group: "CN=stormers,OU=groups,DC=stackstorm,DC=net"
+          description: "Automatically grant admin role to all stormers group members."
+          roles:
+            - "admin"
+
+Upgrading from Community
+~~~~~~~~~~~~~~~~~~~~~~~~
+Additionally, you can benefit by upgrading from Community to Enterprise edition anytime with no loss of data and uptime:
+
+.. code-block:: bash
+
+  # Replace `<EWC_LICENSE_KEY>` with a real license key, obtained in Email
+  helm upgrade \
+    --set enterprise.enabled=true \
+    --set enterprise.license=<EWC_LICENSE_KEY> \
+    <release-name> \
+    stackstorm/stackstorm-ha
 
 
 Tips & Tricks
@@ -105,7 +188,7 @@ Save custom Helm values you want to override in a separate file, upgrade the clu
 
 .. code-block:: bash
 
-  helm upgrade -f custom_values.yaml <release-name> stackstorm/stackstorm-enterprise-ha
+  helm upgrade -f custom_values.yaml <release-name> stackstorm/stackstorm-ha
 
 Get all logs for entire StackStorm cluster with dependent services for Helm release:
 
@@ -136,7 +219,7 @@ Helm chart brings helpers to simplify this experience like `stackstorm/st2pack:b
 Docker image and private Docker registry you can optionally enable in Helm values.yaml to easily push/pull
 your custom packs within the cluster.
 
-For more detailed instructions see `StackStorm/stackstorm-enterprise-ha#Installing packs in the cluster <https://github.com/StackStorm/stackstorm-enterprise-ha#Installing-packs-in-the-cluster>`_.
+For more detailed instructions see `StackStorm/stackstorm-ha#Installing packs in the cluster <https://github.com/StackStorm/stackstorm-ha#Installing-packs-in-the-cluster>`_.
 
 .. note::
   There is an alternative approach, - sharing pack content via read-write-many NFS (Network File System) as :doc:`/reference/ha` recommends.
@@ -149,13 +232,13 @@ This section describes their role and deployment specifics.
 
 st2client
 _________
-A helper container to switch into and run st2 CLI commands against the deployed StackStorm Enterprise cluster.
+A helper container to switch into and run st2 CLI commands against the deployed StackStorm cluster.
 All resources like credentials, configs, RBAC, packs, keys and secrets are shared with this container.
 
 .. code-block:: bash
 
   # obtain st2client pod name
-  ST2CLIENT=$(kubectl get pod -l app=st2client,support=enterprise -o jsonpath="{.items[0].metadata.name}")
+  ST2CLIENT=$(kubectl get pod -l app=st2client -o jsonpath="{.items[0].metadata.name}")
 
   # run a single st2 client command
   kubectl exec -it ${ST2CLIENT} -- st2 --version
@@ -171,7 +254,7 @@ st2web is a StackStorm Web UI admin dashboard. By default, st2web K8s config inc
 
 .. note::
   K8s Service uses only NodePort at the moment, so installing this chart will not provision a K8s resource of type LoadBalancer or Ingress
-  (`#6 <https://github.com/StackStorm/stackstorm-enterprise-ha/issues/6>`_).
+  (`#6 <https://github.com/StackStorm/stackstorm-ha/issues/6>`_).
   Depending on your Kubernetes cluster setup you may need to add additional configuration to access the Web UI service or expose it to public net.
 
 st2auth
@@ -262,7 +345,7 @@ etcd
 ____
 StackStorm employs etcd as a distributed coordination backend, required for StackStorm cluster components to work properly in HA scenario.
 Currently, due to low demands, only ``1`` instance of etcd is created via K8s Deployment.
-Future plans to switch to official Helm chart and configure etcd/Raft cluster properly with ``3`` nodes by default (`#8 <https://github.com/StackStorm/stackstorm-enterprise-ha/issues/8>`_).
+Future plans to switch to official Helm chart and configure etcd/Raft cluster properly with ``3`` nodes by default (`#8 <https://github.com/StackStorm/stackstorm-ha/issues/8>`_).
 
 Docker registry
 _______________
@@ -275,7 +358,7 @@ and `kube-registry-proxy <https://github.com/helm/charts/tree/master/incubator/k
 Feedback Needed!
 ----------------
 As this deployment method new and beta is in progress, we ask you to try it and provide your feedback via
-bug reports, ideas, feature or pull requests in `StackStorm/stackstorm-enterprise-ha <https://github.com/StackStorm/stackstorm-enterprise-ha>`_,
+bug reports, ideas, feature or pull requests in `StackStorm/stackstorm-ha <https://github.com/StackStorm/stackstorm-ha>`_,
 and ecourage discussions in `Slack <https://stackstorm.com/community-signup>`_ ``#docker`` channel or write us an email.
 
 
