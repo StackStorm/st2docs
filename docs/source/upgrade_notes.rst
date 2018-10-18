@@ -28,7 +28,13 @@ Upgrade Notes
 
   This provides for more flexible installation and loading of runner modules. To install a custom
   runner, user now just needs to install Python package which contains runner module into |st2|
-  virtual environment and run ``sudo st2ctl reload --register-runners`` command.
+  virtual environment and restart |st2| services (``sudo st2ctl restart``) or run
+  ``sudo st2ctl reload --register-runners`` command.
+  
+  Keep in mind that all the runners which are installed inside |st2| virtual environment are now
+  automatically loaded and registered on each |st2| service start up. You only need to run 
+  ``sudo st2ctl reload --register-runners`` if you are using runner outside the service context or
+  if you didn't restart the services.
 
   For examples:
 
