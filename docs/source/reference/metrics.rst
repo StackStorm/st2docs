@@ -129,3 +129,19 @@ For example, if you are interested in a total number of executions scheduled or 
 API requests in a particular time frame, you would use ``integral()`` graphite function (e.g.
 ``integral(stats.counters.st2.action.executions.scheduled.count)`` and
 ``integral(stats.counters.st2.api.requests.count)``).
+
+Example Graphite Dashboard
+===========================
+
+Below you can find code for an example Graphite dashboard which contains most of the common graphs
+you need to have a good operational visibility into |st2| deployment.
+
+.. figure :: /_static/images/graphite_dashboard.png
+    :target: /_static/images/graphite_dashboard.png
+    :align: center
+
+.. include:: /_includes/_graphite_dashboard.rst
+
+Keep in mind that some of the graphs such as "current number of executions in a particular state
+during a particular point in time" and "total counts for a particular execution state" are
+derived from the raw metric values.
