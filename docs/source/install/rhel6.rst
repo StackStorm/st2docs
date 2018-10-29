@@ -200,7 +200,12 @@ you will need to add the official Nginx repository:
 
   # Install nginx, avoid epel repo in favor of nginx.org
   sudo yum --disablerepo='epel' install -y nginx
-
+  
+  # A better option may be to disable nginx in /etc/yum.repos.d/epel.repo
+  # This sets the exclude flag on all enabled sections of epel.repo, 
+  # and ensures yum won't try to install or update it from epel:
+  sed -i 's/^\(enabled=1\)$/exclude=nginx\n\1/g' /etc/yum.repos.d/epel.repo
+  
   # Install st2web
   sudo yum install -y st2web
 
