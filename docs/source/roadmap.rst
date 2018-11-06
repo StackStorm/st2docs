@@ -9,7 +9,7 @@ contributions. Here's our plans for the next two releases - remember these are s
 
 * **WebUI:** Datastore viewer/editor.
 * **Orquesta:** Updates & Bug fixes, workflow runtime graph.
-* **ChatOps:** RBAC.
+* **ChatOps:** Microsoft Teams, RBAC.
 * **SAML:** Support SAML authentication.
 * **Ubuntu 18.04:** Support Ubuntu 18.04 LTS, with Python 3.6.
 
@@ -59,7 +59,7 @@ Release History
   delay, scheduling, notifications, Unicode support. Begin Mistral deprecation.
 * **Workflow Designer v2:** Complete overhaul of Workflow Designer for easier creation
   and editing of workflows via a Web UI.
-* **ChatOps:** Update ChatOps components, and add support for Microsoft Teams.
+* **ChatOps:** Update ChatOps components.
 * **HA:** Simplify & streamline running |st2| in HA mode.
 * **k8s:** Reference configurations for running |st2| Community and Enterprise in HA mode on k8s.
 
