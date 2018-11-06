@@ -14,6 +14,8 @@ ENTERPRISE_TAG := enterprise
 
 BINARIES := bin
 
+PYTHON_VERSION := python2.7
+
 # All components are prefixed by st2
 COMPONENTS := $(wildcard st2*)
 COMPONENTS_RUNNERS := $(wildcard st2/contrib/runners/*)
