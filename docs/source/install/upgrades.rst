@@ -100,6 +100,7 @@ v3.0
      sudo yum clean all
      sudo rpm -e --nodeps npm
      sudo yum upgrade st2chatops
+* Yammer support has been removed.
 
 v2.9
 ''''
