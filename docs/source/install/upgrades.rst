@@ -79,6 +79,29 @@ The following sections call out the migration scripts that need to be run when u
 respective version. If you are upgrading across multiple versions, make sure you run the scripts for
 any skipped versions:
 
+v3.0
+''''
+
+* Node.js v10 is now used by ChatOps (previously v6 was used). The following procedure should be
+  used to upgrade:
+
+  Ubuntu:
+
+  .. sourcecode:: bash
+
+     curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+     sudo apt-get install --only-upgrade st2chatops
+
+  RHEL/CentOS:
+
+  .. sourcecode:: bash
+
+     curl -sL https://rpm.nodesource.com/setup_10.x | sudo -E bash -
+     sudo yum clean all
+     sudo rpm -e --nodeps npm
+     sudo yum upgrade st2chatops
+* Yammer support has been removed.
+
 v2.9
 ''''
 
