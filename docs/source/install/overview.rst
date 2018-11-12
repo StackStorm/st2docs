@@ -31,8 +31,7 @@ share a dedicated Python virtualenv, and are configured via ``/etc/st2/st2.conf`
 * **st2actionrunners** run actions from packs under ``/opt/stackstorm/packs`` via a variety of
   :doc:`/reference/runners`. Runners may require some runner-specific configurations, e.g. SSH
   needs to be configured for running remote actions based on ``remote-shell-runner`` and
-  ``remote-command-runner``. Windows prerequisites must be in place to run Windows runners. See
-  :doc:`Runners </reference/runners>` for details.
+  ``remote-command-runner``. 
 * **st2resultstracker** keeps track of long-running workflow executions, calling the Mistral API
   endpoint.
 * **st2notifier** generates ``st2.core.actiontrigger`` and ``st2.core.notifytrigger``

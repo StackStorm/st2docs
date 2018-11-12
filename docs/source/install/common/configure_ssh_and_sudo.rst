@@ -30,7 +30,7 @@ testing.
 * Configure SSH access and enable passwordless sudo on the remote hosts which |st2| will be running
   remote actions on via SSH. Using the public key generated in the previous step, follow the
   instructions at :ref:`config-configure-ssh`. To control Windows boxes, configure access for
-  :doc:`Windows runners </install/config/windows_runners>`.
+  :doc:`Windows runners </install/config/winrm_runners>`.
 
 * If you are using a different user, or path to their SSH key, you will need to change this
   section in ``/etc/st2/st2.conf``:

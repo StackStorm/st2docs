@@ -1,13 +1,6 @@
 WinRM Runners Configuration
 ===========================
 
-.. note::
-
-  WinRM runners are currently in beta which means there might be rough edges and things might
-  break.
-
-  If you do encounter an issue, please get in touch and we will do our best to assist you.
-
 Supported Windows Versions
 --------------------------
 
