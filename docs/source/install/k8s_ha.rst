@@ -1,11 +1,11 @@
 |st2| HA Cluster in Kubernetes - BETA
 =====================================
 
-This document provides an installation blueprint for a Highly Availabile StackStorm cluster
+This document provides an installation blueprint for a Highly Available StackStorm cluster
 based on `Kubernetes <https://kubernetes.io/>`__, a container orchestration platform at planet scale.
 
-The cluster deploys a minimum of 2 replicas for each component of StackStorm microservices for redundancy and reliability,
-as well as configures backends like MongoDB HA Replicaset, RabbitMQ HA and etcd cluster that st2 relies on for database,
+The cluster deploys a minimum of 2 replicas for each component of StackStorm microservices for redundancy and reliability. It
+also configures backends like MongoDB HA Replicaset, RabbitMQ HA and etcd cluster that st2 relies on for database,
 communication bus, and distributed coordination respectively. That raises a fleet of more than ``30`` pods total.
 
 The source code for K8s resource templates is available as a GitHub repo:
@@ -46,13 +46,14 @@ makes installing the complex StackStorm infrastructure as easy as:
 
   helm install stackstorm/stackstorm-ha
 
-Once the deployment is finished, it'll show you first steps how to start working with the new cluster via WebUI or st2 client:
+Once the deployment is finished, it will show you the first steps to get started working with the new cluster via WebUI
+or ``st2`` CLI client:
 
 .. figure :: /_static/images/helm-chart-notes.png
     :align: center
 
 
-The installation uses some unsafe defaults which we recommend you change thoughtfully for production use via Helm ``values.yaml``.
+The installation uses some unsafe defaults which we recommend you change for production use via Helm ``values.yaml``.
 
 Helm Values
 ___________
@@ -81,7 +82,7 @@ You can configure:
 
 Upgrading
 _________
-Once you make any changes to Helm values, upgrade the cluster:
+After making changes to Helm values, upgrade the cluster:
 
 .. code-block:: bash
 
@@ -110,12 +111,12 @@ If you want to install :doc:`StackStorm Enterprise (Extreme Workflow Composer) <
     --set enterprise.license=<EWC_LICENSE_KEY> \
     stackstorm/stackstorm-ha
 
-It will pull enterprise images from private Docker registry as well as add more advanced functionality and enterprise support.
+It will pull enterprise images from our private Docker registry. This adds advanced functionality and enterprise support.
 
 .. note::
     Don't have StackStorm Enterprise License?
 
-    Request a 90-day free trial at https://stackstorm.com/#product
+    Request a 90-day free trial at https://stackstorm.com/features/#ewc
 
 RBAC & LDAP Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -170,7 +171,7 @@ Include ``enterprise`` section in Helm values with preferred RBAC and LDAP setti
 
 Upgrading from Community
 ~~~~~~~~~~~~~~~~~~~~~~~~
-Additionally, you can benefit by upgrading from Community to Enterprise edition anytime with no loss of data and uptime:
+Additionally, you can benefit by upgrading from Community to Enterprise edition at any time, with no loss of data:
 
 .. code-block:: bash
 
@@ -208,12 +209,12 @@ Custom st2 packs
 To follow the stateless model, shipping custom st2 packs is now part of the deployment process.
 It means that ``st2 pack install`` won't work in a distributed environment and you have to bundle all the
 required packs into a Docker image that you can codify, version, package and distribute in a repeatable way.
-The responsibility of such Docker image is to hold pack content and their virtualenvs.
-So custom st2 pack docker image you have to build is essentially a couple read-only directories that
+The responsibility of this Docker image is to hold pack content and their virtualenvs.
+So the custom st2 pack docker image you have to build is essentially a couple of read-only directories that
 are shared with the corresponding st2 services in the cluster.
 
 For your convenience, we created a new ``st2-pack-install <pack1> <pack2> <pack3>`` command
-that'll help to install custom packs during the Docker build process without relying on DB and MQ connection.
+that will help to install custom packs during the Docker build process without relying on DB and MQ connection.
 
 Helm chart brings helpers to simplify this experience like `stackstorm/st2pack:builder <https://hub.docker.com/r/stackstorm/st2packs/>`_
 Docker image and private Docker registry you can optionally enable in Helm values.yaml to easily push/pull
@@ -259,16 +260,17 @@ st2web is a StackStorm Web UI admin dashboard. By default, st2web K8s config inc
 
 st2auth
 _______
-All authentication is managed by ``st2auth`` service.
+All authentication is managed by the ``st2auth`` service.
 K8s configuration includes a Pod Deployment backed by ``2`` replicas by default and Service of type ClusterIP listening on port ``9100``.
-Multiple st2auth processes can be behind a load balancer in an active-active configuration and you can increase number of replicas per your discretion.
+Multiple st2auth processes can be behind a load balancer in an active-active configuration. You can increase the number
+of replicas if required.
 
 st2api
 ______
-Service hosts the REST API endpoints that serve requests from WebUI, CLI, ChatOps and other st2 components.
+This service hosts the REST API endpoints that serve requests from WebUI, CLI, ChatOps and other st2 components.
 K8s configuration consists of Pod Deployment with ``2`` default replicas for HA and ClusterIP Service accepting HTTP requests on port ``9101``.
-Being one of the most important StackStorm services with a lot of logic involved,
-it's recommended to increase number of replicas to distribute the load if you'd plan increased processing environment.
+This is one of the most important |st2| services. We recommend increasing the number of replicas to distribute load
+if you are planning a high-volume environment. 
 
 st2stream
 _________
