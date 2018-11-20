@@ -8,6 +8,12 @@ Upgrade Notes
 |st2| v3.0
 ----------
 
+* Python |st2| client methods have been renamed from ``st2client.liveactions.*`` to
+  ``st2client.executions.*``. Previously those methods already represented operations on
+  execution objects, but were incorrectly named.
+
+  For backward compatibility reasons, old names will still work until v3.2.0 release when it will
+  be fully removed.
 * Old runner names which have been deprecated in |st2| v0.9.0 have been removed. If you still have
   any actions which refer to runners using old names you need to update them to keep them working.
 
@@ -30,7 +36,7 @@ Upgrade Notes
   runner, user now just needs to install Python package which contains runner module into |st2|
   virtual environment and restart |st2| services (``sudo st2ctl restart``) or run
   ``sudo st2ctl reload --register-runners`` command.
-  
+
   Keep in mind that all the runners which are installed inside |st2| virtual environment are now
   automatically loaded and registered on each |st2| service start up. You only need to run 
   ``sudo st2ctl reload --register-runners`` if you are using runner outside the service context or
