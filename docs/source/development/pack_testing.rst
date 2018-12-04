@@ -222,6 +222,9 @@ If you only want to run a specific test file or a method in a test method, you c
 
 .. sourcecode:: bash
 
+    # NOTE: The following examples assume test_sensor_docker_sensor.py file exists in
+    # docker/tests/ directory
+
     # Run all the tests inside that test file / module
     st2-run-pack-tests -p /data/packs/docker/ -f test_sensor_docker_sensor
 
