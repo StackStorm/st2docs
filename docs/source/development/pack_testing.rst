@@ -172,7 +172,7 @@ To run all the tests in a particular pack you can use the ``st2-run-pack-tests``
 
 .. sourcecode:: bash
 
-  st2-run-pack-tests -p <pack path>
+  st2-run-pack-tests -p <pack path> [-f test module name with optional test class and method name]
 
 For example:
 
@@ -216,6 +216,24 @@ tests will run):
     # virtual environment which has been created during the previous script
     # invocation.
     st2-run-pack-tests -p /data/packs/docker/ -j
+
+If you only want to run a specific test file or a method in a test method, you can do that using
+``-f`` flag (available in |st2| v3.0.0 and above).
+
+.. sourcecode:: bash
+
+    # NOTE: The following examples assume test_sensor_docker_sensor.py file exists in the
+    # /data/packs/docker/tests/ directory and that the file contains DockerSensorTestCase
+    # class name with the "test_poll" method.
+
+    # Run all the tests inside that test file / module
+    st2-run-pack-tests -p /data/packs/docker/ -f test_sensor_docker_sensor
+
+    # Run all tests in a specific test class
+    st2-run-pack-tests -p /data/packs/docker/ -f test_sensor_docker_sensor:DockerSensorTestCase
+
+    # Run a single test method from a specific test file
+    st2-run-pack-tests -p /data/packs/docker/ -f test_sensor_docker_sensor:DockerSensorTestCase.test_poll
 
 As more tests are developed it is always a good idea to determine how much code has been covered by
 the tests and how much remains un-tested. Calculated test coverage can be printed out using the
