@@ -172,7 +172,7 @@ To run all the tests in a particular pack you can use the ``st2-run-pack-tests``
 
 .. sourcecode:: bash
 
-  st2-run-pack-tests -p <pack path> [-f path to test module / class / method]
+  st2-run-pack-tests -p <pack path> [-f test module name with optional test class and method name]
 
 For example:
 
@@ -222,8 +222,9 @@ If you only want to run a specific test file or a method in a test method, you c
 
 .. sourcecode:: bash
 
-    # NOTE: The following examples assume test_sensor_docker_sensor.py file exists in
-    # docker/tests/ directory
+    # NOTE: The following examples assume test_sensor_docker_sensor.py file exists in the
+    # /data/packs/docker/tests/ directory and that the file contains DockerSensorTestCase
+    # class name with the "test_poll" method.
 
     # Run all the tests inside that test file / module
     st2-run-pack-tests -p /data/packs/docker/ -f test_sensor_docker_sensor
