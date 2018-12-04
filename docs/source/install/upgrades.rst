@@ -11,6 +11,27 @@ from, you may need to run additional :ref:`migration scripts<migration-scripts-t
 If you skipped a version and are upgrading to a newer version, please make sure you also run the
 migration scripts for skipped versions.
 
+Update GPG Key
+--------------
+
+.. warning::
+
+    The GPG keys for StackStorm's apt and yum reposities metadata signing are updated. Any systems with
+    StackStorm installed will complain about GPG key error on signature verification when running apt or yum
+    update. Please go through the following instructions to update the GPG key.
+
+For Ubuntu, add the new gpg key with the following command before running ``apt-get update``. If you are
+running a non production version of StackStorm, then replace ``stable`` in the curl URL with the appropriate
+repository name.
+
+    .. sourcecode:: bash
+
+        curl -L https://packagecloud.io/StackStorm/stable/gpgkey | sudo apt-key add -
+
+For RHEL/CentOS, running ``yum update`` will auto retrieve the new GPG key for the respository.
+``yum update`` will ask if you want to import the new GPG key, verify that the key is retrieved from
+``https://packagecloud.io/StackStorm/stable/gpgkey`` and enter ``y`` to confirm.
+
 General Upgrade Procedure
 -------------------------
 
