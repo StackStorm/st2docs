@@ -8,6 +8,9 @@ Upgrade Notes
 |st2| v3.0
 ----------
 
+* The GPG keys for StackStorm's apt and yum reposities metadata signing are updated. Any systems with
+  StackStorm installed will complain about GPG key error on signature verification when running apt or yum
+  update. Please see the :doc:`upgrades documentation <install/upgrades>` for how to update the GPG key.
 * Python |st2| client methods have been renamed from ``st2client.liveactions.*`` to
   ``st2client.executions.*``. Previously those methods already represented operations on
   execution objects, but were incorrectly named.
