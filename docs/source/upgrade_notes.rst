@@ -3,10 +3,10 @@
 Upgrade Notes
 =============
 
-.. _ref-upgrade-notes-v3-0:
+.. _ref-upgrade-notes-v2-10:
 
-|st2| v3.0
-----------
+|st2| v2.10
+-----------
 
 * The GPG keys for StackStorm's apt and yum reposities metadata signing are updated. Any systems with
   StackStorm installed will complain about GPG key error on signature verification when running apt or yum
@@ -59,6 +59,21 @@ Upgrade Notes
   If you previously had any custom runners installed in ``/opt/stackstorm/runners/`` directory, you
   need to make sure they follow Python package specification and install them in StackStorm virtual
   environment.
+
+* This version introduces a new ``st2scheduler`` service. This can be configured in a similar
+  way to existing services, for example with this entry in the ``/etc/st2/st2.conf`` config file:
+
+  .. code-block:: ini
+
+    [scheduler]
+    logging = /etc/st2/logging.scheduler.conf
+
+  Note the above setting is the default, and will be used if you do not have any site-specific ``[scheduler]]``
+  settings in ``/etc/st2/st2.conf``.
+
+  You can verify that the new ``st2scheduler`` service is running by checking the output of
+  ``sudo st2ctl status`` and by inspecting the service log file at
+  ``/var/log/st2/st2scheduler.log``.
 
 .. _ref-upgrade-notes-v2-9:
 

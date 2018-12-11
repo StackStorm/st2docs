@@ -100,8 +100,8 @@ The following sections call out the migration scripts that need to be run when u
 respective version. If you are upgrading across multiple versions, make sure you run the scripts for
 any skipped versions:
 
-v3.0
-''''
+v2.10
+'''''
 
 * Node.js v10 is now used by ChatOps (previously v6 was used). The following procedure should be
   used to upgrade:
