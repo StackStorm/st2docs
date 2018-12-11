@@ -4,22 +4,24 @@ Roadmap
 |st2| is still under active development. We welcome community feedback, and encourage
 contributions. Here's our plans for the next two releases - remember these are subject to change!
 
-3.1 - ETA February 2019
+3.0 - ETA February 2019
 -----------------------
 
-* **WebUI:** Datastore viewer/editor.
-* **Orquesta:** Updates & Bug fixes, workflow runtime graph.
-* **ChatOps:** Microsoft Teams, RBAC.
-* **SAML:** Support SAML authentication.
+* **Orquesta GA:** GA release of "Orquesta" workflow engine. Workflow runtime graph
+* **Workflow Designer v2:** Complete overhaul of Workflow Designer for easier creation
+  and editing of workflows via a Web UI. Include Orquesta workflow editing and creation.
+* **ChatOps:** Microsoft Teams.
 * **Ubuntu 18.04:** Support Ubuntu 18.04 LTS, with Python 3.6.
 
-3.2 - ETA May 2019
+3.1 - ETA May 2019
 -----------------------
 
 * **Orquesta:** Dry-Run (simulated) workflows.
 * **RHEL 8.x:** Support RHEL 8.x (assuming it has been released!)
 * **Ubuntu 14.04:** Drop support for EoL Ubuntu 14.04.
-* **WebUI:** RBAC configuration via UI.
+* **WebUI:** Datastore viewer/editor.
+* **ChatOps:** RBAC.
+* **SAML:** Support SAML authentication.
 * **Job Scheduling:** Job scheduling for ad-hoc jobs.
 
 Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
@@ -53,15 +55,14 @@ Submit a PR!
 Release History
 ---------------
 
-.. rubric:: Done in v3.0
+.. rubric:: Done in v2.10
 
-* **Orquesta GA:** GA release of "Orquesta" workflow engine. Includes ``with-items``,
+* **Orquesta RC:** Release Candidate of "Orquesta" workflow engine. Includes ``with-items``,
   delay, scheduling, notifications, Unicode support. Begin Mistral deprecation.
-* **Workflow Designer v2:** Complete overhaul of Workflow Designer for easier creation
-  and editing of workflows via a Web UI.
 * **ChatOps:** Update ChatOps components.
 * **HA:** Simplify & streamline running |st2| in HA mode.
 * **k8s:** Reference configurations for running |st2| Community and Enterprise in HA mode on k8s.
+* **Ubuntu 18.04:** Beta support of Ubuntu 18.04, MongoDB 4.0, Python 3.6.
 
 .. rubric:: Done in v2.9
 
