@@ -11,6 +11,27 @@ from, you may need to run additional :ref:`migration scripts<migration-scripts-t
 If you skipped a version and are upgrading to a newer version, please make sure you also run the
 migration scripts for skipped versions.
 
+Update GPG Key
+--------------
+
+.. warning::
+
+    The GPG keys for StackStorm's apt and yum reposities metadata signing are updated. Any systems with
+    StackStorm installed will complain about GPG key error on signature verification when running apt or yum
+    update. Please go through the following instructions to update the GPG key.
+
+For Ubuntu, add the new gpg key with the following command before running ``apt-get update``. If you are
+running a non production version of StackStorm, then replace ``stable`` in the curl URL with the appropriate
+repository name.
+
+    .. sourcecode:: bash
+
+        curl -L https://packagecloud.io/StackStorm/stable/gpgkey | sudo apt-key add -
+
+For RHEL/CentOS, running ``yum update`` will auto retrieve the new GPG key for the respository.
+``yum update`` will ask if you want to import the new GPG key, verify that the key is retrieved from
+``https://packagecloud.io/StackStorm/stable/gpgkey`` and enter ``y`` to confirm.
+
 General Upgrade Procedure
 -------------------------
 
@@ -78,6 +99,29 @@ an idea of what major changes happened with each release. You may also want to t
 The following sections call out the migration scripts that need to be run when upgrading to the
 respective version. If you are upgrading across multiple versions, make sure you run the scripts for
 any skipped versions:
+
+v2.10
+'''''
+
+* Node.js v10 is now used by ChatOps (previously v6 was used). The following procedure should be
+  used to upgrade:
+
+  Ubuntu:
+
+  .. sourcecode:: bash
+
+     curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+     sudo apt-get install --only-upgrade st2chatops
+
+  RHEL/CentOS:
+
+  .. sourcecode:: bash
+
+     curl -sL https://rpm.nodesource.com/setup_10.x | sudo -E bash -
+     sudo yum clean all
+     sudo rpm -e --nodeps npm
+     sudo yum upgrade st2chatops
+* Yammer support has been removed.
 
 v2.9
 ''''

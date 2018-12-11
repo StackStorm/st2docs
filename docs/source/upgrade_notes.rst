@@ -3,11 +3,20 @@
 Upgrade Notes
 =============
 
-.. _ref-upgrade-notes-v3-0:
+.. _ref-upgrade-notes-v2-10:
 
-|st2| v3.0
-----------
+|st2| v2.10
+-----------
 
+* The GPG keys for StackStorm's apt and yum reposities metadata signing are updated. Any systems with
+  StackStorm installed will complain about GPG key error on signature verification when running apt or yum
+  update. Please see the :doc:`upgrades documentation <install/upgrades>` for how to update the GPG key.
+* Python |st2| client methods have been renamed from ``st2client.liveactions.*`` to
+  ``st2client.executions.*``. Previously those methods already represented operations on
+  execution objects, but were incorrectly named.
+
+  For backward compatibility reasons, old names will still work until v3.2.0 release when it will
+  be fully removed.
 * Old runner names which have been deprecated in |st2| v0.9.0 have been removed. If you still have
   any actions which refer to runners using old names you need to update them to keep them working.
 
@@ -30,7 +39,7 @@ Upgrade Notes
   runner, user now just needs to install Python package which contains runner module into |st2|
   virtual environment and restart |st2| services (``sudo st2ctl restart``) or run
   ``sudo st2ctl reload --register-runners`` command.
-  
+
   Keep in mind that all the runners which are installed inside |st2| virtual environment are now
   automatically loaded and registered on each |st2| service start up. You only need to run 
   ``sudo st2ctl reload --register-runners`` if you are using runner outside the service context or
@@ -50,6 +59,21 @@ Upgrade Notes
   If you previously had any custom runners installed in ``/opt/stackstorm/runners/`` directory, you
   need to make sure they follow Python package specification and install them in StackStorm virtual
   environment.
+
+* This version introduces a new ``st2scheduler`` service. This can be configured in a similar
+  way to existing services, for example with this entry in the ``/etc/st2/st2.conf`` config file:
+
+  .. code-block:: ini
+
+    [scheduler]
+    logging = /etc/st2/logging.scheduler.conf
+
+  Note the above setting is the default, and will be used if you do not have any site-specific ``[scheduler]]``
+  settings in ``/etc/st2/st2.conf``.
+
+  You can verify that the new ``st2scheduler`` service is running by checking the output of
+  ``sudo st2ctl status`` and by inspecting the service log file at
+  ``/var/log/st2/st2scheduler.log``.
 
 .. _ref-upgrade-notes-v2-9:
 
