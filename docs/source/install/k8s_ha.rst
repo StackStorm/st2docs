@@ -321,6 +321,14 @@ Stackstorm workers that actually execute actions.
 Relies on ``etcd`` for coordination. This is likely the first thing to lift if you have a lot of actions
 to execute per time period in your StackStorm cluster.
 
+st2scheduler
+____________
+
+``st2scheduler`` is responsible for handling ingress action execution requests.
+
+``2`` replicas for K8s Deployment are configured by default to increase StackStorm scheduling throughput.
+Relies on database versioning for coordination.
+
 st2garbagecollector
 ___________________
 Service that cleans up old executions and other operations data based on setup configurations.
