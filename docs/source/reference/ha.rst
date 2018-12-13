@@ -151,8 +151,8 @@ particular instance of the workflow execution will be in an unexpected state.
 
 st2actionrunner
 ^^^^^^^^^^^^^^^
-All ActionExecutions are handled for execution by ``st2actionrunner``. It manages the full
-life-cycle of an execution from scheduling to one of the terminal states.
+All ActionExecutions are handled by ``st2actionrunner``. Once an execution is scheduled
+``st2actionrunner`` handles the life-cycle of an execution to one of the terminal states.
 
 Multiple ``st2actionrunner`` processes can run in active-active with only connections to MongoDB
 and RabbitMQ. Work gets naturally distributed across runners via RabbitMQ. Adding more
@@ -161,6 +161,18 @@ and RabbitMQ. Work gets naturally distributed across runners via RabbitMQ. Addin
 In a proper distributed setup it is recommended to setup Zookeeper or Redis to provide a
 distributed co-ordination layer. See :doc:`Policies </reference/policies>`. Using the default
 file-based co-ordination backend will not work as it would in a single box deployment.
+
+st2scheduler
+^^^^^^^^^^^^
+``st2scheduler`` is responsible for handling ingress action execution requests.
+It takes incoming requests off the bus and queues them for eventual scheduling
+with an instance of ``st2actionrunner``.
+
+Multiple instances of ``st2scheduler`` can be run at a time. Database
+versioning prevents multiple execution requests from being picked up by
+different schedulers. Scheduler garbage collection handles executions that might
+have failed to be scheduled by a failed ``st2scheduler`` instance.
+
 
 st2resultstracker
 ^^^^^^^^^^^^^^^^^
@@ -194,6 +206,7 @@ configurations. By default this process does nothing and needs to be setup to pe
 By design it is a singleton process. Running multiple instances in active-active will not yield
 much benefit, but will not do any harm. The ideal configuration is active-passive but |st2| itself
 does not provide the ability to run this in active-passive.
+
 
 mistral-api
 ^^^^^^^^^^^
