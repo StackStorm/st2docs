@@ -327,7 +327,7 @@ ____________
 ``st2scheduler`` is responsible for handling ingress action execution requests.
 
 ``2`` replicas for K8s Deployment are configured by default to increase StackStorm scheduling throughput.
-Relies on database versioning for coordination..
+Relies on database versioning for coordination.
 
 st2garbagecollector
 ___________________
