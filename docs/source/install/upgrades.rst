@@ -22,17 +22,84 @@ Update GPG Key
     
     Failure to update the keys will result in signature verification errors during package update.
 
-For Ubuntu, add the new gpg key with the following command before running ``apt-get update``. If you are
-running a non production version of StackStorm, then replace ``stable`` in the curl URL with the appropriate
-repository name.
+For |st2| community version on Ubuntu, remove the old gpg key and then add the new gpg key with the following
+commands before running ``apt-get update``. If you are running a non production version of StackStorm, then
+replace ``stable`` in the curl URL with the appropriate repository name.
 
-    .. sourcecode:: bash
+.. sourcecode:: bash
 
-        curl -L https://packagecloud.io/StackStorm/stable/gpgkey | sudo apt-key add -
+    sudo apt-key remove C2E73424D59097AB
+    curl -L https://packagecloud.io/StackStorm/stable/gpgkey | sudo apt-key add -
 
-For RHEL/CentOS, running ``yum update`` will auto-retrieve the new GPG key for the respository.
-``yum update`` will ask if you want to import the new GPG key. Verify that the key is retrieved from
-``https://packagecloud.io/StackStorm/stable/gpgkey`` and enter ``y`` to confirm.
+For |st2| enterprise version on Ubuntu, the old gpg key for stable and enterprise repos are the same but the
+new gpg keys for these repos are different. The new gpg key for the enterprise repo will need to be added
+separately.
+
+.. sourcecode:: bash
+
+    sudo apt-key remove C2E73424D59097AB
+    curl -L https://packagecloud.io/StackStorm/stable/gpgkey | sudo apt-key add -
+    curl -L https://packagecloud.io/StackStorm/enterprise/gpgkey | sudo apt-key add -
+
+For reference, the following is the error shown if the new gpg key(s) is not added on Ubuntu. Please
+note the URLs that failed on retrieval should be ``https://packagecloud.io/StackStorm/stable`` for the
+|st2| community or core platform and ``https://packagecloud.io/StackStorm/enterprise`` for the |st2|
+enterprise repo::
+
+    $ sudo apt-get update
+    Get:7 https://packagecloud.io/StackStorm/stable/ubuntu xenial InRelease [23.2 kB]
+    Err:7 https://packagecloud.io/StackStorm/stable/ubuntu xenial InRelease
+    The following signatures couldn't be verified because the public key is not available: NO_PUBKEY C2E73424D59097AB
+    Hit:8 http://archive.ubuntu.com/ubuntu xenial InRelease         
+    Hit:9 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+    Hit:10 http://archive.ubuntu.com/ubuntu xenial-backports InRelease
+    Fetched 23.2 kB in 1s (12.3 kB/s)
+    Reading package lists... Done
+    W: An error occurred during the signature verification. The repository is not updated and the previous index files will be used. GPG error: https://packagecloud.io/StackStorm/stable/ubuntu xenial InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY C2E73424D59097AB
+    W: Failed to fetch https://packagecloud.io/StackStorm/stable/ubuntu/dists/xenial/InRelease  The following signatures couldn't be verified because the public key is not available: NO_PUBKEY C2E73424D59097AB
+    W: Some index files failed to download. They have been ignored, or old ones used instead.
+
+For RHEL/CentOS, running ``yum update`` will auto-retrieve the new gpg key for appropriate respository.
+``yum update`` will ask if you want to import the new gpg keys. Verify that the key is retrieved from
+``https://packagecloud.io/StackStorm/stable/gpgkey`` for the |st2| community or core platform and
+enter ``y`` to confirm. For |st2| enterprise repo, additional key needs to be retrieved from
+``https://packagecloud.io/StackStorm/enterprise/gpgkey``.
+
+Prior to running ``yum update``, the old gpg key can be optionally removed with the following commands.
+
+.. sourcecode:: bash
+
+    # Replace x86_64 and 7 in the following command with your CPU architecture and RHEL/CentOS version:
+    gpg --homedir /var/lib/yum/repos/x86_64/7/StackStorm_stable/gpgdir --delete-key C2E73424D59097AB
+    gpg --homedir /var/lib/yum/repos/x86_64/7/StackStorm_enterprise/gpgdir --delete-key C2E73424D59097AB
+
+For reference, the following is a sample output from ``yum update``. Please note the URLs where the key
+is retrieved from should be ``https://packagecloud.io/StackStorm/stable`` for the
+|st2| community or core platform and ``https://packagecloud.io/StackStorm/enterprise`` for the |st2|
+enterprise repo::
+
+    $ sudo yum update
+    Loaded plugins: fastestmirror
+    Loading mirror speeds from cached hostfile
+    StackStorm_stable/x86_64/signature                                                             |  836 B  00:00:00     
+    Retrieving key from https://packagecloud.io/StackStorm/stable/gpgkey
+    Importing GPG key 0xF6C28448:
+    Userid     : "https://packagecloud.io/StackStorm/stable (https://packagecloud.io/docs#gpg_signing) <support@packagecloud.io>"
+    Fingerprint: 2664 b321 ca26 c6be fe81 aa46 723c b7a7 f6c2 8448
+    From       : https://packagecloud.io/StackStorm/stable/gpgkey
+    Is this ok [y/N]: y
+    StackStorm_stable/x86_64/signature                                                             | 1.0 kB  00:00:15 !!! 
+    StackStorm_stable-source/signature                                                             |  836 B  00:00:00     
+    Retrieving key from https://packagecloud.io/StackStorm/stable/gpgkey
+    Importing GPG key 0xF6C28448:
+    Userid     : "https://packagecloud.io/StackStorm/stable (https://packagecloud.io/docs#gpg_signing) <support@packagecloud.io>"
+    Fingerprint: 2664 b321 ca26 c6be fe81 aa46 723c b7a7 f6c2 8448
+    From       : https://packagecloud.io/StackStorm/stable/gpgkey
+    Is this ok [y/N]: y
+    StackStorm_stable-source/signature                                                             |  951 B  00:00:10 !!! 
+    (1/2): StackStorm_stable-source/primary                                                        |  175 B  00:00:00     
+    (2/2): StackStorm_stable/x86_64/primary                                                        |  27 kB  00:00:00     
+    StackStorm_stable                                                                                             124/124
 
 General Upgrade Procedure
 -------------------------
