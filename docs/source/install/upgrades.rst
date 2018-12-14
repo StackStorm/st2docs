@@ -16,9 +16,11 @@ Update GPG Key
 
 .. warning::
 
-    The GPG keys for StackStorm's apt and yum reposities metadata signing are updated. Any systems with
-    StackStorm installed will complain about GPG key error on signature verification when running apt or yum
-    update. Please go through the following instructions to update the GPG key.
+    The GPG keys used for signing our apt and yum repository metadata have been updated. If you are upgrading
+    an existing system that has the old keys installed, it will need updating. See the instructions below for
+    how to do this.
+    
+    Failure to update the keys will result in signature verification errors during package update.
 
 For Ubuntu, add the new gpg key with the following command before running ``apt-get update``. If you are
 running a non production version of StackStorm, then replace ``stable`` in the curl URL with the appropriate
@@ -28,8 +30,8 @@ repository name.
 
         curl -L https://packagecloud.io/StackStorm/stable/gpgkey | sudo apt-key add -
 
-For RHEL/CentOS, running ``yum update`` will auto retrieve the new GPG key for the respository.
-``yum update`` will ask if you want to import the new GPG key, verify that the key is retrieved from
+For RHEL/CentOS, running ``yum update`` will auto-retrieve the new GPG key for the respository.
+``yum update`` will ask if you want to import the new GPG key. Verify that the key is retrieved from
 ``https://packagecloud.io/StackStorm/stable/gpgkey`` and enter ``y`` to confirm.
 
 General Upgrade Procedure
