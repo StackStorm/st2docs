@@ -117,7 +117,7 @@ v2.10
 
   .. sourcecode:: bash
 
-     curl -sL https://rpm.nodesource.com/setup_10.x | sudo -E bash -
+     sudo sed -i.bak 's|^baseurl=\(https://rpm.nodesource.com\)/[^/]\{1,\}/\(.*\)$|baseurl=\1/pub_10.x/\2|g' /etc/yum.repos.d/nodesource-*.repo
      sudo yum clean all
      sudo rpm -e --nodeps npm
      sudo yum upgrade st2chatops
