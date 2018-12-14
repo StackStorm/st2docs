@@ -22,8 +22,8 @@ Update GPG Key
     
     Failure to update the keys will result in signature verification errors during package update.
 
-For |st2| community version on Ubuntu, run the following command to setup the repo for ``apt``. If you
-are running a non production version of StackStorm, then replace ``stable`` in the curl URL with the
+For |st2| community version on Ubuntu, run the following command to update your keys. If you
+are running a non production version of StackStorm, then replace ``stable`` in the URL with the
 appropriate repository name.
 
 .. sourcecode:: bash
@@ -31,8 +31,8 @@ appropriate repository name.
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
 For |st2| enterprise version on Ubuntu, both the gpg keys for community and enterprise need to be
-imported separately. Run the following commands to setup both repos for ``apt``. If you are running
-a non production version of StackStorm, then replace ``stable`` in the curl URLs with the appropriate
+imported separately. Run the following commands to update both keys. If you are running
+a non production version of StackStorm, then replace ``stable`` in the curl with the appropriate
 repository name. Replace ``<license_key>`` with your enterprise license key.
 
 .. sourcecode:: bash
@@ -57,8 +57,8 @@ note the URLs that failed on retrieval should be ``https://packagecloud.io/Stack
     W: Failed to fetch https://packagecloud.io/StackStorm/stable/ubuntu/dists/xenial/InRelease  The following signatures couldn't be verified because the public key is not available: NO_PUBKEY C2E73424D59097AB
     W: Some index files failed to download. They have been ignored, or old ones used instead.
 
-For |st2| community version on RHEL/CentOS, run the following command to setup the repo for ``yum``. If you
-are running a non production version of StackStorm, then replace ``stable`` in the curl URL with the
+For |st2| community version on RHEL/CentOS, run the following command to update the keys. If you
+are running a non production version of StackStorm, then replace ``stable`` in the URL with the
 appropriate repository name.
 
 .. sourcecode:: bash
@@ -66,8 +66,8 @@ appropriate repository name.
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.rpm.sh | sudo bash
 
 For |st2| enterprise version on RHEL/CentOS, both the gpg keys for community and enterprise need to be
-import separately. Run the following commands to setup both repos for ``yum``. If you are running a
-non production version of StackStorm, then replace ``stable`` in the curl URLs with the appropriate
+import separately. Run the following commands to update the keys. If you are running a
+non production version of StackStorm, then replace ``stable`` in the URLs with the appropriate
 repository name. Replace ``<license_key>`` with your enterprise license key.
 
 .. sourcecode:: bash
@@ -78,7 +78,7 @@ repository name. Replace ``<license_key>`` with your enterprise license key.
 If the new gpg keys are not setup in advanced on RHEL/CentOS, running ``yum update`` will auto-retrieve
 the new gpg key for appropriate respository. ``yum update`` will ask if you want to import the new gpg keys.
 Verify that the key is retrieved from ``https://packagecloud.io/StackStorm/stable/gpgkey`` for the |st2|
-community and enter ``y`` to confirm. For |st2| enterprise repo, additional key needs to be retrieved from
+community and enter ``y`` to confirm. For |st2| enterprise repo, an additional key needs to be retrieved from
 ``https://packagecloud.io/StackStorm/enterprise/gpgkey``.
 
 For reference, the following is a sample output from ``yum update``. Please note the URLs where the key
