@@ -16,21 +16,97 @@ Update GPG Key
 
 .. warning::
 
-    The GPG keys for StackStorm's apt and yum reposities metadata signing are updated. Any systems with
-    StackStorm installed will complain about GPG key error on signature verification when running apt or yum
-    update. Please go through the following instructions to update the GPG key.
+    The GPG keys used for signing our apt and yum repository metadata have been updated. If you are upgrading
+    an existing system that has the old keys installed, it will need updating. See the instructions below for
+    how to do this.
+    
+    Failure to update the keys will result in signature verification errors during package update.
 
-For Ubuntu, add the new gpg key with the following command before running ``apt-get update``. If you are
-running a non production version of StackStorm, then replace ``stable`` in the curl URL with the appropriate
-repository name.
+For |st2| community version on Ubuntu, run the following command to update your keys. If you
+are running a non production version of StackStorm, then replace ``stable`` in the URL with the
+appropriate repository name.
 
-    .. sourcecode:: bash
+.. sourcecode:: bash
 
-        curl -L https://packagecloud.io/StackStorm/stable/gpgkey | sudo apt-key add -
+    curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
-For RHEL/CentOS, running ``yum update`` will auto retrieve the new GPG key for the respository.
-``yum update`` will ask if you want to import the new GPG key, verify that the key is retrieved from
-``https://packagecloud.io/StackStorm/stable/gpgkey`` and enter ``y`` to confirm.
+For |st2| enterprise version on Ubuntu, both the gpg keys for community and enterprise need to be
+imported separately. Run the following commands to update both keys. If you are running
+a non production version of StackStorm, then replace ``stable`` in the curl with the appropriate
+repository name. Replace ``<license_key>`` with your enterprise license key.
+
+.. sourcecode:: bash
+
+    curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
+    curl -s https://<license_key>:@packagecloud.io/install/repositories/StackStorm/enterprise/script.deb.sh | sudo bash
+
+For reference, the following is the error shown if the new gpg key(s) is not added on Ubuntu. Please
+note the URLs that failed on retrieval should be ``https://packagecloud.io/StackStorm/stable`` for the
+|st2| community and ``https://packagecloud.io/StackStorm/enterprise`` for the |st2| enterprise repo::
+
+    $ sudo apt-get update
+    Get:7 https://packagecloud.io/StackStorm/stable/ubuntu xenial InRelease [23.2 kB]
+    Err:7 https://packagecloud.io/StackStorm/stable/ubuntu xenial InRelease
+    The following signatures couldn't be verified because the public key is not available: NO_PUBKEY C2E73424D59097AB
+    Hit:8 http://archive.ubuntu.com/ubuntu xenial InRelease         
+    Hit:9 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+    Hit:10 http://archive.ubuntu.com/ubuntu xenial-backports InRelease
+    Fetched 23.2 kB in 1s (12.3 kB/s)
+    Reading package lists... Done
+    W: An error occurred during the signature verification. The repository is not updated and the previous index files will be used. GPG error: https://packagecloud.io/StackStorm/stable/ubuntu xenial InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY C2E73424D59097AB
+    W: Failed to fetch https://packagecloud.io/StackStorm/stable/ubuntu/dists/xenial/InRelease  The following signatures couldn't be verified because the public key is not available: NO_PUBKEY C2E73424D59097AB
+    W: Some index files failed to download. They have been ignored, or old ones used instead.
+
+For |st2| community version on RHEL/CentOS, run the following command to update the keys. If you
+are running a non production version of StackStorm, then replace ``stable`` in the URL with the
+appropriate repository name.
+
+.. sourcecode:: bash
+
+    curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.rpm.sh | sudo bash
+
+For |st2| enterprise version on RHEL/CentOS, both the gpg keys for community and enterprise need to be
+import separately. Run the following commands to update the keys. If you are running a
+non production version of StackStorm, then replace ``stable`` in the URLs with the appropriate
+repository name. Replace ``<license_key>`` with your enterprise license key.
+
+.. sourcecode:: bash
+
+    curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.rpm.sh | sudo bash
+    curl -s https://<license_key>:@packagecloud.io/install/repositories/StackStorm/enterprise/script.rpm.sh | sudo bash
+
+If the new gpg keys are not setup in advanced on RHEL/CentOS, running ``yum update`` will auto-retrieve
+the new gpg key for appropriate respository. ``yum update`` will ask if you want to import the new gpg keys.
+Verify that the key is retrieved from ``https://packagecloud.io/StackStorm/stable/gpgkey`` for the |st2|
+community and enter ``y`` to confirm. For |st2| enterprise repo, an additional key needs to be retrieved from
+``https://packagecloud.io/StackStorm/enterprise/gpgkey``.
+
+For reference, the following is a sample output from ``yum update``. Please note the URLs where the key
+is retrieved from should be ``https://packagecloud.io/StackStorm/stable`` for the
+|st2| community and ``https://packagecloud.io/StackStorm/enterprise`` for the |st2| enterprise repo::
+
+    $ sudo yum update
+    Loaded plugins: fastestmirror
+    Loading mirror speeds from cached hostfile
+    StackStorm_stable/x86_64/signature                                                             |  836 B  00:00:00     
+    Retrieving key from https://packagecloud.io/StackStorm/stable/gpgkey
+    Importing GPG key 0xF6C28448:
+    Userid     : "https://packagecloud.io/StackStorm/stable (https://packagecloud.io/docs#gpg_signing) <support@packagecloud.io>"
+    Fingerprint: 2664 b321 ca26 c6be fe81 aa46 723c b7a7 f6c2 8448
+    From       : https://packagecloud.io/StackStorm/stable/gpgkey
+    Is this ok [y/N]: y
+    StackStorm_stable/x86_64/signature                                                             | 1.0 kB  00:00:15 !!! 
+    StackStorm_stable-source/signature                                                             |  836 B  00:00:00     
+    Retrieving key from https://packagecloud.io/StackStorm/stable/gpgkey
+    Importing GPG key 0xF6C28448:
+    Userid     : "https://packagecloud.io/StackStorm/stable (https://packagecloud.io/docs#gpg_signing) <support@packagecloud.io>"
+    Fingerprint: 2664 b321 ca26 c6be fe81 aa46 723c b7a7 f6c2 8448
+    From       : https://packagecloud.io/StackStorm/stable/gpgkey
+    Is this ok [y/N]: y
+    StackStorm_stable-source/signature                                                             |  951 B  00:00:10 !!! 
+    (1/2): StackStorm_stable-source/primary                                                        |  175 B  00:00:00     
+    (2/2): StackStorm_stable/x86_64/primary                                                        |  27 kB  00:00:00     
+    StackStorm_stable                                                                                             124/124
 
 General Upgrade Procedure
 -------------------------
