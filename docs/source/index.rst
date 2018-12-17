@@ -1,5 +1,5 @@
 |fullname| Documentation
-======================================
+========================
 
 Contents:
 
@@ -48,6 +48,7 @@ Contents:
     Roadmap <roadmap>
 
 .. toctree::
-    :maxdepth: 2
-    :caption: Lost and Found
+    :maxdepth: 1
+    :caption: Other
 
+    security
