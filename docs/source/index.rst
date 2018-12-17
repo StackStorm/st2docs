@@ -52,7 +52,3 @@ Contents:
     :caption: Other
 
     security
-
-.. toctree::
-    :maxdepth: 2
-    :caption: Lost and Found
