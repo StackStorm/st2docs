@@ -16,8 +16,8 @@ Upgrade Notes
   :doc:`Windows runners </install/config/winrm_runners>` page for more details on the new WinRM
   runners).
 
-  |st2| team won't provide support for those runners anymore, but if you still use them, they can
-  still be installed from git:
+  |st2| team won't provide support for those runners anymore, but they can still be used and
+  installed from git repository:
 
   .. code-block:: bash
 
