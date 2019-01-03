@@ -12,12 +12,12 @@ Upgrade Notes
   deprecated and removed from the base distribution of |st2|.
 
   CloudSlang runner has been fully deprecated and winexe based Windows runners have been replaced
-  with a new more stable and robust WinRM based Windows runner (see
+  with new more stable and robust WinRM based Windows runners (see
   :doc:`Windows runners </install/config/winrm_runners>` page for more details on the new WinRM
-  runners).
+  based Windows runners).
 
-  |st2| team won't provide support for those runners anymore, but they can still be used and
-  installed from git repository:
+  Support and bug fixes for those runners won't be provided by the |st2| team anymore, but they can
+  still be used and installed from a git repository:
 
   .. code-block:: bash
 
