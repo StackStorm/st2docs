@@ -5,6 +5,30 @@ Upgrade Notes
 
 .. _ref-upgrade-notes-v2-10:
 
+|st2| v3.0
+----------
+
+* CloudSlang (``cloudslang``) and Windows runners (``windows-cmd``, ``windows-script``) have been
+  deprecated and removed from the base distribution of |st2|.
+
+  CloudSlang runner has been fully deprecated and winexe based Windows runners have been replaced
+  with a new more stable and robust WinRM based Windows runner (see
+  :doc:`Windows runners </install/config/winrm_runners>` page for more details on the new WinRM
+  runners).
+
+  |st2| team won't provide support for those runners anymore, but if you still use them, they can
+  still be installed from git:
+
+  .. code-block:: bash
+
+   # CloudSlang runner
+   /opt/stackstorm/st2/bin/pip install "git+https://github.com/StackStorm/stackstorm-runner-cloudslang.git#egg=stackstorm-runner-cloudslang"
+
+   # winexe based Windows runner
+   /opt/stackstorm/st2/bin/pip install "git+https://github.com/StackStorm/stackstorm-runner-windows.git#egg=stackstorm-runner-windows"
+
+   sudo st2ctl reload --register-runners
+
 |st2| v2.10
 -----------
 
