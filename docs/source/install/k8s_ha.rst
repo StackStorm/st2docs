@@ -254,9 +254,10 @@ st2web is a StackStorm Web UI admin dashboard. By default, st2web K8s config inc
 ``2`` replicas (configurable) of st2web serve the web app and proxy requests to st2auth, st2api, st2stream.
 
 .. note::
-  K8s Service uses only NodePort at the moment, so installing this chart will not provision a K8s resource of type LoadBalancer or Ingress
-  (`#6 <https://github.com/StackStorm/stackstorm-ha/issues/6>`_).
-  Depending on your Kubernetes cluster setup you may need to add additional configuration to access the Web UI service or expose it to public net.
+  By default, st2web is a NodePort Service and is not exposed to the public net.
+  If your Kubernetes cluster setup supports the LoadBalancer service type, you can edit the
+  corresponding helm values to configure st2web as a LoadBalancer service in order to expose it
+  and the services it proxies to the public net.
 
 st2auth
 _______
