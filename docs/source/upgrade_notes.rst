@@ -29,7 +29,7 @@ Upgrade Notes
 
    sudo st2ctl reload --register-runners
  
- * The :doc:`Inquiries </inquries>` API has been promoted from the ``/api/exp`` path to ``/api/v1``. If you have any external systems that use this API they will need to be updated to use the new path. st2client has been updated to use the new path.
+ * The :doc:`Inquiries </inquiries>` API has been promoted from the ``/api/exp`` path to ``/api/v1``. If you have any external systems that use this API they will need to be updated to use the new path. st2client has been updated to use the new path.
 
 |st2| v2.10
 -----------
