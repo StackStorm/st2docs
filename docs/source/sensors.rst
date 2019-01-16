@@ -46,7 +46,7 @@ And this is the corresponding Python skeleton:
    :language: python
 
 This is a bare minimum version of what a sensor looks like. For a more complete implementation of
-a sensor that actually injects triggersinto the system, look at the `examples <#examples>`__
+a sensor that actually injects triggers into the system, look at the `examples <#examples>`__
 section below.
 
 Your sensor should generate triggers in Python dict form:
