@@ -27,7 +27,7 @@ There are multiple ways for you to set up a development environment and get star
 development.
 
 The easiest approach is to use our Vagrant images which contain all the dependencies you need to
-get started. For more information, see `st2vagrant <https://github.com/StackStorm/st2vagrant>`_.
+get started. For more information, see :doc:`Vagrant Install</install/vagrant>`.
 
 Another approach is to install StackStorm and all the dependencies from source on a server or VM
 of your liking. For more information about this approach, see
