@@ -2,10 +2,19 @@ Roadmap
 =======
 
 |st2| is still under active development. We welcome community feedback, and encourage
-contributions. Here's our plans for the next two releases - remember these are subject to change!
+contributions. Here's our plans for the next two releases.
 
-3.0 - ETA February 2019
------------------------
+
+.. note::
+
+    This is a roadmap. It represents our current product direction. All product releases
+    will be on a when-and-if available basis. Actual feature development and timing of releases
+    will be at the sole discretion of the development team. This roadmap does not create a
+    commitment to deliver a specific feature. Contents are subject to change without notice.
+
+
+3.0
+---
 
 * **Orquesta GA:** GA release of "Orquesta" workflow engine. Workflow runtime graph
 * **Workflow Designer v2:** Complete overhaul of Workflow Designer for easier creation
@@ -13,8 +22,8 @@ contributions. Here's our plans for the next two releases - remember these are s
 * **ChatOps:** Microsoft Teams.
 * **Ubuntu 18.04:** Support Ubuntu 18.04 LTS, with Python 3.6.
 
-3.1 - ETA May 2019
------------------------
+3.1
+---
 
 * **Orquesta:** Dry-Run (simulated) workflows.
 * **RHEL 8.x:** Support RHEL 8.x (assuming it has been released!)
