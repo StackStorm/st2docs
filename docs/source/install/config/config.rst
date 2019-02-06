@@ -109,7 +109,7 @@ For example:
 
 Keep in mind that RabbitMQ server needs to be configured to enable TLS support.
 For more information, refer to the official documentation - `Enabling TLS Support in RabbitMQ
-<https://www.rabbitmq.com/ssl.html#enabling-tls>`).
+<https://www.rabbitmq.com/ssl.html#enabling-tls>`_.
 
 .. _ref-rabbitmq-cluster-config:
 
