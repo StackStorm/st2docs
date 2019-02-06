@@ -48,8 +48,8 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 * To understand more about setting up a MongoDB replica set, see
   https://docs.mongodb.com/v3.4/tutorial/deploy-replica-set/
 
-|st2| also supports SSL/TLS to encrypt connections. A few extra properties need be added to the
-configuration apart from the ones outlined above.
+|st2| also supports SSL/TLS to encrypt MongoDB connections. A few extra properties need be added to
+the configuration apart from the ones outlined above.
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section:
 
@@ -76,7 +76,7 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 * ``ssl_match_hostname`` - Enable or disable hostname matching. Not recommended to disable and
   defaults to True.
 
-.. note:: 
+.. note::
 
   Only certain distributions of MongoDB support SSL/TLS:
 
@@ -98,6 +98,19 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 
 The ``#RMQ_VHOST`` property is optional and can be left blank.
 
+|st2| also supports SSL/TLS to encrypt RabbitMQ connections. To enable SSL, you need to pass
+``?ssl=true`` query parameter at the end of the connection URL.
+
+For example:
+
+.. code-block:: ini
+
+   url = amqp://guest:guest@127.0.0.1:5671/?ssl=true
+
+Keep in mind that RabbitMQ server needs to be configured to enable TLS support.
+For more information, refer to the official documentation - `Enabling TLS Support in RabbitMQ
+<https://www.rabbitmq.com/ssl.html#enabling-tls>`).
+
 .. _ref-rabbitmq-cluster-config:
 
 |st2| also supports `RabbitMQ cluster <https://www.rabbitmq.com/clustering.html>`_.
@@ -110,7 +123,6 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
     cluster_urls = amqp://#RMQ_USER:#RMQ_PASSWD@#RMQ_NODE_1:#RMQ_PORT/#RMQ_VHOST,
                    amqp://#RMQ_USER:#RMQ_PASSWD@#RMQ_NODE_2:#RMQ_PORT/#RMQ_VHOST,
                    amqp://#RMQ_USER:#RMQ_PASSWD@#RMQ_NODE_3:#RMQ_PORT/#RMQ_VHOST
-
 
 * To understand more about setting up a RabbitMQ cluster, see
   https://www.rabbitmq.com/clustering.html
