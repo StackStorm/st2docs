@@ -111,6 +111,12 @@ Keep in mind that RabbitMQ server needs to be configured to enable TLS support.
 For more information, refer to the official documentation - `Enabling TLS Support in RabbitMQ
 <https://www.rabbitmq.com/ssl.html#enabling-tls>`_.
 
+.. note::
+
+   At the moment TLS / SSL is only supported for secure connections to RabbitMQ
+   server. Peer verification and client side certificate authentication is
+   currently not supported.
+
 .. _ref-rabbitmq-cluster-config:
 
 |st2| also supports `RabbitMQ cluster <https://www.rabbitmq.com/clustering.html>`_.
