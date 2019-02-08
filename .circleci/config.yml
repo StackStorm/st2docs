@@ -1,3 +1,5 @@
+# Set ST2DOCS_BUCKET and EWCDOCS_BUCKET variables in CircleCI Environment
+
 version: 2
 jobs:
   st2docs:
@@ -13,6 +15,13 @@ jobs:
           key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}
       - run: sudo apt install python-dev
       - run: make docs
+      - run:
+          name: Store HTML docs in workspace dir
+          command: mkdir /tmp/st2docs && cp -r docs/build/html/ /tmp/st2docs/
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - st2docs
       - save_cache:
           key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}
           paths:
@@ -30,13 +39,50 @@ jobs:
           key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}
       - run: sudo apt install python-dev
       - run: make ewcdocs
+      - run:
+          name: Store HTML docs in workspace dir
+          command: mkdir /tmp/ewcdocs && cp -r docs/build/html/ /tmp/ewcdocs/
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - ewcdocs
       - save_cache:
           key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}
           paths:
             - ~/.cache/pip
+  deploy:
+    docker:
+      - image: cibuilds/aws:1.16.43
+    steps:
+      - attach_workspace:
+          at: ./generated-site
+      - run:
+          name: Deploy to docs.stackstorm.com and ewc-docs.extremenetworks.com
+          command: |
+            if [ "${CIRCLE_BRANCH}" = "master" ]; then
+              aws s3 sync generated-site/st2docs \
+              s3://${ST2DOCS_BUCKET}/latest --dry-run
+              aws s3 sync generated-site/ewcdocs \
+              s3://${EWCDOCS_BUCKET}/latest --dry-run
+            else
+              aws s3 sync generated-site/st2docs \
+              s3://${ST2DOCS_BUCKET}/${CIRCLE_BRANCH} --dry-run
+              aws s3 sync generated-site/st2docs \
+              s3://${EWCDOCS_BUCKET}/${CIRCLE_BRANCH} --dry-run
+            fi
+
 workflows:
   version: 2
   docs_checks:
     jobs:
       - st2docs
       - ewcdocs
+      - deploy:
+          requires:
+            - st2docs
+            - ewcdocs
+          filters:
+            branches:
+              only:
+                - master
+                - /v[0-9]+\.[0-9]+/
