@@ -17,7 +17,7 @@ jobs:
       - run: make docs
       - run:
           name: Store HTML docs in workspace dir
-          command: mkdir /tmp/st2docs && cp -r docs/build/html/ /tmp/st2docs/
+          command: mkdir /tmp/st2docs && cp -r docs/build/html/* /tmp/st2docs/
       - persist_to_workspace:
           root: /tmp
           paths:
@@ -41,7 +41,7 @@ jobs:
       - run: make ewcdocs
       - run:
           name: Store HTML docs in workspace dir
-          command: mkdir /tmp/ewcdocs && cp -r docs/build/html/ /tmp/ewcdocs/
+          command: mkdir /tmp/ewcdocs && cp -r docs/build/html/* /tmp/ewcdocs/
       - persist_to_workspace:
           root: /tmp
           paths:
@@ -60,14 +60,14 @@ jobs:
           name: Deploy to docs.stackstorm.com and ewc-docs.extremenetworks.com
           command: |
             if [ "${CIRCLE_BRANCH}" = "master" ]; then
-              aws s3 sync generated-site/st2docs/* \
+              aws s3 sync generated-site/st2docs/ \
               s3://${ST2DOCS_BUCKET}/latest --dryrun
-              aws s3 sync generated-site/ewcdocs/* \
+              aws s3 sync generated-site/ewcdocs/ \
               s3://${EWCDOCS_BUCKET}/latest --dryrun
             else
-              aws s3 sync generated-site/st2docs/* \
+              aws s3 sync generated-site/st2docs/ \
               s3://${ST2DOCS_BUCKET}/${CIRCLE_BRANCH} --dryrun
-              aws s3 sync generated-site/st2docs/* \
+              aws s3 sync generated-site/st2docs/ \
               s3://${EWCDOCS_BUCKET}/${CIRCLE_BRANCH} --dryrun
             fi
       - run:
@@ -76,9 +76,9 @@ jobs:
           command: |
             GA_VER=$(curl -sSL https://stackstorm.com/packages/install.sh|grep ^BRANCH=|sed 's/[^0-9.]*//g')
             if [ "${CIRCLE_BRANCH}" = "${GA_VER}" ]; then
-              aws s3 sync generated-site/st2docs/* \
+              aws s3 sync generated-site/st2docs/ \
               s3://${ST2DOCS_BUCKET}/ --dryrun
-              aws s3 sync generated-site/ewcdocs/* \
+              aws s3 sync generated-site/ewcdocs/ \
               s3://${EWCDOCS_BUCKET}/ --dryrun
             else
               echo "Not current GA version"
