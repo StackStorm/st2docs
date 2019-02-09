@@ -86,7 +86,7 @@ jobs:
 
 workflows:
   version: 2
-  docs_checks:
+  build-deploy:
     jobs:
       - st2docs
       - ewcdocs
