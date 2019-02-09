@@ -67,7 +67,7 @@ jobs:
             else
               aws s3 sync generated-site/st2docs/ \
               s3://${ST2DOCS_BUCKET}/${CIRCLE_BRANCH}
-              aws s3 sync generated-site/st2docs/ \
+              aws s3 sync generated-site/ewcdocs/ \
               s3://${EWCDOCS_BUCKET}/${CIRCLE_BRANCH}
             fi
       - run:
