@@ -70,6 +70,19 @@ jobs:
               aws s3 sync generated-site/st2docs/* \
               s3://${EWCDOCS_BUCKET}/${CIRCLE_BRANCH} --dryrun
             fi
+      - run:
+          # Check the install scripts to see if this is the current GA version
+          name: Check if current GA branch, in which case also deploy to main site
+          command: |
+            GA_VER=$(curl -sSL https://stackstorm.com/packages/install.sh|grep ^BRANCH=|sed 's/[^0-9.]*//g')
+            if [ "${CIRCLE_BRANCH}" = "${GA_VER}" ]; then
+              aws s3 sync generated-site/st2docs/* \
+              s3://${ST2DOCS_BUCKET}/ --dryrun
+              aws s3 sync generated-site/ewcdocs/* \
+              s3://${EWCDOCS_BUCKET}/ --dryrun
+            else
+              echo "Not current GA version"
+            fi
 
 workflows:
   version: 2
