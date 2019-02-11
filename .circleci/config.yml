@@ -22,6 +22,9 @@ jobs:
           root: /tmp
           paths:
             - st2docs
+      - store_artifacts:
+          path: /tmp/st2docs
+          destination: st2docs
       - save_cache:
           key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}
           paths:
@@ -46,6 +49,9 @@ jobs:
           root: /tmp
           paths:
             - ewcdocs
+      - store_artifacts:
+          path: /tmp/ewcdocs
+          destination: ewcdocs
       - save_cache:
           key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}
           paths:
