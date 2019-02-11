@@ -16,7 +16,7 @@ contributions. Here's our plans for the next two releases.
 3.0
 ---
 
-* **Orquesta GA:** GA release of "Orquesta" workflow engine. Workflow runtime graph
+* **Orquesta GA:** GA release of "Orquesta" workflow engine.
 * **Workflow Designer v2:** Complete overhaul of Workflow Designer for easier creation
   and editing of workflows via a Web UI. Include Orquesta workflow editing and creation.
 * **ChatOps:** Microsoft Teams.
@@ -25,7 +25,7 @@ contributions. Here's our plans for the next two releases.
 3.1
 ---
 
-* **Orquesta:** Dry-Run (simulated) workflows.
+* **Orquesta:** Workflow runtime graph.
 * **RHEL 8.x:** Support RHEL 8.x (assuming it has been released!)
 * **Ubuntu 14.04:** Drop support for EoL Ubuntu 14.04.
 * **WebUI:** Datastore viewer/editor.
@@ -42,6 +42,7 @@ Backlog
 
 Here's some more things on our list that we haven't scheduled yet:
 
+* **Dry Run Workflows** Simulate running Orquesta workflows without actually making changes.
 * **History and Audit service:** History view with advanced search over years worth of execution
   records, over multiple versions of continuously upgraded |st2|.
 * **At-scale refinements:** Ensure event handling reliability, and event storm resilience. Complete
