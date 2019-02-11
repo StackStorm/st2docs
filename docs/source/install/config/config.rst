@@ -106,6 +106,7 @@ For example:
 
 .. code-block:: ini
 
+   [messaging]
    url = amqp://guest:guest@127.0.0.1:5671/
    ssl = True
 
@@ -114,6 +115,7 @@ or
 
 .. code-block:: ini
 
+   [messaging]
    url = amqp://guest:guest@127.0.0.1:5671/?ssl=true
 
 In addition to encrypted connection to RabbitMQ, some other SSL related options which are
