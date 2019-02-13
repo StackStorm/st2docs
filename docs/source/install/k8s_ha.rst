@@ -101,7 +101,7 @@ ________________
 Installation
 ~~~~~~~~~~~~
 By default, StackStorm Community free and open-source version is deployed via Helm chart.
-If you want to install :doc:`StackStorm Enterprise (Extreme Workflow Composer) </install/bwc>`, run:
+If you want to install :doc:`StackStorm Enterprise (Extreme Workflow Composer) </install/ewc>`, run:
 
 .. code-block:: bash
 

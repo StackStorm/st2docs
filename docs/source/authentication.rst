@@ -136,9 +136,9 @@ The following is a list of auth backends for the community edition to help get t
 
 LDAP (Enterprise Edition)
 -------------------------
-|st2|-developed auth backends such as LDAP are only available in |bwc|. For more information on
-|bwc|, please visit https://www.extremenetworks.com/product/workflow-composer/
-The auth backends included with |bwc| are developed, tested, maintained, and supported by Extreme Networks.
+|st2|-developed auth backends such as LDAP are only available in |ewc|. For more information on
+|ewc|, please visit https://stackstorm.com/features/#ewc
+The auth backends included with |ewc| are developed, tested, maintained, and supported by Extreme Networks.
 
 LDAP
 ^^^^

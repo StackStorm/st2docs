@@ -241,13 +241,13 @@ v2.4
      sudo rpm -e --nodeps npm
      sudo yum upgrade st2chatops
 
-* |bwc| users on RHEL or CentOS must run this command after upgrading packages:
+* |ewc| users on RHEL or CentOS must run this command after upgrading packages:
 
   .. sourcecode:: bash
 
      sudo /opt/stackstorm/st2/bin/pip install --find-links /opt/stackstorm/share/wheels --no-index --quiet --upgrade st2-enterprise-auth-backend-ldap
 
-This is a known issue, and will be resolved in a future release. This only applies to |bwc| users.
+This is a known issue, and will be resolved in a future release. This only applies to |ewc| users.
 It is not required for those using Open Source StackStorm.
 
 v2.2

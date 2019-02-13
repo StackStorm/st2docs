@@ -62,8 +62,8 @@ complete installation:
 - ``nodejs`` - Dependency for ``st2chatops``.
 - ``st2chatops`` - Install and configure st2chatops for hubot adapter integration with |st2|.
 - ``st2smoketests`` - Simple checks to see if |st2| is working.
-- ``bwc`` - Install and configure |bwc|, including ``LDAP`` and ``RBAC``.
-- ``bwc_smoketests`` - Simple checks to see if |bwc| is working.
+- ``ewc`` - Install and configure |ewc|, including ``LDAP`` and ``RBAC``.
+- ``ewc_smoketests`` - Simple checks to see if |ewc| is working.
 
 Example Play
 ---------------------------
@@ -159,10 +159,10 @@ If you are installing from behind a proxy, you can use the environment variables
         - st2
 
 
-|bwc|
+|ewc|
 -----
 
-Here's an example showing how to add :doc:`Extreme Workflow Composer </install/bwc>`, with
+Here's an example showing how to add :doc:`Extreme Workflow Composer </install/ewc>`, with
 `LDAP <https://ewc-docs.extremenetworks.com/authentication.html#ldap>`_ authentication and
 `RBAC <https://ewc-docs.extremenetworks.com/rbac.html>`_ configuration to allow/restrict/limit |st2|
 functionality to specific users:
@@ -173,14 +173,14 @@ functionality to specific users:
       hosts: all
       roles:
         - name: Install and configure StackStorm Enterprise (EWC)
-          role: bwc
+          role: ewc
           vars:
-            bwc_repo: enterprise
-            bwc_license: CHANGE-ME-PLEASE
-            bwc_version: latest
+            ewc_repo: enterprise
+            ewc_license: CHANGE-ME-PLEASE
+            ewc_version: latest
             # Configure LDAP backend
             # See: https://ewc-docs.extremenetworks.com/authentication.html#ldap
-            bwc_ldap:
+            ewc_ldap:
               backend_kwargs:
                 bind_dn: "cn=Administrator,cn=users,dc=change-you-org,dc=net"
                 bind_password: "foobar123"
@@ -192,7 +192,7 @@ functionality to specific users:
                 id_attr: "samAccountName"
             # Configure RBAC
             # See: https://ewc-docs.extremenetworks.com/rbac.html
-            bwc_rbac:
+            ewc_rbac:
               # Define EWC roles and permissions
               # https://ewc-docs.extremenetworks.com/rbac.html#defining-roles-and-permission-grants
               roles:
@@ -220,7 +220,7 @@ functionality to specific users:
                     - system_admin
 
         - name: Verify EWC Installation
-          role: bwc_smoketests
+          role: ewc_smoketests
 
 .. note::
 
