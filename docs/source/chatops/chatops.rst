@@ -90,7 +90,7 @@ Edit this file so it looks something like this:
 Your specific Chat service may require different settings. Any environment settings needed can be
 added to this file. 
 
-Once you have finished making changes, restart ``st2chatops`` with ``sudo systemctl restart st2chatops``.
+Once you have finished making changes, restart ``st2chatops`` with ``sudo service st2chatops restart``.
 Check your :ref:`log files<ref_chatops_logging>` to ensure that it is successfully connected. 
 
 If you want the ChatOps messages to include the right hyperlink to execution url for the action
