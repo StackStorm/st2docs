@@ -51,12 +51,47 @@ Configuration
 Package-based Install
 ~~~~~~~~~~~~~~~~~~~~~
 
-If you installed StackStorm following the :doc:`install docs </install/index>`, the ``st2chatops``
-package will take care of everything for you. Hubot with the necessary adapters is already bundled,
-and environment variables are sourced from ``/opt/stackstorm/chatops/st2chatops.env``.
+If you installed |st2| following the :doc:`install docs </install/index>`, the ``st2chatops``
+package will take care of `almost` everything for you. Hubot with the necessary adapters is already
+installed, and StackStorm API keys have been configured. 
 
-Edit the file to specify your Chat service and bot credentials. If you need extra environment
-settings for Hubot, you should store them in ``st2chatops.env`` as well.
+You just need to tell |st2| which Chat service to use - e.g. Slack, MatterMost, etc. You will also need
+to give it credentials. Your Chat service may also need configuration. For example, to configure Slack,
+you first need to add a new Hubot integration to Slack. You can do this through Slack's admin interface.
+Take note of the ``HUBOT_SLACK_TOKEN`` that Slack provides.
+
+Then edit the file ``/opt/stackstorm/chatops/st2chatops.env``. Edit and uncomment the variables for 
+your adapter. For example, if you are configuring Slack, look for this section:
+
+.. code-block:: bash
+
+    # Slack settings (https://github.com/slackhq/hubot-slack):
+    #
+    # export HUBOT_ADAPTER=slack
+    # Obtain the Slack token from your app page at api.slack.com, it's the "Bot
+    # User OAuth Access Token" in the "OAuth & Permissions" section.
+    # export HUBOT_SLACK_TOKEN=xoxb-CHANGE-ME-PLEASE
+    # Uncomment the following line to force hubot to exit if disconnected from slack.
+    # export HUBOT_SLACK_EXIT_ON_DISCONNECT=1
+
+Edit this file so it looks something like this:
+
+.. code-block:: bash
+
+    # Slack settings (https://github.com/slackhq/hubot-slack):
+    #
+    export HUBOT_ADAPTER=slack
+    # Obtain the Slack token from your app page at api.slack.com, it's the "Bot
+    # User OAuth Access Token" in the "OAuth & Permissions" section.
+    export HUBOT_SLACK_TOKEN=xoxb-SUPER-SECRET-TOKEN
+    # Uncomment the following line to force hubot to exit if disconnected from slack.
+    export HUBOT_SLACK_EXIT_ON_DISCONNECT=1
+
+Your specific Chat service may require different settings. Any environment settings needed can be
+added to this file. 
+
+Once you have finished making changes, restart ``st2chatops`` with ``sudo systemctl restart st2chatops``.
+Check your :ref:`log files<ref_chatops_logging>` to ensure that it is successfully connected. 
 
 If you want the ChatOps messages to include the right hyperlink to execution url for the action
 you kicked off via ChatOps, you have to point |st2| to the external address for the host running
@@ -70,17 +105,17 @@ the web UI. To do so, edit the ``webui`` section in ``/etc/st2/st2.conf``. For e
 Using an External Adapter
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``st2chatops`` package has an extensive list of built-in adapters for chat services, but if an
-adapter for a service you use isn't bundled there, you can install it manually.
+The ``st2chatops`` package includes adapters for common chat services, but if an
+adapter for a service you use isn't bundled there, don't worry: you can install it manually.
 
-For example, here's how to connect StackStorm to Mattermost using the ``hubot-mattermost`` adapter:
+For example, here's how to connect |st2| to Yammer using the ``hubot-yammer`` adapter:
 
 1. Install the adapter.
 
   .. code-block:: bash
 
     $ cd /opt/stackstorm/chatops
-    $ sudo npm install hubot-mattermost
+    $ sudo npm install hubot-yammer
 
 
 2. Modify ``/opt/stackstorm/chatops/st2chatops.env`` to include
@@ -88,17 +123,16 @@ For example, here's how to connect StackStorm to Mattermost using the ``hubot-ma
 
   .. code-block:: bash
 
-    export HUBOT_ADAPTER=mattermost
-    export MATTERMOST_ENDPOINT=/hubot/incoming
-    export MATTERMOST_INCOME_URL=http://mm:31337/hooks/ncwc66caqf8d7c4gnqby1196qo
-    export MATTERMOST_TOKEN=oqwx9d4khjra8cw3zbis1w6fqy
+    export HUBOT_ADAPTER=yammer
+    export HUBOT_YAMMER_ACCESS_TOKEN="secret_access_token"
+    export HUBOT_YAMMER_GROUPS="groups list"
 
 
 3. Restart the service.
 
   .. code-block:: bash
 
-    $ sudo service st2chatops restart
+    $ sudo systemctl restart st2chatops
 
 Hubot should now connect to your chat service. Congratulations!
 
@@ -181,6 +215,8 @@ You should now be able to go into your chatroom, and execute the command
 .. figure:: /_static/images/chatops_command_out.png
 
 To customize the command output you can use Jinja templates as described in :doc:`aliases`.
+
+.. _ref_chatops_logging:
 
 Logging
 =======
