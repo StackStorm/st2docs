@@ -14,10 +14,10 @@ Troubleshooting Using Hubot Self-check Script:
 ----------------------------------------------
 
 We have a `self-check script <https://github.com/StackStorm/st2chatops/blob/master/scripts/self-check.sh>`_ 
-to help you debug ChatOps issues in StackStorm 1.5 and above.
+to help you debug ChatOps issues.
 
-Just copy the script and run it on your server. It will run a few essential tests that will provide you basic troubleshooting steps in
-case of a failure.
+Just copy the script and run it on your server. It will run a few essential tests that will provide
+you basic troubleshooting steps in case of a failure.
 
 -----------------------------
 Manual Troubleshooting Steps:
@@ -111,12 +111,16 @@ either throws an error, or gives an acknowledgement message without result, or n
      fails with an unexpected error that the bot can't process. This can be checked in 
      StackStorm execution history through CLI or Web UI.
 
-4. Gives an acknowledgement message, then an error:
+4. Result message is delayed:
+     Seeing really long delays with your result messages? Check that all services are running
+     correctly, especially ``st2rulesengine`` and ``st2scheduler``.
+     
+5. Gives an acknowledgement message, then an error:
      If the default commands (like ``!st2 list actions``) run fine, but your own
      aliases throw errors, the format of your alias or the underlying action is most
      likely the problem. Debug according to the error.
 
-5.  Bonus: have you tried turning StackStorm off and on again?
+6.  Bonus: have you tried turning StackStorm off and on again?
      ``sudo st2ctl restart`` or ``sudo st2ctl reload --register-all`` sometimes seem to 
      magically fix problems, often quite unexpectedly. Restarting just the
      ``st2chatops`` service also works sometimes: ``sudo service st2chatops restart``.

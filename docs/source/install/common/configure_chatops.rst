@@ -12,7 +12,8 @@
   ``Chat service adapter settings`` section in ``st2chatops.env``:
   `Slack <https://github.com/slackhq/hubot-slack>`_,
   `HipChat <https://github.com/hipchat/hubot-hipchat>`_,
-  `Yammer <https://github.com/athieriot/hubot-yammer>`_,
   `Flowdock <https://github.com/flowdock/hubot-flowdock>`_,
   `IRC <https://github.com/nandub/hubot-irc>`_ ,
+  `Mattermost <https://github.com/loafoe/hubot-matteruser>`_,
+  `RocketChat <https://github.com/RocketChat/hubot-rocketchat>`_,
   `XMPP <https://github.com/markstory/hubot-xmpp>`_.
