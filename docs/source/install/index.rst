@@ -38,7 +38,7 @@ Choose the option that best suits your needs.
 Upgrading to |bwc|? This is installed as a set of additional packages on top of StackStorm. You
 can either install StackStorm + |bwc| in one go, or add the |bwc| packages to an existing
 StackStorm system. If you are using |bwc|, you can also add Network Automation Suites.
-Read the :doc:`/install/bwc` documentation for more.
+Read the :doc:`/install/ewc` documentation for more.
 
 .. _ref-one-line-install:
 
@@ -96,7 +96,7 @@ For more details on reference deployments, or OS-specific installation instructi
     Kubernetes / HA <k8s_ha>
     Ansible Playbooks <ansible>
     Puppet Module <puppet>
-    Extreme Workflow Composer <bwc>
+    Extreme Workflow Composer <ewc>
     config/index
     upgrades
     uninstall

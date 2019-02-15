@@ -3,8 +3,8 @@ Role Based Access Control
 
 .. note::
 
-   Role Based Access Control (RBAC) is only available in |bwc|. For information
-   about |bwc| and the differences between StackStorm and |bwc|, please see
+   Role Based Access Control (RBAC) is only available in |ewc|. For information
+   about |ewc| and the differences between StackStorm and |ewc|, please see
    `stackstorm.com/product <https://stackstorm.com/product/#enterprise>`_.
 
 Role Based Access Control (RBAC) allows system administrators to restrict users' access and limit
@@ -230,10 +230,10 @@ There are some exceptions, described below:
 Enabling RBAC
 -------------
 
-If you installed |bwc| using the :doc:`one-line install </install/bwc>`, RBAC will be automatically
+If you installed |ewc| using the :doc:`one-line install </install/ewc>`, RBAC will be automatically
 enabled. It will assign the ``admin`` role to ``stanley`` and ``st2admin``. 
 
-If you installed |bwc| separately, by installing the ``bwc-enterprise`` package on top of |st2|, you
+If you installed |ewc| separately, by installing the ``bwc-enterprise`` package on top of |st2|, you
 will need to manually enable RBAC, and assign ``admin`` privileges to ``stanley``. It is not
 enabled by default. To enable it, add this section to ``/etc/st2/st2.conf``:
 
