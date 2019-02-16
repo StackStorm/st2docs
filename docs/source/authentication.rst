@@ -254,8 +254,9 @@ Run the following ``curl`` commands to test:
 Usage
 -----
 
-Once st2auth is enabled, API calls require the token to be passed via the headers. CLI calls
-require the token to be included as a CLI argument or as an environment variable.
+Once authentication is enabled, API calls require a token to be passed via the headers. CLI calls
+require the token to be included as a CLI argument or as an environment variable. Using ``st2 login``
+will simplify logging in, getting a token, and automatically adding it to the environment.
 
 .. include:: __auth_usage.rst
 

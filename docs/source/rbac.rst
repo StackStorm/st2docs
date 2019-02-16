@@ -587,8 +587,7 @@ Once this user is created |st2| will allow access to this user. (Optional) To va
 
 .. sourcecode:: bash
 
-    $ st2 auth rbac_user1 -p '<RBACU1_PASSWORD>'
-    $ export ST2_AUTH_TOKEN=<USER_SCOPED_AUTH_TOKEN>
+    $ st2 login rbac_user1 -p '<RBACU1_PASSWORD>'
     $ st2 action list
 
 Role Creation
@@ -671,8 +670,7 @@ Lets take this for a spin using the |st2| CLI.
 
   .. sourcecode:: bash
 
-    $ st2 auth rbac_user1 -p '<RBACU1_PASSWORD>'
-    $ export ST2_AUTH_TOKEN=<USER_SCOPED_AUTH_TOKEN>
+    $ st2 login rbac_user1 -p '<RBACU1_PASSWORD>'
     $ st2 action list
 
 2. Validate rule visibility and creation:
