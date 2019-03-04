@@ -354,7 +354,7 @@ Helm chart repository, - all settings could be overridden via ``values.yaml``.
 
 etcd
 ____
-StackStorm employs etcd as a distributed coordination backend, required for st2 cluster components to work properly in HA scenario.
+StackStorm employs etcd as a distributed coordination backend, required for st2 cluster components to work properly in an HA scenario.
 `3` node Raft cluster is deployed via external official Helm chart dependency `etcd <https://github.com/helm/charts/tree/master/incubator/etcd>`_.
 As any other Helm dependency, it's possible to further configure it for specific scaling needs via ``values.yaml``.
 
