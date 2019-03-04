@@ -284,10 +284,10 @@ A Note on Security
 
 .. include:: common/security_notes.rst
 
-Upgrade to |bwc|
+Upgrade to |ewc|
 ----------------
 
-.. include:: common/bwc_intro.rst
+.. include:: common/ewc_intro.rst
 
 .. code-block:: bash
 

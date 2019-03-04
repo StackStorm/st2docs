@@ -124,7 +124,7 @@ else:
 rst_epilog = """
 %s
 .. _exchange: https://exchange.stackstorm.org/
-.. |bwc| replace:: Extreme Workflow Composer
+.. |ewc| replace:: Extreme Workflow Composer
 .. |ipf| replace:: IP Fabric Automation Suite
 """ % product_replace
 

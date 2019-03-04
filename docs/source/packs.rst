@@ -120,8 +120,8 @@ Finally, you can install a pack from existing local dir:
 
 .. code-block:: bash
 
-    # Install a pack from '/tmp/bitcoin' dir
-    st2 pack install file:///tmp/bitcoin
+    # Install a pack from '/home/stanley/bitcoin' dir
+    st2 pack install file:///home/stanley/bitcoin
 
 
 Running ``st2 pack install`` on an already installed pack will **replace** it with the requested
@@ -199,7 +199,7 @@ you work with configuration management or have a very specific deployment workfl
 Packs are placed in the system pack directory - by default ``/opt/stackstorm/packs``. A
 ``virtualenv`` needs to be created for each pack containing Python actions/sensors under
 ``/opt/stackstorm/virtualenv``. Python dependencies are installed inside the virtualenv with
-``pip -r requirements.txt``. Normally this is done automatically for you at pack install time.
+``pip -r requirements.txt``. If you use ``st2 pack install``, this is handled automatically for you.
 
 When |st2| loads the content, it looks into the system packs directory (``/opt/stackstorm/packs``)
 and any additional directories listed in ``packs_base_paths`` in ``st2.conf``
@@ -220,12 +220,12 @@ a schema defined in ``/opt/stackstorm/packs/<pack_dir>/config.schema.yaml``. See
 
 When the pack content changes, it has to be registered again (reloaded). To register individual
 packs, use ``st2 pack register --packs=pack1,pack2``. To register everything at once, use
-``st2ctl reload`` (run it with ``-h`` to explore the fine-tuning flags).
+``sudo st2ctl reload``. Use ``-h`` to explore the fine-tuning flags.
 
 Installing Packs from Private Repositories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you're installing a pack from a private repository on GitHub, you can use HTTPS auth
+If you are installing a pack from a private repository on GitHub, you can use HTTPS authentication
 with a `personal access token 
 <https://help.github.com/articles/creating-an-access-token-for-command-line-use/>`__,
 or create a `deploy key <https://github.com/blog/2024-read-only-deploy-keys>`__ to use SSH.
@@ -236,17 +236,16 @@ Access tokens are used with HTTPS URLs, for example:
 
    $ st2 pack install https://<user>:<token>@github.com/username/repo.git
 
-Be advised that your token will be logged in StackStorm, git, your shell history, and probably
-some other log files, including git error logs if anything fails. Using SSH auth is a much better
-idea most of the time.
+Your token will be logged in |st2|, git, your shell history, and probably other log files, including
+git error logs. Using SSH authentication is usually a better choice.
 
-For SSH (URLs starting with ``git@``) auth you have to create a `deploy key
-<https://github.com/blog/2024-read-only-deploy-keys>`__, and require the system user running the
-command (usually root, depending on your configuration) to have a private key. Deploy keys are
-more secure than personal access tokens and can be configured on a per-repo basis.
+For SSH (URLs starting with ``git@``) authentication you have to create a `deploy key
+<https://github.com/blog/2024-read-only-deploy-keys>`__. Note that pack installation is run as
+``root`` by default. |st2| will use root's SSH configuration and private keys. Use
+``~root/.ssh/config`` to configure a Git-specific private key if you do not want to use root's
+default private key. 
 
-Other git hosting services should also support either SSH or HTTPS auth, and would be configured
-in a similar fashion.
+Deploy keys are more secure than personal access tokens and can be configured on a per-repo basis.
 
 Using Python 3 for Pack Python Virtual Environment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -1,6 +1,26 @@
-To acquire a new token via the CLI, run the ``st2 auth`` command.  If password is not provided,
-then ``st2 auth`` will prompt for the password. If successful, a token is returned in the
-response:
+To use the CLI, use the ``st2 login`` command. If you do not provide a password, it will prompt for
+the password:
+
+.. code-block:: bash
+
+    # without password
+    st2 login yourusename
+    Password:
+
+    # with password
+    st2 login yourusername -p 'yourpassword'
+
+    # write password to config file
+    st2 login -w yourusername -p 'yourpassword'
+
+.. note::
+
+    If your password contains special characters such as ``$``, they may be interpreted by the shell.
+    Wrap your password in single quotes (``'``) as above.
+
+If you need to acquire a token - for example to use with an API call, use the ``st2 auth`` command.
+If a password is not provided, it will prompt for the password. If successful, a token is returned
+in the response:
 
 .. code-block:: bash
 
@@ -10,11 +30,6 @@ response:
     # without password
     st2 auth yourusename
     Password:
-
-.. note::
-
-    If your password contains special characters such as ``$``, they may be interpreted by the shell.
-    Wrap your password in single quotes (``'``) as above.
 
 The following is a sample API call via ``curl`` using that token:
 

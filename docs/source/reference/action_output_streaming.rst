@@ -172,7 +172,7 @@ Keep in mind that this feature is still behind a feature flag and that's why you
 pass ``?events=st2.execution.output__create`` query param to the API endpoint to make sure you also
 receive these events.
 
-3. Via the special purpose execution output StackStorm Stream API endpoint
+4. Via the special purpose execution output StackStorm Stream API endpoint
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::

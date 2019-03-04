@@ -136,9 +136,9 @@ The following is a list of auth backends for the community edition to help get t
 
 LDAP (Enterprise Edition)
 -------------------------
-|st2|-developed auth backends such as LDAP are only available in |bwc|. For more information on
-|bwc|, please visit https://www.extremenetworks.com/product/workflow-composer/
-The auth backends included with |bwc| are developed, tested, maintained, and supported by Extreme Networks.
+|st2|-developed auth backends such as LDAP are only available in |ewc|. For more information on
+|ewc|, please visit https://stackstorm.com/features/#ewc
+The auth backends included with |ewc| are developed, tested, maintained, and supported by Extreme Networks.
 
 LDAP
 ^^^^
@@ -254,8 +254,9 @@ Run the following ``curl`` commands to test:
 Usage
 -----
 
-Once st2auth is enabled, API calls require the token to be passed via the headers. CLI calls
-require the token to be included as a CLI argument or as an environment variable.
+Once authentication is enabled, API calls require a token to be passed via the headers. CLI calls
+require the token to be included as a CLI argument or as an environment variable. Using ``st2 login``
+will simplify logging in, getting a token, and automatically adding it to the environment.
 
 .. include:: __auth_usage.rst
 

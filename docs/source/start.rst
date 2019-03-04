@@ -18,10 +18,9 @@ The best way to explore |st2| is to use the CLI. Start by running a few commands
     # Get help. It's a lot. Explore.
     st2 -h
 
-    # Authenticate and export the token. Make sure ST2_AUTH_URL and
-    # ST2_API_URL are set correctly (http vs https, endpoint, and etc).
-    # Replace the username and password in the example below appropriately.
-    export ST2_AUTH_TOKEN=`st2 auth -t -p 'Ch@ngeMe' st2admin`
+    # Login - add "-w" to save the password if you like
+    # st2admin/Ch@ngeMe is the default username & password. Replace if needed
+    st2 login st2admin -p 'Ch@ngeMe'
 
     # List the actions from the 'core' pack
     st2 action list --pack=core

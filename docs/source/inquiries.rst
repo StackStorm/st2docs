@@ -465,7 +465,7 @@ user that's been assigned to this role will still be permitted to respond.
 
 
 To lock down a specific Inquiry to a set of users or RBAC roles (the latter of which is only
-available with :doc:`enterprise features</install/bwc>`), the ``users`` and ``roles`` parameters
+available with :doc:`enterprise features</install/ewc>`), the ``users`` and ``roles`` parameters
 should be used. These offer additional restriction on a per-Inquiry basis, but they don't remove
 any restrictions imposed on the aforementioned RBAC settings, if any. These parameter-based
 restrictions are cumulative with any existing RBAC restrictions.
