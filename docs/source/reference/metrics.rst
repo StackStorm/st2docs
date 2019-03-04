@@ -117,6 +117,23 @@ This section describes which metrics are currently exposed by various |st2| serv
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
 | st2.stream.connections                                     | gauge      | st2stream                   | Number of open connections to the stream service.                                                              |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.notifier.action.executions                             | counter    | st2notifier                 | Number of action executions processed by st2notifier.                                                          |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.notifier.action.executions                             | timer      | st2notifier                 | How long it took to process a particular action execution by st2notifier.                                      |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.notifier.notify_trigger.post                           | counter    | st2notifier                 | Number of notify triggers processed by st2notifier.                                                            |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.notifier.notify_trigger.post                           | timer      | st2notifier                 | How long it took to process / post notify trigger for an execution.                                            |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.notifier.generic_trigger.post                          | counter    | st2notifier                 | Number of generic notify triggers processed by st2notifier.                                                    |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.notifier.generic_trigger.post                          | timer      | st2notifier                 | How long it took to process generic notify trigger for an execution.                                           |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.notifier.transform_message                             | timer      | st2notifier                 | How long a "transform_message" function call took for a particular notify trigger.                             |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.notifier.transform_data                                | timer      | st2notifier                 | How long a "transform_data" function call took for a particular notify trigger.                                |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+
 
 Depending on the metric backend and metric type, some of those metrics will also be sampled,
 averaged, aggregated and converted into a rate (operations / seconds for ``counter`` metrics), etc.
