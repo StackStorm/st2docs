@@ -98,24 +98,57 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 
 The ``#RMQ_VHOST`` property is optional and can be left blank.
 
-|st2| also supports SSL/TLS to encrypt RabbitMQ connections. To enable SSL, you need to pass
-``?ssl=true`` query parameter at the end of the connection URL.
+|st2| also supports SSL/TLS to encrypt RabbitMQ connections. To enable SSL, you need to set
+``messaging.ssl`` config option to ``True`` or pass ``?ssl=true`` query parameter at the end of
+the connection URL string.
 
 For example:
 
 .. code-block:: ini
 
+   [messaging]
+   url = amqp://guest:guest@127.0.0.1:5671/
+   ssl = True
+
+or
+
+
+.. code-block:: ini
+
+   [messaging]
    url = amqp://guest:guest@127.0.0.1:5671/?ssl=true
 
-Keep in mind that RabbitMQ server needs to be configured to enable TLS support.
-For more information, refer to the official documentation - `Enabling TLS Support in RabbitMQ
-<https://www.rabbitmq.com/ssl.html#enabling-tls>`_.
+In addition to encrypted connection to RabbitMQ, some other SSL related options which are
+documented below are also supported:
+
+.. code-block:: ini
+
+    [messaging]
+    ...
+    ssl = <True or False>
+    ssl_keyfile = <Path to key file>
+    ssl_certfile = <Path to certificate>
+    ssl_cert_reqs = <One of none, optional or required>
+    ssl_ca_certs = <Path to CA certificate>
+    login_method = <One of PLAIN, AMQPLAIN or EXTERNAL>
+
+* ``ssl`` - Enable or disable connection over TLS/SSL or not. Default is False.
+* ``ssl_keyfile`` - Private keyfile used to identify the local connection against RabbitMQ. If
+  specified ssl is assumed to be True.
+* ``ssl_certfile`` - Certificate file used to identify the local connection. If specified ssl is
+  assumed to be True.
+* ``ssl_cert_reqs`` - Specifies whether a certificate is required from the other side of the
+  connection, and whether it will be validated if provided.
+* ``ssl_ca_certs`` - Certificates file containing a set of concatenated CA certificates, which are
+  used to validate certificates passed from RabbitMQ.
+* ``login_method`` - Login method to use. Default is ``PLAIN``. Other possible
+  options are ``AMQPLAIN`` and ``EXTERNAL``.
 
 .. note::
 
-   At the moment TLS / SSL is only supported for secure connections to RabbitMQ
-   server. Peer verification and client side certificate authentication is
-   currently not supported.
+   RabbitMQ doesn't expose an SSL / TLS listener by default and needs to be configured to enable
+   TLS support. For more information, refer to the official documentation -
+   `Enabling TLS Support in RabbitMQ <https://www.rabbitmq.com/ssl.html#enabling-tls>`_.
 
 .. _ref-rabbitmq-cluster-config:
 
