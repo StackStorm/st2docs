@@ -82,7 +82,7 @@ below. Only execute the instructions for your distribution.
 
     sudo apt-get purge st2 st2mistral st2chatops st2web
 
-  If you have |bwc| installed, instead use:
+  If you have |ewc| installed, instead use:
 
   .. sourcecode:: bash
 
@@ -97,7 +97,7 @@ below. Only execute the instructions for your distribution.
 
     sudo yum erase st2 st2mistral st2chatops st2web st2python
 
-  If you have |bwc| installed, instead use: 
+  If you have |ewc| installed, instead use: 
 
   .. sourcecode:: bash
 

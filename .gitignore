@@ -26,3 +26,6 @@ docs/source/orquesta/context.rst
 docs/source/orquesta/yaql.rst
 docs/source/orquesta/jinja.rst
 docs/source/orquesta/languages
+
+# Local Sphinx build output
+.doctrees

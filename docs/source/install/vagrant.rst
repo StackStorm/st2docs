@@ -57,7 +57,7 @@ page. It might be especially helpful for the isolated from the internet air-gapp
 
 
 At the moment only Virtualbox provider is supported. VMWare-compatible virtual appliance is
-available with `StackStorm Enterprise (EWC) <https://stackstorm.com/#product>`_ image.
+available with `StackStorm Enterprise (EWC) <https://stackstorm.com/features/#ewc>`_ image.
 Ask `StackStorm Support <support@stackstorm.com>`_ for more info.
 
 
