@@ -236,6 +236,7 @@ at :github_st2:`/usr/share/doc/st2/examples <contrib/examples/>`. To deploy, cop
 
     # Copy examples to st2 content directory
     sudo cp -r /usr/share/doc/st2/examples/ /opt/stackstorm/packs/
+    sudo chown -R root:st2packs /opt/stackstorm/packs/examples
 
     # Run setup
     st2 run packs.setup_virtualenv packs=examples
