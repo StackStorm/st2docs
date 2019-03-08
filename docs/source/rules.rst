@@ -53,6 +53,10 @@ The generic form of a rule is:
 
   * The ``ref`` (action/workflow) to execute.
   * An optional set of ``parameters`` to pass to the action execution.
+  
+  .. note::
+
+    Each rule can only have one single ``action`` section. If you need to run multiple actions when a rule is matched, either configure multiple rules, or create a workflow, and call that.
 
 Trigger
 -------
