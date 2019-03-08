@@ -51,14 +51,12 @@ The generic form of a rule is:
 
 * The ``action`` to execute when a rule is matched, consisting of:
 
-  * The ``ref`` (action/workflow) to execute. Use workflow if you have multiple actions and not a single action, or you could have mulitple rules for the same trigger
-  i.e.
-  rule1 could post on chatops that a trigger was recieved and it matched your criteria.
-  rule2 could take action on the trigger.
-  rule3 could again post on chatops to inform that a preventive action was taken.
-  
+  * The ``ref`` (action/workflow) to execute.
   * An optional set of ``parameters`` to pass to the action execution.
-  Only a single action should be used, if you have multiple actions, say you want to post on chatops etc than define a workflow and refernce the workflow in the action element.
+  
+  .. note::
+
+    Each rule can only have one single ``action`` section. If you need to run multiple actions when a rule is matched, either configure multiple rules, or create a workflow, and call that.
 
 Trigger
 -------
@@ -159,12 +157,7 @@ This section describes all the available operators which can be used in the crit
 
     **For Developers:** The criteria comparison functions are defined in
     :github_st2:`st2/st2common/st2common/operators.py <st2common/st2common/operators.py>`.
-The below operators should be standardized, it should not be st2 specific. Also it seems you can use eq in place of equals, so there should be a column below for shortform of operator, see:
 
-criteria:
-        trigger.headers['X-Custom-Header']:
-            type: "eq"
-            pattern : "customvalue"
 
 ================= =================================================================
  Operator          Description
