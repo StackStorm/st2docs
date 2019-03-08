@@ -158,7 +158,6 @@ This section describes all the available operators which can be used in the crit
     **For Developers:** The criteria comparison functions are defined in
     :github_st2:`st2/st2common/st2common/operators.py <st2common/st2common/operators.py>`.
 
-
 ================= =================================================================
  Operator          Description
 ================= =================================================================
