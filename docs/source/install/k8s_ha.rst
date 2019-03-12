@@ -320,13 +320,13 @@ st2sensorcontainer. The sensor(s) must be deployed as part of the custom packs i
 As an example, override the default Helm values as follows:
 
 .. code-block:: yaml
-    st2:
-      packs:
-        sensors:
-          - name: github
-            ref: githubwebhook.GitHubWebhookSensor
-          - name: circleci
-            ref: circle_ci.CircleCIWebhookSensor
+  st2:
+    packs:
+      sensors:
+        - name: github
+          ref: githubwebhook.GitHubWebhookSensor
+        - name: circleci
+          ref: circle_ci.CircleCIWebhookSensor
 
 st2actionrunner
 _______________
