@@ -53,7 +53,7 @@ Package-based Install
 
 If you installed |st2| following the :doc:`install docs </install/index>`, the ``st2chatops``
 package will take care of `almost` everything for you. Hubot with the necessary adapters is already
-installed, and StackStorm API keys have been configured. 
+installed, and StackStorm `API keys <https://docs.stackstorm.com/authentication.html#api-keys>`_ have been configured. 
 
 You just need to tell |st2| which Chat service to use - e.g. Slack, MatterMost, etc. You will also need
 to give it credentials. Your Chat service may also need configuration. For example, to configure Slack,
