@@ -343,7 +343,8 @@ respectively.
 .. note::
 
     Keep in mind that using HTTP header is preferred since some web servers and third party services
-    log query parameters which are sent with each request, which could be a security risk.
+    log query parameters which are sent with each request. This could lead to auth token / api key
+    exposure and potentially pose a security risk.
 
 Here's some examples of how to send authentication token and API key in the headers, and as a query
 parameter using ``curl``:
