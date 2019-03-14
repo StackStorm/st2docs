@@ -660,6 +660,51 @@ YAML
       value: SECRET_TOKEN
       secret: true
 
+Storing Pre-Encrypted Secrets
+-----------------------------
+
+In more advanced deployments using the Infrastructure as Code philosophy with Configuration
+Management tools like Puppet, Chef, Ansible, etc or Kubernetes it can be useful to import
+keys into the datastore that are already encrypted. This technique allows for storing
+secrets encrypted at rest, in something like Git or a Vault, then import them into
+StackStorm without having to decrypt.
+
+To save an already encrypted secret in the key-value store, you need to tell StackStorm
+that the value you are passing in needs to be decrypted prior to storing, so
+append the ``--decrypt`` flag:
+
+.. code-block:: bash
+
+    st2 key set api_token XYZ12fsAz310D --encrypt --decrypt
+
+
+Pre-encrypted secret keys can be loaded from a JSON/YAML key file by adding the
+``decrypt`` property with a boolean value.
+
+JSON
+
+.. code-block:: json
+
+    [
+        {
+            "name": "api_token",
+            "value": "XYZ12fsAz310D",
+            "secret": true,
+            "decrypt": true
+        }
+    ]
+
+YAML
+
+.. code-block:: yaml
+
+    ---
+    - name: api_token
+      value: XYZ12fsAz310D
+      secret: true
+      decrypt: true
+
+
 Security notes
 --------------
 
