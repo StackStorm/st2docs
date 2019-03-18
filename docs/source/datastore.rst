@@ -669,17 +669,21 @@ keys into the datastore that are already encrypted. This technique allows for st
 secrets encrypted at rest, in something like Git or a Vault, then import them into
 StackStorm without having to decrypt.
 
+Keep in mind that the values need to be encrypted with the same private key which is used
+by the StackStorm instance in question.
+
 To save an already encrypted secret in the key-value store, you need to tell StackStorm
-that the value you are passing in needs to be decrypted prior to storing, so
-append the ``--decrypt`` flag:
+that the value you are passing in needs is already encrypted and should be treated as
+such and used as-is. This can be done using ``--pre-encrypted`` CLI flag.
 
 .. code-block:: bash
 
-    st2 key set api_token XYZ12fsAz310D --encrypt --decrypt
+    st2 key set api_token XYZ12fsAz310D --pre-encrypted
 
 
-Pre-encrypted secret keys can be loaded from a JSON/YAML key file by adding the
-``decrypt`` property with a boolean value.
+Pre-encrypted secret keys can be loaded from a JSON/YAML key file out of the box. All of
+the values which contain ``encrypted: true`` and ``secret: true`` are considered as
+pre-encrypted and treated as such.
 
 JSON
 
@@ -690,7 +694,7 @@ JSON
             "name": "api_token",
             "value": "XYZ12fsAz310D",
             "secret": true,
-            "decrypt": true
+            "encrypted": true
         }
     ]
 
@@ -702,8 +706,7 @@ YAML
     - name: api_token
       value: XYZ12fsAz310D
       secret: true
-      decrypt: true
-
+      encrypted: true
 
 Security notes
 --------------
