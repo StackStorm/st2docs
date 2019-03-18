@@ -125,7 +125,8 @@ Finally, you can install a pack from existing local dir:
 
 .. warning::
 
-    Installing a pack from a directory that is a git repository will only install the latest commit, and ignores any subsequent changes to the files.
+    Installing a pack from a directory that is a git repository will only install the latest commit,
+    and ignores any subsequent uncommitted changes to the files.
 
 Running ``st2 pack install`` on an already installed pack will **replace** it with the requested
 version or **upgrade to latest** if the version is not specified. Your config file will not be
