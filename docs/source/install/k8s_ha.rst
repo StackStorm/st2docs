@@ -309,11 +309,25 @@ which in our case is etcd.
 
 st2sensorcontainer
 __________________
-st2sensorcontainer manages StackStorm sensors: starts, stops and restarts them as a subprocesses.
-At the moment K8s configuration consists of Deployment with hardcoded ``1`` replica.
-Future plans are to re-work this setup and benefit from Docker-friendly `single-sensor-per-container mode #4179 <https://github.com/StackStorm/st2/pull/4179>`_
-(since st2 ``v2.9``) as a way of :doc:`/reference/sensor_partitioning`, distributing the computing load
-between many pods and relying on K8s failover/reschedule mechanisms, instead of running everything on ``1`` single instance of st2sensorcontainer.
+st2sensorcontainer manages StackStorm sensors: It starts, stops and restarts them as subprocesses.
+By default, deployment is configured with ``1`` replica containing all the sensors.
+
+st2sensorcontainer also supports a more Docker-friendly single-sensor-per-container mode as a way
+of :doc:`/reference/sensor_partitioning`. This distributes the computing load between many pods and
+relies on K8s failover/reschedule mechanisms, instead of running everything on a single instance of
+st2sensorcontainer. The sensor(s) must be deployed as part of the custom packs image.
+
+As an example, override the default Helm values as follows:
+
+.. code-block:: yaml
+
+  st2:
+    packs:
+      sensors:
+        - name: github
+          ref: githubwebhook.GitHubWebhookSensor
+        - name: circleci
+          ref: circle_ci.CircleCIWebhookSensor
 
 st2actionrunner
 _______________
