@@ -40,6 +40,21 @@ At the topmost level are the main folders ``actions``, ``rules``, ``sensors``, `
   virtualenv. If you need any specific Python libraries, specify them here, and they will be
   automatically installed at pack install time.
 
+  .. note::
+
+    You should write all dependent libraries of your pack in this ``requirements.txt`` to prevent a
+    runtime error because of unexpected dependencies problem.
+
+    When an action of python-script in your pack is going to load a module which is not in the
+    pack's virtualenv, that will try to load it from the |st2|'s library path that has `these
+    libraries <https://github.com/StackStorm/st2/blob/master/requirements.txt>`_ impliedly. If these
+    libraries are used from your pack's dependent libraries without concern for the dependencies,
+    a runtime error might be happen when these are incompatible with your pack's libraries.
+
+    The libraries which are specified in the ``requirements.txt`` are prioritized to be loaded over
+    |st2|'s ones. Therefore it's better to write every libraries, with specifying version, that are
+    called directly or indirectly in your pack's ``requirements.txt``.
+
 Site-specific pack configuration files are stored at ``/opt/stackstorm/configs/``. See
 :doc:`configuration schema</reference/pack_configs>` for more information.
 
