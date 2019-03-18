@@ -51,7 +51,7 @@ At the topmost level are the main folders ``actions``, ``rules``, ``sensors``, `
     libraries are used from your pack's dependent libraries without concern for the dependencies,
     a runtime error might be happen when these are incompatible with your pack's libraries.
 
-    The libraries which are specified in the ``requirements.txt`` are prioritize to be loaded over
+    The libraries which are specified in the ``requirements.txt`` are prioritized to be loaded over
     |st2|'s ones. Therefore it's better to write every libraries, with specifying version, that are
     called directly or indirectly in your pack's ``requirements.txt``.
 
