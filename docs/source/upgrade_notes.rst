@@ -3,7 +3,7 @@
 Upgrade Notes
 =============
 
-.. _ref-upgrade-notes-v2-10:
+.. _ref-upgrade-notes-v3-0:
 
 |st2| v3.0
 ----------
@@ -28,8 +28,28 @@ Upgrade Notes
    /opt/stackstorm/st2/bin/pip install "git+https://github.com/StackStorm/stackstorm-runner-windows.git#egg=stackstorm-runner-windows"
 
    sudo st2ctl reload --register-runners
- 
- * The :doc:`Inquiries </inquiries>` API has been promoted from the ``/api/exp`` path to ``/api/v1``. If you have any external systems that use this API they will need to be updated to use the new path. st2client has been updated to use the new path.
+* The :doc:`Inquiries </inquiries>` API has been promoted from the ``/api/exp`` path to ``/api/v1``.
+  If you have any external systems that use this API they will need to be updated to use the new
+  path. st2client has been updated to use the new path.
+* If you are using |EWC| with RBAC you need to update your ``/etc/st2/st2.conf`` config file for RBAC
+  to work after the upgrade.
+
+Before:
+
+  .. code-block:: bash
+
+    [rbac]
+    enable = True
+
+After:
+
+  .. code-block:: bash
+
+    [rbac]
+    enable = True
+    backend = enterprise
+
+.. _ref-upgrade-notes-v2-10:
 
 |st2| v2.10
 -----------
