@@ -232,3 +232,11 @@ from the web test client in BotFramework, then the issue is between Microsoft Te
 BotFramework. Double check the values in your application manifest, and remove and
 re-upload your manifest (if you changed it). You can also message your bot directly from
 within Microsoft Teams, in its own room.
+
+Here are a few links that may help you troubleshoot:
+
+* `Hubot issue with configuration steps <https://github.com/hubotio/hubot/issues/1260#issuecomment-333643742>`_
+
+Finally, the `Orky <https://github.com/OfficeDev/Orky>`_ project is very interesting to us,
+but as of this writing, the plugin is difficult to configure, some of the code is broken,
+and it is exceptionally difficult to debug.
