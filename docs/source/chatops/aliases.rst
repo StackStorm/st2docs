@@ -370,7 +370,7 @@ Support for other chat providers is coming soon, and of course you are always we
 contribute! See the example below for hacking on ``extra``.
 
 Mattermost and Rocketchat also support the Slack attachments API. However, you will need
-to use the ``mattermost`` and ``rocketchat`` keys to ``extra``:
+to add both the ``mattermost`` and ``rocketchat`` keys to ``extra``:
 
 .. code-block:: yaml
 
