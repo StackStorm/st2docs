@@ -175,6 +175,10 @@ Zip all of those files into the root of a zip file:
     Make sure that the files themselves are located at the root of the zip file and not in
     a directory in the zip file root!
 
+The Orky project has a complete
+`example manifest.json file <https://github.com/OfficeDev/Orky/blob/master/OrkyDemoManifest/manifest.json>`_
+you can take a look at for more information.
+
 Sideload the application manifest into Microsoft Teams
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -190,6 +194,10 @@ Sideload the application manifest into Microsoft Teams
 3. Select "Manage team", and go to the "Apps" tab in the main pane.
 4. At the bottom right of the main pane, click the "Upload a custom app" link.
 5. Upload the application manifest file you created previously.
+
+Please see the
+`official documentation <https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/apps/apps-upload>`_
+for more information on how to sideload an app package to Microsoft Teams.
 
 Configure ``st2chatops.env``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -235,7 +243,18 @@ within Microsoft Teams, in its own room.
 
 Here are a few links that may help you troubleshoot:
 
+* `ngrok.com <https://ngrok.com>`_ - tunnels an HTTP/HTTPS ``ngrok.io`` URL to your local
+  machine, useful for debugging what requests are coming from BotFramework
+* `Documentation for the BotFramework-Hubot adapter <https://github.com/Microsoft/BotFramework-Hubot#readme>`_
 * `Hubot issue with configuration steps <https://github.com/hubotio/hubot/issues/1260#issuecomment-333643742>`_
+* A complete
+  `example of manifest.json <https://github.com/OfficeDev/Orky/blob/master/OrkyDemoManifest/manifest.json>`_
+  for your bot application manifest JSON file to include the in your bot application manifest
+  zip file.
+* `Official Microsoft documentation for uploading an app package to Teams <https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/apps/apps-upload>`_
+* `Documentation for Orky <https://github.com/OfficeDev/Orky/tree/master/Orky#readme>`_ -
+  you will NOT use Orky itself, but it does have instructions for configuring a
+  BotFramework bot and creating a bot application manifest
 
 Finally, the `Orky <https://github.com/OfficeDev/Orky>`_ project is very interesting to us,
 but as of this writing, the plugin is difficult to configure, some of the code is broken,
