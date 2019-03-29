@@ -318,8 +318,8 @@ follow as an attachment.
 
 ``{~}`` at the end of the string will display the whole message in plaintext.
 
-Passing Attachment API parameters (Slack-only)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Passing Attachment API parameters (Slack, Mattermost, and Rocketchat only)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Slack formats ChatOps output as attachments, and you can configure the API parameters in the
 ``result.extra.slack`` field.
@@ -368,6 +368,59 @@ dynamically:
 
 Support for other chat providers is coming soon, and of course you are always welcome to
 contribute! See the example below for hacking on ``extra``.
+
+Mattermost and Rocketchat also support the Slack attachments API. However, you will need
+to use the ``mattermost`` and ``rocketchat`` keys to ``extra``:
+
+.. code-block:: yaml
+
+  [...]
+  formats:
+    - "say {{ phrase }} in {{ color }}"
+  result:
+    extra:
+      mattermost:
+        color: "{{execution.parameters.color}}"
+  [...]
+
+.. code-block:: yaml
+
+  formats:
+    - "say {{ phrase }} in {{ color }}"
+  result:
+    extra:
+      rocketchat:
+        color: "{{execution.parameters.color}}"
+  [...]
+
+And you absolutely can specify more than one chat provider in a single alias by using
+more than one key in ``extra``. This can be useful if you might switch chat providers
+in the future, or if you are trying to prototype an alias to (for instance) compare and
+contrast chat providers (although we can tell you that, right now, Slack definitely has
+the best integration with st2chatops).
+
+.. code-block:: yaml
+
+  [...]
+  formats:
+    - "say {{ phrase }} in {{ color }}"
+  result:
+    extra:
+      slack:
+        image_url: "http://i.imgur.com/Gb9kAYK.jpg"
+        fields:
+          - title: Kitten headcount
+            value: Eight.
+            short: true
+          - title: Number of boxes
+            value: A bunch.
+            short: true
+        color: "#00AA00"
+      mattermost:
+        color: "{{execution.parameters.color}}"
+      rocketchat:
+        color: "{{execution.parameters.color}}"
+  [...]
 
 Testing and extending alias parameters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
