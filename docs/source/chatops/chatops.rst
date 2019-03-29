@@ -52,7 +52,7 @@ We officially provide support for the following chat providers with hubot:
 
 * `Slack <https://github.com/slackapi/hubot-slack>`_
 * Microsoft Teams (via `BotFramework <https://github.com/Microsoft/BotFramework-Hubot>`_)
-* `Mattermost **version 5** <https://github.com/loafoe/hubot-matteruser>`_
+* `Mattermost version 5 <https://github.com/loafoe/hubot-matteruser>`_
 * `Rocket.Chat <https://github.com/RocketChat/hubot-rocketchat>`_
 * `Cisco Spark <https://github.com/tonybaloney/hubot-spark>`_
 

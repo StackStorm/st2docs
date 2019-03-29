@@ -4,7 +4,7 @@ Using Microsoft Teams (with BotFramework)
 Configurating st2chatops with Microsoft Teams is **much** more involved than configuring
 other chat providers.
 
-.. note:: Caveats
+.. note:: **Caveats**
 
     * There are multiple hubot adapters for Microsoft Teams and/or BotFramework. Only
       two of them (that we found) are production quality, and only the
