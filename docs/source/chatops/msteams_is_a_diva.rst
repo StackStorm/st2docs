@@ -2,7 +2,7 @@ Using Microsoft Teams (with BotFramework)
 =========================================
 
 Configurating st2chatops with Microsoft Teams is **much** more involved than configuring
-other chat platforms.
+other chat providers.
 
 .. note:: Caveats
 
