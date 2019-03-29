@@ -85,7 +85,7 @@ Configuration
 .. note:: Microsoft Teams
 
     Configuring st2chatops with Microsoft Teams is a more involved process. Please see
-    `our documentation <msteams_is_a_diva>` specifically for that chat provider.
+    :doc:`our documentation <msteams>` specifically for that chat provider.
     All other chat providers can be configured in ``st2chatops.env`` with the instructions
     below.
 

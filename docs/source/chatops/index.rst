@@ -50,7 +50,7 @@ Interested in learning more? Here are some things to get you started on your voy
     :maxdepth: 1
 
     chatops
-    Configuration for Microsoft Teams <msteams_is_a_diva>
+    Configuration for Microsoft Teams <msteams>
     Action Aliases <aliases>
     notifications
     Pack Deployment <pack_deploy>
