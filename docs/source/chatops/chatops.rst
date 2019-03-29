@@ -45,8 +45,49 @@ about what ChatOps means to us, and how it provides real-world value to you.
 
 .. _chatops-configuration:
 
+Officially Supported Chat Providers
+===================================
+
+We officially provide support for the following chat providers with hubot:
+
+* `Slack <https://github.com/slackapi/hubot-slack>`_
+* Microsoft Teams (via `BotFramework <https://github.com/Microsoft/BotFramework-Hubot>`_)
+* `Mattermost version 5 <https://github.com/loafoe/hubot-matteruser>`_
+* `Rocket.Chat <https://github.com/RocketChat/hubot-rocketchat>`_
+* `Cisco Spark <https://github.com/tonybaloney/hubot-spark>`_
+
+Since
+`HipChat is being discontinued <https://www.atlassian.com/blog/announcements/new-atlassian-slack-partnership>`_,
+official support for the `HipChat adapter <https://github.com/hipchat/hubot-hipchat>`_ will end when
+HipChat reaches end-of-life (as of this writing, this is planned for June 30th, 2020), and it will be
+completely removed **without any deprecation period** from the st2chatops project once HipChat itself
+is terminated. Administrators of local HipChat servers should **already** be actively migrating to
+other chat providers.
+
+For help migrating between chat providers, please see the section on
+:ref:`specifying multiple extra keys for different providers <specifying-multiple-extra-keys-for-different-providers>`
+for some ideas on how to ease the transition between HipChat and another chat provider.
+
+Officially Unsupported Chat Providers
+=====================================
+
+We do not provide support for the following adapters, but they are still bundled in the
+st2chatops package, can be configured in ``st2chatops.env``, and still work (as far as we
+know).
+
+* `Flowdock <https://github.com/flowdock/hubot-flowdock>`_
+* `XMPP <https://github.com/markstory/hubot-xmpp>`_
+* `IRC <https://github.com/nandub/hubot-irc>`_
+
 Configuration
 =============
+
+.. note:: Microsoft Teams
+
+    Configuring st2chatops with Microsoft Teams is a more involved process. Please see
+    :doc:`our documentation <msteams>` specifically for that chat provider.
+    All other chat providers can be configured in ``st2chatops.env`` with the instructions
+    below.
 
 Package-based Install
 ~~~~~~~~~~~~~~~~~~~~~
