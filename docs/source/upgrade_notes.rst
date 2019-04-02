@@ -52,6 +52,15 @@ After:
 After you do that, you need to restart st2api service for changes to take affect- ``sudo st2ctl
 restart-service st2api``.
 
+If you get error similar to the one below after updating the config and restarting the services
+it means you don't have ``bwc-enterprise`` and / or ``st2-rbac-backend`` debian / rpm package
+installed.
+
+::
+
+  ValueError: "enterprise" RBAC backend is not available. Make sure "bwc-enterprise" and
+  "st2-rbac-backend" system packages are installed.
+
 .. _ref-upgrade-notes-v2-10:
 
 |st2| v2.10
