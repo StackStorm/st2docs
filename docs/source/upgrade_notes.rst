@@ -49,6 +49,9 @@ After:
     enable = True
     backend = enterprise
 
+After you do that, you need to restart st2api service for changes to take affect- ``sudo st2ctl
+restart-service st2api``.
+
 .. _ref-upgrade-notes-v2-10:
 
 |st2| v2.10
