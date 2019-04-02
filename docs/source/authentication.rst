@@ -204,7 +204,7 @@ The following is a sample auth section for the LDAP backend in the st2 config fi
     cert = /path/to/mycert.crt
     key = /path/to/mycert.key
     logging = /etc/st2/logging.auth.conf
-    api_url = https://myhost.example.com:9101/
+    api_url = http://myhost.example.com:9101/
     debug = False
 
 This will need customization for your environment - e.g. the LDAP server to bind to, and the ``cert`` and ``key`` paths if you are using SSL.
