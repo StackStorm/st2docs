@@ -22,7 +22,7 @@ available runner parameters.
 import os
 
 from st2common.runners import get_available_backends
-from st2common.runners import get_backend_instance
+from st2common.runners import get_backend_driver
 
 __all__ = [
     'main'
@@ -36,7 +36,7 @@ HEADER = '.. NOTE: This file has been generated automatically, don\'t manually e
 def main():
     runner_names = get_available_backends()
     for runner_name in runner_names:
-        runner_driver = get_backend_instance(runner_name)
+        runner_driver = get_backend_driver(runner_name)
         runner_metadata = runner_driver .get_metadata()
 
         if runner_metadata.get('experimental', False):
