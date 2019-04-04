@@ -318,8 +318,8 @@ follow as an attachment.
 
 ``{~}`` at the end of the string will display the whole message in plaintext.
 
-Passing Attachment API parameters (Slack-only)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Passing Attachment API parameters (Slack, Mattermost, and Rocketchat only)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Slack formats ChatOps output as attachments, and you can configure the API parameters in the
 ``result.extra.slack`` field.
@@ -366,8 +366,68 @@ dynamically:
         color: "{{execution.parameters.color}}"
   [...]
 
-Support for other chat providers is coming soon, and of course you are always welcome to
-contribute! See the example below for hacking on ``extra``.
+Mattermost and Rocketchat also support the Slack attachments API. However, you will need
+to use the ``mattermost`` and ``rocketchat`` keys of ``extra``:
+
+.. code-block:: yaml
+
+  [...]
+  formats:
+    - "say {{ phrase }} in {{ color }}"
+  result:
+    extra:
+      mattermost:
+        color: "{{execution.parameters.color}}"
+  [...]
+
+.. code-block:: yaml
+
+  formats:
+    - "say {{ phrase }} in {{ color }}"
+  result:
+    extra:
+      rocketchat:
+        color: "{{execution.parameters.color}}"
+  [...]
+
+.. _specifying-multiple-extra-keys-for-different-providers:
+
+Specifying Multiple ``extra`` Keys For Different Providers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+And you absolutely can specify more than one chat provider in a single alias by using
+more than one key in ``extra``. This can be useful if you might switch chat providers
+in the future, or if you are trying to prototype an alias to (for instance) compare and
+contrast chat providers (although we can tell you that, right now, Slack definitely has
+the best integration with st2chatops).
+
+.. code-block:: yaml
+
+  [...]
+  formats:
+    - "say {{ phrase }} in {{ color }}"
+  result:
+    extra:
+      slack:
+        image_url: "http://i.imgur.com/Gb9kAYK.jpg"
+        fields:
+          - title: Kitten headcount
+            value: Eight.
+            short: true
+          - title: Number of boxes
+            value: A bunch.
+            short: true
+        color: "#00AA00"
+      mattermost:
+        color: "{{execution.parameters.color}}"
+      rocketchat:
+        color: "{{execution.parameters.color}}"
+  [...]
+
+Other chat providers also support ``extra``. See the :ref:`example below <extra-hacking>` for
+hacking on ``extra``. You may also need to dig into the
+`source code <https://github.com/StackStorm/hubot-stackstorm/tree/master/lib>`_ for
+individual adapters to see how to use ``extra`` for your chat provider.
 
 Testing and extending alias parameters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -378,6 +438,8 @@ on ``hubot-stackstorm`` without having to modify StackStorm source code.
 
 For example, you might want to introduce an ``audit`` parameter that would make Hubot log
 executions of certain aliases into a separate file. You would define it in your aliases like this:
+
+.. _extra-hacking:
 
 .. code-block:: yaml
 
