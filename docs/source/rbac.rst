@@ -241,6 +241,7 @@ enabled by default. To enable it, add this section to ``/etc/st2/st2.conf``:
 
    [rbac]
    enable = True
+   backend = enterprise
 
 Run ``sudo st2ctl restart-component st2api`` to apply that change.
 
