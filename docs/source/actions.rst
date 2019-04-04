@@ -213,7 +213,7 @@ Stackstorm supports modeling the output of an action or runner via the ``output_
 in the action definition. This will allow action developers to create explicit, typed, outputs
 for their actions to aid in workflow development and error handling.
 
-For example, you have a python action that returns three keys: ``errors``, and ``output``, and
+For example, you have a python action that returns three keys: ``errors``, ``output``, and
 ``status_code``. ``error`` should be a list of strings, ``output`` should be a list of floats, and
 ``status_code`` should be an integer. You can define the schema as follows:
 
@@ -222,16 +222,16 @@ For example, you have a python action that returns three keys: ``errors``, and `
     ---
     ...
     output_schema:
-       errors:
-       type: array
-       items:
-          type: string
+        errors:
+           type: array
+           items:
+               type: string
        output:
-       type: array
-       items:
-          type: number
+           type: array
+           items:
+               type: number
        status_code:
-       type: integer
+           type: integer
 
 If the action output does not return the correct fields it will fail validation and the action
 itself will fail. This prevents propagating corrupt data to other actions in a workflow, which
