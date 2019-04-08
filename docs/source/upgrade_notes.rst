@@ -34,32 +34,39 @@ Upgrade Notes
 * If you are using |EWC| with RBAC you need to update your ``/etc/st2/st2.conf`` config file for RBAC
   to work after the upgrade.
 
-Before:
+  Before:
 
-  .. code-block:: bash
+    .. code-block:: bash
 
-    [rbac]
-    enable = True
+      [rbac]
+      enable = True
 
-After:
+  After:
 
-  .. code-block:: bash
+    .. code-block:: bash
 
-    [rbac]
-    enable = True
-    backend = enterprise
+      [rbac]
+      enable = True
+      backend = enterprise
 
-After you do that, you need to restart st2api service for changes to take affect- ``sudo st2ctl
-restart-service st2api``.
+  After you do that, you need to restart st2api service for changes to take affect- ``sudo st2ctl
+  restart-service st2api``.
 
-If you get error similar to the one below after updating the config and restarting the services
-it means you don't have ``bwc-enterprise`` and / or ``st2-rbac-backend`` debian / rpm package
-installed.
+  If you get error similar to the one below after updating the config and restarting the services
+  it means you don't have ``bwc-enterprise`` and / or ``st2-rbac-backend`` debian / rpm package
+  installed.
 
-::
+  ::
 
-  ValueError: "enterprise" RBAC backend is not available. Make sure "bwc-enterprise" and
-  "st2-rbac-backend" system packages are installed.
+    ValueError: "enterprise" RBAC backend is not available. Make sure "bwc-enterprise" and
+    "st2-rbac-backend" system packages are installed.
+* In this release remote command and shell script runner has been fixed so new line characters
+  produced by the commands and scripts which use sudo are not automatically converted from ``\n``
+  to ``\r\n``.
+
+  In the past, if you had an action which output ``hello\nworld`` to stdout, ``stdout`` attribute
+  in execution result field would contain ``hello\r\nworld``, but now it will correctly contain
+  ``hello\nworld```.
 
 .. _ref-upgrade-notes-v2-10:
 
