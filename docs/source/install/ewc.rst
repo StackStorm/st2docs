@@ -40,7 +40,6 @@ replacing ``${EWC_LICENSE_KEY}`` with the license key you received when register
     curl -s https://${EWC_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.deb.sh | sudo bash
     # Install Extreme Workflow Composer
     sudo apt-get install -y bwc-enterprise
-    sudo st2ctl restart
 
 * On RedHat/CentOS systems:
 
@@ -50,9 +49,8 @@ replacing ``${EWC_LICENSE_KEY}`` with the license key you received when register
     curl -s https://${EWC_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.rpm.sh | sudo bash
     # Install Extreme Workflow Composer
     sudo yum install -y bwc-enterprise
-    sudo st2ctl restart
 
-  .. note::
+.. note::
 
     After installing the package and configuring st2.conf you need to restart ``st2api`` and
     ``st2auth`` service for RBAC and LDAP backend changes (if configured) to take an effect -
