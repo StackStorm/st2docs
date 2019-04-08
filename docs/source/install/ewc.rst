@@ -15,6 +15,7 @@ to learn more.
 
 Quick Evaluation
 ----------------
+
 To install |ewc| for a quick evaluation, run the commands below on a clean 64-bit Linux box that
 meets the :doc:`/install/system_requirements`. Replace ``${EWC_LICENSE_KEY}`` with the key you
 received when registering for evaluation or purchasing EWC.
@@ -26,6 +27,7 @@ received when registering for evaluation or purchasing EWC.
 
 Upgrading from Community
 ------------------------
+
 Already have a working StackStorm system, and want to add |ewc|? No problem! No need to install a
 new system. You can install |ewc| on top of your existing system. Just run these commands, again
 replacing ``${EWC_LICENSE_KEY}`` with the license key you received when registering:
@@ -48,6 +50,10 @@ replacing ``${EWC_LICENSE_KEY}`` with the license key you received when register
     curl -s https://${EWC_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.rpm.sh | sudo bash
     # Install Extreme Workflow Composer
     sudo yum install -y bwc-enterprise
+
+After installing the package and configuring st2.conf you need to restart
+``st2api`` and ``st2auth`` service for RBAC and LDAP backend (if configured) changes to
+take an effect - ``sudo st2ctl restart``.
 
 To understand the full details of the installation procedure, or to install |ewc| manually, follow
 the installation guide for your Linux version: :doc:`/install/deb`, :doc:`/install/rhel7`, or
