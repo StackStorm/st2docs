@@ -66,7 +66,7 @@ Upgrade Notes
 
   In the past, if you had an action which output ``hello\nworld`` to stdout, ``stdout`` attribute
   in execution result field would contain ``hello\r\nworld``, but now it will correctly contain
-  ``hello\nworld```.
+  ``hello\nworld``.
 
 .. _ref-upgrade-notes-v2-10:
 
