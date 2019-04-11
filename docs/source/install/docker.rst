@@ -3,8 +3,8 @@ Docker
 
 Like `Docker <https://www.docker.com>`_? And `Kubernetes <https://kubernetes.io>`_? So do we! 
 
-One of the quickest ways to get |st2| running is using Docker. This page will show you the basics
-of how to use |st2| with Docker. 
+One of the quickest ways to get StackStorm running is using Docker. This page will show you the basics
+of how to use StackStorm with Docker. 
 
 For more detailed information and examples, check out the `README
 <https://github.com/StackStorm/st2-docker/blob/master/README.md>`_ at our `st2-docker GitHub repo
@@ -30,9 +30,15 @@ Docker Images
 The ``stackstorm/stackstorm`` image comes pre-installed with the ``st2``, ``st2web``,
 ``st2mistral`` and ``st2chatops`` packages.
 
+.. note::
+
+    This docker image only supports the open source version of StackStorm. Please contact
+    enterprise support if you want more info on running Extreme Workflow Composer (EWC)
+    in container.
+
 We use version tags, so if you install the image ``stackstorm/stackstorm:2.3.2``, then it has the
-|st2| 2.3.2 release packages. Similarly, if you install image ``stackstorm/stackstorm:2.2.1``,
-then it has the |st2| 2.2.1 release packages. The ``stackstorm/stackstorm:latest`` image simply
+StackStorm 2.3.2 release packages. Similarly, if you install image ``stackstorm/stackstorm:2.2.1``,
+then it has the StackStorm 2.2.1 release packages. The ``stackstorm/stackstorm:latest`` image simply
 references the image with the highest version number. Don't worry, this will still be a stable GA
 release, not a nightly build.
 
@@ -68,9 +74,9 @@ Below is the complete list of available options that can be used to customize yo
 +---------------------------+-------------------------------------------------------------------------------------------------------------+
 |         Parameter         |       Description                                                                                           |
 +===========================+=============================================================================================================+
-| ``ST2_USER``              | |st2| account username                                                                                      |
+| ``ST2_USER``              | StackStorm account username                                                                                      |
 +---------------------------+-------------------------------------------------------------------------------------------------------------+
-| ``ST2_PASSWORD``          | |st2| account password                                                                                      |
+| ``ST2_PASSWORD``          | StackStorm account password                                                                                      |
 +---------------------------+-------------------------------------------------------------------------------------------------------------+
 | ``MONGO_HOST``            | MongoDB server hostname                                                                                     |
 +---------------------------+-------------------------------------------------------------------------------------------------------------+

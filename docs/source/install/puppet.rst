@@ -1,15 +1,21 @@
 Puppet Module
 =============
 
-If you're ready to take complete control of your |st2| instances, then the ``stackstorm-st2``
+If you're ready to take complete control of your StackStorm instances, then the ``stackstorm-st2``
 Puppet module is for you! It offers repeatable, configurable, and idempotent
-production-friendly |st2| installations.
+production-friendly StackStorm installations.
 
 The ``stackstorm-st2`` Puppet module is available on Puppet Forge:
 `stackstorm-st2 <https://forge.puppet.com/stackstorm/st2>`_
 
 Source code for the module is available as a GitHub repo:
 `StackStorm/puppet-st2 <https://github.com/stackstorm/puppet-st2/>`_
+
+.. note::
+
+    This puppet module only supports the open source version of StackStorm. Please contact
+    enterprise support if you want more info on using puppet module to install
+    Extreme Workflow Composer (EWC).
 
 .. contents:: Contents
    :local:
@@ -40,7 +46,7 @@ The first step is installing Puppet, for this please consult the
 
 To get started with a single node deployment, and default configuration settings,
 we're going to install the ``stackstorm-st2`` module and its dependencies, then
-tell Puppet to perform a full install of |st2|. In order to accomplish this,
+tell Puppet to perform a full install of StackStorm. In order to accomplish this,
 run the following commands as ``root``:
 
 .. code-block:: bash
@@ -50,46 +56,46 @@ run the following commands as ``root``:
 
 .. note::
 
-    The default |st2| login credentials according to https://github.com/StackStorm/puppet-st2/blob/master/manifests/params.pp are: ``st2admin:Ch@ngeMe``. Don't forget to change them.
+    The default StackStorm login credentials according to https://github.com/StackStorm/puppet-st2/blob/master/manifests/params.pp are: ``st2admin:Ch@ngeMe``. Don't forget to change them.
 
 
 Classes
 -------
 
-``::st2::profile::fullinstall`` is the quick and easy way to get |st2| up
+``::st2::profile::fullinstall`` is the quick and easy way to get StackStorm up
 and running. The ``stackstorm-st2`` module provides numerous additional classes
-in order to configure |st2| just the way you like it. Below is a list of
+in order to configure StackStorm just the way you like it. Below is a list of
 classes available for configuration:
 
 
-- ``::st2`` - The main configuration point for the |st2| installation.
-- ``::st2::profile::client`` - Profile to install all client libraries for |st2|
-- ``::st2::profile::fullinstall`` - Full installation of |st2| and dependencies
+- ``::st2`` - The main configuration point for the StackStorm installation.
+- ``::st2::profile::client`` - Profile to install all client libraries for StackStorm
+- ``::st2::profile::fullinstall`` - Full installation of StackStorm and dependencies
 - ``::st2::profile::mistral`` - Install of OpenStack Mistral
-- ``::st2::profile::mongodb`` - |st2| configured MongoDB installation
-- ``::st2::profile::nodejs`` - |st2| configured NodeJS installation
-- ``::st2::profile::python`` - Python installed and configured for |st2|
-- ``::st2::profile::rabbitmq`` - |st2| configured RabbitMQ installation
-- ``::st2::proflle::server`` - |st2| server components
-- ``::st2::profile::web`` - |st2| WebUI components
-- ``::st2::profile::chatops`` - |st2| chatops components
+- ``::st2::profile::mongodb`` - StackStorm configured MongoDB installation
+- ``::st2::profile::nodejs`` - StackStorm configured NodeJS installation
+- ``::st2::profile::python`` - Python installed and configured for StackStorm
+- ``::st2::profile::rabbitmq`` - StackStorm configured RabbitMQ installation
+- ``::st2::proflle::server`` - StackStorm server components
+- ``::st2::profile::web`` - StackStorm WebUI components
+- ``::st2::profile::chatops`` - StackStorm chatops components
 
 
 Resource Types
 --------------
 
 Along with the configuration classes, there are a number of defined resources
-provided that allow installation and configuration of |st2|'s components.
+provided that allow installation and configuration of StackStorm's components.
 
 - ``::st2::auth_user`` - Configures a user (and password) in ``flat_file`` auth
-- ``::st2::kv`` - Defines a key/value pair in the |st2| datastore
-- ``::st2::pack`` - Installs and configures a |st2| pack
+- ``::st2::kv`` - Defines a key/value pair in the StackStorm datastore
+- ``::st2::pack`` - Installs and configures a StackStorm pack
 - ``::st2::user`` - Configures a system-level (linux) user and SSH keys
 
 Installing and Configuring Packs
 --------------------------------
 
-|st2| packs can be installed and configured directly from Puppet. This can
+StackStorm packs can be installed and configured directly from Puppet. This can
 be done via the ``::st2::pack`` and ``st2::pack::config`` defined types.
 
 Installation/Configuration via Manifest:
@@ -132,9 +138,9 @@ Installation/Configuration via Hiera:
 Configuring Authentication
 --------------------------
 
-|st2| uses a pluggable authentication system where authentication is delegated to an
+StackStorm uses a pluggable authentication system where authentication is delegated to an
 external service called a "backend". The ``st2auth`` service can be configured
-to use various backends. Note only one is active at any one time. For more information on |st2|
+to use various backends. Note only one is active at any one time. For more information on StackStorm
 authentication see the :doc:`authentication documentation </authentication>`.
 
 The following backends are currently available:
@@ -208,7 +214,7 @@ Configuration via Hiera:
 Configuring ChatOps
 -------------------
 
-``stackstorm-st2`` can manage the ChatOps configuration of your |st2|
+``stackstorm-st2`` can manage the ChatOps configuration of your StackStorm
 installation. We provide support for configuring all Hubot settings, installing
 custom ChatOps adapters, and configuring all adapter settings.
 
@@ -278,7 +284,7 @@ Configuring Key/Value pairs
 ---------------------------
 
 The puppet type ``::st2::kv`` can manage key/value pairs in the
-|st2| :doc:`datastore </datastore>`:
+StackStorm :doc:`datastore </datastore>`:
 
 Configuring via Manifests:
 
