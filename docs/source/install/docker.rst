@@ -33,8 +33,8 @@ The ``stackstorm/stackstorm`` image comes pre-installed with the ``st2``, ``st2w
 .. note::
 
     This docker image only supports the open source version of StackStorm. Please contact
-    enterprise support if you want more info on running Extreme Workflow Composer (EWC)
-    in container.
+    `enterprise support <https://www.extremenetworks.com/support/contact/>`_ if you want more
+    info on running Extreme Workflow Composer (EWC) in container.
 
 We use version tags, so if you install the image ``stackstorm/stackstorm:2.3.2``, then it has the
 StackStorm 2.3.2 release packages. Similarly, if you install image ``stackstorm/stackstorm:2.2.1``,

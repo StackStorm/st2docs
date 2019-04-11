@@ -58,9 +58,9 @@ page. It might be especially helpful for the isolated from the internet air-gapp
 
 .. note::
 
-    At the moment only Virtualbox provider is supported. Please contact enterpise support if
-    you want more info on OVA image for Extreme Workflow Composer (EWC) and VMWare-compatible
-    virtual appliance.
+    At the moment only Virtualbox provider is supported. Please contact 
+    `enterprise support <https://www.extremenetworks.com/support/contact/>`_ if you want more
+    info on OVA image for Extreme Workflow Composer (EWC) and VMWare-compatible virtual appliance.
 
 
 Tips & Tricks

@@ -14,8 +14,8 @@ Source code for the module is available as a GitHub repo:
 .. note::
 
     This puppet module only supports the open source version of StackStorm. Please contact
-    enterprise support if you want more info on using puppet module to install
-    Extreme Workflow Composer (EWC).
+    `enterprise support <https://www.extremenetworks.com/support/contact/>`_ if you want more
+    info on using puppet module to install Extreme Workflow Composer (EWC).
 
 .. contents:: Contents
    :local:
