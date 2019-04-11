@@ -224,6 +224,7 @@ Upgrade to |ewc|
   curl -s https://${EWC_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.deb.sh | sudo bash
   # Install Extreme Workflow Composer
   sudo apt-get install -y bwc-enterprise
+  sudo st2ctl restart
 
 .. rubric:: What's Next?
 

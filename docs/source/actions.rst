@@ -205,6 +205,52 @@ In the example above, the ``to_number`` parameter contains the attribute ``secre
 ``true``. If an attribute is marked as a secret, the value of that attribute will be masked in the
 |st2| service logs.
 
+
+Output Schema
+~~~~~~~~~~~~~
+
+|st2| supports modeling the output of an action or runner via the ``output_schema`` key
+in the action definition. Action developers can create explicit, typed outputs for their actions.
+This aids in workflow development and error handling.
+
+For example, you have a python action that returns three keys: ``errors``, ``output``, and
+``status_code``. ``error`` should be a list of strings, ``output`` should be a list of floats, and
+``status_code`` should be an integer. ``errors`` is optional, whilst the others must be returned.
+You can define the schema as follows:
+
+.. code-block:: yaml
+
+    ---
+    ...
+    output_schema:
+        errors:
+           type: array
+           items:
+               type: string
+       output:
+           required: true
+           type: array
+           items:
+               type: number
+       status_code:
+           required: true
+           type: integer
+
+If the action output does not return the correct fields it will fail validation and the action
+itself will fail. This prevents propagating corrupt data to other actions in a workflow, which
+could lead to unpredictable results. In future this information will be used for pre-run workflow
+validation.
+
+Output schema validation is disabled by default in current versions of |st2|. To enable it, set
+``validate_output_schema = True`` under ``[system]`` in ``/etc/st2/st2.conf``. 
+
+If an action does not define any output schema, no enforcement is done. This allows you to
+progressively update your actions, rather than doing them all at once.
+
+As with all other input and output schema definitions in Stackstorm, we leverage
+JSONschema to define ``output_schema``.
+
+
 Parameters in Actions
 ~~~~~~~~~~~~~~~~~~~~~
 
