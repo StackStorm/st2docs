@@ -113,6 +113,8 @@ ewcdocs: .clone-st2 .clone-orquesta .clone-ipfabric requirements .requirements-s
 	@echo "=========================================================="
 	@echo
 	cp -R ipfabric/docs/source/* docs/source/
+	rm docs/source/_includes/community_only_installs_overview.rst
+	touch docs/source/_includes/community_only_installs_overview.rst
 	rm docs/source/install/docker.rst
 	rm docs/source/install/puppet.rst
 
