@@ -109,20 +109,27 @@ ewcdocs: .clone-st2 .clone-orquesta .clone-ipfabric requirements .requirements-s
 .patch-solutions:
 	@echo
 	@echo "=========================================================="
-	@echo "                     PATCHING BWC DOCS"
+	@echo "                     PATCHING EWC DOCS"
 	@echo "=========================================================="
 	@echo
 	cp -R ipfabric/docs/source/* docs/source/
+	rm docs/source/install/docker.rst
+	rm docs/source/install/puppet.rst
+	rm docs/source/install/vagrant.rst
 
 .PHONY: .git-checkout-local-changes
 .git-checkout-local-changes:
 	@echo
 	@echo "=========================================================="
-	@echo "                     UNPATCHING BWC DOCS"
+	@echo "                     UNPATCHING EWC DOCS"
 	@echo "=========================================================="
 	@echo
 	git checkout docs/source/info.py
 	git checkout docs/source/_includes/solutions.rst
+	git checkout docs/source/_includes/community_only_installs_toctree.rst
+	git checkout docs/source/install/docker.rst
+	git checkout docs/source/install/puppet.rst
+	git checkout docs/source/install/vagrant.rst
 
 .PHONY: bwclivedocs
 bwclivedocs: ewcdocs .livedocs
