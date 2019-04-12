@@ -29,10 +29,6 @@ be automatically added when you install |st2|.
 | `CentOS 6 <http://mirror.centos.org/centos/6/isos/x86_64/>`_                                          |                                                                              |                                                                                                                                                                   |
 +-------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-Alternatively, you can use the |st2| Docker image. You will need at least version 1.13.0 of Docker
-engine, and optionally ``docker-compose``. See our :doc:`Docker <docker>` guide for more
-information.
-
 This is the recommended minimum sizing for testing and deploying |st2|:
 
 +--------------------------------------+-----------------------------------+
