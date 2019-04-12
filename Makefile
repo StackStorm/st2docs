@@ -125,6 +125,7 @@ ewcdocs: .clone-st2 .clone-orquesta .clone-ipfabric requirements .requirements-s
 	@echo
 	git checkout docs/source/info.py
 	git checkout docs/source/_includes/solutions.rst
+	git checkout docs/source/_includes/community_only_installs_overview.rst
 	git checkout docs/source/_includes/community_only_installs_toctree.rst
 	git checkout docs/source/install/docker.rst
 	git checkout docs/source/install/puppet.rst
