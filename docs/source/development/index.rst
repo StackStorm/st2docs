@@ -217,3 +217,4 @@ code.
     Code Structure <code_structure>
     testing
     Pack Testing <pack_testing>
+    Vagrant Development Environment </install/vagrant>
