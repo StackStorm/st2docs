@@ -26,7 +26,7 @@ Here's an overview of the options:
 
 .. only:: community
 
-  .. include:: /_includes/other_installs_overview.rst
+  .. include:: /_includes/community_only_installs_overview.rst
 
 
 Choose the option that best suits your needs.
@@ -90,7 +90,7 @@ For more details on reference deployments, or OS-specific installation instructi
     Kubernetes / HA <k8s_ha>
     Ansible Playbooks <ansible>
 
-.. include:: /_includes/other_installs.rst
+.. include:: /_includes/community_only_installs_toctree.rst
 
 .. toctree::
     :maxdepth: 1
