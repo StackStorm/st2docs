@@ -115,7 +115,6 @@ ewcdocs: .clone-st2 .clone-orquesta .clone-ipfabric requirements .requirements-s
 	cp -R ipfabric/docs/source/* docs/source/
 	rm docs/source/install/docker.rst
 	rm docs/source/install/puppet.rst
-	rm docs/source/install/vagrant.rst
 
 .PHONY: .git-checkout-local-changes
 .git-checkout-local-changes:
@@ -129,7 +128,6 @@ ewcdocs: .clone-st2 .clone-orquesta .clone-ipfabric requirements .requirements-s
 	git checkout docs/source/_includes/community_only_installs_toctree.rst
 	git checkout docs/source/install/docker.rst
 	git checkout docs/source/install/puppet.rst
-	git checkout docs/source/install/vagrant.rst
 
 .PHONY: bwclivedocs
 bwclivedocs: ewcdocs .livedocs
