@@ -6,12 +6,6 @@ It's already pre-installed, configured and tested virtual machine image and so s
 time-consuming installation and configuration steps. Perfect for a quick platform overview,
 testing, demo or even using StackStorm in isolated from the internet air-gapped systems.
 
-.. note::
-
-    The virtual machine image only supports the open source version of StackStorm. Please contact
-    `StackStorm Support <support@stackstorm.com>`_ and let us know if you are interested in an
-    Extreme Workflow Composer (EWC) image or VMWare-compatible virtual appliance.
-
 We highly recommend using a Vagrant box to get familiar with the StackStorm platform.
 
 .. contents:: Contents
@@ -61,6 +55,11 @@ page. It might be especially helpful for the isolated from the internet air-gapp
     If using OVA in production environment, don't forget to change the default credentials
     and delete SSH authorized keys for ``vagrant`` linux user.
 
+.. note::
+
+    At the moment only Virtualbox provider is supported in Open Source version. Please contact
+    `StackStorm Support <support@stackstorm.com>`_ and let us know if you are interested in an
+    Extreme Workflow Composer (EWC) image or VMWare-compatible virtual appliance.
 
 Tips & Tricks
 -------------
