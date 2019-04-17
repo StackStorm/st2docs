@@ -1,12 +1,12 @@
 Vagrant & Virtual Appliance
 ============================
-Vagrant / OVA is a quick and easy way to try |st2| in a VM.
+Vagrant / OVA is a quick and easy way to try StackStorm in a VM.
 
 It's already pre-installed, configured and tested virtual machine image and so saves time avoiding
 time-consuming installation and configuration steps. Perfect for a quick platform overview,
-testing, demo or even using |st2| in isolated from the internet air-gapped systems.
+testing, demo or even using StackStorm in isolated from the internet air-gapped systems.
 
-We highly recommend using a Vagrant box to get familiar with the |st2| platform.
+We highly recommend using a Vagrant box to get familiar with the StackStorm platform.
 
 .. contents:: Contents
    :local:
@@ -23,7 +23,7 @@ when it's used. If you're not familiar with Vagrant, we recommend looking at `In
 
 Vagrant Quick Start
 -------------------
-Starting a |st2| Vagrant VM is easy:
+Starting a StackStorm Vagrant VM is easy:
 
 .. code-block:: bash
 
@@ -31,7 +31,7 @@ Starting a |st2| Vagrant VM is easy:
   vagrant up
   vagrant ssh
 
-This will boot up a fresh |st2| installation along with the Mistral workflow engine on Ubuntu 16.04 LTS.
+This will boot up a fresh StackStorm installation along with the Mistral workflow engine on Ubuntu 16.04 LTS.
 You can access Web UI at ``https://10.10.10.10/`` or SSH to the box ``vagrant ssh`` if you prefer st2 CLI.
 
 Virtual Appliance / OVA
@@ -55,11 +55,11 @@ page. It might be especially helpful for the isolated from the internet air-gapp
     If using OVA in production environment, don't forget to change the default credentials
     and delete SSH authorized keys for ``vagrant`` linux user.
 
+.. note::
 
-At the moment only Virtualbox provider is supported. VMWare-compatible virtual appliance is
-available with `StackStorm Enterprise (EWC) <https://stackstorm.com/features/#ewc>`_ image.
-Ask `StackStorm Support <support@stackstorm.com>`_ for more info.
-
+    At the moment only Virtualbox provider is supported in Open Source version. Please contact
+    `StackStorm Support <support@stackstorm.com>`_ and let us know if you are interested in an
+    Extreme Workflow Composer (EWC) image or VMWare-compatible virtual appliance.
 
 Tips & Tricks
 -------------
@@ -77,7 +77,7 @@ To update the box:
 
 Pinning the Vagrant box version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Whether you want to pin |st2|, it's possible to use specific box version.
+Whether you want to pin StackStorm, it's possible to use specific box version.
 While adding the box for the first time:
 
 .. code-block:: bash
@@ -100,10 +100,10 @@ Debugging
 ---------
 st2-integration-tests
 ~~~~~~~~~~~~~~~~~~~~~
-Sometimes |st2| does not run properly for some reason.
+Sometimes StackStorm does not run properly for some reason.
 
 Discovering why at a infra level is the responsibility of ``st2-integration-tests`` which will
-perform |st2| infrastructure/integration tests and report back with more detailed info.
+perform StackStorm infrastructure/integration tests and report back with more detailed info.
 This can save time for both you & community to avoid extensive troubleshooting steps.
 
 If something went wrong, - just run ``st2-integration-tests``
