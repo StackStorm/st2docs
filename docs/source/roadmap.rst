@@ -11,31 +11,32 @@ contributions. Here's our plans for the next two releases.
     will be on a when-and-if available basis. Actual feature development and timing of releases
     will be at the sole discretion of the development team. This roadmap does not create a
     commitment to deliver a specific feature. Contents are subject to change without notice.
+    
+    If there's something you really need, remember: this is Open Source. Write and contribute
+    the feature. Pull Requests are open to anyone.
 
-
-3.0
----
-
-* **Orquesta GA:** GA release of "Orquesta" workflow engine.
-* **Workflow Designer v2:** Complete overhaul of Workflow Designer for easier creation
-  and editing of workflows via a Web UI. Include Orquesta workflow editing and creation.
-* **ChatOps:** Microsoft Teams.
-* **Ubuntu 18.04:** Support Ubuntu 18.04 LTS, with Python 3.6.
 
 3.1
 ---
 
+* **Ubuntu:** GA Support Ubuntu 18.04, with Python 3.6
+* **MongoDB:** Support MongoDB 4.0 (required for Ubuntu 18.04).
+* **Ubuntu:** Drop Ubuntu 14.04 support.
+* **ChatOps:** Microsoft Teams GA.
+* **Core:** Support latest ``pip`` and ``requests()``.
+
+3.2
+---
+
 * **Orquesta:** Workflow runtime graph.
-* **RHEL 8.x:** Support RHEL 8.x (assuming it has been released!)
-* **Ubuntu 14.04:** Drop support for EoL Ubuntu 14.04.
+* **RHEL/CentOS:** Support RHEL 8.x (assuming it has been released!)
+* **RHEL/CentOS:** Drop support for RHEL/CentOS 6.x.
 * **WebUI:** Datastore viewer/editor.
 * **ChatOps:** RBAC.
 * **SAML:** Support SAML authentication.
 * **Job Scheduling:** Job scheduling for ad-hoc jobs.
 
 Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
-
-See something you really like? Make sure to get involved with testing and PR feedback. 
 
 Backlog
 -------
@@ -64,6 +65,15 @@ Submit a PR!
 
 Release History
 ---------------
+
+.. rubric:: Done in v3.0
+
+* **Orquesta GA:** GA release of "Orquesta" workflow engine.
+* **Workflow Designer v2:** Complete overhaul of Workflow Designer for easier creation
+  and editing of workflows via a Web UI. Includes Orquesta workflow editing and creation.
+* **ChatOps:** Microsoft Teams Beta.
+* **Python3:** All Exchange packs updated for Python3 CI/CD.
+* **Legacy Runners:** Remove legacy CloudSlang and Winexe runners.
 
 .. rubric:: Done in v2.10
 
