@@ -174,6 +174,9 @@ the ChatOps command from the client and ``user`` is the |st2| user configured in
 If you are attempting to access this information from inside an ActionChain, you will need to
 reference the variables through the parent, e.g. ``action_context.parent.api_user``
 
+If you are attempting to access this from inside an Orquesta workflow, you will need to reference the
+``st2()`` context, e.g. ``<% ctx(st2).source_channel %>``.
+
 Multiple Formats in a Single Alias
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
