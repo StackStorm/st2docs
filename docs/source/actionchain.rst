@@ -9,12 +9,12 @@ Data can be passed between actions, and results are published for each action.
 
 From the perspective of |st2|, an ActionChain is itself an action. So it has the same operations
 and features, such as definition, registration, execution from CLI, usage from Rules, etc. An
-ActionChain can also be called as an Action from another ActionChain, or from a Mistral workflow.
+ActionChain can also be called as an Action from another ActionChain, or from an Orquesta workflow.
 
 .. note::
 
    If you need more complex workflow logic, such as forks, joins, retries, delays and policies
-   for error handling, use :doc:`Mistral <mistral>` instead.
+   for error handling, use :doc:`Orquesta <orquesta/index>` instead.
 
 Creating an ActionChain
 -----------------------
@@ -251,7 +251,7 @@ Published variables are saved in the execution context on pause and restored on 
    In this version, the published variables are stored unencrypted in the execution context.
 
 The ``pause`` and ``resume`` operation will cascade down to subworkflows, whether it's another |st2|
-action that is a Mistral workflow or ActionChain. If the ``pause`` operation is performed from a
+action that is an Orquesta workflow or ActionChain. If the ``pause`` operation is performed from a
 subworkflow or subchain, then the ``pause`` will cascade up to the parent workflow or parent chain.
 However, if the ``resume`` operation is performed from a subworkflow or subchain, the ``resume``
 will not cascade up to the parent workflow or parent chain. This allows users to resume and

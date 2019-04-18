@@ -10,38 +10,39 @@ provides reliability and transparency to the execution.
 Just like any actions, workflows are exposed in the automation library, and can be called
 manually, or triggered by rules. Workflows can even be called from other workflows.
 
-To create a workflow action, choose a workflow runner (Mistral or ActionChain), connect the
-actions in a workflow definition, and provide the usual action meta data.
+To create a workflow action, choose a workflow runner, connect the actions in a workflow definition,
+and provide the usual action meta data.
 
-|st2| supports two types of workflows - :doc:`ActionChain <actionchain>` and 
-:doc:`Mistral <mistral>`.
+|st2| supports three types of workflows - :doc:`Orquesta <orquesta/index>`, :doc:`ActionChain <actionchain>`
+and :doc:`Mistral <mistral>`.
 
-* :doc:`ActionChain <actionchain>` is |st2|'s internal no-frills workflow runner. It provides a
+* :doc:`Orquesta <orquesta/index>` is a new workflow engine, designed specifically for |st2|, released
+  in 2019. With Orquesta, you can define simple sequential workflows or complex workflows with forks, joins,
+  and sophisticated data transformation and queries. It will replace both ActionChains and Mistral. We 
+  recommend you write all new workflows in Orquesta.
+
+  **Use Orquesta for all new workflows.** 
+
+* :doc:`ActionChain <actionchain>` is |st2|'s legacy internal no-frills workflow runner. It provides a
   simple syntax to define a chain of actions, runs them one after another, passing data from one
-  action to another until it succeeds or fails. 
+  action to another until it succeeds or fails. It does not provide any complex workflow handling.
 
-  **Use ActionChain when you want speed and simplicity.**
+  **Use ActionChain for simple legacy workflows.**
 
 * :doc:`Mistral <mistral>` is a dedicated workflow service, originated in OpenStack, integrated
   and bundled with |st2|. With Mistral, you can define complex workflow logic with nested
-  workflows, forks, joins, and policies for error handling, retries, and delays.
+  workflows, forks, joins, and policies for error handling, retries, and delays. This is maintained
+  for legacy reasons, but we recommend all new workflows are written in Orquesta.
 
-  **Use Mistral when you need power and resilience.**
-
-* :doc:`Orquesta <orquesta/index>` is a new workflow engine, designed specifically for |st2|. It
-  is currently in public beta. In future this will replace both Action Chain and Mistral. With
-  Orquesta, you can define simple sequential workflows or complex workflows with forks, joins,
-  and sophisticated data transformation and queries.
-
-  **Use Orquesta to test-drive the future of workflows.** 
+  **Use Mistral for legacy complex workflows.**
 
 Learn how to define and run workflows:
 
 .. toctree::
     :maxdepth: 1
 
+    Orquesta <orquesta/index>
     actionchain
     mistral
     mistral_yaql
     mistral_jinja
-    Orquesta <orquesta/index>

@@ -1,6 +1,11 @@
 Mistral
 =======
 
+.. note::
+
+    Our new workflow engine :doc:`Orquesta <orquesta/index>` is now GA. We recommend writing all new
+    workflows in Orquesta. Mistral is still supported, but will be removed in a future release.
+
 `Mistral <https://docs.openstack.org/mistral/latest/overview.html>`_ is an OpenStack project that
 manages and executes workflows as a service. Mistral is automatically installed as a separate
 service named "mistral" along with |st2|. A Mistral workflow can be defined as a |st2| action in a
