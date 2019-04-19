@@ -555,6 +555,5 @@ parameter for the ``core.ask`` action, like in the following Orquesta workflow:
 
 Once this option has been enabled, and the ``st2garbagecollector`` service is started, it will
 begin periodically looking for Inquiries that have been in a ``pending`` state beyond their
-configured ``ttl``. If we didn't respond to the above inquiry within 60 minutes, then ``task``
-would be marked "timeout", and the workflow would fail (since ``task2`` is listed under
-``on-success``).
+configured ``ttl``. If we didn't respond to the above inquiry within 60 minutes, then ``get_approval``
+would be marked "timeout", and the workflow would go the ``stop`` task.
