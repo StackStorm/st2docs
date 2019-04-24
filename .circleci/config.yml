@@ -30,7 +30,7 @@ jobs:
             - ~/.cache/pip
   ewcdocs:
     docker:
-      - image: circleci/python:2.7
+      - image: circleci/python:3.6
     steps:
       - checkout
       - run:
