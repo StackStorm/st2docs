@@ -3,7 +3,7 @@ version: 2
 jobs:
   st2docs:
     docker:
-      - image: circleci/python:2.7
+      - image: circleci/python:3.6
     steps:
       - checkout
       - run:

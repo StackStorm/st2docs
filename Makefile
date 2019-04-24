@@ -14,7 +14,7 @@ ENTERPRISE_TAG := enterprise
 
 BINARIES := bin
 
-PYTHON_VERSION := python2.7
+PYTHON_VERSION := python3.6
 
 # All components are prefixed by st2
 COMPONENTS := $(wildcard st2*)
@@ -31,7 +31,7 @@ space_char +=
 comma := ,
 COMPONENT_PYTHONPATH = $(subst $(space_char),:,$(realpath $(COMPONENTS)))
 
-PYTHON_TARGET := 2.7
+PYTHON_TARGET := 3.6
 
 REQUIREMENTS := requirements.txt st2/requirements.txt
 PIP_OPTIONS := $(ST2_PIP_OPTIONS)
@@ -175,7 +175,7 @@ $(VIRTUALENV_DIR)/bin/activate:
 	@echo
 	@echo "==================== st2docs virtualenv ===================="
 	@echo
-	test -d $(VIRTUALENV_DIR) || virtualenv --no-site-packages --python=python2.7 $(VIRTUALENV_DIR)
+	test -d $(VIRTUALENV_DIR) || virtualenv --no-site-packages --python=python3.6 $(VIRTUALENV_DIR)
 
 	# Setup PYTHONPATH in bash activate script...
 	echo '' >> $(VIRTUALENV_DIR)/bin/activate
