@@ -9,6 +9,9 @@ support, advanced features such as fine-tuned access control, LDAP, and Workflow
 learn more about |ewc|, get an evaluation license, or request a quote, visit `stackstorm.com/features/#ewc
 <https://stackstorm.com/features/#ewc>`_.
 
+.. image:: /_static/images/flow/pkg_promote_workflow.png
+    :align: center
+
 You can also add Network Automation Suites on top of an |ewc| system. See
 `ewc-docs.extremenetworks.com/solutions/overview.html <https://ewc-docs.extremenetworks.com/solutions/overview.html>`_
 to learn more.
