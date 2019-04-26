@@ -1,5 +1,4 @@
 # Set ST2DOCS_BUCKET and EWCDOCS_BUCKET variables in CircleCI Environment
-
 version: 2
 jobs:
   st2docs:
