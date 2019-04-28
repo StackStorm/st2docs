@@ -49,7 +49,8 @@ Upgrade Notes
       enable = True
       backend = enterprise
 
-  After you do that, you need to restart st2api service for changes to take affect- ``sudo st2ctl restart-component st2api``.
+  After you do that, you need to restart st2api service for changes to take affect- ``sudo st2ctl
+  restart-component st2api``.
 
   If you get error similar to the one below after updating the config and restarting the services
   it means you don't have ``bwc-enterprise`` and / or ``st2-rbac-backend`` debian / rpm package
