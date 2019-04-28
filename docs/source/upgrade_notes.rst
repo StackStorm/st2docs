@@ -31,7 +31,7 @@ Upgrade Notes
 * The :doc:`Inquiries </inquiries>` API has been promoted from the ``/api/exp`` path to ``/api/v1``.
   If you have any external systems that use this API they will need to be updated to use the new
   path. st2client has been updated to use the new path.
-* If you are using |EWC| with RBAC you need to update your ``/etc/st2/st2.conf`` config file for RBAC
+* If you are using |ewc| with RBAC you need to update your ``/etc/st2/st2.conf`` config file for RBAC
   to work after the upgrade.
 
   Before:
@@ -67,6 +67,14 @@ Upgrade Notes
   In the past, if you had an action which output ``hello\nworld`` to stdout, ``stdout`` attribute
   in execution result field would contain ``hello\r\nworld``, but now it will correctly contain
   ``hello\nworld``.
+* RBAC is now configured and enabled by default when installing ``bwc-enterprise``
+  (``st2-rbac-backend``) system package. If you don't want to use RBAC, you need to disable it in
+  ``/etc/st2/st2.conf`` by setting ``rbac.enable`` config option to ``False``.
+
+    .. code-block:: bash
+
+      [rbac]
+      enable = False
 
 .. _ref-upgrade-notes-v2-10:
 
