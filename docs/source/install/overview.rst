@@ -28,10 +28,15 @@ share a dedicated Python virtualenv, and are configured via ``/etc/st2/st2.conf`
   ActionExecution is to be requested. It needs access to MongoDB to locate rules and RabbitMQ to
   listen for TriggerInstances and request ActionExecutions. The auxiliary purpose of this process
   is to run all the defined timers.
+* **st2timersengine** is used for scheduling all user specified timers aka |st2| cron.
+* **st2scheduler** is responsible for scheduling action executions which are
+  then run by ``st2actionrunner`` service. It takes care of things such as delaying executions and
+  applying user-defined pre-run policies.
+  execution delayes, applying policies and more.
 * **st2actionrunners** run actions from packs under ``/opt/stackstorm/packs`` via a variety of
   :doc:`/reference/runners`. Runners may require some runner-specific configurations, e.g. SSH
   needs to be configured for running remote actions based on ``remote-shell-runner`` and
-  ``remote-command-runner``. 
+  ``remote-command-runner``.
 * **st2resultstracker** keeps track of long-running workflow executions, calling the Mistral API
   endpoint.
 * **st2notifier** generates ``st2.core.actiontrigger`` and ``st2.core.notifytrigger``
