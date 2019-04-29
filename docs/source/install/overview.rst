@@ -47,6 +47,7 @@ share a dedicated Python virtualenv, and are configured via ``/etc/st2/st2.conf`
   webhook triggers.
 * **st2stream** is an event stream consumption HTTP endpoint where various useful events are
   posted. These events are consumed by WebUI and hubot i.e. ChatOps to update with results etc.
+* **st2workflowengine** is responsible for running Orquesta workflows.
 
 Some services follow active/active model can scale horizontally (``st2actionrunner``,
 ``st2rulesengine``, ``st2auth``, ``st2api``, ``st2stream``, ``st2scheduler``). Multiple instances
