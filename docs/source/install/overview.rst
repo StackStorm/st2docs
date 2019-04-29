@@ -49,12 +49,13 @@ share a dedicated Python virtualenv, and are configured via ``/etc/st2/st2.conf`
   posted. These events are consumed by WebUI and hubot i.e. ChatOps to update with results etc.
 * **st2workflowengine** is responsible for running Orquesta workflows.
 
-Some services follow active/active model can scale horizontally (``st2actionrunner``,
-``st2rulesengine``, ``st2auth``, ``st2api``, ``st2stream``, ``st2scheduler``). Multiple instances
-of those services can run to increase the throughput.
+Some services follow active/active model can and can scale horizontally (``st2actionrunner``,
+``st2rulesengine``, ``st2auth``, ``st2api``, ``st2stream``, ``st2scheduler``, ``st2notifier``,
+``st2workflowengine``). Multiple instances of those services can run to increase the overall system
+throughput.
 
-Other services (``st2notifier``, ``st2timersengine``, ``st2sensorcontainer``) require only a single
-active instance to be running for the system to function correctly.
+Other services (``st2timersengine``, ``st2garbagecollector``) require only a single instance to be
+running for the system to function correctly.
 
 For more information on those limitations and how to configure services for HA, please refer to
 :doc:`/reference/ha` and :doc:`/install/k8s_ha`.
