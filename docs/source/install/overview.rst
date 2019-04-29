@@ -17,8 +17,8 @@ as shown below:
 .. source https://docs.google.com/drawings/d/1X6u8BB9bnWkW8C81ERBvjIKRfo9mDos4XEKeDv6YiF0/edit
 
 
-1. st2 services
-----------------
+1. StackStorm services
+----------------------
 "st2" services provide the main |st2| functionality. They are located at ``/opt/stackstorm/st2``,
 share a dedicated Python virtualenv, and are configured via ``/etc/st2/st2.conf``.
 
@@ -29,16 +29,13 @@ share a dedicated Python virtualenv, and are configured via ``/etc/st2/st2.conf`
   listen for TriggerInstances and request ActionExecutions. The auxiliary purpose of this process
   is to run all the defined timers.
 * **st2timersengine** is used for scheduling all user specified timers aka |st2| cron.
-* **st2scheduler** is responsible for scheduling action executions which are
-  then run by ``st2actionrunner`` service. It takes care of things such as delaying executions and
+* **st2scheduler** is responsible for scheduling action executions which are then run by
+  ``st2actionrunner`` service. It takes care of things such as delaying executions and
   applying user-defined pre-run policies.
-  execution delayes, applying policies and more.
 * **st2actionrunners** run actions from packs under ``/opt/stackstorm/packs`` via a variety of
   :doc:`/reference/runners`. Runners may require some runner-specific configurations, e.g. SSH
   needs to be configured for running remote actions based on ``remote-shell-runner`` and
   ``remote-command-runner``.
-* **st2resultstracker** keeps track of long-running workflow executions, calling the Mistral API
-  endpoint.
 * **st2notifier** generates ``st2.core.actiontrigger`` and ``st2.core.notifytrigger``
   TriggerInstances on the completion of an ActionExecution. The auxiliary purpose is to act as a backup scheduler for actions that may not have been scheduled.
 * **st2garbagecollector** is an optional service to periodically delete old execution history data
@@ -50,6 +47,16 @@ share a dedicated Python virtualenv, and are configured via ``/etc/st2/st2.conf`
   webhook triggers.
 * **st2stream** is an event stream consumption HTTP endpoint where various useful events are
   posted. These events are consumed by WebUI and hubot i.e. ChatOps to update with results etc.
+
+Some services follow active/active model can scale horizontally (``st2actionrunner``,
+``st2rulesengine``, ``st2auth``, ``st2api``, ``st2stream``, ``st2scheduler``). Multiple instances
+of those services can run to increase the throughput.
+
+Other services (``st2notifier``, ``st2timersengine``, ``st2sensorcontainer``) require only a single
+active instance to be running for the system to function correctly.
+
+For more information on those limitations and how to configure services for HA, please refer to
+:doc:`/reference/ha` and :doc:`/install/k8s_ha`.
 
 2. st2client
 -------------
