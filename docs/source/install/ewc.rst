@@ -60,8 +60,8 @@ replacing ``${EWC_LICENSE_KEY}`` with the license key you received when register
     ``sudo st2ctl restart``.
 
 To understand the full details of the installation procedure, or to install |ewc| manually, follow
-the installation guide for your Linux version: :doc:`/install/deb`, :doc:`/install/rhel7`, or
-:doc:`/install/rhel6`. It will walk you through installing and configuring StackStorm and |ewc|.
+the installation guide for your Linux version: :doc:`/install/u16`, :doc:`/install/u18`, :doc:`/install/rhel7`,
+or :doc:`/install/rhel6`. It will walk you through installing and configuring StackStorm and |ewc|.
 The last step of the instructions is "Upgrade to |ewc|".
 
 High Availability deployment
