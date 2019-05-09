@@ -11,7 +11,7 @@ User with access to core.local action can read stanley user private SSH keys
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 By default ``core.local`` action runs under |st2| system user
-(``stanley``) which also has paswordless sudo access enabled. The same user is
+(``stanley``) which also has passwordless sudo access enabled. The same user is
 also used to execute ``core.remote`` actions on the remote systems. For that to
 work, `~/.ssh` directory of this user needs to contain private key which is
 used to access the remote systems. This means that every user which has access
