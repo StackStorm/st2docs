@@ -409,7 +409,7 @@ Install Required Dependencies
 
   .. code-block:: bash
 
-      $ curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
+      $ curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
 9. Setup ``st2web`` and SSL termination. Follow :ref:`install webui and setup
    ssl<ref-install-webui-ssl-deb>`. You will need to stop after removing the default Nginx config
@@ -443,7 +443,7 @@ also be made to offer different services.
 
   .. code-block:: bash
 
-      $ curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
+      $ curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
 2. Install all |st2| components and mistral:
 
