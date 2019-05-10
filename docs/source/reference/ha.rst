@@ -421,7 +421,7 @@ Install Required Dependencies
     ``st2auth`` and ``mistral-api``. Nginx also serves as the webserver for ``st2web``.
 
   .. literalinclude:: /../../st2/conf/HA/nginx/st2.conf.controller.sample
-     :language: nginx
+     :language: none
 
 11. Create the st2 logs directory and the st2 user:
 
