@@ -256,7 +256,8 @@ Using Python 3 for Pack Python Virtual Environment
 
 .. note::
 
-   This functionality is only available in |st2| v2.8.0 and above.
+   This functionality is only available in |st2| v2.8.0 and above. Some additional fixes and
+   improvements to this functionality were introduced in |st2| v3.0.1.
 
 When installing a pack, a Python virtual environment is created using the Python binary defined by
 the ``actionrunner.python_binary`` config option. By default, the same Python 2.7.x binary which is
@@ -268,11 +269,15 @@ If you need to use Python 3 for running your pack Python actions, you can do tha
 
 This will create the pack virtual environment using the Python 3 binary defined by
 ``actionrunner.python3_binary`` config option. This value defaults to ``/usr/bin/python3``. For this
-to work, Python 3 needs to be installed on your system. 
+to work, Python 3 needs to be installed on your system.
 
 Keep in mind that this feature only means Python runner actions will be executed using Python 3
 binary. All the |st2| components and services, including the action runner will still use Python 2
 binary.
+
+If you want all the |st2| components and services to also run under Python 3 you should look at
+beta Ubuntu Bionic packages where everything runs under Python 3.6 (on Ubuntu Bionic only packs
+which work under Python 3 are supported).
 
 .. _packs-behind-proxy:
 
