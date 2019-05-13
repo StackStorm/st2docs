@@ -268,8 +268,10 @@ If you need to use Python 3 for running your pack Python actions, you can do tha
 --python3``).
 
 This will create the pack virtual environment using the Python 3 binary defined by
-``actionrunner.python3_binary`` config option. This value defaults to ``/usr/bin/python3``. For this
-to work, Python 3 needs to be installed on your system.
+``actionrunner.python3_binary`` config option. This value defaults to ``/usr/bin/python3``. For
+this to work, Python 3 needs to be installed on your system. When installing Python 3, default
+prefix of either ``/usr`` or ``/usr/local`` should be used and base Python 3 libraries should be
+installed and available in either ``/usr/lib/python3.x`` or ``/usr/local/lib/python3.x``.
 
 Keep in mind that this feature only means Python runner actions will be executed using Python 3
 binary. All the |st2| components and services, including the action runner will still use Python 2
