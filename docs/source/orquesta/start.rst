@@ -147,7 +147,7 @@ workflow definition, and other information specific to the error type.
           spec_path: tasks.task1.input
           type: yaql
         expressions:
-        - expression: <% <% succeeded() %>
+        - expression: <% succeeded() %>
           message: 'Parse error: unexpected ''<'' at position 0 of expression ''<% succeeded()'''
           schema_path: properties.tasks.patternProperties.^\w+$.properties.next.items.properties.when
           spec_path: tasks.task2.next[0].when
