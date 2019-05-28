@@ -2,7 +2,7 @@
 
 * ``username`` (string) - Username used to log-in. If not provided, default username from config is used.
 * ``private_key`` (string) - Private key material or path to the private key file on disk used to log in.
-* ``sudo_password`` (string) - Sudo password. To be used when paswordless sudo is not allowed.
+* ``sudo_password`` (string) - Sudo password. To be used when passwordless sudo is not allowed.
 * ``env`` (object) - Environment variables which will be available to the command(e.g. key1=val1,key2=val2)
 * ``sudo`` (boolean) - The remote command will be executed with sudo.
 * ``kwarg_op`` (string) - Operator to use in front of keyword args i.e. "--" or "-".

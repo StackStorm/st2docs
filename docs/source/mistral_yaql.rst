@@ -314,7 +314,7 @@ Please note that the key name should be in quotes otherwise YAQL treats a key na
 
   If the retrieved value was stored encrypted, ``st2kv`` no longer attempts decryption by default
   (as of version 2.4). To decrypt the retrieved value, you must explicitly enable it through the
-  ``decrypt`` parameter: ``st2kv('st2_key_id', decrypt=true)``.
+  ``decrypt`` parameter: ``st2kv('st2_key_id', decrypt => true)``.
 
 Testing YAQL Expressions
 ------------------------
