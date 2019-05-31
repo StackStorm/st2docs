@@ -10,7 +10,6 @@ channels:
 * `Slack <https://stackstorm-community.slack.com>`_: If you're not a Slacker yet, here's a good
   excuse to become one! Come hang out, chat to us, search the archives to see if anyone else has
   faced the same problem. Register `here <https://stackstorm.com/community-signup>`_.
-* `Email support <support@stackstorm.com/>`_ and we'll get back to you as soon as we can.
 
 Please have the following list ready so we can help you faster:
 
