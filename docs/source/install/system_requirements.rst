@@ -18,9 +18,9 @@ be automatically added when you install |st2|.
 +-------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Linux (64-bit)                                                                                        | Vagrant Box                                                                  | Amazon AWS AMI                                                                                                                                                    |
 +=======================================================================================================+==============================================================================+===================================================================================================================================================================+
-| `Ubuntu 14.04 <http://releases.ubuntu.com/trusty/ubuntu-14.04.5-server-amd64.iso>`_                   | `bento/ubuntu-14.04 <https://atlas.hashicorp.com/bento/boxes/ubuntu-14.04>`_ | `Ubuntu Server 14.04 LTS (HVM)  <https://aws.amazon.com/marketplace/pp/B00JV9TBA6/ref=srh_res_product_title?ie=UTF8&sr=0-3&qid=1457037882965>`_                   |
+| `Ubuntu 16.04 <https://www.ubuntu.com/download/server/thank-you?version=16.04.6&architecture=amd64>`_ | `bento/ubuntu-16.04 <https://app.vagrantup.com/bento/boxes/ubuntu-16.04>`_   | `Ubuntu 16.04 LTS - Xenial (HVM)  <https://aws.amazon.com/marketplace/pp/B01JBL2M0O/>`_                                                                           |
 +-------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| `Ubuntu 16.04 <https://www.ubuntu.com/download/server/thank-you?version=16.04.4&architecture=amd64>`_ | `bento/ubuntu-16.04 <https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04>`_ | `Ubuntu 16.04 LTS - Xenial (HVM)  <https://aws.amazon.com/marketplace/pp/B01JBL2M0O/>`_                                                                           |
+| `Ubuntu 18.04 <http://cdimage.ubuntu.com/releases/18.04.2/release/ubuntu-18.04.2-server-amd64.iso>`_  | `bento/ubuntu-18.04 <https://app.vagrantup.com/bento/boxes/ubuntu-18.04>`_   | `Ubuntu Server 18.04 LTS Bionic  <https://aws.amazon.com/marketplace/pp/B07CQ33QKV/>`_                                                                            |
 +-------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | `RHEL 7 <https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux>`_ /                 | `bento/centos-7.4 <https://app.vagrantup.com/bento/boxes/centos-7.4>`_       | `Red Hat Enterprise Linux (RHEL) 7.2 (HVM)  <https://aws.amazon.com/marketplace/pp/B019NS7T5I/ref=srh_res_product_title?ie=UTF8&sr=0-2&qid=1457037671547>`_       |
 | `CentOS 7 <http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso>`_     |                                                                              |                                                                                                                                                                   |
@@ -70,18 +70,14 @@ Linux Distribution Support Policy
 StackStorm only support Ubuntu and RHEL/CentOS Linux distributions. In general, it is supported
 on the two most recent major supported releases for those distributions. Specifically:
 
-* **Ubuntu**: All current LTS releases are supported, from the time of their first ``.1`` release
-  - e.g. ``16.04.1`` - until the Ubuntu end of life date. Currently we support Ubuntu ``14.04`` and
-  ``16.04``. We aim to test and validate Ubuntu ``18.04``, when it is released later in 2018.
+* **Ubuntu**: Current LTS releases are supported. Today this is ``16.04`` and ``18.04``. 
 
-  At that point, Ubuntu ``14.04`` will be considered deprecated. It will continue to be supported until
-  April 2019, when it goes end of life. No ongoing testing will be done with Ubuntu 14 after April 2019.
+  Support for Ubuntu ``14.04`` has been removed, as it is now End of Life. |st2| 3.0 is the last
+  release that supports Ubuntu ``14.04``.
 
 * **RHEL/CentOS**: We currently support RHEL/CentOS ``6.x`` and ``7.x``. In general, we recommend using
-  the most recent version in that series, but any version may be used. When RHEL ``8.0`` is released,
-  we will test and validate it. At that point, RHEL 6.x should be considered deprecated.
-  
-  When RHEL ``8.1`` is released, |st2| support for RHEL ``6.x`` will finish. No ongoing testing will be
-  done with RHEL ``6.x`` after that date. 
+  the most recent version in that series, but any version may be used. 
 
-
+  We are now beginning testing with RHEL ``8.0``. We anticipate adding support with |st2| 3.2. When
+  we add that support, we will remove support for RHEL ``6.x``. We expect that |st2| 3.1 will be
+  the last version that supports RHEL ``6.x``.

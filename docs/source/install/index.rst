@@ -14,8 +14,8 @@ Here's an overview of the options:
   <ref-one-line-install>` section below for details.
 * **Manual Installation:** Have custom needs? Maybe no Internet access from your servers? Or just
   don't like using scripted installs? Read the manual installation instructions for your OS
-  (:doc:`Ubuntu 14/16 </install/deb>`, :doc:`RHEL/CentOS 6 </install/rhel6>`, :doc:`RHEL/CentOS 7
-  </install/rhel7>`), and adapt them to your needs. Here's some `additional guidance
+  (:doc:`Ubuntu 16 </install/u16>`, :doc:`Ubuntu 18 </install/u18>`, :doc:`RHEL/CentOS 6 </install/rhel6>`,
+  :doc:`RHEL/CentOS 7 </install/rhel7>`), and adapt them to your needs. Here's some `additional guidance
   <https://stackstorm.com/2017/02/10/installing-stackstorm-offline-systems/>`_ for setting up an
   internal mirror for the |st2| repos. 
 * **Ansible Playbooks:** If you are an Ansible user, check these :doc:`/install/ansible` for
@@ -84,7 +84,8 @@ For more details on reference deployments, or OS-specific installation instructi
 
     Reference Deployment Overview <overview>
     system_requirements
-    Ubuntu 14.04 / 16.04 <deb>
+    Ubuntu 16.04 <u16>
+    Ubuntu 18.04 <u18>
     RHEL 7 / CentOS 7 <rhel7>
     RHEL 6 / CentOS 6 <rhel6>
     Kubernetes / HA <k8s_ha>

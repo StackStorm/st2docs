@@ -313,21 +313,13 @@ v2.1
   for the new pack management features to work properly. Some of the pack management actions
   and workflows have changed.
 
-v1.5
-''''
-
-* Datastore model migration
-
- .. code-block:: bash
-
-    /opt/stackstorm/st2/bin/st2-migrate-datastore-to-include-scope-secret.py
 
 Content Roll-Over
 -----------------
 
 In some cases, you may need to roll over the automation from one instance of |st2| to another box
 or deployment. To do this, provision a new |st2| instance, and roll over the content. Thanks to
-the "Infrastructure as code" approach, all |st2| content and artifacts are simple files, and
+the "Infrastructure as Code" approach, all |st2| content and artifacts are simple files, and
 should be kept under source control.
 
 

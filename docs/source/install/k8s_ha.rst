@@ -226,6 +226,19 @@ For more detailed instructions see `StackStorm/stackstorm-ha#Installing packs in
   There is an alternative approach, - sharing pack content via read-write-many NFS (Network File System) as :doc:`/reference/ha` recommends.
   As beta is in progress and both methods have their pros and cons, we'd like to hear your feedback and which way would work better for you.
 
+Ingress
+-------
+
+Ingress is worth considering if you want to expose multiple services under the same IP address, and
+these services all use the same L7 protocol (typically HTTP). You only pay for one load balancer if
+you are using native cloud integration, and because Ingress is "smart", you can get a lot of
+features out of the box (like SSL, Auth, Routing, etc.). See the ingress section in ``values.yaml``
+for configuration details.
+
+You will first need to deploy an ingress controller of your preference.
+See `Additional Controllers <https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/#additional-controllers>`_
+for more information.
+
 Components
 ----------
 For HA reasons, by default and at a minimum StackStorm K8s cluster deploys more than ``30`` pods in total.
