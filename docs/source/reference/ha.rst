@@ -325,7 +325,7 @@ Reference HA setup
 In this section we provide a highly opinionated and therefore prescriptive approach to deploying
 |st2| in HA. This deployment has 3 independent boxes which we categorize as "controller box" and
 "blueprint box." We'll call these boxes ``st2-multi-node-cntl``, ``st2-multi-node-1`` and
-``st2-multi-node-2``. For the sake of reference we will be using Ubuntu 14.04 as the base OS.
+``st2-multi-node-2``. For the sake of reference we will be using Ubuntu 16.04 as the base OS.
 Obviously you can also use RedHat/CentOS.
 
 .. figure :: /_static/images/st2-deployment-multi-node.png
@@ -358,7 +358,7 @@ new home.
 `keepalived <http://www.keepalived.org/>`__ to maintain ``st2chatops`` in active-passive
 configuration is an option.
 
-Follow these steps to provision a controller box on Ubuntu 14.04:
+Follow these steps to provision a controller box on Ubuntu 16.04:
 
 Install Required Dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

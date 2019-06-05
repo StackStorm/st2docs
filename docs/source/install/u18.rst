@@ -1,10 +1,18 @@
-Ubuntu Trusty/Xenial
-====================
+Ubuntu Bionic (18.04)
+=====================
 
 .. include:: common/intro.rst
 
 .. contents:: Contents
    :local:
+
+.. note::
+
+   |st2| on Ubuntu ``18.04`` runs all services, actions and sensors using Python 3 **only**. It
+   does not support Python2 actions.
+
+   Mistral is not supported on Ubuntu ``18.04``. All workflows must be written in
+   :doc:`Orquesta </orquesta/index>`. 
 
 System Requirements
 -------------------
@@ -17,9 +25,7 @@ Minimal Installation
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
 
-.. include:: __mongodb_note.rst
-
-Install MongoDB, RabbitMQ, and PostgreSQL:
+Install MongoDB, and RabbitMQ:
 
 .. code-block:: bash
 
@@ -27,19 +33,18 @@ Install MongoDB, RabbitMQ, and PostgreSQL:
   sudo apt-get install -y gnupg-curl
   sudo apt-get install -y curl
 
-  # Add key and repo for the latest stable MongoDB (3.4)
-  wget -qO - https://www.mongodb.org/static/pgp/server-3.4.asc | sudo apt-key add -
-  sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-3.4.list
-  deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/3.4 multiverse
+  # Add key and repo for MongoDB (4.0)
+  wget -qO - https://www.mongodb.org/static/pgp/server-4.0.asc | sudo apt-key add -
+  sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-4.0.list
+  deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/4.0 multiverse
   EOT"
   sudo apt-get update
 
   sudo apt-get install -y crudini
   sudo apt-get install -y mongodb-org
   sudo apt-get install -y rabbitmq-server
-  sudo apt-get install -y postgresql
 
-For Ubuntu ``Xenial`` you may need to enable and start MongoDB.
+For Ubuntu ``Bionic`` you may need to enable and start MongoDB.
 
 .. code-block:: bash
 
@@ -61,7 +66,7 @@ Install |st2| Components
 
 .. code-block:: bash
 
-  sudo apt-get install -y st2 st2mistral
+  sudo apt-get install -y st2
 
 .. include:: common/configure_components.rst
 
@@ -69,13 +74,6 @@ Setup Datastore Encryption
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: common/datastore_crypto_key.rst
-
-Setup Mistral Database
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. include:: common/setup_mistral_database.rst
-
-.. _ref-config-ssh-sudo-deb:
 
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -91,8 +89,6 @@ Verify
 ~~~~~~
 
 .. include:: common/verify.rst
-
-.. _ref-config-auth-deb:
 
 Configure Authentication
 ------------------------
@@ -113,8 +109,6 @@ To set up authentication with file-based provider:
 
 .. include:: common/configure_authentication.rst
 
-.. _ref-install-webui-ssl-deb:
-
 Install WebUI and Setup SSL Termination
 ---------------------------------------
 
@@ -124,21 +118,9 @@ SSL termination, and reverse-proxy st2auth and st2api API endpoints. To set it u
 ``/etc/ssl/st2``, and configure nginx with |st2|'s supplied :github_st2:`site config file st2.conf
 <conf/nginx/st2.conf>`.
 
-|st2| depends on Nginx version >=1.7.5. Ubuntu has an older version in the package repositories, so
-you will need to add the official Nginx repository:
-
-
 .. code-block:: bash
 
-  # Add key and repo for the latest stable nginx
-  sudo apt-key adv --fetch-keys http://nginx.org/keys/nginx_signing.key
-  sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/nginx.list
-  deb http://nginx.org/packages/ubuntu/ $(lsb_release -c | awk '{print $2}') nginx
-  EOT"
-  sudo apt-get update
-
   # Install st2web and nginx
-  # note nginx should be > 1.4.6
   sudo apt-get install -y st2web nginx
 
   # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
@@ -160,8 +142,6 @@ the st2web configuration at ``/opt/stackstorm/static/webui/config.js``.
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
 
 .. include:: common/api_access.rst
-
-.. _ref-setup-chatops-deb:
 
 Setup ChatOps
 -------------
