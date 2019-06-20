@@ -123,9 +123,9 @@ the following runners:
 
 
 Runners come with their own set of input parameters. When an action is executed, it inherits the
-runner parameters, in addition to its own parameters.
+runner parameters, in addition to its own parameters. The built-in parameters can be over-ridden on a per-action basis.
 
-For a complete list of Runners and their parameters, see :doc:`/reference/runners`
+For a complete list of Runners and their parameters, see :doc:`/reference/runners`.
 
 
 .. _ref-actions-writing-custom:
@@ -346,9 +346,13 @@ To reload all actions, use ``st2ctl reload --register-actions``
 Built-in Parameters
 -------------------
 
-When configuring the metadata, there are several built-in parameters that can be used and
-overwritten to change the default functionality of the various runners:
+Action runners have their own built-in parameters. These are inherited by the action, and be over-ridden either
+in the action metadata, or by passing additional parameters when running the action.
 
+Some common parameters include:
+
+* ``timeout`` - (all runners) The default timeout varies by runner type. This is frequently over-ridden
+  for long-running actions.
 * ``args`` - (``local-shell-script``, ``remote-shell-script``) By default, |st2| will assemble
   arguments based on whether a user defines named or positional arguments. Adjusts the format of
   arguments passed to ``cmd``.
@@ -362,6 +366,8 @@ overwritten to change the default functionality of the various runners:
 * ``dir``  - (``local-shell-script``, ``remote-shell-script``) Configure the directory where
   scripts are copied from a pack to the target machine prior to execution.
   Defaults to ``/tmp``.
+
+For a full list of built-in parameters for each runner type, see :doc:`/reference/runners`.
 
 Overriding Runner Parameters
 ----------------------------
