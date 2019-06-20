@@ -225,7 +225,7 @@ The example above applies to a scenario where you have two related workflows and
 
 If you have two independent workflows and you want to pass data between them or use data from one
 workflow in another, the most common approach to that is using the built-in key-value
-:doc:`datastore`<datastore>`.
+:doc:`datastore <datastore>`.
 
 Inside the first workflow you store data in the datastore and inside the second workflow you retrieve
 this data from a datastore. This approach creates tighter coupling between two workflows and makes
