@@ -4,6 +4,11 @@ Rules
 |st2| uses rules and workflows to capture operational patterns as automations. Rules map triggers
 to actions (or workflows), apply matching criteria and map trigger payloads to action inputs.
 
+.. note::
+   
+   Rules not working as expected? Check the :doc:`Rules Troubleshooting </troubleshooting/rules>`
+   documentation. This walks through rules testing, checking enforcements, logging and troubleshooting.
+
 Rule Structure
 --------------
 
@@ -865,6 +870,16 @@ Run action every full hour every day of the week
 
   action:
     ...
+
+
+Troubleshooting Rule Enforcements
+---------------------------------
+
+Rules not working as expected? Or just want to see which rules have been enforced? 
+
+Run ``st2 rule-enforcement list`` to see all rule enforcements. You can filter this output by rule to narrow it down.
+
+For further troubleshooting steps, check the :doc:`Rules Troubleshooting </troubleshooting/rules>` documentation.
 
 -------------------------------
 
