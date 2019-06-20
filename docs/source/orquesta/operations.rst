@@ -27,7 +27,7 @@ are no more active tasks.
 Re-running Workflow Execution
 -----------------------------
 
-A workflow execution can be re-run on error. In the current beta, the workflow execution can only
+A workflow execution can be re-run on error. In the current version, the workflow execution can only
 be re-run from the beginning. Re-running the workflow execution from the beginning is exactly like
 re-running any |st2| execution with the command ``st2 execution re-run <execution-id>``. The re-run
 is a completely separate execution with a new execution ID in |st2|.

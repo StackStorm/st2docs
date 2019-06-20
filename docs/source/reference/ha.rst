@@ -325,7 +325,7 @@ Reference HA setup
 In this section we provide a highly opinionated and therefore prescriptive approach to deploying
 |st2| in HA. This deployment has 3 independent boxes which we categorize as "controller box" and
 "blueprint box." We'll call these boxes ``st2-multi-node-cntl``, ``st2-multi-node-1`` and
-``st2-multi-node-2``. For the sake of reference we will be using Ubuntu 14.04 as the base OS.
+``st2-multi-node-2``. For the sake of reference we will be using Ubuntu 16.04 as the base OS.
 Obviously you can also use RedHat/CentOS.
 
 .. figure :: /_static/images/st2-deployment-multi-node.png
@@ -358,7 +358,7 @@ new home.
 `keepalived <http://www.keepalived.org/>`__ to maintain ``st2chatops`` in active-passive
 configuration is an option.
 
-Follow these steps to provision a controller box on Ubuntu 14.04:
+Follow these steps to provision a controller box on Ubuntu 16.04:
 
 Install Required Dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -409,7 +409,7 @@ Install Required Dependencies
 
   .. code-block:: bash
 
-      $ curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
+      $ curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
 9. Setup ``st2web`` and SSL termination. Follow :ref:`install webui and setup
    ssl<ref-install-webui-ssl-deb>`. You will need to stop after removing the default Nginx config
@@ -421,7 +421,7 @@ Install Required Dependencies
     ``st2auth`` and ``mistral-api``. Nginx also serves as the webserver for ``st2web``.
 
   .. literalinclude:: /../../st2/conf/HA/nginx/st2.conf.controller.sample
-     :language: nginx
+     :language: none
 
 11. Create the st2 logs directory and the st2 user:
 
@@ -443,7 +443,7 @@ also be made to offer different services.
 
   .. code-block:: bash
 
-      $ curl -s https://packagecloud.io/install/repositories/StackStorm/staging-stable/script.deb.sh | sudo bash
+      $ curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
 2. Install all |st2| components and mistral:
 

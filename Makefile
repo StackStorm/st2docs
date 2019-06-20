@@ -14,7 +14,7 @@ ENTERPRISE_TAG := enterprise
 
 BINARIES := bin
 
-PYTHON_VERSION := python2.7
+PYTHON_VERSION := python3.6
 
 # All components are prefixed by st2
 COMPONENTS := $(wildcard st2*)
@@ -31,7 +31,7 @@ space_char +=
 comma := ,
 COMPONENT_PYTHONPATH = $(subst $(space_char),:,$(realpath $(COMPONENTS)))
 
-PYTHON_TARGET := 2.7
+PYTHON_TARGET := 3.6
 
 REQUIREMENTS := requirements.txt st2/requirements.txt
 PIP_OPTIONS := $(ST2_PIP_OPTIONS)
@@ -49,19 +49,18 @@ docs: .clone-st2 .clone-orquesta requirements .requirements-st2 .install-runners
 PHONY: .docs
 .docs: .community-docs
 
-PHONY: .clean-bwc-solutions-folders
-.clean-bwc-solutions-folders:
+PHONY: .clean-ewc-solutions-folders
+.clean-ewc-solutions-folders:
 	@echo
 	@echo "==================== Remove solution specific folders ===================="
 	@echo
 	rm -Rf docs/source/_static/images/solutions/*
-	rm -Rf docs/source/_includes/bwc_toc.rst
 	rm -Rf docs/source/solutions/*
 	@echo
 	@echo
 
 .PHONY: .community-docs
-.community-docs: .clean-bwc-solutions-folders
+.community-docs: .clean-ewc-solutions-folders
 	@echo
 	@echo "==================== COMMUNITY DOCS ===================="
 	@echo
@@ -132,14 +131,11 @@ ewcdocs: .clone-st2 .clone-orquesta .clone-ipfabric requirements .requirements-s
 	git checkout docs/source/install/docker.rst
 	git checkout docs/source/install/puppet.rst
 
-.PHONY: bwclivedocs
-bwclivedocs: ewcdocs .livedocs
+.PHONY: ewclivedocs
+ewclivedocs: ewcdocs .livedocs
 
-.PHONY: bwclocaldocs
-bwclocaldocs: .clone-st2 .clone-orquesta requirements .requirements-st2 .ewcdocs .clean-bwc-solutions-folders
-
-.PHONY: bwclocallivedocs
-bwclocallivedocs: bwclocaldocs .livedocs
+.PHONY: ewclocaldocs
+ewclocaldocs: .clone-st2 .clone-orquesta requirements .requirements-st2 .ewcdocs .clean-ewc-solutions-folders
 
 .PHONY: .cleandocs
 .cleandocs:
@@ -160,7 +156,7 @@ requirements: virtualenv
 	@echo
 
 	# Make sure we use latest version of pip
-	$(VIRTUALENV_DIR)/bin/pip install --upgrade "pip>=9.0,<9.1"
+	$(VIRTUALENV_DIR)/bin/pip install --upgrade "pip>=19.0,<20.0"
 
 	# Install requirements
 	#
@@ -175,7 +171,7 @@ $(VIRTUALENV_DIR)/bin/activate:
 	@echo
 	@echo "==================== st2docs virtualenv ===================="
 	@echo
-	test -d $(VIRTUALENV_DIR) || virtualenv --no-site-packages --python=python2.7 $(VIRTUALENV_DIR)
+	test -d $(VIRTUALENV_DIR) || virtualenv --no-site-packages --python=python3.6 $(VIRTUALENV_DIR)
 
 	# Setup PYTHONPATH in bash activate script...
 	echo '' >> $(VIRTUALENV_DIR)/bin/activate

@@ -1,10 +1,9 @@
 # Set ST2DOCS_BUCKET and EWCDOCS_BUCKET variables in CircleCI Environment
-
 version: 2
 jobs:
   st2docs:
     docker:
-      - image: circleci/python:2.7
+      - image: circleci/python:3.6
     steps:
       - checkout
       - run:
@@ -12,7 +11,7 @@ jobs:
           command: |
             make .clone-st2
       - restore_cache:
-          key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}
+          key: v2-dependency-cache-{{ checksum "st2/requirements.txt" }}
       - run: sudo apt install python-dev
       - run: make docs
       - run:
@@ -26,12 +25,12 @@ jobs:
           path: /tmp/st2docs
           destination: st2docs
       - save_cache:
-          key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}
+          key: v2-dependency-cache-{{ checksum "st2/requirements.txt" }}
           paths:
             - ~/.cache/pip
   ewcdocs:
     docker:
-      - image: circleci/python:2.7
+      - image: circleci/python:3.6
     steps:
       - checkout
       - run:
@@ -39,7 +38,7 @@ jobs:
           command: |
             make .clone-st2
       - restore_cache:
-          key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}
+          key: v2-dependency-cache-{{ checksum "st2/requirements.txt" }}
       - run: sudo apt install python-dev
       - run: make ewcdocs
       - run:
@@ -53,7 +52,7 @@ jobs:
           path: /tmp/ewcdocs
           destination: ewcdocs
       - save_cache:
-          key: v1-dependency-cache-{{ checksum "st2/requirements.txt" }}
+          key: v2-dependency-cache-{{ checksum "st2/requirements.txt" }}
           paths:
             - ~/.cache/pip
   deploy:

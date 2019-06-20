@@ -9,6 +9,9 @@ support, advanced features such as fine-tuned access control, LDAP, and Workflow
 learn more about |ewc|, get an evaluation license, or request a quote, visit `stackstorm.com/features/#ewc
 <https://stackstorm.com/features/#ewc>`_.
 
+.. image:: /_static/images/flow/pkg_promote_workflow.png
+    :align: center
+
 You can also add Network Automation Suites on top of an |ewc| system. See
 `ewc-docs.extremenetworks.com/solutions/overview.html <https://ewc-docs.extremenetworks.com/solutions/overview.html>`_
 to learn more.
@@ -57,8 +60,8 @@ replacing ``${EWC_LICENSE_KEY}`` with the license key you received when register
     ``sudo st2ctl restart``.
 
 To understand the full details of the installation procedure, or to install |ewc| manually, follow
-the installation guide for your Linux version: :doc:`/install/deb`, :doc:`/install/rhel7`, or
-:doc:`/install/rhel6`. It will walk you through installing and configuring StackStorm and |ewc|.
+the installation guide for your Linux version: :doc:`/install/u16`, :doc:`/install/u18`, :doc:`/install/rhel7`,
+or :doc:`/install/rhel6`. It will walk you through installing and configuring StackStorm and |ewc|.
 The last step of the instructions is "Upgrade to |ewc|".
 
 High Availability deployment

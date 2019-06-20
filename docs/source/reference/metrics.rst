@@ -28,8 +28,11 @@ Right now, the only supported driver is ``statsd``. To configure it, add the fol
     # "production" and key is "action.executions" actual key would be
     # "st2.production.action.executions". This comes handy when you want to
     # utilize the same backend instance for multiple environments or similar.
-    host = 127.0.0.1  # statsd collection and aggregation server address
-    port = 8125  # statsd collection and aggregation server port
+    
+    # statsd collection and aggregation server address
+    host = 127.0.0.1
+    # statsd collection and aggregation server port
+    port = 8125
 
 After you have configured it, you need to restart all the services using ``st2ctl restart``.
 
@@ -40,6 +43,9 @@ outgoing access to the configured host and port.
 For debugging and troubleshooting purposes, you can also set driver to ``echo``. This will cause
 |st2| to log under ``DEBUG`` log level any metrics operation which would have otherwise be performed
 (increasing a counter, timing an operation, etc.) without actually performing it.
+
+For a full list of config options, see the ``[metrics]`` section in the |st2| sample
+config here: https://github.com/StackStorm/st2/blob/master/conf/st2.conf.sample
 
 Configuring StatsD
 ==================

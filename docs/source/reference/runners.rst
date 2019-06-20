@@ -54,8 +54,8 @@ output.
 
 .. note::
 
-   By default |st2| uses paswordless sudo for to execute commands on local and remote systems, using the
-   system user (by default ``stanley``). In addition to paswordless sudo, local and remote runners also
+   By default |st2| uses passwordless sudo for to execute commands on local and remote systems, using the
+   system user (by default ``stanley``). In addition to passwordless sudo, local and remote runners also
    support password protected sudo via the ``sudo_password`` runner parameter. 
    
    With the remote runner, the sudo password is passed to the sudo command as a command line argument.

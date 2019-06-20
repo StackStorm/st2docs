@@ -1,28 +1,19 @@
 Inquiries
 =========
 
-|st2| 2.5 introduced a new feature that allows you to pause a workflow to wait for additional
-information. This is done by using a new action: ``core.ask``. These are called "Inquiries", and
-the idea is to allow you to "ask a question" in the middle of a workflow. This could be a question
-like "do I have approval to continue?" or "what is the second factor I should provide to this
-authentication service?"
+Inquiries allow you to pause a workflow to wait for additional information. This is done by using 
+the ``core.ask`` action. The idea is to allow you to "ask a question" in the middle of a workflow.
+This could be a question like "do I have approval to continue?" or "what is the second factor I
+should provide to this authentication service?"
 
 These use cases (and others) require the ability to pause a workflow mid-execution and wait for
 additional information. Inquiries make this possible. This document explains how to use them.
 
-.. note::
+``core.ask``
+------------
 
-    As of now, Inquiries should be considered a "beta" feature. It has been exposed to general
-    use for a while now, and we have found and fixed several issues. It is still evolving, and
-    we would appreciate more feedback. The user experience as well as the new API functionality
-    should not be considered "stable" at this point. Please consider using this feature in your
-    test/dev deployments, and send us your feedback.
-
-New ``core.ask`` Action
------------------------
-
-The best way to get started using Inquiries is to check out the new core action - ``core.ask`` - 
-and start using it in your workflows. This action is built on a new runner type: ``inquirer``,
+The best way to get started using Inquiries is to check out the core action - ``core.ask`` - 
+and start using it in your workflows. This action is built on the ``inquirer`` runner type,
 which performs the bulk of the logic required to pause workflows and wait for a response.
 
 .. code-block:: bash
@@ -139,27 +130,20 @@ scheduled, because the use of the ``core.ask`` action prevented further tasks fr
 also notice that the status for ``task1`` is ``pending``. This indicates to us that this particular
 Inquiry has not yet received a valid response, and is currently blocking the Workflow execution.
 
-You can also use ``core.ask`` to ask a question within Mistral workflows:
+You can also use ``core.ask`` to ask a question within Orquesta workflows:
 
-.. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-ask-basic.yaml
+.. literalinclude:: /../../st2/contrib/examples/actions/workflows/orquesta-ask-basic.yaml
    :language: yaml
 
-When encountering an Inquiry, StackStorm will send a request to Mistral to pause execution of a
+When encountering an Inquiry, StackStorm will send a request to Orquesta to pause execution of a
 workflow, just like we saw previously with ActionChains:
-
-.. note::
-
-   Due to the latency involved with sending a pause request to Mistral, you may temporarily see a
-   ``pausing`` status in your Mistral workflows - especially if running directly with ``st2 run``.
-   This is nothing to be concerned about; the status will quickly change to ``paused``, and
-   further tasks will not execute.
 
 .. code-block:: bash
 
-    ~$ st2 run examples.mistral-ask-basic
+    ~$ st2 run examples.orquesta-ask-basic
     .
     id: 59a9c99032ed3553fb738c83
-    action.ref: examples.mistral-ask-basic
+    action.ref: examples.orquesta-ask-basic
     parameters: None
     status: paused
     start_timestamp: 2017-09-01T20:56:48.630380Z
@@ -406,12 +390,11 @@ alias, you can respond to an Inquiry within Slack, as an example:
 Securing Inquiries
 ------------------
 
-At initial release, Inquiries work a little differently from other system resources with it comes
-to granting permissions to them via :doc:`RBAC</rbac>`. The ``users`` and ``roles`` parameters for
-the ``core.ask`` action allows you to control who can respond to a specific inquiry, right in the
-workflow. With this granularity being offered in parameters, RBAC for Inquiries is a bit simpler,
-focusing broadly on who has access to Inquiries in general, leaving specific access control to the
-action parameters.
+Inquiries work a little differently from other system resources with it comes to granting permissions
+to them via :doc:`RBAC</rbac>`. The ``users`` and ``roles`` parameters for the ``core.ask`` action
+allow you to control who can respond to a specific inquiry, right in the workflow. With this granularity
+being offered in parameters, RBAC for Inquiries is a bit simpler, focusing broadly on who has access
+to Inquiries in general, leaving specific access control to the action parameters.
 
 For example, rather than specifying a particular Inquiry when constructing a role, all Inquiry
 UIDs should be specified as ``inquiry:``. Whatever permissions are granted in the role are granted
@@ -430,8 +413,8 @@ to all inquiries:
         - "inquiry_respond"
 
 Inquiries also honor execution permissions for the workflow they were generated from. For
-instance, if user``inherit`` has ``action_execute`` permissions on the workflow
-``examples.mistral-ask-basic``, they don't need to be explicitly granted ``inquiry_respond``
+instance, if user ``inherit`` has ``action_execute`` permissions on the workflow
+``examples.orquesta-ask-basic``, they don't need to be explicitly granted ``inquiry_respond``
 permissions - this is done automatically.
 
 The following is an example role that only grants permissions to execute a workflow that contains
@@ -447,7 +430,7 @@ user that's been assigned to this role will still be permitted to respond.
     permission_grants:
 
     # Grant to run the workflow
-    - resource_uid: "action:examples:mistral-ask-basic"
+    - resource_uid: "action:examples:orquesta-ask-basic"
       permission_types:
         - "action_execute"
         - "action_view"
@@ -459,7 +442,7 @@ user that's been assigned to this role will still be permitted to respond.
         - "action_view"
 
     # Grant to list runners (allows us to test this with `st2 run`)
-    - resource_uid: "runner_type:mistral-v2"
+    - resource_uid: "runner_type:orquesta"
       permission_types:
         - "runner_type_list"
 
@@ -519,7 +502,7 @@ different decisions based on whether or not an Inquiry was responded to successf
 TTL expired waiting for a response.
 
 To configure garbage collection for Inquiries, you first need to enable this globally. Unlike
-trigger-instances and action executions, the configuration file only requires a single boolean
+trigger-instances and action executions, ``/etc/st2/st2.conf`` only requires a single boolean
 parameter to enable Inquiry garbage colllection:
 
 .. code-block:: ini
@@ -531,29 +514,39 @@ parameter to enable Inquiry garbage colllection:
 
 Once done, each Inquiry has its own ``ttl`` configured via parameters. The default is 1440 - 24
 hours. However, this can be easily overridden for a inquiry by specifying the ``ttl`` in a
-parameter for the ``core.ask`` action, like in the following Mistral workflow:
+parameter for the ``core.ask`` action, like in the following Orquesta workflow:
 
 .. code-block:: yaml
 
-    version: '2.0'
+    version: 1.0
 
-    examples.mistral-ask-basic:
-        description: A basic Mistral workflow illustrating the use of Inquiries
-        type: direct
-        tasks:
-            task1:
-                action: core.ask
-                input:
-                  ttl: 60
-                  route: developers
-                on-success:
-                  - task2
+    description: A basic workflow that demonstrates inquiry.
 
-            task2:
-                action: core.local
-                input:
-                  cmd: echo "Got to task2"
+    tasks:
+      start:
+        action: core.echo message="Automation started."
+        next:
+          - when: <% succeeded() %>
+            do: get_approval
 
+      get_approval:
+        action: core.ask
+        input:
+          ttl: 60
+          route: developers
+        next:
+          - when: <% succeeded() %>
+            do: finish
+          - when: <% failed() %>
+            do: stop
+
+      finish:
+        action: core.echo message="Automation completed."
+
+      stop:
+        action: core.echo message="Automation stopped."
+        next:
+          - do: fail
 
 .. note::
 
@@ -562,6 +555,5 @@ parameter for the ``core.ask`` action, like in the following Mistral workflow:
 
 Once this option has been enabled, and the ``st2garbagecollector`` service is started, it will
 begin periodically looking for Inquiries that have been in a ``pending`` state beyond their
-configured ``ttl``. If we didn't respond to the above inquiry within 60 minutes, then ``task``
-would be marked "timeout", and the workflow would fail (since ``task2`` is listed under
-``on-success``).
+configured ``ttl``. If we didn't respond to the above inquiry within 60 minutes, then ``get_approval``
+would be marked "timeout", and the workflow would go the ``stop`` task.
