@@ -282,8 +282,9 @@ binary. All the |st2| components and services, including the action runner will 
 binary.
 
 If you want all the |st2| components and services to also run under Python 3 you should look at
-beta Ubuntu Bionic packages where everything runs under Python 3.6 (on Ubuntu Bionic only packs
-which work under Python 3 are supported).
+the Ubuntu Bionic packages where everything runs under Python 3.6. These are in the "unstable"
+repositories for 3.0, and will be GA in 3.1. On Ubuntu Bionic only packs which work under Python
+3 are supported.
 
 .. _packs-behind-proxy:
 
