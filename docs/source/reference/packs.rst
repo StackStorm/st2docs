@@ -170,6 +170,11 @@ available at :github_st2:`st2/contrib/hello_st2 <contrib/hello_st2>`.
      set the ``ref`` value explicitly in ``pack.yaml``. Finally the email attribute in
      ``pack.yaml`` must contain a properly formatted email address.
 
+     The ``python_versions`` field declares which Python versions this pack supports. Packs submitted
+     to the StackStorm Exchange will run CI checks for the declared Python version(s). |st2| will
+     check this field when installing packs, and not allow installation with unsupported major Python
+     versions. If this field is missing, it assumes only Python **2** is supported.
+
 3. Create the :doc:`action </actions>`. An action consists of meta data, and entrypoint. The following
    example simply echoes a greeting.
 
