@@ -34,7 +34,7 @@ def main():
     lines.append(HEADER)
     lines.append('')
 
-    for resource_type, trigger_definitions in INTERNAL_TRIGGER_TYPES.items():
+    for resource_type, trigger_definitions in list(INTERNAL_TRIGGER_TYPES.items()):
         resource_title = resource_type.title().replace('_', ' ')
         lines.append(resource_title)
         lines.append('~' * (len(resource_title)))
@@ -44,7 +44,7 @@ def main():
         rows.append(['Reference', 'Description', 'Properties'])
 
         for trigger_definition in trigger_definitions:
-            properties = trigger_definition['payload_schema']['properties'].keys()
+            properties = list(trigger_definition['payload_schema']['properties'].keys())
             properties = ', '.join(properties)
             row = [trigger_definition['name'], trigger_definition['description'], properties]
             rows.append(row)

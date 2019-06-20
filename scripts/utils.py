@@ -1,8 +1,6 @@
 # Note: This file is licensed under MIT license
 # See: http://code.activestate.com/recipes/579054-generate-sphinx-table/
 
-import string
-
 
 def as_rest_table(data, full=False):
     """
@@ -31,8 +29,8 @@ def as_rest_table(data, full=False):
     data = data if data else [['No Data']]
     table = []
     # max size of each column
-    sizes = map(max, zip(*[[len(str(elt)) for elt in member]
-                           for member in data]))
+    sizes = list(map(max, list(zip(*[[len(str(elt)) for elt in member]
+                                     for member in data]))))
     num_elts = len(sizes)
 
     if full:
@@ -53,9 +51,9 @@ def as_rest_table(data, full=False):
                                   end_of_line)
     # determine top/bottom borders
     if full:
-        to_separator = string.maketrans('| ', '+-')
+        to_separator = str.maketrans('| ', '+-')
     else:
-        to_separator = string.maketrans('|', '+')
+        to_separator = str.maketrans('|', '+')
     start_of_line = start_of_line.translate(to_separator)
     vertical_separator = vertical_separator.translate(to_separator)
     end_of_line = end_of_line.translate(to_separator)
@@ -63,7 +61,7 @@ def as_rest_table(data, full=False):
                                    vertical_separator.join([x * line_marker for x in sizes]),
                                    end_of_line)
     # determine header separator
-    th_separator_tr = string.maketrans('-', '=')
+    th_separator_tr = str.maketrans('-', '=')
     start_of_line = start_of_line.translate(th_separator_tr)
     line_marker = line_marker.translate(th_separator_tr)
     vertical_separator = vertical_separator.translate(th_separator_tr)
