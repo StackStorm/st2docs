@@ -145,6 +145,9 @@ the `examples` pack shows a complete working example of using ``vars`` and ``pub
    :language: yaml
    :lines: 1-29
 
+These published variables could also be used to pass data between workflows. See below for more information
+about passing data between workflows.
+
 Passing Data between Tasks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
