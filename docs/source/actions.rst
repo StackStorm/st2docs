@@ -205,6 +205,15 @@ In the example above, the ``to_number`` parameter contains the attribute ``secre
 ``true``. If an attribute is marked as a secret, the value of that attribute will be masked in the
 |st2| service logs.
 
+.. tip::
+
+  Does your parameter only accept certain values? Use ``enum:`` with a list of allowed values. When the
+  action is executed, it will only allow those specific values. And the in Web UI, it will be rendered
+  as a drop-down list. 
+
+  See the `examples.weather <https://github.com/StackStorm/st2/blob/master/contrib/examples/actions/weather.yaml#L16>`_
+  action in the examples pack for how to use this.
+
 
 Output Schema
 ~~~~~~~~~~~~~
