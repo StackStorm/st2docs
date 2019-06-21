@@ -123,9 +123,9 @@ the following runners:
 
 
 Runners come with their own set of input parameters. When an action is executed, it inherits the
-runner parameters, in addition to its own parameters.
+runner parameters, in addition to its own parameters. The built-in parameters can be over-ridden on a per-action basis.
 
-For a complete list of Runners and their parameters, see :doc:`/reference/runners`
+For a complete list of Runners and their parameters, see :doc:`/reference/runners`.
 
 
 .. _ref-actions-writing-custom:
@@ -204,6 +204,15 @@ metadata file. The action takes three parameters (``from_number``, ``to_number``
 In the example above, the ``to_number`` parameter contains the attribute ``secret`` with value:
 ``true``. If an attribute is marked as a secret, the value of that attribute will be masked in the
 |st2| service logs.
+
+.. tip::
+
+  Does your parameter only accept certain values? Use ``enum:`` with a list of allowed values. When the
+  action is executed, it will only allow those specific values. And the in Web UI, it will be rendered
+  as a drop-down list. 
+
+  See the `examples.weather <https://github.com/StackStorm/st2/blob/master/contrib/examples/actions/weather.yaml#L16>`_
+  action in the examples pack for how to use this.
 
 
 Output Schema
@@ -346,9 +355,13 @@ To reload all actions, use ``st2ctl reload --register-actions``
 Built-in Parameters
 -------------------
 
-When configuring the metadata, there are several built-in parameters that can be used and
-overwritten to change the default functionality of the various runners:
+Action runners have their own built-in parameters. These are inherited by the action, and be over-ridden either
+in the action metadata, or by passing additional parameters when running the action.
 
+Some common parameters include:
+
+* ``timeout`` - (all runners) The default timeout varies by runner type. This is frequently over-ridden
+  for long-running actions.
 * ``args`` - (``local-shell-script``, ``remote-shell-script``) By default, |st2| will assemble
   arguments based on whether a user defines named or positional arguments. Adjusts the format of
   arguments passed to ``cmd``.
@@ -362,6 +375,8 @@ overwritten to change the default functionality of the various runners:
 * ``dir``  - (``local-shell-script``, ``remote-shell-script``) Configure the directory where
   scripts are copied from a pack to the target machine prior to execution.
   Defaults to ``/tmp``.
+
+For a full list of built-in parameters for each runner type, see :doc:`/reference/runners`.
 
 Overriding Runner Parameters
 ----------------------------

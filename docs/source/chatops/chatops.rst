@@ -82,7 +82,7 @@ know).
 Configuration
 =============
 
-.. note:: Microsoft Teams
+.. note::
 
     Configuring st2chatops with Microsoft Teams is a more involved process. Please see
     :doc:`our documentation <msteams>` specifically for that chat provider.
@@ -142,6 +142,16 @@ the web UI. To do so, edit the ``webui`` section in ``/etc/st2/st2.conf``. For e
 
     [webui]
     webui_base_url = https://st2web001.stackstorm.net
+
+Chatops Behind a Proxy
+~~~~~~~~~~~~~~~~~~~~~~
+
+If you use proxies in your environment, you may need to configure ``st2chatops`` to use the proxy. If you used
+the scripted installation, this has been done for you. If not, configure either ``/etc/default/st2chatops`` or
+``/etc/sysconfig/st2chatops`` (depending on your Linux distribution), following the same pattern as used for
+configuring :ref:`st2api and st2actionrunner <packs-behind-proxy>`.
+
+Restart ``st2chatops`` after creating that file.
 
 Using an External Adapter
 ~~~~~~~~~~~~~~~~~~~~~~~~~
