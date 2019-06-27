@@ -30,7 +30,6 @@ Install MongoDB, and RabbitMQ:
 .. code-block:: bash
 
   sudo apt-get update
-  sudo apt-get install -y gnupg-curl
   sudo apt-get install -y curl
 
   # Add key and repo for MongoDB (4.0)
