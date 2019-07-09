@@ -70,10 +70,11 @@ jobs:
               aws s3 sync generated-site/ewcdocs/ \
               s3://${EWCDOCS_BUCKET}/latest
             else
+              S3_OBJ=$(echo "${CIRCLE_BRANCH}" | sed 's/^v\(.*\)$/\1/')
               aws s3 sync generated-site/st2docs/ \
-              s3://${ST2DOCS_BUCKET}/${CIRCLE_BRANCH}
+              s3://${ST2DOCS_BUCKET}/${S3_OBJ}
               aws s3 sync generated-site/ewcdocs/ \
-              s3://${EWCDOCS_BUCKET}/${CIRCLE_BRANCH}
+              s3://${EWCDOCS_BUCKET}/${S3_OBJ}
             fi
       - run:
           # Check the install scripts to see if this is the current GA version
