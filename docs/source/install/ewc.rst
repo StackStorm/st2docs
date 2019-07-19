@@ -32,32 +32,13 @@ Upgrading from Community
 ------------------------
 
 Already have a working StackStorm system, and want to add |ewc|? No problem! No need to install a
-new system. You can install |ewc| on top of your existing system. Just run these commands, again
+new system. You can install |ewc| on top of your existing system. Just run install commands, again
 replacing ``${EWC_LICENSE_KEY}`` with the license key you received when registering:
 
-* On Ubuntu systems:
+.. code-block:: bash
 
-  .. code-block:: bash
-
-    # Set up Extreme Workflow Composer repository access
-    curl -s https://${EWC_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.deb.sh | sudo bash
-    # Install Extreme Workflow Composer
-    sudo apt-get install -y bwc-enterprise
-
-* On RedHat/CentOS systems:
-
-  .. code-block:: bash
-
-    # Set up Extreme Workflow Composer repository access
-    curl -s https://${EWC_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.rpm.sh | sudo bash
-    # Install Extreme Workflow Composer
-    sudo yum install -y bwc-enterprise
-
-.. note::
-
-    After installing the package and configuring st2.conf you need to restart ``st2api`` and
-    ``st2auth`` service for RBAC and LDAP backend changes (if configured) to take an effect -
-    ``sudo st2ctl restart``.
+  curl -sSL -O https://stackstorm.com/bwc/install.sh && chmod +x install.sh
+  ./install.sh --user=st2admin --password='Ch@ngeMe' --license=${EWC_LICENSE_KEY}
 
 To understand the full details of the installation procedure, or to install |ewc| manually, follow
 the installation guide for your Linux version: :doc:`/install/u16`, :doc:`/install/u18`, :doc:`/install/rhel7`,
