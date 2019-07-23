@@ -22,4 +22,4 @@ if [ ! -z $BWC_BRANCH ]; then
 fi
 
 echo "Cloning branch $REQUIRED_BRANCH of ipfabric docs"
-git clone -b $REQUIRED_BRANCH --depth 1 https://github.com/StackStorm/ipfabric-docs.git ipfabric
+git clone -b $REQUIRED_BRANCH --depth 1 https://github.com/extremenetworks/ipfabric-docs.git ipfabric
