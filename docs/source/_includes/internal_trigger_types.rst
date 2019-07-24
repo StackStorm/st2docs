@@ -6,29 +6,14 @@ Action
 +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
 | Reference                 | Description                                                     | Properties                                                                                                  |
 +===========================+=================================================================+=============================================================================================================+
-| st2.generic.actiontrigger | Trigger encapsulating the completion of an action execution.    | status, start_timestamp, result, parameters, action_ref, runner_ref, execution_id, action_name              |
+| st2.generic.actiontrigger | Trigger encapsulating the completion of an action execution.    | execution_id, status, start_timestamp, action_name, action_ref, runner_ref, parameters, result              |
 +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
-| st2.generic.notifytrigger | Notification trigger.                                           | status, data, start_timestamp, channel, route, action_ref, message, runner_ref, execution_id, end_timestamp |
+| st2.generic.notifytrigger | Notification trigger.                                           | execution_id, status, start_timestamp, end_timestamp, action_ref, runner_ref, channel, route, message, data |
 +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
-| st2.action.file_writen    | Trigger encapsulating action file being written on disk.        | host_info, ref, file_path                                                                                   |
+| st2.action.file_writen    | Trigger encapsulating action file being written on disk.        | ref, file_path, host_info                                                                                   |
 +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
-| st2.generic.inquiry       | Trigger indicating a new "inquiry" has entered "pending" status | route, id                                                                                                   |
+| st2.generic.inquiry       | Trigger indicating a new "inquiry" has entered "pending" status | id, route                                                                                                   |
 +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
-
-Key Value Pair
-~~~~~~~~~~~~~~
-
-+---------------------------------+---------------------------------------------------------+------------------------+
-| Reference                       | Description                                             | Properties             |
-+=================================+=========================================================+========================+
-| st2.key_value_pair.create       | Trigger encapsulating datastore item creation.          | object                 |
-+---------------------------------+---------------------------------------------------------+------------------------+
-| st2.key_value_pair.update       | Trigger encapsulating datastore set action.             | object                 |
-+---------------------------------+---------------------------------------------------------+------------------------+
-| st2.key_value_pair.value_change | Trigger encapsulating a change of datastore item value. | new_object, old_object |
-+---------------------------------+---------------------------------------------------------+------------------------+
-| st2.key_value_pair.delete       | Trigger encapsulating datastore item deletion.          | object                 |
-+---------------------------------+---------------------------------------------------------+------------------------+
 
 Sensor
 ~~~~~~
@@ -40,3 +25,18 @@ Sensor
 +--------------------------+--------------------------------------------------+------------+
 | st2.sensor.process_exit  | Trigger indicating sensor process is stopped.    | object     |
 +--------------------------+--------------------------------------------------+------------+
+
+Key Value Pair
+~~~~~~~~~~~~~~
+
++---------------------------------+---------------------------------------------------------+------------------------+
+| Reference                       | Description                                             | Properties             |
++=================================+=========================================================+========================+
+| st2.key_value_pair.create       | Trigger encapsulating datastore item creation.          | object                 |
++---------------------------------+---------------------------------------------------------+------------------------+
+| st2.key_value_pair.update       | Trigger encapsulating datastore set action.             | object                 |
++---------------------------------+---------------------------------------------------------+------------------------+
+| st2.key_value_pair.value_change | Trigger encapsulating a change of datastore item value. | old_object, new_object |
++---------------------------------+---------------------------------------------------------+------------------------+
+| st2.key_value_pair.delete       | Trigger encapsulating datastore item deletion.          | object                 |
++---------------------------------+---------------------------------------------------------+------------------------+
