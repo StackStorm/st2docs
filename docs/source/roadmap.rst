@@ -16,25 +16,19 @@ contributions. Here's our plans for the next two releases.
     the feature. Pull Requests are open to anyone.
 
 
-3.1
----
-
-* **Ubuntu:** GA Support Ubuntu 18.04, with Python 3.6
-* **MongoDB:** Support MongoDB 4.0 (required for Ubuntu 18.04).
-* **Ubuntu:** Drop Ubuntu 14.04 support.
-* **ChatOps:** Microsoft Teams GA.
-* **Core:** Support latest ``pip`` and ``requests()``.
-
 3.2
 ---
 
-* **Orquesta:** Workflow runtime graph.
 * **RHEL/CentOS:** Support RHEL 8.x (assuming it has been released!)
 * **RHEL/CentOS:** Drop support for RHEL/CentOS 6.x.
-* **WebUI:** Datastore viewer/editor.
-* **ChatOps:** RBAC.
-* **SAML:** Support SAML authentication.
+* **ChatOps:** Support RBAC.
+* **SSO:** Support SSO with SAML2 for |ewc| web UI (beta).
 * **Job Scheduling:** Job scheduling for ad-hoc jobs.
+
+3.3
+---
+
+* **Mistral deprecation:** Orquesta replaces Mistral as the workflow engine.
 
 Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
 
@@ -43,7 +37,9 @@ Backlog
 
 Here's some more things on our list that we haven't scheduled yet:
 
-* **Dry Run Workflows** Simulate running Orquesta workflows without actually making changes.
+* **Workflow runtime graph:** Runtime view of workflow execution in st2flow for |ewc|.
+* **Workflow dry run:** Ability to run unit tests on orquesta workflows for |ewc|.
+* **Datastore viewer/editor:** Datastore viewer/editor at web UI.
 * **History and Audit service:** History view with advanced search over years worth of execution
   records, over multiple versions of continuously upgraded |st2|.
 * **At-scale refinements:** Ensure event handling reliability, and event storm resilience. Complete
