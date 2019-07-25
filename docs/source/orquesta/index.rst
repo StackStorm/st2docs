@@ -15,6 +15,7 @@ it does not require a separate authentication system and database like Mistral.
    Getting Started <start>
    Workflow Definition <languages/orquesta>
    Expressions and Context <expressions>
+   StackStorm Runtime <stackstorm>
    Workflow Operations <operations>
    Upcoming Features <upcoming>
    Development <development/index>
