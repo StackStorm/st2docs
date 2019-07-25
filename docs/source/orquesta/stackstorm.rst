@@ -1,8 +1,8 @@
 StackStorm Runtime
 ==================
 
-StackStorm Runtime Context
---------------------------
+StackStorm Context
+------------------
 
 During workflow execution, runtime information on the StackStorm action execution cooresponding to
 this workflow execution can be access via ``ctx().st2`` or ``ctx("st2")``. The following is a list
@@ -25,8 +25,8 @@ the expression ``ctx().st2.action_execution_id``.
 | user                 | The user that invoked the action execution for this workflow.       |
 +----------------------+---------------------------------------------------------------------+
 
-StackStorm Runtime Functions
-----------------------------
+StackStorm Functions
+--------------------
 
 task
 """"
