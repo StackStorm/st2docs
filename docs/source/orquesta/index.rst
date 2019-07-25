@@ -17,3 +17,4 @@ it does not require a separate authentication system and database like Mistral.
    Expressions and Context <expressions>
    Workflow Operations <operations>
    Upcoming Features <upcoming>
+   Development <development/index>
