@@ -6,3 +6,5 @@ Upcoming Features
 
 * Task retry in workflow definition
 * Re-run workflow execution at specific task(s)
+* Workflow unit testing and dry run (|ewc|)
+* Workflow execution runtime view (|ewc|)

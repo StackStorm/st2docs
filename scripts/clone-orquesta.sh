@@ -19,3 +19,4 @@ cp ${REPO_DIR}/docs/source/expressions.rst ./docs/source/orquesta/expressions.rs
 cp ${REPO_DIR}/docs/source/yaql.rst ./docs/source/orquesta/yaql.rst
 cp ${REPO_DIR}/docs/source/jinja.rst ./docs/source/orquesta/jinja.rst
 cp -R ${REPO_DIR}/docs/source/languages ./docs/source/orquesta
+cp -R ${REPO_DIR}/docs/source/development ./docs/source/orquesta
