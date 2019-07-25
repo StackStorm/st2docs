@@ -28,6 +28,7 @@ contributions. Here's our plans for the next two releases.
 3.3
 ---
 
+* **Ubuntu:** Stop producing Ubuntu 14.04 packages.
 * **Mistral deprecation:** Orquesta replaces Mistral as the workflow engine.
 
 Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
@@ -61,6 +62,14 @@ Submit a PR!
 
 Release History
 ---------------
+
+.. rubric:: Done in v3.1
+
+* **Ubuntu:** GA Support Ubuntu 18.04, with Python 3.6
+* **Ubuntu:** Drop Ubuntu 14.04 support. Packages are still available for a limited time.
+* **MongoDB:** Support MongoDB 4.0 (required for Ubuntu 18.04).
+* **ChatOps:** Microsoft Teams GA.
+* **Core:** Support latest ``pip`` and ``requests()``.
 
 .. rubric:: Done in v3.0
 
