@@ -90,4 +90,5 @@ scoped key named ``shared_key_x`` while the expression ``<% st2kv('my_key_y') %>
 value for the user scoped key named ``my_key_y``. Please note that the key name should be in quotes
 otherwise YAQL treats a key name with a dot like ``system.shared_key_x`` as a dict access. The value
 can be encrypted in the StackStorm datastore. To decrypt the retrieved value, the input argument
-``decrypt`` must be set to true such as ``st2kv('st2_key_id', decrypt=>true)``.
+``decrypt`` must be set to true like the YAQL example ``<% st2kv('st2_key_id', decrypt=>true) %>``
+or its Jinja equivalent ``{{ st2kv('st2_key_id', decrypt=true) }}``.
