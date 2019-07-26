@@ -22,12 +22,16 @@ workflow can be traced back to the original parent action that invoked the workf
 
 **Essential Mistral Links:**
 
+.. note::
+
+    The following tools and resources are not owned by |st2|. Please use at your own risk.
+
 * Mistral workflow definition language, aka `v2 WorkFlow Language
   <https://docs.openstack.org/mistral/latest/user/wf_lang_v2.html>`_
 * `YAQL documentation <https://yaql.readthedocs.io/en/latest/>`_ and `YAQL online evaluator
   <http://yaqluator.com/>`_
 * `Jinja2 template engine documentation <http://jinja.pocoo.org>`_ and `Jinja2 online evaluator
-  <http://jinja2test.tk/>`_
+  <http://jinja.quantprogramming.com/>`_
 
 
 .. note::
