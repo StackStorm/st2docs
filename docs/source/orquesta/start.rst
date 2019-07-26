@@ -189,3 +189,15 @@ More Examples
 -------------
 
 There are more workflow examples under :github_st2:`/usr/share/doc/st2/examples <contrib/examples/actions/workflows/>` and include workflows that demonstrates branches, joins, decision tree, error handling, rollback/retry, and others.
+
+Additional Tools and Resources
+------------------------------
+
+.. note::
+
+    The following tools and resources are not owned by |st2|. Please use at your own risk.
+
+* `YAQL documentation <https://yaql.readthedocs.io/en/latest/>`_ and `YAQL online evaluator
+  <http://yaqluator.com/>`_
+* `Jinja2 template engine documentation <http://jinja.pocoo.org>`_ and `Jinja2 online evaluator
+  <http://jinja.quantprogramming.com/>`_
