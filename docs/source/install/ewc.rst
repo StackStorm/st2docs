@@ -25,7 +25,7 @@ received when registering for evaluation or purchasing EWC.
 
 .. code-block:: bash
 
-  curl -sSL -O https://stackstorm.com/bwc/install.sh && chmod +x install.sh
+  curl -sSL -O https://stackstorm.com/ewc/install.sh && chmod +x install.sh
   ./install.sh --user=st2admin --password='Ch@ngeMe' --license=${EWC_LICENSE_KEY}
 
 Upgrading from Community
@@ -37,7 +37,7 @@ replacing ``${EWC_LICENSE_KEY}`` with the license key you received when register
 
 .. code-block:: bash
 
-  curl -sSL -O https://stackstorm.com/bwc/install.sh && chmod +x install.sh
+  curl -sSL -O https://stackstorm.com/ewc/install.sh && chmod +x install.sh
   ./install.sh --user=st2admin --password='Ch@ngeMe' --license=${EWC_LICENSE_KEY}
 
 To understand the full details of the installation procedure, or to install |ewc| manually, follow
