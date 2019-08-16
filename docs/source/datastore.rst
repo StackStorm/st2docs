@@ -602,9 +602,11 @@ up the keys.
 Storing Secrets
 ---------------
 
-Please note that if an admin has not setup an encryption key, you will not be allowed to save
-secrets in the key-value store. Contact your |st2| admin to setup encryption keys as per the
-section above.
+.. note::
+
+    Please note that if an admin has not setup an encryption key, you will not be allowed to save
+    secrets in the key-value store. Contact your |st2| admin to setup encryption keys as per the
+    section above.
 
 To save a secret in the key-value store:
 
