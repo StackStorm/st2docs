@@ -641,6 +641,12 @@ Decrypting user scoped variables is currently unsupported.
 Secret keys can be loaded from a JSON/YAML key file by adding the ``secret`` property with
 a boolean value.
 
+.. note::
+
+    Keys loaded with ``secret: true`` are stored encrypted, but the value(s) specified in the
+    JSON/YAML key file should be the cleartext values. If you would like the values in the
+    JSON/YAML key file to be stored in an encrypted format, see the next section.
+
 JSON
 
 .. code-block:: json
