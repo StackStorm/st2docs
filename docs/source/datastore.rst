@@ -715,8 +715,8 @@ We wish to discuss security details and be transparent about the implementation 
 of the security practices to attract more eyes to it and therefore build better quality into
 security implementations. For the key-value store, we have settled on AES-256 symmetric encryption
 for simplicity. For StackStorm v2.7 and earlier, we used the Python library
-keyczar for doing this. Since StackStorm v2.8, we use the
-Python cryptography library to implement symmetric
+`keyczar <https://github.com/google/keyczar>`_ for doing this. Since StackStorm v2.8, we use the
+`Python cryptography library <https://github.com/pyca/cryptography>`_ to implement symmetric
 encryption.
 
 We have made a trade-off that the |st2| admin is allowed to decrypt the secrets in the key-value
