@@ -643,19 +643,21 @@ a boolean value.
 
 .. note::
 
-    Keys loaded with ``secret: true`` are stored encrypted, but the value(s) specified in the
-    JSON/YAML key file should be the cleartext values. If you would like the values in the
-    JSON/YAML key file to be stored in an encrypted format, see the next section.
+    Keys loaded with ``secret: true`` (and ``encrypted: false``) are *stored* encrypted, but the
+    value(s) specified in the JSON/YAML key file should be the cleartext values. If you would
+    like the values in the JSON/YAML key file to be stored in an encrypted format, see the next
+    section.
 
 JSON
 
-.. code-block:: json
+.. code-block:: jsonc
 
     [
         {
             "name": "api_token",
-            "value": "SECRET_TOKEN",
-            "secret": true
+            "value": "SECRET_TOKEN",  // cleartext
+            // "encrypted": false, (default)
+            "secret": true  // will be stored encrypted
         }
     ]
 
@@ -665,8 +667,9 @@ YAML
 
     ---
     - name: api_token
-      value: SECRET_TOKEN
-      secret: true
+      value: SECRET_TOKEN  # cleartext
+      secret: true  # will be stored encrypted
+      # encrypted: false (default)
 
 Storing Pre-Encrypted Secrets
 -----------------------------
