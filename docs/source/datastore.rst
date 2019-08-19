@@ -650,7 +650,7 @@ a boolean value.
 
 JSON
 
-.. code-block:: jsonc
+.. code-block:: json
 
     [
         {
