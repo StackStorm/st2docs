@@ -639,14 +639,9 @@ to pass a decrypted password as a parameter, use:
 Decrypting user scoped variables is currently unsupported.
 
 Secret keys can be loaded from a JSON/YAML key file by adding the ``secret`` property with
-a boolean value.
-
-.. note::
-
-    Keys loaded with ``secret: true`` (and ``encrypted: false``) are *stored* encrypted, but the
-    value(s) specified in the JSON/YAML key file should be the cleartext values. If you would
-    like the values in the JSON/YAML key file to be stored in an encrypted format, see the next
-    section.
+a boolean value. The ``secret`` property only controls how the value is *stored* in the datastore,
+not how it is saved in or read from the JSON/YAML key file. The value(s) specified in the JSON/YAML
+key file should be the cleartext values.
 
 JSON
 
@@ -660,6 +655,11 @@ JSON
         }
     ]
 
+.. note::
+
+    For the above example, ``"encrypted": false`` is the default so it is not explicitly specified,
+    and ``SECRET_TOKEN`` is the cleartext value.
+
 YAML
 
 .. code-block:: yaml
@@ -669,6 +669,8 @@ YAML
       value: SECRET_TOKEN  # cleartext
       secret: true  # will be stored encrypted
       # encrypted: false (default)
+
+If you would like to save encrypted values in the JSON/YAML key file, see the next section.
 
 Storing Pre-Encrypted Secrets
 -----------------------------
