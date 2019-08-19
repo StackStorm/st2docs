@@ -655,9 +655,8 @@ JSON
     [
         {
             "name": "api_token",
-            "value": "SECRET_TOKEN",  // cleartext
-            // "encrypted": false, (default)
-            "secret": true  // will be stored encrypted
+            "value": "SECRET_TOKEN",
+            "secret": true
         }
     ]
 
@@ -709,15 +708,19 @@ JSON
         }
     ]
 
+.. code-block:: bash
+
+    ``XYZ12fsAz310D`` is the encrypted value
+
 YAML
 
 .. code-block:: yaml
 
     ---
     - name: api_token
-      value: XYZ12fsAz310D
-      secret: true
-      encrypted: true
+      value: XYZ12fsAz310D  # encrypted value
+      secret: true  # store in encrypted format
+      encrypted: true  # denotes that the value is already encrypted
 
 Security notes
 --------------
