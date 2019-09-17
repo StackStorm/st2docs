@@ -264,8 +264,8 @@ the ``actionrunner.python_binary`` config option. By default, the same Python 2.
 used by all the |st2| components and services is used for pack virtual environments.
 
 If you need to use Python 3 for running your pack Python actions, you can do that by passing  the
-``--python3`` flag to the ``st2 pack install`` command (e.g. ``st2 pack install libcloud
---python3``).
+``--use-python3`` flag to the ``st2 pack install`` command (e.g. ``st2 pack install libcloud
+--use-python3``).
 
 This will create the pack virtual environment using the Python 3 binary specified by
 ``actionrunner.python3_binary`` config option. This value defaults to ``/usr/bin/python3``. For
