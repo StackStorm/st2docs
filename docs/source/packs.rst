@@ -162,6 +162,9 @@ dependencies, you can use the ``--skip-dependencies`` flag:
 
     st2 pack install --skip-dependencies my-custom-pack
 
+Uninstalling a Pack
+~~~~~~~~~~~~~~~~~~~
+
 To uninstall a pack, use ``remove``:
 
 .. code-block:: bash
