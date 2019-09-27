@@ -133,6 +133,9 @@ version or **upgrade to latest** if the version is not specified. Your config fi
 overwritten, so you can revert to an older version just as easily, but for production deployments
 we recommend to always specify versions in case there are major changes in ``latest``.
 
+Uninstalling a Pack
+~~~~~~~~~~~~~~~~~~~
+
 To uninstall a pack, use ``remove``:
 
 .. code-block:: bash
