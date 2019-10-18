@@ -268,6 +268,7 @@ st2web
 ______
 st2web is a StackStorm Web UI admin dashboard. By default, st2web K8s config includes a Pod Deployment and a Service.
 ``2`` replicas (configurable) of st2web serve the web app and proxy requests to st2auth, st2api, st2stream.
+By default, st2web uses HTTP instead of HTTPS. We recommend you rely on ``LoadBalancer`` or ``Ingress`` to add HTTPS layer on top of it.
 
 .. note::
   By default, st2web is a NodePort Service and is not exposed to the public net.
