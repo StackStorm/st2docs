@@ -454,7 +454,7 @@ the best integration with st2chatops).
 
 Other chat providers also support ``extra``. See the :ref:`example below <extra-hacking>` for
 hacking on ``extra``. You may also need to dig into the
-`source code <https://github.com/StackStorm/hubot-stackstorm/tree/master/lib>`_ for
+`source code <https://github.com/StackStorm/hubot-stackstorm/tree/master/src/lib>`_ for
 individual adapters to see how to use ``extra`` for your chat provider.
 
 Testing and extending alias parameters
