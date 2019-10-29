@@ -14,7 +14,7 @@ Upgrade Notes
 
   If you experience issues with some Python runner actions hanging our the real time action output
   is slower / less real-time than before, you can set ``actionrunner.stream_output_buffer_size``
-  config option to ``-1`` and restart st2actionrunner processes (``sudo st2ctl restart-service
+  config option to ``-1`` and restart st2actionrunner processes (``sudo st2ctl restart-component
   st2actionrunner``).
 
   This will switch back to the unbuffered output.
