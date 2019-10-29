@@ -3,6 +3,28 @@
 Upgrade Notes
 =============
 
+.. _ref-upgrade-notes-v3-2:
+
+|st2| v3.2
+----------
+
+* We have switched from unbuffered to fully buffered output for Python runner actions. This should
+  result in better performance and smaller CPU utilization for actions which produce a lot of
+  output.
+
+  If you experience issues with some Python runner actions hanging our the real time action output
+  is slower / less real-time than before, you can set ``actionrunner.stream_output_buffer_size``
+  config option to ``-1`` and restart st2actionrunner processes (``sudo st2ctl restart-service
+  st2actionrunner``).
+
+  This will switch back to the unbuffered output.
+
+  This config directly controls ``bufsize`` argument which is passed to
+  ``st2common.util.green.shell.run_command()`` function so you can also
+  experiment with other values which are supported by Python
+  ``subprocess.Popen`` (https://docs.python.org/2/library/subprocess.html#popen-constructor)
+  function.
+
 .. _ref-upgrade-notes-v3-0:
 
 |st2| v3.0
