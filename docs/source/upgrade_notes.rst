@@ -12,7 +12,7 @@ Upgrade Notes
   result in better performance and smaller CPU utilization for actions which produce a lot of
   output.
 
-  If you experience issues with some Python runner actions hanging our the real time action output
+  If you experience issues with some Python runner actions hanging out the real time action output
   is slower / less real-time than before, you can set ``actionrunner.stream_output_buffer_size``
   config option to ``-1`` and restart st2actionrunner processes (``sudo st2ctl restart-component
   st2actionrunner``).
