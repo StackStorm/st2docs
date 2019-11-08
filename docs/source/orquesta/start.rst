@@ -11,7 +11,7 @@ is the path relative to ``/opt/stackstorm/packs/<mypack>/actions`` for the workf
 Let's start with a very basic Orquesta workflow named ``examples.orquesta-sequential`` for the
 ``examples`` pack. The workflow definition for this example is provided below. This workflow is a
 very simple example that runs a few echoes, pieces together the output, and returns a response. A task
-can reference any registered |st2| action directly. In this example, the tasks calls ``core.echo``,
+can reference any registered |st2| action directly. In this example, the task calls ``core.echo``,
 an action in |st2| that just echoes back the message, like the shell echo command. The ``core.echo``
 action is already installed by default with |st2|. Let's save this workflow definition as
 ``/opt/stackstorm/packs/examples/actions/workflows/orquesta-sequential.yaml`` on the |st2| server.
