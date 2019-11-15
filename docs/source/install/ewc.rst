@@ -5,9 +5,9 @@ StackStorm is an event-driven DevOps automation platform with all the essential 
 for small businesses and teams. It’s free and open source under the Apache 2.0 license.
 
 |ewc| (EWC) is the commercial version of the StackStorm automation platform. EWC adds priority
-support, advanced features such as fine-tuned access control, LDAP, and Workflow Designer. To
-learn more about |ewc|, get an evaluation license, or request a quote, visit `stackstorm.com/features/#ewc
-<https://stackstorm.com/features/#ewc>`_.
+support, advanced features such as fine-tuned access control (RBAC), LDAP, and Workflow Designer. To
+learn more about |ewc|, get an evaluation license, or request a quote, visit `Workflow Composer Product Page
+<https://www.extremenetworks.com/product/workflow-composer/>`_ and `Contact Sales <https://www.extremenetworks.com/contact-sales/>`_.
 
 .. image:: /_static/images/flow/pkg_promote_workflow.png
     :align: center
@@ -50,10 +50,4 @@ High Availability deployment
 Using |ewc| in production and need better safety for all important operations you delegate to automation engine?
 StackStorm was built with High Availability in mind - check out :ref:`StackStorm Enterprise HA in Kubernetes <ref-ewc-ha>` for  deployment blueprint.
 
-.. only:: community
-
-    .. include:: /__engage_community.rst
-
-.. only:: enterprise
-
-    .. include:: /__engage_enterprise.rst
+.. include:: /__engage_enterprise.rst
