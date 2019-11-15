@@ -199,11 +199,9 @@ Upgrade to |ewc|
 
 .. code-block:: bash
 
-  # Set up Extreme Workflow Composer repository access
-  curl -s https://${EWC_LICENSE_KEY}:@packagecloud.io/install/repositories/StackStorm/enterprise/script.deb.sh | sudo bash
-  # Install Extreme Workflow Composer
-  sudo apt-get install -y bwc-enterprise
-  sudo st2ctl restart
+  # Set up Extreme Workflow Composer repository access, install Enterprise packages and configure RBAC
+  curl -sSL -O https://stackstorm.com/ewc/install.sh && chmod +x install.sh
+  ./install.sh --user=st2admin --password='Ch@ngeMe' --license=${EWC_LICENSE_KEY}
 
 .. rubric:: What's Next?
 
