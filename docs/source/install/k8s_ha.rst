@@ -114,7 +114,7 @@ It will pull enterprise images from our private Docker registry. This adds advan
 .. note::
     Don't have StackStorm Enterprise License?
 
-    Request a 90-day free trial at https://stackstorm.com/features/#ewc
+    Request a free trial by filling out the form at `Extreme Sales <https://www.extremenetworks.com/contact-sales/>`_
 
 RBAC & LDAP Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~
