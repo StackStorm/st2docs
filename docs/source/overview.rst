@@ -84,4 +84,11 @@ What's Next?
 * Help us with directions - comment on the :doc:`/roadmap`
 * Explore the `StackStorm community <https://www.stackstorm.com/community/>`__
 
-.. include:: __engage_community.rst
+
+.. only:: community
+
+    .. include:: __engage_community.rst
+
+.. only:: enterprise
+
+    .. include:: __engage_enterprise.rst

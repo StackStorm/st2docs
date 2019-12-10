@@ -9,10 +9,10 @@ Like any |st2| action, an Orquesta workflow requires an action metadata file in
 is the path relative to ``/opt/stackstorm/packs/<mypack>/actions`` for the workflow definition.
 
 Let's start with a very basic Orquesta workflow named ``examples.orquesta-sequential`` for the
-``examples`` pack. The workflow definition for this example is provide below. This workflow is a
-very simple example that run a few echoes, piece together the output, and return a response. A task
-can reference any registered |st2| action directly. In this example, the tasks call ``core.echo``.
-an action in |st2| that just echo back the message like the shell echo command. The ``core.echo``
+``examples`` pack. The workflow definition for this example is provided below. This workflow is a
+very simple example that runs a few echoes, pieces together the output, and returns a response. A task
+can reference any registered |st2| action directly. In this example, the task calls ``core.echo``,
+an action in |st2| that just echoes back the message, like the shell echo command. The ``core.echo``
 action is already installed by default with |st2|. Let's save this workflow definition as
 ``/opt/stackstorm/packs/examples/actions/workflows/orquesta-sequential.yaml`` on the |st2| server.
 
@@ -188,7 +188,7 @@ workflow definition, and other information specific to the error type.
 More Examples
 -------------
 
-There are more workflow examples under :github_st2:`/usr/share/doc/st2/examples <contrib/examples/actions/workflows/>` and include workflows that demonstrates branches, joins, decision tree, error handling, rollback/retry, and others.
+There are more workflow examples under :github_st2:`/usr/share/doc/st2/examples <contrib/examples/actions/workflows/>`, including workflows that demonstrate branches, joins, decision tree, error handling, rollback/retry, and others.
 
 Additional Tools and Resources
 ------------------------------

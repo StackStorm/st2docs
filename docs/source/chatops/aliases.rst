@@ -72,7 +72,7 @@ To remove an action alias, use:
 
    st2 action-alias delete {ALIAS}
 
-After removing or modifying existing aliases, you may need to restart the ``st2chatops`` service, 
+After removing or modifying existing aliases, you may need to restart the ``st2chatops`` service,
 or you may see old or duplicate commands still showing up on your chatbot.
 
 Supported formats
@@ -127,6 +127,37 @@ For default inputs like JSON, the following pattern can be applied:
 It is therefore possible to pass information to a runner like a HTTP header as a default value
 using this pattern.
 
+
+With immutable parameters
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Sometimes an alias must have default values that cannot be changed by the chat user.
+
+Using this example:
+
+.. code-block:: yaml
+
+    formats:
+      - "run {{cmd}}"
+    immutable_parameters:
+      hosts: localhost
+
+In this case, the action will always receive the hosts parameter as ``localhost``. An attempt to
+override this parameter on the message will raise an error.
+
+You can pass any number of arguments to the action using ``immutable_parameters`` and values
+support Jinja templating so you can, for example, retrieve a value from the datastore.
+
+.. code-block:: yaml
+
+    formats:
+      - "run {{cmd}}"
+    immutable_parameters:
+      hosts: dev.server
+      sudo_password: "{{ st2kv('system.dev_server_sudo_password', decrypt=true) }}"
+
+
+
 Regular Expressions
 ~~~~~~~~~~~~~~~~~~~
 
@@ -168,7 +199,7 @@ Additional ChatOps Parameters Passed
 
 An execution triggered via ChatOps will contain variables such as ``action_context.api_user``,
 ``action_context.user`` and ``action_context.source_channel``. ``api_user`` is the user who runs
-the ChatOps command from the client and ``user`` is the |st2| user configured in hubot. 
+the ChatOps command from the client and ``user`` is the |st2| user configured in hubot.
 ``source_channel`` is the channel in which the ChatOps command was entered.
 
 If you are attempting to access this information from inside an ActionChain, you will need to
@@ -423,7 +454,7 @@ the best integration with st2chatops).
 
 Other chat providers also support ``extra``. See the :ref:`example below <extra-hacking>` for
 hacking on ``extra``. You may also need to dig into the
-`source code <https://github.com/StackStorm/hubot-stackstorm/tree/master/lib>`_ for
+`source code <https://github.com/StackStorm/hubot-stackstorm/tree/master/src/lib>`_ for
 individual adapters to see how to use ``extra`` for your chat provider.
 
 Testing and extending alias parameters
