@@ -166,8 +166,8 @@ available at :github_st2:`st2/contrib/hello_st2 <contrib/hello_st2>`.
 
      A note on metadata: |st2| enforces certain rules about metadata. The ``version`` value in
      ``pack.yaml`` must conform to `semver <http://semver.org/>`__:``0.2.5``, not ``0.2``. The
-     ``name`` value in ``pack.yaml`` must only contain letters, digits, and underscores, unless you
-     set the ``ref`` value explicitly in ``pack.yaml``. Finally the email attribute in
+     ``name`` value in ``pack.yaml`` must only contain lowercase letters, digits, and underscores,
+     unless you set the ``ref`` value explicitly in ``pack.yaml``. Finally the email attribute in
      ``pack.yaml`` must contain a properly formatted email address.
 
      The ``python_versions`` field declares which Python versions this pack supports. Packs submitted
