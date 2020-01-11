@@ -179,7 +179,7 @@ receive these events.
 
   This stream API endpoint has been added in |st2| v2.9.0.
 
-* ``GET /v1/stream/executions/<execution id>/output[?output_type=stdout/stderr/other]``
+* ``GET /stream/v1/executions/<execution id>/output[?output_type=stdout/stderr/other]``
 
 In addition to the general purpose stream API endpoint, you can also utilize special purpose
 execution output stream API endpoint which also follows server-sent events specification.
@@ -191,7 +191,7 @@ established).
 
 .. code-block:: bash
 
-    $ curl http://127.0.0.1:9102/v1/stream/executions/5b62dbce962d747a93e9e4c9/output
+    $ curl http://127.0.0.1:9102/stream/v1/executions/5b62dbce962d747a93e9e4c9/output
 
     event: st2.execution.output__create
     data: {"timestamp": "2018-08-02T10:08:32.473143Z", "runner_ref": "local-shell-cmd", "output_type": "stdout", "action_ref": "core.local", "data": "1\n", "id": "5b62d820962d74784ef53da3", "execution_id": "5b62d815962d747771af2596"}
