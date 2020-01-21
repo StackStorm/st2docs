@@ -38,7 +38,7 @@ Re-running Workflow Execution from Task(s)
 There are use cases where users want to re-run the workflow execution for certain task(s). Orquesta
 allows workflow execution to be re-run from any task(s) as long as the workflow execution is in a
 completed state (succeeded, failed, or canceled). Let's say we have a sequential workflow execution
-that executes task1 -> task2 -> task3. The workflow execution can be re-run fromm any task with
+that executes task1 -> task2 -> task3. The workflow execution can be re-run from any task with
 the command ``st2 execution re-run <execution-id> --tasks <task_name>``. A new action execution is
 created for the re-run. However, the workflow execution from original action execution will be
 reused. If the task to rerun from is a with items task, there is an additional argument passed to
