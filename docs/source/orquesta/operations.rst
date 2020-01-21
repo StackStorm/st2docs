@@ -27,7 +27,22 @@ are no more active tasks.
 Re-running Workflow Execution
 -----------------------------
 
-A workflow execution can be re-run on error. In the current version, the workflow execution can only
-be re-run from the beginning. Re-running the workflow execution from the beginning is exactly like
-re-running any |st2| execution with the command ``st2 execution re-run <execution-id>``. The re-run
-is a completely separate execution with a new execution ID in |st2|.
+A workflow execution can be re-run from the beginning. It is exactly like re-running any |st2|
+execution with the command ``st2 execution re-run <execution-id>``. The re-run is a completely
+separate action execution with a new action execution ID in |st2| and a new workflow execution
+is created for the new action execution.
+
+Re-running Workflow Execution from Task(s)
+------------------------------------------
+
+There are use cases where users want to re-run the workflow execution for certain task(s). Orquesta
+allows workflow execution to be re-run from any task(s) as long as the workflow execution is in a
+completed state (succeeded, failed, or canceled). Let's say we have a sequential workflow execution
+that executes task1 -> task2 -> task3. The workflow execution can be re-run fromm any task with
+the command ``st2 execution re-run <execution-id> --tasks <task_name>``. A new action execution is
+created for the re-run. However, the workflow execution from original action execution will be
+reused. If the task to rerun from is a with items task, there is an additional argument passed to
+the re-run command that instruct whether to reset the task or re-run only failed items. By default,
+the with items task will be reset. But in certain use cases, users may want to re-run only failed
+items. In that case, use the command
+``st2 execution re-run <execution-id> --tasks <task_name> --no-reset``.
