@@ -68,6 +68,20 @@ below, let's say task2 and task3 failed and the user wants to rerun the workflow
 
 To rerun the workflow execution from both task2 and task3, use the following command
 ``st2 execution re-run <execution-id> --tasks task2 task3``. Please take note to use space in
-between task names. And if both tasks are with items tasks and user do not want to reset the tasks
-and only re-run from failed items, use the command
+between task names.
+
+If user want to rerun from task1 instead, then just specific only task1 for the rerun and the
+other tasks will run per the workflow defintion when task1 completes. The command for this case is
+``st2 execution re-run <execution-id> --tasks task1``.
+
+If both tasks are with items tasks and user do not want to reset the tasks and only re-run from
+failed items, use the command
 ``st2 execution re-run <execution-id> --tasks task2 task3 --no-reset task2 task3``.
+
+However, for a user case if user only wants to reset task2 but not task3, then only pass task3
+to the ``--no-reset`` arg. The command for this case is
+``st2 execution re-run <execution-id> --tasks task2 task3 --no-reset task3``.
+
+And in the case if user wants to rerun from task1 instead and task2 and task3 are with items tasks,
+both task2 and task3 will be reset when task1 completes regardless of what user passes to the
+``--no-reset`` arg.
