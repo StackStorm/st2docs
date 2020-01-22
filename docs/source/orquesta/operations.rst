@@ -45,4 +45,4 @@ reused. If the task to rerun from is a with items task, there is an additional a
 the re-run command that instruct whether to reset the task or re-run only failed items. By default,
 the with items task will be reset. But in certain use cases, users may want to re-run only failed
 items. In that case, use the command
-``st2 execution re-run <execution-id> --tasks <task_name> --no-reset``.
+``st2 execution re-run <execution-id> --tasks <task_name> --no-reset <task_name>``.
