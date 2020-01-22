@@ -37,12 +37,37 @@ Re-running Workflow Execution from Task(s)
 
 There are use cases where users want to re-run the workflow execution for certain task(s). Orquesta
 allows workflow execution to be re-run from any task(s) as long as the workflow execution is in a
-completed state (succeeded, failed, or canceled). Let's say we have a sequential workflow execution
-that executes task1 -> task2 -> task3. The workflow execution can be re-run from any task with
-the command ``st2 execution re-run <execution-id> --tasks <task_name>``. A new action execution is
-created for the re-run. However, the workflow execution from original action execution will be
-reused. If the task to rerun from is a with items task, there is an additional argument passed to
-the re-run command that instruct whether to reset the task or re-run only failed items. By default,
-the with items task will be reset. But in certain use cases, users may want to re-run only failed
-items. In that case, use the command
+completed state (succeeded, failed, or canceled). This is different than using a retry in the
+workflow definition to tell Orquesta to automatically retry a task execution. Retry is considered
+during workflow design time. Rerun allows a user to respond to unexpected issues during runtime.
+This feature allows user to rerun a workflow from a specific step without starting from the
+beginning especially if the workflow is long running or has many steps.
+
+Given the sequential workflow below, the workflow execution can be re-run from any task with the
+command ``st2 execution re-run <execution-id> --tasks <task_name>``.
+
+.. code-block:: none
+
+    task1 --> task2 --> task3
+
+A new action execution is created for the re-run. However, the workflow execution from original
+action execution will be reused. If the task to rerun from is a with items task, there is an
+additional argument passed to the re-run command that instruct whether to reset the task or re-run
+only failed items. By default, the with items task will be reset. But in certain use cases, users
+may want to re-run only failed items. In that case, use the command
 ``st2 execution re-run <execution-id> --tasks <task_name> --no-reset <task_name>``.
+
+For a different use case where there are multiple parallel branches with join. Given the example
+below, let's say task2 and task3 failed and the user wants to rerun the workflow from both tasks.
+
+.. code-block:: none
+
+            +--> task2 --+
+    task1 --|            |--> task4
+            +--> task3 --+
+
+To rerun the workflow execution from both task2 and task3, use the following command
+``st2 execution re-run <execution-id> --tasks task2 task3``. Please take note to use space in
+between task names. And if both tasks are with items tasks and user do not want to reset the tasks
+and only re-run from failed items, use the command
+``st2 execution re-run <execution-id> --tasks task2 task3 --no-reset task2 task3``.
