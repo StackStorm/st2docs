@@ -22,8 +22,8 @@ contributions. Here's our plans for the next two releases.
 * **RHEL/CentOS:** Support RHEL 8.x (assuming it has been released!)
 * **RHEL/CentOS:** Drop support for RHEL/CentOS 6.x.
 * **ChatOps:** Support RBAC.
-* **SSO:** Support SSO with SAML2 for |ewc| web UI (beta).
-* **Job Scheduling:** Job scheduling for ad-hoc jobs.
+* **Orquesta:** Support task retry in workflow definition.
+* **Orquesta:** Support rerun of workflow execution from task(s).
 
 3.3
 ---
@@ -40,6 +40,8 @@ Here's some more things on our list that we haven't scheduled yet:
 
 * **Workflow runtime graph:** Runtime view of workflow execution in st2flow for |ewc|.
 * **Workflow dry run:** Ability to run unit tests on orquesta workflows for |ewc|.
+* **SSO:** Support SSO with SAML2 for |ewc| web UI (beta).
+* **Job Scheduling:** Job scheduling for ad-hoc jobs.
 * **Datastore viewer/editor:** Datastore viewer/editor at web UI.
 * **History and Audit service:** History view with advanced search over years worth of execution
   records, over multiple versions of continuously upgraded |st2|.
