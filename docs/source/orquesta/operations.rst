@@ -43,20 +43,31 @@ during workflow design time. Rerun allows a user to respond and manually react t
 during runtime. This feature allows a user to rerun a workflow from a specific step without
 starting from the beginning, especially if the workflow is long running or has many steps.
 
-Given the sequential workflow below, the workflow execution can be re-run from any task with the
-command ``st2 execution re-run <execution-id> --tasks <task_name>``.
+Given the sequential workflow below where task1 succeeded, task2 failed, and task3 has not executed,
+the workflow execution can be re-run from any task with the command
+``st2 execution re-run <execution-id> --tasks <task_name>``. A new action execution is created for
+the re-run. However, the workflow execution from the original action execution will be reused.
 
 .. code-block:: none
 
-    task1 --> task2 --> task3
+    task1 (succeeded) --> task2 (failed) --> task3 (not executed)
 
-A new action execution is created for the re-run. However, the workflow execution from the original
-action execution will be reused. If the task to rerun from is a with items task, there is an
+If the task to rerun from is a with items task, there is an
 additional argument passed to the re-run command that controls whether to reset the task (eg: run
 all of the with items subtasks) or to only re-run failed items. By default, the with items task
 will be reset. But in certain use cases, users may want to re-run only failed items. In that case,
 use the command
 ``st2 execution re-run <execution-id> --tasks <task_name> --no-reset <task_name>``.
+
+Using the sequential workflow as example, if the user passes task2 twice to the ``--tasks`` arg
+such as ``st2 execution re-run <execution-id> --tasks task2 task2``, the re-run command will
+recognize that task2 is requested twice and deduplicate the request. If the user passes both
+task1 and task2 to the ``--tasks`` arg such as
+``st2 execution re-run <execution-id> --tasks task1 task2`` where task2 is already along the path
+of execution from task1, than the re-run command will ignore the request for task2 to avoid causing
+multiple branches of task executions. If the user tries to rerun the workflow execution from task3
+with the command ``st2 execution re-run <execution-id> --tasks task3`` where task3 has not been
+executed before, then the re-run command will return an exception.
 
 A more complex example is where there are multiple parallel branches that are joined in a later
 task. Given the example flowchart below, let's say task2 and task3 failed and the user wants to
