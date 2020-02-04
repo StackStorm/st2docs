@@ -277,9 +277,10 @@ Zookeeper/Redis
 Various |st2| features rely on a proper co-ordination backend in a distributed deployment to work
 correctly.
 
-`This <http://zookeeper.apache.org/doc/trunk/zookeeperStarted.html#sc_RunningReplicatedZooKeeper>`__
-shows how to run a replicated Zookeeper setup. See `this <http://redis.io/topics/sentinel>`__ to
-understand Redis deployments using sentinel.
+`This <https://zookeeper.apache.org/doc/r3.5.6/zookeeperStarted.html#sc_RunningReplicatedZooKeeper>`__
+shows how to run a replicated Zookeeper setup. (Note: Make sure to refer to the documentation in the
+same version as your running Zookeeper installation, if any.)
+See `this <http://redis.io/topics/sentinel>`__ to understand Redis deployments using sentinel.
 
 Nginx and Load Balancing
 ^^^^^^^^^^^^^^^^^^^^^^^^
