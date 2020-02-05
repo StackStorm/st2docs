@@ -15,7 +15,8 @@ Here's an overview of the options:
 * **Manual Installation:** Have custom needs? Maybe no Internet access from your servers? Or just
   don't like using scripted installs? Read the manual installation instructions for your OS
   (:doc:`Ubuntu 16 </install/u16>`, :doc:`Ubuntu 18 </install/u18>`, :doc:`RHEL/CentOS 6 </install/rhel6>`,
-  :doc:`RHEL/CentOS 7 </install/rhel7>`), and adapt them to your needs. Here's some `additional guidance
+  :doc:`RHEL/CentOS 7 </install/rhel7>`), :doc:`RHEL/CentOS 7 </install/rhel7>`and adapt them to
+  your needs. Here's some `additional guidance
   <https://stackstorm.com/2017/02/10/installing-stackstorm-offline-systems/>`_ for setting up an
   internal mirror for the |st2| repos. 
 * **Ansible Playbooks:** If you are an Ansible user, check these :doc:`/install/ansible` for

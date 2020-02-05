@@ -70,6 +70,15 @@ below. Only execute the instructions for your distribution.
     sudo systemctl stop mongod
     sudo systemctl stop rabbitmq-server
 
+* RHEL/CentOS 8.x:
+
+  .. sourcecode:: bash
+
+    sudo st2ctl stop
+    sudo systemctl stop nginx
+    sudo systemctl stop mongod
+    sudo systemctl stop rabbitmq-server
+
 
 2. Remove Packages
 ------------------

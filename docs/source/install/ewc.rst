@@ -41,7 +41,7 @@ replacing ``${EWC_LICENSE_KEY}`` with the license key you received when register
   ./install.sh --user=st2admin --password='Ch@ngeMe' --license=${EWC_LICENSE_KEY}
 
 To understand the full details of the installation procedure, or to install |ewc| manually, follow
-the installation guide for your Linux version: :doc:`/install/u16`, :doc:`/install/u18`, :doc:`/install/rhel7`,
+the installation guide for your Linux version: :doc:`/install/u16`, :doc:`/install/u18`,:doc:`/install/rhel8`, :doc:`/install/rhel7`,
 or :doc:`/install/rhel6`. It will walk you through installing and configuring StackStorm and |ewc|.
 The last step of the instructions is "Upgrade to |ewc|".
 
