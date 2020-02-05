@@ -36,8 +36,11 @@ manual purge scripts below.
 
 The garbage collector service also cleans up old Inquiries by marking them as "timed out".
 Unlike action executions or trigger instances, each Inquiry has its own configured TTL.
-See :doc:`Inquiries </inquiries>` for more information on how to enable garbage collection
-for Inquiries.
+Inquiries garbage collection is enabled by setting ``garbagecollector.purge_inquiries = True``. See
+:doc:`Inquiries </inquiries>` for more information on garbage collection for Inquiries.
+
+Real-time Streaming Action Output garbage collection is enabled **by default**, with an expiry period of 7 days.
+See :doc:`Real-time Action Streaming Output </reference/action_output_streaming>` for more information.
 
 2. Manual Purging Using Purge Scripts
 -------------------------------------

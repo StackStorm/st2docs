@@ -65,7 +65,7 @@ In addition to the `standard filters <http://jinja.pocoo.org/docs/dev/
 templates/#builtin-filters>`_ available in Jinja, |st2| also comes with some custom filters.
 
 **For Developers:** These filters are defined in
-:github_st2:`st2/st2common/st2common/jinja/filters/ <st2common/st2common/jinja/filters/>`.
+:github_st2:`st2/st2common/st2common/expressions/functions <st2common/st2common/expressions/functions>`.
 The equivalent Mistral filters are located in the ``st2mistral`` repo at
 :github_st2mistral:`st2mistral/st2mistral/functions/ <st2mistral/functions/>`.
 To ensure filters maintain parity across StackStorm workflows, changes to one location must be

@@ -603,9 +603,11 @@ up the keys.
 Storing Secrets
 ---------------
 
-Please note that if an admin has not setup an encryption key, you will not be allowed to save
-secrets in the key-value store. Contact your |st2| admin to setup encryption keys as per the
-section above.
+.. note::
+
+    Please note that if an admin has not setup an encryption key, you will not be allowed to save
+    secrets in the key-value store. Contact your |st2| admin to setup encryption keys as per the
+    section above.
 
 To save a secret in the key-value store:
 
@@ -644,7 +646,9 @@ For example, to pass a decrypted password as a rule parameter, use:
 
 
 Secret keys can be loaded from a JSON/YAML key file by adding the ``secret`` property with
-a boolean value.
+a boolean value. The ``secret`` property only controls how the value is *stored* in the datastore,
+not how it is saved in or read from the JSON/YAML key file. The value(s) specified in the JSON/YAML
+key file should be the cleartext values.
 
 JSON
 
@@ -658,14 +662,22 @@ JSON
         }
     ]
 
+.. note::
+
+    For the above example, ``"encrypted": false`` is the default so it is not explicitly specified,
+    and ``SECRET_TOKEN`` is the cleartext value.
+
 YAML
 
 .. code-block:: yaml
 
     ---
     - name: api_token
-      value: SECRET_TOKEN
-      secret: true
+      value: SECRET_TOKEN  # cleartext
+      secret: true  # will be stored encrypted
+      # encrypted: false (default)
+
+If you would like to save encrypted values in the JSON/YAML key file, see the next section.
 
 Storing Pre-Encrypted Secrets
 -----------------------------
@@ -705,15 +717,19 @@ JSON
         }
     ]
 
+.. code-block:: bash
+
+    ``XYZ12fsAz310D`` is the encrypted value
+
 YAML
 
 .. code-block:: yaml
 
     ---
     - name: api_token
-      value: XYZ12fsAz310D
-      secret: true
-      encrypted: true
+      value: XYZ12fsAz310D  # encrypted value
+      secret: true  # store in encrypted format
+      encrypted: true  # denotes that the value is already encrypted
 
 Security notes
 --------------
@@ -721,7 +737,10 @@ Security notes
 We wish to discuss security details and be transparent about the implementation and limitations
 of the security practices to attract more eyes to it and therefore build better quality into
 security implementations. For the key-value store, we have settled on AES-256 symmetric encryption
-for simplicity. We use the Python library keyczar for doing this.
+for simplicity. For StackStorm v2.7 and earlier, we used the Python library
+`keyczar <https://github.com/google/keyczar>`_ for doing this. Since StackStorm v2.8, we use the
+`Python cryptography library <https://github.com/pyca/cryptography>`_ to implement symmetric
+encryption.
 
 We have made a trade-off that the |st2| admin is allowed to decrypt the secrets in the key-value
 store. This made our implementation simpler. We are looking into how to let users pass their own

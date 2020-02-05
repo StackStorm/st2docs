@@ -71,14 +71,12 @@ You can configure:
 - st2.conf settings
 - RBAC roles, assignments and mappings (enterprise only)
 - custom st2 packs and its configs
-- st2web SSL certificate
 - SSH private key
 - K8s resources and settings to control pod/deployment placement
 - Mongo, RabbitMQ clusters
-- in-cluster Docker registry
 
 .. warning::
-    It's highly recommended to set your own secrets as the file contains unsafe defaults like self-signed SSL certificates, SSH keys, StackStorm access credentials and MongoDB/RabbitMQ passwords!
+    It's highly recommended to set your own secrets as the file contains unsafe defaults like SSH keys, StackStorm access credentials and MongoDB/RabbitMQ passwords!
 
 Upgrading
 _________
@@ -116,7 +114,7 @@ It will pull enterprise images from our private Docker registry. This adds advan
 .. note::
     Don't have StackStorm Enterprise License?
 
-    Request a 90-day free trial at https://stackstorm.com/features/#ewc
+    Request a free trial by filling out the form at `Extreme Sales <https://www.extremenetworks.com/contact-sales/>`_
 
 RBAC & LDAP Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -213,14 +211,16 @@ The responsibility of this Docker image is to hold pack content and their virtua
 So the custom st2 pack docker image you have to build is essentially a couple of read-only directories that
 are shared with the corresponding st2 services in the cluster.
 
-For your convenience, we created a new ``st2-pack-install <pack1> <pack2> <pack3>`` command
-that will help to install custom packs during the Docker build process without relying on DB and MQ connection.
+For your convenience, we created a new ``st2-pack-install <pack1> <pack2> <pack3>`` utility
+and included it in a container `stackstorm/st2packs <https://hub.docker.com/r/stackstorm/st2packs/>`_
+that will help to install custom packs during the Docker build process without relying on live DB and MQ connection.
 
-Helm chart brings helpers to simplify this experience like `stackstorm/st2pack:builder <https://hub.docker.com/r/stackstorm/st2packs/>`_
-Docker image and private Docker registry you can optionally enable in Helm values.yaml to easily push/pull
-your custom packs within the cluster.
+For more detailed instructions see `StackStorm/st2packs-dockerfiles <https://github.com/StackStorm/st2packs-dockerfiles/>`_
+on how to build your custom `st2packs` image.
 
-For more detailed instructions see `StackStorm/stackstorm-ha#Installing packs in the cluster <https://github.com/StackStorm/stackstorm-ha#Installing-packs-in-the-cluster>`_.
+Please refer to `StackStorm/stackstorm-ha#install-custom-st2-packs-in-the-cluster <https://github.com/stackstorm/stackstorm-ha#install-custom-st2-packs-in-the-cluster>`_
+Helm chart repository with more information about how to reference custom st2pack Docker image in Helm values, providing packs configs,
+using private Docker registry and more.
 
 .. note::
   There is an alternative approach, - sharing pack content via read-write-many NFS (Network File System) as :doc:`/reference/ha` recommends.
@@ -244,6 +244,9 @@ Components
 For HA reasons, by default and at a minimum StackStorm K8s cluster deploys more than ``30`` pods in total.
 This section describes their role and deployment specifics.
 
+The Community FOSS Dockerfiles used to generate the docker images for each st2 component are available at
+`StackStorm/st2-dockerfiles <https://github.com/stackstorm/st2-dockerfiles>`_.
+
 st2client
 _________
 A helper container to switch into and run st2 CLI commands against the deployed StackStorm cluster.
@@ -265,6 +268,7 @@ st2web
 ______
 st2web is a StackStorm Web UI admin dashboard. By default, st2web K8s config includes a Pod Deployment and a Service.
 ``2`` replicas (configurable) of st2web serve the web app and proxy requests to st2auth, st2api, st2stream.
+By default, st2web uses HTTP instead of HTTPS. We recommend you rely on ``LoadBalancer`` or ``Ingress`` to add HTTPS layer on top of it.
 
 .. note::
   By default, st2web is a NodePort Service and is not exposed to the public net.
@@ -388,16 +392,8 @@ Helm chart repository, - all settings could be overridden via ``values.yaml``.
 etcd
 ____
 StackStorm employs etcd as a distributed coordination backend, required for st2 cluster components to work properly in an HA scenario.
-`3` node Raft cluster is deployed via external official Helm chart dependency `etcd <https://github.com/helm/charts/tree/master/incubator/etcd>`_.
+`3` node Raft cluster is deployed via external official Helm chart dependency `stable/etcd-operator <https://github.com/helm/charts/tree/master/stable/etcd-operator>`_.
 As any other Helm dependency, it's possible to further configure it for specific scaling needs via ``values.yaml``.
-
-Docker registry
-_______________
-If you do not already have an appropriate docker registry for storing custom st2 packs images, we made it
-very easy to deploy one in your k8s cluster. You can optionally enable in-cluster Docker registry via
-``values.yaml`` by setting ``docker-registry.enabled: true`` and additional 3rd party charts `docker-registry <https://github.com/helm/charts/tree/master/stable/docker-registry>`_
-and `kube-registry-proxy <https://github.com/helm/charts/tree/master/incubator/kube-registry-proxy>`_ will be configured.
-
 
 Feedback Needed!
 ----------------

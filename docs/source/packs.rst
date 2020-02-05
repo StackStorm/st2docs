@@ -133,6 +133,38 @@ version or **upgrade to latest** if the version is not specified. Your config fi
 overwritten, so you can revert to an older version just as easily, but for production deployments
 we recommend to always specify versions in case there are major changes in ``latest``.
 
+Pack Dependencies
+~~~~~~~~~~~~~~~~~
+
+.. note::
+
+    New feature! As of StackStorm 3.2.
+
+If your pack uses actions from other packs, you can specify them in the ``dependencies`` section of
+the ``pack.yaml`` file and StackStorm will install them automatically when installing your pack.
+
+Similar to using the ``st2 pack install`` subcommand, you can reference packs from StackStorm
+Exchange using just their names, or you can specify a pack's Git repository URL. You can also use
+the same syntax to install a specific version, tag, or branch:
+
+.. code-block:: yaml
+
+    dependencies:
+      - excel
+      - powerpoint=0.2.2
+      - https://github.com/StackStorm/stackstorm-ms.git
+
+If you have dependency conflicts, the ``st2 pack install`` subcommand may error out, without
+installing any packs. If you would like to forcibly install a pack without installing its
+dependencies, you can use the ``--skip-dependencies`` flag:
+
+.. code-block:: bash
+
+    st2 pack install --skip-dependencies my-custom-pack
+
+Uninstalling a Pack
+~~~~~~~~~~~~~~~~~~~
+
 To uninstall a pack, use ``remove``:
 
 .. code-block:: bash
@@ -264,8 +296,8 @@ the ``actionrunner.python_binary`` config option. By default, the same Python 2.
 used by all the |st2| components and services is used for pack virtual environments.
 
 If you need to use Python 3 for running your pack Python actions, you can do that by passing  the
-``--python3`` flag to the ``st2 pack install`` command (e.g. ``st2 pack install libcloud
---python3``).
+``--use-python3`` flag to the ``st2 pack install`` command (e.g. ``st2 pack install libcloud
+--use-python3``).
 
 This will create the pack virtual environment using the Python 3 binary specified by
 ``actionrunner.python3_binary`` config option. This value defaults to ``/usr/bin/python3``. For
