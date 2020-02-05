@@ -162,6 +162,14 @@ In a proper distributed setup it is recommended to setup Zookeeper or Redis to p
 distributed co-ordination layer. See :doc:`Policies </reference/policies>`. Using the default
 file-based co-ordination backend will not work as it would in a single box deployment.
 
+By default the ``st2actionrunner`` service runs 10 workers. This number can be increased by
+modifying the environment variable ``WORKERS``. To make this permanent, create or edit
+``/etc/sysconfig/st2actionrunner`` and add the following line:
+
+.. code-block:: bash
+
+    WORKERS=25
+
 st2scheduler
 ^^^^^^^^^^^^
 ``st2scheduler`` is responsible for handling ingress action execution requests.
