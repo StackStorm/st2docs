@@ -626,7 +626,7 @@ only. To get plain text, please run the command with the ``--decrypt`` flag:
     able to decrypt every value) and by the user who set that value in case of the user-scoped
     datastore items (i.e. if ``--scope=user`` flag was passed when originally setting the value).
 
-If you are using system scoped (``st2kv.system``) or user scoped (``st2kv.user`` )datastore items
+If you are using system scoped (``st2kv.system``) or user scoped (``st2kv.user``) datastore items
 to store secrets, you can decrypt them and use as parameter values in rules or actions. This is
 supported via Jinja filter ``decrypt_kv`` (read more about :ref:`Jinja filters<applying-filters-with-jinja>`).
 For example, to pass a decrypted password as a rule parameter, use:
