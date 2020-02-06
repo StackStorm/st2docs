@@ -168,7 +168,7 @@ defaults to the number of CPU cores the machine has.
 This number can be increased by modifying the environment variable ``WORKERS``. To persist the
 number of ``st2actionrunner`` workers, create or edit the environment variable file for your 
 distribution and add the number of workers, eg. 25: ``WORKERS=25``. On RHEL/CentOS we use the 
- ``/etc/sysconfig/st2actionrunner`` file and on Ubuntu use the ``/etc/default/st2actionrunner``
+``/etc/sysconfig/st2actionrunner`` file and on Ubuntu use the ``/etc/default/st2actionrunner``
  file to pass custom environment variables to the ``st2actionrunner`` service/unit:
 
 .. code-block:: bash
