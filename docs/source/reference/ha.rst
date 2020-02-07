@@ -162,18 +162,8 @@ In a proper distributed setup it is recommended to setup Zookeeper or Redis to p
 distributed co-ordination layer. See :doc:`Policies </reference/policies>`. Using the default
 file-based co-ordination backend will not work as it would in a single box deployment.
 
-In CentOS/RHEL the number of action workers defaults to 10. In Ubuntu the number of workers 
-defaults to the number of CPU cores the machine has.
-
-This number can be increased by modifying the environment variable ``WORKERS``. To persist the
-number of ``st2actionrunner`` workers, create or edit the environment variable file for your 
-distribution and add the number of workers, eg. 25: ``WORKERS=25``. On RHEL/CentOS we use the 
-``/etc/sysconfig/st2actionrunner`` file and on Ubuntu use the ``/etc/default/st2actionrunner``
-file to pass custom environment variables to the ``st2actionrunner`` service/unit:
-
-.. code-block:: bash
-
-    WORKERS=25
+To increase the number of ``workers`` per ``st2actionrunner`` service, refer to the
+:ref:`Configuring Action Runner workers <config-configure-actionrunner-workers>` of the config docs.
 
 st2scheduler
 ^^^^^^^^^^^^
