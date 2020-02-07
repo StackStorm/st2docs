@@ -162,6 +162,9 @@ In a proper distributed setup it is recommended to setup Zookeeper or Redis to p
 distributed co-ordination layer. See :doc:`Policies </reference/policies>`. Using the default
 file-based co-ordination backend will not work as it would in a single box deployment.
 
+To increase the number of ``workers`` per ``st2actionrunner`` service, refer to the
+:ref:`Configuring Action Runner workers <config-configure-actionrunner-workers>` of the config docs.
+
 st2scheduler
 ^^^^^^^^^^^^
 ``st2scheduler`` is responsible for handling ingress action execution requests.
@@ -277,9 +280,10 @@ Zookeeper/Redis
 Various |st2| features rely on a proper co-ordination backend in a distributed deployment to work
 correctly.
 
-`This <http://zookeeper.apache.org/doc/trunk/zookeeperStarted.html#sc_RunningReplicatedZooKeeper>`__
-shows how to run a replicated Zookeeper setup. See `this <http://redis.io/topics/sentinel>`__ to
-understand Redis deployments using sentinel.
+`This <https://zookeeper.apache.org/doc/r3.5.6/zookeeperStarted.html#sc_RunningReplicatedZooKeeper>`__
+shows how to run a replicated Zookeeper setup. (Note: Make sure to refer to the documentation in the
+same version as your running Zookeeper installation, if any.)
+See `this <http://redis.io/topics/sentinel>`__ to understand Redis deployments using sentinel.
 
 Nginx and Load Balancing
 ^^^^^^^^^^^^^^^^^^^^^^^^

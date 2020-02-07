@@ -504,6 +504,7 @@ the parameter definition:
       password:
         type: string
         default: "{{ st2kv.system.password | decrypt_kv }}"
+        secret: true
       num_network_adapters:
         type: integer
         default: "{{ st2kv.system.num_network_adapters }}"
@@ -627,16 +628,22 @@ only. To get plain text, please run the command with the ``--decrypt`` flag:
     able to decrypt every value) and by the user who set that value in case of the user-scoped
     datastore items (i.e. if ``--scope=user`` flag was passed when originally setting the value).
 
-If you are using system scoped variables (``st2kv.system``) to store secrets, you can decrypt them
-and use as parameter values in rules or actions. This is supported via Jinja filter ``decrypt_kv``
-(read more about :ref:`Jinja filters<applying-filters-with-jinja>`). For example,
-to pass a decrypted password as a parameter, use:
+If you are using system scoped (``st2kv.system``) or user scoped (``st2kv.user``) datastore items
+to store secrets, you can decrypt them and use as parameter values in rules or actions. This is
+supported via Jinja filter ``decrypt_kv`` (read more about :ref:`Jinja filters<applying-filters-with-jinja>`).
+For example, to pass a decrypted password as a rule parameter, use:
 
 .. code-block:: YAML
 
     aws_key: "{{st2kv.system.aws_key | decrypt_kv}}"
 
-Decrypting user scoped variables is currently unsupported.
+.. note::
+
+    When using ``decrypt_kv`` Jinja filter on a default value of an action parameter you should
+    also mark that parameter as secret (``secret: true``). If you don't do that, every user who
+    has permission to run (execution) that action will be able to view raw unencryted value of
+    that datastore item when executing an action.
+
 
 Secret keys can be loaded from a JSON/YAML key file by adding the ``secret`` property with
 a boolean value. The ``secret`` property only controls how the value is *stored* in the datastore,
