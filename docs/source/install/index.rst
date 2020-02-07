@@ -88,9 +88,9 @@ For more details on reference deployments, or OS-specific installation instructi
     system_requirements
     Ubuntu 16.04 <u16>
     Ubuntu 18.04 <u18>
-    RHEL 8 / CentOS 8 <rhel8>
-    RHEL 7 / CentOS 7 <rhel7>
     RHEL 6 / CentOS 6 <rhel6>
+    RHEL 7 / CentOS 7 <rhel7>
+    RHEL 8 / CentOS 8 <rhel8>
     Kubernetes / HA <k8s_ha>
     Ansible Playbooks <ansible>
 

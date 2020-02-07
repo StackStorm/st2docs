@@ -194,7 +194,7 @@ the st2web configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
 
-.. _ref-rhel7-firewall:
+.. _ref-rhel8-firewall:
 
 If you are unable to connect to the web browser, you may need to change the default firewall
 settings. You can do this with these commands:
