@@ -93,7 +93,7 @@ the average execution time. Busy systems will need to scale out the number of ``
 processes.
 
 |st2| exposes some of those metrics via statsd using the metrics framework. For more information,
-please refert to :doc:`/reference/metrics` section.
+please refer to :doc:`/reference/metrics` section.
 
 MongoDB
 -------
