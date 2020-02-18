@@ -255,8 +255,8 @@ a schema defined in ``/opt/stackstorm/packs/<pack_dir>/config.schema.yaml``. See
 :doc:`/reference/pack_configs` section for details.
 
 When the pack content changes, it has to be registered again (reloaded). To register individual
-packs, use ``st2 pack register --packs=pack1,pack2``. To register everything at once, use
-``sudo st2ctl reload``. Use ``-h`` to explore the fine-tuning flags.
+packs, use ``st2 pack register pack1 pack2``. Packs are provided as positional space-separated arguments.
+To register everything at once, use ``sudo st2ctl reload``. Use ``-h`` to explore the fine-tuning flags.
 
 Installing Packs from Private Repositories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
