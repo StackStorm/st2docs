@@ -163,7 +163,8 @@ you need to have a good operational visibility into |st2| deployment.
     :target: /_static/images/graphite_dashboard.png
     :align: center
 
-.. include:: /_includes/_graphite_dashboard.rst
+.. literalinclude:: /_includes/_graphite_dashboard.json
+    :language: json
 
 Keep in mind that some of the graphs such as "current number of executions in a particular state
 during a particular point in time" and "total counts for a particular execution state" are
