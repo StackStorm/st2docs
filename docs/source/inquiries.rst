@@ -160,6 +160,12 @@ workflow, just like we saw previously with ActionChains:
     it. So if you're curious which workflow a given Inquiry is part of, use the same ID with the
     ``st2 execution get`` command.
 
+The example below shows a slightly extended version of the basic Orquesta workflow above. This one
+uses a JSON schema to query and verify multiple parameters and shows how to refer to single values
+for further processing.
+
+.. literalinclude:: /../../st2/contrib/examples/actions/workflows/orquesta-ask-multiple-parameters.yaml
+   :language: yaml
 
 Notifying Users of Inquiries using Rules
 ----------------------------------------
