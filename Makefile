@@ -171,7 +171,7 @@ $(VIRTUALENV_DIR)/bin/activate:
 	@echo
 	@echo "==================== st2docs virtualenv ===================="
 	@echo
-	test -d $(VIRTUALENV_DIR) || virtualenv --no-site-packages --python=$(PYTHON_VERSION) $(VIRTUALENV_DIR)
+	test -d $(VIRTUALENV_DIR) || virtualenv --python=$(PYTHON_VERSION) $(VIRTUALENV_DIR)
 
 	# Setup PYTHONPATH in bash activate script...
 	echo '' >> $(VIRTUALENV_DIR)/bin/activate
@@ -240,7 +240,7 @@ PHONY: .requirements-st2
 	@echo
 	@echo "==================== st2 requirements ===================="
 	@echo
-	test -d $(ST2_VIRTUALENV_DIR) || virtualenv --no-site-packages --python=$(PYTHON_VERSION) $(ST2_VIRTUALENV_DIR)
+	test -d $(ST2_VIRTUALENV_DIR) || virtualenv --python=$(PYTHON_VERSION) $(ST2_VIRTUALENV_DIR)
 	cd ./st2; make requirements
 
 .PHONY: docker
