@@ -85,7 +85,48 @@ runner boxes, and add the following configuration lines in ``/etc/st2/st2.conf``
 
   [ssh_runner]
   use_ssh_config = True
-  ssh_config_file_path = /home/stanley/.ssh/config
+  ssh_config_file_path = /root/.ssh/config
+
+Make sure your ssh config is in the same account as user running the st2action process.  If root is running 
+st2actions install it there.  Make sure the config and identity files have proper permissions and ownership.
+ 
+.. code-block:: bash
+
+  chown -R root:root /root/.ssh/*
+  chmod 600 /root/.ssh/config
+  chmod 600 /root/.ssh/id_rsa
+
+This is a sample ssh config that is known to work with bastion forwarding.
+
+.. code-block:: ini
+
+  Host 10.1.*
+    ProxyCommand ssh -o StrictHostKeyChecking=no bastion nc %h %p
+    IdentityFile ~/.ssh/id_rsa
+    User stanley
+
+  Host bastion
+    Hostname bastion.example.com
+    IdentityFile ~/.ssh/id_rsa
+    User stanley
+
+Example output of a successful setup that does not require the bastion_host parameter.
+
+.. code-block:: bash
+  $st2 run core.remote cmd=whoami hosts=10.1.1.2
+  .
+  id: 5e668e4a811a07014b1c48bd
+  status: succeeded
+  parameters: 
+  cmd: whoami
+  hosts: 10.1.1.2:
+  result: 
+    10.1.1.2:
+    failed: false
+    return_code: 0
+    stderr: ''
+    stdout: stanley
+    succeeded: true
 
 We do not recommend running actions as arbitrary user + private_key combinations. This
 would require you to setup private_key for the users on |st2| action runner boxes and
