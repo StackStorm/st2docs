@@ -16,28 +16,23 @@ contributions. Here's our plans for the next two releases.
     the feature. Pull Requests are open to anyone.
 
 
-3.2
----
-
-* **RHEL/CentOS:** Support RHEL 8.x (assuming it has been released!)
-* **RHEL/CentOS:** Drop support for RHEL/CentOS 6.x.
-* **ChatOps:** Support RBAC.
-* **Orquesta:** Support task retry in workflow definition.
-* **Orquesta:** Support rerun of workflow execution from task(s).
-
 3.3
 ---
 
-* **Ubuntu:** Stop producing Ubuntu 14.04 packages.
+* **RHEL/CentOS:** Drop support for RHEL/CentOS 6.x.
 * **Mistral deprecation:** Orquesta replaces Mistral as the workflow engine.
+
 
 Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
 
 Backlog
 -------
 
-Here's some more things on our list that we haven't scheduled yet:
+Here's some more nice things on our list that we haven't scheduled yet:
 
+* **Python:** Drop Python 2 support, rely on Python 3 ony.
+* **ChatOps:** Support RBAC.
+* **Docker:** Overhaul for `docker-st2 <https://github.com/stackstorm/st2-docker>`_.
 * **Workflow runtime graph:** Runtime view of workflow execution in st2flow for |ewc|.
 * **Workflow dry run:** Ability to run unit tests on orquesta workflows for |ewc|.
 * **SSO:** Support SSO with SAML2 for |ewc| web UI (beta).
@@ -64,6 +59,14 @@ Submit a PR!
 
 Release History
 ---------------
+
+.. rubric:: Done in v3.2
+
+* **RHEL/CentOS:** Support CentOS 8/RHEL 8 with Python 3.6 and MongoDB 4.0.
+* **Ubuntu:** Stop producing Ubuntu 14.04 packages.
+* **Core:** Pack install with dependencies.
+* **Orquesta:** Support task retry in workflow definition.
+* **Orquesta:** Support rerun of workflow execution from task(s).
 
 .. rubric:: Done in v3.1
 
