@@ -24,6 +24,13 @@ Upgrade Notes
   experiment with other values which are supported by Python
   ``subprocess.Popen`` (https://docs.python.org/2/library/subprocess.html#popen-constructor)
   function.
+* The workflow engine orquesta v1.1.0 made changes to the internal state of ``with items`` task.
+  Before upgrading st2 to v3.2, please make sure all workflow executions are completed in the
+  database. For example, if there is a workflow execution that has a ``with items`` task and is
+  paused before st2 is upgraded to v3.2, the workflow execution will fail to run the with items
+  task properly after the upgrade.
+* The key word ``continue`` is now a reserved word in orquesta v1.1.0. Orquesta will complain if the
+  workflow definition contains a task that is named ``continue``.
 
 .. _ref-upgrade-notes-v3-0:
 
