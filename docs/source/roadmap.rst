@@ -32,6 +32,7 @@ Here's some more nice things on our list that we haven't scheduled yet:
 
 * **Python:** Drop Python 2 support, rely on Python 3 ony.
 * **ChatOps:** Support RBAC.
+* **Ubuntu:** Support Ubuntu 20.04 LTS.
 * **Docker:** Overhaul for `docker-st2 <https://github.com/stackstorm/st2-docker>`_.
 * **Workflow runtime graph:** Runtime view of workflow execution in st2flow for |ewc|.
 * **Workflow dry run:** Ability to run unit tests on orquesta workflows for |ewc|.
