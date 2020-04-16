@@ -13,7 +13,7 @@ Please check the :doc:`supported versions and system requirements <system_requir
 
 .. note::
 
-    |st2| on RHEL 8/CentOS 8 runs all services, actions and sensors using Python 3**only**. It
+    |st2| on RHEL 8/CentOS 8 runs all services, actions and sensors using Python 3 **only**. It
     does not support Python2 actions. `More info about python in RHEL 8 and CentOS 8.
     <https://developers.redhat.com/blog/2019/05/07/what-no-python-in-red-hat-enterprise-linux-8/>`_
 
