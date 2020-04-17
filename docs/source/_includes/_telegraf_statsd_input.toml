@@ -1,0 +1,34 @@
+ # Statsd UDP/TCP Server
+ [[inputs.statsd]]
+   protocol = "udp"
+   max_tcp_connections = 250
+   tcp_keep_alive = false
+   service_address = ":8125"
+   delete_gauges = true
+   delete_counters = true
+   delete_sets = true
+   delete_timings = true
+   percentiles = []
+   metric_separator = "_"
+   parse_data_dog_tags = false
+   datadog_extensions = false
+
+   templates = [
+        "st2.action.executions.* measurement.measurement.measurement.type",
+        "st2.action.*.*.executions measurement.measurement.pack.action.field",
+        "st2.amqp.pool_publisher.publish_with_retries.* measurement.measurement.measurement.measurement.field",
+        "st2.amqp.publish.* measurement.measurement.measurement.field",
+        "st2.*.request.method.* measurement.measurement.measurement..method",
+        "st2.*.request.path.* measurement.measurement.measurement..path",
+        "st2.*.response.status.* measurement.measurement.measurement.status",
+        "st2.rule.*.*.* measurement.measurement.pack.rule.field",
+        "st2.rule.* measurement.measurement.field",
+        "st2.trigger.*.*.processed measurement.measurement.pack.name.flag",
+        "st2.trigger.*.*.*.*.processed measurement.measurement.pack.name.name.name.flag",
+        "st2.notifier.* measurement.measurement.notifier",
+        "st2.orquesta.*.*, measurement.measurement.field.measurement",
+
+   ]
+
+   allowed_pending_messages = 10000
+   percentile_limit = 1000
