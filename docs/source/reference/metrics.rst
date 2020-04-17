@@ -169,3 +169,15 @@ you need to have a good operational visibility into |st2| deployment.
 Keep in mind that some of the graphs such as "current number of executions in a particular state
 during a particular point in time" and "total counts for a particular execution state" are
 derived from the raw metric values.
+
+Pushing metrics to InfluxDB
+===========================
+
+It is possible to gather the StatsD data with Telegraf to push them to InfluxDB.
+The StatsD data are formatted in a different way than InfluxDB usually, so we can use the template feature that is availabie in the Telegraf StatsD importer to reformat them to something more convenients (with flags, etc..)
+
+Configure your InfluxDB and Telegraf InfluxDB output as usual, then on the StatsD input in Telegraf, you can specify the following configuration
+
+.. literalinclude:: /_includes/_telegraf_statsd_input.toml
+    :language: toml
+    
