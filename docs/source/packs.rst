@@ -102,7 +102,7 @@ Exchange, and you can install your own packs from git just as easily.
     # Install your own pack from git
     st2 pack install https://github.com/emedvedev/chatops_tutorial
 
-By default, the latest commit to a pack repository will be installed, but you can specify a particular
+By default, the latest tagged commit to a pack repository will be installed, but you can specify a particular
 version, branch, tag, or even a commit hash. Just use `=`:
 
 .. code-block:: bash
