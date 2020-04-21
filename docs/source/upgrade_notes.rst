@@ -31,6 +31,8 @@ Upgrade Notes
   task properly after the upgrade.
 * The key word ``continue`` is now a reserved word in orquesta v1.1.0. Orquesta will complain if the
   workflow definition contains a task that is named ``continue``.
+* When installing packs from Exchange index ``st2 pack install <pack_name>`` will now download latest
+  release from the remote repository, instead of using latest available git commit from master as before.
 
 .. _ref-upgrade-notes-v3-0:
 
