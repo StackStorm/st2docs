@@ -98,7 +98,7 @@ below. Only execute the instructions for your distribution.
     sudo apt-get purge st2 st2mistral st2chatops st2web bwc-ui st2flow
 
 
-* RHEL/CentOS:
+* RHEL/CentOS 6.x/7.x:
 
   If you are using StackStorm only:
 
@@ -111,6 +111,21 @@ below. Only execute the instructions for your distribution.
   .. sourcecode:: bash
 
     sudo yum erase st2 st2mistral st2chatops st2web st2python bwc-ui st2flow
+
+
+* RHEL/CentOS 8.x:
+
+  If you are using StackStorm only:
+
+  .. sourcecode:: bash
+
+    sudo yum erase st2 st2chatops st2web st2python
+
+  If you have |ewc| installed, instead use: 
+
+  .. sourcecode:: bash
+
+    sudo yum erase st2 st2chatops st2web st2python bwc-ui st2flow
 
 
 3. Remove |st2| System User

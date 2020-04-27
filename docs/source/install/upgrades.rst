@@ -130,13 +130,21 @@ This is the standard upgrade procedure:
 
       sudo apt-get install --only-upgrade st2 st2web st2chatops st2mistral
 
-   RHEL/CentOS:
+   RHEL/CentOS 6.x/7.x:
 
    .. sourcecode:: bash
 
       sudo yum update st2 st2web st2chatops st2mistral
 
+   RHEL/CentOS 8.x:
+
+   .. sourcecode:: bash
+
+      sudo yum update st2 st2web st2chatops
+
 3. Upgrade Mistral database:
+
+This section can be skipped if running on RHEL/Centos 8.x as Mistral is not installed on these distributions.
 
    .. sourcecode:: bash
 
