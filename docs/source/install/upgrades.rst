@@ -144,7 +144,7 @@ This is the standard upgrade procedure:
 
 3. Upgrade Mistral database:
 
-This section can be skipped if running on RHEL/Centos 8.x as Mistral is not installed on these distributions.
+This step can be skipped if running on RHEL/Centos 8.x as Mistral is not installed on these distributions.
 
    .. sourcecode:: bash
 
