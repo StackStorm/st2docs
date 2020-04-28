@@ -113,6 +113,12 @@ below. Only execute the instructions for your distribution.
     sudo yum erase st2 st2mistral st2chatops st2web st2python bwc-ui st2flow
 
 
+.. note::
+
+  Omit st2mistral from list of packages if Mistral is not installed in your installation
+
+
+
 3. Remove |st2| System User
 ---------------------------
 
