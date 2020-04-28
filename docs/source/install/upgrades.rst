@@ -130,23 +130,19 @@ This is the standard upgrade procedure:
 
       sudo apt-get install --only-upgrade st2 st2web st2chatops st2mistral
 
-   RHEL/CentOS 6.x/7.x:
+   RHEL/CentOS:
 
    .. sourcecode:: bash
 
       sudo yum update st2 st2web st2chatops st2mistral
 
-   RHEL/CentOS 8.x:
+.. note::
 
-   .. sourcecode:: bash
-
-      sudo yum update st2 st2web st2chatops
+  Omit st2mistral from list of packages if Mistral is not installed in your installation
 
 3. Upgrade Mistral database:
 
-This step can be skipped if running on RHEL/Centos 8.x as Mistral is not installed on these distributions.
-
-   .. sourcecode:: bash
+This step can be skipped if Mistral is not installed on your installation.
 
      /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
      /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate | grep -v -e openstack -e keystone -e ironicclient
