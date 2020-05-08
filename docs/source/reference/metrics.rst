@@ -187,6 +187,7 @@ Pushing metrics to Prometheus via the statsd_exporter
 It is also possible to make the metrics available for Prometheus and other monitoring solutions that are able to scrape Prometheus targets (i.e. Zabbix). Prometheus provides a docker service called `statsd exporter <https://github.com/prometheus/statsd_exporter>` which receives data in the StatsD format and acts as a scrape target for Prometheus.
 
 st2 configuration:
+
 .. code-block:: ini
 
     [metrics]
@@ -209,7 +210,9 @@ The minimal requirement is a started ``statsd exporter`` container with port 812
 Port 8125/udp is the default port where the container receives the StatsD metrics from StackStorm. Port 9102/tcp is the default port where the statsd exporter exposes the web interface and the Prometheus metrics.
 
 Example docker-compose.yml snippet:
+
 .. code-block:: yaml
+
   statsd-exporter:
     image: prom/statsd-exporter
     ports:
@@ -222,11 +225,14 @@ Prometheus configuration
 Prometheus needs to know the new scrape target - the ``statsd exporter``. 
 
 Example scrape config:
+
 .. code-block:: yaml
-scrape_configs:
-  - job_name: 'st2-statsd-metrics'
-    static_configs:
-      - targets:
-        - "statsd-exporter:9102"
+
+ scrape_configs:
+   - job_name: 'st2-statsd-metrics'
+     static_configs:
+       - targets:
+         - "statsd-exporter:9102"
+
 
 Replace ``statsd-exporter`` by the host name or IP address of the host / container running the statsd exporter service.
