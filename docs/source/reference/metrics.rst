@@ -181,3 +181,52 @@ Configure your InfluxDB and Telegraf InfluxDB output as usual, then on the Stats
 .. literalinclude:: /_includes/_telegraf_statsd_input.toml
     :language: toml
     
+Pushing metrics to Prometheus via the statsd_exporter
+=====================================================
+
+It is also possible to make the metrics available for Prometheus and other monitoring solutions that are able to scrape Prometheus targets (i.e. Zabbix). Prometheus provides a docker service called `statsd exporter <https://github.com/prometheus/statsd_exporter>` which receives data in the StatsD format and acts as a scrape target for Prometheus.
+
+st2 configuration:
+.. code-block:: ini
+
+    [metrics]
+    driver = statsd
+    # Optional prefix which is prepended to each metric key. E.g. if prefix is
+    # "production" and key is "action.executions" actual key would be
+    # "st2.production.action.executions". This comes handy when you want to
+    # utilize the same backend instance for multiple environments or similar.
+    
+    # statsd collection and aggregation server address
+    host = <statsd_exporter_address>
+    # statsd collection and aggregation server port
+    port = 8125
+
+Docker configuration
+--------------------
+
+The minimal requirement is a started ``statsd exporter`` container with port 8125/udp and 9102/tcp exposed unless you run StackStorm in containers in the same network.
+
+Port 8125/udp is the default port where the container receives the StatsD metrics from StackStorm. Port 9102/tcp is the default port where the statsd exporter exposes the web interface and the Prometheus metrics.
+
+Example docker-compose.yml snippet:
+.. code-block:: yaml
+  statsd-exporter:
+    image: prom/statsd-exporter
+    ports:
+      - "8125:8125/udp"
+      - "9102:9102"
+
+Prometheus configuration
+------------------------
+
+Prometheus needs to know the new scrape target - the ``statsd exporter``. 
+
+Example scrape config:
+.. code-block:: yaml
+scrape_configs:
+  - job_name: 'st2-statsd-metrics'
+    static_configs:
+      - targets:
+        - "statsd-exporter:9102"
+
+Replace ``statsd-exporter`` by the host name or IP address of the host / container running the statsd exporter service.
