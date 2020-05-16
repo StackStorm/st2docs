@@ -184,9 +184,23 @@ Configure your InfluxDB and Telegraf InfluxDB output as usual, then on the Stats
 Pushing metrics to Prometheus via the statsd_exporter
 =====================================================
 
-It is also possible to make the metrics available for Prometheus and other monitoring solutions that are able to scrape Prometheus targets (i.e. Zabbix). Prometheus provides a docker service called `statsd exporter <https://github.com/prometheus/statsd_exporter>` which receives data in the StatsD format and acts as a scrape target for Prometheus.
+Prometheus provides a docker service called `statsd exporter <https://github.com/prometheus/statsd_exporter>` which receives data in the StatsD format and acts as a scrape target for Prometheus.
+
+This exporter enables to make the st2 metrics available to Prometheus and other monitoring solutions that are able to scrape Prometheus targets (i.e. Zabbix).
+
+While the README at https://github.com/prometheus/statsd_exporter provides the latest overview, metric mapping and service configuration https://github.com/prometheus/statsd_exporter#using-docker shows an example how to deploy the service using the prometheus/statds_exporter docker image. 
+
+The configuration examples below rely on the statsd_exporter default port configuration: 
+
+| port     | Purpose                                                   |
+|----------|-----------------------------------------------------------|
+| 8125/udp | receive metrics in the statsd format                      |
+| 9102/tcp | expose the web interface and generated Prometheus metrics |
+
+Note that Docker must expose the ports on a (public) interface if StackStorm is not running in the same containerized environment.
 
 st2 configuration:
+------------------
 
 .. code-block:: ini
 
@@ -201,23 +215,6 @@ st2 configuration:
     host = <statsd_exporter_address>
     # statsd collection and aggregation server port
     port = 8125
-
-Docker configuration
---------------------
-
-The minimal requirement is a started ``statsd exporter`` container with port 8125/udp and 9102/tcp exposed unless you run StackStorm in containers in the same network.
-
-Port 8125/udp is the default port where the container receives the StatsD metrics from StackStorm. Port 9102/tcp is the default port where the statsd exporter exposes the web interface and the Prometheus metrics.
-
-Example docker-compose.yml snippet:
-
-.. code-block:: yaml
-
-  statsd-exporter:
-    image: prom/statsd-exporter
-    ports:
-      - "8125:8125/udp"
-      - "9102:9102"
 
 Prometheus configuration
 ------------------------
