@@ -184,7 +184,7 @@ Configure your InfluxDB and Telegraf InfluxDB output as usual, then on the Stats
 Pushing metrics to Prometheus via the statsd_exporter
 =====================================================
 
-Prometheus provides a docker service called `statsd exporter <https://github.com/prometheus/statsd_exporter>` which receives data in the StatsD format and acts as a scrape target for Prometheus.
+Prometheus provides a service called `Statsd Exporter <https://github.com/prometheus/statsd_exporter>`_ which receives data in the StatsD format and acts as a scrape target for Prometheus.
 
 This exporter enables to make the st2 metrics available to Prometheus and other monitoring solutions that are able to scrape Prometheus targets (i.e. Zabbix).
 
