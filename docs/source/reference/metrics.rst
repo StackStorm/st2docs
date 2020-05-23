@@ -194,7 +194,7 @@ The configuration examples below rely on the statsd_exporter default port config
 
 +----------+-----------------------------------------------------------+
 | Port     | Purpose                                                   |
-+==========+===========================================================|
++==========+===========================================================+
 | 8125/udp | receive metrics in the statsd format                      |
 +----------+-----------------------------------------------------------+
 | 9102/tcp | expose the web interface and generated Prometheus metrics |
