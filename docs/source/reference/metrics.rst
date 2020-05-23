@@ -192,10 +192,13 @@ While the README at https://github.com/prometheus/statsd_exporter provides the l
 
 The configuration examples below rely on the statsd_exporter default port configuration: 
 
-| port     | Purpose                                                   |
-|----------|-----------------------------------------------------------|
++----------+-----------------------------------------------------------+
+| Port     | Purpose                                                   |
++==========+===========================================================|
 | 8125/udp | receive metrics in the statsd format                      |
++----------+-----------------------------------------------------------+
 | 9102/tcp | expose the web interface and generated Prometheus metrics |
++----------+-----------------------------------------------------------+
 
 Note that Docker must expose the ports on a (public) interface if StackStorm is not running in the same containerized environment.
 
