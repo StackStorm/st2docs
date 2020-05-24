@@ -171,6 +171,37 @@ Additional Makefile targets
  - ``make requirements`` installs Python requirements
  - ``make virtualenv`` creates an empty virtual environment
 
+
+Install |st2| Web UI
+~~~~~~~~~~~~~~~~~~~~~~
+
+Instlling the st2 Web UI.
+
+.. code-block:: bash
+
+    sudo apt install npm
+    sudo npm install -g n
+    sudo n v10.15.3
+    sudo npm install -g gulp-cli lerna yarn
+
+.. code-block:: bash
+
+    git clone https://github.com/StackStorm/st2web.git
+    cd st2web
+    # bootstrap the micromodules
+    lerna bootstrap
+    # bring the stackstorm ui
+    gulp
+
+
+Default Credentials to Login
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+    username: testu
+    password: testp
+
 Manual Testing
 ~~~~~~~~~~~~~~
 
