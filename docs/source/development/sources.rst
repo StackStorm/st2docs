@@ -175,7 +175,7 @@ Additional Makefile targets
 Install |st2| Web UI
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Instlling the st2 Web UI.
+Installing the st2 Web UI.
 
 .. code-block:: bash
 
