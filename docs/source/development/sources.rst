@@ -195,7 +195,7 @@ Installing the st2 Web UI.
 
 
 Default Credentials to Login
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
