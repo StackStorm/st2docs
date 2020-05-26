@@ -129,7 +129,7 @@ To stop the containers, run:
 
 To run from the command line inside the container:
 
-.. sourcecode::bash
+.. sourcecode:: bash
 
   docker-compose exec stackstorm bash
   
