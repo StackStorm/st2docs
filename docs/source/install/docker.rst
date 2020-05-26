@@ -135,6 +135,6 @@ To run from the command line inside the container:
   
 The installation tutorial can continue from here.
 
-To run the UI, look for the password in `st2-docker/conf/stackstorm.env` and run http://localhost
+To run the UI, look for the password in ``st2-docker/conf/stackstorm.env`` and run http://localhost/
 
 More information can be found in the README
