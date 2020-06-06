@@ -131,7 +131,7 @@ SSL termination, and reverse-proxy st2auth and st2api API endpoints. To set it u
   # Remove default site, if present
   sudo rm /etc/nginx/conf.d/default.conf
   # Check for a default site on sites-enabled to avoid a duplicate default server error 
-  sudo rm /etc/nginx/sites-enabled/default
+  sudo rm -f /etc/nginx/sites-enabled/default
   # Copy and enable the supplied nginx config file
   sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
 
