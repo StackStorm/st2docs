@@ -59,13 +59,13 @@ Install MongoDB, RabbitMQ, and PostgreSQL:
   # Add key and repo for the latest stable MongoDB (4.0)
   sudo rpm --import https://www.mongodb.org/static/pgp/server-4.0.asc
   sudo sh -c "cat <<EOT > /etc/yum.repos.d/mongodb-org-4.repo
-[mongodb-org-4]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/7/mongodb-org/4.0/x86_64/
-gpgcheck=1
-enabled=1
-gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc
-EOT"
+  [mongodb-org-4]
+  name=MongoDB Repository
+  baseurl=https://repo.mongodb.org/yum/redhat/7/mongodb-org/4.0/x86_64/
+  gpgcheck=1
+  enabled=1
+  gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc
+  EOT"
 
   sudo yum -y install crudini
   sudo yum -y install mongodb-org
