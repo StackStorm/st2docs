@@ -1,54 +1,87 @@
-Ubuntu Bionic (18.04)
-=====================
+RHEL 8/CentOS 8
+===============
 
 .. include:: common/intro.rst
 
 .. contents:: Contents
    :local:
 
-.. note::
-
-   |st2| on Ubuntu ``18.04`` runs all services, actions and sensors using Python 3 **only**. It
-   does not support Python2 actions.
-
-   Mistral is not supported on Ubuntu ``18.04``. All workflows must be written in
-   :doc:`Orquesta </orquesta/index>`. 
-
 System Requirements
 -------------------
 
 Please check the :doc:`supported versions and system requirements <system_requirements>`.
 
+.. note::
+
+    |st2| on RHEL 8/CentOS 8 runs all services, actions and sensors using Python 3 **only**. It
+    does not support Python 2 actions. `More info about python in RHEL 8 and CentOS 8.
+    <https://developers.redhat.com/blog/2019/05/07/what-no-python-in-red-hat-enterprise-linux-8/>`_
+
+    Mistral is not supported on RHEL 8/CentOS 8. All workflows must be written in
+    :doc:`Orquesta </orquesta/index>`.
+
 Minimal Installation
 --------------------
+
+Adjust SELinux Policies
+~~~~~~~~~~~~~~~~~~~~~~~
+
+If your system has SELinux in Enforcing mode, please follow these instructions to adjust SELinux
+policies. This is needed for successful installation. If you are not happy with these policies,
+you may want to tweak them according to your security practices.
+
+* First check if SELinux is in Enforcing mode:
+
+  .. code-block:: bash
+
+    getenforce
+
+* If the previous command returns 'Enforcing', then run the following commands:
+
+  .. code-block:: bash
+
+    # SELINUX management tools, not available for some minimal installations
+    sudo yum install -y policycoreutils-python
+
+    # Allow network access for nginx
+    sudo setsebool -P httpd_can_network_connect 1
+
+    # Allow RabbitMQ to use port '25672', otherwise it will fail to start
+    sudo semanage port --list | grep -q 25672 || sudo semanage port -a -t amqp_port_t -p tcp 25672
+
+.. note::
+
+  If you see messages like "SELinux: Could not downgrade policy file", it means you are trying to
+  adjust policy configurations when SELinux is disabled. You can ignore this error.
 
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
 
-Install MongoDB, and RabbitMQ:
+.. include:: __mongodb_note.rst
+
+Install MongoDB, RabbitMQ:
 
 .. code-block:: bash
 
-  sudo apt-get update
-  sudo apt-get install -y curl
+  sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 
-  # Add key and repo for MongoDB (4.0)
-  wget -qO - https://www.mongodb.org/static/pgp/server-4.0.asc | sudo apt-key add -
-  sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-4.0.list
-  deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/4.0 multiverse
+  # Add key and repo for the latest stable MongoDB (4.0)
+  sudo rpm --import https://www.mongodb.org/static/pgp/server-4.0.asc
+  sudo sh -c "cat <<EOT > /etc/yum.repos.d/mongodb-org-4.repo
+  [mongodb-org-4]
+  name=MongoDB Repository
+  baseurl=https://repo.mongodb.org/yum/redhat/8/mongodb-org/4.0/x86_64/
+  gpgcheck=1
+  enabled=1
+  gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc
   EOT"
-  sudo apt-get update
 
-  sudo apt-get install -y crudini
-  sudo apt-get install -y mongodb-org
-  sudo apt-get install -y rabbitmq-server
+  sudo yum -y install crudini
+  sudo yum -y install mongodb-org
+  sudo yum -y install rabbitmq-server
+  sudo systemctl start mongod rabbitmq-server
+  sudo systemctl enable mongod rabbitmq-server
 
-For Ubuntu ``Bionic`` you may need to enable and start MongoDB.
-
-.. code-block:: bash
-
-  sudo systemctl enable mongod
-  sudo systemctl start mongod
 
 Setup Repositories
 ~~~~~~~~~~~~~~~~~~
@@ -58,14 +91,14 @@ repository. It will also add the the GPG key used for package signing.
 
 .. code-block:: bash
 
-  curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
+  curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.rpm.sh | sudo bash
 
 Install |st2| Components
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
-  sudo apt-get install -y st2
+  sudo yum install -y st2
 
 .. include:: common/configure_components.rst
 
@@ -102,7 +135,7 @@ To set up authentication with file-based provider:
   .. code-block:: bash
 
     # Install htpasswd utility if you don't have it
-    sudo apt-get install -y apache2-utils
+    sudo yum -y install httpd-tools
     # Create a user record in a password file.
     echo 'Ch@ngeMe' | sudo htpasswd -i /etc/st2/htpasswd st2admin
 
@@ -117,30 +150,62 @@ SSL termination, and reverse-proxy st2auth and st2api API endpoints. To set it u
 ``/etc/ssl/st2``, and configure nginx with |st2|'s supplied :github_st2:`site config file st2.conf
 <conf/nginx/st2.conf>`.
 
+|st2| depends on Nginx version >=1.7.5. RHEL has an older version in the package repositories, so
+you will need to add the official Nginx repository:
+
 .. code-block:: bash
 
-  # Install st2web and nginx
-  sudo apt-get install -y st2web nginx
+  # Add key and repo for the latest stable nginx
+  sudo rpm --import http://nginx.org/keys/nginx_signing.key
+  sudo sh -c "cat <<EOT > /etc/yum.repos.d/nginx.repo
+  [nginx]
+  name=nginx repo
+  baseurl=http://nginx.org/packages/rhel/\\\$releasever/x86_64/
+  gpgcheck=1
+  enabled=1
+  EOT"
 
-  # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
+  # Ensure that EPEL repo is not used for nginx
+  sudo sed -i 's/^\(enabled=1\)$/exclude=nginx\n\1/g' /etc/yum.repos.d/epel.repo
+
+  # Install nginx
+  sudo yum install -y nginx
+
+  # Install st2web
+  sudo yum install -y st2web
+
+  # Generate a self-signed certificate or place your existing certificate under /etc/ssl/st2
   sudo mkdir -p /etc/ssl/st2
   sudo openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt \
-  -days XXX -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
+  -days 365 -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
   Technology/CN=$(hostname)"
 
-  # Remove default site, if present
-  sudo rm /etc/nginx/conf.d/default.conf
-  # Check for a default site on sites-enabled to avoid a duplicate default server error 
-  sudo rm -f /etc/nginx/sites-enabled/default
   # Copy and enable the supplied nginx config file
   sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
 
-  sudo service nginx restart
+  # Disable default_server configuration in existing /etc/nginx/nginx.conf
+  sudo sed -i 's/default_server//g' /etc/nginx/nginx.conf
+
+  sudo systemctl restart nginx
+  sudo systemctl enable nginx
 
 If you modify ports, or url paths in the nginx configuration, make the corresponding changes in
 the st2web configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
+
+.. _ref-rhel8-firewall:
+
+If you are unable to connect to the web browser, you may need to change the default firewall
+settings. You can do this with these commands:
+
+.. code-block:: bash
+
+  firewall-cmd --zone=public --add-service=http --add-service=https
+  firewall-cmd --zone=public --permanent --add-service=http --add-service=https
+
+This will allow inbound HTTP (port 80) and HTTPS (port 443) traffic, and make those changes
+survive reboot.
 
 .. include:: common/api_access.rst
 
@@ -165,13 +230,13 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
 
   .. code-block:: bash
 
-    curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+    curl -sL https://rpm.nodesource.com/setup_10.x | sudo -E bash -
 
 * Install the ``st2chatops`` package:
 
   .. code-block:: bash
 
-    sudo apt-get install -y st2chatops
+    sudo yum install -y st2chatops
 
 .. include:: common/configure_chatops.rst
 
@@ -179,9 +244,12 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
 
   .. code-block:: bash
 
-    sudo service st2chatops start
+    sudo systemctl start st2chatops
 
-* Reload st2 packs to make sure ``chatops.notify`` rule is registered:
+    # Start st2chatops on boot
+    sudo systemctl enable st2chatops
+
+* Reload st2 packs to make sure the ``chatops.notify`` rule is registered:
 
   .. code-block:: bash
 

@@ -127,3 +127,14 @@ To stop the containers, run:
 
   docker-compose down
 
+To run from the command line inside the container:
+
+.. sourcecode:: bash
+
+  docker-compose exec stackstorm bash
+  
+The installation tutorial can continue from here.
+
+To run the UI, look for the password in ``st2-docker/conf/stackstorm.env`` and run http://localhost/
+
+More information can be found in the README
