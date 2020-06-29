@@ -238,18 +238,3 @@ Runner Parameters
 ^^^^^^^^^^^^^^^^^
 
 .. include:: /_includes/runner_parameters/mistral_v2.rst
-
-CloudSlang Runner (cloudslang)
-------------------------------
-
-This runner is built on top of the CloudSlang project and supports executing complex workflows.
-For more information, please refer to the :doc:`Workflows </workflows>` and
-:doc:`CloudSlang </cloudslang>` sections of the documentation.
-
-Note: This runner is currently in an experimental phase which means that there might be bugs and
-the external user-facing API might change.
-
-Runner Parameters
-^^^^^^^^^^^^^^^^^
-
-.. include:: /_includes/runner_parameters/cloudslang.rst
