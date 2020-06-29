@@ -169,3 +169,70 @@ you need to have a good operational visibility into |st2| deployment.
 Keep in mind that some of the graphs such as "current number of executions in a particular state
 during a particular point in time" and "total counts for a particular execution state" are
 derived from the raw metric values.
+
+Pushing metrics to InfluxDB
+===========================
+
+It is possible to gather the StatsD data with Telegraf to push them to InfluxDB.
+The StatsD data are formatted in a different way than InfluxDB usually, so we can use the template feature that is availabie in the Telegraf StatsD importer to reformat them to something more convenients (with flags, etc..)
+
+Configure your InfluxDB and Telegraf InfluxDB output as usual, then on the StatsD input in Telegraf, you can specify the following configuration
+
+.. literalinclude:: /_includes/_telegraf_statsd_input.toml
+    :language: toml
+    
+Pushing metrics to Prometheus via the statsd_exporter
+=====================================================
+
+Prometheus provides a service called `Statsd Exporter <https://github.com/prometheus/statsd_exporter>`_ which receives data in the StatsD format and acts as a scrape target for Prometheus.
+
+This exporter enables to make the st2 metrics available to Prometheus and other monitoring solutions that are able to scrape Prometheus targets (i.e. Zabbix).
+
+While the README at https://github.com/prometheus/statsd_exporter provides the latest overview, metric mapping and service configuration https://github.com/prometheus/statsd_exporter#using-docker shows an example how to deploy the service using the prometheus/statds_exporter docker image. 
+
+The configuration examples below rely on the statsd_exporter default port configuration: 
+
++----------+-----------------------------------------------------------+
+| Port     | Purpose                                                   |
++==========+===========================================================+
+| 8125/udp | receive metrics in the statsd format                      |
++----------+-----------------------------------------------------------+
+| 9102/tcp | expose the web interface and generated Prometheus metrics |
++----------+-----------------------------------------------------------+
+
+Note that Docker must expose the ports on a (public) interface if StackStorm is not running in the same containerized environment.
+
+st2 configuration:
+------------------
+
+.. code-block:: ini
+
+    [metrics]
+    driver = statsd
+    # Optional prefix which is prepended to each metric key. E.g. if prefix is
+    # "production" and key is "action.executions" actual key would be
+    # "st2.production.action.executions". This comes handy when you want to
+    # utilize the same backend instance for multiple environments or similar.
+    
+    # statsd collection and aggregation server address
+    host = <statsd_exporter_address>
+    # statsd collection and aggregation server port
+    port = 8125
+
+Prometheus configuration
+------------------------
+
+Prometheus needs to know the new scrape target - the ``statsd exporter``. 
+
+Example scrape config:
+
+.. code-block:: yaml
+
+ scrape_configs:
+   - job_name: 'st2-statsd-metrics'
+     static_configs:
+       - targets:
+         - "statsd-exporter:9102"
+
+
+Replace ``statsd-exporter`` by the host name or IP address of the host / container running the statsd exporter service.
