@@ -327,14 +327,13 @@ depending on execution status:
 
 To disable the result message, you can use the ``enabled`` flag in the same way as in ``ack``.
 
-Plaintext Messages (Slack and HipChat)
+Plaintext Messages (Slack)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Result messages tend to be quite long, and Hubot will utilize the extra formatting capabilities of
-some chat clients: Slack messages will be sent as attachments, and HipChat messages are formatted
-as code blocks. While this is a good fit in most cases, sometimes you want part or all of your
-message in plaintext. Use ``{~}`` as a delimiter to split a message into a plaintext/attachment
-pair:
+some chat clients: Slack messages will be sent as attachments. While this is a good fit in most
+cases, sometimes you want part or all of your message in plaintext. Use ``{~}`` as a delimiter to
+split a message into a plaintext/attachment pair:
 
 .. code-block:: yaml
 

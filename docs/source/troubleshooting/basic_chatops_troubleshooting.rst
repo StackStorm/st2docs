@@ -30,7 +30,7 @@ These are the issues that users usually face with ChatOps:
 Your bot is not Online:
 -----------------------
 
-You have installed StackStorm, however Hubot did not come online in your ChatOps client (Slack, HipChat, etc.)
+You have installed StackStorm, however Hubot did not come online in your ChatOps client (Slack, Mattermost, etc.)
 
 **Possible reasons:**
 
