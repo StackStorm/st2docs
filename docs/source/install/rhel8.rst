@@ -77,7 +77,9 @@ Install MongoDB, RabbitMQ:
   EOT"
 
   sudo yum -y install crudini
-  sudo yum -y install mongodb-org
+  sudo yum -y install mongodb-org 
+  curl -sL https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash
+  sudo yum makecache -y --disablerepo='*' --enablerepo='rabbitmq_rabbitmq-server'
   sudo yum -y install rabbitmq-server
   sudo systemctl start mongod rabbitmq-server
   sudo systemctl enable mongod rabbitmq-server
