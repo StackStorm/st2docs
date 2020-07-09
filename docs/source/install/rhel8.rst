@@ -41,7 +41,7 @@ you may want to tweak them according to your security practices.
   .. code-block:: bash
 
     # SELINUX management tools, not available for some minimal installations
-    sudo yum install -y policycoreutils-python
+    sudo yum install -y policycoreutils-python-utils
 
     # Allow network access for nginx
     sudo setsebool -P httpd_can_network_connect 1
