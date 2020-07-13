@@ -50,16 +50,6 @@ below. Only execute the instructions for your distribution.
     sudo service mongod stop
     sudo service rabbitmq-server stop
 
-* RHEL/CentOS 6.x:
-
-  .. sourcecode:: bash
-
-    sudo st2ctl stop
-    sudo service nginx stop
-    sudo service postgresql-9.4 stop
-    sudo service mongod stop
-
-
 * RHEL/CentOS 7.x:
 
   .. sourcecode:: bash
