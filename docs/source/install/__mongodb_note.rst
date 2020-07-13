@@ -4,5 +4,5 @@
   the installer script. 
 
   MongoDB 3.4 and 3.6 are also supported by StackStorm >= 3.0.0, but we have observed some
-  performance regressions with MongoDB 3.6 so the default version which is installed on all releases is 4.0.
+  performance regressions with MongoDB 3.6.
   

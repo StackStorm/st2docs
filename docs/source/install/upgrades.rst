@@ -136,7 +136,11 @@ This is the standard upgrade procedure:
 
       sudo yum update st2 st2web st2chatops st2mistral
 
+   Omit st2mistral if it is not installed on your distribution.
+
 3. Upgrade Mistral database:
+
+   This step can be skipped if st2mistral is not installed on your distribution.
 
    .. sourcecode:: bash
 
