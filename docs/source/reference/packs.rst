@@ -238,7 +238,7 @@ available at :github_st2:`st2/contrib/hello_st2 <contrib/hello_st2>`.
     # Install from local git repo
     st2 pack install file://$PWD
 
-  When you make code changes, ``run st2 pack install`` again: it will do the upgrade.
+  When you make code changes, run ``st2 pack install`` again: it will do the upgrade.
   Once you push it to GitHub, you will install and update it right from there:
 
   .. code-block:: bash
