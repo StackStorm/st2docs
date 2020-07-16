@@ -73,7 +73,7 @@ below. Only execute the instructions for your distribution.
 2. Remove Packages
 ------------------
 
-* Ubuntu:
+* Ubuntu 16:
 
   If you are using StackStorm only:
 
@@ -88,25 +88,49 @@ below. Only execute the instructions for your distribution.
     sudo apt-get purge st2 st2mistral st2chatops st2web bwc-ui st2flow
 
 
-* RHEL/CentOS:
+* Ubuntu 18.04:
 
   If you are using StackStorm only:
 
   .. sourcecode:: bash
 
-    sudo yum erase st2 st2mistral st2chatops st2web st2python
+    sudo apt-get purge st2 st2chatops st2web
+
+  If you have |ewc| installed, instead use:
+
+  .. sourcecode:: bash
+
+    sudo apt-get purge st2 st2chatops st2web bwc-ui st2flow
+
+
+* RHEL/CentOS 7.x:
+
+  If you are using StackStorm only:
+
+  .. sourcecode:: bash
+
+    sudo yum erase st2 st2mistral st2chatops st2web 
 
   If you have |ewc| installed, instead use: 
 
   .. sourcecode:: bash
 
-    sudo yum erase st2 st2mistral st2chatops st2web st2python bwc-ui st2flow
+    sudo yum erase st2 st2mistral st2chatops st2web bwc-ui st2flow
 
 
-.. note::
+* RHEL/CentOS 8.x:
 
-  Omit st2mistral from list of packages if Mistral is not installed in your installation
+  If you are using StackStorm only:
 
+  .. sourcecode:: bash
+
+    sudo yum erase st2 st2chatops st2web
+
+  If you have |ewc| installed, instead use: 
+
+  .. sourcecode:: bash
+
+    sudo yum erase st2 st2chatops st2web bwc-ui st2flow
 
 
 3. Remove |st2| System User
