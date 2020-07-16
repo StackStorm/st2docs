@@ -40,13 +40,22 @@ below. Only execute the instructions for your distribution.
 1. Stop Services
 ----------------
 
-* Ubuntu systems:
+* Ubuntu 16.04:
 
   .. sourcecode:: bash
 
     sudo st2ctl stop
     sudo service nginx stop
     sudo service postgresql stop
+    sudo service mongod stop
+    sudo service rabbitmq-server stop
+
+* Ubuntu 18.04:
+
+  .. sourcecode:: bash
+
+    sudo st2ctl stop
+    sudo service nginx stop
     sudo service mongod stop
     sudo service rabbitmq-server stop
 
