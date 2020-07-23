@@ -30,7 +30,7 @@ The Puppet module supports the same platforms as manual installation, i.e.:
 * Ubuntu Trusty (14.04)
 * Ubuntu Xenial (16.04)
 * RHEL 7/CentOS 7
-* RHEL 8 /CentOS 8
+* RHEL 8/CentOS 8
 
 The same system size :doc:`requirements </install/system_requirements>` also apply.
 
