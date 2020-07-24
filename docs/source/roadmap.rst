@@ -21,6 +21,7 @@ contributions. Here's our plans for the next two releases.
 
 * **RHEL/CentOS:** Drop support for RHEL/CentOS 6.x.
 * **Mistral deprecation:** Orquesta replaces Mistral as the workflow engine.
+* **HipChat Removal:** The HipChat adapter has been removed from st2chatops.
 
 
 Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
