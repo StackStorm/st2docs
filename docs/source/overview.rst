@@ -13,7 +13,7 @@ environment. It has a particular focus on taking actions in response to events.
 * **Facilitated Troubleshooting** - triggering on system failures captured by Nagios, Sensu, New
   Relic and other monitoring systems, running a series of diagnostic checks on physical nodes,
   OpenStack or Amazon instances, and application components, and posting results to a shared
-  communication context, like HipChat or JIRA.
+  communication context, like Slack or JIRA.
 * **Automated remediation** - identifying and verifying hardware failure on OpenStack compute
   node, properly evacuating instances and emailing admins about potential downtime, but if
   anything goes wrong - freezing the workflow and calling PagerDuty to wake up a human.
