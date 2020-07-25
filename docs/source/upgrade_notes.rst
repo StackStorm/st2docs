@@ -3,6 +3,20 @@
 Upgrade Notes
 =============
 
+.. _ref-upgrade-notes-v3-3:
+
+|st2| v3.3
+----------
+
+* The ``st2.action.file_writen`` trigger was renamed to ``st2.action.file_written``. As part of the
+  upgrade to v3.3, please make sure to update all previous references to the
+  ``st2.action.file_writen`` trigger to ``st2.action.file_written``:
+
+  .. code-block:: yaml
+
+    trigger:
+      type: "core.st2.action.file_written"
+
 .. _ref-upgrade-notes-v3-2:
 
 |st2| v3.2
