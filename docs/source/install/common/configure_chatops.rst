@@ -11,7 +11,6 @@
   If you are using a different Chat Service, set the corresponding environment variables under the
   ``Chat service adapter settings`` section in ``st2chatops.env``:
   `Slack <https://github.com/slackhq/hubot-slack>`_,
-  `HipChat <https://github.com/hipchat/hubot-hipchat>`_,
   `Flowdock <https://github.com/flowdock/hubot-flowdock>`_,
   `IRC <https://github.com/nandub/hubot-irc>`_ ,
   `Mattermost <https://github.com/loafoe/hubot-matteruser>`_,
