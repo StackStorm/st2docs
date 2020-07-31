@@ -1,4 +1,4 @@
-# Set ST2DOCS_BUCKET and EWCDOCS_BUCKET variables in CircleCI Environment
+# Set ST2DOCS_BUCKET variable in CircleCI Environment
 version: 2
 jobs:
   st2docs:
@@ -28,33 +28,6 @@ jobs:
           key: v2-dependency-cache-{{ checksum "st2/requirements.txt" }}
           paths:
             - ~/.cache/pip
-  ewcdocs:
-    docker:
-      - image: circleci/python:3.6
-    steps:
-      - checkout
-      - run:
-          name: Clone ST2
-          command: |
-            make .clone-st2
-      - restore_cache:
-          key: v2-dependency-cache-{{ checksum "st2/requirements.txt" }}
-      - run: sudo apt install python-dev
-      - run: make ewcdocs
-      - run:
-          name: Store HTML docs in workspace dir
-          command: mkdir /tmp/ewcdocs && cp -r docs/build/html/* /tmp/ewcdocs/
-      - persist_to_workspace:
-          root: /tmp
-          paths:
-            - ewcdocs
-      - store_artifacts:
-          path: /tmp/ewcdocs
-          destination: ewcdocs
-      - save_cache:
-          key: v2-dependency-cache-{{ checksum "st2/requirements.txt" }}
-          paths:
-            - ~/.cache/pip
   deploy:
     docker:
       - image: cibuilds/aws:1.16.43
@@ -62,19 +35,15 @@ jobs:
       - attach_workspace:
           at: ./generated-site
       - run:
-          name: Deploy to docs.stackstorm.com and ewc-docs.extremenetworks.com
+          name: Deploy to docs.stackstorm.com
           command: |
             if [ "${CIRCLE_BRANCH}" = "master" ]; then
               aws s3 sync generated-site/st2docs/ \
               s3://${ST2DOCS_BUCKET}/latest
-              aws s3 sync generated-site/ewcdocs/ \
-              s3://${EWCDOCS_BUCKET}/latest
             else
               S3_OBJ=$(echo "${CIRCLE_BRANCH}" | sed 's/^v\(.*\)$/\1/')
               aws s3 sync generated-site/st2docs/ \
               s3://${ST2DOCS_BUCKET}/${S3_OBJ}
-              aws s3 sync generated-site/ewcdocs/ \
-              s3://${EWCDOCS_BUCKET}/${S3_OBJ}
             fi
       - run:
           # Check the install scripts to see if this is the current GA version
@@ -84,8 +53,6 @@ jobs:
             if [ "${CIRCLE_BRANCH}" = "v${GA_VER}" ]; then
               aws s3 sync generated-site/st2docs/ \
               s3://${ST2DOCS_BUCKET}/
-              aws s3 sync generated-site/ewcdocs/ \
-              s3://${EWCDOCS_BUCKET}/
             else
               echo "Not current GA version"
             fi
@@ -95,11 +62,9 @@ workflows:
   build-deploy:
     jobs:
       - st2docs
-      - ewcdocs
       - deploy:
           requires:
             - st2docs
-            - ewcdocs
           filters:
             branches:
               only:

@@ -14,19 +14,26 @@ Here's an overview of the options:
   <ref-one-line-install>` section below for details.
 * **Manual Installation:** Have custom needs? Maybe no Internet access from your servers? Or just
   don't like using scripted installs? Read the manual installation instructions for your OS
-  (:doc:`Ubuntu 16 </install/u16>`, :doc:`Ubuntu 18 </install/u18>`, :doc:`RHEL/CentOS 6 </install/rhel6>`,
-  :doc:`RHEL/CentOS 7 </install/rhel7>`), and adapt them to your needs. Here's some `additional guidance
+  (:doc:`Ubuntu 16 </install/u16>`, :doc:`Ubuntu 18 </install/u18>`,
+  :doc:`RHEL/CentOS 7 </install/rhel7>`, :doc:`RHEL/CentOS 8 </install/rhel8>`) and adapt them to
+  your needs. Here's some `additional guidance
   <https://stackstorm.com/2017/02/10/installing-stackstorm-offline-systems/>`_ for setting up an
   internal mirror for the |st2| repos. 
+* **Vagrant / Virtual Appliance:** Vagrant / OVA is a quick and easy way to try StackStorm.
+  It's already pre-installed, tested and shipped as a virtual image and so saves your time going
+  through time-consuming installation and configuration steps. Works best as a testing,
+  pack development or demo system and recommended to get familiar with StackStorm platform.
+  ``vagrant init stackstorm/st2 && vagrant up`` is all you need to get started.
+  See :doc:`Vagrant </install/vagrant>` for more detailed instructions.
+* **Docker:** StackStorm is supported on Docker - check out our :doc:`/install/docker` instructions.
+  It's one of the quickest way to get StackStorm running and useful for trying the platform and development.
 * **Ansible Playbooks:** If you are an Ansible user, check these :doc:`/install/ansible` for
   installing |st2|. Ideal for repeatable, consistent, idempotent installation of |st2|.
+* **Puppet Module:** For Puppet users, check this :doc:`/install/puppet` for
+  installing StackStorm. A robust and idempotent method of installing and configuring StackStorm.
 * **High Availability** Entrusting business critical automation tasks to a system like StackStorm
   leads to higher demands on that system. StackStorm can run in a HA mode to ensure these needs.
   :doc:`/install/k8s_ha` automates entire complex infrastructure as a reproducible blueprint.
-
-.. only:: community
-
-  .. include:: /_includes/community_only_installs_overview.rst
 
 
 Choose the option that best suits your needs.
@@ -87,11 +94,12 @@ For more details on reference deployments, or OS-specific installation instructi
     Ubuntu 16.04 <u16>
     Ubuntu 18.04 <u18>
     RHEL 7 / CentOS 7 <rhel7>
-    RHEL 6 / CentOS 6 <rhel6>
-    Kubernetes / HA <k8s_ha>
+    RHEL 8 / CentOS 8 <rhel8>
+    Vagrant / OVA <vagrant>
+    Docker <docker>
     Ansible Playbooks <ansible>
-
-.. include:: /_includes/community_only_installs_toctree.rst
+    Puppet Module <puppet>
+    Kubernetes / HA <k8s_ha>
 
 .. toctree::
     :maxdepth: 1

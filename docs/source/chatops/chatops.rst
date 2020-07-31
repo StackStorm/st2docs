@@ -56,18 +56,6 @@ We officially provide support for the following chat providers with hubot:
 * `Rocket.Chat <https://github.com/RocketChat/hubot-rocketchat>`_
 * `Cisco Spark <https://github.com/tonybaloney/hubot-spark>`_
 
-Since
-`HipChat is being discontinued <https://www.atlassian.com/blog/announcements/new-atlassian-slack-partnership>`_,
-official support for the `HipChat adapter <https://github.com/hipchat/hubot-hipchat>`_ will end when
-HipChat reaches end-of-life (as of this writing, this is planned for June 30th, 2020), and it will be
-completely removed **without any deprecation period** from the st2chatops project once HipChat itself
-is terminated. Administrators of local HipChat servers should **already** be actively migrating to
-other chat providers.
-
-For help migrating between chat providers, please see the section on
-:ref:`specifying multiple extra keys for different providers <specifying-multiple-extra-keys-for-different-providers>`
-for some ideas on how to ease the transition between HipChat and another chat provider.
-
 Officially Unsupported Chat Providers
 =====================================
 

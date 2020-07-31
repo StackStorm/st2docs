@@ -1,4 +1,4 @@
-RHEL 6/CentOS 6
+RHEL 8/CentOS 8
 ===============
 
 .. include:: common/intro.rst
@@ -11,26 +11,17 @@ System Requirements
 
 Please check the :doc:`supported versions and system requirements <system_requirements>`.
 
+.. note::
+
+    |st2| on RHEL 8/CentOS 8 runs all services, actions and sensors using Python 3 **only**. It
+    does not support Python 2 actions. `More info about python in RHEL 8 and CentOS 8.
+    <https://developers.redhat.com/blog/2019/05/07/what-no-python-in-red-hat-enterprise-linux-8/>`_
+
+    Mistral is not supported on RHEL 8/CentOS 8. All workflows must be written in
+    :doc:`Orquesta </orquesta/index>`.
+
 Minimal Installation
 --------------------
-
-Install libffi-devel Package
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-RHEL 6 may not ship with ``libffi-devel`` package, which is a dependency for |st2|. If that is the
-case, set up the ``server-optional`` repository, following the instructions at
-https://access.redhat.com/solutions/265523.
-Or, find a version of ``libffi-devel`` compatible with the ``libffi`` version installed. For
-example:
-
-.. code :: bash
-
-  [ec2-user@ip-172-30-0-79 ~]$ rpm -qa libffi
-  libffi-3.0.5-3.2.el6.x86_64
-
-  sudo yum localinstall -y ftp://rpmfind.net/linux/centos/6.9/os/x86_64/Packages/libffi-devel-3.0.5-3.2.el6.x86_64.rpm
-
-Use a service such as http://rpmfind.net to find the required RPM.
 
 Adjust SELinux Policies
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -50,10 +41,13 @@ you may want to tweak them according to your security practices.
   .. code-block:: bash
 
     # SELINUX management tools, not available for some minimal installations
-    sudo yum install -y policycoreutils-python
+    sudo yum install -y policycoreutils-python-utils
 
     # Allow network access for nginx
     sudo setsebool -P httpd_can_network_connect 1
+
+    # Allow RabbitMQ to use port '25672', otherwise it will fail to start
+    sudo semanage port --list | grep -q 25672 || sudo semanage port -a -t amqp_port_t -p tcp 25672
 
 .. note::
 
@@ -65,50 +59,30 @@ Install Dependencies
 
 .. include:: __mongodb_note.rst
 
-Install MongoDB, RabbitMQ, and PostgreSQL:
+Install MongoDB, RabbitMQ:
 
 .. code-block:: bash
 
-  sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+  sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 
-  # Add key and repo for the latest stable MongoDB (3.4)
-  sudo rpm --import https://www.mongodb.org/static/pgp/server-3.4.asc
-  sudo sh -c "cat <<EOT > /etc/yum.repos.d/mongodb-org-3.4.repo
-  [mongodb-org-3.4]
+  # Add key and repo for the latest stable MongoDB (4.0)
+  sudo rpm --import https://www.mongodb.org/static/pgp/server-4.0.asc
+  sudo sh -c "cat <<EOT > /etc/yum.repos.d/mongodb-org-4.repo
+  [mongodb-org-4]
   name=MongoDB Repository
-  baseurl=https://repo.mongodb.org/yum/redhat/6/mongodb-org/3.4/x86_64/
+  baseurl=https://repo.mongodb.org/yum/redhat/8/mongodb-org/4.0/x86_64/
   gpgcheck=1
   enabled=1
-  gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc
+  gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc
   EOT"
 
   sudo yum -y install crudini
-  sudo yum -y install mongodb-org
+  sudo yum -y install mongodb-org 
+  curl -sL https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash
+  sudo yum makecache -y --disablerepo='*' --enablerepo='rabbitmq_rabbitmq-server'
   sudo yum -y install rabbitmq-server
-  sudo service mongod start
-  sudo service rabbitmq-server start
-  sudo chkconfig mongod on
-  sudo chkconfig rabbitmq-server on
-
-  # Install and configure postgres 9.4. Based on the OS type, install the ``redhat`` one or ``centos`` one.
-  # RHEL:
-  if grep -q "Red Hat" /etc/redhat-release; then sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-3.noarch.rpm; fi
-
-  # CentOS:
-  if grep -q "CentOS" /etc/redhat-release; then sudo yum -y localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-3.noarch.rpm; fi
-
-  sudo yum -y install postgresql94-server postgresql94-contrib postgresql94-devel
-
-  # Initialize PostgreSQL
-  sudo service postgresql-9.4 initdb
-
-  # Make localhost connections to use an MD5-encrypted password for authentication
-  sudo sed -i "s/\(host.*all.*all.*127.0.0.1\/32.*\)ident/\1md5/" /var/lib/pgsql/9.4/data/pg_hba.conf
-  sudo sed -i "s/\(host.*all.*all.*::1\/128.*\)ident/\1md5/" /var/lib/pgsql/9.4/data/pg_hba.conf
-
-  # Start PostgreSQL service
-  sudo service postgresql-9.4 start
-  sudo chkconfig postgresql-9.4 on
+  sudo systemctl start mongod rabbitmq-server
+  sudo systemctl enable mongod rabbitmq-server
 
 
 Setup Repositories
@@ -126,7 +100,7 @@ Install |st2| Components
 
 .. code-block:: bash
 
-  sudo yum install -y st2 st2mistral
+  sudo yum install -y st2
 
 .. include:: common/configure_components.rst
 
@@ -134,11 +108,6 @@ Setup Datastore Encryption
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: common/datastore_crypto_key.rst
-
-Setup Mistral Database
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. include:: common/setup_mistral_database.rst
 
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -170,7 +139,7 @@ To set up authentication with file-based provider:
     # Install htpasswd utility if you don't have it
     sudo yum -y install httpd-tools
     # Create a user record in a password file.
-    sudo htpasswd -bs /etc/st2/htpasswd st2admin 'Ch@ngeMe'
+    echo 'Ch@ngeMe' | sudo htpasswd -i /etc/st2/htpasswd st2admin
 
 .. include:: common/configure_authentication.rst
 
@@ -209,7 +178,6 @@ you will need to add the official Nginx repository:
 
   # Generate a self-signed certificate or place your existing certificate under /etc/ssl/st2
   sudo mkdir -p /etc/ssl/st2
-
   sudo openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt \
   -days 365 -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
   Technology/CN=$(hostname)"
@@ -218,15 +186,28 @@ you will need to add the official Nginx repository:
   sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
 
   # Disable default_server configuration in existing /etc/nginx/nginx.conf
-  sudo sed -i 's/default_server//g' /etc/nginx/conf.d/default.conf
+  sudo sed -i 's/default_server//g' /etc/nginx/nginx.conf
 
-  sudo service nginx restart
-  sudo chkconfig nginx on
+  sudo systemctl restart nginx
+  sudo systemctl enable nginx
 
 If you modify ports, or url paths in the nginx configuration, make the corresponding changes in
 the st2web configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
+
+.. _ref-rhel8-firewall:
+
+If you are unable to connect to the web browser, you may need to change the default firewall
+settings. You can do this with these commands:
+
+.. code-block:: bash
+
+  firewall-cmd --zone=public --add-service=http --add-service=https
+  firewall-cmd --zone=public --permanent --add-service=http --add-service=https
+
+This will allow inbound HTTP (port 80) and HTTPS (port 443) traffic, and make those changes
+survive reboot.
 
 .. include:: common/api_access.rst
 
@@ -265,10 +246,10 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
 
   .. code-block:: bash
 
-    sudo service st2chatops start
+    sudo systemctl start st2chatops
 
-    # Ensure it will start on boot
-    sudo chkconfig st2chatops on
+    # Start st2chatops on boot
+    sudo systemctl enable st2chatops
 
 * Reload st2 packs to make sure the ``chatops.notify`` rule is registered:
 
@@ -276,8 +257,7 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
 
     sudo st2ctl reload --register-all
 
-* That's it! Go to your Chat room and begin ChatOps-ing. Read more in the :doc:`/chatops/index`
-  section.
+* That's it! Go to your Chat room and begin ChatOps-ing. Read more in the :doc:`/chatops/index` section.
 
 A Note on Security
 ------------------

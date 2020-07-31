@@ -26,7 +26,11 @@ from st2common.constants.triggers import INTERNAL_TRIGGER_TYPES
 from utils import as_rest_table
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-HEADER = '.. NOTE: This file has been generated automatically, don\'t manually edit it'
+HEADER = '''
+.. NOTE: This file has been generated automatically, don\'t manually edit it.
+         Edit st2common/st2common/constants/triggers.py and rebuild the
+         documentation.
+'''.strip()
 
 
 def main():
@@ -44,9 +48,10 @@ def main():
         rows.append(['Reference', 'Description', 'Properties'])
 
         for trigger_definition in trigger_definitions:
+            ref = '{pack}.{name}'.format(pack='core', name=trigger_definition['name'])
             properties = list(trigger_definition['payload_schema']['properties'].keys())
             properties = ', '.join(properties)
-            row = [trigger_definition['name'], trigger_definition['description'], properties]
+            row = [ref, trigger_definition['description'], properties]
             rows.append(row)
 
         table = as_rest_table(rows, full=True)
