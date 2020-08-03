@@ -100,7 +100,7 @@ Install |st2| Components
 
   sudo yum install -y st2
 
-.. include:: common/configure_components.rst
+.. include:: common/configure_components_no_mistral.rst
 
 Setup Datastore Encryption
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
