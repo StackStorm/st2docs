@@ -34,6 +34,7 @@ COMPONENT_PYTHONPATH = $(subst $(space_char),:,$(realpath $(COMPONENTS)))
 PYTHON_TARGET := 3.6
 
 REQUIREMENTS := requirements.txt st2/requirements.txt
+PIP_VERSION := 20.0.2
 PIP_OPTIONS := $(ST2_PIP_OPTIONS)
 
 ifndef PIP_OPTIONS
@@ -153,8 +154,8 @@ requirements: virtualenv
 	@echo "==================== st2docs requirements ===================="
 	@echo
 
-	# Make sure we use latest version of pip
-	$(VIRTUALENV_DIR)/bin/pip install --upgrade "pip>=19.0,<20.0"
+	# Use same pip version as st2
+	$(VIRTUALENV_DIR)/bin/pip install --upgrade "pip==$(PIP_VERSION)"
 
 	# Install requirements
 	#
