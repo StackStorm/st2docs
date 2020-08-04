@@ -36,6 +36,7 @@ Here's some more nice things on our list that we haven't scheduled yet:
 * **Python:** Drop Python 2 support, rely on Python 3 ony.
 * **ChatOps:** Support RBAC.
 * **Ubuntu:** Support Ubuntu 20.04 LTS.
+* **K8s/HA:** Graduate `K8s Helm chart <https://github.com/stackstorm/stackstorm-ha>`_ from beta to stable.
 * **Workflow runtime graph:** Runtime view of workflow execution in st2flow for |ewc|.
 * **Workflow dry run:** Ability to run unit tests on orquesta workflows for |ewc|.
 * **SSO:** Support SSO with SAML2 for |ewc| web UI (beta).
