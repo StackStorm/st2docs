@@ -22,6 +22,8 @@ contributions. Here's our plans for the next two releases.
 * **RHEL/CentOS:** Drop support for RHEL/CentOS 6.x.
 * **Mistral deprecation:** Orquesta replaces Mistral as the workflow engine.
 * **HipChat Removal:** The HipChat adapter has been removed from st2chatops.
+* **Chef:** Deprecated `chef-stackstorm <https://github.com/stackstorm/chef-stackstorm>`_ deployment.
+* **Docker:** Overhaul for `st2-docker <https://github.com/stackstorm/st2-docker>`_ deployment.
 
 
 Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
@@ -34,7 +36,7 @@ Here's some more nice things on our list that we haven't scheduled yet:
 * **Python:** Drop Python 2 support, rely on Python 3 ony.
 * **ChatOps:** Support RBAC.
 * **Ubuntu:** Support Ubuntu 20.04 LTS.
-* **Docker:** Overhaul for `docker-st2 <https://github.com/stackstorm/st2-docker>`_.
+* **K8s/HA:** Graduate `K8s Helm chart <https://github.com/stackstorm/stackstorm-ha>`_ from beta to stable.
 * **Workflow runtime graph:** Runtime view of workflow execution in st2flow for |ewc|.
 * **Workflow dry run:** Ability to run unit tests on orquesta workflows for |ewc|.
 * **SSO:** Support SSO with SAML2 for |ewc| web UI (beta).
