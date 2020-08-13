@@ -58,10 +58,6 @@ You can use ``sudo st2ctl status`` to get a quick overview of current process st
     st2timersengine PID: 925
     st2sensorcontainer PID: 907
     st2chatops is not running.
-    mistral-server PID: 1031
-    mistral.api PID: 1006
-    mistral.api PID: 1228
-    mistral.api PID: 1231
     $
 
 In a distributed system, only some of these processes will be running on each system. In the
