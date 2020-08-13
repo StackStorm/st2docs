@@ -1,4 +1,4 @@
-If you are not running RabbitMQ or MongoDBL on the same system, or have changed the
+If you are not running RabbitMQ or MongoDB on the same system, or have changed the
 defaults, please adjust these settings:
 
 * RabbitMQ connection at ``/etc/st2/st2.conf``

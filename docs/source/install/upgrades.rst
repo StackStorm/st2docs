@@ -4,7 +4,7 @@ Upgrades
 When new versions of |st2| are released, they are published to our APT and Yum repositories. You
 can use standard Linux package management tools to install these upgraded packages.
 
-As part of the general upgrade procedure, you will need to run scripts to upgrade the Mistral Database prior
+For StackStorm versions prior to 3.3 then the general upgrade procedure included scripts to upgrade the Mistral Database, prior
 to restarting |st2| services. See below for more details. Depending on the versions you are upgrading to and
 from, you may need to run additional :ref:`migration scripts<migration-scripts-to-run>`.
 
@@ -135,6 +135,10 @@ This is the standard upgrade procedure:
    .. sourcecode:: bash
 
       sudo yum update st2 st2web st2chatops
+
+.. note::
+
+  If upgrading to a version earlier than StackStorm 3.3, add st2mistral to list of packages to update (if it is present on your current system).
 
 3. Run the migration scripts (if any). See below for version-specific migration scripts.
 

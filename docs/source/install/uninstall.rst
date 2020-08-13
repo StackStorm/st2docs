@@ -60,7 +60,7 @@ below. Only execute the instructions for your distribution.
 
 .. note::
 
-  If uninstalling a version earlier than StackStorm 3.3 then add postgresql to list of services if running on your system.
+  If uninstalling a version earlier than StackStorm 3.3, add postgresql to list of services to stop if is running on your system.
 
 
 
@@ -98,7 +98,7 @@ below. Only execute the instructions for your distribution.
 
 .. note::
 
-  If uninstalling a version earlier than StackStorm 3.3 then add st2mistral to list of packages if it is installed on your system.
+  If uninstalling a version earlier than StackStorm 3.3, add st2mistral to list of packages to remove if it is installed on your system.
 
 
 3. Remove |st2| System User
@@ -129,7 +129,7 @@ below. Only execute the instructions for your distribution.
 
 .. note::
 
-  If uninstalling a version earlier than StackStorm 3.3 then add postgresql* to list of databases if installed on your system.
+  If uninstalling a version earlier than StackStorm 3.3, add postgresql* to list of databases to remove if it is installed on your system.
 
 
 5. Remove Repositories
@@ -179,5 +179,5 @@ applications.
 
 .. note::
 
-  If uninstalling a version earlier than StackStorm 3.3 then add /var/log/mistral and /var/lib/pgsql to the list of directories to remove if present.
+  If uninstalling a version earlier than StackStorm 3.3, add /var/log/mistral and /var/lib/pgsql to the list of directories to remove if present.
 
