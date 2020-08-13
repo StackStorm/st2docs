@@ -179,8 +179,9 @@ have failed to be scheduled by a failed ``st2scheduler`` instance.
 
 st2resultstracker
 ^^^^^^^^^^^^^^^^^
-Tracks results of execution handed over to Mistral. It requires access to MongoDB and RabbitMQ to
-perform its function.
+Tracks results of execution handed over to Orquesta or 3rd pary intergations that implement the 
+result tracker to provide the results. It requires access to MongoDB and RabbitMQ to perform its 
+function.
 
 Multiple ``st2resultstracker`` processes will co-operate with each other to perform work. At
 startup there is a possibility of extra work however there are no negative consequences of this
@@ -210,27 +211,6 @@ By design it is a singleton process. Running multiple instances in active-active
 much benefit, but will not do any harm. The ideal configuration is active-passive but |st2| itself
 does not provide the ability to run this in active-passive.
 
-
-mistral-api
-^^^^^^^^^^^
-Mistral API is served by this aptly named process. It needs access to PostgreSQL and RabbitMQ.
-
-Multiple ``mistral-api`` processes can run in an active-active configuration by using a load
-balancer to distribute at its front end. This is similar to ``st2api``. In a typical single box
-deployment ``mistral-api`` is local to the box and |st2| communicates via a direct HTTP connection.
-For HA setup we recommend putting ``mistral-api`` behind a load balancer and setting up |st2| to
-communicate via the load balancer.
-
-mistral-server
-^^^^^^^^^^^^^^
-``mistral-server`` is the worker engine for mistral i.e. the process which actually manages
-executions. The |st2| plugin to mistral (``st2mistral``) communicates back to the |st2| API. This
-process needs access to PostgreSQL and RabbitMQ.
-
-Multiple ``mistral-server`` processes can run and co-ordinate work in an active-active
-configuration. In an HA deployment all communication with the |st2| API must be via the configured
-load balancer.
-
 Required Dependencies
 ---------------------
 This section has some HA recommendations for the dependencies required by |st2| components. This
@@ -253,15 +233,6 @@ MongoDB is brought back it should be possible to bring |st2| back to operational
 simply loading the content (through ``st2ctl reload --register-all`` and ``st2 key load``. Easy
 access to old ActionExecutions will be lost but all the data of old ActionExecutions will still
 be available in audit logs.
-
-PostgreSQL
-^^^^^^^^^^
-Used primarily by ``mistral-api`` and ``mistral-server``. To deploy PostgreSQL in HA please see
-`the PostgreSQL documentation <http://www.postgresql.org/docs/9.4/static/high-availability.html>`__.
-
-The data stored in PostgreSQL is operational for Mistral, therefore starting from a brand new
-PostgreSQL in case of loss of a cluster will bring automation services back instantly. There will
-be downtime while a new DB cluster is provisioned.
 
 RabbitMQ
 ^^^^^^^^
@@ -287,8 +258,8 @@ See `this <http://redis.io/topics/sentinel>`__ to understand Redis deployments u
 
 Nginx and Load Balancing
 ^^^^^^^^^^^^^^^^^^^^^^^^
-An load balancer is required to reverse proxy each instance of ``st2api``, ``st2auth``,
-``st2stream`` and ``mistral-api``. In the reference setup, Nginx is used for this. This server
+An load balancer is required to reverse proxy each instance of ``st2api``, ``st2auth`` and
+``st2stream``. In the reference setup, Nginx is used for this. This server
 terminates SSL connections, shields clients from internal port numbers of various services
 and only require ports 80 and 443 to be open on containers.
 
@@ -345,12 +316,11 @@ This box runs all the shared required dependencies and some |st2| components:
 
 * Nginx as load balancer
 * MongoDB
-* PostgreSQL
 * RabbitMQ
 * st2chatops
 * st2web
 
-In practice ``MongoDB``, ``PostgreSQL`` and ``RabbitMQ`` will usually be on standalone clusters
+In practice ``MongoDB`` ``RabbitMQ`` will usually be on standalone clusters
 managed outside of |st2|. The two shared components (``st2chatops`` and ``st2web``) are placed here
 for the sake of convenience. They could be placed anywhere with the right configuration.
 
@@ -367,18 +337,13 @@ Follow these steps to provision a controller box on Ubuntu 16.04:
 Install Required Dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Install ``MongoDB``, ``PostgreSQL`` and ``RabbitMQ``:
+1. Install ``MongoDB`` and ``RabbitMQ``:
 
   .. code-block:: bash
 
-      $ sudo apt-get install -y mongodb-server rabbitmq-server postgresql
+      $ sudo apt-get install -y mongodb-server rabbitmq-server
 
-
-2. Fix the listen address in ``/etc/postgresql/9.3/main/postgresql.conf`` and have PostgreSQL
-   listen on an interface that has an IP address reachable from ``st2-multi-node-1`` and
-   ``st2-multi-node-2``.
-
-3. Fix ``bind_ip`` in ``/etc/mongodb.conf`` to bind MongoDB to an interface that has an IP address
+2. Fix ``bind_ip`` in ``/etc/mongodb.conf`` to bind MongoDB to an interface that has an IP address
    reachable from ``st2-multi-node-1`` and ``st2-multi-node-2``.
 
 4. Restart MongoDB:
@@ -387,47 +352,25 @@ Install Required Dependencies
 
       $ sudo service mongodb restart
 
-5. Add an ACL rule to ``/etc/postgresql/9.3/main/pg_hba.conf``. In this example we're allowing
-   access from the subnet ``10.0.3.0/24``
-
-  .. code-block:: bash
-
-        host       all  all  10.0.3.0/24  trust
-
-6. Restart PostgreSQL:
-
-  .. code-block:: bash
-
-      $ sudo service postgresql restart
-
-7. Create Mistral DB in PostgreSQL:
-
-  .. code-block:: bash
-
-      $ cat << EHD | sudo -u postgres psql
-      CREATE ROLE mistral WITH CREATEDB LOGIN ENCRYPTED PASSWORD 'StackStorm';
-      CREATE DATABASE mistral OWNER mistral;
-      EHD
-
-8. Add stable |st2| repos:
+5. Add stable |st2| repos:
 
   .. code-block:: bash
 
       $ curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
-9. Setup ``st2web`` and SSL termination. Follow :ref:`install webui and setup
+6. Setup ``st2web`` and SSL termination. Follow :ref:`install webui and setup
    ssl<ref-install-webui-ssl-deb>`. You will need to stop after removing the default Nginx config
    file.
 
-10. A sample configuration for Nginx as load balancer for the controller box is provided below.
-    With this configuration Nginx will load balance all requests between the two blueprint boxes
-    ``st2-multi-node-1`` and ``st2-multi-node-2``. This includes requests to ``st2api``,
-    ``st2auth`` and ``mistral-api``. Nginx also serves as the webserver for ``st2web``.
+7. A sample configuration for Nginx as load balancer for the controller box is provided below.
+   With this configuration Nginx will load balance all requests between the two blueprint boxes
+   ``st2-multi-node-1`` and ``st2-multi-node-2``. This includes requests to ``st2api`` and
+   ``st2auth``. Nginx also serves as the webserver for ``st2web``.
 
   .. literalinclude:: /../../st2/conf/HA/nginx/st2.conf.controller.sample
      :language: none
 
-11. Create the st2 logs directory and the st2 user:
+8. Create the st2 logs directory and the st2 user:
 
   .. code-block:: bash
 
@@ -449,11 +392,11 @@ also be made to offer different services.
 
       $ curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
-2. Install all |st2| components and mistral:
+2. Install all |st2| components:
 
   .. code-block:: bash
 
-      $ sudo apt-get install -y st2 st2mistral
+      $ sudo apt-get install -y st2
 
 3. Install Nginx:
 
@@ -461,26 +404,8 @@ also be made to offer different services.
 
       $ sudo apt-get install -y nginx
 
-4. Update Mistral connection to PostgreSQL in ``/etc/mistral/mistral.conf`` by changing the
-   ``database.connection`` property.
-
-5. Update Mistral connection to RabbitMQ in ``/etc/mistral/mistral.conf`` by changing  the
-   ``default.transport_url`` property.
-
-6. Setup Mistral database:
-
-  .. code-block:: bash
-
-      $ /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
-
-7. Register mistral actions:
-
-  .. code-block:: bash
-
-      $ /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate | grep -v -e openstack -e keystone
-
 8. Replace ``/etc/st2/st2.conf`` with the sample ``st2.conf`` provided below. This config points to
-   the controller node or configuration values of ``database``, ``messaging`` and ``mistral``.
+   the controller node or configuration values of ``database`` and ``messaging``.
 
   .. literalinclude:: /../../st2/conf/HA/st2.conf.sample
      :language: ini
@@ -494,22 +419,19 @@ also be made to offer different services.
         -days XXX -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
         Technology/CN=$(hostname)"
 
-10. If you are using self-signed certificates you will need to add ``insecure = true`` to the
-    ``mistral`` section of ``/etc/st2/st2.conf``.
-
-11. Configure users & authentication as per :ref:`this documentation<ref-config-auth-deb>`. Make
+10. Configure users & authentication as per :ref:`this documentation<ref-config-auth-deb>`. Make
     sure that user configuration on all boxes running ``st2auth`` is identical. This ensures
     consistent authentication from the entire |st2| install since the request to authenticate a
     user can be forwarded by the load balancer to any of the ``st2auth`` processes.
 
-12. Use the sample Nginx config that is provided below for the blueprint boxes. In this config
+11. Use the sample Nginx config that is provided below for the blueprint boxes. In this config
     Nginx will act as the SSL termination endpoint for all the REST endpoints exposed by
-    ``st2api``, ``st2auth`` and ``mistral-api``:
+    ``st2api`` and ``st2auth``:
 
   .. literalinclude:: /../../st2/conf/HA/nginx/st2.conf.blueprint.sample
      :language: nginx
 
-13. To use Timer triggers with Mistral, enable them on only one server. Make this change in
+12. To use Timer triggers, enable them on only one server. Make this change in
     ``/etc/st2/st2.conf``:
 
     .. code-block:: yaml
