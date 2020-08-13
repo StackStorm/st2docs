@@ -74,7 +74,6 @@ system should account for this behavior.
 Additional processes to monitor:
 
 * RabbitMQ - ``rabbitmq-server``
-* PostgreSQL - ``postgres``
 * MongoDB - ``mongod``
 * Nginx (if used for web/API frontend) - ``nginx``
 * Postfix/Sendmail (if local mail relay configured)
