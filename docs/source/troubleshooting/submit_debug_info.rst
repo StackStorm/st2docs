@@ -13,10 +13,7 @@ help us debug or troubleshoot your issue.
 By default, this utility sends us the following information:
 
 * All the |st2| services log files from ``/var/log/st2``
-* Mistral service log file from ``/var/log/mistral.log``
-* |st2| and Mistral config file (``/etc/st2/st2.conf``,
-  ``/etc/mistral/mistral.conf``). Prior to sending the config files we strip
-  sensitive information such as database and queue access information.
+* |st2| config file (``/etc/st2/st2.conf``). Prior to sending the config files we strip sensitive information such as database and queue access information.
 * |st2| content (integration packs) minus the pack configs.
 
 All this information is bundled up in a tarball and encrypted using our
@@ -103,7 +100,6 @@ from a YAML file. The following config options are supported:
 
 * ``log_file_paths`` - an additional set of log files to gather
 * ``st2_config_file_path`` - path to st2.conf
-* ``mistral_config_file_path`` - path to mistral.conf
 * ``s3_bucket_url`` - the S3 bucket to upload the archive to
 * ``gpg_key_fingerprint`` - gpg fingerprint to use when encrypting the archive
 * ``gpg_key`` - gpg key to use when encrypting the archive
