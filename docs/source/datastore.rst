@@ -459,7 +459,7 @@ A simple action example:
     ---
     description: Remediates a host.
     enabled: true
-    runner_type: mistral-v2
+    runner_type: orquesta
     entry_point: workflows/remediate.yaml
     name: remediate
     pack: default
@@ -490,7 +490,7 @@ the parameter definition:
     ---
     description: Provisions a VM
     enabled: true
-    runner_type: mistral-v2
+    runner_type: orquesta
     entry_point: workflows/vm_provision.yaml
     name: vm_provision
     pack: default

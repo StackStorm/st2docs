@@ -1,8 +1,8 @@
 Orquesta
 ========
 
-Orquesta is a workflow engine designed specifically to run natively in |st2|. The goal is to
-replace ActionChain and Mistral in the future. Orquesta's workflow definition is described in
+Orquesta is a workflow engine designed specifically to run natively in |st2|. It has replaced the Mistral workflow, and the goal is to
+replace ActionChain in the future. Orquesta's workflow definition is described in
 YAML and contains a number of changes and improvements over its predecessors. The workflow
 definition supports simple sequential workflows to complex workflows with forks, joins, and
 sophisticated data queries and transformation. Since Orquesta runs as a subcomponent of |st2|,

@@ -103,17 +103,15 @@ the following runners:
 7.  ``action-chain`` - This runner supports executing simple linear work-flows. For more
     information, please refer to the :doc:`Workflows </workflows>` and
     :doc:`ActionChain </actionchain>` documentation.
-8.  ``mistral-v2`` - This runner is built on top of the Mistral OpenStack project and supports
-    executing complex work-flows. For more information, please refer to the
-    :doc:`Workflows </workflows>` and :doc:`Mistral </mistral>` documentation.
-9. ``inquirer`` - This runner provides the core logic of the :doc:`Inquiries </inquiries>`
+
+8.  ``inquirer`` - This runner provides the core logic of the :doc:`Inquiries </inquiries>`
     feature.
 
     Note: This runner is an implementation detail for the ``core.ask`` action, and in most cases
     should not be referenced in other actions.
-10. ``winrm-cmd`` - The WinRM command runner allows you to run the command-line interpreter (``cmd``) commands on Windows hosts using the WinRM protocol.
-11. ``winrm-ps-cmd`` - The WinRM PowerShell command runner allows you to run the PowerShell commands on Windows hosts using the WinRM protocol.
-12. ``winrm-ps-script`` - WinRM PowerShell script runner allows you to run PowerShell scripts on Windows hosts.
+9. ``winrm-cmd`` - The WinRM command runner allows you to run the command-line interpreter (``cmd``) commands on Windows hosts using the WinRM protocol.
+10. ``winrm-ps-cmd`` - The WinRM PowerShell command runner allows you to run the PowerShell commands on Windows hosts using the WinRM protocol.
+11. ``winrm-ps-script`` - WinRM PowerShell script runner allows you to run PowerShell scripts on Windows hosts.
 
 
 Runners come with their own set of input parameters. When an action is executed, it inherits the
