@@ -17,8 +17,8 @@ and provide the usual action meta data.
 
 * :doc:`Orquesta <orquesta/index>` is a new workflow engine, designed specifically for |st2|, released
   in 2019. With Orquesta, you can define simple sequential workflows or complex workflows with forks, joins,
-  and sophisticated data transformation and queries. It has replaced the old Mistral workflow, and will also replace ActionChains. We 
-  recommend you write all new workflows in Orquesta.
+  and sophisticated data transformation and queries. It has replaced the Mistral workflow engine, and will
+  also replace ActionChains. We recommend you write all new workflows in Orquesta.
 
   **Use Orquesta for all new workflows.** 
 
