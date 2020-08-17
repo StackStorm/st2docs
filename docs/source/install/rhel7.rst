@@ -50,7 +50,7 @@ Install Dependencies
 
 .. include:: __mongodb_note.rst
 
-Install MongoDB, RabbitMQ, and PostgreSQL:
+Install MongoDB, and RabbitMQ:
 
 .. code-block:: bash
 
@@ -73,20 +73,6 @@ Install MongoDB, RabbitMQ, and PostgreSQL:
   sudo systemctl start mongod rabbitmq-server
   sudo systemctl enable mongod rabbitmq-server
 
-  # Install and configure postgres
-  sudo yum -y install postgresql-server postgresql-contrib postgresql-devel
-
-  # Initialize PostgreSQL
-  sudo postgresql-setup initdb
-
-  # Make localhost connections to use an MD5-encrypted password for authentication
-  sudo sed -i "s/\(host.*all.*all.*127.0.0.1\/32.*\)ident/\1md5/" /var/lib/pgsql/data/pg_hba.conf
-  sudo sed -i "s/\(host.*all.*all.*::1\/128.*\)ident/\1md5/" /var/lib/pgsql/data/pg_hba.conf
-
-  # Start PostgreSQL service
-  sudo systemctl start postgresql
-  sudo systemctl enable postgresql
-
 Setup Repositories
 ~~~~~~~~~~~~~~~~~~
 
@@ -102,7 +88,7 @@ Install |st2| Components
 
 .. code-block:: bash
 
-  sudo yum install -y st2 st2mistral
+  sudo yum install -y st2
 
 .. include:: common/configure_components.rst
 
@@ -110,11 +96,6 @@ Setup Datastore Encryption
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: common/datastore_crypto_key.rst
-
-Setup Mistral Database
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. include:: common/setup_mistral_database.rst
 
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
