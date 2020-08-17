@@ -17,6 +17,11 @@ Upgrade Notes
     trigger:
       type: "core.st2.action.file_written"
 
+* Support for Mistral workflows was removed. Before upgrading to v3.3, ensure all Mistral workflows have been converted to Orquesta workflows. A tool is available for assisting in this conversion, more information can be found in the ``orquestaconvert`` `README.md <https://github.com/StackStorm/orquestaconvert/blob/master/README.md>`_.
+
+
+* After upgrading to v3.3, st2mistral and postgresql services are no-longer required. These services can be stopped, disabled and the corresponding packages uninstalled.
+
 .. _ref-upgrade-notes-v3-2:
 
 |st2| v3.2

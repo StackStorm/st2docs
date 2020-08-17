@@ -11,9 +11,6 @@ Ubuntu Bionic (18.04)
    |st2| on Ubuntu ``18.04`` runs all services, actions and sensors using Python 3 **only**. It
    does not support Python2 actions.
 
-   Mistral is not supported on Ubuntu ``18.04``. All workflows must be written in
-   :doc:`Orquesta </orquesta/index>`. 
-
 System Requirements
 -------------------
 

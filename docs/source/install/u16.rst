@@ -19,7 +19,7 @@ Install Dependencies
 
 .. include:: __mongodb_note.rst
 
-Install MongoDB, RabbitMQ, and PostgreSQL:
+Install MongoDB, and RabbitMQ:
 
 .. code-block:: bash
 
@@ -37,7 +37,6 @@ Install MongoDB, RabbitMQ, and PostgreSQL:
   sudo apt-get install -y crudini
   sudo apt-get install -y mongodb-org
   sudo apt-get install -y rabbitmq-server
-  sudo apt-get install -y postgresql
 
 For Ubuntu ``Xenial`` you may need to enable and start MongoDB.
 
@@ -61,7 +60,7 @@ Install |st2| Components
 
 .. code-block:: bash
 
-  sudo apt-get install -y st2 st2mistral
+  sudo apt-get install -y st2
 
 .. include:: common/configure_components.rst
 
@@ -69,11 +68,6 @@ Setup Datastore Encryption
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: common/datastore_crypto_key.rst
-
-Setup Mistral Database
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. include:: common/setup_mistral_database.rst
 
 .. _ref-config-ssh-sudo-deb:
 
