@@ -53,10 +53,8 @@ complete installation:
 - ``epel`` - Repository with extra packages for ``RHEL/CentOS``.
 - ``mongodb`` - Main DB storage engine.
 - ``rabbitmq`` - Message broker.
-- ``postgresql`` - DB storage engine for Mistral.
 - ``st2repos`` - Adds |st2| PackageCloud repositories.
 - ``st2`` - Install and configure |st2| itself.
-- ``st2mistral`` - Install and configure |st2| Mistral workflow engine.
 - ``nginx`` - Dependency for ``st2web``.
 - ``st2web`` - Nice & shiny WebUI for |st2|.
 - ``nodejs`` - Dependency for ``st2chatops``.
@@ -77,7 +75,6 @@ Here's a more advanced example showing how to customize your |st2| deployment:
       roles:
         - mongodb
         - rabbitmq
-        - postgresql
         - nginx
         - nodejs
 
@@ -98,16 +95,6 @@ Here's a more advanced example showing how to customize your |st2| deployment:
             st2_system_user_in_sudoers: yes
             # Dict to edit https://github.com/StackStorm/st2/blob/master/conf/st2.conf.sample
             st2_config: {}
-
-        - name: Install and configure st2mistral
-          role: st2mistral
-          vars:
-            st2mistral_version: latest
-            st2mistral_db: mistral
-            st2mistral_db_username: mistral
-            st2mistral_db_password: StackStorm
-            # Dict to edit https://github.com/StackStorm/st2-packages/blob/master/packages/st2mistral/conf/mistral.conf
-            st2mistral_config: {}
 
         - name: Install st2web
           role: st2web
