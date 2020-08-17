@@ -28,7 +28,8 @@ and provide the usual action meta data.
 
   **Use ActionChain for simple legacy workflows.**
 
-Mistral Workflows are no-longer supported, please see https://github.com/StackStorm/orquestaconvert for a tool for converting Mistral to Orquesta workflows.
+Mistral workflows are no longer supported. See https://github.com/StackStorm/orquestaconvert for a tool to
+convert Mistral workflows to Orquesta.
 
 Learn how to define and run workflows:
 
