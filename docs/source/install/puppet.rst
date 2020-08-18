@@ -71,6 +71,7 @@ classes available for configuration:
 - ``::st2`` - The main configuration point for the StackStorm installation.
 - ``::st2::profile::client`` - Profile to install all client libraries for StackStorm
 - ``::st2::profile::fullinstall`` - Full installation of StackStorm and dependencies
+- ``::st2::profile::mistral`` - Install of OpenStack Mistral
 - ``::st2::profile::mongodb`` - StackStorm configured MongoDB installation
 - ``::st2::profile::nodejs`` - StackStorm configured NodeJS installation
 - ``::st2::profile::python`` - Python installed and configured for StackStorm

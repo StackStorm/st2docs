@@ -103,6 +103,8 @@ version_minus_2 = previous_version(version_minus_1)
 # extlink configurator sphinx.ext.extlinks
 extlinks = {
     'github_st2': ('https://github.com/StackStorm/st2/tree/master/%s', None),
+    'github_st2mistral': ('https://github.com/StackStorm/st2mistral/tree/master/%s', None),
+    'github_mistral': ('https://github.com/StackStorm/mistral/tree/master/%s', None),
     'github_exchange':
         ('https://github.com/StackStorm-Exchange/%s', None),
     'web_exchange':
