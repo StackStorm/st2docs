@@ -38,7 +38,7 @@ more information on accessing key-value pairs from Actions see:
 :ref:`Referencing Key-Value Pairs in Action Definitions<referencing-key-value-pairs-in-action-definitions>`
 
 Accessing ``numbers``, ``integers``, ``objects`` and ``arrays`` in other places,
-such as Mistral workflows, utilizing ``from_json_string`` is still necessary.
+such as workflows, utilizing ``from_json_string`` is still necessary.
 
 .. _jinja-jinja-filters:
 
@@ -66,10 +66,6 @@ templates/#builtin-filters>`_ available in Jinja, |st2| also comes with some cus
 
 **For Developers:** These filters are defined in
 :github_st2:`st2/st2common/st2common/expressions/functions <st2common/st2common/expressions/functions>`.
-The equivalent Mistral filters are located in the ``st2mistral`` repo at
-:github_st2mistral:`st2mistral/st2mistral/functions/ <st2mistral/functions/>`.
-To ensure filters maintain parity across StackStorm workflows, changes to one location must be
-replicated to the other in a separate PR.
 
 For brevity, only simple Jinja patterns for each filter are documented below. "Real-world" usage
 will depend on the type of content where the filters are being applied (sensors, triggers, rules,
@@ -78,20 +74,8 @@ in the ``examples`` pack:
 :github_st2:`st2/contrib/examples/actions/chains/ <contrib/examples/actions/chains/>`.
 
 ..  TODO We should consider separating each specific usage into individual ActionChains and refer to
-    it using literalinclude (i.e. .. literalinclude:: /../../st2/contrib/examples/actions/workflows/mistral-jinja-branching.yaml)
+    it using literalinclude (i.e. .. literalinclude:: /../../st2/contrib/examples/actions/workflows/orquesta-join.yaml)
     so we can just use the code as the source of truth. Then, we can remove the above note.
-
-In |st2| 2.4, all custom filters were made available to Mistral workflows as well, with one notable
-exception: the ``decrypt_kv`` filter. That filter is not necessary in Mistral, as the ``st2kv``
-function in Mistral workflows natively supports decryption via the ``decrypt`` parameter.
-
-.. note::
-
-    Because of a bug in Mistral, these filters do not currently support the "pipe" operator filter
-    format (`|`) So, instead of ``'{{ _.input_str | regex_match(_.regex_pattern) }}'`` you would
-    call the filter like a regular function, moving the previously input value into the first
-    positional argument position: ``'{{ regex_match(_.input_str, _.regex_pattern) }}'``. This will
-    be addressed in a future release.
 
 from_json_string
 ~~~~~~~~~~~~~~~~
