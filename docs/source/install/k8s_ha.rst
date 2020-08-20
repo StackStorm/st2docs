@@ -313,10 +313,6 @@ st2workflowengine drives the execution of orquesta workflows and actually schedu
 Multiple st2workflowengine processes can run in active-active mode and so minimum ``2`` K8s Deployment replicas are created by default.
 All the workflow engine processes will share the load and pick up more work if one or more of the processes become available.
 
-.. note::
-  As Mistral is going to be deprecated and removed from StackStorm platform soon, Helm chart relies only on
-  :doc:`Orquesta st2workflowengine </orquesta/index>` as a new native workflow engine.
-
 st2notifier
 ___________
 Multiple st2notifier processes can run in active-active mode, using connections to RabbitMQ and MongoDB and generating triggers based on

@@ -9,7 +9,7 @@ The script covers the following aspects of |st2|:
 * Examples pack installation
 * Commands described in :doc:`/start`
 * :doc:`/packs` actions
-* :doc:`/actionchain` and :doc:`/mistral` Workflows
+* :doc:`/actionchain` Workflows
 
 To run the |st2| self-verification script:
 
