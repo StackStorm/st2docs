@@ -38,14 +38,6 @@ Fedora
     systemctl enable rabbitmq-server
     systemctl restart rabbitmq-server
 
-Optional Requirements
-~~~~~~~~~~~~~~~~~~~~~
-
-Mistral
--------
-Mistral workflow engine also has its own requirements. For more information, please refer to the
-:github_mistral:`Mistral README <README.rst>`.
-
 Project Requirements
 ~~~~~~~~~~~~~~~~~~~~
 
