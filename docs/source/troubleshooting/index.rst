@@ -11,7 +11,6 @@ and how to debug and troubleshoot them.
     basic_chatops_troubleshooting
     rules
     sensors
-    mistral
     ssh
     database
     rest_api_access
