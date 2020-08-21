@@ -4,7 +4,7 @@ Upgrades
 When new versions of |st2| are released, they are published to our APT and Yum repositories. You
 can use standard Linux package management tools to install these upgraded packages.
 
-As part of the general upgrade procedure, you will need to run scripts to upgrade the Mistral Database prior
+For StackStorm versions prior to 3.3 then the general upgrade procedure included scripts to upgrade the Mistral Database, prior
 to restarting |st2| services. See below for more details. Depending on the versions you are upgrading to and
 from, you may need to run additional :ref:`migration scripts<migration-scripts-to-run>`.
 
@@ -128,42 +128,27 @@ This is the standard upgrade procedure:
 
    .. sourcecode:: bash
 
-      sudo apt-get install --only-upgrade st2 st2web st2chatops st2mistral
+      sudo apt-get install --only-upgrade st2 st2web st2chatops
 
    RHEL/CentOS:
 
    .. sourcecode:: bash
 
-      sudo yum update st2 st2web st2chatops st2mistral
+      sudo yum update st2 st2web st2chatops
 
-   .. note::
+.. note::
 
-      Omit st2mistral from list of packages if Mistral is not installed in your installation
+  If upgrading to a version earlier than StackStorm 3.3, add st2mistral to list of packages to update (if it is present on your current system).
 
-3. Upgrade Mistral database:
+3. Run the migration scripts (if any). See below for version-specific migration scripts.
 
-   This step can be skipped if Mistral is not installed in your installation
-
-   .. sourcecode:: bash
-
-     /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
-     /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate | grep -v -e openstack -e keystone -e ironicclient
-
-   .. warning::
-
-      The mistral and mistral-api services must be stopped at time of upgrade. If the services are
-      restarted before the mistral-db-manage commands are run, then the
-      ``mistral-db-manage upgrade head`` command may fail.
-
-4. Run the migration scripts (if any). See below for version-specific migration scripts.
-
-5. Ensure all content is registered:
+4. Ensure all content is registered:
 
    .. sourcecode:: bash
 
       sudo st2ctl reload --register-all
 
-6. Start |st2| services:
+5. Start |st2| services:
 
    .. sourcecode:: bash
 
