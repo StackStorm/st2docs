@@ -1,9 +1,7 @@
 ---
 log_file_paths:
     - /var/log/st2/*.log
-    - /var/log/mistral*.log
 st2_config_file_path: /etc/st2/st2.conf
-mistral_config_file_path: /etc/mistral/mistral.conf
 s3_bucket_url: https://st2debuginfo.s3.amazonaws.com/
 gpg_key_fingerprint: BDE989A1F308B18D29789C717064B11C82F62D6F
 gpg_key : |
