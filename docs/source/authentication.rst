@@ -136,9 +136,13 @@ The following is a list of auth backends for the community edition to help get t
 
 LDAP (Enterprise Edition)
 -------------------------
-|st2|-developed auth backends such as LDAP are only available in |ewc|. For more information on
-|ewc|, please visit https://www.extremenetworks.com/product/workflow-composer/
-The auth backends included with |ewc| are developed, tested, maintained, and supported by Extreme Networks.
+.. note::
+
+  Prior to StackStorm 3.3, Extreme Networks provided a commercial version of the StackStorm automation platform including a LDAP auth backend.
+
+  The EWC components have been gifted to the Linux Foundation, but have not yet been integrated into the StackStorm release.
+
+  These components are NOT available in the StackStorm 3.3 release, but will be integrated into the community edition of StackStorm in future release(s).
 
 LDAP
 ^^^^
