@@ -44,8 +44,8 @@ RabbitMQ for incoming executions.
 
 Notifier and results tracker are also part of this code base. Notifier is the component that
 sends notification triggers and action triggers at the end of action execution. Results tracker
-is an advanced async results querier for certain kind of runners like Mistral, where execution of
-a workflow is kicked off remotely and you have to poll the Mistral APIs to collect results.
+is an advanced async results querier for certain kind of runners like 3rd party integrations, where 
+execution of an action is kicked off and you have to poll the integrations APIs to collect results.
 
 st2client
 ---------

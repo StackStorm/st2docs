@@ -34,7 +34,6 @@ Chef
 We don't have documentation for Chef yet. If you'd like to help us fill in this section, pull requests are gladly accepted. In the meantime, here are some resources to get you started:
 
    * |st2| Cookbook: https://supermarket.chef.io/cookbooks/stackstorm
-   * OpenStack Mistral Cookbook: https://supermarket.chef.io/cookbooks/openstack-mistral
 
 
 Salt
