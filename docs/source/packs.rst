@@ -283,7 +283,7 @@ default private key.
 
 Deploy keys are more secure than personal access tokens and can be configured on a per-repo basis.
 
-Using Python 3 for Pack Python Virtual Environment
+Python versions in Pack Python Virtual Environment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
@@ -292,10 +292,14 @@ Using Python 3 for Pack Python Virtual Environment
    improvements to this functionality were introduced in |st2| v3.0.1.
 
 When installing a pack, a Python virtual environment is created using the Python binary defined by
-the ``actionrunner.python_binary`` config option. By default, the same Python 2.7.x binary which is
-used by all the |st2| components and services is used for pack virtual environments.
+the ``actionrunner.python_binary`` config option. By default, the same binary which is
+used by all the |st2| components and services is used for pack virtual environments. On CentOS/RHEL 7 and Ubuntu 16.04 the Python binary currently used is Python 2.7, on all other distributions Python 3 is used.
 
-If you need to use Python 3 for running your pack Python actions, you can do that by passing  the
+.. warning ::
+
+   Python 2 support will be dropped from |st2| in future releases. Please consider updating any Python 2 only packs to work with Python 3.
+
+On CentOS/RHEL 7 and Ubuntu 16.04 if you want to use Python 3 for running your pack Python actions, you can do that by passing  the
 ``--use-python3`` flag to the ``st2 pack install`` command (e.g. ``st2 pack install libcloud
 --use-python3``).
 
@@ -310,13 +314,9 @@ Python 3 libraries should be installed and available in either ``/usr/lib/python
 ``actionrunner.python3_prefix`` option in ``st2.conf`` to match that value.
 
 Keep in mind that this feature only means Python runner actions will be executed using Python 3
-binary. All the |st2| components and services, including the action runner will still use Python 2
-binary.
+binary. All the |st2| components and services, including the action runner will still use the
+default ST2 python binary.
 
-If you want all the |st2| components and services to also run under Python 3 you should look at
-the Ubuntu Bionic packages where everything runs under Python 3.6. These are in the "unstable"
-repositories for 3.0, and will be GA in 3.1. On Ubuntu Bionic only packs which work under Python
-3 are supported.
 
 .. _packs-behind-proxy:
 
