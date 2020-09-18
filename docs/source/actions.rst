@@ -331,7 +331,7 @@ Action Registration
 
 To register a new action:
 
-1. Place it into the correct location. (i.e under pack's action folder)
+1. Place it into the pack content location.
 2. Tell the system that the action is available.
 
 The actions are grouped in :doc:`packs </packs>` and located at ``/opt/stackstorm/packs``
