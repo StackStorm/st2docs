@@ -138,7 +138,7 @@ LDAP (Enterprise Edition)
 -------------------------
 .. note::
 
-  Prior to StackStorm 3.3, Extreme Networks provided a commercial version of the StackStorm automation platform including a LDAP auth backend.
+  Prior to StackStorm 3.3, Extreme Networks provided a commercial version(Extreme Workflow Composer) of the StackStorm automation platform including an LDAP auth backend.
 
 Extreme Workflow Composer was donated to Linux Foundation, but those components are not yet integrated into the StackStorm release. Please visit https://stackstorm.com/2020/05/27/extreme-networks-donates-ewc-to-linux-foundation/ for more details.
 
