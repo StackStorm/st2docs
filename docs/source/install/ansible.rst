@@ -60,8 +60,8 @@ complete installation:
 - ``nodejs`` - Dependency for ``st2chatops``.
 - ``st2chatops`` - Install and configure st2chatops for hubot adapter integration with |st2|.
 - ``st2smoketests`` - Simple checks to see if |st2| is working.
-- ``ewc`` - Install and configure |ewc|, including ``LDAP`` and ``RBAC``.
-- ``ewc_smoketests`` - Simple checks to see if |ewc| is working.
+- ``ewc`` - Install and configure |ewc|, including ``LDAP`` and ``RBAC``. StackStorm < 3.3 only.
+- ``ewc_smoketests`` - Simple checks to see if |ewc| is working. StackStorm < 3.3 only.
 
 Example Play
 ---------------------------
@@ -148,66 +148,8 @@ If you are installing from behind a proxy, you can use the environment variables
 
 |ewc|
 -----
+.. include:: common/ewc_intro.rst
 
-Here's an example showing how to add :doc:`Extreme Workflow Composer </install/ewc>`, with
-`LDAP <https://ewc-docs.extremenetworks.com/authentication.html#ldap>`_ authentication and
-`RBAC <https://ewc-docs.extremenetworks.com/rbac.html>`_ configuration to allow/restrict/limit |st2|
-functionality to specific users:
-
-.. sourcecode:: yaml
-
-    - name: Install StackStorm Enterprise
-      hosts: all
-      roles:
-        - name: Install and configure StackStorm Enterprise (EWC)
-          role: ewc
-          vars:
-            ewc_repo: enterprise
-            ewc_license: CHANGE-ME-PLEASE
-            ewc_version: latest
-            # Configure LDAP backend
-            # See: https://ewc-docs.extremenetworks.com/authentication.html#ldap
-            ewc_ldap:
-              backend_kwargs:
-                bind_dn: "cn=Administrator,cn=users,dc=change-you-org,dc=net"
-                bind_password: "foobar123"
-                base_ou: "dc=example,dc=net"
-                group_dns:
-                  - "CN=stormers,OU=groups,DC=example,DC=net"
-                host: identity.example.net
-                port: 389
-                id_attr: "samAccountName"
-            # Configure RBAC
-            # See: https://ewc-docs.extremenetworks.com/rbac.html
-            ewc_rbac:
-              # Define EWC roles and permissions
-              # https://ewc-docs.extremenetworks.com/rbac.html#defining-roles-and-permission-grants
-              roles:
-                - name: core_local_only
-                  description: "This role has access only to action core.local in pack 'core'"
-                  enabled: true
-                  permission_grants:
-                    - resource_uid: "action:core:local"
-                      permission_types:
-                        - action_execute
-                        - action_view
-                    - permission_types:
-                      - runner_type_list
-              # Assign roles to specific users
-              # https://ewc-docs.extremenetworks.com/rbac.html#defining-user-role-assignments
-              assignments:
-                - name: test_user
-                  roles:
-                    - core_local_only
-                - name: stanley
-                  roles:
-                    - admin
-                - name: chuck_norris
-                  roles:
-                    - system_admin
-
-        - name: Verify EWC Installation
-          role: ewc_smoketests
 
 .. note::
 

@@ -266,12 +266,6 @@ Upgrade to |ewc|
 
 .. include:: common/ewc_intro.rst
 
-.. code-block:: bash
-
-  # Set up Extreme Workflow Composer repository access, install Enterprise packages and configure RBAC
-  curl -sSL -O https://stackstorm.com/ewc/install.sh && chmod +x install.sh
-  ./install.sh --user=st2admin --password='Ch@ngeMe' --license=${EWC_LICENSE_KEY}
-
 .. rubric:: What's Next?
 
 * Check out the :doc:`/start` Guide to build a simple automation.
