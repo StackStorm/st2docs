@@ -47,7 +47,7 @@ Upgrade Notes
   workflow definition contains a task that is named ``continue``.
 * When installing packs from Exchange index ``st2 pack install <pack_name>`` will now download latest
   release from the remote repository, instead of using latest available git commit from master as before.
-* When upgrading an installation with the Community LDAP auth backend ``st2_auth_backend_ldap``
+* When upgrading an installation with the `Community LDAP auth backend <https://github.com/StackStorm/st2-auth-backend-ldap>`_
   configured, you will need to re-install the ``pyasn1`` python module into
   the ``/opt/stackstorm/st2`` virtualenv. This is caused by the fact that the core ``st2``
   package no longer bundles in the ``pyasn1`` module, so it will be absent post-upgrade.
