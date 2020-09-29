@@ -53,17 +53,15 @@ complete installation:
 - ``epel`` - Repository with extra packages for ``RHEL/CentOS``.
 - ``mongodb`` - Main DB storage engine.
 - ``rabbitmq`` - Message broker.
-- ``postgresql`` - DB storage engine for Mistral.
 - ``st2repos`` - Adds |st2| PackageCloud repositories.
 - ``st2`` - Install and configure |st2| itself.
-- ``st2mistral`` - Install and configure |st2| Mistral workflow engine.
 - ``nginx`` - Dependency for ``st2web``.
 - ``st2web`` - Nice & shiny WebUI for |st2|.
 - ``nodejs`` - Dependency for ``st2chatops``.
 - ``st2chatops`` - Install and configure st2chatops for hubot adapter integration with |st2|.
 - ``st2smoketests`` - Simple checks to see if |st2| is working.
-- ``ewc`` - Install and configure |ewc|, including ``LDAP`` and ``RBAC``.
-- ``ewc_smoketests`` - Simple checks to see if |ewc| is working.
+- ``ewc`` - Install and configure |ewc|, including ``LDAP`` and ``RBAC``. StackStorm < 3.3 only.
+- ``ewc_smoketests`` - Simple checks to see if |ewc| is working. StackStorm < 3.3 only.
 
 Example Play
 ---------------------------
@@ -77,7 +75,6 @@ Here's a more advanced example showing how to customize your |st2| deployment:
       roles:
         - mongodb
         - rabbitmq
-        - postgresql
         - nginx
         - nodejs
 
@@ -98,16 +95,6 @@ Here's a more advanced example showing how to customize your |st2| deployment:
             st2_system_user_in_sudoers: yes
             # Dict to edit https://github.com/StackStorm/st2/blob/master/conf/st2.conf.sample
             st2_config: {}
-
-        - name: Install and configure st2mistral
-          role: st2mistral
-          vars:
-            st2mistral_version: latest
-            st2mistral_db: mistral
-            st2mistral_db_username: mistral
-            st2mistral_db_password: StackStorm
-            # Dict to edit https://github.com/StackStorm/st2-packages/blob/master/packages/st2mistral/conf/mistral.conf
-            st2mistral_config: {}
 
         - name: Install st2web
           role: st2web
@@ -161,66 +148,8 @@ If you are installing from behind a proxy, you can use the environment variables
 
 |ewc|
 -----
+.. include:: common/ewc_intro.rst
 
-Here's an example showing how to add :doc:`Extreme Workflow Composer </install/ewc>`, with
-`LDAP <https://ewc-docs.extremenetworks.com/authentication.html#ldap>`_ authentication and
-`RBAC <https://ewc-docs.extremenetworks.com/rbac.html>`_ configuration to allow/restrict/limit |st2|
-functionality to specific users:
-
-.. sourcecode:: yaml
-
-    - name: Install StackStorm Enterprise
-      hosts: all
-      roles:
-        - name: Install and configure StackStorm Enterprise (EWC)
-          role: ewc
-          vars:
-            ewc_repo: enterprise
-            ewc_license: CHANGE-ME-PLEASE
-            ewc_version: latest
-            # Configure LDAP backend
-            # See: https://ewc-docs.extremenetworks.com/authentication.html#ldap
-            ewc_ldap:
-              backend_kwargs:
-                bind_dn: "cn=Administrator,cn=users,dc=change-you-org,dc=net"
-                bind_password: "foobar123"
-                base_ou: "dc=example,dc=net"
-                group_dns:
-                  - "CN=stormers,OU=groups,DC=example,DC=net"
-                host: identity.example.net
-                port: 389
-                id_attr: "samAccountName"
-            # Configure RBAC
-            # See: https://ewc-docs.extremenetworks.com/rbac.html
-            ewc_rbac:
-              # Define EWC roles and permissions
-              # https://ewc-docs.extremenetworks.com/rbac.html#defining-roles-and-permission-grants
-              roles:
-                - name: core_local_only
-                  description: "This role has access only to action core.local in pack 'core'"
-                  enabled: true
-                  permission_grants:
-                    - resource_uid: "action:core:local"
-                      permission_types:
-                        - action_execute
-                        - action_view
-                    - permission_types:
-                      - runner_type_list
-              # Assign roles to specific users
-              # https://ewc-docs.extremenetworks.com/rbac.html#defining-user-role-assignments
-              assignments:
-                - name: test_user
-                  roles:
-                    - core_local_only
-                - name: stanley
-                  roles:
-                    - admin
-                - name: chuck_norris
-                  roles:
-                    - system_admin
-
-        - name: Verify EWC Installation
-          role: ewc_smoketests
 
 .. note::
 

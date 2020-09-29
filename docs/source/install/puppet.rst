@@ -11,12 +11,6 @@ The ``stackstorm-st2`` Puppet module is available on Puppet Forge:
 Source code for the module is available as a GitHub repo:
 `StackStorm/puppet-st2 <https://github.com/stackstorm/puppet-st2/>`_
 
-.. note::
-
-    This puppet module only supports the open source version of StackStorm. Please contact
-    `StackStorm Support <support@stackstorm.com>`_ and let us know if you are interested
-    in using puppet module to install Extreme Workflow Composer (EWC).
-
 .. contents:: Contents
    :local:
 
@@ -71,7 +65,6 @@ classes available for configuration:
 - ``::st2`` - The main configuration point for the StackStorm installation.
 - ``::st2::profile::client`` - Profile to install all client libraries for StackStorm
 - ``::st2::profile::fullinstall`` - Full installation of StackStorm and dependencies
-- ``::st2::profile::mistral`` - Install of OpenStack Mistral
 - ``::st2::profile::mongodb`` - StackStorm configured MongoDB installation
 - ``::st2::profile::nodejs`` - StackStorm configured NodeJS installation
 - ``::st2::profile::python`` - Python installed and configured for StackStorm

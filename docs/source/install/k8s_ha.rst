@@ -95,91 +95,7 @@ the desired number of replicas to sustain every service alive during the rolling
 
 Enterprise (EWC)
 ________________
-
-Installation
-~~~~~~~~~~~~
-By default, StackStorm Community free and open-source version is deployed via Helm chart.
-If you want to install :doc:`StackStorm Enterprise (Extreme Workflow Composer) </install/ewc>`, run:
-
-.. code-block:: bash
-
-  # Replace `<EWC_LICENSE_KEY>` with a real license key, obtained in Email
-  helm install \
-    --set enterprise.enabled=true \
-    --set enterprise.license=<EWC_LICENSE_KEY> \
-    stackstorm/stackstorm-ha
-
-It will pull enterprise images from our private Docker registry. This adds advanced functionality and enterprise support.
-
-.. note::
-    Don't have StackStorm Enterprise License?
-
-    Request a free trial by filling out the form at `Extreme Sales <https://www.extremenetworks.com/contact-sales/>`_
-
-RBAC & LDAP Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~
-Enterprise edition allows configuring features like :doc:`/rbac` and :doc:`LDAP Authentication </authentication>`.
-Include ``enterprise`` section in Helm values with preferred RBAC and LDAP settings:
-
-.. code-block:: yaml
-
-  ##
-  ## StackStorm Enterprise settings (Optional)
-  ##
-  enterprise:
-    # Enable/Disable StackStorm Enterprise. Enabling will download StackStorm Enterprise Docker images.
-    enabled: true
-    # Required StackStorm Enterprise license key.
-    license: ""
-
-    # StackStorm Role Based Access Control settings (https://docs.stackstorm.com/rbac.html)
-    rbac:
-      # Custom StackStorm RBAC roles, shipped in '/opt/stackstorm/rbac/roles/'
-      # See https://docs.stackstorm.com/rbac.html#defining-roles-and-permission-grants
-      roles:
-        sample.yaml: |
-          # sample RBAC role file, see https://docs.stackstorm.com/rbac.html#defining-roles-and-permission-grants
-          ---
-          name: "sample"
-          description: "Example Role which contains no permission grants and serves for demonstration purposes"
-
-      # Custom StackStorm RBAC role assignments, shipped in '/opt/stackstorm/rbac/assignments/'
-      # See: https://docs.stackstorm.com/rbac.html#defining-user-role-assignments
-      assignments:
-        st2admin.yaml: |
-          ---
-          username: st2admin
-          roles:
-            - system_admin
-        stanley.yaml: |
-          ---
-          username: stanley
-          roles:
-            - admin
-
-      # StackStorm RBAC LDAP groups-to-roles mapping rules, shipped in '/opt/stackstorm/rbac/mappings/'
-      # See RBAC Roles Based on LDAP Groups: https://docs.stackstorm.com/rbac.html#automatically-granting-roles-based-on-ldap-group-membership
-      mappings:
-        stormers.yaml: |
-          ---
-          group: "CN=stormers,OU=groups,DC=stackstorm,DC=net"
-          description: "Automatically grant admin role to all stormers group members."
-          roles:
-            - "admin"
-
-Upgrading from Community
-~~~~~~~~~~~~~~~~~~~~~~~~
-Additionally, you can benefit by upgrading from Community to Enterprise edition at any time, with no loss of data:
-
-.. code-block:: bash
-
-  # Replace `<EWC_LICENSE_KEY>` with a real license key, obtained in Email
-  helm upgrade \
-    --set enterprise.enabled=true \
-    --set enterprise.license=<EWC_LICENSE_KEY> \
-    <release-name> \
-    stackstorm/stackstorm-ha
-
+.. include:: common/ewc_intro.rst
 
 Tips & Tricks
 _____________
@@ -312,10 +228,6 @@ _________________
 st2workflowengine drives the execution of orquesta workflows and actually schedules actions to run by another component ``st2actionrunner``.
 Multiple st2workflowengine processes can run in active-active mode and so minimum ``2`` K8s Deployment replicas are created by default.
 All the workflow engine processes will share the load and pick up more work if one or more of the processes become available.
-
-.. note::
-  As Mistral is going to be deprecated and removed from StackStorm platform soon, Helm chart relies only on
-  :doc:`Orquesta st2workflowengine </orquesta/index>` as a new native workflow engine.
 
 st2notifier
 ___________

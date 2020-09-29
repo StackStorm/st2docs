@@ -11,9 +11,6 @@ Ubuntu Bionic (18.04)
    |st2| on Ubuntu ``18.04`` runs all services, actions and sensors using Python 3 **only**. It
    does not support Python2 actions.
 
-   Mistral is not supported on Ubuntu ``18.04``. All workflows must be written in
-   :doc:`Orquesta </orquesta/index>`. 
-
 System Requirements
 -------------------
 
@@ -198,12 +195,6 @@ Upgrade to |ewc|
 ----------------
 
 .. include:: common/ewc_intro.rst
-
-.. code-block:: bash
-
-  # Set up Extreme Workflow Composer repository access, install Enterprise packages and configure RBAC
-  curl -sSL -O https://stackstorm.com/ewc/install.sh && chmod +x install.sh
-  ./install.sh --user=st2admin --password='Ch@ngeMe' --license=${EWC_LICENSE_KEY}
 
 .. rubric:: What's Next?
 

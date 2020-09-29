@@ -31,7 +31,7 @@ Starting a StackStorm Vagrant VM is easy:
   vagrant up
   vagrant ssh
 
-This will boot up a fresh StackStorm installation along with the Mistral workflow engine on Ubuntu 16.04 LTS.
+This will boot up a fresh StackStorm installation on Ubuntu 16.04 LTS.
 You can access Web UI at ``https://10.10.10.10/`` or SSH to the box ``vagrant ssh`` if you prefer st2 CLI.
 
 Virtual Appliance / OVA
@@ -55,11 +55,6 @@ page. It might be especially helpful for the isolated from the internet air-gapp
     If using OVA in production environment, don't forget to change the default credentials
     and delete SSH authorized keys for ``vagrant`` linux user.
 
-.. note::
-
-    At the moment only Virtualbox provider is supported in Open Source version. Please contact
-    `Extreme Sales <https://www.extremenetworks.com/contact-sales/>`_ and let us know if you are interested in an
-    Extreme Workflow Composer (EWC) image or VMWare-compatible virtual appliance.
 
 Tips & Tricks
 -------------

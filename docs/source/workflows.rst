@@ -13,13 +13,12 @@ manually, or triggered by rules. Workflows can even be called from other workflo
 To create a workflow action, choose a workflow runner, connect the actions in a workflow definition,
 and provide the usual action meta data.
 
-|st2| supports three types of workflows - :doc:`Orquesta <orquesta/index>`, :doc:`ActionChain <actionchain>`
-and :doc:`Mistral <mistral>`.
+|st2| supports two types of workflows - :doc:`Orquesta <orquesta/index>` and :doc:`ActionChain <actionchain>`.
 
 * :doc:`Orquesta <orquesta/index>` is a new workflow engine, designed specifically for |st2|, released
   in 2019. With Orquesta, you can define simple sequential workflows or complex workflows with forks, joins,
-  and sophisticated data transformation and queries. It will replace both ActionChains and Mistral. We 
-  recommend you write all new workflows in Orquesta.
+  and sophisticated data transformation and queries. It has replaced the Mistral workflow engine, and will
+  also replace ActionChains. We recommend you write all new workflows in Orquesta.
 
   **Use Orquesta for all new workflows.** 
 
@@ -29,12 +28,8 @@ and :doc:`Mistral <mistral>`.
 
   **Use ActionChain for simple legacy workflows.**
 
-* :doc:`Mistral <mistral>` is a dedicated workflow service, originated in OpenStack, integrated
-  and bundled with |st2|. With Mistral, you can define complex workflow logic with nested
-  workflows, forks, joins, and policies for error handling, retries, and delays. This is maintained
-  for legacy reasons, but we recommend all new workflows are written in Orquesta.
-
-  **Use Mistral for legacy complex workflows.**
+Mistral workflows are no longer supported. See https://github.com/StackStorm/orquestaconvert for a tool to
+convert Mistral workflows to Orquesta.
 
 Learn how to define and run workflows:
 
@@ -43,6 +38,3 @@ Learn how to define and run workflows:
 
     Orquesta <orquesta/index>
     actionchain
-    mistral
-    mistral_yaql
-    mistral_jinja

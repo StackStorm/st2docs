@@ -19,7 +19,7 @@ Install Dependencies
 
 .. include:: __mongodb_note.rst
 
-Install MongoDB, RabbitMQ, and PostgreSQL:
+Install MongoDB, and RabbitMQ:
 
 .. code-block:: bash
 
@@ -37,7 +37,6 @@ Install MongoDB, RabbitMQ, and PostgreSQL:
   sudo apt-get install -y crudini
   sudo apt-get install -y mongodb-org
   sudo apt-get install -y rabbitmq-server
-  sudo apt-get install -y postgresql
 
 For Ubuntu ``Xenial`` you may need to enable and start MongoDB.
 
@@ -61,7 +60,7 @@ Install |st2| Components
 
 .. code-block:: bash
 
-  sudo apt-get install -y st2 st2mistral
+  sudo apt-get install -y st2
 
 .. include:: common/configure_components.rst
 
@@ -69,11 +68,6 @@ Setup Datastore Encryption
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: common/datastore_crypto_key.rst
-
-Setup Mistral Database
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. include:: common/setup_mistral_database.rst
 
 .. _ref-config-ssh-sudo-deb:
 
@@ -217,12 +211,6 @@ Upgrade to |ewc|
 ----------------
 
 .. include:: common/ewc_intro.rst
-
-.. code-block:: bash
-
-  # Set up Extreme Workflow Composer repository access, install Enterprise packages and configure RBAC
-  curl -sSL -O https://stackstorm.com/ewc/install.sh && chmod +x install.sh
-  ./install.sh --user=st2admin --password='Ch@ngeMe' --license=${EWC_LICENSE_KEY}
 
 .. rubric:: What's Next?
 

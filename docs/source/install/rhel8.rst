@@ -17,9 +17,6 @@ Please check the :doc:`supported versions and system requirements <system_requir
     does not support Python 2 actions. `More info about python in RHEL 8 and CentOS 8.
     <https://developers.redhat.com/blog/2019/05/07/what-no-python-in-red-hat-enterprise-linux-8/>`_
 
-    Mistral is not supported on RHEL 8/CentOS 8. All workflows must be written in
-    :doc:`Orquesta </orquesta/index>`.
-
 Minimal Installation
 --------------------
 
@@ -268,12 +265,6 @@ Upgrade to |ewc|
 ----------------
 
 .. include:: common/ewc_intro.rst
-
-.. code-block:: bash
-
-  # Set up Extreme Workflow Composer repository access, install Enterprise packages and configure RBAC
-  curl -sSL -O https://stackstorm.com/ewc/install.sh && chmod +x install.sh
-  ./install.sh --user=st2admin --password='Ch@ngeMe' --license=${EWC_LICENSE_KEY}
 
 .. rubric:: What's Next?
 
