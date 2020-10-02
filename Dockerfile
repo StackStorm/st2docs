@@ -1,8 +1,8 @@
-FROM ubuntu
+FROM ubuntu:bionic
 
 RUN apt-get -qq update && apt-get -q install -y \
     git \
-    python-dev python-pip python-virtualenv \
+    python3-dev python3-pip python-virtualenv \
     libffi-dev libssl-dev
 
 ADD . /st2docs
