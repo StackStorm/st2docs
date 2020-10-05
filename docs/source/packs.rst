@@ -300,8 +300,8 @@ used by all the |st2| components and services is used for pack virtual environme
    Python 2 support will be dropped from |st2| in future releases. Please consider updating any Python 2 only packs to work with Python 3.
 
 On CentOS/RHEL 7 and Ubuntu 16.04 if you want to use Python 3 for running your pack Python actions, you can do that by passing  the
-``--use-python3`` flag to the ``st2 pack install`` command (e.g. ``st2 pack install libcloud
---use-python3``).
+``--python3`` flag to the ``st2 pack install`` command (e.g. ``st2 pack install libcloud
+--python3``).
 
 This will create the pack virtual environment using the Python 3 binary specified by
 ``actionrunner.python3_binary`` config option. This value defaults to ``/usr/bin/python3``. For
