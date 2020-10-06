@@ -17,7 +17,11 @@ Upgrade Notes
     trigger:
       type: "core.st2.action.file_written"
 
-* Support for Mistral workflows was removed. Before upgrading to v3.3, ensure all Mistral workflows have been converted to Orquesta workflows. A tool is available for assisting in this conversion, more information can be found in the ``orquestaconvert`` `README.md <https://github.com/StackStorm/orquestaconvert/blob/master/README.md>`_.
+* Support for Mistral workflows was removed. Before upgrading to v3.3, ensure all Mistral workflows
+  have been converted to Orquesta workflows (see :doc:`Orquesta </orquesta/index>` page for more
+  details). Orquesta workflows fail-fast (unlike Mistral workflows), so some re-design may be required.
+A tool is available for assisting in this conversion, more information can be found
+  in the ``orquestaconvert`` `README.md <https://github.com/StackStorm/orquestaconvert/blob/master/README.md>`_.
 
 * The installation script now installs MongoDB 4.0 by default (previously, 3.4 was installed on
   RHEL/CentOS 7.x and Ubuntu 16.04).
