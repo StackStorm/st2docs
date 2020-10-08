@@ -18,8 +18,8 @@ Upgrade Notes
       type: "core.st2.action.file_written"
 
 * Support for Mistral workflows was removed. Before upgrading to v3.3, ensure all Mistral workflows
-  have been converted to Orquesta workflows (see :doc:`Orquesta </orquesta/index>` page for more
-  details). Orquesta workflows fail-fast (unlike Mistral workflows), so some re-design may be required.
+  have been converted to Orquesta workflows. Please review the :doc:`Orquesta </orquesta/index>` documentation for
+  details on how these differ from Mistral workflows, some re-design may be required.
   A tool is available for assisting in this conversion, more information can be found
   in the ``orquestaconvert`` `README.md <https://github.com/StackStorm/orquestaconvert/blob/master/README.md>`_.
 
