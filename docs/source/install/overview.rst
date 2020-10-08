@@ -74,7 +74,7 @@ installed independently.
   reverse-proxies REST API endpoints to st2* web services.
 * **StackStorm WebUI** (st2web, and Workflow Designer, for Extreme Workflow Composer) are
   installed at ``/opt/stackstorm/static/webui`` and configured via ``webui/config.js``. ``st2web``
-  comes in its own ``deb`` and ``rpm`` package. Workflow Designer is deployed as part of the
+  comes in its own ``deb`` and ``rpm`` package. In StackStorm versions earlier than 3.3 Workflow Designer was deployed as part of the
   ``bwc-enterprise`` package. They are HTML5 applications, served as static HTML, and call |st2|
   st2auth and st2api REST API endpoints. NGINX proxies inbound requests to ``/api`` and ``/auth``
   to the st2api and st2auth services respectively.
