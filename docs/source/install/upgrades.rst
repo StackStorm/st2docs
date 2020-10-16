@@ -178,14 +178,17 @@ v3.3
   * https://docs.mongodb.com/manual/release-notes/4.0-upgrade-standalone/
 
   A summary of the steps to take is outlined below assuming you will be migrating
-  through the path ``3.4 -> 3.6 -> 4.0``
+  through the path ``3.4 -> 3.6 -> 4.0``.
+
+  In the following steps, if you receive an error when setting the FeatureComptabilityVersion stating that admin is not authorized to execute the command, then you may need to add the root role to the admin user, e.g.
+
+  .. sourcecode:: bash
+
+    mongo admin --username admin --password Password --quiet --eval "db.grantRolesToUser('admin',[{role: 'root', db: 'admin'}])"
 
   Ubuntu 16.04:
 
   .. sourcecode:: bash
-
-     # Stop StackStorm
-     sudo st2ctl stop
 
      # Ensure current MongoDB feature compatability level is set to 3.4
      mongo admin --username admin --password Password --quiet --eval "db.adminCommand( { setFeatureCompatibilityVersion: '3.4' } )"
@@ -199,7 +202,6 @@ v3.3
      sudo apt-get update
      sudo apt-get -y clean
      sudo apt-get -y update
-     # TODO: Missing something as after upgrade - as cannot set feature to 3.6
      sudo apt-get -y install mongodb-* --only-upgrade
 
      # Set MongoDB feature compatability level to 3.6
@@ -219,16 +221,15 @@ v3.3
      # Set MongoDB feature compatability level to 4.0
      mongo admin --username admin --password Password --quiet --eval "db.adminCommand( { setFeatureCompatibilityVersion: '4.0' } )"
 
-     # Start StackStorm
-     sudo st2ctl start
+
+  .. note::
+
+     If after upgrading packages you cannot set the FeatureCompatibilityVersion to the upgraded software, then you may need to restart the mongod service.
 
 
   RHEL/CentOS 7.x:
 
   .. sourcecode:: bash
-
-     # Stop StackStorm
-     sudo st2ctl stop
 
      # Ensure current MongoDB feature compatability level is set to 3.4
      mongo admin --username admin --password Password --quiet --eval "db.adminCommand( { setFeatureCompatibilityVersion: '3.4' } )"
@@ -251,15 +252,7 @@ v3.3
      # Set MongoDB feature compatability level to 4.0
      mongo admin --username admin --password Password --quiet --eval "db.adminCommand( { setFeatureCompatibilityVersion: '4.0' } )"
 
-     # Start StackStorm
-     sudo st2ctl start
 
-
-  If you receive an error when setting the FeatureComptabilityVersion stating that admin is not authorized to execute the command, then you may need to add the root role to the admin user, e.g.
-
-  .. sourcecode:: bash
-
-    mongo admin --username admin --password Password --quiet --eval "db.grantRolesToUser('admin',[{role: 'root', db: 'admin'}])"
 
 
 * Mistral is no longer included in StackStorm and consequently Postgres is no longer required. Mistral and Postgres were previously installed on CentOS 7.x and Ubuntu 16.04 releases only.
