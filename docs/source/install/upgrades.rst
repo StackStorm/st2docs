@@ -192,13 +192,14 @@ v3.3
 
      # Upgrade MongoDB packages to 3.6
      wget -qO - https://www.mongodb.org/static/pgp/server-3.6.asc | sudo apt-key add -
+     sudo rm -f /etc/apt/sources.list.d/mongodb-org-3.4.list
      sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-3.6.list
      deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/3.6 multiverse
      EOT"
      sudo apt-get update
      sudo apt-get -y clean
      sudo apt-get -y update
-     # TODO: Missing something as get conflicts on mongodb-clients and server when try this. If just do othe mongodb-org then can't set compatability to 3.4
+     # TODO: Missing something as after upgrade - as cannot set feature to 3.6
      sudo apt-get -y install mongodb-* --only-upgrade
 
      # Set MongoDB feature compatability level to 3.6
@@ -206,6 +207,7 @@ v3.3
 
      # Upgrade MongoDB packages to 4.0
      wget -qO - https://www.mongodb.org/static/pgp/server-4.0.asc | sudo apt-key add -
+     sudo rm -f /etc/apt/sources.list.d/mongodb-org-3.6.list
      sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-4.0.list
      deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/4.0  multiverse
      EOT"
