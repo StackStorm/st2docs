@@ -171,8 +171,8 @@ any skipped versions:
 v3.3
 ''''
 
-* MongoDB 4.0 is the new default version. Previously the version of MongoDB was 3.4 and
-  the supported upgrade path to MongoDB 4.0 is ``3.4 -> 3.6 -> 4.0``.
+* MongoDB 4.0 is the new default version for all OS distributions. On RHEL/CentOS 7 and Ubuntu 16.04 the version of MongoDB was 3.4 previously.
+  The supported upgrade path to MongoDB 4.0 is ``3.4 -> 3.6 -> 4.0``.
   Official documentation on how to upgrade MongoDB can be found here:
   * https://docs.mongodb.com/manual/release-notes/3.6-upgrade-standalone/
   * https://docs.mongodb.com/manual/release-notes/4.0-upgrade-standalone/
@@ -180,7 +180,7 @@ v3.3
   A summary of the steps to take is outlined below assuming you will be migrating
   through the path ``3.4 -> 3.6 -> 4.0``
 
-  Ubuntu:
+  Ubuntu 16.04:
 
   .. sourcecode:: bash
 
@@ -191,19 +191,28 @@ v3.3
      mongo admin --username admin --password Password --quiet --eval "db.adminCommand( { setFeatureCompatibilityVersion: '3.4' } )"
 
      # Upgrade MongoDB packages to 3.6
-     # TODO how do we update the apt source?
+     wget -qO - https://www.mongodb.org/static/pgp/server-3.6.asc | sudo apt-key add -
+     sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-3.6.list
+     deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/3.6 multiverse
+     EOT"
+     sudo apt-get update
      sudo apt-get -y clean
      sudo apt-get -y update
-     sudo apt-get -y install mongodb-*
+     # TODO: Missing something as get conflicts on mongodb-clients and server when try this. If just do othe mongodb-org then can't set compatability to 3.4
+     sudo apt-get -y install mongodb-* --only-upgrade
 
      # Set MongoDB feature compatability level to 3.6
      mongo admin --username admin --password Password --quiet --eval "db.adminCommand( { setFeatureCompatibilityVersion: '3.6' } )"
 
-     # TODO Upgrade MongoDB packages to 4.0
-     # TODO how do we update the apt source?
+     # Upgrade MongoDB packages to 4.0
+     wget -qO - https://www.mongodb.org/static/pgp/server-4.0.asc | sudo apt-key add -
+     sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-4.0.list
+     deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/4.0  multiverse
+     EOT"
+     sudo apt-get update
      sudo apt-get -y clean
      sudo apt-get -y update
-     sudo apt-get -y install mongodb-*
+     sudo apt-get -y install mongodb-* --only-upgrade
 
      # Set MongoDB feature compatability level to 4.0
      mongo admin --username admin --password Password --quiet --eval "db.adminCommand( { setFeatureCompatibilityVersion: '4.0' } )"
@@ -212,7 +221,7 @@ v3.3
      sudo st2ctl start
 
 
-  RHEL/CentOS:
+  RHEL/CentOS 7.x:
 
   .. sourcecode:: bash
 
@@ -223,7 +232,7 @@ v3.3
      mongo admin --username admin --password Password --quiet --eval "db.adminCommand( { setFeatureCompatibilityVersion: '3.4' } )"
 
      # Upgrade MongoDB packages to 3.6
-     sudo sed -i 's/3\.4/3\.6/' /etc/yum.repos.d/mongodb.repo
+     sudo sed -i 's/3\.4/3\.6/' /etc/yum.repos.d/mongodb*.repo
      sudo yum clean all
      sudo yum makecache fast
      sudo yum upgrade -y mongodb-*
@@ -232,7 +241,7 @@ v3.3
      mongo admin --username admin --password Password --quiet --eval "db.adminCommand( { setFeatureCompatibilityVersion: '3.6' } )"
 
      # Upgrade MongoDB packages to 4.0
-     sudo sed -i 's/3\.6/4\.0/' /etc/yum.repos.d/mongodb.repo
+     sudo sed -i 's/3\.6/4\.0/' /etc/yum.repos.d/mongodb*.repo
      sudo yum clean all
      sudo yum makecache fast
      sudo yum upgrade -y mongodb-*
@@ -243,25 +252,49 @@ v3.3
      # Start StackStorm
      sudo st2ctl start
 
-* Mistral is no longer included in StackStorm and consequently Postgres is no longer required.
+
+  If you receive an error when setting the FeatureComptabilityVersion stating that admin is not authorized to execute the command, then you may need to add the root role to the admin user, e.g.
+
+  .. sourcecode:: bash
+
+    mongo admin --username admin --password Password --quiet --eval "db.grantRolesToUser('admin',[{role: 'root', db: 'admin'}])"
+
+
+* Mistral is no longer included in StackStorm and consequently Postgres is no longer required. Mistral and Postgres were previously installed on CentOS 7.x and Ubuntu 16.04 releases only.
   To uninstall Mistral and Postgres you may follow the procedure below (optional):
 
 
-  Ubuntu:
+  Ubuntu 16.04:
 
   .. sourcecode:: bash
 
-     # TODO: Stop the services
-     # TODO: Uninstall the packages
-     # TODO: Remove the repo
+     # Stop the services
+     sudo service mistral-server stop
+     sudo service mistral-api stop
+     sudo service mistral stop
+     sudo service postgresql stop
+     # Uninstall the packages
+     sudo apt-get purge st2mistral
+     # Remove databases
+     sudo apt-get purge postgresql*
+     # Clean up remaining content
+     sudo rm -rf /var/log/mistral
+     
 
-  RHEL/CentOS:
+  RHEL/CentOS 7.x:
 
   .. sourcecode:: bash
 
-     # TODO: Stop the services
-     # TODO: Uninstall the packages
-     # TODO: Remove the repo
+     # Stop the services
+     sudo systemctl stop mistral*
+     sudo systemctl stop postgresql
+     # Uninstall the packages
+     sudo yum erase st2mistral
+     # Remove databases
+     sudo yum erase postgresql*
+     # Clean up remaining content
+     sudo rm -rf /var/log/mistral
+     sudo rm -rf /var/lib/pgsql
 
 v2.10
 '''''
