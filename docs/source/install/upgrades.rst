@@ -19,7 +19,7 @@ Update GPG Key
     The GPG keys used for signing our apt and yum repository metadata have been updated. If you are upgrading
     an existing system that has the old keys installed, it will need updating. See the instructions below for
     how to do this.
-    
+
     Failure to update the keys will result in signature verification errors during package update.
 
 For |st2| community version on Ubuntu, run the following command to update your keys. If you
@@ -48,7 +48,7 @@ note the URLs that failed on retrieval should be ``https://packagecloud.io/Stack
     Get:7 https://packagecloud.io/StackStorm/stable/ubuntu xenial InRelease [23.2 kB]
     Err:7 https://packagecloud.io/StackStorm/stable/ubuntu xenial InRelease
     The following signatures couldn't be verified because the public key is not available: NO_PUBKEY C2E73424D59097AB
-    Hit:8 http://archive.ubuntu.com/ubuntu xenial InRelease         
+    Hit:8 http://archive.ubuntu.com/ubuntu xenial InRelease
     Hit:9 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
     Hit:10 http://archive.ubuntu.com/ubuntu xenial-backports InRelease
     Fetched 23.2 kB in 1s (12.3 kB/s)
@@ -88,24 +88,24 @@ is retrieved from should be ``https://packagecloud.io/StackStorm/stable`` for th
     $ sudo yum update
     Loaded plugins: fastestmirror
     Loading mirror speeds from cached hostfile
-    StackStorm_stable/x86_64/signature                                                             |  836 B  00:00:00     
+    StackStorm_stable/x86_64/signature                                                             |  836 B  00:00:00
     Retrieving key from https://packagecloud.io/StackStorm/stable/gpgkey
     Importing GPG key 0xF6C28448:
     Userid     : "https://packagecloud.io/StackStorm/stable (https://packagecloud.io/docs#gpg_signing) <support@packagecloud.io>"
     Fingerprint: 2664 b321 ca26 c6be fe81 aa46 723c b7a7 f6c2 8448
     From       : https://packagecloud.io/StackStorm/stable/gpgkey
     Is this ok [y/N]: y
-    StackStorm_stable/x86_64/signature                                                             | 1.0 kB  00:00:15 !!! 
-    StackStorm_stable-source/signature                                                             |  836 B  00:00:00     
+    StackStorm_stable/x86_64/signature                                                             | 1.0 kB  00:00:15 !!!
+    StackStorm_stable-source/signature                                                             |  836 B  00:00:00
     Retrieving key from https://packagecloud.io/StackStorm/stable/gpgkey
     Importing GPG key 0xF6C28448:
     Userid     : "https://packagecloud.io/StackStorm/stable (https://packagecloud.io/docs#gpg_signing) <support@packagecloud.io>"
     Fingerprint: 2664 b321 ca26 c6be fe81 aa46 723c b7a7 f6c2 8448
     From       : https://packagecloud.io/StackStorm/stable/gpgkey
     Is this ok [y/N]: y
-    StackStorm_stable-source/signature                                                             |  951 B  00:00:10 !!! 
-    (1/2): StackStorm_stable-source/primary                                                        |  175 B  00:00:00     
-    (2/2): StackStorm_stable/x86_64/primary                                                        |  27 kB  00:00:00     
+    StackStorm_stable-source/signature                                                             |  951 B  00:00:10 !!!
+    (1/2): StackStorm_stable-source/primary                                                        |  175 B  00:00:00
+    (2/2): StackStorm_stable/x86_64/primary                                                        |  27 kB  00:00:00
     StackStorm_stable                                                                                             124/124
 
 General Upgrade Procedure
@@ -119,7 +119,7 @@ This is the standard upgrade procedure:
 
       sudo st2ctl stop
       ps auxww | grep st2
-      
+
    If any `st2`-related processes are still running, kill them with `kill -9`.
 
 2. Upgrade |st2| packages using distro-specific tools:
@@ -166,6 +166,130 @@ an idea of what major changes happened with each release. You may also want to t
 The following sections call out the migration scripts that need to be run when upgrading to the
 respective version. If you are upgrading across multiple versions, make sure you run the scripts for
 any skipped versions:
+
+
+v3.3
+''''
+
+* MongoDB 4.0 is the new default version for all OS distributions. On RHEL/CentOS 7 and Ubuntu 16.04 the version of MongoDB was 3.4 previously.
+  The supported upgrade path to MongoDB 4.0 is ``3.4 -> 3.6 -> 4.0``.
+  Official documentation on how to upgrade MongoDB can be found here:
+  * https://docs.mongodb.com/manual/release-notes/3.6-upgrade-standalone/
+  * https://docs.mongodb.com/manual/release-notes/4.0-upgrade-standalone/
+
+  A summary of the steps to take is outlined below assuming you will be migrating
+  through the path ``3.4 -> 3.6 -> 4.0``.
+
+  In the following steps, if you receive an error when setting the FeatureComptabilityVersion stating that admin is not authorized to execute the command, then you may need to add the root role to the admin user, e.g.
+
+  .. sourcecode:: bash
+
+    mongo admin --username admin --password Password --quiet --eval "db.grantRolesToUser('admin',[{role: 'root', db: 'admin'}])"
+
+  Ubuntu 16.04:
+
+  .. sourcecode:: bash
+
+     # Ensure current MongoDB feature compatability level is set to 3.4
+     mongo admin --username admin --password Password --quiet --eval "db.adminCommand( { setFeatureCompatibilityVersion: '3.4' } )"
+
+     # Upgrade MongoDB packages to 3.6
+     wget -qO - https://www.mongodb.org/static/pgp/server-3.6.asc | sudo apt-key add -
+     sudo rm -f /etc/apt/sources.list.d/mongodb-org-3.4.list
+     sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-3.6.list
+     deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/3.6 multiverse
+     EOT"
+     sudo apt-get update
+     sudo apt-get -y clean
+     sudo apt-get -y update
+     sudo apt-get -y install mongodb-* --only-upgrade
+
+     # Set MongoDB feature compatability level to 3.6
+     mongo admin --username admin --password Password --quiet --eval "db.adminCommand( { setFeatureCompatibilityVersion: '3.6' } )"
+
+     # Upgrade MongoDB packages to 4.0
+     wget -qO - https://www.mongodb.org/static/pgp/server-4.0.asc | sudo apt-key add -
+     sudo rm -f /etc/apt/sources.list.d/mongodb-org-3.6.list
+     sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-4.0.list
+     deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/4.0  multiverse
+     EOT"
+     sudo apt-get update
+     sudo apt-get -y clean
+     sudo apt-get -y update
+     sudo apt-get -y install mongodb-* --only-upgrade
+
+     # Set MongoDB feature compatability level to 4.0
+     mongo admin --username admin --password Password --quiet --eval "db.adminCommand( { setFeatureCompatibilityVersion: '4.0' } )"
+
+
+  .. note::
+
+     If after upgrading packages you cannot set the FeatureCompatibilityVersion to the upgraded software, then you may need to restart the mongod service.
+
+
+  RHEL/CentOS 7.x:
+
+  .. sourcecode:: bash
+
+     # Ensure current MongoDB feature compatability level is set to 3.4
+     mongo admin --username admin --password Password --quiet --eval "db.adminCommand( { setFeatureCompatibilityVersion: '3.4' } )"
+
+     # Upgrade MongoDB packages to 3.6
+     sudo sed -i 's/3\.4/3\.6/' /etc/yum.repos.d/mongodb*.repo
+     sudo yum clean all
+     sudo yum makecache fast
+     sudo yum upgrade -y mongodb-*
+
+     # Set MongoDB feature compatability level to 3.6
+     mongo admin --username admin --password Password --quiet --eval "db.adminCommand( { setFeatureCompatibilityVersion: '3.6' } )"
+
+     # Upgrade MongoDB packages to 4.0
+     sudo sed -i 's/3\.6/4\.0/' /etc/yum.repos.d/mongodb*.repo
+     sudo yum clean all
+     sudo yum makecache fast
+     sudo yum upgrade -y mongodb-*
+
+     # Set MongoDB feature compatability level to 4.0
+     mongo admin --username admin --password Password --quiet --eval "db.adminCommand( { setFeatureCompatibilityVersion: '4.0' } )"
+
+
+
+
+* Mistral is no longer included in StackStorm and consequently Postgres is no longer required. Mistral and Postgres were previously installed on CentOS 7.x and Ubuntu 16.04 releases only.
+  To uninstall Mistral and Postgres you may follow the procedure below (optional):
+
+
+  Ubuntu 16.04:
+
+  .. sourcecode:: bash
+
+     # Stop the services
+     sudo service mistral-server stop
+     sudo service mistral-api stop
+     sudo service mistral stop
+     sudo service postgresql stop
+     # Uninstall the packages
+     sudo apt-get purge st2mistral
+     # Remove databases
+     sudo apt-get purge postgresql*
+     # Clean up remaining content
+     sudo rm -rf /var/log/mistral
+     
+
+  RHEL/CentOS 7.x:
+
+  .. sourcecode:: bash
+
+     # Stop the services
+     sudo systemctl stop mistral*
+     sudo systemctl stop postgresql
+     # Uninstall the packages
+     sudo yum erase st2mistral
+     # Remove databases
+     sudo yum erase postgresql*
+     # Clean up remaining content
+     sudo rm -rf /var/log/mistral
+     sudo rm -rf /var/lib/pgsql
 
 v2.10
 '''''
