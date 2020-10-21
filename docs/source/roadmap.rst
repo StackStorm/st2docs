@@ -16,15 +16,17 @@ contributions. Here's our plans for the next two releases.
     the feature. Pull Requests are open to anyone.
 
 
-3.3
+3.4
 ---
 
-* **RHEL/CentOS:** Drop support for RHEL/CentOS 6.x.
-* **Mistral deprecation:** Orquesta replaces Mistral as the workflow engine.
-* **HipChat Removal:** The HipChat adapter has been removed from st2chatops.
-* **Chef:** Deprecated `chef-stackstorm <https://github.com/stackstorm/chef-stackstorm>`_ deployment.
-* **Docker:** Overhaul for `st2-docker <https://github.com/stackstorm/st2-docker>`_ deployment.
+* The roadmap for ``3.4`` is in the works, stay tuned!
 
+  Possibilities are:
+  
+  * Add support for Ubuntu 20.04
+  * Change default pack virtual environment to use Python 3
+  * Drop Python 2.7 support in the StackStorm `st2` codebase
+  * Convert ChatOps backend to Python
 
 Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
 
@@ -34,6 +36,8 @@ Backlog
 Here's some more nice things on our list that we haven't scheduled yet:
 
 * **Python:** Drop Python 2 support, rely on Python 3 ony.
+* **RBAC:** Integrate ``st2rbac`` (previously EWC/BWC) features into core.
+* **st2flow:** Integrate ``st2flow`` (previously EWC/BWC) features into ``st2web``.
 * **ChatOps:** Support RBAC.
 * **Ubuntu:** Support Ubuntu 20.04 LTS.
 * **K8s/HA:** Graduate `K8s Helm chart <https://github.com/stackstorm/stackstorm-ha>`_ from beta to stable.
@@ -63,6 +67,15 @@ Submit a PR!
 
 Release History
 ---------------
+
+.. rubric:: Done in v3.3
+
+* **RHEL/CentOS:** Drop support for RHEL/CentOS 6.x.
+* **Mistral deprecation:** Orquesta replaces Mistral as the workflow engine.
+* **HipChat Removal:** The HipChat adapter has been removed from st2chatops.
+* **Chef:** Deprecated `chef-stackstorm <https://github.com/stackstorm/chef-stackstorm>`_ deployment.
+* **Docker:** Overhaul for `st2-docker <https://github.com/stackstorm/st2-docker>`_ deployment.
+* **MongoDB:** Require MongoDB 4.0 across all OSes.
 
 .. rubric:: Done in v3.2
 
