@@ -20,13 +20,28 @@ contributions. Here's our plans for the next two releases.
 ---
 
 * The roadmap for ``3.4`` is in the works, stay tuned!
-  Possibilities are:
-  - Add support for Ubuntu 20.04
-  - Change default pack virtual environment to use Python 3
-  - Drop Python 2.7 support in the StackStorm `st2` codebase
-  - Convert ChatOps backend to Python
+
+  Current plans include:
+
+  * Drop Python 2.7 support for RHEL/CentOS 7, and use OS distributed Python 3.6
+  * Drop Python 2.7 support for Ubuntu 16.04, and only support Python 3.6. Python 3.6 will need to be sourced by users from a suitable PPA.
+
+
+  Other possibilities include:
+
+  * Change default pack virtual environment to use Python 3
+  * Convert ChatOps backend to Python
 
 Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
+
+3.5
+---
+
+* The roadmap for ``3.5`` is in the works, stay tuned!
+
+  Current plans include:
+
+  * Add support for Ubuntu 20.04, with Python 3.8
 
 Backlog
 -------
