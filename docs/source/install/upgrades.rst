@@ -168,7 +168,7 @@ respective version. If you are upgrading across multiple versions, make sure you
 any skipped versions:
 
 v3.4dev
-''''
+'''''''
 
 *  |st2| now uses python 3 on RHEL/CentOS 7. Therefore any packs that only support python 2 will need to be upgraded to python 3.
   * If SELINUX is enabled, install the python 3 SELinux rules with:
