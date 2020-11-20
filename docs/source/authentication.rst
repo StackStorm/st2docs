@@ -134,16 +134,6 @@ The following is a list of auth backends for the community edition to help get t
 * `Flat File <https://github.com/StackStorm/st2-auth-backend-flat-file>`_
 * `OpenStack Keystone <https://github.com/StackStorm/st2-auth-backend-keystone>`_
 
-LDAP (Enterprise Edition)
--------------------------
-.. note::
-
-  Prior to StackStorm 3.3, Extreme Networks provided a commercial version(Extreme Workflow Composer) of the StackStorm automation platform including an LDAP auth backend.
-
-Extreme Workflow Composer was donated to Linux Foundation, but those components are not yet integrated into the StackStorm release. Please visit https://stackstorm.com/2020/05/27/extreme-networks-donates-ewc-to-linux-foundation/ for more details.
-
-  These components are NOT available in the StackStorm 3.3 release, but will be integrated into the community edition of StackStorm in future release(s).
-
 LDAP
 ^^^^
 The LDAP backend authenticates the user against an LDAP server. The following is a list of
