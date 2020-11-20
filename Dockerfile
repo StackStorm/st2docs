@@ -3,7 +3,8 @@ FROM ubuntu
 RUN apt-get -qq update && apt-get -q install -y \
     git \
     python-dev python-pip python-virtualenv \
-    libffi-dev libssl-dev
+    libffi-dev libssl-dev \
+    libldap2-dev libsasl2-dev
 
 ADD . /st2docs
 WORKDIR /st2docs
