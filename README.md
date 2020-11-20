@@ -28,9 +28,9 @@ Follows these steps to build the docs locally:
 
 Install the dependencies:
 
-For Debian/Ubuntu: ``sudo apt-get install libpython-dev libssl-dev``
+For Debian/Ubuntu: ``sudo apt-get install libpython-dev libssl-dev libldap2-dev libsasl2-dev``
 
-For RHEL/CentOS: `` sudo yum install python-devel openssl-devel gcc``
+For RHEL/CentOS: `` sudo yum install python-devel openssl-devel gcc libldap2-dev libsasl2-dev``
 
 ```bash
 git clone https://github.com/StackStorm/st2docs.git

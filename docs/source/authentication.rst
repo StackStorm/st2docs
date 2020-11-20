@@ -135,7 +135,8 @@ The following is a list of auth backends for the community edition to help get t
 * `OpenStack Keystone <https://github.com/StackStorm/st2-auth-backend-keystone>`_
 
 LDAP
-^^^^
+----
+
 The LDAP backend authenticates the user against an LDAP server. The following is a list of
 configuration options for the backend:
 
