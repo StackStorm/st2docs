@@ -81,6 +81,26 @@ Install MongoDB, and RabbitMQ:
   sudo systemctl start mongod rabbitmq-server
   sudo systemctl enable mongod rabbitmq-server
 
+The default python on CentOS/RHEL 7.x is python 2, |st2| uses python3 and requires the python3-devel package. The installation of the st2 package will automatically install python3-devel if it is available in an enabled repository. On CentOS distributions the relevant repository is typically enabled however on RHEL distributions it is provided by the rhel-7-server-optional-rpms repository (repository name dependant on RHEL distribution).
+
+Use the following command to verify that the python3-devel package is available in an enabled repository:
+
+.. code-block:: bash
+
+  sudo yum info python3-devel
+
+If it is not available, then locate the optional-rpms repository:
+
+.. code-block:: bash
+
+  sudo yum repolist disabled | grep optional | grep server
+
+Then either enable the optional repository using subscription-manager or yum-config-manager, or install python3-devel with a temporary repository enablement, e.g.:
+
+.. code-block:: bash
+
+  sudo yum install python3-devel --enablerepo <optional-server-rpm repo>
+
 Setup Repositories
 ~~~~~~~~~~~~~~~~~~
 
