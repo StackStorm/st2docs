@@ -167,8 +167,8 @@ The following sections call out the migration scripts that need to be run when u
 respective version. If you are upgrading across multiple versions, make sure you run the scripts for
 any skipped versions:
 
-v3.4dev
-'''''''
+v3.4
+''''
 
 *  |st2| now uses python 3 on RHEL/CentOS 7. Therefore any packs that only support python 2 will need to be upgraded to python 3.
 
