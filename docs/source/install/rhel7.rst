@@ -39,9 +39,6 @@ you may want to tweak them according to your security practices.
     # SELINUX management tools, not available for some minimal installations
     sudo yum install -y policycoreutils-python
 
-    # SELINUX python3 rules
-    sudo yum install -y libselinux-python3
-
     # Allow network access for nginx
     sudo setsebool -P httpd_can_network_connect 1
 
