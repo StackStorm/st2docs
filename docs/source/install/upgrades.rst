@@ -173,13 +173,12 @@ v3.4
 *  |st2| now uses python 3 on RHEL/CentOS 7. Therefore any packs that only support python 2 will need to be upgraded to python 3.
 
 
-* If SELINUX is enabled, install the python 3 SELinux rules with:
+* RHEL 7.x only. Ensure python3-devel can be installed from an enabled repository:
 
-  .. sourcecode:: bash
+  .. note::
 
-    sudo yum install -y libselinux-python3
+     On CentOS 7.x these steps are not required as python3-devel is available by default in the enabled repositories, and therefore will get installed automatically when the st2 RPM is upgraded:
 
-* Ensure python3-devel can be installed from an enabled repository:
 
   * Check if python3-devel is already available in an enabled repository:
 

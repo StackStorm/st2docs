@@ -80,13 +80,15 @@ Install MongoDB, and RabbitMQ:
 
 The default python on CentOS/RHEL 7.x is python 2, |st2| uses python3 and requires the python3-devel package. The installation of the st2 package will automatically install python3-devel if it is available in an enabled repository. On CentOS distributions the relevant repository is typically enabled however on RHEL distributions it is provided by the rhel-7-server-optional-rpms repository (repository name dependant on RHEL distribution).
 
+The following steps in this section are only required on RHEL 7.x systems. On CentOS 7.x systems these steps can be ignored, and you can proceed to Setup Repositories.
+
 Use the following command to verify that the python3-devel package is available in an enabled repository:
 
 .. code-block:: bash
 
   sudo yum info python3-devel
 
-If it is not available, then locate the optional-rpms repository:
+If it is not available, locate the repository that contains the RPM. On RHEL 7.x it is located in the optional server RPMs repository (the name of that repository differs between RHEL distributions):
 
 .. code-block:: bash
 
