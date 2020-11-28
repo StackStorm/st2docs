@@ -167,6 +167,37 @@ The following sections call out the migration scripts that need to be run when u
 respective version. If you are upgrading across multiple versions, make sure you run the scripts for
 any skipped versions:
 
+v3.4
+''''
+
+*  |st2| now uses python 3 on RHEL/CentOS 7. Therefore any packs that only support python 2 will need to be upgraded to python 3.
+
+
+* RHEL 7.x only. Ensure python3-devel can be installed from an enabled repository:
+
+  .. note::
+
+     On CentOS 7.x these steps are not required as python3-devel is available by default in the enabled repositories, and therefore will get installed automatically when the st2 RPM is upgraded:
+
+
+  * Check if python3-devel is already available in an enabled repository:
+
+  .. sourcecode:: bash
+
+    sudo yum info python3-devel
+
+  * If it is not available, then locate the name of the optional server RPMs repository:
+
+  .. sourcecode:: bash
+
+    sudo yum repolist disabled | grep optional | grep server
+
+  * Either enable the optional repository using subscription-manager or yum-config-manager, or install python3-devel with a temporary repository enablement, e.g.:
+
+  .. sourcecode:: bash
+
+    sudo yum install python3-devel --enablerepo <optional-server-rpm repo>
+
 
 v3.3
 ''''
