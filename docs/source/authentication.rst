@@ -170,8 +170,8 @@ configuration options for the backend:
 | account_pattern             | no       | {id_attr}=      | LDAP subtree pattern to match user. The user's username is escaped and interpolated into this string (see example).            |
 |                             |          | {{username}}    |                                                                                                                                | 
 +-----------------------------+----------+-----------------+--------------------------------------------------------------------------------------------------------------------------------+
-| group_pattern               | no       |  (|(&           | LDAP subtree pattern for user groups. Both user_dn and username are escaped and then interpolated into this string (see        |                      
-|                             |          | (objectClass=*) | example).                                                                                                                      | 
+| group_pattern               | no       | (|(&            | LDAP subtree pattern for user groups. Both user_dn and username are escaped and then interpolated into this string (see        |                      
+|                             |          |                 | example).                                                                                                                      | 
 |                             |          | (|(member=      |                                                                                                                                | 
 |                             |          | {user_dn})      |                                                                                                                                | 
 |                             |          | (uniqueMember=  |                                                                                                                                | 
