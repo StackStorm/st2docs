@@ -1,6 +1,12 @@
 Role Based Access Control
 =========================
 
+.. note::
+
+   Prior to StackStorm 3.3, Extreme Networks provided a commercial version of the StackStorm automation
+   platform which included Role Based Access Control (RBAC). As these enterprise features were donated to
+   the Linux Foundation, RBAC is now available in StackStorm Open Source since 3.4.
+
 Role Based Access Control (RBAC) allows system administrators to restrict users' access and limit
 the operations they can perform. For instance, you could give your database operator access only
 to the database-related actions.
@@ -223,6 +229,9 @@ There are some exceptions, described below:
 
 Enabling RBAC
 -------------
+
+To configure RBAC you will need to manually enable it in ``st2.conf`` and assign ``admin`` privileges to default 
+user ``stanley``.
 
 To enable rbac, add this section to ``/etc/st2/st2.conf``:
 
