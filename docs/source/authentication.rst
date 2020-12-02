@@ -137,6 +137,15 @@ The following is a list of auth backends for the community edition to help get t
 LDAP
 ----
 
+.. note::
+
+   Prior to StackStorm 3.3, Extreme Networks provided a commercial version of the StackStorm automation platform which included 
+   LDAP auth backend. As these enterprise features were donated to the Linux Foundation, LDAP auth backend is now available in 
+   StackStorm Open Source since 3.4.
+
+LDAP integration is enabled through st2-auth-ldap package. The source code for the package can be accessed here:
+https://github.com/stackstorm/st2-auth-ldap
+
 The LDAP backend authenticates the user against an LDAP server. The following is a list of
 configuration options for the backend:
 
