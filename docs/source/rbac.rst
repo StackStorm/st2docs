@@ -3,17 +3,16 @@ Role Based Access Control
 
 .. note::
 
-  Prior to StackStorm 3.3, Extreme Networks provided a commercial version of the StackStorm automation platform which included Role Based Access Control (RBAC).
-
-Extreme Workflow Composer was donated to Linux Foundation, but those components are not yet integrated into the StackStorm release. Please visit https://stackstorm.com/2020/05/27/extreme-networks-donates-ewc-to-linux-foundation/ for more details.
-
-  These components are NOT available in the StackStorm 3.3 release, but will be integrated into the community edition of StackStorm in future release(s).
+   Prior to StackStorm 3.3, Extreme Networks provided a commercial version of the StackStorm automation
+   platform which included Role Based Access Control (RBAC). As these enterprise features were donated to
+   the Linux Foundation, RBAC is now available in StackStorm Open Source since 3.4.
 
 Role Based Access Control (RBAC) allows system administrators to restrict users' access and limit
 the operations they can perform. For instance, you could give your database operator access only
 to the database-related actions.
 
 Read through the detailed overview below, or jump straight to a :ref:`usage example <rbac-using_rbac>`.
+The source code for the RBAC module can be accessed at https://github.com/stackstorm/st2-rbac-backend.
 
 Terminology
 -----------
@@ -232,18 +231,16 @@ There are some exceptions, described below:
 Enabling RBAC
 -------------
 
-If you installed |ewc| using the :doc:`one-line install </install/ewc>`, RBAC will be automatically
-enabled. It will assign the ``admin`` role to ``stanley`` and ``st2admin``. 
+To configure RBAC you will need to manually enable it in ``st2.conf`` and assign ``admin`` privileges to default 
+user ``stanley``.
 
-If you installed |ewc| separately, by installing the ``bwc-enterprise`` package on top of |st2|, you
-will need to manually enable RBAC, and assign ``admin`` privileges to ``stanley``. It is not
-enabled by default. To enable it, add this section to ``/etc/st2/st2.conf``:
+To enable rbac, add this section to ``/etc/st2/st2.conf``:
 
 .. code-block:: ini
 
    [rbac]
    enable = True
-   backend = enterprise
+   backend = default
 
 Run ``sudo st2ctl restart-component st2api`` to apply that change.
 
