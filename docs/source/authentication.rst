@@ -143,8 +143,7 @@ LDAP
    LDAP auth backend. As these enterprise features were donated to the Linux Foundation, LDAP auth backend is now available in 
    StackStorm Open Source since 3.4.
 
-LDAP integration is enabled through st2-auth-ldap package. The source code for the package can be accessed here:
-https://github.com/stackstorm/st2-auth-ldap
+LDAP is now included by default with StackStorm core and needs to be enabled and configured via ``st2.conf``. The source code for the LDAP auth backend can be accessed here: https://github.com/stackstorm/st2-auth-ldap
 
 The LDAP backend authenticates the user against an LDAP server. The following is a list of
 configuration options for the backend:
