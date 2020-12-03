@@ -12,6 +12,7 @@ the operations they can perform. For instance, you could give your database oper
 to the database-related actions.
 
 Read through the detailed overview below, or jump straight to a :ref:`usage example <rbac-using_rbac>`.
+The source code for the RBAC module can be accessed at https://github.com/stackstorm/st2-rbac-backend.
 
 Terminology
 -----------
