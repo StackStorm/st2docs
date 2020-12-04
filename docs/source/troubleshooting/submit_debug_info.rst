@@ -18,16 +18,16 @@ By default, this utility sends us the following information:
 
 All this information is bundled up in a tarball and encrypted using our
 public key via public-key cryptography. Once submitted, this bundled information
-is only accessible to Extreme Networks employees and it is used solely for
+is only accessible to StackStorm TSC and it is used solely for
 debugging purposes.
 
-To send debug information to Extreme Networks, run this CLI command:
+To send debug information to StackStorm, run this CLI command:
 
 .. sourcecode:: bash
 
     st2-submit-debug-info
 
-    This will submit the following information to Extreme Networks: logs, configs, content, system_info
+    This will submit the following information to StackStorm: logs, configs, content, system_info
     Are you sure you want to proceed? [y/n] y
     2015-02-10 16:43:54,733  INFO - Collecting files...
     2015-02-10 16:43:55,714  INFO - Creating tarball...
