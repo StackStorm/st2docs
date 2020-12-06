@@ -21,8 +21,6 @@ Please have the following list ready so we can help you faster:
 6. Any relevant logs you have collected. We recommend using `Pastebin <http://pastebin.com/>`_
    or `github gists <http://gist.github.com/>`_. Makes it much easier to read logfiles.
 
-You can also use the ``st2-submit-debug-info`` tool (See :ref:`submit_debug_info_to_st2`).
-
 If you are sure there is a st2 bug after your research, file an `issue
 <https://github.com/StackStorm/st2/issues/>`_ against the |st2| repo.
 
