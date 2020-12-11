@@ -9,7 +9,7 @@ jobs:
       - run:
           name: Clone ST2
           command: |
-            make .clone-st2
+            make st2
       - restore_cache:
           key: v2-dependency-cache-{{ checksum "st2/requirements.txt" }}
       - run: sudo apt install python3-dev
