@@ -30,8 +30,15 @@ __all__ = [
 
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-HEADER = '.. NOTE: This file has been generated automatically, don\'t manually edit it'
+HEADER = """\
+.. NOTE: This file has been generated automatically, do not manually edit it.
+         If you want to update runner parameters, make your changes to the
+         runner YAML files in st2/contrib/runners/ and then run
 
+         make docs
+
+         to regenerate the documentation for runners.
+"""
 
 def main():
     runner_names = get_available_backends()

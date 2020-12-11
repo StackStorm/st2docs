@@ -1,4 +1,11 @@
-.. NOTE: This file has been generated automatically, don't manually edit it
+.. NOTE: This file has been generated automatically, do not manually edit it.
+         If you want to update runner parameters, make your changes to the
+         runner YAML files in st2/contrib/runners/ and then run
+
+         make docs
+
+         to regenerate the documentation for runners.
+
 
 * ``cmd`` (string) - Arbitrary PowerShell command to be executed on the remote host.
 * ``cwd`` (string) - Working directory where the command will be executed in
