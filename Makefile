@@ -44,7 +44,7 @@ all: requirements check tests docs
 .PHONY: docs
 docs: .clone-st2 .clone-orquesta requirements .requirements-st2 .install-runners .docs
 
-PHONY: .docs
+.PHONY: .docs
 .docs:
 	@echo
 	@echo "========================== DOCS ========================="
@@ -154,14 +154,14 @@ $(VIRTUALENV_DIR)/bin/activate:
 	@echo
 	./scripts/clone-orquesta.sh
 
-PHONY: .virtualenv-st2
+.PHONY: .virtualenv-st2
 .virtualenv-st2: .clone-st2
 	@echo
 	@echo "==================== st2 virtualenv ===================="
 	@echo
 	cd st2; make virtualenv
 
-PHONY: .requirements-st2
+.PHONY: .requirements-st2
 .requirements-st2: .clone-st2
 	@echo
 	@echo "==================== st2 requirements ===================="
@@ -172,14 +172,14 @@ PHONY: .requirements-st2
 .PHONY: docker
 docker: docker-build docker-run
 
-PHONY: docker-build
+.PHONY: docker-build
 docker-build:
 	@echo
 	@echo "==================== Building st2docs Docker ===================="
 	@echo
 	docker build -t st2/st2docs -f Dockerfile .
 
-PHONY: docker-run
+.PHONY: docker-run
 docker-run:
 	@echo
 	@echo "==================== Running st2docs in Docker ===================="
