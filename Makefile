@@ -9,9 +9,6 @@ SPHINXBUILD := sphinx-build
 DOC_SOURCE_DIR := docs/source
 DOC_BUILD_DIR := docs/build
 
-COMMUNITY_TAG := community
-ENTERPRISE_TAG := enterprise
-
 BINARIES := bin
 
 PYTHON_VERSION := python3.6
@@ -48,41 +45,15 @@ all: requirements check tests docs
 docs: .clone-st2 .clone-orquesta requirements .requirements-st2 .install-runners .docs
 
 PHONY: .docs
-.docs: .community-docs
-
-PHONY: .clean-ewc-solutions-folders
-.clean-ewc-solutions-folders:
+.docs:
 	@echo
-	@echo "==================== Remove solution specific folders ===================="
-	@echo
-	rm -Rf docs/source/_static/images/solutions/*
-	rm -Rf docs/source/solutions/*
-	@echo
-	@echo
-
-.PHONY: .community-docs
-.community-docs: .clean-ewc-solutions-folders
-	@echo
-	@echo "==================== COMMUNITY DOCS ===================="
+	@echo "========================== DOCS ========================="
 	@echo
 	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-runner-parameters-documentation.py
 	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-internal-triggers-table.py
 	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-available-permission-types-table.py
 	@echo
-	. $(VIRTUALENV_DIR)/bin/activate; $(SPHINXBUILD) -t $(COMMUNITY_TAG) -W -b html $(DOC_SOURCE_DIR) $(DOC_BUILD_DIR)/html
-	@echo
-	@echo "Build finished. The HTML pages are in $(DOC_BUILD_DIR)/html."
-
-.PHONY: .enterprise-docs
-.enterprise-docs:
-	@echo
-	@echo "==================== ENTERPRISE DOCS ===================="
-	@echo
-	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-runner-parameters-documentation.py
-	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-internal-triggers-table.py
-	. $(ST2_VIRTUALENV_DIR)/bin/activate; ./scripts/generate-available-permission-types-table.py
-	@echo
-	. $(VIRTUALENV_DIR)/bin/activate; $(SPHINXBUILD) -t $(ENTERPRISE_TAG) -W -b html $(DOC_SOURCE_DIR) $(DOC_BUILD_DIR)/html
+	. $(VIRTUALENV_DIR)/bin/activate; $(SPHINXBUILD) -W -b html $(DOC_SOURCE_DIR) $(DOC_BUILD_DIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(DOC_BUILD_DIR)/html."
 
@@ -96,45 +67,8 @@ livedocs: docs .livedocs
 	@echo "                       RUNNING DOCS"
 	@echo "==========================================================="
 	@echo
-	. $(VIRTUALENV_DIR)/bin/activate; sphinx-autobuild -t $(COMMUNITY_TAG) -H 0.0.0.0 -b html $(DOC_SOURCE_DIR) $(DOC_BUILD_DIR)/html
+	. $(VIRTUALENV_DIR)/bin/activate; sphinx-autobuild -H 0.0.0.0 -b html $(DOC_SOURCE_DIR) $(DOC_BUILD_DIR)/html
 	@echo
-
-.PHONY: ewcdocs
-ewcdocs: .clone-st2 .clone-orquesta .clone-ipfabric requirements .requirements-st2 .install-runners .ewcdocs
-
-.PHONY: .ewcdocs
-.ewcdocs: .patch-solutions .enterprise-docs .git-checkout-local-changes
-
-.PHONY: .patch-solutions
-.patch-solutions:
-	@echo
-	@echo "=========================================================="
-	@echo "                     PATCHING EWC DOCS"
-	@echo "=========================================================="
-	@echo
-	cp -R ipfabric/docs/source/* docs/source/
-	rm docs/source/install/puppet_chef_salt_ansible.rst
-	rm docs/source/install/docker.rst
-	rm docs/source/install/puppet.rst
-
-.PHONY: .git-checkout-local-changes
-.git-checkout-local-changes:
-	@echo
-	@echo "=========================================================="
-	@echo "                     UNPATCHING EWC DOCS"
-	@echo "=========================================================="
-	@echo
-	git checkout docs/source/info.py
-	git checkout docs/source/_includes/solutions.rst
-	git checkout docs/source/install/puppet_chef_salt_ansible.rst
-	git checkout docs/source/install/docker.rst
-	git checkout docs/source/install/puppet.rst
-
-.PHONY: ewclivedocs
-ewclivedocs: ewcdocs .livedocs
-
-.PHONY: ewclocaldocs
-ewclocaldocs: .clone-st2 .clone-orquesta requirements .requirements-st2 .ewcdocs .clean-ewc-solutions-folders
 
 .PHONY: .cleandocs
 .cleandocs:
@@ -219,13 +153,6 @@ $(VIRTUALENV_DIR)/bin/activate:
 	@echo "==================== cloning orquesta ===================="
 	@echo
 	./scripts/clone-orquesta.sh
-
-.PHONY: .clone-ipfabric
-.clone-ipfabric:
-	@echo
-	@echo "==================== cloning ipfabric docs ===================="
-	@echo
-	./scripts/clone-ipfabric.sh
 
 PHONY: .virtualenv-st2
 .virtualenv-st2: .clone-st2
