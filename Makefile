@@ -28,8 +28,6 @@ space_char +=
 comma := ,
 COMPONENT_PYTHONPATH = $(subst $(space_char),:,$(realpath $(COMPONENTS)))
 
-PYTHON_TARGET := 3.6
-
 REQUIREMENTS := requirements.txt st2/requirements.txt
 PIP_VERSION := 20.0.2
 PIP_OPTIONS := $(ST2_PIP_OPTIONS)
@@ -39,13 +37,17 @@ ifndef PIP_OPTIONS
 endif
 
 .PHONY: all
-all: requirements check tests docs
+all: docs
 
 .PHONY: docs
-docs: .clone-st2 .clone-orquesta requirements .requirements-st2 .install-runners .docs
+docs: requirements orquesta $(ST2_VIRTUALENV_DIR)/installed_runners .docs
+
+$(ST2_VIRTUALENV_DIR)/lib/$(PYTHON_VERSION)/site-packages/pytablewriter: $(ST2_VIRTUALENV_DIR)/done
+	. $(ST2_VIRTUALENV_DIR)/bin/activate; pip install pytablewriter
+	touch $@
 
 .PHONY: .docs
-.docs:
+.docs: $(VIRTUALENV_DIR)/installed $(ST2_VIRTUALENV_DIR)/lib/$(PYTHON_VERSION)/site-packages/pytablewriter
 	@echo
 	@echo "========================== DOCS ========================="
 	@echo
@@ -61,7 +63,7 @@ docs: .clone-st2 .clone-orquesta requirements .requirements-st2 .install-runners
 livedocs: docs .livedocs
 
 .PHONY: .livedocs
-.livedocs:
+.livedocs: $(VIRTUALENV_DIR)/installed
 	@echo
 	@echo "==========================================================="
 	@echo "                       RUNNING DOCS"
@@ -75,15 +77,37 @@ livedocs: docs .livedocs
 	@echo "Removing generated documentation"
 	rm -rf $(DOC_BUILD_DIR)
 
+.PHONY: .clean-orquesta
+.clean-orquesta:
+	@echo
+	@echo "================= .clean-orquesta ================="
+	@echo
+	rm -rf orquesta
+
+.PHONY: .clean-st2
+.clean-st2:
+	@echo
+	@echo "==================== .clean-st2 ==================="
+	@echo
+	rm -rf st2
+
+.PHONY: .clean
+.clean: .cleandocs
+
+.PHONY: clean
+clean: .clean
+
 .PHONY: distclean
-distclean:
+distclean: .clean .clean-orquesta .clean-st2
 	@echo
 	@echo "==================== distclean ===================="
 	@echo
 	rm -rf $(VIRTUALENV_DIR)
 
 .PHONY: requirements
-requirements: virtualenv
+requirements: $(VIRTUALENV_DIR)/installed
+
+$(VIRTUALENV_DIR)/installed: $(VIRTUALENV_DIR)/done st2
 	@echo
 	@echo "==================== st2docs requirements ===================="
 	@echo
@@ -97,15 +121,11 @@ requirements: virtualenv
 			echo "Installing $$req..." ; \
 			$(VIRTUALENV_DIR)/bin/pip install $(PIP_OPTIONS) -r $$req ; \
 	done
+	touch $@
 
-.PHONY: virtualenv
-virtualenv: $(VIRTUALENV_DIR)/bin/activate
-$(VIRTUALENV_DIR)/bin/activate:
-	@echo
-	@echo "==================== st2docs virtualenv ===================="
-	@echo
-	test -d $(VIRTUALENV_DIR) || virtualenv --python=$(PYTHON_VERSION) $(VIRTUALENV_DIR)
+$(VIRTUALENV_DIR): $(VIRTUALENV_DIR)/done
 
+$(VIRTUALENV_DIR)/done: $(VIRTUALENV_DIR)/bin/activate
 	# Setup PYTHONPATH in bash activate script...
 	echo '' >> $(VIRTUALENV_DIR)/bin/activate
 	echo '_OLD_PYTHONPATH=$$PYTHONPATH' >> $(VIRTUALENV_DIR)/bin/activate
@@ -127,9 +147,16 @@ $(VIRTUALENV_DIR)/bin/activate:
 	echo '  functions -e old_deactivate' >> $(VIRTUALENV_DIR)/bin/activate.fish
 	echo 'end' >> $(VIRTUALENV_DIR)/bin/activate.fish
 	touch $(VIRTUALENV_DIR)/bin/activate.fish
+	touch $@
 
-.PHONY: .install-runners
-.install-runners:
+$(VIRTUALENV_DIR)/bin/activate:
+	@echo
+	@echo "==================== st2docs virtualenv ===================="
+	@echo
+	virtualenv --python=$(PYTHON_VERSION) $(VIRTUALENV_DIR)
+	touch $@
+
+$(ST2_VIRTUALENV_DIR)/installed_runners: $(ST2_VIRTUALENV_DIR)/done
 	@echo ""
 	@echo "================== install runners ===================="
 	@echo ""
@@ -137,37 +164,41 @@ $(VIRTUALENV_DIR)/bin/activate:
 		echo "==========================================================="; \
 		echo "Installing runner:" $$component; \
 		echo "==========================================================="; \
-        (. $(ST2_VIRTUALENV_DIR)/bin/activate; cd $$component; python setup.py develop); \
+        (. $(ST2_VIRTUALENV_DIR)/bin/activate; cd $$component; $(PYTHON_VERSION) setup.py develop); \
 	done
+	touch $@
 
-.PHONY: .clone-st2
-.clone-st2:
+st2:
 	@echo
 	@echo "==================== cloning st2 ===================="
 	@echo
 	./scripts/clone-st2.sh
+	touch $@
 
-.PHONY: .clone-orquesta
-.clone-orquesta:
-	@echo
-	@echo "==================== cloning orquesta ===================="
-	@echo
-	./scripts/clone-orquesta.sh
-
-.PHONY: .virtualenv-st2
-.virtualenv-st2: .clone-st2
+$(ST2_VIRTUALENV_DIR): st2
 	@echo
 	@echo "==================== st2 virtualenv ===================="
 	@echo
 	cd st2; make virtualenv
 
-.PHONY: .requirements-st2
-.requirements-st2: .clone-st2
+$(ST2_VIRTUALENV_DIR)/done: $(ST2_VIRTUALENV_DIR)/bin/activate
+	touch $@
+
+$(ST2_VIRTUALENV_DIR)/bin/activate: $(ST2_VIRTUALENV_DIR)
 	@echo
 	@echo "==================== st2 requirements ===================="
 	@echo
-	test -d $(ST2_VIRTUALENV_DIR) || virtualenv --python=$(PYTHON_VERSION) $(ST2_VIRTUALENV_DIR)
-	cd ./st2; make requirements
+	test -f $(ST2_VIRTUALENV_DIR)/bin/activate || { \
+		virtualenv --python=$(PYTHON_VERSION) $(ST2_VIRTUALENV_DIR);\
+		cd ./st2; make requirements;\
+	}
+	touch $@
+
+orquesta:
+	@echo
+	@echo "==================== cloning orquesta ===================="
+	@echo
+	./scripts/clone-orquesta.sh
 
 .PHONY: docker
 docker: docker-build docker-run
