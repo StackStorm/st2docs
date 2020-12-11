@@ -44,7 +44,7 @@ def main():
     runner_names = get_available_backends()
     for runner_name in runner_names:
         runner_driver = get_backend_driver(runner_name)
-        runner_metadata = runner_driver .get_metadata()
+        runner_metadata = runner_driver.get_metadata()
 
         if runner_metadata.get('experimental', False):
             continue
