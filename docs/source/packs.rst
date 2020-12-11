@@ -293,13 +293,13 @@ Python versions in Pack Python Virtual Environment
 
 When installing a pack, a Python virtual environment is created using the Python binary defined by
 the ``actionrunner.python_binary`` config option. By default, the same binary which is
-used by all the |st2| components and services is used for pack virtual environments. On Ubuntu 16.04 the Python binary currently used is Python 2.7, on all other distributions Python 3 is used.
+used by all the |st2| components and services is used for pack virtual environments, as of |st2| v3.4.0 this is python3.
 
 .. warning ::
 
-   Python 2 support will be dropped from |st2| in future releases. Please consider updating any Python 2 only packs to work with Python 3.
+   Python 2 support was dropped in |st2| v3.4.0. Please consider updating any Python 2 only packs to work with Python 3.
 
-On Ubuntu 16.04 if you want to use Python 3 for running your pack Python actions, you can do that by passing the
+For |st2| versions earlier than v3.4.0, on CentOS/RHEL7 and Ubuntu 16.04 if you want to use Python 3 for running your pack Python actions, you can do that by passing the
 ``--python3`` flag to the ``st2 pack install`` command (e.g. ``st2 pack install libcloud
 --python3``).
 
