@@ -40,8 +40,11 @@ endif
 all: docs
 
 .PHONY: docs
-docs: requirements orquesta $(ST2_VIRTUALENV_DIR)/installed_runners .docs
+docs: requirements orquesta .docs
 
+# This isn't a dependency of st2, but it needs to be installed in the st2 virtualenv
+# so that the generate-runner-parameters-documentation.py script can write out the
+# RST table
 $(ST2_VIRTUALENV_DIR)/lib/$(PYTHON_VERSION)/site-packages/pytablewriter: $(ST2_VIRTUALENV_DIR)/done
 	. $(ST2_VIRTUALENV_DIR)/bin/activate; pip install pytablewriter
 	touch $@
@@ -107,7 +110,7 @@ distclean: .clean .clean-orquesta .clean-st2
 .PHONY: requirements
 requirements: $(VIRTUALENV_DIR)/installed
 
-$(VIRTUALENV_DIR)/installed: $(VIRTUALENV_DIR)/done st2
+$(VIRTUALENV_DIR)/installed: requirements.txt $(VIRTUALENV_DIR)/done st2
 	@echo
 	@echo "==================== st2docs requirements ===================="
 	@echo
@@ -181,17 +184,8 @@ $(ST2_VIRTUALENV_DIR): st2
 	@echo
 	cd st2; make virtualenv
 
-$(ST2_VIRTUALENV_DIR)/done: $(ST2_VIRTUALENV_DIR)/bin/activate
-	touch $@
-
-$(ST2_VIRTUALENV_DIR)/bin/activate: $(ST2_VIRTUALENV_DIR)
-	@echo
-	@echo "==================== st2 requirements ===================="
-	@echo
-	test -f $(ST2_VIRTUALENV_DIR)/bin/activate || { \
-		virtualenv --python=$(PYTHON_VERSION) $(ST2_VIRTUALENV_DIR);\
-		cd ./st2; make requirements;\
-	}
+$(ST2_VIRTUALENV_DIR)/done: $(ST2_VIRTUALENV_DIR)
+	cd ./st2; make requirements
 	touch $@
 
 orquesta:
