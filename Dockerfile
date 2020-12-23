@@ -1,9 +1,9 @@
-FROM ubuntu
+FROM ubuntu:18.04
 
 RUN apt-get -qq update && apt-get -q install -y \
     git \
-    python-dev python-pip python-virtualenv \
-    libffi-dev libssl-dev
+    libffi-dev libldap2-dev libsasl2-dev libssl-dev \
+    python3-dev python3-pip python-virtualenv
 
 ADD . /st2docs
 WORKDIR /st2docs
