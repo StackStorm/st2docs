@@ -53,7 +53,6 @@ You can use ``sudo st2ctl status`` to get a quick overview of current process st
     st2auth PID: 1286
     st2garbagecollector PID: 910
     st2notifier PID: 916
-    st2resultstracker PID: 913
     st2rulesengine PID: 920
     st2timersengine PID: 925
     st2sensorcontainer PID: 907
