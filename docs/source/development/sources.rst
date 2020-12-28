@@ -38,6 +38,38 @@ Fedora
     systemctl enable rabbitmq-server
     systemctl restart rabbitmq-server
 
+CentOS
+------
+
+.. code-block:: bash
+
+    yum install python-pip python-virtualenv python-tox gcc-c++ git-all screen icu libicu libicu-devel openssl-devel openldap-devel python3-devel
+
+    yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
+    # Add key and repo for the latest stable MongoDB (4.0)
+    rpm --import https://www.mongodb.org/static/pgp/server-4.0.asc
+    sh -c "cat <<EOT > /etc/yum.repos.d/mongodb-org-4.repo
+    [mongodb-org-4]
+    name=MongoDB Repository
+    baseurl=https://repo.mongodb.org/yum/redhat/7/mongodb-org/4.0/x86_64/
+    gpgcheck=1
+    enabled=1
+    gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc
+    EOT"
+
+    yum install crudini
+    yum install mongodb-org
+    yum install rabbitmq-server
+    systemctl start mongod rabbitmq-server
+    systemctl enable mongod rabbitmq-server
+
+Project Requirements
+~~~~~~~~~~~~~~~~~~~~
+
+Once the environment is setup, clone the git repo, and make the project. This will create the
+Python virtual environment under StackStorm, download and install required dependencies, and run
+
 Project Requirements
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -137,7 +169,7 @@ virtualenv. However, the client may need to be installed with sudo if not in the
 .. code-block:: bash
 
     cd ./st2client
-    python setup.py develop
+    python3 setup.py develop
 
 Verify Installation
 ~~~~~~~~~~~~~~~~~~~
