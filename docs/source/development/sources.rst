@@ -17,33 +17,26 @@ Requirements:
 Ubuntu
 ------
 
+.. note::
+  For Ubuntu 16.04 you will need to source python3.6 from a suitable PPA
+
+
 .. code-block:: bash
 
-    apt-get install python-pip python-virtualenv python-dev gcc git make realpath screen libffi-dev libssl-dev python3-dev libldap2-dev libsasl2-dev
+    apt-get install python-pip python-virtualenv gcc git make realpath screen libffi-dev libssl-dev python3.6-dev libldap2-dev libsasl2-dev
     apt-get install mongodb mongodb-server
     apt-get install rabbitmq-server
 
-Fedora
-------
-
-.. code-block:: bash
-
-    yum install python-pip python-virtualenv python-tox gcc-c++ git-all screen icu libicu libicu-devel openssl-devel
-
-    yum install mongodb mongodb-server
-    systemctl enable mongod
-    systemctl restart mongod
-
-    yum install rabbitmq-server
-    systemctl enable rabbitmq-server
-    systemctl restart rabbitmq-server
-
-CentOS
+CentOS/RHEL
 -----------
 
+.. note::
+  For RHEL 7.x you may need to enable the optional server rpms repository to be able to install the python3-devel RPM
+
+
 .. code-block:: bash
 
-    OSRELEASE_VERSION=`rpm --eval '%{centos_ver}'`
+    OSRELEASE_VERSION=`lsb_release -s -r | cut -d'.' -f 1`
 
     yum install python-pip python-virtualenv python-tox gcc-c++ git-all screen icu libicu libicu-devel openssl-devel openldap-devel python3-devel
 
