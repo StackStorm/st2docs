@@ -19,7 +19,7 @@ Ubuntu
 
 .. code-block:: bash
 
-    apt-get install python-pip python-virtualenv python-dev gcc git make realpath screen libffi-dev libssl-dev
+    apt-get install python-pip python-virtualenv python-dev gcc git make realpath screen libffi-dev libssl-dev python3-dev libldap2-dev libsasl2-dev
     apt-get install mongodb mongodb-server
     apt-get install rabbitmq-server
 
