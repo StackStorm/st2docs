@@ -170,10 +170,10 @@ any skipped versions:
 v3.4
 ''''
 
-*  |st2| now uses python 3 on RHEL/CentOS 7. Therefore any packs that only support python 2 will need to be upgraded to python 3.
+*  |st2| now uses python 3 on Ubuntu 16 and RHEL/CentOS 7. Therefore any packs that only support python 2 will need to be upgraded to python 3.
 
 
-* RHEL 7.x only. Ensure python3-devel can be installed from an enabled repository:
+* *RHEL 7.x only.* Ensure python3-devel can be installed from an enabled repository:
 
   .. note::
 
@@ -198,6 +198,23 @@ v3.4
 
     sudo yum install python3-devel --enablerepo <optional-server-rpm repo>
 
+* *Ubuntu 16.04 Xenial only.* Python 3.6 is not available in the base Ubuntu Xenial distribution and you can add unofficial 3rd party `Python PPA repository <https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa>`_:
+
+  .. warning::
+
+     Please be aware of the support and security risks associated with using unofficial 3rd party PPA repository, StackStorm does NOT provide ANY support or security update for python3.6 packages on Ubuntu 16.04.
+     If security is a priority for you, we recommend starting migrating to Ubuntu 18.04 LTS (Bionic) as a base OS which has official python 3.6 packages.
+     This is a workaround to support Ubuntu Xenial with python 3 until we deprecate it in the future versions.
+
+  .. sourcecode:: bash
+
+    sudo apt-get install -y software-properties-common
+    # add 3rd party insecure python3 PPA repository
+    sudo add-apt-repository -y ppa:deadsnakes/ppa
+    sudo apt-get update
+
+    # ensure python3 package exists and could be installed
+    apt-cache show python3.6
 
 v3.3
 ''''
