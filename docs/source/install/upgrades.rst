@@ -202,18 +202,19 @@ v3.4
 
   .. warning::
 
-     Please be aware of the support and security risks associated with using unofficial 3rd party PPA repository, StackStorm does NOT provide ANY support or security update for python3.6 packages on Ubuntu 16.04.
+     Please be aware of the support and security risks associated with using unofficial 3rd party PPA repository.
+     StackStorm does NOT provide ANY support or security update for python3.6 packages on Ubuntu 16.04.
      If security is a priority for you, we recommend starting migrating to Ubuntu 18.04 LTS (Bionic) as a base OS which has official python 3.6 packages.
      This is a workaround to support Ubuntu Xenial with python 3 until we deprecate it in the future versions.
 
   .. sourcecode:: bash
 
     sudo apt-get install -y software-properties-common
-    # add 3rd party insecure python3 PPA repository
+    # add unofficial 3rd party python3 PPA repository
     sudo add-apt-repository -y ppa:deadsnakes/ppa
     sudo apt-get update
 
-    # ensure python3 package exists and could be installed
+    # ensure python3.6 package exists and could be installed
     apt-cache show python3.6
 
 v3.3
