@@ -8,7 +8,9 @@ Upgrade Notes
 |st2| v3.4
 -------------
 
-* RHEL/CentOS 7.x ST2 distributions now uses python version 3 for ST2 and all packs, therefore any packs that only support python 2 will need to be migrated to python 3.
+* Python 2 support was removed.
+  Any packs that only support python 2 will need to be migrated to python 3.
+  Ubuntu Bionic 16.04 LTS and RHEL/CentOS 7.x ST2 distributions now uses python version 3.
 
 .. _ref-upgrade-notes-v3-3:
 
