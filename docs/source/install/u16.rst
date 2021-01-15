@@ -55,6 +55,21 @@ repository. It will also add the the GPG key used for package signing.
 
   curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
+Python 3.6 is not available in the base Ubuntu Xenial distro, but the following instructions can add unofficial 3rd party `Python PPA repository <https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa>`_ that provides it.
+
+.. warning::
+
+   Please be aware of the support and security risks associated with using unofficial 3rd party PPA repository.
+   StackStorm does NOT provide ANY support or security update for python3.6 packages on Ubuntu 16.04.
+   If security is a priority for you, we recommend starting migrating to Ubuntu 18.04 LTS (Bionic) as a base OS which has official python 3.6 packages.
+
+.. code-block:: bash
+
+  sudo apt-get install -y software-properties-common
+  # add unofficial 3rd party python3 PPA repository
+  sudo add-apt-repository -y ppa:deadsnakes/ppa
+  sudo apt-get update
+
 Install |st2| Components
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
