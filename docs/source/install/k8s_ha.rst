@@ -301,10 +301,10 @@ By default ``3`` nodes of RabbitMQ are deployed via K8s StatefulSet.
 For more advanced RabbitMQ configuration, please refer to official `rabbitmq-ha <https://github.com/helm/charts/tree/master/stable/rabbitmq-ha>`_
 Helm chart repository, - all settings could be overridden via ``values.yaml``.
 
-etcd
+redis
 ____
-StackStorm employs etcd as a distributed coordination backend, required for st2 cluster components to work properly in an HA scenario.
-`3` node Raft cluster is deployed via external official Helm chart dependency `stable/etcd-operator <https://github.com/helm/charts/tree/master/stable/etcd-operator>`_.
+StackStorm employs redis as a distributed coordination backend, required for st2 cluster components to work properly in an HA scenario.
+`3` node cluster with Sentinel is deployed via external official Helm chart dependency `bitnami/redis <https://github.com/bitnami/charts/tree/master/bitnami/redis>`_.
 As any other Helm dependency, it's possible to further configure it for specific scaling needs via ``values.yaml``.
 
 Feedback Needed!
