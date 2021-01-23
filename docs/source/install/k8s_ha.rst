@@ -5,7 +5,7 @@ This document provides an installation blueprint for a Highly Available StackSto
 based on `Kubernetes <https://kubernetes.io/>`__, a container orchestration platform at planet scale.
 
 The cluster deploys a minimum of 2 replicas for each component of StackStorm microservices for redundancy and reliability. It
-also configures backends like MongoDB HA Replicaset, RabbitMQ HA and etcd cluster that st2 relies on for database,
+also configures backends like MongoDB HA Replicaset, RabbitMQ HA and Redis Sentinel cluster that st2 relies on for database,
 communication bus, and distributed coordination respectively. That raises a fleet of more than ``30`` pods total.
 
 The source code for K8s resource templates is available as a GitHub repo:
@@ -111,7 +111,7 @@ Get all logs for entire StackStorm cluster with dependent services for Helm rele
 
   kubectl logs -l release=<release-name>
 
-Grab all logs only for stackstorm backend services, excluding st2web and DB/MQ/etcd:
+Grab all logs only for stackstorm backend services, excluding st2web and DB/MQ/redis:
 
 .. code-block:: bash
 
@@ -234,7 +234,7 @@ ___________
 Multiple st2notifier processes can run in active-active mode, using connections to RabbitMQ and MongoDB and generating triggers based on
 action execution completion as well as doing action rescheduling.
 In an HA deployment there must be a minimum of ``2`` replicas of st2notifier running, requiring a coordination backend,
-which in our case is etcd.
+which in our case is redis.
 
 st2sensorcontainer
 __________________
@@ -262,7 +262,7 @@ st2actionrunner
 _______________
 Stackstorm workers that actually execute actions.
 ``5`` replicas for K8s Deployment are configured by default to increase StackStorm ability to execute actions without excessive queuing.
-Relies on ``etcd`` for coordination. This is likely the first thing to lift if you have a lot of actions
+Relies on ``redis`` for coordination. This is likely the first thing to lift if you have a lot of actions
 to execute per time period in your StackStorm cluster.
 
 st2scheduler
@@ -302,7 +302,7 @@ For more advanced RabbitMQ configuration, please refer to official `rabbitmq-ha 
 Helm chart repository, - all settings could be overridden via ``values.yaml``.
 
 redis
-____
+_____
 StackStorm employs redis as a distributed coordination backend, required for st2 cluster components to work properly in an HA scenario.
 `3` node cluster with Sentinel is deployed via external official Helm chart dependency `bitnami/redis <https://github.com/bitnami/charts/tree/master/bitnami/redis>`_.
 As any other Helm dependency, it's possible to further configure it for specific scaling needs via ``values.yaml``.
