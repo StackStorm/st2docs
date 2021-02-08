@@ -112,6 +112,9 @@ the following runners:
 9. ``winrm-cmd`` - The WinRM command runner allows you to run the command-line interpreter (``cmd``) commands on Windows hosts using the WinRM protocol.
 10. ``winrm-ps-cmd`` - The WinRM PowerShell command runner allows you to run the PowerShell commands on Windows hosts using the WinRM protocol.
 11. ``winrm-ps-script`` - WinRM PowerShell script runner allows you to run PowerShell scripts on Windows hosts.
+12. ``orquesta`` - This runner supports executing complex work-flows. For more
+    information, please refer to the :doc:`Workflows </workflows>` and
+    :doc:`Orquesta </orquesta/index>` documentation.
 
 
 Runners come with their own set of input parameters. When an action is executed, it inherits the
