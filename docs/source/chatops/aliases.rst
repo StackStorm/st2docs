@@ -75,6 +75,54 @@ To remove an action alias, use:
 After removing or modifying existing aliases, you may need to restart the ``st2chatops`` service,
 or you may see old or duplicate commands still showing up on your chatbot.
 
+Testing an alias end to end
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To test an alias end to end (from matching to triggering an execution and formatting the result),
+you can use ``st2 action-alias test <message string>`` command which has been added in |st2|
+v3.4.0.
+
+This command is useful for testing and developing aliases since it allows you to skip the chat
+layer and verify and adjust command matching and result formatting directly using the CLI. In the
+end you should of course still verify everything works end to end via the chat / hubot layer by
+executing a command on chat
+
+This command first checks if the provided command string matches any alias (same as the
+``st2 action-alias match`` command) and if it does, it runs an execution for the matched
+alias (same as the ``st2 action-alias execute``) command and at the end, prints the formatted
+result for the triggered execution.
+
+Example usage and output:
+
+.. code-block:: bash
+
+   $ st2 action-alias test "run 'whoami ; date ; echo stdout ; echo stderr >&2' on localhost"
+   Triggering execution via action alias
+
+   Execution (6027f61dffb5b8fc2ebc204c) has been started, waiting for it to finish...
+
+   .
+
+   Execution (6027f61dffb5b8fc2ebc204c) has finished, rendering result...
+
+   Execution (6027f61fffb5b8fc2ebc204f) has been started, waiting for it to finish...
+
+   .
+
+   Formatted ChatOps result message
+
+   ================================================================================
+   Ran command *whoami ; date ; echo stdout ; echo stderr >&2* on *1* hosts.
+
+   Details are as follows:
+   Host: *localhost*
+       ---> stdout: stanley
+   Sat Feb 13 15:54:05 UTC 2021
+   stdout
+       ---> stderr: stderr
+
+   ================================================================================
+
 Supported formats
 ^^^^^^^^^^^^^^^^^
 
@@ -129,7 +177,7 @@ using this pattern.
 
 
 With immutable parameters
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Sometimes an alias must have default values that cannot be changed by the chat user.
 
@@ -155,8 +203,6 @@ support Jinja templating so you can, for example, retrieve a value from the data
     immutable_parameters:
       hosts: dev.server
       sudo_password: "{{ st2kv('system.dev_server_sudo_password', decrypt=true) }}"
-
-
 
 Regular Expressions
 ~~~~~~~~~~~~~~~~~~~
@@ -328,7 +374,7 @@ depending on execution status:
 To disable the result message, you can use the ``enabled`` flag in the same way as in ``ack``.
 
 Plaintext Messages (Slack)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Result messages tend to be quite long, and Hubot will utilize the extra formatting capabilities of
 some chat clients: Slack messages will be sent as attachments. While this is a good fit in most
