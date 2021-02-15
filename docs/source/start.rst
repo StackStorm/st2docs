@@ -46,7 +46,7 @@ packs...check it out at https://{YOUR_ST2_IP}. Login is the same as via the ``st
 Authenticate
 ------------
 
-You will almost certainly have authentication enabled. To easiest way to login via CLI is this:
+You will almost certainly have authentication enabled. The easiest way to login via CLI is this:
 
 .. code-block:: bash
 
