@@ -47,19 +47,49 @@ General Contribution Guidelines
 Code Style Guide
 ----------------
 
-* We follow `PEP8 Python Style Guide`_.
+* We use `black code formatter <https://github.com/psf/black>`_ which automatically enforces
+  consistent style on the whole code base.
 * Use 4 spaces for a tab.
 * Use 100 characters in a line.
 * Make sure edited files don't contain any trailing whitespace.
 * Make sure that all the source files contain an Apache 2.0 license header. For an example, see one
   of the existing Python files.
 * You can verify that your modifications don't break any rules by running the lint script -
-  ``make flake8``
+  ``make black-check``
 
 Most |st2| repositories use shared Flake8 and PyLint configuration files, which you can get from
 the `lint-configs repo <https://github.com/StackStorm/lint-configs>`_.
 
 And most importantly, follow the existing style in the file you are editing and **be consistent**.
+
+Pre commit hook
+---------------
+
+For development, we strongly recommend installing and using a git pre-commit hook which is
+included in the StackStorm/st2 repository.
+
+This pre-commit hook automatically runs all the style checks (black formatting, flake8, pylint)
+on the modified / added code. This is much faster than running those targets on the whole code
+base.
+
+You can use the following commands to install the pre-commit hook:
+
+.. sourcecode:: bash
+
+    pip install pre-commit
+    pre-commit install
+
+Now the defined hooks will automatically run each time you try to commit some code.
+
+You can also manually run it on any modified (but not yet committed) files using
+the following command:
+
+.. sourcecode:: bash
+
+    pre-commit
+
+Keep in mind that the pre-commit hook depends on development virtual environment
+being created and present in ``virtualenv/`` directory.
 
 Deprecation Policy
 ------------------
