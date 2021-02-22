@@ -30,7 +30,7 @@ community <https://www.stackstorm.com/community/>`_.
 How it Works
 ------------
 
-.. figure:: /_static/images/architecture_diagram.jpg
+.. figure:: /_static/images/architecture_diagram.png
     :align: center
 
     |st2| architecture diagram

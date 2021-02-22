@@ -1,4 +1,11 @@
-.. NOTE: This file has been generated automatically, don't manually edit it
+.. NOTE: This file has been generated automatically, do not manually edit it.
+         If you want to update runner parameters, make your changes to the
+         runner YAML files in st2/contrib/runners/ and then run
+
+         make docs
+
+         to regenerate the documentation for runners.
+
 
 * ``bastion_host`` (string) - The host SSH connections will be proxied through. Note: This connection is made using the same parameters as the final connection.
 * ``cmd`` (string) - Arbitrary Linux command to be executed on the remote host(s).

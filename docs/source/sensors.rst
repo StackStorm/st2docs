@@ -249,7 +249,7 @@ Once you like your sensor, you can promote it to a pack (if required) by creatin
 Examples
 --------
 
-This is a working example of a simple sensor that injects a trigger every 10 seconds.
+This is a working example of a simple sensor that injects a trigger every 60 seconds.
 
 Metadata:
 

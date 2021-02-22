@@ -3,6 +3,15 @@
 Upgrade Notes
 =============
 
+.. _ref-upgrade-notes-v3-4:
+
+|st2| v3.4
+-------------
+
+* Python 2 support was removed.
+  Any packs that only support python 2 will need to be migrated to python 3.
+  Ubuntu Bionic 16.04 LTS and RHEL/CentOS 7.x ST2 distributions now use python version 3.
+
 .. _ref-upgrade-notes-v3-3:
 
 |st2| v3.3
@@ -17,7 +26,11 @@ Upgrade Notes
     trigger:
       type: "core.st2.action.file_written"
 
-* Support for Mistral workflows was removed. Before upgrading to v3.3, ensure all Mistral workflows have been converted to Orquesta workflows. A tool is available for assisting in this conversion, more information can be found in the ``orquestaconvert`` `README.md <https://github.com/StackStorm/orquestaconvert/blob/master/README.md>`_.
+* Support for Mistral workflows was removed. Before upgrading to v3.3, ensure all Mistral workflows
+  have been converted to Orquesta workflows. Please review the :doc:`Orquesta </orquesta/index>` documentation for
+  details on how these differ from Mistral workflows, some re-design may be required.
+  A tool is available for assisting in this conversion, more information can be found
+  in the ``orquestaconvert`` `README.md <https://github.com/StackStorm/orquestaconvert/blob/master/README.md>`_.
 
 * The installation script now installs MongoDB 4.0 by default (previously, 3.4 was installed on
   RHEL/CentOS 7.x and Ubuntu 16.04).

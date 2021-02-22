@@ -176,20 +176,6 @@ versioning prevents multiple execution requests from being picked up by
 different schedulers. Scheduler garbage collection handles executions that might
 have failed to be scheduled by a failed ``st2scheduler`` instance.
 
-
-st2resultstracker
-^^^^^^^^^^^^^^^^^
-Tracks results of execution handed over to Orquesta or 3rd pary intergations that implement the 
-result tracker to provide the results. It requires access to MongoDB and RabbitMQ to perform its 
-function.
-
-Multiple ``st2resultstracker`` processes will co-operate with each other to perform work. At
-startup there is a possibility of extra work however there are no negative consequences of this
-duplication. Specifically the jobs to track results also get stored in the DB in case there are no
-workers to take over the work. This pattern makes all result trackers pick up the same work set on
-startup. Once this work set is exhausted all subsequent tasks are round-robined. If needed
-``st2resultstracker`` processes could be started in a staggered manner to avoid extra work.
-
 st2notifier
 ^^^^^^^^^^^
 This is a dual purpose process - its main function is to generate ``st2.core.actiontrigger`` and

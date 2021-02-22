@@ -290,36 +290,13 @@ Deploy keys are more secure than personal access tokens and can be configured on
 Python versions in Pack Python Virtual Environment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. note::
-
-   This functionality is only available in |st2| v2.8.0 and above. Some additional fixes and
-   improvements to this functionality were introduced in |st2| v3.0.1.
-
 When installing a pack, a Python virtual environment is created using the Python binary defined by
 the ``actionrunner.python_binary`` config option. By default, the same binary which is
-used by all the |st2| components and services is used for pack virtual environments. On CentOS/RHEL 7 and Ubuntu 16.04 the Python binary currently used is Python 2.7, on all other distributions Python 3 is used.
+used by all the |st2| components and services is used for pack virtual environments, as of |st2| v3.4.0 this is python3.
 
 .. warning ::
 
-   Python 2 support will be dropped from |st2| in future releases. Please consider updating any Python 2 only packs to work with Python 3.
-
-On CentOS/RHEL 7 and Ubuntu 16.04 if you want to use Python 3 for running your pack Python actions, you can do that by passing  the
-``--python3`` flag to the ``st2 pack install`` command (e.g. ``st2 pack install libcloud
---python3``).
-
-This will create the pack virtual environment using the Python 3 binary specified by
-``actionrunner.python3_binary`` config option. This value defaults to ``/usr/bin/python3``. For
-this to work, Python 3 needs to be installed on your system.
-
-When installing Python 3, default prefix of ``/usr`` or ``/usr/local`` should be used and base
-Python 3 libraries should be installed and available in either ``/usr/lib/python3.6`` or
-``/usr/local/lib/python3.6``. If a custom prefix was used when compiling / installing Python 3
-(e.g. ``./configure --prefix=/opt/lib``) you also need to configure
-``actionrunner.python3_prefix`` option in ``st2.conf`` to match that value.
-
-Keep in mind that this feature only means Python runner actions will be executed using Python 3
-binary. All the |st2| components and services, including the action runner will still use the
-default ST2 python binary.
+   Python 2 support was dropped in |st2| v3.4.0. Please consider updating any Python 2 only packs to work with Python 3.
 
 
 .. _packs-behind-proxy:

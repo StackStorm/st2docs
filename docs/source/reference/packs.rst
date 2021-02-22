@@ -170,8 +170,9 @@ available at :github_st2:`st2/contrib/hello_st2 <contrib/hello_st2>`.
      unless you set the ``ref`` value explicitly in ``pack.yaml``. Finally the email attribute in
      ``pack.yaml`` must contain a properly formatted email address.
 
-     The ``python_versions`` field declares which Python versions this pack supports. Packs submitted
-     to the StackStorm Exchange will run CI checks for the declared Python version(s). |st2| will
+     The ``python_versions`` field declares which Python versions this pack supports. As |st2| 
+     only supports Python **3** from version 3.4.0 onwards, packs submitted to the StackStorm
+     Exchange will run CI checks for Python version **3** only. |st2| will
      check this field when installing packs, and not allow installation with unsupported major Python
      versions. If this field is missing, |st2| assumes both Python **2** and **3** are supported.
 

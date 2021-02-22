@@ -1,4 +1,11 @@
-.. NOTE: This file has been generated automatically, don't manually edit it
+.. NOTE: This file has been generated automatically, do not manually edit it.
+         If you want to update runner parameters, make your changes to the
+         runner YAML files in st2/contrib/runners/ and then run
+
+         make docs
+
+         to regenerate the documentation for runners.
+
 
 * ``cwd`` (string) - Working directory where the command will be executed in
 * ``env`` (object) - Environment variables which will be available to the command (e.g. key1=val1,key2=val2)
