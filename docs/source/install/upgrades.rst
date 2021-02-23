@@ -175,7 +175,7 @@ any skipped versions:
 v3.4
 ''''
 
-*  |st2| now uses python 3 on Ubuntu 16 and RHEL/CentOS 7. Therefore any packs that only support python 2 will need to be upgraded to python 3.
+*  |st2| now uses python 3 on Ubuntu 16 and RHEL/CentOS 7. Therefore any packs that only support python 2 will need to be upgraded to python 3. All packs installed prior to upgrade on Ubuntu 16 and RHEL/CentOS 7 will need to be uninstalled and re-installed after upgrade.
 
 
 * *RHEL 7.x only.* Ensure python3-devel can be installed from an enabled repository before upgrading |st2| packages:
