@@ -30,7 +30,7 @@ appropriate repository name.
 
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
-For |st2| enterprise version on Ubuntu, both the gpg keys for community and enterprise need to be
+For |st2| enterprise version (only available for |st2| <= 3.2) on Ubuntu, both the gpg keys for community and enterprise need to be
 imported separately. Run the following commands to update both keys. If you are running
 a non production version of StackStorm, then replace ``stable`` in the curl with the appropriate
 repository name. Replace ``<license_key>`` with your enterprise license key.
@@ -65,7 +65,7 @@ appropriate repository name.
 
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.rpm.sh | sudo bash
 
-For |st2| enterprise version on RHEL/CentOS, both the gpg keys for community and enterprise need to be
+For |st2| enterprise version (only available for |st2| <= 3.2) on RHEL/CentOS, both the gpg keys for community and enterprise need to be
 import separately. Run the following commands to update the keys. If you are running a
 non production version of StackStorm, then replace ``stable`` in the URLs with the appropriate
 repository name. Replace ``<license_key>`` with your enterprise license key.
@@ -124,6 +124,10 @@ This is the standard upgrade procedure:
 
 2. Upgrade |st2| packages using distro-specific tools:
 
+   .. note::
+
+     Refer to the migration scripts below for any version specific changes that may be required before upgrading packages.
+
    Ubuntu:
 
    .. sourcecode:: bash
@@ -139,6 +143,7 @@ This is the standard upgrade procedure:
 .. note::
 
   If upgrading to a version earlier than StackStorm 3.3, add st2mistral to list of packages to update (if it is present on your current system).
+
 
 3. Run the migration scripts (if any). See below for version-specific migration scripts.
 
@@ -173,7 +178,7 @@ v3.4
 *  |st2| now uses python 3 on Ubuntu 16 and RHEL/CentOS 7. Therefore any packs that only support python 2 will need to be upgraded to python 3.
 
 
-* *RHEL 7.x only.* Ensure python3-devel can be installed from an enabled repository:
+* *RHEL 7.x only.* Ensure python3-devel can be installed from an enabled repository before upgrading |st2| packages:
 
   .. note::
 
@@ -198,7 +203,7 @@ v3.4
 
     sudo yum install python3-devel --enablerepo <optional-server-rpm repo>
 
-* *Ubuntu 16.04 Xenial only.* Python 3.6 is not available in the base Ubuntu Xenial distribution and you can add unofficial 3rd party `Python PPA repository <https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa>`_:
+* *Ubuntu 16.04 Xenial only.* Python 3.6 is not available in the base Ubuntu Xenial distribution. Python 3.6 must be available before you upgrade |st2| packages, and you can add unofficial 3rd party `Python PPA repository <https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa>`_:
 
   .. warning::
 
