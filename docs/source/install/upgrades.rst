@@ -126,7 +126,7 @@ This is the standard upgrade procedure:
 
    .. note::
 
-     Refer to the migration scripts below for any version specific changes that may be required before upgrading packages.
+     Refer to the version specific changes section below, for steps that may be required before or after upgrading packages.
 
    Ubuntu:
 
@@ -161,8 +161,8 @@ This is the standard upgrade procedure:
 
 .. _migration-scripts-to-run:
 
-Version-specific Migration Scripts
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Version-specific Changes / Migration Scripts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 We document :ref:`upgrade notes<upgrade_notes>` for the various versions. The upgrade notes section gives
 an idea of what major changes happened with each release. You may also want to take a look at the detailed
@@ -175,12 +175,7 @@ any skipped versions:
 v3.4
 ''''
 
-*  |st2| now uses python 3 on Ubuntu 16 and RHEL/CentOS 7. Therefore any packs that only support python 2 will need to be upgraded to python 3. All packs installed prior to upgrade on Ubuntu 16 and RHEL/CentOS 7 will need to have their virtualenvironment re-created after upgrade, using the ``packs.setup_virtualenv`` action:
-
-.. sourcecode:: bash
-
-    st2 run packs.setup_virtualenv packs=$(st2 pack list -a ref -j | jq -r '. | map(.ref) | join(",")')
-
+*  |st2| now uses python 3 on Ubuntu 16 and RHEL/CentOS 7. Therefore any packs that only support python 2 will need to be upgraded to python 3. 
 
 * *RHEL 7.x only.* Ensure python3-devel can be installed from an enabled repository before upgrading |st2| packages:
 
@@ -225,6 +220,14 @@ v3.4
 
     # ensure python3.6 package exists and could be installed
     apt-cache show python3.6
+
+*  *Ubuntu 16 and RHEL/CentOS 7 only*. All packs installed prior to upgrade will need to have their virtual environment re-created after upgrading |st2| packages (on all nodes which run st2actionrunner services), using the following commands:
+
+.. sourcecode:: bash
+
+    sudo rm -r /opt/stackstorm/virtualenvs
+    sudo st2ctl reload --register-setup-virtualenvs
+
 
 v3.3
 ''''
