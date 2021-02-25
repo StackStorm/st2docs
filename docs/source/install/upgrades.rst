@@ -161,7 +161,7 @@ This is the standard upgrade procedure:
 
 .. _migration-scripts-to-run:
 
-Version-specific Changes / Migration Scripts
+Version-Specific Changes / Migration Scripts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 We document :ref:`upgrade notes<upgrade_notes>` for the various versions. The upgrade notes section gives
@@ -175,7 +175,7 @@ any skipped versions:
 v3.4
 ''''
 
-*  |st2| now uses python 3 on Ubuntu 16 and RHEL/CentOS 7. Therefore any packs that only support python 2 will need to be upgraded to python 3. 
+*  |st2| now uses python 3 on Ubuntu 16 and RHEL/CentOS 7. Therefore any packs that only support python 2 will need to be upgraded to python 3.
 
 * *RHEL 7.x only.* Ensure python3-devel can be installed from an enabled repository before upgrading |st2| packages:
 
@@ -202,7 +202,7 @@ v3.4
 
     sudo yum install python3-devel --enablerepo <optional-server-rpm repo>
 
-* *Ubuntu 16.04 Xenial only.* Python 3.6 is not available in the base Ubuntu Xenial distribution. Python 3.6 must be available before you upgrade |st2| packages, and you can add unofficial 3rd party `Python PPA repository <https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa>`_:
+* *Ubuntu 16.04 Xenial only.* Python 3.6 is not available in the base Ubuntu Xenial distribution. Python 3.6 must be available before you upgrade |st2| packages, but you can add the unofficial 3rd party `Python PPA repository <https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa>`_: which contains packages for Python 3.6.
 
   .. warning::
 
