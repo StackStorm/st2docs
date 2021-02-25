@@ -225,7 +225,7 @@ v3.4
 
 .. sourcecode:: bash
 
-    sudo rm -r /opt/stackstorm/virtualenvs
+    sudo rm -rf /opt/stackstorm/virtualenvs/*
     sudo st2ctl reload --register-setup-virtualenvs
 
 
