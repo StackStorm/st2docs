@@ -135,7 +135,7 @@ we recommend to always specify versions in case there are major changes in ``lat
 
 .. note::
 
-    It is also possible to download and install packs from GitLab using a SSH based URL through the web interface in the Actions section.
+    New feature! As of StackStorm 3.4. It is also possible to download and install packs from GitLab using a SSH based URL through the web interface in the Actions section.
 
 Pack Dependencies
 ~~~~~~~~~~~~~~~~~
