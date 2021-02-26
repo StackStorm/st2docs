@@ -54,9 +54,9 @@ complete installation:
 - ``mongodb`` - Main DB storage engine.
 - ``rabbitmq`` - Message broker.
 - ``st2repos`` - Adds |st2| PackageCloud repositories.
-- ``st2`` - Install and configure |st2| itself.
+- ``st2`` - Install and configure |st2| itself. This includes ``LDAP`` and ``RBAC`` in StackStorm >= 3.4, however these features will not be enabled by default.
 - ``nginx`` - Dependency for ``st2web``.
-- ``st2web`` - Nice & shiny WebUI for |st2|.
+- ``st2web`` - Nice & shiny WebUI for |st2|. This includes Workflow Designer in StackStorm >= 3.4.
 - ``nodejs`` - Dependency for ``st2chatops``.
 - ``st2chatops`` - Install and configure st2chatops for hubot adapter integration with |st2|.
 - ``st2smoketests`` - Simple checks to see if |st2| is working.
@@ -154,5 +154,5 @@ If you are installing from behind a proxy, you can use the environment variables
 .. note::
 
     Please refer to https://github.com/StackStorm/ansible-st2 for updates and more detailed
-    examples, descriptions and code. Iff you're familiar with Ansible, and think you've found a
+    examples, descriptions and code. If you're familiar with Ansible, and think you've found a
     bug, or would like to propose a feature or pull request, your contributions are very welcome!
