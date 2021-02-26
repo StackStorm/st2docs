@@ -99,8 +99,14 @@ Exchange, and you can install your own packs from git just as easily.
 
 .. code-block:: bash
 
-    # Install your own pack from git
+    # Install your own pack from git using http(s)
     st2 pack install https://github.com/emedvedev/chatops_tutorial
+    
+    # Install your own pack from git using ssh
+    st2 pack install git@github.com/emedvedev/chatops_tutorial
+    
+    # Install your own pack using gitlab URL (added in release 3.4)
+    st2 pack install gitlab@gitlab.com:example/examplepack
 
 By default, the latest release of the pack will be installed, but you can specify a particular
 version, branch, tag, or even a commit hash. Just use `=`:
@@ -133,9 +139,6 @@ version or **upgrade to latest** if the version is not specified. Your config fi
 overwritten, so you can revert to an older version just as easily, but for production deployments
 we recommend to always specify versions in case there are major changes in ``latest``.
 
-.. note::
-
-    New feature! As of StackStorm 3.4. It is also possible to download and install packs from GitLab using a SSH based URL through the web interface in the Actions section.
 
 Pack Dependencies
 ~~~~~~~~~~~~~~~~~
