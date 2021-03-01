@@ -221,12 +221,11 @@ v3.4
     # ensure python3.6 package exists and could be installed
     apt-cache show python3.6
 
-*  *Ubuntu 16 and RHEL/CentOS 7 only*. All packs installed prior to upgrade will need to have their virtual environment re-created after upgrading |st2| packages (on all nodes which run st2actionrunner services), using the following commands:
+*  *Ubuntu 16 and RHEL/CentOS 7 only*. All packs installed prior to upgrade will need to have their virtual environment re-created after upgrading |st2| packages (on all nodes which run st2actionrunner services), using the following command:
 
 .. sourcecode:: bash
 
-    sudo rm -rf /opt/stackstorm/virtualenvs/*
-    sudo st2ctl reload --register-setup-virtualenvs
+    sudo st2ctl reload --register-setup-recreate-virtualenvs
 
 
 v3.3
