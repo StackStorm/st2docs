@@ -16,24 +16,6 @@ contributions. Here's our plans for the next two releases.
     the feature. Pull Requests are open to anyone.
 
 
-3.4
----
-
-* The roadmap for ``3.4`` is in the works, stay tuned!
-
-  Current plans include:
-
-  * Drop Python 2.7 support for RHEL/CentOS 7, and use OS distributed Python 3.6
-  * Drop Python 2.7 support for Ubuntu 16.04, and only support Python 3.6. Python 3.6 will need to be sourced by users from a suitable PPA.
-
-
-  Other possibilities include:
-
-  * Change default pack virtual environment to use Python 3
-  * Convert ChatOps backend to Python
-
-Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
-
 3.5
 ---
 
@@ -42,17 +24,18 @@ Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we'
   Current plans include:
 
   * Add support for Ubuntu 20.04, with Python 3.8
+  * Performance improvements
+  * Add Redis as a coordination backend
+
+Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
 
 Backlog
 -------
 
 Here's some more nice things on our list that we haven't scheduled yet:
 
-* **Python:** Drop Python 2 support, rely on Python 3 ony.
-* **RBAC:** Integrate ``st2rbac`` (previously EWC/BWC) features into core.
-* **st2flow:** Integrate ``st2flow`` (previously EWC/BWC) features into ``st2web``.
+* **Python ChatOps:** Convert ChatOps backend to Python
 * **ChatOps:** Support RBAC.
-* **Ubuntu:** Support Ubuntu 20.04 LTS.
 * **K8s/HA:** Graduate `K8s Helm chart <https://github.com/stackstorm/stackstorm-ha>`_ from beta to stable.
 * **Workflow runtime graph:** Runtime view of workflow execution in st2flow for |ewc|.
 * **Workflow dry run:** Ability to run unit tests on orquesta workflows for |ewc|.
@@ -80,6 +63,13 @@ Submit a PR!
 
 Release History
 ---------------
+
+.. rubric:: Done in v3.4
+
+* **Python 2 deprecation:** Updated RHEL/CentOS 7.x and Ubuntu 16.04 to use Python 3.6, and update packs in StackStorm-Exchange 
+* **RBAC:** Integrate ``st2rbac`` (previously EWC/BWC) features into core.
+* **LDAP:** Integrate ``st2ldap`` (previously EWC/BWC) features into core.
+* **st2flow:** Integrate ``st2flow`` (previously EWC/BWC) features into ``st2web``.
 
 .. rubric:: Done in v3.3
 
