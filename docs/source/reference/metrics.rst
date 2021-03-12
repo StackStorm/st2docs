@@ -28,7 +28,7 @@ Right now, the only supported driver is ``statsd``. To configure it, add the fol
     # "production" and key is "action.executions" actual key would be
     # "st2.production.action.executions". This comes handy when you want to
     # utilize the same backend instance for multiple environments or similar.
-    
+
     # statsd collection and aggregation server address
     host = 127.0.0.1
     # statsd collection and aggregation server port
@@ -80,6 +80,16 @@ This section describes which metrics are currently exposed by various |st2| serv
 | st2.action.executions                                      | counter    | st2actionrunner             | Number of action executions processed by st2actionrunner service.                                              |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
 | st2.action.executions                                      | timer      | st2actionrunner             | How long it took to process (run) a particular action execution inside st2actionrunner service.                |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.action.executions.process.<status>                     | counter    | st2actionrunner             | Number of action executions processed by st2actionrunner service for a particular status.                      |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.action.executions.process.<status>                     | timer      | st2actionrunner              | How long it took to fully process a request inside st2actionrunner for a particular status.                   |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.action.executions.update_status                        | timer      | st2actionrunner             | How long it took to update execution and live action status and result in the database.                        |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.action.executions.update_live_action_db                | timer      | st2actionrunner             | How long it took to update / store LiveActionDB model in the database.                                         |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.action.executions.update_execution_db                  | timer      | st2actionrunner             | How long it took to update / store ActionExecutionD Bmodel in the database.                                    |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
 | st2.action.<action ref>.executions                         | counter    | st2actionrunner             | Number of action execution for a particular action processed by st2actionrunner.                               |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
