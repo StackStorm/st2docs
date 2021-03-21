@@ -60,8 +60,9 @@ complete installation:
 - ``nodejs`` - Dependency for ``st2chatops``.
 - ``st2chatops`` - Install and configure st2chatops for hubot adapter integration with |st2|.
 - ``st2smoketests`` - Simple checks to see if |st2| is working.
-- ``ewc`` - Install and configure |ewc|, including ``LDAP`` and ``RBAC``. StackStorm < 3.3 only.
-- ``ewc_smoketests`` - Simple checks to see if |ewc| is working. StackStorm < 3.3 only.
+
+For StackStorm versions earlier than 3.3, Extreme Networks provided a commercial version of the StackStorm automation platform (EWC). EWC contained advanced features like RBAC, LDAP and the Workflow Designer. Since StackStorm 3.4 RBAC and LDAP are core-features of StackStorm itself and the FlowUI as part of st2web replaces the Workflow Designer. Therefore, the `ewc` role is no longer supported and the LDAP and RBAC backends are now configured and deployed via the `st2` role. The FlowUI does not require any configuration.
+
 
 Example Play
 ---------------------------
@@ -144,11 +145,6 @@ If you are installing from behind a proxy, you can use the environment variables
         no_proxy: 127.0.0.1,localhost
       roles:
         - st2
-
-
-|ewc|
------
-.. include:: common/ewc_intro.rst
 
 
 .. note::
