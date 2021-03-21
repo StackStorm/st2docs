@@ -61,7 +61,7 @@ complete installation:
 - ``st2chatops`` - Install and configure st2chatops for hubot adapter integration with |st2|.
 - ``st2smoketests`` - Simple checks to see if |st2| is working.
 
-For StackStorm versions earlier than 3.3, Extreme Networks provided a commercial version of the StackStorm automation platform (EWC). EWC contained advanced features like RBAC, LDAP and the Workflow Designer. Since StackStorm 3.4 RBAC and LDAP are core-features of StackStorm itself and the FlowUI as part of st2web replaces the Workflow Designer. Therefore, the `ewc` role is no longer supported and the LDAP and RBAC backends are now configured and deployed via the `st2` role. The FlowUI does not require any configuration.
+For StackStorm versions earlier than 3.3, Extreme Networks provided a commercial version of the StackStorm automation platform (EWC). EWC contained advanced features like RBAC, LDAP and the Workflow Designer. Since StackStorm 3.4 RBAC and LDAP are core-features of StackStorm itself and the FlowUI as part of ``st2web`` replaces the Workflow Designer. Therefore, the ``ewc`` role is no longer supported and the LDAP and RBAC backends are now configured and deployed via the ``st2`` role. The FlowUI does not require any configuration.
 
 
 Example Play
