@@ -148,6 +148,7 @@ below. Only execute the instructions for your distribution.
 
     sudo rm -f /etc/yum.repos.d/mongodb-org* /etc/yum.repos.d/StackStorm*
     sudo rm -f /etc/yum.repos.d/pgdg-94* /etc/yum.repos.d/nginx* /etc/yum.repos.d/nodesource*
+    sudo rm -f /etc/yum.repos.d/rabbitmq_erlang* /etc/yum.repos.d/*rabbitmq-server*
 
 
 5. Clean Up Remaining Content
