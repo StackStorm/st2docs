@@ -98,7 +98,7 @@ The required dependencies are RabbitMQ, and MongoDB. The optional dependencies a
 
   - nginx for SSL termination, reverse-proxying API endpoints and serving static HTML.
   - Redis or Zookeeper for concurrency policies (see :doc:`/reference/policies`).
-  - LDAP for |ewc| LDAP authentication.
+  - LDAP authentication.
 
 
 Multi-box/HA deployment
