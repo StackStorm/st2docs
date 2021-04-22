@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 
 RUN apt-get -qq update && apt-get -q install -y \
-    git curl \
+    curl git \
     libffi-dev libldap2-dev libsasl2-dev libssl-dev \
     python3-dev python3-pip python-virtualenv
 
