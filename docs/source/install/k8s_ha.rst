@@ -69,7 +69,8 @@ You can configure:
 - number of replicas for each component
 - st2 auth secrets
 - st2.conf settings
-- RBAC roles, assignments and mappings (enterprise only)
+- RBAC roles, assignments and mappings (enterprise only for StackStorm v3.2 and before, open source
+  for StackStorm v3.4 and later)
 - custom st2 packs and its configs
 - SSH private key
 - K8s resources and settings to control pod/deployment placement
