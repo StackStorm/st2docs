@@ -190,6 +190,14 @@ documented below are also supported:
 
 .. note::
 
+    If you want to use custom SSL settings (e.g. using a different ca bundle or similar) you
+    should specify all those options as part of the st2.conf and also do the same for enabling ssl
+    using ``messaging.ssl`` option. Combining URL and config parameters for SSL doesn't work - if
+    you enable ssl as part of the  URL it will use default SSL settings, but you won't be able to
+    specify a custom value for ``cert_reqs`` ``ca_certs`` and other SSL related options.
+
+.. note::
+
    RabbitMQ doesn't expose an SSL / TLS listener by default and needs to be configured to enable
    TLS support. For more information, refer to the official documentation -
    `Enabling TLS Support in RabbitMQ <https://www.rabbitmq.com/ssl.html#enabling-tls>`_.
