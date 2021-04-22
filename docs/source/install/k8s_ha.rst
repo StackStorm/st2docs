@@ -317,7 +317,3 @@ and ecourage discussions in `Slack <https://stackstorm.com/community-signup>`_ `
 .. only:: community
 
     .. include:: /__engage_community.rst
-
-.. only:: enterprise
-
-    .. include:: /__engage_enterprise.rst
