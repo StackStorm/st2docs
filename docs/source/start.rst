@@ -52,7 +52,9 @@ You will almost certainly have authentication enabled. The easiest way to login 
 
     st2 login st2admin --password 'Ch@ngeMe'
 
-This will obtain an authentication token, and cache it. The following will display the authentication token. 
+This will obtain an authentication token, and cache it.
+
+The following will display the authentication token. 
 
 .. code-block:: bash
 
@@ -202,7 +204,7 @@ Deploy a Rule
     # Get the rule that was just created
     st2 rule get examples.sample_rule_with_webhook
 
-Once the rule is created, the webhook begins to listen on ``https://{host}/api/v1/webhooks/{url}``. Fire the POST, check out the file, and see that it appends the payload to the ``/home/stanley/st2.webhook_sample.out`` file.
+Once the rule is created, the webhook begins to listen on ``https://{host}/api/v1/webhooks/{url}``. Fire the POST, check out ``/home/stanley/st2.webhook_sample.out``, and see that it appends the payload to the file.
 
 .. code-block:: bash
 
