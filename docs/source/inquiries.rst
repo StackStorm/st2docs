@@ -57,7 +57,9 @@ The ``inquirer`` runner imposes a number of parameters that are, in turn, requir
 +-------------+---------------------------------------------------------+
 | roles       | A list of RBAC roles that are permitted to respond to   |
 |             | the action. Defaults to empty list, which permits all   |
-|             | roles. **This requires enterprise features**            |
+|             | roles. **This requires enterprise features on           |
+|             | StackStorm 3.2 and before**, but is available on        |
+|             | StackStorm 3.4 and later if :doc:`rbac` is enabled.     |
 +-------------+---------------------------------------------------------+
 | users       | A list of users that are permitted to respond to        |
 |             | the action. Defaults to empty list, which permits all   |
