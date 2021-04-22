@@ -88,7 +88,3 @@ What's Next?
 .. only:: community
 
     .. include:: __engage_community.rst
-
-.. only:: enterprise
-
-    .. include:: __engage_enterprise.rst
