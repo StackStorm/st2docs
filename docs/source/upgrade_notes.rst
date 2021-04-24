@@ -8,16 +8,20 @@ Upgrade Notes
 |st2| v3.5
 ----------
 
-* API will now set ``secure`` and ``samesite=lax`` cookie attributes for then auth cookie which
+* API will now set ``Secure`` and ``Samesite=lax`` cookie attribute for the auth cookie which
   is set when authenticating via auth token / API key in query parameter (this approach is
   primarily used by st2web).
 
-  If for some reason you want to change those default values, you can do that using
+  If you need to change those default values, you can do that using
   ``api.auth_cookie_secure`` and ``api.auth_cookie_same_site`` config options.
 
   To revert to the old behavior, you can set ``api.auth_cookie_secure = False`` and
   ``api.auth_cookie_same_site = None``, but this is not recommended unless you have a valid
   reason to not host StackStorm behind an HTTPs proxy such as nginx.
+
+  You can read more about those attribute on the following links:
+  https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite,
+  https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#restrict_access_to_cookies.
 
 .. _ref-upgrade-notes-v3-4:
 
