@@ -3,10 +3,26 @@
 Upgrade Notes
 =============
 
+.. _ref-upgrade-notes-v3-5:
+
+|st2| v3.5
+----------
+
+* API will now set ``secure`` and ``samesite=lax`` cookie attributes for then auth cookie which
+  is set when authenticating via auth token / API key in query parameter (this approach is
+  primarily used by st2web).
+
+  If for some reason you want to change those default values, you can do that using
+  ``api.auth_cookie_secure`` and ``api.auth_cookie_same_site`` config options.
+
+  To revert to the old behavior, you can set ``api.auth_cookie_secure = False`` and
+  ``api.auth_cookie_same_site = None``, but this is not recommended unless you have a valid
+  reason to not host StackStorm behind an HTTPs proxy such as nginx.
+
 .. _ref-upgrade-notes-v3-4:
 
 |st2| v3.4
--------------
+----------
 
 * Python 2 support was removed.
   Any packs that only support python 2 will need to be migrated to python 3.
