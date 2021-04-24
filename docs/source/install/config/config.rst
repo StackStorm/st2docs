@@ -32,8 +32,8 @@ The ``username`` and ``password`` properties are optional.
 .. _ref-mongo-ha-config:
 
 |st2| also supports `MongoDB replica sets
-<https://docs.mongodb.com/v3.4/core/replication-introduction/>`_ using `MongoDB URI string
-<https://docs.mongodb.com/v3.4/reference/connection-string/>`_.
+<https://docs.mongodb.com/manual/replication//>`_ using `MongoDB URI string
+<https://docs.mongodb.com/manual/reference/connection-string/>`_.
 
 In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section:
 
@@ -43,10 +43,10 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
     host = mongodb://<#MDB_NODE_1>,<#MDB_NODE_2>,<#MDB_NODE_3>/?replicaSet=<#MDB_REPLICA_SET_NAME>
 
 * You can also add ports, usernames and passwords, etc to your connection string. See
-  https://docs.mongodb.com/v3.4/reference/connection-string/
+  https://docs.mongodb.com/manual/reference/connection-string/
 
 * To understand more about setting up a MongoDB replica set, see
-  https://docs.mongodb.com/v3.4/tutorial/deploy-replica-set/
+  https://docs.mongodb.com/manual/replication/
 
 |st2| also supports SSL/TLS to encrypt MongoDB connections. A few extra properties need be added to
 the configuration apart from the ones outlined above.
@@ -84,6 +84,43 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
   * Build MongoDB from source to enable SSL/TLS support. See
     https://github.com/mongodb/mongo/wiki/Build-Mongodb-From-Source for more information.
 
+|st2| also supports transport / network level compression since |st2| v3.5.0. Example below shows
+which configuration options need to be set to enable compression:
+
+In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following section:
+
+.. code-block:: ini
+
+    [database]
+    ...
+    compressors = <zstd|zlib>
+    zlib_compression_level = 6
+
+* ``compressors`` - A comma delimited list of compression algorithm client supports for network /
+  transport level compression which should be advertised to the server. Actual algorithm used will
+  then be determined based  algorithm which is supported both by the client and the server.
+* ``zlib_compression_level`` - Compression level to use (possible values are from ``-1`` to ``9``)
+  when ``compressors`` is set to ``zlib``.
+
+.. note::
+
+    Zstandard (zstd) compression is only supported by MongoDB server version 4.0 and above.
+
+    Compression is always a trade off - CPU cycles for compression and decompression operation are
+    exchanged for less bytes transfered over the network.
+
+    How compression affects actual database operation durations and throughput is very much
+    workload and deployment specific (spare CPU cycles, network setup, available bandwidth, is the
+    NIC being saturated, is MongoDB hosted on the same server / AZ, etc).
+
+    Our micro benchmarks showed that enabling zstandard compression seems to have no perceived
+    impact on database read and write operation duration, but your milleage may vary.
+
+    Compression may come especially handy when working with large Trigger Instance and Execution
+    objects (aka executions which produce large textual results). Executions and Trigger Instances
+    usually contain large textual result which compresses very well and can result in substantial
+    reduction in network traffic.
+
 Configure RabbitMQ
 ------------------
 
@@ -118,6 +155,13 @@ or
    [messaging]
    url = amqp://guest:guest@127.0.0.1:5671/?ssl=true
 
+.. note::
+
+    Keep in mind that if you want to use custom ssl options (e.g. use a key and cert file or use a
+    custom ca cert), you need to enable ssl via messaging.ssl option and not via connection URL
+    string. When SSL is enabled via connection URL string default SSL options will be used which
+    can't be changed.
+
 In addition to encrypted connection to RabbitMQ, some other SSL related options which are
 documented below are also supported:
 
@@ -146,9 +190,35 @@ documented below are also supported:
 
 .. note::
 
+    If you want to use custom SSL settings (e.g. using a different ca bundle or similar) you
+    should specify all those options as part of the st2.conf and also do the same for enabling ssl
+    using ``messaging.ssl`` option. Combining URL and config parameters for SSL doesn't work - if
+    you enable ssl as part of the  URL it will use default SSL settings, but you won't be able to
+    specify a custom value for ``cert_reqs`` ``ca_certs`` and other SSL related options.
+
+.. note::
+
    RabbitMQ doesn't expose an SSL / TLS listener by default and needs to be configured to enable
    TLS support. For more information, refer to the official documentation -
    `Enabling TLS Support in RabbitMQ <https://www.rabbitmq.com/ssl.html#enabling-tls>`_.
+
+|st2| also supports compressing payloads which are sent over the message bus since |st2| v3.5.0.
+Example below shows which configuration options need to be set to enable compression:
+
+.. code-block:: ini
+
+    [messaging]
+    ...
+    compression = <zstd|lzma|bz2|gzip>
+
+.. note::
+
+    Compression is always a trade off - CPU cycles for compression and decompression operation are
+    exchanged for less bytes transfered over the network.
+
+    How compression affects actual message bus operation durations and throughput is very much
+    workload and deployment specific (spare CPU cycles, network setup, available bandwidth, is the
+    NIC being saturated, is RabbitMQ hosted on the same server / AZ, etc).
 
 .. _ref-rabbitmq-cluster-config:
 
@@ -166,7 +236,6 @@ In :github_st2:`/etc/st2/st2.conf <conf/st2.prod.conf>` include the following se
 * To understand more about setting up a RabbitMQ cluster, see
   https://www.rabbitmq.com/clustering.html
 * RabbitMQ HA guide - https://www.rabbitmq.com/ha.html
-
 
 .. _config-configure-ssh:
 

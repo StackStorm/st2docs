@@ -29,7 +29,13 @@ comma := ,
 COMPONENT_PYTHONPATH = $(subst $(space_char),:,$(realpath $(COMPONENTS)))
 
 REQUIREMENTS := requirements.txt st2/requirements.txt
-PIP_VERSION := 20.0.2
+DOCS_VERSION := $(shell cat version.txt | cut -d '.' -f 1,2)
+ST2_BRANCH := v$(DOCS_VERSION)
+ifneq (,$(findstring dev,$(ST2_BRANCH)))
+	ST2_BRANCH := master
+endif
+
+PIP_VERSION := $(shell curl --silent https://raw.githubusercontent.com/StackStorm/st2/$(ST2_BRANCH)/Makefile | grep 'PIP_VERSION ?= ' | awk '{ print $$3 }')
 PIP_OPTIONS := $(ST2_PIP_OPTIONS)
 
 ifndef PIP_OPTIONS
