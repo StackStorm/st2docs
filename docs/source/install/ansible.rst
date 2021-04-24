@@ -127,7 +127,6 @@ By default we generate a self-signed certificate for ``nginx`` in ``st2web`` rol
           st2web_ssl_certificate: "{{ lookup('file', 'local/path/to/domain-name.crt') }}"
           st2web_ssl_certificate_key: "{{ lookup('file', 'local/path/to/domain-name.key') }}"
 
-
 Installing Behind a Proxy
 -------------------------
 
@@ -146,6 +145,65 @@ If you are installing from behind a proxy, you can use the environment variables
       roles:
         - st2
 
+Enabling LDAP authentication and add RBAC configuration
+-------------------------------------------------------
+
+By default :doc:`LDAP authentication </authentication>` & :doc:`RBAC </rbac>` are disabled. You can enable and configure these features via the Stackstorm.st2 role to allow/restrict/limit |st2| functionality to specific users:
+
+.. sourcecode:: yaml
+
+        - name: Install and configure st2 with enabled LDAP authentication and RBAC
+          role: st2
+          vars:
+            st2_version: latest
+            st2_auth_enable: yes
+            st2_auth_username: testu
+            st2_auth_password: testp
+            st2_save_credentials: yes
+            st2_system_user: stanley
+            st2_system_user_in_sudoers: yes
+            # Dict to edit https://github.com/StackStorm/st2/blob/master/conf/st2.conf.sample
+            st2_config: {}
+            st2_ldap_enable: yes
+            st2_ldap:
+              # Configure the LDAP connection and query attributes
+              # https://docs.stackstorm.com/authentication.html#ldap
+              backend_kwargs:
+                bind_dn: "cn=Administrator,cn=users,dc=change-you-org,dc=net"
+                bind_password: "foobar123"
+                base_ou: "dc=example,dc=net"
+                group_dns:
+                  - "CN=stormers,OU=groups,DC=example,DC=net"
+                host: identity.example.net
+                port: 389
+                id_attr: "samAccountName"
+            st2_rbac_enable: yes
+            st2_rbac:
+              # Define roles and permissions
+              # https://docs.stackstorm.com/rbac.html#defining-roles-and-permission-grants
+              roles:
+                - name: core_local_only
+                  description: "This role has access only to action core.local in pack 'core'"
+                  enabled: true
+                  permission_grants:
+                    - resource_uid: "action:core:local"
+                      permission_types:
+                        - action_execute
+                        - action_view
+                    - permission_types:
+                      - runner_type_list
+              # Assign roles to specific users
+              # https://docs.stackstorm.com/rbac.html#defining-user-role-assignments
+              assignments:
+                - name: test_user
+                  roles:
+                    - core_local_only
+                - name: stanley
+                  roles:
+                    - admin
+                - name: chuck_norris
+                  roles:
+                    - system_admin
 
 .. note::
 
