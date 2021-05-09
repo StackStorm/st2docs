@@ -6,7 +6,8 @@ Upgrade Notes
 .. _ref-upgrade-notes-v3-5:
 
 * Underlying database field type for storing large values such as action execution results has
-  changed for various models (ActionExecutionDB, LiveActionDB, etc.).
+  changed for various database models (ActionExecutionDB, LiveActionDB, WorkflowExecutionDB,
+  TaskExecutionDB, TriggerInstanceDB, etc.).
 
   For most users this change will result in 8-20x speed up when working with (reading and writing)
   large values from / to the database.
@@ -18,13 +19,20 @@ Upgrade Notes
 
   If you want to migrate them to the new field type, you can use
   ``st2-migrate-db-dict-field-values`` migration script which ships with |st2| v3.5. The script
-  only operates on "finalized" objects (e.g. finished executions) and it's idempotent which means
+  only operates on "finalized" objects (i.e. finished executions) and it's idempotent which means
   you can re-run it on failures or similar.
 
-  It's worth noting that running this script is optional - in most cases users care about
+  It's worth noting that running this script is optional - in most cases users primary care about
   performance for recent / new objects (e.g. viewing recent executions) so if you don't migrate
   existing database field values this means retrieving those objects will still be slow, but it
-  doesn't affect newly created objects post v3.5 upgrade.
+  doesn't affect newly created objects post v3.5 upgrade which will utilize new field type and
+  such exhibit much better performance.
+
+  .. note::
+
+    If you run this migration script and a need arises, you won't be able to rollback back to a
+    previous version (v3.4) because code in previous version doesn't include support for this new
+    field type.
 
 |st2| v3.5
 ----------
