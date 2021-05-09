@@ -3,10 +3,36 @@
 Upgrade Notes
 =============
 
+.. _ref-upgrade-notes-v3-5:
+
+* Underlying database field type for storing large values such as action execution results has
+  changed for various models (ActionExecutionDB, LiveActionDB, etc.).
+
+  For most users this change will result in 8-20x speed up when working with (reading and writing)
+  large values from / to the database.
+
+  The change is fully transparent to the end user and new objects created after upgrade to |st2|
+  v3.5 will automatically utilize this new field type.
+
+  Existing objects in the database will continue to utilize old field type.
+
+  If you want to migrate them to the new field type, you can use
+  ``st2-migrate-db-dict-field-values`` migration script which ships with |st2| v3.5. The script
+  only operates on "finalized" objects (e.g. finished executions) and it's idempotent which means
+  you can re-run it on failures or similar.
+
+  It's worth noting that running this script is optional - in most cases users care about
+  performance for recent / new objects (e.g. viewing recent executions) so if you don't migrate
+  existing database field values this means retrieving those objects will still be slow, but it
+  doesn't affect newly created objects post v3.5 upgrade.
+
+|st2| v3.5
+----------
+
 .. _ref-upgrade-notes-v3-4:
 
 |st2| v3.4
--------------
+----------
 
 * Python 2 support was removed.
   Any packs that only support python 2 will need to be migrated to python 3.
