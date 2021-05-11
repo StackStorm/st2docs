@@ -28,11 +28,17 @@ Upgrade Notes
   doesn't affect newly created objects post v3.5 upgrade which will utilize new field type and
   such exhibit much better performance.
 
+  By default script will run in an interactive mode and display a prompt with warning which needs
+  to be confirmed before continuing. If you want to run script in an non-interactive mode, pass
+  ``--yes`` command line argument to it.
+
   .. note::
+
+    You are strongly recommended to create full database backup before running this script.
 
     If you run this migration script and a need arises, you won't be able to rollback back to a
     previous version (v3.4) because code in previous version doesn't include support for this new
-    field type.
+    field type (in such case you would need to restore the database backup).
 
 |st2| v3.5
 ----------
