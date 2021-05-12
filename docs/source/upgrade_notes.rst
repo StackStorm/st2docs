@@ -8,9 +8,9 @@ Upgrade Notes
 
 .. _ref-upgrade-notes-v3-5:
 
-* Underlying database field type for storing large values such as action execution results has
+* Underlying database field type for storing large values such as action execution result has
   changed for various database models (ActionExecutionDB, LiveActionDB, WorkflowExecutionDB,
-  TaskExecutionDB, TriggerInstanceDB, etc.).
+  TaskExecutionDB, TriggerInstanceDB).
 
   For most users this change will result in 8-20x speed up when working with (reading and writing)
   large values from / to the database.
@@ -29,10 +29,10 @@ Upgrade Notes
   performance for recent / new objects (e.g. viewing recent executions) so if you don't migrate
   existing database field values this means retrieving those objects will still be slow, but it
   doesn't affect newly created objects post v3.5 upgrade which will utilize new field type and
-  such exhibit much better performance.
+  as such, exhibit much better performance.
 
   By default script will run in an interactive mode and display a prompt with warning which needs
-  to be confirmed before continuing. If you want to run script in an non-interactive mode, pass
+  to be acknowledged before continuing. If you want to run script in an non-interactive mode, pass
   ``--yes`` command line argument to it.
 
   Script also defaults to migrating data for the past 30 days. You can control time period for
@@ -43,7 +43,7 @@ Upgrade Notes
   script multiple time (e.g. using a day long intervals or shorter).
 
   Before running this script, you may also want to purge some old operational data. For information
-  on that, please refer to :doc:`Purging Old Operational Data </troubleshooting/purging_old_data>`.
+  on that, please refer to :doc:`Purging Old Operational Data </troubleshooting/purging_old_data>`
   documentation page.
 
   .. code-block:: bash
