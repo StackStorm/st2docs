@@ -32,6 +32,17 @@ Upgrade Notes
   to be confirmed before continuing. If you want to run script in an non-interactive mode, pass
   ``--yes`` command line argument to it.
 
+  Script also defaults to migrating data for the past 30 days. You can control time period for
+  objects which will be migrated using ``--start-dt`` and ``--end-dt`` argument as shown below.
+
+  The script currently doesn't support batching so in case you have many objects in the database
+  (especially trigger instances) you may need to migrate things in smaller chunks and call this
+  script multiple time (e.g. using a day long intervals or shorter).
+
+  .. code-block:: bash
+
+    /opt/stackstorm/st2/bin/st2-migrate-db-dict-field-values --start-dt "2021-04-20T19:16:55Z" --end-dt "2021-04-25T19:26:55Z"
+
   .. note::
 
     You are strongly recommended to create full database backup before running this script.
