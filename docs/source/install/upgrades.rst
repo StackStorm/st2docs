@@ -208,7 +208,7 @@ v3.4
 
      Please be aware of the support and security risks associated with using unofficial 3rd party PPA repository.
      StackStorm does NOT provide ANY support or security update for python3.6 packages on Ubuntu 16.04.
-     If security is a priority for you, we recommend starting migrating to Ubuntu 18.04 LTS (Bionic) as a base OS which has official python 3.6 packages.
+     If security is a priority for you, we recommend starting migrating to Ubuntu 18.04 LTS (Bionic) or 20.04 LTS (Focal) as a base OS which has official python 3.6 packages.
      This is a workaround to support Ubuntu Xenial with python 3 until we deprecate it in the future versions.
 
   .. sourcecode:: bash

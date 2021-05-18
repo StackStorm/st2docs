@@ -1,10 +1,14 @@
-Ubuntu Xenial (16.04)
+Ubuntu Focal (20.04)
 =====================
 
 .. include:: common/intro.rst
 
 .. contents:: Contents
    :local:
+
+.. note::
+
+   |st2| on Ubuntu ``20.04`` runs all services, actions and sensors using Python 3.
 
 System Requirements
 -------------------
@@ -17,20 +21,17 @@ Minimal Installation
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
 
-.. include:: __mongodb_note.rst
-
 Install MongoDB, and RabbitMQ:
 
 .. code-block:: bash
 
   sudo apt-get update
-  sudo apt-get install -y gnupg-curl
   sudo apt-get install -y curl
 
-  # Add key and repo for the latest stable MongoDB (4.0)
-  wget -qO - https://www.mongodb.org/static/pgp/server-4.0.asc | sudo apt-key add -
-  sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-4.0.list
-  deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/4.0  multiverse
+  # Add key and repo for MongoDB (4.4)
+  wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+  sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/mongodb-org-4.4.list
+  deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -c | awk '{print $2}')/mongodb-org/4.4 multiverse
   EOT"
   sudo apt-get update
 
@@ -38,7 +39,7 @@ Install MongoDB, and RabbitMQ:
   sudo apt-get install -y mongodb-org
   sudo apt-get install -y rabbitmq-server
 
-For Ubuntu ``Xenial`` you may need to enable and start MongoDB.
+For Ubuntu ``Focal`` you may need to enable and start MongoDB.
 
 .. code-block:: bash
 
@@ -55,21 +56,6 @@ repository. It will also add the the GPG key used for package signing.
 
   curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
-Python 3.6 is not available in the base Ubuntu Xenial distro, but the following instructions can add unofficial 3rd party `Python PPA repository <https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa>`_ that provides it.
-
-.. warning::
-
-   Please be aware of the support and security risks associated with using unofficial 3rd party PPA repository.
-   StackStorm does NOT provide ANY support or security update for python3.6 packages on Ubuntu 16.04.
-   If security is a priority for you, we recommend starting migrating to Ubuntu 18.04 LTS (Bionic) or 20.04 LTS (Focal) as a base OS which has official python 3.6 packages.
-
-.. code-block:: bash
-
-  sudo apt-get install -y software-properties-common
-  # add unofficial 3rd party python3 PPA repository
-  sudo add-apt-repository -y ppa:deadsnakes/ppa
-  sudo apt-get update
-
 Install |st2| Components
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -83,8 +69,6 @@ Setup Datastore Encryption
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: common/datastore_crypto_key.rst
-
-.. _ref-config-ssh-sudo-deb:
 
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -100,8 +84,6 @@ Verify
 ~~~~~~
 
 .. include:: common/verify.rst
-
-.. _ref-config-auth-deb:
 
 Configure Authentication
 ------------------------
@@ -122,8 +104,6 @@ To set up authentication with file-based provider:
 
 .. include:: common/configure_authentication.rst
 
-.. _ref-install-webui-ssl-deb:
-
 Install WebUI and Setup SSL Termination
 ---------------------------------------
 
@@ -133,21 +113,9 @@ SSL termination, and reverse-proxy st2auth and st2api API endpoints. To set it u
 ``/etc/ssl/st2``, and configure nginx with |st2|'s supplied :github_st2:`site config file st2.conf
 <conf/nginx/st2.conf>`.
 
-|st2| depends on Nginx version >=1.7.5. Ubuntu has an older version in the package repositories, so
-you will need to add the official Nginx repository:
-
-
 .. code-block:: bash
 
-  # Add key and repo for the latest stable nginx
-  sudo apt-key adv --fetch-keys http://nginx.org/keys/nginx_signing.key
-  sudo sh -c "cat <<EOT > /etc/apt/sources.list.d/nginx.list
-  deb http://nginx.org/packages/ubuntu/ $(lsb_release -c | awk '{print $2}') nginx
-  EOT"
-  sudo apt-get update
-
   # Install st2web and nginx
-  # note nginx should be > 1.4.6
   sudo apt-get install -y st2web nginx
 
   # Generate self-signed certificate or place your existing certificate under /etc/ssl/st2
@@ -158,6 +126,8 @@ you will need to add the official Nginx repository:
 
   # Remove default site, if present
   sudo rm /etc/nginx/conf.d/default.conf
+  # Check for a default site on sites-enabled to avoid a duplicate default server error 
+  sudo rm -f /etc/nginx/sites-enabled/default
   # Copy and enable the supplied nginx config file
   sudo cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/conf.d/
 
@@ -169,8 +139,6 @@ the st2web configuration at ``/opt/stackstorm/static/webui/config.js``.
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
 
 .. include:: common/api_access.rst
-
-.. _ref-setup-chatops-deb:
 
 Setup ChatOps
 -------------
