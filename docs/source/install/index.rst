@@ -93,6 +93,7 @@ For more details on reference deployments, or OS-specific installation instructi
     system_requirements
     Ubuntu 16.04 <u16>
     Ubuntu 18.04 <u18>
+    Ubuntu 20.04 <u20>
     RHEL 7 / CentOS 7 <rhel7>
     RHEL 8 / CentOS 8 <rhel8>
     Vagrant / OVA <vagrant>
