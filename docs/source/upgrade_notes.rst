@@ -3,6 +3,14 @@
 Upgrade Notes
 =============
 
+.. _ref-upgrade-notes-v3-5:
+
+|st2| v3.5
+-------------
+
+* Node was upgraded from v10 to v14. Node 14 repository will be required to be
+  setup, prior to upgrade of st2chatops.
+
 .. _ref-upgrade-notes-v3-4:
 
 |st2| v3.4
