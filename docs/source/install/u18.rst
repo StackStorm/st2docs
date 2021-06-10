@@ -105,7 +105,7 @@ To set up authentication with file-based provider:
 
 .. include:: common/configure_authentication.rst
 
-.. _ref-install-webui-ssl-deb
+.. _ref-install-webui-ssl-deb:
 
 Install WebUI and Setup SSL Termination
 ---------------------------------------
