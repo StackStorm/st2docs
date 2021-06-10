@@ -14,7 +14,7 @@ Here's an overview of the options:
   <ref-one-line-install>` section below for details.
 * **Manual Installation:** Have custom needs? Maybe no Internet access from your servers? Or just
   don't like using scripted installs? Read the manual installation instructions for your OS
-  (:doc:`Ubuntu 16 </install/u16>`, :doc:`Ubuntu 18 </install/u18>`,
+  (:doc:`Ubuntu 18 </install/u18>`, :doc:`Ubuntu 20 </install/u20>`,
   :doc:`RHEL/CentOS 7 </install/rhel7>`, :doc:`RHEL/CentOS 8 </install/rhel8>`) and adapt them to
   your needs. Here's some `additional guidance
   <https://stackstorm.com/2017/02/10/installing-stackstorm-offline-systems/>`_ for setting up an
@@ -91,7 +91,6 @@ For more details on reference deployments, or OS-specific installation instructi
 
     Reference Deployment Overview <overview>
     system_requirements
-    Ubuntu 16.04 <u16>
     Ubuntu 18.04 <u18>
     Ubuntu 20.04 <u20>
     RHEL 7 / CentOS 7 <rhel7>

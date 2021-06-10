@@ -18,8 +18,6 @@ be automatically added when you install |st2|.
 +-------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Linux (64-bit)                                                                                        | Vagrant Box                                                                  | Amazon AWS AMI                                                                                                                                                    |
 +=======================================================================================================+==============================================================================+===================================================================================================================================================================+
-| `Ubuntu 16.04 <https://www.ubuntu.com/download/server/thank-you?version=16.04.6&architecture=amd64>`_ | `bento/ubuntu-16.04 <https://app.vagrantup.com/bento/boxes/ubuntu-16.04>`_   | `Ubuntu 16.04 LTS - Xenial (HVM)  <https://aws.amazon.com/marketplace/pp/B01JBL2M0O/>`_                                                                           |
-+-------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | `Ubuntu 18.04 <http://cdimage.ubuntu.com/releases/18.04.2/release/ubuntu-18.04.2-server-amd64.iso>`_  | `bento/ubuntu-18.04 <https://app.vagrantup.com/bento/boxes/ubuntu-18.04>`_   | `Ubuntu Server 18.04 LTS Bionic  <https://aws.amazon.com/marketplace/pp/B07CQ33QKV/>`_                                                                            |
 +-------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | `Ubuntu 20.04 <http://releases.ubuntu.com/focal/ubuntu-20.04.2-live-server-amd64.iso>`_               | `bento/ubuntu-20.04 <https://app.vagrantup.com/bento/boxes/ubuntu-20.04>`_   | `Ubuntu Server 20.04 LTS Focal  <https://aws.amazon.com/marketplace/pp/B087QQNGF1>`_                                                                              |
@@ -71,9 +69,11 @@ Linux Distribution Support Policy
 StackStorm only support Ubuntu and RHEL/CentOS Linux distributions. In general, it is supported
 on the two most recent major supported releases for those distributions. Specifically:
 
-* **Ubuntu**: Current LTS releases are supported. Today this is ``16.04``, ``18.04`` and ``20.04``.
+* **Ubuntu**: Current LTS releases are supported. Today this is ``18.04`` and ``20.04``.
 
 * **RHEL/CentOS**: We currently support RHEL/CentOS ``7.x`` and ``8.x``. In general, we recommend using
   the most recent version in that series, but any version may be used.
 
   Support for RHEL/CentOS ``6.x`` has been removed. |st2| 3.2  is the last release that supported RHEL/CentOS ``6.x``.
+
+  Support for Ubuntu ``16.04`` has been removed. |st2| 3.4  is the last release that supported RHEL/CentOS ``16.04``.

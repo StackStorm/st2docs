@@ -10,6 +10,7 @@ Upgrade Notes
 
 * Node was upgraded from v10 to v14. Node 14 repository will be required to be
   setup, prior to upgrade of st2chatops.
+* Support for Ubuntu 16.04 (Xenial) was removed.
 
 .. _ref-upgrade-notes-v3-4:
 
