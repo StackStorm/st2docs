@@ -232,10 +232,13 @@ not affect functionality.
 See :ref:`here<ref-rabbitmq-cluster-config>` for how to configure |st2| to connect to a RabbitMQ
 cluster.
 
-Zookeeper/Redis
-^^^^^^^^^^^^^^^
-Various |st2| features rely on a proper co-ordination backend in a distributed deployment to work
-correctly.
+Coordination
+^^^^^^^^^^^^
+Support of workflows with concurrent task executions and concurrency policies for action executions 
+rely on a proper co-ordination backend in a distributed deployment to work correctly.
+
+The coordination service can be configured to use different backends such as redis or zookeeper. For
+the single node installation script, redis is installed and configured by default.
 
 `This <https://zookeeper.apache.org/doc/r3.5.7/zookeeperStarted.html#sc_RunningReplicatedZooKeeper>`__
 shows how to run a replicated Zookeeper setup. (Note: Make sure to refer to the documentation in the
@@ -300,13 +303,14 @@ Controller Box
 ^^^^^^^^^^^^^^
 This box runs all the shared required dependencies and some |st2| components:
 
-* Nginx as load balancer
-* MongoDB
-* RabbitMQ
-* st2chatops
-* st2web
+ * Nginx as load balancer
+ * MongoDB
+ * RabbitMQ
+ * Redis/Zookeeper
+ * st2chatops
+ * st2web
 
-In practice ``MongoDB`` ``RabbitMQ`` will usually be on standalone clusters
+In practice ``MongoDB``, ``RabbitMQ``, and ``Redis/Zookeeper`` will usually be on standalone clusters
 managed outside of |st2|. The two shared components (``st2chatops`` and ``st2web``) are placed here
 for the sake of convenience. They could be placed anywhere with the right configuration.
 
@@ -323,32 +327,35 @@ Follow these steps to provision a controller box on Ubuntu 16.04:
 Install Required Dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Install ``MongoDB`` and ``RabbitMQ``:
+1. Install ``MongoDB``, ``RabbitMQ``, and ``Redis``:
+
+   The python redis client is already included in the |st2| virtualenv. If using Zookeeper, the
+   kazoo module needs to be installed into the |st2| virtualenv.
 
   .. code-block:: bash
 
-      $ sudo apt-get install -y mongodb-server rabbitmq-server
+      $ sudo apt-get install -y mongodb-server rabbitmq-server redis-server
 
 2. Fix ``bind_ip`` in ``/etc/mongodb.conf`` to bind MongoDB to an interface that has an IP address
    reachable from ``st2-multi-node-1`` and ``st2-multi-node-2``.
 
-4. Restart MongoDB:
+3. Restart MongoDB:
 
    .. code-block:: bash
 
       $ sudo service mongodb restart
 
-5. Add stable |st2| repos:
+4. Add stable |st2| repos:
 
   .. code-block:: bash
 
       $ curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
-6. Setup ``st2web`` and SSL termination. Follow :ref:`install webui and setup
+5. Setup ``st2web`` and SSL termination. Follow :ref:`install webui and setup
    ssl<ref-install-webui-ssl-deb>`. You will need to stop after removing the default Nginx config
    file.
 
-7. A sample configuration for Nginx as load balancer for the controller box is provided below.
+6. A sample configuration for Nginx as load balancer for the controller box is provided below.
    With this configuration Nginx will load balance all requests between the two blueprint boxes
    ``st2-multi-node-1`` and ``st2-multi-node-2``. This includes requests to ``st2api`` and
    ``st2auth``. Nginx also serves as the webserver for ``st2web``.
@@ -356,14 +363,14 @@ Install Required Dependencies
   .. literalinclude:: /../../st2/conf/HA/nginx/st2.conf.controller.sample
      :language: none
 
-8. Create the st2 logs directory and the st2 user:
+7. Create the st2 logs directory and the st2 user:
 
   .. code-block:: bash
 
         mkdir -p /var/log/st2
         useradd st2
 
-12. Install ``st2chatops`` following :ref:`setup chatops<ref-setup-chatops-deb>`.
+8. Install ``st2chatops`` following :ref:`setup chatops<ref-setup-chatops-deb>`.
 
 Blueprint box
 ^^^^^^^^^^^^^
@@ -390,13 +397,13 @@ also be made to offer different services.
 
       $ sudo apt-get install -y nginx
 
-8. Replace ``/etc/st2/st2.conf`` with the sample ``st2.conf`` provided below. This config points to
-   the controller node or configuration values of ``database`` and ``messaging``.
+4. Replace ``/etc/st2/st2.conf`` with the sample ``st2.conf`` provided below. This config points to
+   the controller node or configuration values of ``database``, ``messaging``, and ``coordination``.
 
   .. literalinclude:: /../../st2/conf/HA/st2.conf.sample
      :language: ini
 
-9. Generate a certificate:
+5. Generate a certificate:
 
   .. code-block:: bash
 
@@ -405,19 +412,19 @@ also be made to offer different services.
         -days XXX -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
         Technology/CN=$(hostname)"
 
-10. Configure users & authentication as per :ref:`this documentation<ref-config-auth-deb>`. Make
+6. Configure users & authentication as per :ref:`this documentation<ref-config-auth-deb>`. Make
     sure that user configuration on all boxes running ``st2auth`` is identical. This ensures
     consistent authentication from the entire |st2| install since the request to authenticate a
     user can be forwarded by the load balancer to any of the ``st2auth`` processes.
 
-11. Use the sample Nginx config that is provided below for the blueprint boxes. In this config
+7. Use the sample Nginx config that is provided below for the blueprint boxes. In this config
     Nginx will act as the SSL termination endpoint for all the REST endpoints exposed by
     ``st2api`` and ``st2auth``:
 
   .. literalinclude:: /../../st2/conf/HA/nginx/st2.conf.blueprint.sample
      :language: nginx
 
-12. To use Timer triggers, enable them on only one server. Make this change in
+8. To use Timer triggers, enable them on only one server. Make this change in
     ``/etc/st2/st2.conf``:
 
     .. code-block:: yaml
@@ -426,8 +433,8 @@ also be made to offer different services.
         enable = False
 
 
-14. See :doc:`/reference/sensor_partitioning` to decide how to partition sensors to suit your
+9. See :doc:`/reference/sensor_partitioning` to decide how to partition sensors to suit your
     requirements.
 
-15. All content should be synced by choosing a suitable strategy as outlined above. This is crucial
+10. All content should be synced by choosing a suitable strategy as outlined above. This is crucial
     to obtain predictable outcomes.
