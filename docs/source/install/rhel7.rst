@@ -55,7 +55,7 @@ Install Dependencies
 
 .. include:: __mongodb_note.rst
 
-Install MongoDB, and RabbitMQ:
+Install MongoDB, RabbitMQ, and Redis
 
 .. code-block:: bash
 
@@ -75,8 +75,9 @@ Install MongoDB, and RabbitMQ:
   sudo yum -y install crudini
   sudo yum -y install mongodb-org
   sudo yum -y install rabbitmq-server
-  sudo systemctl start mongod rabbitmq-server
-  sudo systemctl enable mongod rabbitmq-server
+  sudo yum -y install redis
+  sudo systemctl start mongod rabbitmq-server redis
+  sudo systemctl enable mongod rabbitmq-server redis
 
 The default python on CentOS/RHEL 7.x is python 2, |st2| uses python3 and requires the python3-devel package. The installation of the st2 package will automatically install python3-devel if it is available in an enabled repository. On CentOS distributions the relevant repository is typically enabled however on RHEL distributions it is provided by the rhel-7-server-optional-rpms repository (repository name dependant on RHEL distribution).
 

@@ -94,10 +94,13 @@ ChatOps can be also enabled by installing `hubot-stackstorm plugin
 
 Dependencies
 ------------
-The required dependencies are RabbitMQ, and MongoDB. The optional dependencies are:
+The required dependencies are RabbitMQ, MongoDB, and Redis (or Zookeeper).
+
+The coordination service is required for workflows that has multiple branches and tasks with items. Previously, the coordination service is optional to support concurrency policies. The backend for the coordination service can be configured to use Redis, Zookeeper, or other. Since v3.5, redis server is installed as part of the single node installation script. The python redis client is also installed into the |st2| virtualenv. If using Zookeeper, the kazoo module needs to be manually installed into the |st2| virtualenv.
+
+The optional dependencies are:
 
   - nginx for SSL termination, reverse-proxying API endpoints and serving static HTML.
-  - Redis or Zookeeper for concurrency policies (see :doc:`/reference/policies`).
   - LDAP authentication.
 
 

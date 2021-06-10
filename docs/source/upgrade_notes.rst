@@ -11,6 +11,11 @@ Upgrade Notes
 * Node was upgraded from v10 to v14. Node 14 repository will be required to be
   setup, prior to upgrade of st2chatops.
 * Support for Ubuntu 16.04 (Xenial) was removed.
+* Redis server is installed and configured as backend for the coordination service
+  by default in the single node installation script to support workflows with multiple
+  branches and tasks with items. Upgrade requires coordination service to be setup
+  manually, For workflows to be executed properly, setup the coordination service
+  accordingly.
 
 .. _ref-upgrade-notes-v3-4:
 
