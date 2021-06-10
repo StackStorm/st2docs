@@ -30,6 +30,7 @@ Contents:
 
     authentication
     rbac
+    coordination
     inquiries
     reference/index
     troubleshooting/index

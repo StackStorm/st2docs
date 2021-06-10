@@ -57,6 +57,7 @@ By default, |st2| and related services use these TCP ports:
 * nginx (80, 443)
 * mongodb (27017)
 * rabbitmq (4369, 5672, 25672)
+* redis (6379) or zookeeper (2181, 2888, 3888)
 * st2auth (9100)
 * st2api (9101)
 * st2stream (9102)

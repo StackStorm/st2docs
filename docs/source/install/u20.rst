@@ -21,7 +21,7 @@ Minimal Installation
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
 
-Install MongoDB, and RabbitMQ:
+Install MongoDB, RabbitMQ, and Redis:
 
 .. code-block:: bash
 
@@ -38,6 +38,7 @@ Install MongoDB, and RabbitMQ:
   sudo apt-get install -y crudini
   sudo apt-get install -y mongodb-org
   sudo apt-get install -y rabbitmq-server
+  sudo apt-get install -y redis-server
 
 For Ubuntu ``Focal`` you may need to enable and start MongoDB.
 

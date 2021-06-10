@@ -56,7 +56,7 @@ Install Dependencies
 
 .. include:: __mongodb_note.rst
 
-Install MongoDB, RabbitMQ:
+Install MongoDB, RabbitMQ, and Redis:
 
 .. code-block:: bash
 
@@ -80,8 +80,9 @@ Install MongoDB, RabbitMQ:
   sudo yum makecache -y --disablerepo='*' --enablerepo='rabbitmq_rabbitmq-server'
   sudo yum -y install erlang
   sudo yum -y install rabbitmq-server
-  sudo systemctl start mongod rabbitmq-server
-  sudo systemctl enable mongod rabbitmq-server
+  sudo yum -y install redis
+  sudo systemctl start mongod rabbitmq-server redis
+  sudo systemctl enable mongod rabbitmq-server redis
 
 
 Setup Repositories

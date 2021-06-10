@@ -193,6 +193,12 @@ v3.5
      sudo rpm -e --nodeps nodejs
      sudo yum upgrade st2chatops
 
+* Redis server is installed and configured as backend for the coordination service
+  by default in the single node installation script to support workflows with multiple
+  branches and tasks with items. Upgrade requires coordination service to be setup
+  manually, For workflows to be executed properly, setup the coordination service
+  accordingly. See :doc:`../coordination` for setup instruction.
+
 v3.4
 ''''
 
