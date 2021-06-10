@@ -22,6 +22,11 @@ can specify that new executions are canceled, rather than delayed.
 
 There are two forms of concurrency policy: ``action.concurrency`` and ``action.concurrency.attr``.
 
+.. note::
+
+    The concurrency policy type is not enabled by default and requires a backend coordination
+    service such as ZooKeeper or Redis to work. See :doc:`../coordination` for setup instruction.
+
 action.concurrency
 ~~~~~~~~~~~~~~~~~~
 
@@ -82,63 +87,6 @@ host.
         threshold: 10
         attributes:
             - hostname
-
-.. note::
-
-    The concurrency policy type is not enabled by default and requires a backend coordination
-    service such as ZooKeeper or Redis to work.
-
-If you have installed a coordination service in your network, you need to configure |st2| to
-connect to that backend service. This is done in the ``coordination`` section of
-``/etc/st2/st2.conf``.
-
-The following are examples for ZooKeeper and Redis:
-
-ZooKeeper:
-
-.. code-block:: ini
-
-    [coordination]
-    url = kazoo://username:password@host:port
-
-
-Redis:
-
-.. code-block:: ini
-
-    [coordination]
-    url = redis://:password@host:port
-
-Other supported coordination backends include:
-
-* consul
-* etcd
-* MySQL
-* PostgreSQL
-* file (for testing when all the services are running on a single host)
-
-StackStorm utilizes the ``OpenStack Tooz`` library for communicating with the
-coordination backend. The coordination backend must support the ``Locking``
-functionality as defined by the ``Tooz`` interface. Please refrence the
-`OpenStack Tooz compatability page <https://docs.openstack.org/tooz/latest/user/compatibility.html>`_
-for more information what interfaces are implemented by various backends.
-
-For the full list of the supported backends and how to configure them, please visit
-`OpenStack Tooz documentation <https://docs.openstack.org/tooz/latest/>`_.
-
-Some of these coordination backends also require corresponding client libraries to be installed
-in |st2| virtualenv. We do not ship these libraries by default. As an example, to install the client
-library in |st2| virtualenv, run:
-
-.. sourcecode:: bash
-
-    sudo su
-
-    # Example when using redis backend
-    /opt/stackstorm/st2/bin/pip install redis
-
-    # Example when using consul backend
-    /opt/stackstorm/st2/bin/pip install consul
 
 Retry
 -----

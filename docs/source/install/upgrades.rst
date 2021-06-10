@@ -197,7 +197,7 @@ v3.5
   by default in the single node installation script to support workflows with multiple
   branches and tasks with items. Upgrade requires coordination service to be setup
   manually, For workflows to be executed properly, setup the coordination service
-  accordingly. See :doc:`../reference/policies` for setup instruction.
+  accordingly. See :doc:`../coordination` for setup instruction.
 
 v3.4
 ''''
