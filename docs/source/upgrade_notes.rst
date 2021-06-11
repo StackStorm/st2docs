@@ -35,8 +35,8 @@ Upgrade Notes
   to be acknowledged before continuing. If you want to run script in an non-interactive mode, pass
   ``--yes`` command line argument to it.
 
-  Script also defaults to migrating data for the past 30 days. You can control time period for
-  objects which will be migrated using ``--start-dt`` and ``--end-dt`` argument as shown below.
+  The script also defaults to migrating data for the past 30 days. You can migrate objects from
+  a different time period using ``--start-dt`` and ``--end-dt`` arguments as shown below.
 
   The script currently doesn't support batching so in case you have many objects in the database
   (especially trigger instances) you may need to migrate things in smaller chunks and call this
