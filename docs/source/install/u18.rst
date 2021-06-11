@@ -22,7 +22,7 @@ Minimal Installation
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
 
-Install MongoDB, and RabbitMQ:
+Install MongoDB, RabbitMQ, and Redis:
 
 .. code-block:: bash
 
@@ -39,6 +39,7 @@ Install MongoDB, and RabbitMQ:
   sudo apt-get install -y crudini
   sudo apt-get install -y mongodb-org
   sudo apt-get install -y rabbitmq-server
+  sudo apt-get install -y redis-server
 
 For Ubuntu ``Bionic`` you may need to enable and start MongoDB.
 
@@ -158,11 +159,11 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
     # Create notification rule if not yet enabled
     st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml
 
-* Add `NodeJS v10 repository <https://nodejs.org/en/download/package-manager/>`_:
+* Add `NodeJS v14 repository <https://nodejs.org/en/download/package-manager/>`_:
 
   .. code-block:: bash
 
-    curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+    curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 
 * Install the ``st2chatops`` package:
 
