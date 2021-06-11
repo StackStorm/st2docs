@@ -56,7 +56,7 @@ Upgrade Notes
 
   .. note::
 
-    You are strongly recommended to create full database backup before running this script.
+    You are strongly recommended to create a full database backup before running this script.
 
     If you run this migration script and a need arises, you won't be able to rollback back to a
     previous version (v3.4) because code in previous version doesn't include support for this new
