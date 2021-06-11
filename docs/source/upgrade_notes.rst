@@ -31,7 +31,7 @@ Upgrade Notes
   doesn't affect newly created objects post v3.5 upgrade which will utilize new field type and
   as such, exhibit much better performance.
 
-  By default script will run in an interactive mode and display a prompt with warning which needs
+  By default the script will run in an interactive mode and display a prompt with a warning which needs
   to be acknowledged before continuing. If you want to run script in an non-interactive mode, pass
   ``--yes`` command line argument to it.
 
