@@ -25,7 +25,7 @@ Upgrade Notes
   only operates on "finalized" objects (i.e. finished executions) and it's idempotent which means
   you can re-run it on failures or similar.
 
-  It's worth noting that running this script is optional - in most cases users primary care about
+  It's worth noting that running this script is optional - in most cases users primarily care about
   performance for recent / new objects (e.g. viewing recent executions) so if you don't migrate
   existing database field values this means retrieving those objects will still be slow, but it
   doesn't affect newly created objects post v3.5 upgrade which will utilize new field type and
