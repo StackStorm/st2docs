@@ -8,7 +8,7 @@ Upgrade Notes
 
 .. _ref-upgrade-notes-v3-5:
 
-* Underlying database field type for storing large values such as action execution result has
+* The underlying database field type for storing large values such as action execution result has
   changed for various database models (ActionExecutionDB, LiveActionDB, WorkflowExecutionDB,
   TaskExecutionDB, TriggerInstanceDB).
 
