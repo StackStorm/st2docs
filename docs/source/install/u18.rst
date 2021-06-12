@@ -72,6 +72,8 @@ Setup Datastore Encryption
 
 .. include:: common/datastore_crypto_key.rst
 
+.. _ref-config-ssh-sudo-deb:
+
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -86,6 +88,8 @@ Verify
 ~~~~~~
 
 .. include:: common/verify.rst
+
+.. _ref-config-auth-deb:
 
 Configure Authentication
 ------------------------
@@ -105,6 +109,8 @@ To set up authentication with file-based provider:
     echo 'Ch@ngeMe' | sudo htpasswd -i /etc/st2/htpasswd st2admin
 
 .. include:: common/configure_authentication.rst
+
+.. _ref-install-webui-ssl-deb:
 
 Install WebUI and Setup SSL Termination
 ---------------------------------------
@@ -141,6 +147,8 @@ the st2web configuration at ``/opt/stackstorm/static/webui/config.js``.
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
 
 .. include:: common/api_access.rst
+
+.. _ref-setup-chatops-deb:
 
 Setup ChatOps
 -------------

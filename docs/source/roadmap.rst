@@ -2,7 +2,7 @@ Roadmap
 =======
 
 |st2| is still under active development. We welcome community feedback, and encourage
-contributions. Here's our plans for the next two releases.
+contributions. Here's our plans for the next releases.
 
 
 .. note::
@@ -16,16 +16,10 @@ contributions. Here's our plans for the next two releases.
     the feature. Pull Requests are open to anyone.
 
 
-3.5
+3.6
 ---
 
-* The roadmap for ``3.5`` is in the works, stay tuned!
-
-  Current plans include:
-
-  * Add support for Ubuntu 20.04, with Python 3.8
-  * Performance improvements
-  * Add Redis as a coordination backend
+* The roadmap for ``3.6`` is in the works, stay tuned!
 
 Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
 
@@ -63,6 +57,13 @@ Submit a PR!
 
 Release History
 ---------------
+
+.. rubric:: Done in v3.5
+
+* **Ubuntu Focal:** Add support for Ubuntu 20.04, with Python 3.8 and Mongo 4.4
+* **Ubuntu Xenial:** Remove support for Ubuntu 16.04
+* **Performance improvements:** Performance improvements on JSON serialization/deserialization
+* **Redis:** Add Redis as a coordination backend
 
 .. rubric:: Done in v3.4
 
