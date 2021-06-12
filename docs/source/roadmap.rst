@@ -60,7 +60,7 @@ Release History
 
 .. rubric:: Done in v3.5
 
-* **Ubuntu Focal:** Add support for Ubuntu 20.04, with Python 3.8
+* **Ubuntu Focal:** Add support for Ubuntu 20.04, with Python 3.8 and Mongo 4.4
 * **Ubuntu Xenial:** Remove support for Ubuntu 16.04
 * **Performance improvements:** Performance improvements on JSON serialization/deserialization
 * **Redis:** Add Redis as a coordination backend
