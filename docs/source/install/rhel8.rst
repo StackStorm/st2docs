@@ -56,7 +56,7 @@ Install Dependencies
 
 .. include:: __mongodb_note.rst
 
-Install MongoDB, RabbitMQ:
+Install MongoDB, RabbitMQ, and Redis:
 
 .. code-block:: bash
 
@@ -80,8 +80,9 @@ Install MongoDB, RabbitMQ:
   sudo yum makecache -y --disablerepo='*' --enablerepo='rabbitmq_rabbitmq-server'
   sudo yum -y install erlang
   sudo yum -y install rabbitmq-server
-  sudo systemctl start mongod rabbitmq-server
-  sudo systemctl enable mongod rabbitmq-server
+  sudo yum -y install redis
+  sudo systemctl start mongod rabbitmq-server redis
+  sudo systemctl enable mongod rabbitmq-server redis
 
 
 Setup Repositories
@@ -227,11 +228,11 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
     # Create notification rule if not yet enabled
     st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml
 
-* Add `NodeJS v10 repository <https://nodejs.org/en/download/package-manager/>`_:
+* Add `NodeJS v14 repository <https://nodejs.org/en/download/package-manager/>`_:
 
   .. code-block:: bash
 
-    curl -sL https://rpm.nodesource.com/setup_10.x | sudo -E bash -
+    curl -sL https://rpm.nodesource.com/setup_14.x | sudo -E bash -
 
 * Install the ``st2chatops`` package:
 

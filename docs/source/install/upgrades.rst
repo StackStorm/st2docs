@@ -172,6 +172,33 @@ The following sections call out the migration scripts that need to be run when u
 respective version. If you are upgrading across multiple versions, make sure you run the scripts for
 any skipped versions:
 
+v3.5
+''''
+* Node.js v14 is now used by ChatOps (previously v10 was used). The following procedure should be
+  used to upgrade:
+
+  Ubuntu:
+
+  .. sourcecode:: bash
+
+     curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+     sudo apt-get install --only-upgrade nodejs st2chatops
+
+  RHEL/CentOS:
+
+  .. sourcecode:: bash
+
+     sudo sed -i.bak 's|^baseurl=\(https://rpm.nodesource.com\)/[^/]\{1,\}/\(.*\)$|baseurl=\1/pub_14.x/\2|g' /etc/yum.repos.d/nodesource-*.repo
+     sudo yum clean all
+     sudo rpm -e --nodeps nodejs
+     sudo yum upgrade st2chatops
+
+* Redis server is installed and configured as backend for the coordination service
+  by default in the single node installation script to support workflows with multiple
+  branches and tasks with items. Upgrade requires coordination service to be setup
+  manually, For workflows to be executed properly, setup the coordination service
+  accordingly. See :doc:`../coordination` for setup instruction.
+
 v3.4
 ''''
 
@@ -208,7 +235,7 @@ v3.4
 
      Please be aware of the support and security risks associated with using unofficial 3rd party PPA repository.
      StackStorm does NOT provide ANY support or security update for python3.6 packages on Ubuntu 16.04.
-     If security is a priority for you, we recommend starting migrating to Ubuntu 18.04 LTS (Bionic) as a base OS which has official python 3.6 packages.
+     If security is a priority for you, we recommend starting migrating to Ubuntu 18.04 LTS (Bionic) or 20.04 LTS (Focal) as a base OS which has official python 3.6 packages.
      This is a workaround to support Ubuntu Xenial with python 3 until we deprecate it in the future versions.
 
   .. sourcecode:: bash

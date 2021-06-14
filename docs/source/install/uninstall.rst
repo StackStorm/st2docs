@@ -40,7 +40,7 @@ below. Only execute the instructions for your distribution.
 1. Stop Services
 ----------------
 
-* Ubuntu 16.04/18.04:
+* Ubuntu 18.04/20.04:
 
   .. sourcecode:: bash
 
@@ -48,6 +48,7 @@ below. Only execute the instructions for your distribution.
     sudo service nginx stop
     sudo service mongod stop
     sudo service rabbitmq-server stop
+    sudo service redis-server stop
 
 * RHEL/CentOS 7.x/8.x:
 
@@ -57,6 +58,7 @@ below. Only execute the instructions for your distribution.
     sudo systemctl stop nginx
     sudo systemctl stop mongod
     sudo systemctl stop rabbitmq-server
+    sudo systemctl stop redis
 
 .. note::
 
@@ -67,7 +69,7 @@ below. Only execute the instructions for your distribution.
 2. Remove Packages
 ------------------
 
-* Ubuntu 16.04/18.04:
+* Ubuntu 18.04/20.04:
 
   If you are using StackStorm only:
 
@@ -119,13 +121,13 @@ below. Only execute the instructions for your distribution.
 
   .. sourcecode:: bash
 
-    sudo apt-get purge mongodb-org* rabbitmq-server erlang* nginx nodejs
+    sudo apt-get purge mongodb-org* rabbitmq-server erlang* nginx nodejs redis-server
 
 * RHEL/CentOS:
 
   .. sourcecode:: bash
 
-    sudo yum erase mongodb-org* rabbitmq-server erlang* nginx nodejs
+    sudo yum erase mongodb-org* rabbitmq-server erlang* nginx nodejs redis
 
 .. note::
 
@@ -164,6 +166,8 @@ last pieces.
     sudo rm -rf /etc/st2 /opt/stackstorm
     sudo rm -rf /var/log/st2 /var/log/mongodb
     sudo rm -rf /var/lib/mongodb /var/run/mongodb.pid 
+    sudo rm -rf /etc/redis/redis.conf /var/lib/redis
+    sudo userdel -r redis
 
 * RHEL/CentOS:
 
@@ -172,7 +176,8 @@ last pieces.
     sudo rm -rf /etc/st2 /etc/mongod* /etc/rabbitmq /etc/nginx /opt/stackstorm
     sudo rm -rf /var/log/st2 /var/log/mongodb /var/log/rabbitmq /var/log/nginx
     sudo rm -rf /var/lib/rabbitmq /var/lib/mongo
-
+    sudo rm -rf /etc/redis/redis.conf /var/lib/redis
+    sudo userdel -r redis
 
 At this point, your system is no longer running any |st2|-related services, and all the main
 dependencies have been removed. You can either re-install |st2|, or use this system for other
