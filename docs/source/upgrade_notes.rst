@@ -16,7 +16,8 @@ Upgrade Notes
   Upgrade requires coordination service to be setup manually.
   For workflows to be executed properly, setup the coordination service
   accordingly.
-
+* '%' interpolation in configuration parameters is no longer supported. Update your configuration
+  parameters to fix strings if you use '%' interpolation to lookup keys as part of your parameter.
 * The underlying database field type for storing large values such as action execution result has
   changed for various database models (ActionExecutionDB, LiveActionDB, WorkflowExecutionDB,
   TaskExecutionDB, TriggerInstanceDB).
