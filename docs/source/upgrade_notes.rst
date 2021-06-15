@@ -16,6 +16,9 @@ Upgrade Notes
   Upgrade requires coordination service to be setup manually.
   For workflows to be executed properly, setup the coordination service
   accordingly.
+* Validation of action definitions are stricter. If an action definition has duplicate parameters, |st2|
+  will complain when ``st2ctl reload`` is performed at upgrade. Action/workflow definitions should be checked
+  for duplicate parameters before upgrade.
 
 * The underlying database field type for storing large values such as action execution result has
   changed for various database models (ActionExecutionDB, LiveActionDB, WorkflowExecutionDB,

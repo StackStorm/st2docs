@@ -193,11 +193,24 @@ v3.5
      sudo rpm -e --nodeps nodejs
      sudo yum upgrade st2chatops
 
+* |st2| has been updated to configure only TLSv1.2 and v1.3 on nginx. The default nginx ST2 configuration will need to be updated manually, and nginx restarted:
+
+  .. sourcecode:: bash
+
+     sudo sed -i.bak 's|ssl_protocols.*|ssl_protocols             TLSv1.2 TLSv1.3;|g' /etc/nginx/conf.d/st2.conf
+     sudo systemctl restart nginx
+
+* The packaged st2.conf has been altered in this release to use redis for the coordination url, see point below.
+  Depending on your distribution, when the st2 package is upgraded it will either ask you which version to use,
+  or will save a copy of the new st2.conf.
+  You are advised to review the differences between your current st2.conf and the packaged st2.conf
+  to create a merged st2.conf for your particular installation.
+
 * Redis server is installed and configured as backend for the coordination service
   by default in the single node installation script to support workflows with multiple
-  branches and tasks with items. Upgrade requires coordination service to be setup
-  manually, For workflows to be executed properly, setup the coordination service
-  accordingly. See :doc:`../coordination` for setup instruction.
+  branches and tasks with items. Upgrade requires coordination server and service to be setup
+  manually. For workflows to be executed properly, setup the coordination service
+  accordingly. See :doc:`../coordination` for setup instructions.
 
 v3.4
 ''''
