@@ -46,8 +46,5 @@ As an example, to install the client library in |st2| virtualenv, run:
 
     sudo su
 
-    # Example when using redis backend (not required for ST2 >= 3.5)
-    /opt/stackstorm/st2/bin/pip install redis
-
     # Example when using consul backend
     /opt/stackstorm/st2/bin/pip install consul
