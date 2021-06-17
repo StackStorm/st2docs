@@ -193,7 +193,7 @@ v3.5
      sudo rpm -e --nodeps nodejs
      sudo yum upgrade st2chatops
 
-* |st2| has been updated to configure only TLSv1.2 and v1.3 on nginx. The default nginx ST2 configuration will need to be updated manually, and nginx restarted:
+* The default st2 nginx configuration has been updated to support only TLSv1.2 and v1.3 on nginx. The package upgrade does not update the deployed nginx configuration with the packaged version (/usr/share/doc/st2/conf/nginx/st2.conf), therefore the nginx ST2 configuration will need to be updated manually and nginx restarted:
 
   .. sourcecode:: bash
 
