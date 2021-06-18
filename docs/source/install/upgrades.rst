@@ -212,6 +212,13 @@ v3.5
   manually. For workflows to be executed properly, setup the coordination service
   accordingly. See :doc:`../coordination` for setup instructions.
 
+* If the ``st2ctl reload`` fails indicating problems with the packs due to duplicate keys, then the following command can be run to find all errors on the affected packs:
+
+  .. sourcecode:: bash
+
+     /opt/stackstorm/st2/bin/st2-validate-pack -p <path to pack>
+
+
 v3.4
 ''''
 
