@@ -9,7 +9,7 @@ Environment Prerequisites
 Requirements:
 
 -  git
--  python3.6, pip, virtualenv, tox
+-  python3.6 (or python3.8 for Ubuntu 20.04), pip, virtualenv, tox
 -  MongoDB (http://docs.mongodb.org/manual/installation)
 -  RabbitMQ (http://www.rabbitmq.com/download.html)
 -  screen
@@ -18,7 +18,7 @@ Ubuntu
 ------
 
 .. note::
-  For Ubuntu 16.04 you will need to source python3.6 from a suitable PPA
+  For Ubuntu 20.04 replace with python3.8 equivalents
 
 
 .. code-block:: bash
