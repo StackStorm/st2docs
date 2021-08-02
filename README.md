@@ -95,20 +95,7 @@ sphinx-autobuild -H 127.0.0.1 -b html ./docs/source/ ./docs/build/html
 
 ## Sphinx Tricks
 
-* If the whole section belongs in the Enterprise Edition, put the following note:
-    ```
-    .. note::
-
-       Role Based Access Control (RBAC) is only available in StackStorm Enterprise Edition. For
-       information about enterprise edition and differences between community and enterprise edition,
-       please see `stackstorm.com/product <https://stackstorm.com/product/#enterprise>`_.
-    ```
-    Refer to Enterprise edition in passing with
-
-        `see Enterprise Edition <https://stackstorm.com/product/#enterprise>`_
-
-* TODO (Use [http://localhost:8000/todo.html](http://localhost:8000/todo.html) for full TODO list (must be empty when we ship)
-:
+* TODO (Use [http://localhost:8000/todo.html](http://localhost:8000/todo.html) for full TODO list (must be empty when we ship):
 
     .. todo:: Here is a TODO
 
