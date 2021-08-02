@@ -111,7 +111,7 @@ sphinx-autobuild -H 127.0.0.1 -b html ./docs/source/ ./docs/build/html
        :doc:`/start`
        :doc:`in the Rules doc </rules>`
 ```
-* Referencing an arbitrary section: for instance, there's examples section in sensors.rst. Define a reference on `examples` section in sensors.rst:
+* Referencing an arbitrary section: for instance, there's examples section in `sensors.rst`. Define a reference on `examples` section in `sensors.rst`:
 
          .. _sensors-examples:
 
