@@ -139,7 +139,7 @@ Edit, enjoy live updates.
   `External link <http://webchat.freenode.net/?channels=stackstorm>`_
   ```
 
-* Inlcude a document, full body:
+* Include a document, full body:
 
   ```rst
   .. include:: /engage.rst
