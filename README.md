@@ -104,7 +104,7 @@ sphinx-autobuild -H 127.0.0.1 -b html ./docs/source/ ./docs/build/html
     .. code-block: bash
 
       # List all available triggers
-        st2 trigger list
+      st2 trigger list
 
 * Reference the document
 ```
