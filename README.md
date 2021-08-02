@@ -104,7 +104,7 @@ Edit, enjoy live updates.
 * Code fragment:
 
   ```rst
-  .. code-block: bash
+  .. code-block:: bash
 
       # List all available triggers
       st2 trigger list
