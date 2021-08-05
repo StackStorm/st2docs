@@ -22,6 +22,7 @@ import os
 
 from st2common.rbac.types import ResourceType
 from st2common.rbac.types import PermissionType
+from st2common.rbac.types import GLOBAL_PERMISSION_TYPES
 
 from utils import as_rest_table
 
@@ -46,31 +47,37 @@ RESOURCE_DISPLAY_ORDER = [
     ResourceType.TRACE,
 ]
 
+def add_lines_for_permission_set(resource_title, permission_types, lines):
+    lines.append('%s' % (resource_title))
+    lines.append('~' * len(resource_title))
+    lines.append('')
+
+    rows = []
+    rows.append(TABLE_HEADER)
+
+    for permission_type in permission_types:
+        description = PermissionType.get_permission_description(permission_type)
+        rows.append(['**%s**' % (permission_type), description])
+
+    table = as_rest_table(rows, full=True)
+    lines.extend(table.split('\n'))
+    lines.append('')
+
 
 def main():
     lines = []
     lines.append(HEADER)
     lines.append('')
 
+    add_lines_for_permission_set('Global', GLOBAL_PERMISSION_TYPES, lines)
+
     for resource_type in RESOURCE_DISPLAY_ORDER:
         resource_title = resource_type.replace('_', ' ').title()  # pylint: disable=no-member
-        lines.append('%s' % (resource_title))
-        lines.append('~' * len(resource_title))
-        lines.append('')
 
         permission_types = PermissionType.get_valid_permissions_for_resource_type(
             resource_type=resource_type)
 
-        rows = []
-        rows.append(TABLE_HEADER)
-
-        for permission_type in permission_types:
-            description = PermissionType.get_permission_description(permission_type)
-            rows.append(['**%s**' % (permission_type), description])
-
-        table = as_rest_table(rows, full=True)
-        lines.extend(table.split('\n'))
-        lines.append('')
+        add_lines_for_permission_set(resource_title, permission_types, lines)
 
     result = '\n'.join(lines)
     with open(DESTINATION_PATH, 'w') as fp:
