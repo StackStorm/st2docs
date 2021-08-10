@@ -71,6 +71,47 @@ To execute an action manually, you can use ``st2 run <action with parameters>`` 
    # If you want to add a trace tag to execution when you run it, you can use:
    st2 run core.local cmd=date --trace-tag="simple-date-check-`date +%s`"
 
+Modification in action delete API
+"""""""""""""""""""""""""""""""""
+
+|st2| offers functionality to delete actions/workflows by invoking API. Previously this API
+was only de-registering actions from database. This API has now modified to delete related
+action/workflow files from disk as well. When action delete command is used from CLI it
+asks users permission to delete the files on disk.
+`-f` and `--force` arguments are added action delete command as auto yes flags for deleting
+related files from disk without prompting for user permission.
+
+* Usage:
+
+.. code-block:: bash
+
+   st2 action delete [-h] [-t TOKEN] [--api-key API_KEY] [-j] [-y] [-f]
+                     ref-or-id
+
+* Positional arguments
+
+   Reference or ID of the action
+
+.. code-block:: bash
+
+   ref-or-id
+
+* Optional arguments
+
+.. code-block:: bash
+
+   -h, --help            show this help message and exit
+   -t TOKEN, --token TOKEN
+                         Access token for user authentication. Get
+                         ST2_AUTH_TOKEN from the environment variables by
+                         default
+   --api-key API_KEY     Api Key for user authentication. Get ST2_API_KEY from
+                         the environment variables by default
+   -j, --json            Print output in JSON format
+   -y, --yaml            Print output in YAML format
+   -f, --force           Auto yes flag to delete action files from disk
+
+
 Action Runners
 --------------
 
