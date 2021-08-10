@@ -78,7 +78,8 @@ Modification in Action Delete API
 was only de-registering actions from database. This API has now modified to delete related
 action/workflow files from disk as well. When action delete command is used from CLI it
 asks users permission to delete the files on disk.
-`-f` and `--force` arguments are added action delete command as auto yes flags for deleting
+
+``-f`` and ``--force`` arguments are added action delete command as auto yes flags for deleting
 related files from disk without prompting for user permission.
 
 * Usage:
