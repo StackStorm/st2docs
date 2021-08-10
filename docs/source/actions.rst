@@ -72,7 +72,7 @@ To execute an action manually, you can use ``st2 run <action with parameters>`` 
    st2 run core.local cmd=date --trace-tag="simple-date-check-`date +%s`"
 
 Modification in action delete API
-"""""""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 |st2| offers functionality to delete actions/workflows by invoking API. Previously this API
 was only de-registering actions from database. This API has now modified to delete related
