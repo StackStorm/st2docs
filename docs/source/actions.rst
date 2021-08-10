@@ -71,7 +71,7 @@ To execute an action manually, you can use ``st2 run <action with parameters>`` 
    # If you want to add a trace tag to execution when you run it, you can use:
    st2 run core.local cmd=date --trace-tag="simple-date-check-`date +%s`"
 
-Modification in action delete API
+Modification in Action Delete API
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 |st2| offers functionality to delete actions/workflows by invoking API. Previously this API
@@ -90,10 +90,9 @@ related files from disk without prompting for user permission.
 
 * Positional arguments
 
-   Reference or ID of the action
-
 .. code-block:: bash
 
+   # Reference or ID of the action
    ref-or-id
 
 * Optional arguments
