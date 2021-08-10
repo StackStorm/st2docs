@@ -88,14 +88,14 @@ related files from disk without prompting for user permission.
    st2 action delete [-h] [-t TOKEN] [--api-key API_KEY] [-j] [-y] [-f]
                      ref-or-id
 
-* Positional arguments
+* Positional arguments:
 
 .. code-block:: bash
 
    # Reference or ID of the action
    ref-or-id
 
-* Optional arguments
+* Optional arguments:
 
 .. code-block:: bash
 
