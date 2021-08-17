@@ -74,12 +74,12 @@ To execute an action manually, you can use ``st2 run <action with parameters>`` 
 Modification in Action Delete API
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-|st2| offers functionality to delete actions/workflows by invoking API. Previously this API
-was only de-registering actions from database. This API has now modified to delete related
-action/workflow files from disk as well. When action delete command is used from CLI it
-asks users permission to delete the files on disk.
+|st2| offers functionality to delete actions/workflows by invoking API. Prior to 3.6 release
+this API was only de-registering actions from database. In the 3.6 release, this API was modified
+to delete related action/workflow files from disk as well. When action delete command is used from
+CLI it asks users permission to delete the files on disk.
 
-``-f`` and ``--force`` arguments are added action delete command as auto yes flags for deleting
+``-f`` and ``--force`` arguments are added to action delete command as auto yes flags for deleting
 related files from disk without prompting for user permission.
 
 * Usage:
