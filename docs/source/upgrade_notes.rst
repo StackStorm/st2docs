@@ -9,8 +9,9 @@ Upgrade Notes
 ----------
 
 * Action delete API has been modified to delete related files from disk along with
-  de-registering actions from database. For action delete CLI command two arguments
-  ``-f`` and ``--force`` have been added as auto yes flag to remove related files from disk.
+  de-registering actions from database. The action delete CLI command will now wait
+  for approval to delete related files on disk before proceeding, unless you use
+  one of the ``-f`` or ``--force`` arguments.
 
 .. _ref-upgrade-notes-v3-5:
 
