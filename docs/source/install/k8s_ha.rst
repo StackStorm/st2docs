@@ -4,11 +4,13 @@
 This document provides an installation blueprint for a Highly Available StackStorm cluster
 based on `Kubernetes <https://kubernetes.io/>`__, a container orchestration platform at planet scale.
 
-The cluster deploys a minimum of 2 replicas for each component of StackStorm microservices for redundancy and reliability. It
-also configures backends like MongoDB HA Replicaset, RabbitMQ HA and Redis Sentinel cluster that st2 relies on for database,
-communication bus, and distributed coordination respectively. That raises a fleet of more than ``30`` pods total.
+A StackStorm HA cluster consists of 2 replicas for most StackStorm microservices for redundancy and reliability.
+The cluster must also have access to backend services like MongoDB HA Replicaset, RabbitMQ HA and a Redis Sentinel cluster
+that st2 relies on for database, communication bus, and distributed coordination respectively. These services are
+included in the default StackStorm HA cluster, but StackStorm can also use services provisioned separately.
+By default, the StackStorm HA cluster consists of a fleet of more than ``30`` pods.
 
-The source code for K8s resource templates is available as a GitHub repo:
+The source code for K8s resource templates (part of our Helm chart) is available as a GitHub repo:
 `StackStorm/stackstorm-ha <https://github.com/StackStorm/stackstorm-ha>`_.
 
 .. warning::
@@ -23,13 +25,13 @@ The source code for K8s resource templates is available as a GitHub repo:
 Requirements
 ------------
 * `Kubernetes <https://kubernetes.io/docs/setup/pick-right-solution/>`__ cluster
-* `Helm <https://docs.helm.sh/using_helm/#install-helm>`__, the K8s package manager and `Tiller <https://docs.helm.sh/using_helm/#initialize-helm-and-install-tiller>`_
+* `Helm <https://helm.sh/docs/intro/install>`__ 3, the K8s package manager (Helm 2 is not supported)
 * Enough computing resources for production use, respecting :doc:`/install/system_requirements`
 
 Usage
 -----
 This document assumes some basic knowledge of Kubernetes and Helm.
-Please refer to `K8s <https://kubernetes.io/docs/home/>`__ and `Helm <https://docs.helm.sh/>`__
+Please refer to `K8s <https://kubernetes.io/docs/home/>`__ and `Helm <https://helm.sh/docs/>`__
 documentation if you find any difficulties using these tools.
 
 However, here are some minimal instructions to get started.
