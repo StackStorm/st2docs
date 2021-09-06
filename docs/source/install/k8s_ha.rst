@@ -54,16 +54,17 @@ or ``st2`` CLI client:
 .. figure :: /_static/images/helm-chart-notes.png
     :align: center
 
+.. todo:: Update this screenshot. It is out of date.
 
 The installation uses some unsafe defaults which we recommend you change for production use via Helm ``values.yaml``.
 
 Helm Values
 ___________
 Helm package ``stackstorm-ha`` comes with default settings (see `values.yaml <https://github.com/StackStorm/stackstorm-ha/blob/master/values.yaml>`_).
-Fine-tune them to achieve desired configuration for the StackStorm HA K8s cluster.
+Fine-tune them to achieve desired configuration for your StackStorm HA K8s cluster.
 
 .. note::
-    Keep custom values you want to override in a separated yaml file so they won't get lost.
+    Keep custom values you want to override in a separate yaml file so they won't get lost.
     Example: ``helm install -f custom_values.yaml`` or ``helm upgrade -f custom_values.yaml``
 
 You can configure:
@@ -73,13 +74,22 @@ You can configure:
 - st2.conf settings
 - RBAC roles, assignments and mappings (enterprise only for StackStorm v3.2 and before, open source
   for StackStorm v3.4 and later)
-- custom st2 packs and its configs
+- custom st2 packs (in persistent volumes or via custom docker images) and their configs
 - SSH private key
-- K8s resources and settings to control pod/deployment placement
-- Mongo, RabbitMQ clusters
+- K8s resources, annotations, and settings to control pod/deployment placement
+- Image tag and repository settings to select the ST2 version or use customized/private component images
+- DNS and Ingress configuration
+- Miscellaneous other ST2 cluster customizations
+- Mongo, RabbitMQ, and Redis clusters
+
+If not defined, these values are auto-generated on install and preserved across upgrades:
+
+- SSH private key
+- st2 auth secrets (ie: the password for the st2admin user)
 
 .. warning::
-    It's highly recommended to set your own secrets as the file contains unsafe defaults like SSH keys, StackStorm access credentials and MongoDB/RabbitMQ passwords!
+    It's highly recommended to set your own secrets to replace the unsafe defaults for for the MongoDB and RabbitMQ subhcarts!
+	If you disable the subcharts, make sure to secure the services and add the relevant secrets to st2.conf.
 
 Upgrading
 _________
