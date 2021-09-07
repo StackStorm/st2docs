@@ -197,7 +197,7 @@ st2web
 ______
 st2web is a StackStorm Web UI admin dashboard. By default, st2web K8s config includes a Pod Deployment and a Service.
 ``2`` replicas (configurable) of st2web serve the web app and proxy requests to st2auth, st2api, st2stream.
-By default, st2web uses HTTP instead of HTTPS. We recommend you rely on ``LoadBalancer`` or ``Ingress`` to add HTTPS layer on top of it.
+By default, st2web uses HTTP instead of HTTPS. We recommend you rely on ``LoadBalancer`` (a ``Service`` type) or ``Ingress`` to add HTTPS layer on top of it.
 
 .. note::
   By default, st2web is a NodePort Service and is not exposed to the public net.
@@ -221,7 +221,7 @@ if you are planning a high-volume environment.
 
 st2stream
 _________
-StackStorm st2stream - exposes a server-sent event stream, used by the clients like WebUI and ChatOps to receive updates from the st2stream server.
+The StackStorm ``st2stream`` service exposes a server-sent event stream, used by the clients like WebUI and ChatOps to receive updates from the st2stream server.
 Similar to st2auth and st2api, st2stream K8s configuration includes Pod Deployment with ``2`` replicas for HA (can be increased in ``values.yaml``)
 and ClusterIP Service listening on port ``9102``.
 
@@ -275,8 +275,8 @@ st2actionrunner
 _______________
 Stackstorm workers that actually execute actions.
 ``5`` replicas for K8s Deployment are configured by default to increase StackStorm ability to execute actions without excessive queuing.
-Relies on ``redis`` for coordination. This is likely the first thing to lift if you have a lot of actions
-to execute per time period in your StackStorm cluster.
+Relies on ``redis`` for coordination. The ``st2actionrunner`` replicas count is likely the first thing to increase if you have
+a lot of actions to execute per time period in your StackStorm cluster.
 
 st2scheduler
 ____________
@@ -324,7 +324,7 @@ Feedback Needed!
 ----------------
 As this deployment method new and beta is in progress, we ask you to try it and provide your feedback via
 bug reports, ideas, feature or pull requests in `StackStorm/stackstorm-ha <https://github.com/StackStorm/stackstorm-ha>`_,
-and ecourage discussions in `Slack <https://stackstorm.com/community-signup>`_ ``#docker`` channel or write us an email.
+and ecourage discussions in `Slack <https://stackstorm.com/community-signup>`_ ``#k8s`` channel or write us an email.
 
 
 .. only:: community
