@@ -133,16 +133,34 @@ Grab all logs only for stackstorm backend services, excluding st2web and DB/MQ/r
 
 Custom st2 packs
 ----------------
-To follow the stateless model, shipping custom st2 packs is now part of the deployment process.
-It means that ``st2 pack install`` won't work in a distributed environment and you have to bundle all the
-required packs into a Docker image that you can codify, version, package and distribute in a repeatable way.
-The responsibility of this Docker image is to hold pack content and their virtualenvs.
-So the custom st2 pack docker image you have to build is essentially a couple of read-only directories that
-are shared with the corresponding st2 services in the cluster.
+There are two ways to install st2 packs in the k8s cluster.
 
-For your convenience, we created a new ``st2-pack-install <pack1> <pack2> <pack3>`` utility
+1. The ``st2packs`` method is the default. This method will work for practically all clusters, but ``st2 pack install`` does not work. The packs are injected via ``st2packs`` images instead.
+
+2. The other method defines shared/writable ``volumes``. This method allows ``st2 pack install`` to work, but requires a persistent storage backend to be available in the cluster. This chart will not configure a storage backend for you.
+
+.. note::
+  In general, we recommend using only one of these methods. See the NOTE under Method 2 below about how both methods can be used together with care.
+
+Method 1: st2packs images (the default)
+_______________________________________
+
+This method strives to follow the stateless model, so shipping custom st2 packs is part of the deployment process.
+Without persistent storage (ie without state), packs and their virtualenvs need to be installed in each pod.
+``st2 pack install`` does not work in this distributed model because it assumes that nodes have a shared filesystem
+(Method 2, below, uses a shared filesystem), so that only one node needs to download the pack files or setup the
+virtualenv and all other nodes will see those files right away.
+
+In order to achieve this stateless model, you have to bundle all the required packs (and their virtualenvs)
+into one or more Docker images that you can codify, version, package and distribute in a repeatable way.
+The responsibility of these Docker images is to hold pack content and their virtualenvs.
+Effectively, the st2packs Docker image(s) you have to build are a couple of read-only directories that
+are shared with the corresponding st2 services in the cluster. When a new st2actionrunner
+pod starts up, those directories get copied into the pod.
+
+For your convenience, we created an ``st2-pack-install <pack1> <pack2> <pack3>`` utility
 and included it in a container `stackstorm/st2packs <https://hub.docker.com/r/stackstorm/st2packs/>`_
-that will help to install custom packs during the Docker build process without relying on live DB and MQ connection.
+that will help to install custom packs during the Docker build process without relying on live MongoDB and RabbitMQ connections.
 
 For more detailed instructions see `StackStorm/st2packs-dockerfiles <https://github.com/StackStorm/st2packs-dockerfiles/>`_
 on how to build your custom `st2packs` image.
@@ -150,6 +168,21 @@ on how to build your custom `st2packs` image.
 Please refer to `StackStorm/stackstorm-ha#install-custom-st2-packs-in-the-cluster <https://github.com/stackstorm/stackstorm-ha#install-custom-st2-packs-in-the-cluster>`_
 Helm chart repository with more information about how to reference custom st2pack Docker image in Helm values, providing packs configs,
 using private Docker registry and more.
+
+Method 2: Shared Volumes
+________________________
+
+This method uses shared volumes to enable ``st2 pack install``. This sacrifices the stateless infrastructure model.
+When multiple teams are involved in managing StackStorm, however, that tradeoff can be vital.
+For example, if one team maintains StackStorm itself as shared infrastructure, but another
+team handles installing packs and creating auto-remediation or other workflows, it may be necessary to separate
+the StackStorm deployment process from StackStorm pack install process.
+
+Stateful infrastructure is generally more complex than stateless infrastructure. In our case, relying on
+shared volumes requires cluster-specific storage setup and configuration. That storage setup varies
+widely. Several attempts to include storage setup in our helm chart were not flexible enough
+to handle that variation. As such, you must configure your storage solution before using the chart.
+Then, just include your volume definitions in values.
 
 .. note::
   There is an alternative approach, - sharing pack content via read-write-many NFS (Network File System) as :doc:`/reference/ha` recommends.
