@@ -64,7 +64,7 @@ Helm package ``stackstorm-ha`` comes with default settings (see `values.yaml <ht
 Fine-tune them to achieve desired configuration for your StackStorm HA K8s cluster.
 
 .. note::
-    Keep custom values you want to override in a separate yaml file so they won't get lost.
+    Keep custom values you want to override in a separate YAML file so they won't get lost.
     Example: ``helm install -f custom_values.yaml`` or ``helm upgrade -f custom_values.yaml``
 
 You can configure:
@@ -376,8 +376,9 @@ As any other Helm dependency, it's possible to further configure it for specific
 Feedback Needed!
 ----------------
 As this deployment method new and beta is in progress, we ask you to try it and provide your feedback via
+
 bug reports, ideas, feature or pull requests in `StackStorm/stackstorm-ha <https://github.com/StackStorm/stackstorm-ha>`_,
-and ecourage discussions in `Slack <https://stackstorm.com/community-signup>`_ ``#k8s`` channel or write us an email.
+and encourage discussions in `Slack <https://stackstorm.com/community-signup>`_ ``#k8s`` channel.
 
 
 .. only:: community
