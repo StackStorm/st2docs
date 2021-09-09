@@ -172,21 +172,16 @@ using private Docker registry and more.
 Method 2: Shared Volumes
 ________________________
 
-This method uses shared volumes to enable ``st2 pack install``. This sacrifices the stateless infrastructure model.
-When multiple teams are involved in managing StackStorm, however, that tradeoff can be vital.
-For example, if one team maintains StackStorm itself as shared infrastructure, but another
-team handles installing packs and creating auto-remediation or other workflows, it may be necessary to separate
-the StackStorm deployment process from StackStorm pack install process.
+Pack content can also be shared via ReadWriteMany volumes such as NFS (Network File System) as :doc:`/reference/ha` recommends.
+Using shared volumes sacrifices the stateless infrastructure model, but enables normal pack management features
+such as ``st2 pack install``.
 
-Stateful infrastructure is generally more complex than stateless infrastructure. In our case, relying on
-shared volumes requires cluster-specific storage setup and configuration. That storage setup varies
-widely. Several attempts to include storage setup in our helm chart were not flexible enough
-to handle that variation. As such, you must configure your storage solution before using the chart.
-Then, just include your volume definitions in values.
-
-.. note::
-  There is an alternative approach, - sharing pack content via read-write-many NFS (Network File System) as :doc:`/reference/ha` recommends.
-  As beta is in progress and both methods have their pros and cons, we'd like to hear your feedback and which way would work better for you.
+Relying on shared volumes requires cluster-specific storage setup and configuration. As that storage setup varies
+widely, manging that storage is out-of-scope for this helm chart. For example, before you can install this chart to use NFS,
+you would have to create the NFS exports, and you might need ``PersistentVolume`` and ``PersistentVolumeClaim`` k8s objects.
+Then, you add some volume definitions to your ``values.yaml``, and install or upgrade StackStorm with Helm.
+Not every cluster uses NFS or PV/PVCs to manage the storage, so the chart treats your volume definitions as opaque data,
+merely including your volume definitions in the appropriate place in various ``Deployment`` and ``Job`` k8s objects.
 
 Ingress
 -------
