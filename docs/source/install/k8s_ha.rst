@@ -183,6 +183,15 @@ Then, you add some volume definitions to your ``values.yaml``, and install or up
 Not every cluster uses NFS or PV/PVCs to manage the storage, so the chart treats your volume definitions as opaque data,
 merely including your volume definitions in the appropriate place in various ``Deployment`` and ``Job`` k8s objects.
 
+.. note::
+    With care, ``st2packs`` images can be used with ``volumes``. Just make sure to keep the ``st2packs`` images up-to-date
+	with any changes made via ``st2 pack install``. If a pack is installed via an ``st2packs`` image and then it gets updated
+	with ``st2 pack install``, a subsequent ``helm upgrade`` will revert back to the version in the ``st2packs`` image.
+
+Please refer to `StackStorm/stackstorm-ha#install-custom-st2-packs-in-the-cluster <https://github.com/stackstorm/stackstorm-ha#install-custom-st2-packs-in-the-cluster>`_
+Helm chart repository with more information about how to pass custom volume definitions for ``packs``, ``virtualenvs``
+and pack ``configs`` in Helm values.
+
 Ingress
 -------
 
