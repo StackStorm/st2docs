@@ -98,7 +98,7 @@ st2actions install it there.  Make sure the config and identity files have prope
 
 This is a sample ssh config that is known to work with bastion forwarding.
 
-.. code-block:: ini
+.. code-block:: ssh-config
 
   Host 10.1.*
     ProxyCommand ssh -o StrictHostKeyChecking=no bastion nc %h %p
@@ -157,7 +157,7 @@ For the above example to work, the key file ``/home/stanley/ssh_keys/.ssh/id_rsa
 available on the action runner boxes. We also support ``password`` as a parameter. As of version 2.1,
 you can also specify custom keys for hosts via SSH config file. A sample SSH config is shown below:
 
-.. code-block:: ini
+.. code-block:: ssh-config
 
     Host st2-ssh-test001
       User lakshmi
