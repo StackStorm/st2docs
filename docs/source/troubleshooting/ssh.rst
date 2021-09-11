@@ -118,6 +118,7 @@ target hosts (``10.1.*`` in our example). This allows SSH to resolve automatical
 Example output of a successful setup that does not require the ``bastion_host`` parameter.
 
 .. code-block:: bash
+
   $st2 run core.remote cmd=whoami hosts=10.1.1.2
   .
   id: 5e668e4a811a07014b1c48bd
