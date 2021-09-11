@@ -96,6 +96,8 @@ st2actions install it there.  Make sure the config and identity files have prope
   chmod 600 /root/.ssh/config
   chmod 600 /root/.ssh/id_rsa
 
+If you are looking to do ssh bastion forwarding, while allowing SSH to resolve automatically the correct keys based on hostname (eg. to dynamically support environments where a ssh hosts are set in your ssh_config file): 
+
 This is a sample ssh config that is known to work with bastion forwarding.
 
 .. code-block:: ssh-config
