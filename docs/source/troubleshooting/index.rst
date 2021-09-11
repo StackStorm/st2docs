@@ -11,14 +11,12 @@ and how to debug and troubleshoot them.
     basic_chatops_troubleshooting
     rules
     sensors
-    mistral
     ssh
     database
     rest_api_access
     tuning_action_runner_dispatcher_pool
     purging_old_data
     private_networks
-    submit_debug_info
     debug_mode
     ask_for_support
     webhooks

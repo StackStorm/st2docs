@@ -7,7 +7,7 @@ or deployment related issues (e.g. long average duration for a particular action
 an issue with that action or similar).
 
 Configuring and Enabling Metrics Collection
-===========================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
 
@@ -28,7 +28,7 @@ Right now, the only supported driver is ``statsd``. To configure it, add the fol
     # "production" and key is "action.executions" actual key would be
     # "st2.production.action.executions". This comes handy when you want to
     # utilize the same backend instance for multiple environments or similar.
-    
+
     # statsd collection and aggregation server address
     host = 127.0.0.1
     # statsd collection and aggregation server port
@@ -48,7 +48,7 @@ For a full list of config options, see the ``[metrics]`` section in the |st2| sa
 config here: https://github.com/StackStorm/st2/blob/master/conf/st2.conf.sample
 
 Configuring StatsD
-==================
+~~~~~~~~~~~~~~~~~~
 
 |st2| ``statsd`` metrics driver is compatible with any service which exposes statsd compatible
 interface for receiving metrics via UDP.
@@ -66,7 +66,7 @@ you get started with statsd and self hosted graphite and carbon cache instance
 can be found at https://github.com/StackStorm/st2/tree/master/conf/metrics.
 
 Exposed Metrics
-===============
+~~~~~~~~~~~~~~~
 
 .. note::
 
@@ -80,6 +80,16 @@ This section describes which metrics are currently exposed by various |st2| serv
 | st2.action.executions                                      | counter    | st2actionrunner             | Number of action executions processed by st2actionrunner service.                                              |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
 | st2.action.executions                                      | timer      | st2actionrunner             | How long it took to process (run) a particular action execution inside st2actionrunner service.                |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.action.executions.process.<status>                     | counter    | st2actionrunner             | Number of action executions processed by st2actionrunner service for a particular status.                      |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.action.executions.process.<status>                     | timer      | st2actionrunner              | How long it took to fully process a request inside st2actionrunner for a particular status.                   |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.action.executions.update_status                        | timer      | st2actionrunner             | How long it took to update execution and live action status and result in the database.                        |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.action.executions.update_live_action_db                | timer      | st2actionrunner             | How long it took to update / store LiveActionDB model in the database.                                         |
++------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
+| st2.action.executions.update_execution_db                  | timer      | st2actionrunner             | How long it took to update / store ActionExecutionD Bmodel in the database.                                    |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
 | st2.action.<action ref>.executions                         | counter    | st2actionrunner             | Number of action execution for a particular action processed by st2actionrunner.                               |
 +------------------------------------------------------------+------------+-----------------------------+----------------------------------------------------------------------------------------------------------------+
@@ -154,7 +164,7 @@ API requests in a particular time frame, you would use ``integral()`` graphite f
 ``integral(stats.counters.st2.api.requests.count)``).
 
 Example Graphite Dashboard
-===========================
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Below you can find code for an example Graphite dashboard which contains most of the common graphs
 you need to have a good operational visibility into |st2| deployment.
@@ -171,7 +181,7 @@ during a particular point in time" and "total counts for a particular execution 
 derived from the raw metric values.
 
 Pushing metrics to InfluxDB
-===========================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It is possible to gather the StatsD data with Telegraf to push them to InfluxDB.
 The StatsD data are formatted in a different way than InfluxDB usually, so we can use the template feature that is availabie in the Telegraf StatsD importer to reformat them to something more convenients (with flags, etc..)
@@ -182,7 +192,7 @@ Configure your InfluxDB and Telegraf InfluxDB output as usual, then on the Stats
     :language: toml
     
 Pushing metrics to Prometheus via the statsd_exporter
-=====================================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Prometheus provides a service called `Statsd Exporter <https://github.com/prometheus/statsd_exporter>`_ which receives data in the StatsD format and acts as a scrape target for Prometheus.
 

@@ -22,14 +22,16 @@ import os
 
 from st2common.rbac.types import ResourceType
 from st2common.rbac.types import PermissionType
+from st2common.rbac.types import GLOBAL_PERMISSION_TYPES
 
 from utils import as_rest_table
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-DESTINATION_PATH = os.path.join(CURRENT_DIR,
-                                '../docs/source/_includes/available_permission_types.rst')
-HEADER = '.. NOTE: This file has been generated automatically, don\'t manually edit it'
-TABLE_HEADER = ['Permission name', 'Description']
+DESTINATION_PATH = os.path.join(
+    CURRENT_DIR, "../docs/source/_includes/available_permission_types.rst"
+)
+HEADER = ".. NOTE: This file has been generated automatically, don't manually edit it"
+TABLE_HEADER = ["Permission name", "Description"]
 
 RESOURCE_DISPLAY_ORDER = [
     ResourceType.PACK,
@@ -47,38 +49,48 @@ RESOURCE_DISPLAY_ORDER = [
 ]
 
 
+def add_lines_for_permission_set(resource_title, permission_types, lines):
+    lines.append(resource_title)
+    lines.append("~" * len(resource_title))
+    lines.append("")
+
+    rows = []
+    rows.append(TABLE_HEADER)
+
+    for permission_type in permission_types:
+        description = PermissionType.get_permission_description(permission_type)
+        rows.append([f"**{permission_type}**", description])
+
+    table = as_rest_table(rows, full=True)
+    lines.extend(table.split("\n"))
+    lines.append("")
+
+
 def main():
     lines = []
     lines.append(HEADER)
-    lines.append('')
+    lines.append("")
+
+    add_lines_for_permission_set("Global", GLOBAL_PERMISSION_TYPES, lines)
 
     for resource_type in RESOURCE_DISPLAY_ORDER:
-        resource_title = resource_type.replace('_', ' ').title()  # pylint: disable=no-member
-        lines.append('%s' % (resource_title))
-        lines.append('~' * len(resource_title))
-        lines.append('')
+        resource_title = resource_type.replace(
+            "_", " "
+        ).title()  # pylint: disable=no-member
 
         permission_types = PermissionType.get_valid_permissions_for_resource_type(
-            resource_type=resource_type)
+            resource_type=resource_type
+        )
 
-        rows = []
-        rows.append(TABLE_HEADER)
+        add_lines_for_permission_set(resource_title, permission_types, lines)
 
-        for permission_type in permission_types:
-            description = PermissionType.get_permission_description(permission_type)
-            rows.append(['**%s**' % (permission_type), description])
-
-        table = as_rest_table(rows, full=True)
-        lines.extend(table.split('\n'))
-        lines.append('')
-
-    result = '\n'.join(lines)
-    with open(DESTINATION_PATH, 'w') as fp:
+    result = "\n".join(lines)
+    with open(DESTINATION_PATH, "w") as fp:
         fp.write(result)
 
-    print('Generated: %s' % (DESTINATION_PATH))
+    print("Generated: %s" % (DESTINATION_PATH))
     return result
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

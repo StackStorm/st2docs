@@ -53,15 +53,10 @@ You can use ``sudo st2ctl status`` to get a quick overview of current process st
     st2auth PID: 1286
     st2garbagecollector PID: 910
     st2notifier PID: 916
-    st2resultstracker PID: 913
     st2rulesengine PID: 920
     st2timersengine PID: 925
     st2sensorcontainer PID: 907
     st2chatops is not running.
-    mistral-server PID: 1031
-    mistral.api PID: 1006
-    mistral.api PID: 1228
-    mistral.api PID: 1231
     $
 
 In a distributed system, only some of these processes will be running on each system. In the
@@ -78,7 +73,6 @@ system should account for this behavior.
 Additional processes to monitor:
 
 * RabbitMQ - ``rabbitmq-server``
-* PostgreSQL - ``postgres``
 * MongoDB - ``mongod``
 * Nginx (if used for web/API frontend) - ``nginx``
 * Postfix/Sendmail (if local mail relay configured)

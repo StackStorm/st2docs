@@ -9,7 +9,7 @@ Environment Prerequisites
 Requirements:
 
 -  git
--  python, pip, virtualenv, tox
+-  python3.6 (or python3.8 for Ubuntu 20.04), pip, virtualenv, tox
 -  MongoDB (http://docs.mongodb.org/manual/installation)
 -  RabbitMQ (http://www.rabbitmq.com/download.html)
 -  screen
@@ -17,34 +17,47 @@ Requirements:
 Ubuntu
 ------
 
+.. note::
+  For Ubuntu 20.04 replace with python3.8 equivalents
+
+
 .. code-block:: bash
 
-    apt-get install python-pip python-virtualenv python-dev gcc git make realpath screen libffi-dev libssl-dev
+    apt-get install python-pip python-virtualenv gcc git make realpath screen libffi-dev libssl-dev python3.6-dev libldap2-dev libsasl2-dev
     apt-get install mongodb mongodb-server
     apt-get install rabbitmq-server
 
-Fedora
-------
+CentOS/RHEL
+-----------
+
+.. note::
+  For RHEL 7.x you may need to enable the optional server rpms repository to be able to install the python3-devel RPM
+
 
 .. code-block:: bash
 
-    yum install python-pip python-virtualenv python-tox gcc-c++ git-all screen icu libicu libicu-devel openssl-devel
+    OSRELEASE_VERSION=`lsb_release -s -r | cut -d'.' -f 1`
 
-    yum install mongodb mongodb-server
-    systemctl enable mongod
-    systemctl restart mongod
+    yum install python-pip python-virtualenv python-tox gcc-c++ git-all screen icu libicu libicu-devel openssl-devel openldap-devel python3-devel
 
+    yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-${OSRELEASE_VERSION}.noarch.rpm
+
+    # Add key and repo for the latest stable MongoDB (4.0)
+    rpm --import https://www.mongodb.org/static/pgp/server-4.0.asc
+    sh -c "cat <<EOT > /etc/yum.repos.d/mongodb-org-4.repo
+    [mongodb-org-4]
+    name=MongoDB Repository
+    baseurl=https://repo.mongodb.org/yum/redhat/${OSRELEASE_VERSION}/mongodb-org/4.0/x86_64/
+    gpgcheck=1
+    enabled=1
+    gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc
+    EOT"
+
+    yum install crudini
+    yum install mongodb-org
     yum install rabbitmq-server
-    systemctl enable rabbitmq-server
-    systemctl restart rabbitmq-server
-
-Optional Requirements
-~~~~~~~~~~~~~~~~~~~~~
-
-Mistral
--------
-Mistral workflow engine also has its own requirements. For more information, please refer to the
-:github_mistral:`Mistral README <README.rst>`.
+    systemctl start mongod rabbitmq-server
+    systemctl enable mongod rabbitmq-server
 
 Project Requirements
 ~~~~~~~~~~~~~~~~~~~~
@@ -145,7 +158,7 @@ virtualenv. However, the client may need to be installed with sudo if not in the
 .. code-block:: bash
 
     cd ./st2client
-    python setup.py develop
+    python3 setup.py develop
 
 Verify Installation
 ~~~~~~~~~~~~~~~~~~~

@@ -1,11 +1,4 @@
-|ewc| adds 24/7 priority support, Workflow Designer (a graphical tool for workflow creation/editing),
-RBAC and LDAP to |st2|. It is deployed as a set of additional packages on top of |st2|. You will need an active
-|ewc| subscription and a license key to access |ewc| repositories.
+For StackStorm versions earlier than 3.3, Extreme Networks provided a commercial version of the StackStorm automation platform (EWC). EWC added priority
+support, advanced features such as fine-tuned access control (RBAC), LDAP, and Workflow Designer.
 
-To learn more about |ewc| check out
-`Product Page <https://www.extremenetworks.com/product/workflow-composer/>`_.
-To request a quote, or get an evaluation license, contact Sales by filling out the form at
-https://www.extremenetworks.com/contact-sales/.
-
-To install |ewc|, replace ``${EWC_LICENSE_KEY}`` in the command below with the key you received
-when registering or purchasing, and run these commands:
+As these enterprise features were donated to the Linux Foundation, RBAC, LDAP and Workflow Designer components are now available in StackStorm Open Source since 3.4. The Workflow Designer is integrated into the StackStorm Web UI, and RBAC and LDAP components are installed (but not configured) with the default installation.

@@ -68,29 +68,20 @@ the right API, authentication options, suppress insecure warnings for self-signe
 other conveniences see the :doc:`/reference/cli`. ``st2client`` is packaged with ``st2``, or can be
 installed independently.
 
-3. st2mistral
---------------
-
-:doc:`/mistral` is a workflow service component that |st2| uses for long-running workflows. It
-is packaged as ``st2mistral``, installed under ``/opt/stackstorm/mistral``, runs in a dedicated
-Python virtualenv, and is configured via ``/etc/mistral/mistral.conf``. ``mistral-server`` runs
-workflow logic and calling actions, reaching out to st2api for action execution requests.
-``st2mistral`` is a mistral plugin with stackstorm extensions. ``mistral-api`` is an internal
-end-point accessed by ``st2actionrunner`` and ``st2notifier``. In a single-box deployment it is
-restricted to localhost.
-
-4. NGINX for WebUI and SSL termination
+3. NGINX for WebUI and SSL termination
 --------------------------------------
 * **nginx** provides SSL termination, redirects HTTP to HTTPS, serves WebUI static components, and
   reverse-proxies REST API endpoints to st2* web services.
-* **StackStorm WebUI** (st2web, and Workflow Designer, for Extreme Workflow Composer) are
-  installed at ``/opt/stackstorm/static/webui`` and configured via ``webui/config.js``. ``st2web``
-  comes in its own ``deb`` and ``rpm`` package. Workflow Designer is deployed as part of the
-  ``bwc-enterprise`` package. They are HTML5 applications, served as static HTML, and call |st2|
-  st2auth and st2api REST API endpoints. NGINX proxies inbound requests to ``/api`` and ``/auth``
-  to the st2api and st2auth services respectively.
+* **StackStorm WebUI** (st2web, including Workflow Designer) are installed at
+  ``/opt/stackstorm/static/webui`` and configured via ``webui/config.js``. ``st2web``
+  comes in its own ``deb`` and ``rpm`` package. In StackStorm versions earlier than 3.3 Workflow
+  Designer was deployed as part of the ``bwc-enterprise`` package. They are HTML5 applications,
+  served as static HTML, and call |st2| st2auth and st2api REST API endpoints. NGINX proxies
+  inbound requests to ``/api`` and ``/auth`` to the st2api and st2auth services respectively.
+  With StackStorm version 3.4 and later, the workflow designer is entirely integrated into st2web,
+  and the ``bwc-enterprise`` package is no longer distributed.
 
-5. st2chatops - ChatOps components
+4. st2chatops - ChatOps components
 ----------------------------------
 |st2| Chatops components are `Hubot <https://hubot.github.com/>`_, `|st2|'s Hubot adapter
 <https://github.com/StackStorm/hubot-stackstorm>`_, and plugins for connecting to `different Chat
@@ -103,11 +94,14 @@ ChatOps can be also enabled by installing `hubot-stackstorm plugin
 
 Dependencies
 ------------
-The required dependencies are RabbitMQ, MongoDB, and PostgreSQL. The optional dependencies are:
+The required dependencies are RabbitMQ, MongoDB, and Redis (or Zookeeper).
+
+The coordination service is required for workflows that has multiple branches and tasks with items. Previously, the coordination service is optional to support concurrency policies. The backend for the coordination service can be configured to use Redis, Zookeeper, or other. Since v3.5, redis server is installed as part of the single node installation script. The python redis client is also installed into the |st2| virtualenv. If using Zookeeper, the kazoo module needs to be manually installed into the |st2| virtualenv.
+
+The optional dependencies are:
 
   - nginx for SSL termination, reverse-proxying API endpoints and serving static HTML.
-  - Redis or Zookeeper for concurrency policies (see :doc:`/reference/policies`).
-  - LDAP for |ewc| LDAP authentication.
+  - LDAP authentication.
 
 
 Multi-box/HA deployment

@@ -11,6 +11,11 @@ System Requirements
 
 Please check the :doc:`supported versions and system requirements <system_requirements>`.
 
+.. note::
+
+    |st2| on RHEL 7/CentOS 7 runs all services, actions and sensors using Python 3 **only**. It
+    does not support Python 2 actions. 
+
 Minimal Installation
 --------------------
 
@@ -50,7 +55,7 @@ Install Dependencies
 
 .. include:: __mongodb_note.rst
 
-Install MongoDB, RabbitMQ, and PostgreSQL:
+Install MongoDB, RabbitMQ, and Redis
 
 .. code-block:: bash
 
@@ -70,22 +75,31 @@ Install MongoDB, RabbitMQ, and PostgreSQL:
   sudo yum -y install crudini
   sudo yum -y install mongodb-org
   sudo yum -y install rabbitmq-server
-  sudo systemctl start mongod rabbitmq-server
-  sudo systemctl enable mongod rabbitmq-server
+  sudo yum -y install redis
+  sudo systemctl start mongod rabbitmq-server redis
+  sudo systemctl enable mongod rabbitmq-server redis
 
-  # Install and configure postgres
-  sudo yum -y install postgresql-server postgresql-contrib postgresql-devel
+The default python on CentOS/RHEL 7.x is python 2, |st2| uses python3 and requires the python3-devel package. The installation of the st2 package will automatically install python3-devel if it is available in an enabled repository. On CentOS distributions the relevant repository is typically enabled however on RHEL distributions it is provided by the rhel-7-server-optional-rpms repository (repository name dependant on RHEL distribution).
 
-  # Initialize PostgreSQL
-  sudo postgresql-setup initdb
+The following steps in this section are only required on RHEL 7.x systems. On CentOS 7.x systems these steps can be ignored, and you can proceed to Setup Repositories.
 
-  # Make localhost connections to use an MD5-encrypted password for authentication
-  sudo sed -i "s/\(host.*all.*all.*127.0.0.1\/32.*\)ident/\1md5/" /var/lib/pgsql/data/pg_hba.conf
-  sudo sed -i "s/\(host.*all.*all.*::1\/128.*\)ident/\1md5/" /var/lib/pgsql/data/pg_hba.conf
+Use the following command to verify that the python3-devel package is available in an enabled repository:
 
-  # Start PostgreSQL service
-  sudo systemctl start postgresql
-  sudo systemctl enable postgresql
+.. code-block:: bash
+
+  sudo yum info python3-devel
+
+If it is not available, locate the repository that contains the RPM. On RHEL 7.x it is located in the optional server RPMs repository (the name of that repository differs between RHEL distributions):
+
+.. code-block:: bash
+
+  sudo yum repolist disabled | grep optional | grep server
+
+Then either enable the optional repository using subscription-manager or yum-config-manager, or install python3-devel with a temporary repository enablement, e.g.:
+
+.. code-block:: bash
+
+  sudo yum install python3-devel --enablerepo <optional-server-rpm repo>
 
 Setup Repositories
 ~~~~~~~~~~~~~~~~~~
@@ -102,7 +116,7 @@ Install |st2| Components
 
 .. code-block:: bash
 
-  sudo yum install -y st2 st2mistral
+  sudo yum install -y st2
 
 .. include:: common/configure_components.rst
 
@@ -110,11 +124,6 @@ Setup Datastore Encryption
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: common/datastore_crypto_key.rst
-
-Setup Mistral Database
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. include:: common/setup_mistral_database.rst
 
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -235,11 +244,11 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
     # Create notification rule if not yet enabled
     st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml
 
-* Add `NodeJS v10 repository <https://nodejs.org/en/download/package-manager/>`_:
+* Add `NodeJS v14 repository <https://nodejs.org/en/download/package-manager/>`_:
 
   .. code-block:: bash
 
-    curl -sL https://rpm.nodesource.com/setup_10.x | sudo -E bash -
+    curl -sL https://rpm.nodesource.com/setup_14.x | sudo -E bash -
 
 * Install the ``st2chatops`` package:
 
@@ -275,12 +284,6 @@ Upgrade to |ewc|
 ----------------
 
 .. include:: common/ewc_intro.rst
-
-.. code-block:: bash
-
-  # Set up Extreme Workflow Composer repository access, install Enterprise packages and configure RBAC
-  curl -sSL -O https://stackstorm.com/ewc/install.sh && chmod +x install.sh
-  ./install.sh --user=st2admin --password='Ch@ngeMe' --license=${EWC_LICENSE_KEY}
 
 .. rubric:: What's Next?
 

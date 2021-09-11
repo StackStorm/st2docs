@@ -28,9 +28,9 @@ Follows these steps to build the docs locally:
 
 Install the dependencies:
 
-For Debian/Ubuntu: ``sudo apt-get install libpython-dev libssl-dev``
+For Debian/Ubuntu: ``sudo apt-get install python-dev libssl-dev libldap2-dev libsasl2-dev ldap-utils``
 
-For RHEL/CentOS: `` sudo yum install python-devel openssl-devel gcc``
+For RHEL/CentOS: `` sudo dnf install python2-devel python3-devel openldap-devel``
 
 ```bash
 git clone https://github.com/StackStorm/st2docs.git
@@ -80,102 +80,113 @@ Edit, enjoy live updates.
    to convert these instructions to work with a Windows command prompt)
 
 3. cd to docs directory, e.g.:
-```
-cd /c/Users/stanley/st2docs
-```
+   ```bash
+   cd /c/Users/stanley/st2docs
+   ```
 4. activate virtualenv:
-```
-. virtualenv/scripts/activate
-```
+   ```bash
+   . virtualenv/scripts/activate
+   ```
 5. Run
-```
-sphinx-autobuild -H 127.0.0.1 -b html ./docs/source/ ./docs/build/html
-```
+   ```bash
+   sphinx-autobuild -H 127.0.0.1 -b html ./docs/source/ ./docs/build/html
+   ```
 6. Connect to http://localhost:8000 Edit files. Watch live updates. Enjoy.
 
 ## Sphinx Tricks
 
-* If the whole section belongs in the Enterprise Edition, put the following note:
-    ```
-    .. note::
+* TODO (Use [http://localhost:8000/todo.html](http://localhost:8000/todo.html) for full TODO list (must be empty when we ship):
 
-       Role Based Access Control (RBAC) is only available in StackStorm Enterprise Edition. For
-       information about enterprise edition and differences between community and enterprise edition,
-       please see `stackstorm.com/product <https://stackstorm.com/product/#enterprise>`_.
-    ```
-    Refer to Enterprise edition in passing with
-
-        `see Enterprise Edition <https://stackstorm.com/product/#enterprise>`_
-
-* TODO (Use [http://localhost:8000/todo.html](http://localhost:8000/todo.html) for full TODO list (must be empty when we ship)
-:
-
-    .. todo:: Here is a TODO
+  ```rst
+  .. todo:: Here is a TODO
+  ```
 
 * Code fragment:
 
-    .. code-block: bash
+  ```rst
+  .. code-block:: bash
 
       # List all available triggers
-        st2 trigger list
+      st2 trigger list
+  ```
 
 * Reference the document
-```
-       :doc:`/start`
-       :doc:`in the Rules doc </rules>`
-```
-* Referencing an arbitrary section: for instance, there's examples section in sensors.rst. Define a reference on `examples` section in sensors.rst:
 
-         .. _sensors-examples:
+  ```rst
+  :doc:`/start`
+  :doc:`in the Rules doc </rules>`
+  ```
+* Referencing an arbitrary section: for instance, there's examples section in `sensors.rst`. Define a reference on `examples` section in `sensors.rst`:
 
-    and point to it as from this, or from other documents as:
+  ```rst
+  .. _sensors-examples:
+  ```
 
-           :ref:`sensors-examples`
-           :ref:`My examples <sensors-examples>`
+  and point to it as from this, or from other documents as:
 
-    Note that the leading `_` underscore is gone, and the reference is quoted.
+  ```rst
+  :ref:`sensors-examples`
+  :ref:`My examples <sensors-examples>`
+  ```
 
-    Name convention for references is `_filename-refname` (because they are unique across the docs).  Note that there is no way to reference just a point in the docs. See http://sphinx-doc.org/markup/inline.html#cross-referencing-syntax
+  Note that the leading `_` underscore is gone, and the reference is quoted.
+
+  Name convention for references is `_filename-refname` (because they are unique across the docs).  Note that there is no way to reference just a point in the docs. See http://sphinx-doc.org/markup/inline.html#cross-referencing-syntax
 
 * External links:
 
-    `External link <http://webchat.freenode.net/?channels=stackstorm>`_
+  ```rst
+  `External link <http://webchat.freenode.net/?channels=stackstorm>`_
+  ```
 
-* Inlcude a document, full body:
+* Include a document, full body:
 
-    .. include:: /engage.rst
+  ```rst
+  .. include:: /engage.rst
+  ```
 
 * Link to GitHub st2 repo
 
-    :github_st2:`st2/st2common/st2common/operators.py </st2common/st2common/operators.py>`
+  ```rst
+  :github_st2:`st2/st2common/st2common/operators.py </st2common/st2common/operators.py>`
+  ```
 
 * Link to Github StackStorm-Exchange org:
 
-    :github_exchange:`Link to a sensu pack repo inside Exchange<stackstorm-sensu>`
+  ```rst
+  :github_exchange:`Link to a sensu pack repo inside Exchange<stackstorm-sensu>`
+  ```
 
 * Link to StackStorm Exchange website with a filter query:
 
-    :web_exchange:`Sensu<sensu>`
+  ```rst
+  :web_exchange:`Sensu<sensu>`
+  ```
 
 * Link to the Exchange website on Github (using a global we set up in source/conf.py)
 
-    `exchange`_
+  ```rst
+  `exchange`_
+  ```
 
 * The pattern to include an example from `/st2/contrib/examples`: make example file name a reference on github. May say that it is deployed to `/usr/share/doc/st2/examples/`, and auto-include the file:
 
-    Sample rule: :github_st2:`sample-rule-with-webhook.yaml
-    </contrib/examples/rules/sample-rule-with-webhook.yaml>` :
+  ```rst
+  Sample rule: :github_st2:`sample-rule-with-webhook.yaml
+  </contrib/examples/rules/sample-rule-with-webhook.yaml>` :
 
-    .. literalinclude:: /../../st2/contrib/examples/rules/sample_rule_with_webhook.yaml
-        :language: json
-
+  .. literalinclude:: /../../st2/contrib/examples/rules/sample_rule_with_webhook.yaml
+      :language: json
+  ```
 
 ## Pandoc - convert md <-> rst and more
 
 pandoc - a super-tool to convert between formats. Sample for markdown conversion:
 
-  sudo apt-get install pandoc
-  pandoc --from=markdown --to=rst --output=README.rst README.md
+```bash
+sudo apt-get install pandoc
+pandoc --from=markdown --to=rst --output=README.rst README.md
+```
 
 ## Misc
 

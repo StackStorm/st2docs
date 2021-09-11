@@ -7,6 +7,14 @@ user-implemented actions to be run remotely (via SSH) and locally. The objective
 Action author to concentrate only on the implementation of the action itself rather than setting up
 the environment.
 
+Quick Reference
+---------------
+
+Here is a quick reference of the most used runner parameters. To see additional details for each
+runner, see the appropriate section down below.
+
+.. include:: /_includes/runner_parameters/quick_reference.rst
+
 Exit Codes
 ----------
 Normally the exit code of a runner is defined by the exit code of the script or command executed.
@@ -226,15 +234,3 @@ Runner Parameters
 ^^^^^^^^^^^^^^^^^
 
 .. include:: /_includes/runner_parameters/action_chain.rst
-
-Mistral Runner (mistral-v2)
----------------------------
-
-This runner is built on top of the Mistral OpenStack project and supports executing complex
-workflows. For more information, please refer to the :doc:`Workflows </workflows>` and
-:doc:`Mistral </mistral>` sections of the documentation.
-
-Runner Parameters
-^^^^^^^^^^^^^^^^^
-
-.. include:: /_includes/runner_parameters/mistral_v2.rst

@@ -178,54 +178,74 @@ task notify is shown below:
         timeout: 180
       on-success: "make_tests"
 
-How do I Setup Notifications for Mistral?
------------------------------------------
+How do I Setup Notifications for Orquesta?
+------------------------------------------
 
 The method for global notifications for the workflow is the same as ActionChain. You have a notify
-section in the action meta when registering. See an
-`example <https://github.com/StackStorm/st2/blob/master/contrib/examples/actions/mistral-basic-two-tasks-with-notifications.yaml#L24>`_.
-Unfortunately, notifications per task are not supported in Mistral as a first class citizen yet.
-This will be added in later releases.
+section in the action meta when registering. In addition, the Orquesta metadata supports an
+optional notify input parameter, this specifies the tasks in the workflow that notifications will
+be generated for. For example, the following workflow will generate notifications on
+completion of the workflow, as well as for tasks ``task1``, ``task2``, and ``task3``:
 
-How do I Skip Notifications for Tasks in a Workflow?
+.. code-block:: yaml
+
+    ---
+    name: notify
+    description: A basic sequential workflow with notify enabled.
+    pack: orquesta_tests
+    runner_type: orquesta
+    entry_point: workflows/sequential.yaml
+    enabled: true
+    parameters:
+      who:
+        required: true
+        type: string
+        default: Stanley
+      notify:
+        type: array
+        default:
+          - task1
+          - task2
+          - task3
+    notify:
+      on-complete:
+        routes:
+        - slack
+        message: "\"@channel: Action succeeded.\""
+
+
+How do I Skip Notifications for Tasks in a chain ?
 -----------------------------------------------------------
 
-This is implemented as a runner parameter ``skip_notify``. If your chain or workflow contains
+This is implemented as a runner parameter ``skip_notify``. If your chain contains
 multiple tasks and you want some tasks to be "muted", you can do so by specifying skip_notify
 and call out tasks to mute. For example:
 
 .. code-block:: yaml
 
     ---
-    name: mistral-basic-two-tasks-with-notifications
-    pack: examples
-    description: Run mistral workflow with two tasks.
-    runner_type: mistral-v2
-    entry_point: workflows/mistral-basic-two-tasks-with-notifications.yaml
+    # Action definition metadata
+    name: "echochain"
+    description: "Simple Action Chain workflow"
+
+    # `runner_type` has value `action-chain` to identify that action is an ActionChain.
+    runner_type: "action-chain"
+
+    # `entry_point` path to the ActionChain definition file, relative to the pack's action directory.
+    entry_point: "chains/echochain.yaml"
+
     enabled: true
     parameters:
       skip_notify:
         default:
-          - "task2"
-      context:
-        default: {}
-        immutable: true
-        type: object
-      task:
-        default: null
-        immutable: true
-        type: string
-      workflow:
-        default: null
-        immutable: true
-        type: string
+          - c2
     notify:
       on-complete:
         message: "\"@channel: Action succeeded.\""
         routes:
           - "slack"
 
-In the above example, notifications for "task2" will not be sent out. This feature is particularly
+In the above example, notifications for "c2" will not be sent out. This feature is particularly
 useful in combination with ChatOps where you don't want noisy tasks to pollute the Chat client.
 
 Note that it is not currently possible to have a default ``skip_notify`` policy.

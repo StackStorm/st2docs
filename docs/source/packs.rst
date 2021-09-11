@@ -99,8 +99,14 @@ Exchange, and you can install your own packs from git just as easily.
 
 .. code-block:: bash
 
-    # Install your own pack from git
+    # Install your own pack from git using http(s)
     st2 pack install https://github.com/emedvedev/chatops_tutorial
+    
+    # Install your own pack from git using ssh
+    st2 pack install git@github.com/emedvedev/chatops_tutorial
+    
+    # Install your own pack using gitlab URL (added in release 3.4)
+    st2 pack install gitlab@gitlab.com:example/examplepack
 
 By default, the latest release of the pack will be installed, but you can specify a particular
 version, branch, tag, or even a commit hash. Just use `=`:
@@ -132,6 +138,7 @@ Running ``st2 pack install`` on an already installed pack will **replace** it wi
 version or **upgrade to latest** if the version is not specified. Your config file will not be
 overwritten, so you can revert to an older version just as easily, but for production deployments
 we recommend to always specify versions in case there are major changes in ``latest``.
+
 
 Pack Dependencies
 ~~~~~~~~~~~~~~~~~
@@ -283,40 +290,17 @@ default private key.
 
 Deploy keys are more secure than personal access tokens and can be configured on a per-repo basis.
 
-Using Python 3 for Pack Python Virtual Environment
+Python versions in Pack Python Virtual Environment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. note::
-
-   This functionality is only available in |st2| v2.8.0 and above. Some additional fixes and
-   improvements to this functionality were introduced in |st2| v3.0.1.
-
 When installing a pack, a Python virtual environment is created using the Python binary defined by
-the ``actionrunner.python_binary`` config option. By default, the same Python 2.7.x binary which is
-used by all the |st2| components and services is used for pack virtual environments.
+the ``actionrunner.python_binary`` config option. By default, the same binary which is
+used by all the |st2| components and services is used for pack virtual environments, as of |st2| v3.4.0 this is python3.
 
-If you need to use Python 3 for running your pack Python actions, you can do that by passing  the
-``--use-python3`` flag to the ``st2 pack install`` command (e.g. ``st2 pack install libcloud
---use-python3``).
+.. warning ::
 
-This will create the pack virtual environment using the Python 3 binary specified by
-``actionrunner.python3_binary`` config option. This value defaults to ``/usr/bin/python3``. For
-this to work, Python 3 needs to be installed on your system.
+   Python 2 support was dropped in |st2| v3.4.0. Please consider updating any Python 2 only packs to work with Python 3.
 
-When installing Python 3, default prefix of ``/usr`` or ``/usr/local`` should be used and base
-Python 3 libraries should be installed and available in either ``/usr/lib/python3.6`` or
-``/usr/local/lib/python3.6``. If a custom prefix was used when compiling / installing Python 3
-(e.g. ``./configure --prefix=/opt/lib``) you also need to configure
-``actionrunner.python3_prefix`` option in ``st2.conf`` to match that value.
-
-Keep in mind that this feature only means Python runner actions will be executed using Python 3
-binary. All the |st2| components and services, including the action runner will still use Python 2
-binary.
-
-If you want all the |st2| components and services to also run under Python 3 you should look at
-the Ubuntu Bionic packages where everything runs under Python 3.6. These are in the "unstable"
-repositories for 3.0, and will be GA in 3.1. On Ubuntu Bionic only packs which work under Python
-3 are supported.
 
 .. _packs-behind-proxy:
 

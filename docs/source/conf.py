@@ -79,7 +79,7 @@ version = '.'.join(__version__.split('.')[:2])
 # The full version, including alpha/beta/rc tags.
 release = __version__
 # The complete list of current StackStorm versions.
-release_versions = ['3.2', '3.1', '3.0', '2.10', '2.9', '2.8', '2.7', '2.6', '2.5', '2.4', '2.3', '2.2', '2.1', '2.0', '1.6', '1.5', '1.4', '1.3', '1.2', '1.1', '0.13', '0.12', '0.11', '0.9', '0.8']
+release_versions = ['3.5', '3.4', '3.3', '3.2', '3.1', '3.0', '2.10', '2.9', '2.8', '2.7', '2.6', '2.5', '2.4', '2.3', '2.2', '2.1', '2.0', '1.6', '1.5', '1.4', '1.3', '1.2', '1.1', '0.13', '0.12', '0.11', '0.9', '0.8']
 
 # Some loveliness that we have to do to make this work.  Otherwise it defaults to contents.rst
 master_doc = info.master_doc
@@ -103,8 +103,6 @@ version_minus_2 = previous_version(version_minus_1)
 # extlink configurator sphinx.ext.extlinks
 extlinks = {
     'github_st2': ('https://github.com/StackStorm/st2/tree/master/%s', None),
-    'github_st2mistral': ('https://github.com/StackStorm/st2mistral/tree/master/%s', None),
-    'github_mistral': ('https://github.com/StackStorm/mistral/tree/master/%s', None),
     'github_exchange':
         ('https://github.com/StackStorm-Exchange/%s', None),
     'web_exchange':

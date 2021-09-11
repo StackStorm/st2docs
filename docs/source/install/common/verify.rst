@@ -31,5 +31,5 @@ At this point you have a minimal working installation, and can happily play with
 :doc:`/start` tutorial, :ref:`deploy the examples <start-deploy-examples>`, explore and install
 packs from `StackStorm Exchange <https://exchange.stackstorm.org>`__.
 
-But there is no joy without a Web UI, no security without SSL or authentication, no fun without
-ChatOps, and no money without |ewc|. Read on!
+But there is no joy without a Web UI, no security without SSL or authentication, and no fun without
+ChatOps. Read on!

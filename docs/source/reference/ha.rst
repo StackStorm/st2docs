@@ -18,7 +18,7 @@ a reference to layer on some HA deployment-specific details.
 
 .. note::
 
-    A reproducible blueprint of StackStorm HA cluster is available as a code based on Docker and Kubernetes, see :doc:`/install/k8s_ha`.
+    A reproducible blueprint of StackStorm HA cluster is available as a helm chart, which is based on Docker and Kubernetes. See :doc:`/install/k8s_ha`.
 
 
 Components
@@ -122,9 +122,10 @@ You have to have exactly one active ``st2timersengine`` process running to sched
 Having more than one active ``st2timersengine`` will result in duplicate timer events and therefore
 duplicate rule evaluations leading to duplicate workflows or actions.
 
-In HA deployments, external monitoring needs to setup and a new ``st2timersengine`` process needs
-to be spun up to address failover. Losing the ``st2timersengine`` will mean no timer events will be
-injected into |st2| and therefore no timer rules would be evaluated.
+To address failover in HA deployments, use external monitoring of the ``st2timersengine`` process to ensure
+one process is running, and to trigger spinning up a new ``st2timersengine`` process if it fails.
+Losing the ``st2timersengine`` will mean no timer events will be injected into |st2| and therefore
+no timer rules would be evaluated.
 
 st2workflowengine
 ^^^^^^^^^^^^^^^^^
@@ -176,19 +177,6 @@ versioning prevents multiple execution requests from being picked up by
 different schedulers. Scheduler garbage collection handles executions that might
 have failed to be scheduled by a failed ``st2scheduler`` instance.
 
-
-st2resultstracker
-^^^^^^^^^^^^^^^^^
-Tracks results of execution handed over to Mistral. It requires access to MongoDB and RabbitMQ to
-perform its function.
-
-Multiple ``st2resultstracker`` processes will co-operate with each other to perform work. At
-startup there is a possibility of extra work however there are no negative consequences of this
-duplication. Specifically the jobs to track results also get stored in the DB in case there are no
-workers to take over the work. This pattern makes all result trackers pick up the same work set on
-startup. Once this work set is exhausted all subsequent tasks are round-robined. If needed
-``st2resultstracker`` processes could be started in a staggered manner to avoid extra work.
-
 st2notifier
 ^^^^^^^^^^^
 This is a dual purpose process - its main function is to generate ``st2.core.actiontrigger`` and
@@ -209,27 +197,6 @@ configurations. By default this process does nothing and needs to be setup to pe
 By design it is a singleton process. Running multiple instances in active-active will not yield
 much benefit, but will not do any harm. The ideal configuration is active-passive but |st2| itself
 does not provide the ability to run this in active-passive.
-
-
-mistral-api
-^^^^^^^^^^^
-Mistral API is served by this aptly named process. It needs access to PostgreSQL and RabbitMQ.
-
-Multiple ``mistral-api`` processes can run in an active-active configuration by using a load
-balancer to distribute at its front end. This is similar to ``st2api``. In a typical single box
-deployment ``mistral-api`` is local to the box and |st2| communicates via a direct HTTP connection.
-For HA setup we recommend putting ``mistral-api`` behind a load balancer and setting up |st2| to
-communicate via the load balancer.
-
-mistral-server
-^^^^^^^^^^^^^^
-``mistral-server`` is the worker engine for mistral i.e. the process which actually manages
-executions. The |st2| plugin to mistral (``st2mistral``) communicates back to the |st2| API. This
-process needs access to PostgreSQL and RabbitMQ.
-
-Multiple ``mistral-server`` processes can run and co-ordinate work in an active-active
-configuration. In an HA deployment all communication with the |st2| API must be via the configured
-load balancer.
 
 Required Dependencies
 ---------------------
@@ -254,15 +221,6 @@ simply loading the content (through ``st2ctl reload --register-all`` and ``st2 k
 access to old ActionExecutions will be lost but all the data of old ActionExecutions will still
 be available in audit logs.
 
-PostgreSQL
-^^^^^^^^^^
-Used primarily by ``mistral-api`` and ``mistral-server``. To deploy PostgreSQL in HA please see
-`the PostgreSQL documentation <http://www.postgresql.org/docs/9.4/static/high-availability.html>`__.
-
-The data stored in PostgreSQL is operational for Mistral, therefore starting from a brand new
-PostgreSQL in case of loss of a cluster will bring automation services back instantly. There will
-be downtime while a new DB cluster is provisioned.
-
 RabbitMQ
 ^^^^^^^^
 RabbitMQ is the communication hub for |st2| to co-ordinate and distribute work. See
@@ -275,10 +233,13 @@ not affect functionality.
 See :ref:`here<ref-rabbitmq-cluster-config>` for how to configure |st2| to connect to a RabbitMQ
 cluster.
 
-Zookeeper/Redis
-^^^^^^^^^^^^^^^
-Various |st2| features rely on a proper co-ordination backend in a distributed deployment to work
-correctly.
+Coordination
+^^^^^^^^^^^^
+Support of workflows with concurrent task executions and concurrency policies for action executions 
+rely on a proper co-ordination backend in a distributed deployment to work correctly.
+
+The coordination service can be configured to use different backends such as redis or zookeeper. For
+the single node installation script, redis is installed and configured by default.
 
 `This <https://zookeeper.apache.org/doc/r3.5.7/zookeeperStarted.html#sc_RunningReplicatedZooKeeper>`__
 shows how to run a replicated Zookeeper setup. (Note: Make sure to refer to the documentation in the
@@ -287,8 +248,8 @@ See `this <http://redis.io/topics/sentinel>`__ to understand Redis deployments u
 
 Nginx and Load Balancing
 ^^^^^^^^^^^^^^^^^^^^^^^^
-An load balancer is required to reverse proxy each instance of ``st2api``, ``st2auth``,
-``st2stream`` and ``mistral-api``. In the reference setup, Nginx is used for this. This server
+An load balancer is required to reverse proxy each instance of ``st2api``, ``st2auth`` and
+``st2stream``. In the reference setup, Nginx is used for this. This server
 terminates SSL connections, shields clients from internal port numbers of various services
 and only require ports 80 and 443 to be open on containers.
 
@@ -329,7 +290,7 @@ Reference HA setup
 In this section we provide a highly opinionated and therefore prescriptive approach to deploying
 |st2| in HA. This deployment has 3 independent boxes which we categorize as "controller box" and
 "blueprint box." We'll call these boxes ``st2-multi-node-cntl``, ``st2-multi-node-1`` and
-``st2-multi-node-2``. For the sake of reference we will be using Ubuntu 16.04 as the base OS.
+``st2-multi-node-2``. For the sake of reference we will be using Ubuntu 18.04 as the base OS.
 Obviously you can also use RedHat/CentOS.
 
 .. figure :: /_static/images/st2-deployment-multi-node.png
@@ -343,14 +304,14 @@ Controller Box
 ^^^^^^^^^^^^^^
 This box runs all the shared required dependencies and some |st2| components:
 
-* Nginx as load balancer
-* MongoDB
-* PostgreSQL
-* RabbitMQ
-* st2chatops
-* st2web
+ * Nginx as load balancer
+ * MongoDB
+ * RabbitMQ
+ * Redis/Zookeeper
+ * st2chatops
+ * st2web
 
-In practice ``MongoDB``, ``PostgreSQL`` and ``RabbitMQ`` will usually be on standalone clusters
+In practice ``MongoDB``, ``RabbitMQ``, and ``Redis/Zookeeper`` will usually be on standalone clusters
 managed outside of |st2|. The two shared components (``st2chatops`` and ``st2web``) are placed here
 for the sake of convenience. They could be placed anywhere with the right configuration.
 
@@ -362,79 +323,55 @@ new home.
 `keepalived <http://www.keepalived.org/>`__ to maintain ``st2chatops`` in active-passive
 configuration is an option.
 
-Follow these steps to provision a controller box on Ubuntu 16.04:
+Follow these steps to provision a controller box on Ubuntu 18.04:
 
 Install Required Dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Install ``MongoDB``, ``PostgreSQL`` and ``RabbitMQ``:
+1. Install ``MongoDB``, ``RabbitMQ``, and ``Redis``:
+
+   The python redis client is already included in the |st2| virtualenv. If using Zookeeper, the
+   kazoo module needs to be installed into the |st2| virtualenv.
 
   .. code-block:: bash
 
-      $ sudo apt-get install -y mongodb-server rabbitmq-server postgresql
+      $ sudo apt-get install -y mongodb-server rabbitmq-server redis-server
 
-
-2. Fix the listen address in ``/etc/postgresql/9.3/main/postgresql.conf`` and have PostgreSQL
-   listen on an interface that has an IP address reachable from ``st2-multi-node-1`` and
-   ``st2-multi-node-2``.
-
-3. Fix ``bind_ip`` in ``/etc/mongodb.conf`` to bind MongoDB to an interface that has an IP address
+2. Fix ``bind_ip`` in ``/etc/mongodb.conf`` to bind MongoDB to an interface that has an IP address
    reachable from ``st2-multi-node-1`` and ``st2-multi-node-2``.
 
-4. Restart MongoDB:
+3. Restart MongoDB:
 
    .. code-block:: bash
 
       $ sudo service mongodb restart
 
-5. Add an ACL rule to ``/etc/postgresql/9.3/main/pg_hba.conf``. In this example we're allowing
-   access from the subnet ``10.0.3.0/24``
-
-  .. code-block:: bash
-
-        host       all  all  10.0.3.0/24  trust
-
-6. Restart PostgreSQL:
-
-  .. code-block:: bash
-
-      $ sudo service postgresql restart
-
-7. Create Mistral DB in PostgreSQL:
-
-  .. code-block:: bash
-
-      $ cat << EHD | sudo -u postgres psql
-      CREATE ROLE mistral WITH CREATEDB LOGIN ENCRYPTED PASSWORD 'StackStorm';
-      CREATE DATABASE mistral OWNER mistral;
-      EHD
-
-8. Add stable |st2| repos:
+4. Add stable |st2| repos:
 
   .. code-block:: bash
 
       $ curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
-9. Setup ``st2web`` and SSL termination. Follow :ref:`install webui and setup
+5. Setup ``st2web`` and SSL termination. Follow :ref:`install webui and setup
    ssl<ref-install-webui-ssl-deb>`. You will need to stop after removing the default Nginx config
    file.
 
-10. A sample configuration for Nginx as load balancer for the controller box is provided below.
-    With this configuration Nginx will load balance all requests between the two blueprint boxes
-    ``st2-multi-node-1`` and ``st2-multi-node-2``. This includes requests to ``st2api``,
-    ``st2auth`` and ``mistral-api``. Nginx also serves as the webserver for ``st2web``.
+6. A sample configuration for Nginx as load balancer for the controller box is provided below.
+   With this configuration Nginx will load balance all requests between the two blueprint boxes
+   ``st2-multi-node-1`` and ``st2-multi-node-2``. This includes requests to ``st2api`` and
+   ``st2auth``. Nginx also serves as the webserver for ``st2web``.
 
   .. literalinclude:: /../../st2/conf/HA/nginx/st2.conf.controller.sample
      :language: none
 
-11. Create the st2 logs directory and the st2 user:
+7. Create the st2 logs directory and the st2 user:
 
   .. code-block:: bash
 
         mkdir -p /var/log/st2
         useradd st2
 
-12. Install ``st2chatops`` following :ref:`setup chatops<ref-setup-chatops-deb>`.
+8. Install ``st2chatops`` following :ref:`setup chatops<ref-setup-chatops-deb>`.
 
 Blueprint box
 ^^^^^^^^^^^^^
@@ -449,11 +386,11 @@ also be made to offer different services.
 
       $ curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
-2. Install all |st2| components and mistral:
+2. Install all |st2| components:
 
   .. code-block:: bash
 
-      $ sudo apt-get install -y st2 st2mistral
+      $ sudo apt-get install -y st2
 
 3. Install Nginx:
 
@@ -461,31 +398,13 @@ also be made to offer different services.
 
       $ sudo apt-get install -y nginx
 
-4. Update Mistral connection to PostgreSQL in ``/etc/mistral/mistral.conf`` by changing the
-   ``database.connection`` property.
-
-5. Update Mistral connection to RabbitMQ in ``/etc/mistral/mistral.conf`` by changing  the
-   ``default.transport_url`` property.
-
-6. Setup Mistral database:
-
-  .. code-block:: bash
-
-      $ /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
-
-7. Register mistral actions:
-
-  .. code-block:: bash
-
-      $ /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate | grep -v -e openstack -e keystone
-
-8. Replace ``/etc/st2/st2.conf`` with the sample ``st2.conf`` provided below. This config points to
-   the controller node or configuration values of ``database``, ``messaging`` and ``mistral``.
+4. Replace ``/etc/st2/st2.conf`` with the sample ``st2.conf`` provided below. This config points to
+   the controller node or configuration values of ``database``, ``messaging``, and ``coordination``.
 
   .. literalinclude:: /../../st2/conf/HA/st2.conf.sample
      :language: ini
 
-9. Generate a certificate:
+5. Generate a certificate:
 
   .. code-block:: bash
 
@@ -494,22 +413,19 @@ also be made to offer different services.
         -days XXX -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information \
         Technology/CN=$(hostname)"
 
-10. If you are using self-signed certificates you will need to add ``insecure = true`` to the
-    ``mistral`` section of ``/etc/st2/st2.conf``.
-
-11. Configure users & authentication as per :ref:`this documentation<ref-config-auth-deb>`. Make
+6. Configure users & authentication as per :ref:`this documentation<ref-config-auth-deb>`. Make
     sure that user configuration on all boxes running ``st2auth`` is identical. This ensures
     consistent authentication from the entire |st2| install since the request to authenticate a
     user can be forwarded by the load balancer to any of the ``st2auth`` processes.
 
-12. Use the sample Nginx config that is provided below for the blueprint boxes. In this config
+7. Use the sample Nginx config that is provided below for the blueprint boxes. In this config
     Nginx will act as the SSL termination endpoint for all the REST endpoints exposed by
-    ``st2api``, ``st2auth`` and ``mistral-api``:
+    ``st2api`` and ``st2auth``:
 
   .. literalinclude:: /../../st2/conf/HA/nginx/st2.conf.blueprint.sample
      :language: nginx
 
-13. To use Timer triggers with Mistral, enable them on only one server. Make this change in
+8. To use Timer triggers, enable them on only one server. Make this change in
     ``/etc/st2/st2.conf``:
 
     .. code-block:: yaml
@@ -518,8 +434,8 @@ also be made to offer different services.
         enable = False
 
 
-14. See :doc:`/reference/sensor_partitioning` to decide how to partition sensors to suit your
+9. See :doc:`/reference/sensor_partitioning` to decide how to partition sensors to suit your
     requirements.
 
-15. All content should be synced by choosing a suitable strategy as outlined above. This is crucial
+10. All content should be synced by choosing a suitable strategy as outlined above. This is crucial
     to obtain predictable outcomes.

@@ -1,4 +1,11 @@
-.. NOTE: This file has been generated automatically, don't manually edit it
+.. NOTE: This file has been generated automatically, do not manually edit it.
+         If you want to update runner parameters, make your changes to the
+         runner YAML files in st2/contrib/runners/ and then run
+
+         make docs
+
+         to regenerate the documentation for runners.
+
 
 * ``allow_redirects`` (boolean) - Set to True if POST/PUT/DELETE redirect following is allowed.
 * ``cookies`` (object) - Optional cookies to send with the request.
