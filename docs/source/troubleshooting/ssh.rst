@@ -85,16 +85,17 @@ runner boxes, and add the following configuration lines in ``/etc/st2/st2.conf``
 
   [ssh_runner]
   use_ssh_config = True
-  ssh_config_file_path = /root/.ssh/config
+  ssh_config_file_path = /home/stanley/.ssh/config
 
-Make sure your ssh config is in the same account as user running the st2action process.  If root is running 
-st2actions install it there.  Make sure the config and identity files have proper permissions and ownership.
+Make sure your ssh config is in the same account as user running the st2actionrunner process. If root is running 
+st2actionrunner install it under ``/root/.ssh``. Wherever it is installed, make sure the config and identity files
+have proper permissions and ownership, or ``ssh`` will refuse to read them.
  
 .. code-block:: bash
 
-  chown -R root:root /root/.ssh/*
-  chmod 600 /root/.ssh/config
-  chmod 600 /root/.ssh/id_rsa
+  chown -R stanley:stanley /home/stanley/.ssh/*
+  chmod 600 /home/stanley/.ssh/config
+  chmod 600 /home/stanley/.ssh/id_rsa
 
 If you are looking to do ssh bastion forwarding, while allowing SSH to resolve automatically the correct keys based on hostname (eg. to dynamically support environments where a ssh hosts are set in your ssh_config file): 
 
