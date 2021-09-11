@@ -153,6 +153,50 @@ The ``pattern`` value can also reference a datastore value using Jinja variable 
 In this example we are referencing the value of a datastore item with the name
 ``current_build_number``.
 
+.. warning::
+
+    Each criteria key must be unique.
+
+Due to a `known <https://github.com/yaml/pyyaml/issues/41>`_,
+`reported <https://github.com/yaml/pyyaml/issues/165>`_ issue in PyYAML, criteria keys must be
+unique. This sometimes becomes relevant when you want to apply different operators (like
+``contains`` and ``ncontains``) to the same trigger data:
+
+.. code-block:: yaml
+
+    criteria:
+        trigger.payload.commit.tags:  # duplicate key - ignored!
+          type: ncontains
+          pattern: StackStorm
+        trigger.payload.commit.tags:  # duplicate key - evaluated
+          type: contains
+          pattern: pull request
+        trigger.payload.commit.message:  # unique key - evaluated
+          type: ncontains
+          pattern: ST2
+
+In this example, only the last of the duplicate keys in the criteria will be evaluated.
+
+As a workaround, you can use an alternative way to specify the criteria key that will specify the
+same trigger data:
+
+.. code-block:: yaml
+
+    criteria:
+        trigger.payload.commit.tags:
+          type: ncontains
+          pattern: StackStorm
+        trigger.payload.commit['tags']:
+          type: contains
+          pattern: pull request
+        trigger.payload.commit.message:
+          type: ncontains
+          pattern: ST2
+
+In this example, since the criteria keys are all unique, all of them will be evaluated, even though
+``trigger.payload.commit.tags`` and ``trigger.payload.commit['tags']`` specify the same value in
+the trigger data.
+
 Critera Comparison
 ------------------
 

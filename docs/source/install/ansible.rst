@@ -18,8 +18,8 @@ Supported Platforms
 
 Our Ansible playbooks support the same platforms as manual installation, i.e.:
 
-* Ubuntu Xenial (16.04)
 * Ubuntu Bionic (18.04)
+* Ubuntu Focal (20.04)
 * RHEL 7/CentOS 7
 * RHEL 8/CentOS 8
 
