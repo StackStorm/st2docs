@@ -97,9 +97,11 @@ have proper permissions and ownership, or ``ssh`` will refuse to read them.
   chmod 600 /home/stanley/.ssh/config
   chmod 600 /home/stanley/.ssh/id_rsa
 
-If you are looking to do ssh bastion forwarding, while allowing SSH to resolve automatically the correct keys based on hostname (eg. to dynamically support environments where a ssh hosts are set in your ssh_config file): 
-
-This is a sample ssh config that is known to work with bastion forwarding.
+If you are using--or planning to use--bastion forwarding to get to target hosts in your network, then you either
+need to pass the ``bastion_host`` parameter to each action, or configure ssh to automatically use bastion forwarding.
+In the latter case, you to validate that your ssh config file(s) are valid and they include the appropriate
+``IdentityFile`` definitions. For example, consider this ssh config file with different ssh keys for the bastion and the
+target hosts (``10.1.*`` in our example). This allows SSH to resolve automatically the correct keys based on hostname.
 
 .. code-block:: ssh-config
 
@@ -110,10 +112,10 @@ This is a sample ssh config that is known to work with bastion forwarding.
 
   Host bastion
     Hostname bastion.example.com
-    IdentityFile ~/.ssh/id_rsa
+    IdentityFile ~/.ssh/bastion_rsa
     User stanley
 
-Example output of a successful setup that does not require the bastion_host parameter.
+Example output of a successful setup that does not require the ``bastion_host`` parameter.
 
 .. code-block:: bash
   $st2 run core.remote cmd=whoami hosts=10.1.1.2
