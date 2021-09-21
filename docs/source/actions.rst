@@ -75,18 +75,23 @@ Modification in Action Delete API
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 |st2| offers functionality to delete actions/workflows by invoking API. Prior to 3.6 release
-this API was only de-registering actions from database. In the 3.6 release, this API was modified
-to delete related action/workflow files from disk as well. When action delete command is used from
-CLI it asks users permission to delete the files on disk.
+this API was only de-registering actions from database. In the 3.6 release, with kept backward
+compatibility this API was modified to delete related action files from disk as well.
 
-``-f`` and ``--force`` arguments are added to action delete command as auto yes flags for deleting
-related files from disk without prompting for user permission.
+From CLI ``st2 action delete <pack>.<action>`` will delete only action database entry.
+From CLI ``st2 action delete --remove-files <pack>.<action>`` or ``st2 action delete -r <pack>.<action>``
+will delete action database entry along with files from disk.
+
+API action DELETE method with ``{"remove_files": true}`` argument in json body will remove database
+entry of action along with files from disk.
+API action DELETE method with ``{"remove_files": false}`` or no additional argument in json body will
+remove only action database entry.
 
 * Usage:
 
 .. code-block:: bash
 
-   st2 action delete [-h] [-t TOKEN] [--api-key API_KEY] [-j] [-y] [-f]
+   st2 action delete [-h] [-t TOKEN] [--api-key API_KEY] [-j] [-y] [-r]
                      ref-or-id
 
 * Positional arguments:
@@ -109,7 +114,7 @@ related files from disk without prompting for user permission.
                          the environment variables by default
    -j, --json            Print output in JSON format
    -y, --yaml            Print output in YAML format
-   -f, --force           Auto yes flag to delete action files from disk
+   -r, --remove-files    Delete action files from disk
 
 
 Action Runners
