@@ -8,7 +8,7 @@ Upgrade Notes
 |st2| v3.6
 ----------
 
-* With kept backward compatibility, action delete API has been modified.
+* Retaining backwards compatibility, action delete API has been modified.
   The existing action delete command ``st2 action delete <pack>.<action>`` will delete
   only database entry.
   The action delete CLI command will now take ``-r`` or ``--remove-files`` argument
