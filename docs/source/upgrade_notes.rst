@@ -29,6 +29,12 @@ Upgrade Notes
 * Validation of action definitions are stricter. If an action definition has duplicate keys, |st2|
   will complain when ``st2ctl reload`` is performed at upgrade. Action/workflow definitions should be checked
   for duplicate keys before upgrade.
+* ``%`` interpolation in st2 configuration parameters is no longer supported. Update your configuration
+  parameters to fix strings if you use ``%`` interpolation to lookup keys as part of your parameter.
+  
+  Now ``%`` is a valid character in parameter values.
+  
+  This increases security because passwords with a ``%`` in it do no longer result into an error. 
 
 * The underlying database field type for storing large values such as action execution result has
   changed for various database models (ActionExecutionDB, LiveActionDB, WorkflowExecutionDB,
