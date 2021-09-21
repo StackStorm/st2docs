@@ -75,8 +75,8 @@ Modification in Action Delete API
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 |st2| offers functionality to delete actions/workflows by invoking API. Prior to 3.6 release
-this API was only de-registering actions from database. In the 3.6 release, with kept backward
-compatibility this API was modified to delete related action files from disk as well.
+this API was only de-registering actions from database. In the 3.6 release, with backward
+compatibility retained this API was modified to optionally delete related action files from disk as well.
 
 From CLI ``st2 action delete <pack>.<action>`` will delete only action database entry.
 From CLI ``st2 action delete --remove-files <pack>.<action>`` or ``st2 action delete -r <pack>.<action>``
