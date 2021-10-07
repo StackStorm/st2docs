@@ -103,7 +103,7 @@ In the latter case, you to validate that your ssh config file(s) are valid and t
 ``IdentityFile`` definitions. For example, consider this ssh config file with different ssh keys for the bastion and the
 target hosts (``10.1.*`` in our example). This allows SSH to resolve automatically the correct keys based on hostname.
 
-.. code-block:: ssh-config
+.. code-block:: ini
 
   Host 10.1.*
     ProxyCommand ssh -o StrictHostKeyChecking=no bastion nc %h %p
@@ -163,7 +163,7 @@ For the above example to work, the key file ``/home/stanley/ssh_keys/.ssh/id_rsa
 available on the action runner boxes. We also support ``password`` as a parameter. As of version 2.1,
 you can also specify custom keys for hosts via SSH config file. A sample SSH config is shown below:
 
-.. code-block:: ssh-config
+.. code-block:: ini
 
     Host st2-ssh-test001
       User lakshmi
