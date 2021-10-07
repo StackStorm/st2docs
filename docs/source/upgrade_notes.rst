@@ -3,6 +3,21 @@
 Upgrade Notes
 =============
 
+.. _ref-upgrade-notes-v3-6:
+
+|st2| v3.6
+----------
+
+* Retaining backwards compatibility, action delete API has been modified.
+  The existing action delete command ``st2 action delete <pack>.<action>`` will delete
+  only database entry.
+  The action delete CLI command will now take ``-r`` or ``--remove-files`` argument
+  to delete action from database along with related files from disk.
+  API action DELETE method with ``{"remove_files": true}`` argument in json body will
+  remove database entry of action along with files from disk.
+  API action DELETE method with ``{"remove_files": false}`` or no additional argument
+  in json body will remove only action database entry.
+
 .. _ref-upgrade-notes-v3-5:
 
 |st2| v3.5
