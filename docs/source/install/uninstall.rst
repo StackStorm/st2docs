@@ -143,6 +143,7 @@ below. Only execute the instructions for your distribution.
 
     sudo rm -f /etc/apt/sources.list.d/mongo* /etc/apt/sources.list.d/nginx.list
     sudo rm -f /etc/apt/sources.list.d/StackStorm* /etc/apt/sources.list.d/nodesource* 
+    sudo rm -f /etc/apt/sources.list.d/rabbitmq*
 
 * RHEL/CentOS:
 

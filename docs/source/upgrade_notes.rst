@@ -8,6 +8,8 @@ Upgrade Notes
 |st2| v3.6
 ----------
 
+* Prior to v3.5 then the installation instructions for all OSes except for CentOS/RHEL 8 were to use the version of RabbitMQ available in the OS distribution. This version is very old, and for 3.6 the installation instructions and simple install have been modified to install the latest version of RabbitMQ. It is not a requirement to upgrade RabbitMQ for installation of 3.6, but for non CentOS/RHEL 8 systems then to keep compatability with a clean installation then RabbitMQ cluster should be upgraded.
+
 * Retaining backwards compatibility, action delete API has been modified.
   The existing action delete command ``st2 action delete <pack>.<action>`` will delete
   only database entry.
