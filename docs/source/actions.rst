@@ -808,6 +808,38 @@ pack:
 
     st2 run core.http url="http://httpbin.org/get" method="GET" username=user1 password=pass1
 
+* ``core.announcement`` : Action that broadcasts the announcement to all stream consumers.
+
+* ``core.ask`` : Action for initiating an Inquiry (usually in a workflow)
+
+* ``core.echo`` : Action that executes the Linux echo command on the localhost.
+
+* ``core.error`` : Action that executes the Linux echo command (to stderr) on the localhost.
+
+* ``core.inject_trigger`` : Action which injects a new trigger in the system.
+
+  This action allows loose coupling of independent workflows, where workflow1 will execute workflow2
+  indirectly through the IFTTT rule engine.
+
+* ``core.local_sudo`` : Action that executes an arbitrary Linux command on the localhost.
+
+* ``core.noop`` : Action that does nothing.
+
+  This action can be used to implement conditional branches in Orquesta workflows without incurring
+  the cost of executing action code.  A YAQL/Jinja statement is general used to evaluate the criteria
+  to choose a path of execution in a workflow.
+
+* ``core.pause`` Action to pause current thread of workflow/sub workflow.
+
+* ``core.sendmail`` : This sends an email.
+
+* ``core.uuid`` : Generate a new UUID (default uuid4)
+
+* ``core.winrm_cmd`` : Action to execute arbitrary Windows Command Prompt command remotely via WinRM.
+
+* ``core.winrm_ps_cmd`` : Action to execute arbitrary Windows PowerShell command remotely via WinRM.
+
+
 To see all actions in the ``core`` pack:
 
 .. code-block:: bash
