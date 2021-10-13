@@ -10,7 +10,7 @@ Upgrade Notes
 
 * Prior to v3.5 the installation instructions for all OSes except for CentOS/RHEL 8
   said to use the version of RabbitMQ available in the OS distribution. This version is
-  very old, and for 3.6 the installation instructions--and simple install--have been modified
+  very old, and for 3.6 the installation instructions and simple install have been modified
   to install the latest version of RabbitMQ. It is not a requirement to upgrade RabbitMQ
   for installation of 3.6, but to keep compatibility with a clean installation, the RabbitMQ
   cluster should be upgraded for non CentOS/RHEL 8 systems.
