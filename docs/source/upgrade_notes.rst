@@ -3,6 +3,28 @@
 Upgrade Notes
 =============
 
+.. _ref-upgrade-notes-v3-6:
+
+|st2| v3.6
+----------
+
+* Prior to v3.5 the installation instructions for all OSes except for CentOS/RHEL 8
+  said to use the version of RabbitMQ available in the OS distribution. This version is
+  very old, and for 3.6 the installation instructions and simple install have been modified
+  to install the latest version of RabbitMQ. It is not a requirement to upgrade RabbitMQ
+  for installation of 3.6, but to keep compatibility with a clean installation, the RabbitMQ
+  cluster should be upgraded for non CentOS/RHEL 8 systems.
+
+* Retaining backwards compatibility, action delete API has been modified.
+  The existing action delete command ``st2 action delete <pack>.<action>`` will delete
+  only database entry.
+  The action delete CLI command will now take ``-r`` or ``--remove-files`` argument
+  to delete action from database along with related files from disk.
+  API action DELETE method with ``{"remove_files": true}`` argument in json body will
+  remove database entry of action along with files from disk.
+  API action DELETE method with ``{"remove_files": false}`` or no additional argument
+  in json body will remove only action database entry.
+
 .. _ref-upgrade-notes-v3-5:
 
 |st2| v3.5
@@ -19,6 +41,12 @@ Upgrade Notes
 * Validation of action definitions are stricter. If an action definition has duplicate keys, |st2|
   will complain when ``st2ctl reload`` is performed at upgrade. Action/workflow definitions should be checked
   for duplicate keys before upgrade.
+* ``%`` interpolation in st2 configuration parameters is no longer supported. Update your configuration
+  parameters to fix strings if you use ``%`` interpolation to lookup keys as part of your parameter.
+  
+  Now ``%`` is a valid character in parameter values.
+  
+  This increases security because passwords with a ``%`` in it do no longer result into an error. 
 
 * The underlying database field type for storing large values such as action execution result has
   changed for various database models (ActionExecutionDB, LiveActionDB, WorkflowExecutionDB,
