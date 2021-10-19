@@ -138,11 +138,12 @@ Permission grants can be applied to the following resource types:
 * executions
 * webhooks
 * inquiries
+* key value pair
 
 A resource is identified by a ``uid``, and referenced as such in permission grants. UID is an
 identifier which is unique for each resource in the |st2| installation. UIDs follow this format:
 ``<resource type>:<resource specific identifier value>`` (e.g. ``pack:libcloud``,
-``action:libcloud:list_vms``, etc.).
+``action:libcloud:list_vms``, ``key_value_pair:st2kv.system:key1``, ``key_value_pair:st2kv.user:key2`` etc.).
 
 You can retrieve the UID of a particular resource by listing all the resources of a particular
 type or by retrieving details of a single resource using either API or CLI.
@@ -702,3 +703,58 @@ Lets take this for a spin using the |st2| CLI.
     # Expect failure
     $ st2 action get core.local
     $ st2 run core.local hostname
+
+Applying RBAC to Key Value Pair
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Note
+
+This functionality is only available in |st2| v3.6.0 and above.
+
+|st2| offers functionality to apply RBAC to KeyValuePair by invoking API and granting permission depending on the user logged in. 
+Prior to 3.6 release, RBAC was not implemented to KeyValuePair. 
+
+By default, user has access to his/her own user scoped KVPs without requiring specific permission grant.
+A non-admin user can explicitly grant permission to one or more system scoped KVPs.
+A non-admin user cannot access another user's KVPs.
+By default, admin and system_admin has ALL access to system scoped KVPs.
+Admin has full access to another user's KVPs (behavior in current version).
+
+Apart from role creation, follow the same steps as mentioned in RBAC example.
+
+Need to do some change in resource_uid to set role for KeyValuePair - 
+Follow below example for system scope -
+
+Create ``/opt/stackstorm/rbac/roles/key_value_pair_set.yaml`` with the
+following content:
+
+.. sourcecode:: yaml
+
+    ---
+    name: "key_value_pair_set"
+    description: "Owner of key value pair example"
+    enabled: true
+    permission_grants:
+        -
+            resource_uid: "key_value_pair:st2kv.system:key1"
+            permission_types:
+               - "key_value_pair_set"
+
+Follow below example for user scope -
+
+Create ``/opt/stackstorm/rbac/roles/key_value_pair_view.yaml`` with the
+following content:
+
+.. sourcecode:: yaml
+
+    ---
+    name: "key_value_pair_view"
+    description: "Owner of key value pair example"
+    enabled: true
+    permission_grants:
+        -
+            resource_uid: "key_value_pair:st2kv.user:user1:key1"
+            permission_types:
+               - "key_value_pair_view"
+
+
+
