@@ -117,6 +117,58 @@ remove only action database entry.
    -r, --remove-files    Delete action files from disk
 
 
+Action Clone
+~~~~~~~~~~~~
+
+Clone operation clones action from source pack to destination pack and renames them appropriately.
+This operation makes changes in destination action metadata files like action name, pack name,
+entry point name etc. Also, this operation registers the newly cloned action to the database.
+
+API endpoint ``/api/v1/actions/{ref_or_id}/clone`` takes ``ref_or_id`` of source action. Request
+method body ``{"dest_pack": "dest_pack_name", "dest_action": "dest_action_name"}`` takes destination
+pack and action name. Request method body also takes optional paramater ``overwrite`` which is of type
+boolean and ``false`` by default. Overwrite flag should be true (``overwrite: true``) in case of
+destination action already exists and to be overwritten.
+
+From CLI ``st2 action clone <ref_or_id> <dest_pack> <dest_action>`` takes source ``ref_or_id``,
+destination pack name and destination action name as mandatory arguments. In case destionation
+already exists then command takes optional arugument ``-f`` or ``--force`` to overwrite destination action.
+
+* Usage:
+
+.. code-block:: bash
+
+   st2 action clone [-h] [-t TOKEN] [--api-key API_KEY] [-j] [-y] [-f]
+                    source-ref-or-id dest-pack-name dest-action-name
+
+* Positional arguments:
+
+.. code-block:: bash
+
+   # Reference or ID of the source action
+   source-ref-or-id
+
+   # Destination pack name
+   dest-pack-name
+
+   # Destination action name
+   dest-action-name
+
+* Optional arguments:
+
+.. code-block:: bash
+
+   -h, --help            Show this help message and exit
+   -t TOKEN, --token TOKEN
+                         Access token for user authentication. Get
+                         ST2_AUTH_TOKEN from the environment variables by default
+   --api-key API_KEY     Api Key for user authentication. Get ST2_API_KEY from
+                         the environment variables by default
+   -j, --json            Print output in JSON format
+   -y, --yaml            Print output in YAML format
+   -f, --force           Overwrite action files on disk if destination exists.
+
+
 Action Runners
 --------------
 
