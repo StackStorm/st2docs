@@ -25,6 +25,13 @@ Upgrade Notes
   API action DELETE method with ``{"remove_files": false}`` or no additional argument
   in json body will remove only action database entry.
 
+* systemd generators for ``st2api``, ``st2auth`` and ``st2stream`` socket files have replaced
+  the static ``.socket`` files.  ``st2.conf`` has become the authoritative source for controlling
+  the IP address and port the service will listen on.  This gives a more consistent and intuitive
+  means of configuring these services.  If you previously configured these services by directly
+  modifying the ``.socket`` file or using the ``DAEMON_ARGS`` environment variable, they are no
+  longer referenced and ``st2.conf`` will need to be updated with the desired ip/port.
+
 .. _ref-upgrade-notes-v3-5:
 
 |st2| v3.5
