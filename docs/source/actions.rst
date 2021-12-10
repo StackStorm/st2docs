@@ -117,8 +117,11 @@ remove only action database entry.
    -r, --remove-files    Delete action files from disk
 
 
-Action Clone
-~~~~~~~~~~~~
+Cloning an Action
+~~~~~~~~~~~~~~~~~
+
+.. note::
+     The action clone feature is only available in |st2| v3.7.0 and above.
 
 Clone operation clones action from source pack to destination pack and renames them appropriately.
 This operation makes changes in destination action metadata files like action name, pack name,
