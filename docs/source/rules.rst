@@ -295,20 +295,20 @@ Here's an example criteria that uses the ``search`` operator with the ``any`` co
     criteria:
       trigger.issue_fields:
         type: "search"
-          # Controls whether all items in the trigger payload must match the child criteria,
-          # or if any single item matching the child criteria is sufficient
-          condition: any  # <- *At least one* item must match all child patterns
-          pattern:
-            # Here our context is each item of the list
-            # All of these patterns must match the item for the item to be considered a match
-            # These are simply other operators applied to each item of the list
-            item.field_name:
-              type: "equals"
-              pattern: "Status"
+        # Controls whether all items in the trigger payload must match the child criteria,
+        # or if any single item matching the child criteria is sufficient
+        condition: any  # <- *At least one* item must match all child patterns
+        pattern:
+          # Here our context is each item of the list
+          # All of these patterns must match the item for the item to be considered a match
+          # These are simply other operators applied to each item of the list
+          item.field_name:
+            type: "equals"
+            pattern: "Status"
 
-            item.to_value:
-              type: "equals"
-              pattern: "Approved"
+          item.to_value:
+            type: "equals"
+            pattern: "Approved"
 
 This criteria would match the following trigger payload, because the ``Status`` field was
 changed to ``Approved``:
