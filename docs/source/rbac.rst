@@ -138,7 +138,10 @@ Permission grants can be applied to the following resource types:
 * executions
 * webhooks
 * inquiries
-* key value pair
+* key value pairs
+
+.. note::
+    The support of key value pairs is only available in |st2| v3.7.0 and above.
 
 A resource is identified by a ``uid``, and referenced as such in permission grants. UID is an
 identifier which is unique for each resource in the |st2| installation. UIDs follow this format:
@@ -228,7 +231,6 @@ There are some exceptions, described below:
 ``/aliasexecutions/``) using hubot is the |st2| user that is configured in hubot
 (``ST2_AUTH_USERNAME`` - by default that is ``chatops_bot``).
 
-
 Enabling RBAC
 -------------
 
@@ -310,6 +312,37 @@ In the example above we assign two roles to the user named ``user4``:
 
 * ``role_one`` (a custom role which needs to be defined as described above) and
 * ``observer`` (system role).
+
+Key Value Pairs
+~~~~~~~~~~~~~~~
+
+.. note::
+    This functionality is only available in |st2| v3.7.0 and above.
+
+Users with admin and system_admin roles have all access to system scoped KVPs. In v3.6.0
+and before, users with admin role have full access to other users' KVPs. This behavior is
+unchanged.
+
+By default, a user has access to his/her own user scoped KVPs without requiring specific
+permission grants. A non-admin user by default cannot access system scoped KVPs or other
+users' KVPs. A non-admin user can be explicitly granted permission to one or more system
+scoped KVPs similar to how access to other resources are granted to users. Currently, 
+there is no option or plan to grant non-admin user access to another user's set of KVPs. 
+
+The following is an example to assign a ``system scoped`` KVP to a role. 
+Create ``/opt/stackstorm/rbac/roles/key1_write_role.yaml`` with the
+following content. Assign this role to a user and then apply the RBAC definitions.
+
+.. sourcecode:: yaml
+
+    ---
+    name: key1_write_role
+    description: Role that allow users to set system key1
+    enabled: true
+    permission_grants:
+        - resource_uid: "key_value_pair:st2kv.system:key1"
+          permission_types:
+            - "key_value_pair_set"
 
 Applying RBAC Definitions
 -------------------------
@@ -703,58 +736,3 @@ Lets take this for a spin using the |st2| CLI.
     # Expect failure
     $ st2 action get core.local
     $ st2 run core.local hostname
-
-Applying RBAC to Key Value Pair
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Note
-
-This functionality is only available in |st2| v3.6.0 and above.
-
-|st2| offers functionality to apply RBAC to KeyValuePair by invoking API and granting permission depending on the user logged in. 
-Prior to 3.6 release, RBAC was not implemented to KeyValuePair. 
-
-By default, user has access to his/her own user scoped KVPs without requiring specific permission grant.
-A non-admin user can explicitly grant permission to one or more system scoped KVPs.
-A non-admin user cannot access another user's KVPs.
-By default, admin and system_admin has ALL access to system scoped KVPs.
-Admin has full access to another user's KVPs (behavior in current version).
-
-Apart from role creation, follow the same steps as mentioned in RBAC example.
-
-Need to do some change in resource_uid to set role for KeyValuePair - 
-Follow below example for system scope -
-
-Create ``/opt/stackstorm/rbac/roles/key_value_pair_set.yaml`` with the
-following content:
-
-.. sourcecode:: yaml
-
-    ---
-    name: "key_value_pair_set"
-    description: "Owner of key value pair example"
-    enabled: true
-    permission_grants:
-        -
-            resource_uid: "key_value_pair:st2kv.system:key1"
-            permission_types:
-               - "key_value_pair_set"
-
-Follow below example for user scope -
-
-Create ``/opt/stackstorm/rbac/roles/key_value_pair_view.yaml`` with the
-following content:
-
-.. sourcecode:: yaml
-
-    ---
-    name: "key_value_pair_view"
-    description: "Owner of key value pair example"
-    enabled: true
-    permission_grants:
-        -
-            resource_uid: "key_value_pair:st2kv.user:user1:key1"
-            permission_types:
-               - "key_value_pair_view"
-
-
-
