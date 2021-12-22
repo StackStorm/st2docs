@@ -2,7 +2,7 @@ Rules
 =====
 
 |st2| uses rules and workflows to capture operational patterns as automations. Rules map triggers
-to actions (or workflows), apply matching criteria and map trigger payloads to action inputs.
+to actions (or workflows), apply matching criteria, and map trigger payloads to action inputs.
 
 .. note::
    
@@ -103,7 +103,7 @@ Criteria
 --------
 
 Rule criteria are the rule(s) needed to be matched against (logical ``AND``). Criteria in the rule
-is expressed as:
+are expressed as:
 
 .. code-block:: yaml
 
@@ -118,7 +118,7 @@ is expressed as:
 
 .. note::
 
-    You can achieve logical ``OR`` behavior (either one of multiple criteria expressions needs to
+    You can achieve logical ``OR`` behavior (any one of multiple criteria expressions needs to
     match for the action execution to be triggered) by creating multiple independent rules (one per
     criteria expression).
 
@@ -466,7 +466,7 @@ To deploy a rule, use the CLI command: ``st2 rule create ${PATH_TO_RULE}``,  for
 
     st2 rule create /usr/share/doc/st2/examples/rules/sample_rule_with_webhook.yaml
 
-To reload all the rules, use ``st2ctl reload --register-rules``.
+To reload all rules, use ``st2ctl reload --register-rules``.
 
 If a rule with the same name already exists, the above command will return an error:
 
@@ -475,7 +475,7 @@ If a rule with the same name already exists, the above command will return an er
     ERROR: 409 Client Error: Conflict
     MESSAGE: Tried to save duplicate unique keys (E11000 duplicate key error index: st2.rule_d_b.$uid_1  dup key: { : "rule:examples:sample_rule_with_webhook" })
 
-To update the rule, edit the rule definition file and run the command: ``st2 rule update``, as in
+To update a rule, edit the rule definition file and run the command: ``st2 rule update``, as in
 the following example:
 
 .. code-block:: bash
@@ -486,7 +486,7 @@ the following example:
 
     **Hint:** It is a good practice to always edit the original rule file, so that keep your infrastructure in code. You still can get the rule definition from the system by ``st2 rule get <rule name> -j``, update it, and load it back.
 
-To see all the rules, or to get an individual rule, use commands below:
+To see all rules, or to get an individual rule, use commands below:
 
 .. code-block:: bash
 
@@ -504,7 +504,7 @@ To undeploy a rule, run ``st2 rule delete ${RULE_NAME_OR_ID}``. For example, to 
 Rule Location
 -------------
 
-Custom rules can be placed in any accessible folder on local system. By convention, custom rules
+Custom rules can be placed in any accessible folder on the local system. By convention, custom rules
 are placed in the ``/opt/stackstorm/packs/<pack_name>/rules`` directory. 
 
 .. _testing-rules:
@@ -512,10 +512,10 @@ are placed in the ``/opt/stackstorm/packs/<pack_name>/rules`` directory.
 Testing Rules
 -------------
 
-To make testing rules easier we provide a ``st2-rule-tester`` tool which can evaluate rules against
+To make testing rules easier, we provide a ``st2-rule-tester`` tool which can evaluate rules against
 trigger instances without running any of the |st2| components.
 
-The tool works by taking a path to the file which contains rule definition and a file which
+The tool works by taking a path to the file which contains the rule definition and a file which
 contains a trigger instance definition:
 
 .. code-block:: bash
