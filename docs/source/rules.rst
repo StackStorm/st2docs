@@ -177,16 +177,18 @@ unique. This sometimes becomes relevant when you want to apply different operato
 
 In this example, only the last of the duplicate keys in the criteria will be evaluated.
 
-As a workaround, you can use an alternative way to specify the criteria key that will specify the
-same trigger data:
+Criteria Tags can be used to refer to the same criteria key multiple times. Criteria Tags make
+a key unique and can provide context to the criteria. To create a Criteria Tag, include a # symbol 
+and some text at the end of the criteria key. On evaluation the # and the text after the # will be ignored.
+(e.g. trigger.payload.level#upper, trigger.payload.level#lower).
 
 .. code-block:: yaml
 
     criteria:
-        trigger.payload.commit.tags:
+        trigger.payload.commit.tags#1:
           type: ncontains
           pattern: StackStorm
-        trigger.payload.commit['tags']:
+        trigger.payload.commit.tags#2:
           type: contains
           pattern: pull request
         trigger.payload.commit.message:
@@ -194,11 +196,11 @@ same trigger data:
           pattern: ST2
 
 In this example, since the criteria keys are all unique, all of them will be evaluated, even though
-``trigger.payload.commit.tags`` and ``trigger.payload.commit['tags']`` specify the same value in
+``trigger.payload.commit.tags#1`` and ``trigger.payload.commit.tags#2`` specify the same value in
 the trigger data.
 
-Critera Comparison
-------------------
+Criteria Comparison
+-------------------
 
 This section describes all the available operators which can be used in the criteria.
 
@@ -283,9 +285,10 @@ applies to each element of the search list.
 The ``condition`` parameter controls how the ``search`` operator matches the list.
 With the ``any`` condition, if *at least one* item in the trigger payload list matches
 all of the child criteria, the search operator will return a successful match.
-Conversely, with the ``all`` condition, every single item in the trigger payload list
+With the ``all`` condition, every single item in the trigger payload list
 must match all of the child criteria for the search operator to return a successful
-match.
+match. The ``any2any`` condition returns a successful match if any payload items matches any criteria items.
+Finally, the ``all2any`` condition, returns a successful match if all payload items matches any criteria items.
 
 Here's an example criteria that uses the ``search`` operator with the ``any`` condition:
 
@@ -329,7 +332,7 @@ changed to ``Approved``:
       ]
     }
 
-The ``condition`` parameter can also be ``all``, in which case all of the items in the list
+Here's another example where the ``condition`` parameter is ``all``, in which case all of the items in the list
 must match all of the child pattern:
 
 .. code-block:: yaml
@@ -369,8 +372,151 @@ However, the following trigger payload would not match with the ``all`` conditio
       ]
     }
 
+Here's an example where the ``condition`` parameter is ``any2any``.
+This will return true in cases where any payload items match any part of the pattern.
+This example uses Criteria Tags described in the `Criteria`_ section above.
+
+.. code-block:: yaml
+
+    ---
+    criteria:
+      trigger.body.data.tank:
+        type: "search"
+        condition: any2any
+        pattern:
+          item.chemicalLevel#1:
+            type: "lessthan"
+            pattern: 40
+          item.chemicalLevel#2:
+            type: "greaterthan"
+            pattern: 50
+
+Payload:
+
+.. code-block:: json
+
+    {
+      "tanks": [
+        {
+          "id": 1,
+          "chemicalLevel": 43
+        }, {
+          "id": 2,
+          "chemicalLevel": 55
+        }
+      ]
+    }
+
+Since the second tank has a chemical level over 50, this criteria resolves to true
+and the action, such as a notification sent to the operator, will be triggered.
+If the second tank had a chemical level of 45, the criteria would resolve to false and no action
+would occur.
+
+Here's an example where the ``condition`` parameter is ``all2any``.
+This will return true in cases where all payload items match any part of the pattern:
+
+.. code-block:: yaml
+
+    ---
+    criteria:
+      trigger.body.data.equipment:
+        type: "search"
+        condition: all2any
+        pattern:
+          item.latitude.value#1:
+            type: "lessthan"
+            pattern: 40
+          item.latitude.value#2:
+            type: "greaterthan"
+            pattern: 50
+          item.longitude.value#1:
+            type: "lessthan"
+            pattern: -100
+          item.longitude.value#2:
+            type: "greaterthan"
+            pattern: -90
+
+Payload:
+
+.. code-block:: json
+
+    {
+    
+      "equipment": [
+        {
+          "latitude": {
+            "value": 43
+          }
+          "longitude": {
+            "value": -95
+          }
+        }, {
+          "latitude": {
+            "value": 44
+          }
+          "longitude": {
+            "value": -96
+          }
+        }
+      ]
+    }
+
+In this example all of the equipment coordinates are within the ranges specified by the criteria
+and no action would be taken. If the first equipment latitude were set to 53, there would still
+be no action. If say the second equipment longitude value were set to -106 then the action would
+trigger because ALL of the equipment would be violating at least one of the parts of the pattern.
+This could trigger a notification when the last equipment leaves an area.
+
+
+Single Payload Mode:
+If only a single element is expected in the payload the search parameter can still be used to test the criteria of a rule
+if the payload is a dictionary.
+
+Criteria:
+
+.. code-block:: yaml
+
+    ---
+    criteria:
+      trigger.body.data:
+        type: "search"
+        condition: all2any
+        pattern:
+          item.latitude.value#1:
+            type: "lessthan"
+            pattern: 40
+          item.latitude.value#2:
+            type: "greaterthan"
+            pattern: 50
+          item.longitude.value#1:
+            type: "lessthan"
+            pattern: -100
+          item.longitude.value#2:
+            type: "greaterthan"
+            pattern: -90
+
+Payload:
+
+.. code-block:: json
+
+    {
+      "data": {
+        "latitude": {
+          "value": 43
+        }
+        "longitude": {
+          "value": -95
+        }
+      }
+    }
+
+.. warning::
+
+    When using Single Payload Mode, all2any and any2any has the same result since picking all of one thing is the 
+    same as picking any of one thing.
+
 The search operator is very powerful, but more options for the ``condition`` parameter are
-possible. At this point, only the ``any`` and ``all`` conditions are implemented, but
+possible. At this point, only the ``any``, ``all``, ``any2any`` and ``all2any`` conditions are implemented, but
 future improvements could include:
 
 * ``count``
