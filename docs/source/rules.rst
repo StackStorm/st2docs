@@ -177,10 +177,10 @@ unique. This sometimes becomes relevant when you want to apply different operato
 
 In this example, only the last of the duplicate keys in the criteria will be evaluated.
 
-Criteria Tags can be used to refer to the same criteria key multiple times. Criteria Tags make
-a key unique and can provide context to the criteria. To create a Criteria Tag, include a # symbol 
-and some text at the end of the criteria key. On evaluation the # and the text after the # will be ignored.
-(e.g. trigger.payload.level#upper, trigger.payload.level#lower).
+As a workaround, criteria tags can be used to refer to the same criteria key multiple times. Criteria tags make
+a key unique and can provide context to the criteria. To create a criteria tag, include a ``#`` symbol 
+and some text at the end of the criteria key. On evaluation the ``#`` and the text after the ``#`` will be ignored.
+(e.g. ``trigger.payload.level#upper``, ``trigger.payload.level#lower``):
 
 .. code-block:: yaml
 
