@@ -1,4 +1,4 @@
-.. table::
+.. table:: 
 
     +--------------+-------------------+---------------------+-------------------+---------------------+---------------------+---------------------+---------------------+
     |    Runner    |  local-shell-cmd  | local-shell-script  | remote-shell-cmd  | remote-shell-script |      winrm-cmd      |    winrm-ps-cmd     |   winrm-ps-script   |

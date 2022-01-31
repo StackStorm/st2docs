@@ -327,7 +327,7 @@ Proxy Configuration via Environment Variables
 
 On Ubuntu systems, edit ``/etc/default/st2actionrunner`` and ``/etc/default/st2api`` to set the
 proxy configuration environment variables.
-For RHEL/CentOS systems, edit ``/etc/sysconfig/st2actionrunner`` and ``/etc/sysconfig/st2api``.
+For RHEL/RockyLinux/CentOS systems, edit ``/etc/sysconfig/st2actionrunner`` and ``/etc/sysconfig/st2api``.
 
 |st2| will use these environment variables for pack installation.
 The file contents should look as follows:

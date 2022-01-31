@@ -57,7 +57,7 @@ note the URLs that failed on retrieval should be ``https://packagecloud.io/Stack
     W: Failed to fetch https://packagecloud.io/StackStorm/stable/ubuntu/dists/xenial/InRelease  The following signatures couldn't be verified because the public key is not available: NO_PUBKEY C2E73424D59097AB
     W: Some index files failed to download. They have been ignored, or old ones used instead.
 
-For |st2| community version on RHEL/CentOS, run the following command to update the keys. If you
+For |st2| community version on RHEL/CentOS/RockyLinux, run the following command to update the keys. If you
 are running a non production version of StackStorm, then replace ``stable`` in the URL with the
 appropriate repository name.
 
@@ -75,7 +75,7 @@ repository name. Replace ``<license_key>`` with your enterprise license key.
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.rpm.sh | sudo bash
     curl -s https://<license_key>:@packagecloud.io/install/repositories/StackStorm/enterprise/script.rpm.sh | sudo bash
 
-If the new gpg keys are not setup in advanced on RHEL/CentOS, running ``yum update`` will auto-retrieve
+If the new gpg keys are not setup in advanced on RHEL/CentOS/RockyLinux, running ``yum update`` will auto-retrieve
 the new gpg key for appropriate respository. ``yum update`` will ask if you want to import the new gpg keys.
 Verify that the key is retrieved from ``https://packagecloud.io/StackStorm/stable/gpgkey`` for the |st2|
 community and enter ``y`` to confirm. For |st2| enterprise repo, an additional key needs to be retrieved from
@@ -134,7 +134,7 @@ This is the standard upgrade procedure:
 
       sudo apt-get install --only-upgrade st2 st2web st2chatops
 
-   RHEL/CentOS:
+   RHEL/CentOS/RockyLinux:
 
    .. sourcecode:: bash
 
@@ -184,7 +184,7 @@ v3.5
      curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
      sudo apt-get install --only-upgrade nodejs st2chatops
 
-  RHEL/CentOS:
+  RHEL/CentOS/RockyLinux:
 
   .. sourcecode:: bash
 

@@ -16,10 +16,10 @@ contributions. Here's our plans for the next releases.
     the feature. Pull Requests are open to anyone.
 
 
-3.6
+3.7
 ---
 
-* The roadmap for ``3.6`` is in the works, stay tuned!
+* The roadmap for ``3.7`` is in the works, stay tuned!
 
 Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
 
@@ -57,6 +57,13 @@ Submit a PR!
 
 Release History
 ---------------
+
+.. rubric:: Done in v3.6
+* RabbitMQ:** Updated all OS to use latest RabbitMQ
+* Security improvements:** Use Jinja sandbox to mitigate against CVE-2021-44657
+* API changes:** Additional option to remove files when deleting packs
+* Service configuration:** Changes made to simplify the service configuration to make it simpler to change ports used by services
+* Profiling:** New flags to support debugging and profiling --enable-profiler and --enable-eventlet-blocking-detection
 
 .. rubric:: Done in v3.5
 

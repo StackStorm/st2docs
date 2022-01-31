@@ -27,8 +27,8 @@ Ubuntu
     apt-get install mongodb mongodb-server
     apt-get install rabbitmq-server
 
-CentOS/RHEL
------------
+RockyLinux/CentOS/RHEL
+----------------------
 
 .. note::
   For RHEL 7.x you may need to enable the optional server rpms repository to be able to install the python3-devel RPM
