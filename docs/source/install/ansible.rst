@@ -22,6 +22,7 @@ Our Ansible playbooks support the same platforms as manual installation, i.e.:
 * Ubuntu Focal (20.04)
 * RHEL 7/CentOS 7
 * RHEL 8/RockyLinux 8/CentOS 8
+
 .. note::
   |st2| is verified on RHEL/RockyLinux ``8.x`` distributions, but our RPMs should be compatible with other RHEL``8.x`` derivatives, e.g. CentOS 8 Stream.
 

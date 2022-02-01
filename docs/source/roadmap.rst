@@ -59,6 +59,7 @@ Release History
 ---------------
 
 .. rubric:: Done in v3.6
+
 * RabbitMQ:** Updated all OS to use latest RabbitMQ
 * Security improvements:** Use Jinja sandbox to mitigate against CVE-2021-44657
 * API changes:** Additional option to remove files when deleting packs
