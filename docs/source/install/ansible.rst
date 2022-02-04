@@ -21,7 +21,10 @@ Our Ansible playbooks support the same platforms as manual installation, i.e.:
 * Ubuntu Bionic (18.04)
 * Ubuntu Focal (20.04)
 * RHEL 7/CentOS 7
-* RHEL 8/CentOS 8
+* RHEL 8/RockyLinux 8/CentOS 8
+
+.. note::
+  |st2| is verified on RHEL/RockyLinux ``8.x`` distributions, but our RPMs should be compatible with other RHEL``8.x`` derivatives, e.g. CentOS 8 Stream.
 
 The same system size :doc:`requirements </install/system_requirements>` also apply.
 
@@ -50,7 +53,7 @@ Roles
 Behind the scenes the ``stackstorm.yml`` play is composed of the following Ansible ``roles`` for a
 complete installation:
 
-- ``epel`` - Repository with extra packages for ``RHEL/CentOS``.
+- ``epel`` - Repository with extra packages for ``RHEL/RockyLinux/CentOS``.
 - ``mongodb`` - Main DB storage engine.
 - ``rabbitmq`` - Message broker.
 - ``st2repos`` - Adds |st2| PackageCloud repositories.

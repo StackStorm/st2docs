@@ -7,7 +7,7 @@ Using a Specific Version of Pack Content When Running an Action
   the latest stable version of git is recommended.
 
   If you are using Ubuntu 14.04, the latest stable version of git can be installed directly from the
-  `official git ppa <https://launchpad.net/~git-core/+archive/ubuntu/ppa>`_. For RHEL / CentOS,
+  `official git ppa <https://launchpad.net/~git-core/+archive/ubuntu/ppa>`_. For RHEL / RockyLinux / CentOS,
   the latest version can be found in the `IUS repos <https://ius.io/>`_.
 
 By default, when running an execution for an action from a pack on disk which is a git repository,
