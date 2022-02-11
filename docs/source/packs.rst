@@ -277,6 +277,44 @@ Upon a pack install or reload resource state is managed as follows:
        rulename1:
          enabled: true
 
+If overrides are taking place, then the number of resources affected will be output on the st2ctl reload output, for example:
+
+.. code-block:: bash
+
+   $ st2ctl reload --register-all
+   Registering content...[flags = --config-file /etc/st2/st2.conf --register-all]
+   2022-02-07 12:56:43,694 INFO [-] Connecting to database "st2" @ "127.0.0.1:27017" as user "None".
+   2022-02-07 12:56:43,704 INFO [-] Successfully connected to database "st2" @ "127.0.0.1:27017" as user "None".
+   2022-02-07 12:56:44,254 INFO [-] =========================================================
+   2022-02-07 12:56:44,254 INFO [-] ############## Registering triggers #####################
+   2022-02-07 12:56:44,254 INFO [-] =========================================================
+   2022-02-07 12:56:44,549 INFO [-] Registered 1 triggers.
+   2022-02-07 12:56:44,549 INFO [-] =========================================================
+   2022-02-07 12:56:44,549 INFO [-] ############## Registering sensors ######################
+   2022-02-07 12:56:44,549 INFO [-] =========================================================
+   2022-02-07 12:56:44,832 INFO [-] Registered 9 sensors.
+   2022-02-07 12:56:44,832 INFO [-] 7 sensors had their metadata overridden.
+   ...
+
+On a pack install, then the number of resources that have their metadata overridden will be reported in the output of the register_pack action by the "(overridden)" entries. If no resources of that type have their metadata overridden, then there will be no correspdoning overridden entry outputted:
+
+
+.. code-block:: bash
+
+   {
+     "runners": 14,
+     "rule_types": 2,
+     "policy_types": 3,
+     "triggers": 0,
+     "sensors": 2,
+     "sensors(overridden)": 2,
+     "actions": 1,
+     "rules": 1,
+     "aliases": 0,
+     "policies": 0,
+     "configs": 0
+    }
+
 .. rubric:: Example: Disabling all sensors in one pack
 
 For example, to disable all sensors in an individual pack then we would create a /opt/stackstorm/overrides/<packname>.yaml that contained:
