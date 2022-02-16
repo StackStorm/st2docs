@@ -638,9 +638,9 @@ Lets first make sure there is a pack ``example`` we can use to experiment.
     $ cd /opt/stackstorm/packs/
     $ mkdir example
     $ mkdir example/actions example/rules example/sensors
-    $ touch pack.yaml
+    $ touch example/pack.yaml
     $ touch /opt/stackstorm/configs/example.yaml
-    $ touch requirements.txt
+    $ touch example/requirements.txt
     $ cp core/icon.png example/icon.png
 
 Now we setup a role. Create ``/opt/stackstorm/rbac/roles/example_pack_owner.yaml`` with the
@@ -660,6 +660,18 @@ following content:
                - "sensor_type_all"
                - "rule_all"
                - "action_all"
+        # Note: To be able to create a rule, the user also needs to have an "action_execute" permission
+        # on the action used inside the rule. In this example, the rule created calls core.local action
+        -
+            resource_uid: "action:core:local"
+            permission_types:
+               - "action_execute"
+        # Need runner_type_list on relevant runners
+        -
+            resource_uid: "runner_type:local-shell-cmd"
+            permission_types:
+               - "runner_type_list"
+
 
 A ``pack owner`` role would require the user to be able to view, create, modify and delete all
 contents of a pack. Again, let's pick the pack ``example`` as the target of ownership.
@@ -705,7 +717,6 @@ Lets take this for a spin using the |st2| CLI.
   .. sourcecode:: bash
 
     $ st2 login rbac_user1 -p '<RBACU1_PASSWORD>'
-    $ st2 action list
 
 2. Validate rule visibility and creation:
 
@@ -715,8 +726,8 @@ Lets take this for a spin using the |st2| CLI.
     $ cp /usr/share/doc/st2/examples/rules/sample_rule_with_timer.yaml rules/
     $ sed -i 's/pack: "examples"/pack: "example"/g' rules/sample_rule_with_timer.yaml
     $ st2 rule create rules/sample_rule_with_timer.yaml
-    $ st2 rule get example.sample_rule_with_timer.yaml
-    $ st2 rule delete example.sample_rule_with_timer.yaml
+    $ st2 rule get example.sample_rule_with_timer
+    $ st2 rule delete example.sample_rule_with_timer
 
     # Expect Failure
     $ st2 rule get <EXISTING_RULE_REF>
@@ -734,5 +745,5 @@ Lets take this for a spin using the |st2| CLI.
     $ st2 action delete example.local-notify
 
     # Expect failure
-    $ st2 action get core.local
-    $ st2 run core.local hostname
+    $ st2 action get core.echo
+    $ st2 run core.echo hello
