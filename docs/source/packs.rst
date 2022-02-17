@@ -217,7 +217,7 @@ When installing a pack the state of the resources is taken from the metadata fil
 
 Prior, to |st2| 3.7.0 then this state can be altered, by:
 
-  * using the |st2| APIs to disable the resource. However, this will be forgotten upon a st2ctl reload or pack reinstall.
+  * using the |st2| APIs to disable the resource. However, this will be forgotten upon a ``st2ctl reload`` or pack reinstall.
   * changing the metadata file manually. This would be lost upon an upgrade, and cannot be easily tracked.
 
 In |st2| 3.7.0 we have introduced the override feature, so that the metadata of a packs resources can be overridden by configuration files. This will always be read upon a reload or pack install. The ST2 APIs will still allow you to override this, but as before any changes made by the |st2| APIs to enable/disable resources is forgotten upon reload or re-install.
