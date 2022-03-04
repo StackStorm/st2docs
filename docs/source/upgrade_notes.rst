@@ -3,6 +3,15 @@
 Upgrade Notes
 =============
 
+.. _ref-upgrade-notes-v3-7:
+
+|st2| v3.7
+----------
+
+* As part of introducing the override pack metadata functionality, the name ``global`` is
+  reserved, and cannot be used for pack names or pack references, to avoid conflict between
+  the global override file and individual pack override files.
+
 .. _ref-upgrade-notes-v3-6:
 
 |st2| v3.6
