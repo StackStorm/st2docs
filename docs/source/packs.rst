@@ -227,8 +227,8 @@ The override facility is currently restricted to allowing the enabled property t
 Upon a pack install or reload resource state is managed as follows:
 
 * State is read from the pack's resource metadata files that reside in ``/opt/stackstorm/packs/<packname>``. These are downloaded from the relevant repository of the pack, e.g. GIT, StackStorm-Exchange.
-* If ``/opt/stackstorm/overrides/global.yaml`` is present, then any global overrides are applied. The ``global.yaml`` allows you to specify the default state of a particular resource types, e.g. disable all sensors.
-  The format of the global.yaml is as follows (set to disable everything):
+* If ``/opt/stackstorm/overrides/_global.yaml`` is present, then any global overrides are applied. The ``_global.yaml`` allows you to specify the default state of a particular resource types, e.g. disable all sensors.
+  The format of the _global.yaml is as follows (set to disable everything):
 
 .. code-block:: bash
 
@@ -328,7 +328,7 @@ For example, to disable all sensors in an individual pack then we would create a
 
 .. rubric:: Example: Disabling all sensors in all packs, except for one pack
 
-If, instead we wanted to override all sensors except for a single pack, then we would instead create a ``/opt/stackstorm/overrides/global.yaml`` to disable all sensors:
+If, instead we wanted to override all sensors except for a single pack, then we would instead create a ``/opt/stackstorm/overrides/_global.yaml`` to disable all sensors:
 
 .. code-block:: bash
 

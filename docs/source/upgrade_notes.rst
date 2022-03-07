@@ -8,7 +8,7 @@ Upgrade Notes
 |st2| v3.7
 ----------
 
-* As part of introducing the override pack metadata functionality, the name ``global`` is
+* As part of introducing the override pack metadata functionality, the name ``_global`` is
   reserved, and cannot be used for pack names or pack references, to avoid conflict between
   the global override file and individual pack override files.
 
