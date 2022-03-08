@@ -246,7 +246,7 @@ Upon a pack install or reload resource state is managed as follows:
      defaults:
        enabled: false
 
-* If ``/opt/stackstorm/overrides/<packname>.yaml`` is present, then any pack defaults, or resource specific overrides are applied. The <pack>.yaml allows you to alter the state of all the resources of a particular type, via the defaults property (e.g. all sensors within the pack), or by individual resource type, via the exceptions property (e.g. only alter state of individual actions).
+* If ``/opt/stackstorm/overrides/<packname>.yaml`` is present, then any pack defaults, or resource specific overrides are applied. The <pack>.yaml allows you to alter the state of all the resources of a particular type, via the defaults property (e.g. all sensors within the pack), or by individual resource type, via the exceptions property (e.g. only alter state of individual actions). As the pack name is determined by the name of the overrides file, the name of the resource in the file should omit the pack name, e.g. ``action1`` in the ``pack1.yaml`` refers to the resource ``pack1.action1``.
   The format of the ``<pack>.yaml`` is as follows (set to disable everything, except for individual resource of each type):
 
 .. code-block:: bash
@@ -348,7 +348,7 @@ And an ``/opt/stackstorm/overrides/<packname>.yaml`` to enable the sensors for t
 
 .. rubric:: Example: Overriding state of individual resources
 
-In this next example, we disable all actions in ``pack1``, except for the actions ``action1`` and ``action2``. We also change the state of just a single rule to disabled. To do this, we create a ``/opt/stackstorm/overrides/pack1.yaml`` with:
+In this next example, we disable all actions in ``pack1``, except for the actions ``pack1.action1`` and ``pack1.action2``. We also change the state of just a single rule to disabled. To do this, we create a ``/opt/stackstorm/overrides/pack1.yaml`` with:
 
 .. code-block:: bash
 
