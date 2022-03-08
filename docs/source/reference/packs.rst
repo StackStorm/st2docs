@@ -169,6 +169,8 @@ available at :github_st2:`st2/contrib/hello_st2 <contrib/hello_st2>`.
      ``name`` value in ``pack.yaml`` must only contain lowercase letters, digits, and underscores,
      unless you set the ``ref`` value explicitly in ``pack.yaml``. Finally the email attribute in
      ``pack.yaml`` must contain a properly formatted email address.
+     
+     From |st2| 3.7.0, the name ``_global`` is reserved, and cannot be used as a pack name.
 
      The ``python_versions`` field declares which Python versions this pack supports. As |st2| 
      only supports Python **3** from version 3.4.0 onwards, packs submitted to the StackStorm
