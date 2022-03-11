@@ -33,7 +33,7 @@ Another approach is to install StackStorm and all the dependencies from source o
 of your liking. For more information about this approach, see
 :doc:`Installing StackStorm from sources </development/sources>`.
 
-If you are already running Docker / Docker for Desktop, another option to develop locally is to 
+If you are already running Docker / Docker Desktop, another option to develop locally is to 
 utilize the available extensions in VSCode to get setup. This works especially well for MacOS users.
 For more information, see :doc:`Setting up VSCode & Docker Development</development/docker_vscode>`
 
