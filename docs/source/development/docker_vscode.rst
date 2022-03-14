@@ -33,7 +33,7 @@ Instructions
 Your docker-compose should already be running with all of the st2 containers. Go ahead launch your VSCode application.
 
 Setup in VSCode
-~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 Open your Command Palette (Shift+Cmd+P on MacOS), and enter: ``Remote-Containers`` and look for ``Remote-Containers: Attach to Running Container...``.
 
