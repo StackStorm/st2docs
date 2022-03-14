@@ -45,7 +45,7 @@ A list of running containers appear. Select ``/st2-docker_st2client-1`` (which i
 instead of st2client).
 
 A new VSCode Window should pop up and begin attaching to the st2client container. You can verify by looking at the connection status in the lower-right corner
-of VSCode. It should say ``Container stackstorm/st2actionrunner:latest".
+of VSCode. It should say ``Container stackstorm/st2actionrunner:latest"``.
 
 When you are running VSCode on remote systems or containers, it installs a local support package of VSCode. This means the extensions you have installed on your
 local VSCode are not available. For our purposes here, we need to install the python extension(s) again. Go ahead and install the extensions you normally would
@@ -69,4 +69,4 @@ the st2 venv for the virtual environment.
 Once this is all complete, you are ready to develop on MacOS with full access to st2 libraries with intellisense and validation.
 
 .. note:: 
-    Testing frameworks have not been tested using this method.
+  Testing frameworks have not been tested using this method.
