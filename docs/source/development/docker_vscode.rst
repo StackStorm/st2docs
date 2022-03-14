@@ -13,6 +13,7 @@ Requirements:
 -  VSCode
 -  VSCode Extensions: Docker (Microsoft), Remote - Containers (Microsoft)
 -  Already followed and have running the `ST2 docker-compose setup <https://github.com/stackStorm/st2-docker>`
+
 .. note:: 
   Make sure you set the configuration (through environment) for "export ST2_PACKS_DEV=CUSTOMPATH" `per the README instructions<https://github.com/stackStorm/st2-docker#step-by-step-first-time-instructions>`
   so that you mount a local dir to the container's pack.dev
