@@ -65,7 +65,7 @@ It may or may not automatically detect the system interpreter (which we do not w
 Select ``Enter interpreter path`` and type / point it to ``/opt/stackstorm/st2/bin/python``. Now VSCode should automatically set the interpreter path and detect
 the st2 venv for the virtual environment.
 
-Once this is all complete, you are ready to develop on MacOS with full access to st2 libraries and validation.
+Once this is all complete, you are ready to develop on MacOS with full access to st2 libraries with intellisense and validation.
 
 .. note:: 
     Testing frameworks have not been tested using this method.
