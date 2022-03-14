@@ -1,7 +1,7 @@
 :orphan:
 
 Using Docker for Desktop and VSCode to Develop Locally
-=================
+======================================================
 
 Environment Prerequisites
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -18,7 +18,7 @@ Requirements:
   so that you mount a local dir to the container's pack.dev
 
 Overview
-------
+--------
 
 .. note::
   This was only tested on MacOS 12.2.x (x86_64/Intel) with Docker Desktop for Mac 4.5 and VSCode 1.65
@@ -28,12 +28,12 @@ requirements.txt for building st2 libraries that are not compatible with MacOS (
 around these issues by leveraging VSCode Extensions and a local docker-compose setup of StackStorm.
 
 Instructions
-----------------------
+------------
 
 Your docker-compose should already be running with all of the st2 containers. Go ahead launch your VSCode application.
 
 Setup in VSCode
-----------------------
+---------------
 
 Open your Command Palette (Shift+Cmd+P on MacOS), and enter: ``Remote-Containers`` and look for ``Remote-Containers: Attach to Running Container...``.
 
