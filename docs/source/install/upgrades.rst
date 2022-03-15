@@ -172,6 +172,16 @@ The following sections call out the migration scripts that need to be run when u
 respective version. If you are upgrading across multiple versions, make sure you run the scripts for
 any skipped versions:
 
+v3.7
+''''
+*  *RockyLinux/RHEL/CentOS 8 only*. Due to the upgrade from python3.6 to python 3.8, all packs installed prior to upgrade will need to have their virtual environment re-created after upgrading |st2| packages (on all nodes which run st2actionrunner or st2sensorcontainer services), using the following command:
+
+.. sourcecode:: bash
+
+    sudo st2ctl reload --register-setup-recreate-virtualenvs
+
+* As ``_global`` is used for the global overrides file, if your |st2| uses a pack called _global then it will need to be renamed prior to upgrade.
+
 v3.5
 ''''
 * Node.js v14 is now used by ChatOps (previously v10 was used). The following procedure should be
