@@ -174,7 +174,7 @@ any skipped versions:
 
 v3.7
 ''''
-*  *RockyLinux/RHEL/CentOS 8 only*. Due to the upgrade from python3.6 to python 3.8, it is recommended that all packs installed prior to upgrade have their virtual environment re-created after upgrading |st2| packages (on all nodes which run st2actionrunner services), using the following command:
+*  *RockyLinux/RHEL/CentOS 8 only*. Due to the upgrade from python3.6 to python 3.8, all packs installed prior to upgrade will need to have their virtual environment re-created after upgrading |st2| packages (on all nodes which run st2actionrunner services), using the following command:
 
 .. sourcecode:: bash
 
