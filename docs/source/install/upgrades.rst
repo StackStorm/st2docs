@@ -180,6 +180,8 @@ v3.7
 
     sudo st2ctl reload --register-setup-recreate-virtualenvs
 
+* As ``_global`` is used for the global overrides file, if your |st2| uses a pack called _global then it will need to be renamed prior to upgrade.
+
 v3.5
 ''''
 * Node.js v14 is now used by ChatOps (previously v10 was used). The following procedure should be
