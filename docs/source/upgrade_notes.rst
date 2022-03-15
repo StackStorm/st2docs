@@ -12,6 +12,8 @@ Upgrade Notes
   reserved, and cannot be used for pack names or pack references, to avoid conflict between
   the global override file and individual pack override files.
 
+* On RockyLinux/CentOS/RHEL 8 the ST2 python version has changed from python 3.6 to python 3.8.
+
 .. _ref-upgrade-notes-v3-6:
 
 |st2| v3.6
