@@ -8,6 +8,21 @@ Upgrade Notes
 |st2| v3.7
 ----------
 
+* API will now set ``Secure`` and ``Samesite=lax`` cookie attribute for the auth cookie which
+  is set when authenticating via auth token / API key in query parameter (this approach is
+  primarily used by st2web).
+
+  If you need to change those default values, you can do that using
+  ``api.auth_cookie_secure`` and ``api.auth_cookie_same_site`` config options.
+
+  To revert to the old behavior, you can set ``api.auth_cookie_secure = False`` and
+  ``api.auth_cookie_same_site = None``, but this is not recommended unless you have a valid
+  reason to not host StackStorm behind an HTTPs proxy such as nginx.
+
+  You can read more about those attribute on the following links:
+  https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite,
+  https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#restrict_access_to_cookies.
+
 * As part of introducing the override pack metadata functionality, the name ``_global`` is
   reserved, and cannot be used for pack names or pack references, to avoid conflict between
   the global override file and individual pack override files.
@@ -50,15 +65,19 @@ Upgrade Notes
 
 * Node was upgraded from v10 to v14. Node 14 repository will be required to be
   setup, prior to upgrade of st2chatops.
+
 * Support for Ubuntu 16.04 (Xenial) was removed.
+
 * Redis server is installed and configured as backend for the coordination service
   by default to support workflows with multiple branches and tasks with items.
   Upgrade requires coordination service to be setup manually.
   For workflows to be executed properly, setup the coordination service
   accordingly.
+
 * Validation of action definitions are stricter. If an action definition has duplicate keys, |st2|
   will complain when ``st2ctl reload`` is performed at upgrade. Action/workflow definitions should be checked
   for duplicate keys before upgrade.
+
 * ``%`` interpolation in st2 configuration parameters is no longer supported. Update your configuration
   parameters to fix strings if you use ``%`` interpolation to lookup keys as part of your parameter.
   
