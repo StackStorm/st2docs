@@ -22,7 +22,7 @@ Minimal Installation
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
 
-Install MongoDB, and RabbitMQ:
+Install MongoDB, RabbitMQ, and Redis:
 
 .. code-block:: bash
 
@@ -36,9 +36,40 @@ Install MongoDB, and RabbitMQ:
   EOT"
   sudo apt-get update
 
+  # Add keys latest RabbitMQ and RabbitMQ-erlang
+  # Team RabbitMQ's main signing key
+  curl -1sLf "https://keys.openpgp.org/vks/v1/by-fingerprint/0A9AF2115F4687BD29803A206B73A36E6026DFCA" | sudo gpg --dearmor | sudo tee /usr/share/keyrings/com.rabbitmq.team.gpg > /dev/null
+  # Launchpad PPA that provides modern Erlang releases
+  curl -1sLf "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xf77f1eda57ebb1cc" | sudo gpg --dearmor | sudo tee /usr/share/keyrings/net.launchpad.ppa.rabbitmq.erlang.gpg > /dev/null
+  # PackageCloud RabbitMQ repository
+  curl -1sLf "https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey" | sudo gpg --dearmor | sudo tee /usr/share/keyrings/io.packagecloud.rabbitmq.gpg > /dev/null
+
+  # Add apt repositories maintained by Team RabbitMQ
+  sudo tee /etc/apt/sources.list.d/rabbitmq.list <<EOF
+
+  ## Provides modern Erlang/OTP releases
+  ##
+  deb [signed-by=/usr/share/keyrings/net.launchpad.ppa.rabbitmq.erlang.gpg] http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu bionic main
+  deb-src [signed-by=/usr/share/keyrings/net.launchpad.ppa.rabbitmq.erlang.gpg] http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu bionic main
+
+  ## Provides RabbitMQ
+  ##
+  deb [signed-by=/usr/share/keyrings/io.packagecloud.rabbitmq.gpg] https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main
+  deb-src [signed-by=/usr/share/keyrings/io.packagecloud.rabbitmq.gpg] https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main
+  EOF
+
+  sudo apt-get update
+
   sudo apt-get install -y crudini
   sudo apt-get install -y mongodb-org
-  sudo apt-get install -y rabbitmq-server
+  sudo apt-get install -y erlang-base \
+                        erlang-asn1 erlang-crypto erlang-eldap erlang-ftp erlang-inets \
+                        erlang-mnesia erlang-os-mon erlang-parsetools erlang-public-key \
+                        erlang-runtime-tools erlang-snmp erlang-ssl \
+                        erlang-syntax-tools erlang-tftp erlang-tools erlang-xmerl
+
+  sudo apt-get install rabbitmq-server -y --fix-missing
+  sudo apt-get install -y redis-server
 
 For Ubuntu ``Bionic`` you may need to enable and start MongoDB.
 
@@ -71,6 +102,8 @@ Setup Datastore Encryption
 
 .. include:: common/datastore_crypto_key.rst
 
+.. _ref-config-ssh-sudo-deb:
+
 Configure SSH and SUDO
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -85,6 +118,8 @@ Verify
 ~~~~~~
 
 .. include:: common/verify.rst
+
+.. _ref-config-auth-deb:
 
 Configure Authentication
 ------------------------
@@ -104,6 +139,8 @@ To set up authentication with file-based provider:
     echo 'Ch@ngeMe' | sudo htpasswd -i /etc/st2/htpasswd st2admin
 
 .. include:: common/configure_authentication.rst
+
+.. _ref-install-webui-ssl-deb:
 
 Install WebUI and Setup SSL Termination
 ---------------------------------------
@@ -141,6 +178,8 @@ Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebU
 
 .. include:: common/api_access.rst
 
+.. _ref-setup-chatops-deb:
+
 Setup ChatOps
 -------------
 
@@ -158,11 +197,11 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
     # Create notification rule if not yet enabled
     st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml
 
-* Add `NodeJS v10 repository <https://nodejs.org/en/download/package-manager/>`_:
+* Add `NodeJS v14 repository <https://nodejs.org/en/download/package-manager/>`_:
 
   .. code-block:: bash
 
-    curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+    curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 
 * Install the ``st2chatops`` package:
 

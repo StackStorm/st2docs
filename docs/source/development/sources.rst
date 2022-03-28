@@ -9,7 +9,9 @@ Environment Prerequisites
 Requirements:
 
 -  git
--  python3.6, pip, virtualenv, tox
+-  python3.6 for Ubuntu 18.04 and CentOS/RHEL 7
+-  python3.8 for Ubuntu 20.04 and RockyLinux/CentOS/RHEL 8
+-  pip, virtualenv, tox
 -  MongoDB (http://docs.mongodb.org/manual/installation)
 -  RabbitMQ (http://www.rabbitmq.com/download.html)
 -  screen
@@ -18,7 +20,7 @@ Ubuntu
 ------
 
 .. note::
-  For Ubuntu 16.04 you will need to source python3.6 from a suitable PPA
+  For Ubuntu 20.04 replace with python3.8 equivalents
 
 
 .. code-block:: bash
@@ -27,8 +29,8 @@ Ubuntu
     apt-get install mongodb mongodb-server
     apt-get install rabbitmq-server
 
-CentOS/RHEL
------------
+RockyLinux/CentOS/RHEL
+----------------------
 
 .. note::
   For RHEL 7.x you may need to enable the optional server rpms repository to be able to install the python3-devel RPM

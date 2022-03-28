@@ -2,7 +2,7 @@ Roadmap
 =======
 
 |st2| is still under active development. We welcome community feedback, and encourage
-contributions. Here's our plans for the next two releases.
+contributions. Here's our plans for the next releases.
 
 
 .. note::
@@ -16,43 +16,20 @@ contributions. Here's our plans for the next two releases.
     the feature. Pull Requests are open to anyone.
 
 
-3.4
+3.7
 ---
 
-* The roadmap for ``3.4`` is in the works, stay tuned!
-
-  Current plans include:
-
-  * Drop Python 2.7 support for RHEL/CentOS 7, and use OS distributed Python 3.6
-  * Drop Python 2.7 support for Ubuntu 16.04, and only support Python 3.6. Python 3.6 will need to be sourced by users from a suitable PPA.
-
-
-  Other possibilities include:
-
-  * Change default pack virtual environment to use Python 3
-  * Convert ChatOps backend to Python
+* The roadmap for ``3.7`` is in the works, stay tuned!
 
 Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
-
-3.5
----
-
-* The roadmap for ``3.5`` is in the works, stay tuned!
-
-  Current plans include:
-
-  * Add support for Ubuntu 20.04, with Python 3.8
 
 Backlog
 -------
 
 Here's some more nice things on our list that we haven't scheduled yet:
 
-* **Python:** Drop Python 2 support, rely on Python 3 ony.
-* **RBAC:** Integrate ``st2rbac`` (previously EWC/BWC) features into core.
-* **st2flow:** Integrate ``st2flow`` (previously EWC/BWC) features into ``st2web``.
+* **Python ChatOps:** Convert ChatOps backend to Python
 * **ChatOps:** Support RBAC.
-* **Ubuntu:** Support Ubuntu 20.04 LTS.
 * **K8s/HA:** Graduate `K8s Helm chart <https://github.com/stackstorm/stackstorm-ha>`_ from beta to stable.
 * **Workflow runtime graph:** Runtime view of workflow execution in st2flow for |ewc|.
 * **Workflow dry run:** Ability to run unit tests on orquesta workflows for |ewc|.
@@ -80,6 +57,28 @@ Submit a PR!
 
 Release History
 ---------------
+
+.. rubric:: Done in v3.6
+
+* RabbitMQ:** Updated all OS to use latest RabbitMQ
+* Security improvements:** Use Jinja sandbox to mitigate against CVE-2021-44657
+* API changes:** Additional option to remove files when deleting packs
+* Service configuration:** Changes made to simplify the service configuration to make it simpler to change ports used by services
+* Profiling:** New flags to support debugging and profiling --enable-profiler and --enable-eventlet-blocking-detection
+
+.. rubric:: Done in v3.5
+
+* **Ubuntu Focal:** Add support for Ubuntu 20.04, with Python 3.8 and Mongo 4.4
+* **Ubuntu Xenial:** Remove support for Ubuntu 16.04
+* **Performance improvements:** Performance improvements on JSON serialization/deserialization
+* **Redis:** Add Redis as a coordination backend
+
+.. rubric:: Done in v3.4
+
+* **Python 2 deprecation:** Updated RHEL/CentOS 7.x and Ubuntu 16.04 to use Python 3.6, and update packs in StackStorm-Exchange 
+* **RBAC:** Integrate ``st2rbac`` (previously EWC/BWC) features into core.
+* **LDAP:** Integrate ``st2ldap`` (previously EWC/BWC) features into core.
+* **st2flow:** Integrate ``st2flow`` (previously EWC/BWC) features into ``st2web``.
 
 .. rubric:: Done in v3.3
 

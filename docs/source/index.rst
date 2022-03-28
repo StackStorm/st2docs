@@ -24,16 +24,13 @@ Contents:
     datastore
     chatops/index
 
-.. include:: _includes/flow.rst
-
-.. include:: _includes/solutions.rst
-
 .. toctree::
     :maxdepth: 2
     :caption: Advanced Topics
 
     authentication
     rbac
+    coordination
     inquiries
     reference/index
     troubleshooting/index

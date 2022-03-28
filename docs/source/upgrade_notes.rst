@@ -3,10 +3,127 @@
 Upgrade Notes
 =============
 
+.. _ref-upgrade-notes-v3-7:
+
+|st2| v3.7
+----------
+
+* As part of introducing the override pack metadata functionality, the name ``_global`` is
+  reserved, and cannot be used for pack names or pack references, to avoid conflict between
+  the global override file and individual pack override files.
+
+* On RockyLinux/CentOS/RHEL 8 the ST2 python version has changed from python 3.6 to python 3.8.
+
+.. _ref-upgrade-notes-v3-6:
+
+|st2| v3.6
+----------
+
+* Prior to v3.5 the installation instructions for all OSes except for CentOS/RHEL 8
+  said to use the version of RabbitMQ available in the OS distribution. This version is
+  very old, and for 3.6 the installation instructions and simple install have been modified
+  to install the latest version of RabbitMQ. It is not a requirement to upgrade RabbitMQ
+  for installation of 3.6, but to keep compatibility with a clean installation, the RabbitMQ
+  cluster should be upgraded for non CentOS/RHEL 8 systems.
+
+* Retaining backwards compatibility, action delete API has been modified.
+  The existing action delete command ``st2 action delete <pack>.<action>`` will delete
+  only database entry.
+  The action delete CLI command will now take ``-r`` or ``--remove-files`` argument
+  to delete action from database along with related files from disk.
+  API action DELETE method with ``{"remove_files": true}`` argument in json body will
+  remove database entry of action along with files from disk.
+  API action DELETE method with ``{"remove_files": false}`` or no additional argument
+  in json body will remove only action database entry.
+
+* systemd generators for ``st2api``, ``st2auth`` and ``st2stream`` socket files have replaced
+  the static ``.socket`` files.  ``st2.conf`` has become the authoritative source for controlling
+  the IP address and port the service will listen on.  This gives a more consistent and intuitive
+  means of configuring these services.  If you previously configured these services by directly
+  modifying the ``.socket`` file or using the ``DAEMON_ARGS`` environment variable, they are no
+  longer referenced and ``st2.conf`` will need to be updated with the desired ip/port.
+
+.. _ref-upgrade-notes-v3-5:
+
+|st2| v3.5
+----------
+
+* Node was upgraded from v10 to v14. Node 14 repository will be required to be
+  setup, prior to upgrade of st2chatops.
+* Support for Ubuntu 16.04 (Xenial) was removed.
+* Redis server is installed and configured as backend for the coordination service
+  by default to support workflows with multiple branches and tasks with items.
+  Upgrade requires coordination service to be setup manually.
+  For workflows to be executed properly, setup the coordination service
+  accordingly.
+* Validation of action definitions are stricter. If an action definition has duplicate keys, |st2|
+  will complain when ``st2ctl reload`` is performed at upgrade. Action/workflow definitions should be checked
+  for duplicate keys before upgrade.
+* ``%`` interpolation in st2 configuration parameters is no longer supported. Update your configuration
+  parameters to fix strings if you use ``%`` interpolation to lookup keys as part of your parameter.
+  
+  Now ``%`` is a valid character in parameter values.
+  
+  This increases security because passwords with a ``%`` in it do no longer result into an error. 
+
+* The underlying database field type for storing large values such as action execution result has
+  changed for various database models (ActionExecutionDB, LiveActionDB, WorkflowExecutionDB,
+  TaskExecutionDB, TriggerInstanceDB).
+
+  For most users this change will result in 8-20x speed up when working with (reading and writing)
+  large values from / to the database.
+
+  The change is fully transparent to the end user and new objects created after upgrade to |st2|
+  v3.5 will automatically utilize this new field type.
+
+  Existing objects in the database will continue to utilize old field type.
+
+  If you want to migrate them to the new field type, you can use
+  ``st2-migrate-db-dict-field-values`` migration script which ships with |st2| v3.5. The script
+  only operates on "finalized" objects (i.e. finished executions) and it's idempotent which means
+  you can re-run it on failures or similar.
+
+  It's worth noting that running this script is optional - in most cases users primarily care about
+  performance for recent / new objects (e.g. viewing recent executions) so if you don't migrate
+  existing database field values this means retrieving those objects will still be slow, but it
+  doesn't affect newly created objects post v3.5 upgrade which will utilize new field type and
+  as such, exhibit much better performance.
+
+  By default the script will run in an interactive mode and display a prompt with a warning which needs
+  to be acknowledged before continuing. If you want to run script in an non-interactive mode, pass
+  ``--yes`` command line argument to it.
+
+  The script also defaults to migrating data for the past 30 days. You can migrate objects from
+  a different time period using ``--start-dt`` and ``--end-dt`` arguments as shown below.
+
+  The script currently doesn't support batching so in case you have many objects in the database
+  (especially trigger instances) you may need to migrate things in smaller chunks and call this
+  script multiple time (e.g. using a day long intervals or shorter).
+
+  Before running this script, you may also want to purge some old operational data. For information
+  on that, please refer to :doc:`Purging Old Operational Data </troubleshooting/purging_old_data>`
+  documentation page.
+
+  .. code-block:: bash
+
+    # Migrate objects with creation date between April 20th, 2021 and April 25th, 2021
+    /opt/stackstorm/st2/bin/st2-migrate-db-dict-field-values --start-dt "2021-04-20T19:16:55Z" --end-dt "2021-04-25T19:26:55Z"
+
+    # Migrate object between April 20th and "now"
+    /opt/stackstorm/st2/bin/st2-migrate-db-dict-field-values --start-dt "2021-04-20T19:16:55Z" --end-dt "now"
+
+  .. note::
+
+    You are strongly recommended to create a full database backup before running this script.
+
+    If you run this migration script and a need arises, you won't be able to rollback back to a
+    previous version (v3.4) because code in previous version doesn't include support for this new
+    field type (in such case you would need to restore the database backup).
+
 .. _ref-upgrade-notes-v3-4:
 
 |st2| v3.4
--------------
+----------
 
 * Python 2 support was removed.
   Any packs that only support python 2 will need to be migrated to python 3.

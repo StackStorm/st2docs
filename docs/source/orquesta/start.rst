@@ -87,7 +87,7 @@ named ``notify`` which we can ignore for now.
         notify
             List of tasks to trigger notifications for.
             Type: array
-            Default: []`
+            Default: []
 
 To execute the workflow, run the command ``st2 run examples.orquesta-sequential name=Earthling -a``
 where the ``-a`` option tells the command to return and not wait for the workflow to complete.

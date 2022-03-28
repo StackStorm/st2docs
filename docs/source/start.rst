@@ -46,13 +46,19 @@ packs...check it out at https://{YOUR_ST2_IP}. Login is the same as via the ``st
 Authenticate
 ------------
 
-You will almost certainly have authentication enabled. To easiest way to login via CLI is this:
+You will almost certainly have authentication enabled. The easiest way to login via CLI is this:
 
 .. code-block:: bash
 
     st2 login st2admin --password 'Ch@ngeMe'
 
 This will obtain an authentication token, and cache it.
+
+The following will display the authentication token. 
+
+.. code-block:: bash
+
+    st2 auth st2admin -p 'Ch@ngeMe'
 
 There are other options for authentication: check the :doc:`docs<authentication>` for more details.
 
@@ -198,11 +204,13 @@ Deploy a Rule
     # Get the rule that was just created
     st2 rule get examples.sample_rule_with_webhook
 
-Once the rule is created, the webhook begins to listen on ``https://{host}/api/v1/webhooks/{url}``.
-Fire the POST, check out the file and see that it appends the payload if the name=Joe.
+Once the rule is created, the webhook begins to listen on ``https://{host}/api/v1/webhooks/{url}``. Fire the POST, check out ``/home/stanley/st2.webhook_sample.out``, and see that it appends the payload to the file.
 
 .. code-block:: bash
 
+    # Obtain authentication token
+    st2 auth st2admin -p 'Ch@ngeMe'
+    
     # Post to the webhook
     curl -k https://localhost/api/v1/webhooks/sample -d '{"foo": "bar", "name": "st2"}' -H 'Content-Type: application/json' -H 'X-Auth-Token: put_token_here'
 

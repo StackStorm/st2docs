@@ -692,8 +692,8 @@ Keep in mind that the values need to be encrypted with the same private key whic
 by the StackStorm instance in question.
 
 To save an already encrypted secret in the key-value store, you need to tell StackStorm
-that the value you are passing in needs is already encrypted and should be treated as
-such and used as-is. This can be done using ``--pre-encrypted`` CLI flag.
+that the value you are passing in is already encrypted and should be used as-is.
+This can be done using ``--pre-encrypted`` CLI flag.
 
 .. code-block:: bash
 

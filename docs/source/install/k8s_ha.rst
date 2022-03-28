@@ -4,11 +4,13 @@
 This document provides an installation blueprint for a Highly Available StackStorm cluster
 based on `Kubernetes <https://kubernetes.io/>`__, a container orchestration platform at planet scale.
 
-The cluster deploys a minimum of 2 replicas for each component of StackStorm microservices for redundancy and reliability. It
-also configures backends like MongoDB HA Replicaset, RabbitMQ HA and Redis Sentinel cluster that st2 relies on for database,
-communication bus, and distributed coordination respectively. That raises a fleet of more than ``30`` pods total.
+A StackStorm HA cluster consists of 2 replicas for most StackStorm microservices for redundancy and reliability.
+The cluster must also have access to backend services like MongoDB HA Replicaset, RabbitMQ HA and a Redis Sentinel cluster
+that st2 relies on for database, communication bus, and distributed coordination respectively. These services are
+included in the default StackStorm HA cluster, but StackStorm can also use services provisioned separately.
+By default, the StackStorm HA cluster consists of a fleet of more than ``30`` pods.
 
-The source code for K8s resource templates is available as a GitHub repo:
+The source code for K8s resource templates (part of our Helm chart) is available as a GitHub repo:
 `StackStorm/stackstorm-ha <https://github.com/StackStorm/stackstorm-ha>`_.
 
 .. warning::
@@ -23,13 +25,13 @@ The source code for K8s resource templates is available as a GitHub repo:
 Requirements
 ------------
 * `Kubernetes <https://kubernetes.io/docs/setup/pick-right-solution/>`__ cluster
-* `Helm <https://docs.helm.sh/using_helm/#install-helm>`__, the K8s package manager and `Tiller <https://docs.helm.sh/using_helm/#initialize-helm-and-install-tiller>`_
+* `Helm <https://helm.sh/docs/intro/install>`__ 3, the K8s package manager (Helm 2 is not supported)
 * Enough computing resources for production use, respecting :doc:`/install/system_requirements`
 
 Usage
 -----
 This document assumes some basic knowledge of Kubernetes and Helm.
-Please refer to `K8s <https://kubernetes.io/docs/home/>`__ and `Helm <https://docs.helm.sh/>`__
+Please refer to `K8s <https://kubernetes.io/docs/home/>`__ and `Helm <https://helm.sh/docs/>`__
 documentation if you find any difficulties using these tools.
 
 However, here are some minimal instructions to get started.
@@ -52,16 +54,17 @@ or ``st2`` CLI client:
 .. figure :: /_static/images/helm-chart-notes.png
     :align: center
 
+.. todo:: Update this screenshot. It is out of date.
 
 The installation uses some unsafe defaults which we recommend you change for production use via Helm ``values.yaml``.
 
 Helm Values
 ___________
 Helm package ``stackstorm-ha`` comes with default settings (see `values.yaml <https://github.com/StackStorm/stackstorm-ha/blob/master/values.yaml>`_).
-Fine-tune them to achieve desired configuration for the StackStorm HA K8s cluster.
+Fine-tune them to achieve desired configuration for your StackStorm HA K8s cluster.
 
 .. note::
-    Keep custom values you want to override in a separated yaml file so they won't get lost.
+    Keep custom values you want to override in a separate YAML file so they won't get lost.
     Example: ``helm install -f custom_values.yaml`` or ``helm upgrade -f custom_values.yaml``
 
 You can configure:
@@ -69,14 +72,24 @@ You can configure:
 - number of replicas for each component
 - st2 auth secrets
 - st2.conf settings
-- RBAC roles, assignments and mappings (enterprise only)
-- custom st2 packs and its configs
+- RBAC roles, assignments and mappings (enterprise only for StackStorm v3.2 and before, open source
+  for StackStorm v3.4 and later)
+- custom st2 packs (in persistent volumes or via custom docker images) and their configs
 - SSH private key
-- K8s resources and settings to control pod/deployment placement
-- Mongo, RabbitMQ clusters
+- K8s resources, annotations, and settings to control pod/deployment placement
+- Image tag and repository settings to select the ST2 version or use customized/private component images
+- DNS and Ingress configuration
+- Miscellaneous other ST2 cluster customizations
+- Mongo, RabbitMQ, and Redis clusters
+
+If not defined, these values are auto-generated on install and preserved across upgrades:
+
+- SSH private key
+- st2 auth secrets (ie: the password for the st2admin user)
 
 .. warning::
-    It's highly recommended to set your own secrets as the file contains unsafe defaults like SSH keys, StackStorm access credentials and MongoDB/RabbitMQ passwords!
+    It's highly recommended to set your own secrets to replace the unsafe defaults for for the MongoDB and RabbitMQ subhcarts!
+	If you disable the subcharts, make sure to secure the services and add the relevant secrets to st2.conf.
 
 Upgrading
 _________
@@ -120,16 +133,34 @@ Grab all logs only for stackstorm backend services, excluding st2web and DB/MQ/r
 
 Custom st2 packs
 ----------------
-To follow the stateless model, shipping custom st2 packs is now part of the deployment process.
-It means that ``st2 pack install`` won't work in a distributed environment and you have to bundle all the
-required packs into a Docker image that you can codify, version, package and distribute in a repeatable way.
-The responsibility of this Docker image is to hold pack content and their virtualenvs.
-So the custom st2 pack docker image you have to build is essentially a couple of read-only directories that
-are shared with the corresponding st2 services in the cluster.
+There are two ways to install st2 packs in the k8s cluster.
 
-For your convenience, we created a new ``st2-pack-install <pack1> <pack2> <pack3>`` utility
+1. The ``st2packs`` method is the default. This method will work for practically all clusters, but ``st2 pack install`` does not work. The packs are injected via ``st2packs`` images instead.
+
+2. The other method defines shared/writable ``volumes``. This method allows ``st2 pack install`` to work, but requires a persistent storage backend to be available in the cluster. This chart will not configure a storage backend for you.
+
+.. note::
+  In general, we recommend using only one of these methods. See the NOTE under Method 2 below about how both methods can be used together with care.
+
+Method 1: st2packs images (the default)
+_______________________________________
+
+This method strives to follow the stateless model, so shipping custom st2 packs is part of the deployment process.
+Without persistent storage (ie without state), packs and their virtualenvs need to be installed in each pod.
+``st2 pack install`` does not work in this distributed model because it assumes that nodes have a shared filesystem
+(Method 2, below, uses a shared filesystem), so that only one node needs to download the pack files or setup the
+virtualenv and all other nodes will see those files right away.
+
+In order to achieve this stateless model, you have to bundle all the required packs (and their virtualenvs)
+into one or more Docker images that you can codify, version, package and distribute in a repeatable way.
+The responsibility of these Docker images is to hold pack content and their virtualenvs.
+Effectively, the st2packs Docker image(s) you have to build are a couple of read-only directories that
+are shared with the corresponding st2 services in the cluster. When a new st2actionrunner
+pod starts up, those directories get copied into the pod.
+
+For your convenience, we created an ``st2-pack-install <pack1> <pack2> <pack3>`` utility
 and included it in a container `stackstorm/st2packs <https://hub.docker.com/r/stackstorm/st2packs/>`_
-that will help to install custom packs during the Docker build process without relying on live DB and MQ connection.
+that will help to install custom packs during the Docker build process without relying on live MongoDB and RabbitMQ connections.
 
 For more detailed instructions see `StackStorm/st2packs-dockerfiles <https://github.com/StackStorm/st2packs-dockerfiles/>`_
 on how to build your custom `st2packs` image.
@@ -138,9 +169,28 @@ Please refer to `StackStorm/stackstorm-ha#install-custom-st2-packs-in-the-cluste
 Helm chart repository with more information about how to reference custom st2pack Docker image in Helm values, providing packs configs,
 using private Docker registry and more.
 
+Method 2: Shared Volumes
+________________________
+
+Pack content can also be shared via ReadWriteMany volumes such as NFS (Network File System) as :doc:`/reference/ha` recommends.
+Using shared volumes sacrifices the stateless infrastructure model, but enables normal pack management features
+such as ``st2 pack install``.
+
+Relying on shared volumes requires cluster-specific storage setup and configuration. As that storage setup varies
+widely, manging that storage is out-of-scope for this helm chart. For example, before you can install this chart to use NFS,
+you would have to create the NFS exports, and you might need ``PersistentVolume`` and ``PersistentVolumeClaim`` k8s objects.
+Then, you add some volume definitions to your ``values.yaml``, and install or upgrade StackStorm with Helm.
+Not every cluster uses NFS or PV/PVCs to manage the storage, so the chart treats your volume definitions as opaque data,
+merely including your volume definitions in the appropriate place in various ``Deployment`` and ``Job`` k8s objects.
+
 .. note::
-  There is an alternative approach, - sharing pack content via read-write-many NFS (Network File System) as :doc:`/reference/ha` recommends.
-  As beta is in progress and both methods have their pros and cons, we'd like to hear your feedback and which way would work better for you.
+    With care, ``st2packs`` images can be used with ``volumes``. Just make sure to keep the ``st2packs`` images up-to-date
+	with any changes made via ``st2 pack install``. If a pack is installed via an ``st2packs`` image and then it gets updated
+	with ``st2 pack install``, a subsequent ``helm upgrade`` will revert back to the version in the ``st2packs`` image.
+
+Please refer to `StackStorm/stackstorm-ha#install-custom-st2-packs-in-the-cluster <https://github.com/stackstorm/stackstorm-ha#install-custom-st2-packs-in-the-cluster>`_
+Helm chart repository with more information about how to pass custom volume definitions for ``packs``, ``virtualenvs``
+and pack ``configs`` in Helm values.
 
 Ingress
 -------
@@ -184,7 +234,7 @@ st2web
 ______
 st2web is a StackStorm Web UI admin dashboard. By default, st2web K8s config includes a Pod Deployment and a Service.
 ``2`` replicas (configurable) of st2web serve the web app and proxy requests to st2auth, st2api, st2stream.
-By default, st2web uses HTTP instead of HTTPS. We recommend you rely on ``LoadBalancer`` or ``Ingress`` to add HTTPS layer on top of it.
+By default, st2web uses HTTP instead of HTTPS. We recommend you rely on ``LoadBalancer`` (a ``Service`` type) or ``Ingress`` to add HTTPS layer on top of it.
 
 .. note::
   By default, st2web is a NodePort Service and is not exposed to the public net.
@@ -208,7 +258,7 @@ if you are planning a high-volume environment.
 
 st2stream
 _________
-StackStorm st2stream - exposes a server-sent event stream, used by the clients like WebUI and ChatOps to receive updates from the st2stream server.
+The StackStorm ``st2stream`` service exposes a server-sent event stream, used by the clients like WebUI and ChatOps to receive updates from the st2stream server.
 Similar to st2auth and st2api, st2stream K8s configuration includes Pod Deployment with ``2`` replicas for HA (can be increased in ``values.yaml``)
 and ClusterIP Service listening on port ``9102``.
 
@@ -262,8 +312,8 @@ st2actionrunner
 _______________
 Stackstorm workers that actually execute actions.
 ``5`` replicas for K8s Deployment are configured by default to increase StackStorm ability to execute actions without excessive queuing.
-Relies on ``redis`` for coordination. This is likely the first thing to lift if you have a lot of actions
-to execute per time period in your StackStorm cluster.
+Relies on ``redis`` for coordination. The ``st2actionrunner`` replicas count is likely the first thing to increase if you have
+a lot of actions to execute per time period in your StackStorm cluster.
 
 st2scheduler
 ____________
@@ -293,6 +343,14 @@ By default ``3`` nodes (1 primary and 2 secondaries) of MongoDB are deployed via
 For more advanced MongoDB configuration, refer to official `mongodb-replicaset <https://github.com/helm/charts/tree/master/stable/mongodb-replicaset>`_
 Helm chart settings, which might be fine-tuned via ``values.yaml``.
 
+The deployment of MongoDB to the k8s cluster can be disabled by setting the mongodb-ha.enabled key in values.yaml to false.
+
+.. note::
+   Stackstorm relies heavily on connections to a MongoDB instance. If the in-cluster deployment of MongoDB is disabled,
+   a connection to an external instance of MongoDB must be configured. The st2.config key in values.yaml provides a way
+   to configure stackstorm.
+   See `Configure MongoDB <https://docs.stackstorm.com/install/config/config.html#configure-mongodb>`_ for configuration details.
+
 `RabbitMQ HA Cluster <https://docs.stackstorm.com/latest/reference/ha.html#rabbitmq>`_
 ______________________________________________________________________________________
 RabbitMQ is a message bus StackStorm relies on for inter-process communication and load distribution.
@@ -300,6 +358,14 @@ External Helm Chart is used to deploy `RabbitMQ cluster <https://www.rabbitmq.co
 By default ``3`` nodes of RabbitMQ are deployed via K8s StatefulSet.
 For more advanced RabbitMQ configuration, please refer to official `rabbitmq-ha <https://github.com/helm/charts/tree/master/stable/rabbitmq-ha>`_
 Helm chart repository, - all settings could be overridden via ``values.yaml``.
+
+The deployment of RabbitMQ to the k8s cluster can be disabled by setting the rabbitmq-ha.enabled key in values.yaml to false.
+
+.. note::
+	Stackstorm relies heavily on connections to a RabbitMQ instance. If the in-cluster deployment of RabbitMQ is disabled,
+	a connection to an external instance of RabbitMQ must be configured. The st2.config key in values.yaml provides a way
+	to configure stackstorm.
+	See `Configure RabbitMQ <https://docs.stackstorm.com/install/config/config.html#configure-rabbitmq>`_ for configuration details.
 
 redis
 _____
@@ -310,14 +376,11 @@ As any other Helm dependency, it's possible to further configure it for specific
 Feedback Needed!
 ----------------
 As this deployment method new and beta is in progress, we ask you to try it and provide your feedback via
+
 bug reports, ideas, feature or pull requests in `StackStorm/stackstorm-ha <https://github.com/StackStorm/stackstorm-ha>`_,
-and ecourage discussions in `Slack <https://stackstorm.com/community-signup>`_ ``#docker`` channel or write us an email.
+and encourage discussions in `Slack <https://stackstorm.com/community-signup>`_ ``#k8s`` channel.
 
 
 .. only:: community
 
     .. include:: /__engage_community.rst
-
-.. only:: enterprise
-
-    .. include:: /__engage_enterprise.rst

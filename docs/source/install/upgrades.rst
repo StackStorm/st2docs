@@ -30,7 +30,7 @@ appropriate repository name.
 
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.deb.sh | sudo bash
 
-For |st2| enterprise version on Ubuntu, both the gpg keys for community and enterprise need to be
+For |st2| enterprise version (only available for |st2| <= 3.2) on Ubuntu, both the gpg keys for community and enterprise need to be
 imported separately. Run the following commands to update both keys. If you are running
 a non production version of StackStorm, then replace ``stable`` in the curl with the appropriate
 repository name. Replace ``<license_key>`` with your enterprise license key.
@@ -57,7 +57,7 @@ note the URLs that failed on retrieval should be ``https://packagecloud.io/Stack
     W: Failed to fetch https://packagecloud.io/StackStorm/stable/ubuntu/dists/xenial/InRelease  The following signatures couldn't be verified because the public key is not available: NO_PUBKEY C2E73424D59097AB
     W: Some index files failed to download. They have been ignored, or old ones used instead.
 
-For |st2| community version on RHEL/CentOS, run the following command to update the keys. If you
+For |st2| community version on RHEL/CentOS/RockyLinux, run the following command to update the keys. If you
 are running a non production version of StackStorm, then replace ``stable`` in the URL with the
 appropriate repository name.
 
@@ -65,7 +65,7 @@ appropriate repository name.
 
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.rpm.sh | sudo bash
 
-For |st2| enterprise version on RHEL/CentOS, both the gpg keys for community and enterprise need to be
+For |st2| enterprise version (only available for |st2| <= 3.2) on RHEL/CentOS, both the gpg keys for community and enterprise need to be
 import separately. Run the following commands to update the keys. If you are running a
 non production version of StackStorm, then replace ``stable`` in the URLs with the appropriate
 repository name. Replace ``<license_key>`` with your enterprise license key.
@@ -75,7 +75,7 @@ repository name. Replace ``<license_key>`` with your enterprise license key.
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.rpm.sh | sudo bash
     curl -s https://<license_key>:@packagecloud.io/install/repositories/StackStorm/enterprise/script.rpm.sh | sudo bash
 
-If the new gpg keys are not setup in advanced on RHEL/CentOS, running ``yum update`` will auto-retrieve
+If the new gpg keys are not setup in advanced on RHEL/CentOS/RockyLinux, running ``yum update`` will auto-retrieve
 the new gpg key for appropriate respository. ``yum update`` will ask if you want to import the new gpg keys.
 Verify that the key is retrieved from ``https://packagecloud.io/StackStorm/stable/gpgkey`` for the |st2|
 community and enter ``y`` to confirm. For |st2| enterprise repo, an additional key needs to be retrieved from
@@ -124,13 +124,17 @@ This is the standard upgrade procedure:
 
 2. Upgrade |st2| packages using distro-specific tools:
 
+   .. note::
+
+     Refer to the version specific changes section below, for steps that may be required before or after upgrading packages.
+
    Ubuntu:
 
    .. sourcecode:: bash
 
       sudo apt-get install --only-upgrade st2 st2web st2chatops
 
-   RHEL/CentOS:
+   RHEL/CentOS/RockyLinux:
 
    .. sourcecode:: bash
 
@@ -139,6 +143,7 @@ This is the standard upgrade procedure:
 .. note::
 
   If upgrading to a version earlier than StackStorm 3.3, add st2mistral to list of packages to update (if it is present on your current system).
+
 
 3. Run the migration scripts (if any). See below for version-specific migration scripts.
 
@@ -156,8 +161,8 @@ This is the standard upgrade procedure:
 
 .. _migration-scripts-to-run:
 
-Version-specific Migration Scripts
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Version-Specific Changes / Migration Scripts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 We document :ref:`upgrade notes<upgrade_notes>` for the various versions. The upgrade notes section gives
 an idea of what major changes happened with each release. You may also want to take a look at the detailed
@@ -167,13 +172,69 @@ The following sections call out the migration scripts that need to be run when u
 respective version. If you are upgrading across multiple versions, make sure you run the scripts for
 any skipped versions:
 
+v3.7
+''''
+*  *RockyLinux/RHEL/CentOS 8 only*. Due to the upgrade from python3.6 to python 3.8, all packs installed prior to upgrade will need to have their virtual environment re-created after upgrading |st2| packages (on all nodes which run st2actionrunner or st2sensorcontainer services), using the following command:
+
+.. sourcecode:: bash
+
+    sudo st2ctl reload --register-setup-recreate-virtualenvs
+
+* As ``_global`` is used for the global overrides file, if your |st2| uses a pack called _global then it will need to be renamed prior to upgrade.
+
+v3.5
+''''
+* Node.js v14 is now used by ChatOps (previously v10 was used). The following procedure should be
+  used to upgrade:
+
+  Ubuntu:
+
+  .. sourcecode:: bash
+
+     curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+     sudo apt-get install --only-upgrade nodejs st2chatops
+
+  RHEL/CentOS/RockyLinux:
+
+  .. sourcecode:: bash
+
+     sudo sed -i.bak 's|^baseurl=\(https://rpm.nodesource.com\)/[^/]\{1,\}/\(.*\)$|baseurl=\1/pub_14.x/\2|g' /etc/yum.repos.d/nodesource-*.repo
+     sudo yum clean all
+     sudo rpm -e --nodeps nodejs
+     sudo yum upgrade st2chatops
+
+* The default st2 nginx configuration has been updated to support only TLSv1.2 and v1.3 on nginx. The package upgrade does not update the deployed nginx configuration with the packaged version (/usr/share/doc/st2/conf/nginx/st2.conf), therefore the nginx ST2 configuration will need to be updated manually and nginx restarted:
+
+  .. sourcecode:: bash
+
+     sudo sed -i.bak 's|ssl_protocols.*|ssl_protocols             TLSv1.2 TLSv1.3;|g' /etc/nginx/conf.d/st2.conf
+     sudo systemctl restart nginx
+
+* The packaged st2.conf has been altered in this release to use redis for the coordination url, see point below.
+  Depending on your distribution, when the st2 package is upgraded it will either ask you which version to use,
+  or will save a copy of the new st2.conf.
+  You are advised to review the differences between your current st2.conf and the packaged st2.conf
+  to create a merged st2.conf for your particular installation.
+
+* Redis server is installed and configured as backend for the coordination service
+  by default in the single node installation script to support workflows with multiple
+  branches and tasks with items. Upgrade requires coordination server and service to be setup
+  manually. For workflows to be executed properly, setup the coordination service
+  accordingly. See :doc:`../coordination` for setup instructions.
+
+* If the ``st2ctl reload`` fails indicating problems with the packs due to duplicate keys, then the following command can be run to find all errors on the affected packs:
+
+  .. sourcecode:: bash
+
+     /opt/stackstorm/st2/bin/st2-validate-pack -p <path to pack>
+
+
 v3.4
 ''''
 
 *  |st2| now uses python 3 on Ubuntu 16 and RHEL/CentOS 7. Therefore any packs that only support python 2 will need to be upgraded to python 3.
 
-
-* *RHEL 7.x only.* Ensure python3-devel can be installed from an enabled repository:
+* *RHEL 7.x only.* Ensure python3-devel can be installed from an enabled repository before upgrading |st2| packages:
 
   .. note::
 
@@ -198,13 +259,13 @@ v3.4
 
     sudo yum install python3-devel --enablerepo <optional-server-rpm repo>
 
-* *Ubuntu 16.04 Xenial only.* Python 3.6 is not available in the base Ubuntu Xenial distribution and you can add unofficial 3rd party `Python PPA repository <https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa>`_:
+* *Ubuntu 16.04 Xenial only.* Python 3.6 is not available in the base Ubuntu Xenial distribution. Python 3.6 must be available before you upgrade |st2| packages, but you can add the unofficial 3rd party `Python PPA repository <https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa>`_: which contains packages for Python 3.6.
 
   .. warning::
 
      Please be aware of the support and security risks associated with using unofficial 3rd party PPA repository.
      StackStorm does NOT provide ANY support or security update for python3.6 packages on Ubuntu 16.04.
-     If security is a priority for you, we recommend starting migrating to Ubuntu 18.04 LTS (Bionic) as a base OS which has official python 3.6 packages.
+     If security is a priority for you, we recommend starting migrating to Ubuntu 18.04 LTS (Bionic) or 20.04 LTS (Focal) as a base OS which has official python 3.6 packages.
      This is a workaround to support Ubuntu Xenial with python 3 until we deprecate it in the future versions.
 
   .. sourcecode:: bash
@@ -216,6 +277,13 @@ v3.4
 
     # ensure python3.6 package exists and could be installed
     apt-cache show python3.6
+
+*  *Ubuntu 16 and RHEL/CentOS 7 only*. All packs installed prior to upgrade will need to have their virtual environment re-created after upgrading |st2| packages (on all nodes which run st2actionrunner services), using the following command:
+
+.. sourcecode:: bash
+
+    sudo st2ctl reload --register-setup-recreate-virtualenvs
+
 
 v3.3
 ''''

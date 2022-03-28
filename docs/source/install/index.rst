@@ -14,8 +14,8 @@ Here's an overview of the options:
   <ref-one-line-install>` section below for details.
 * **Manual Installation:** Have custom needs? Maybe no Internet access from your servers? Or just
   don't like using scripted installs? Read the manual installation instructions for your OS
-  (:doc:`Ubuntu 16 </install/u16>`, :doc:`Ubuntu 18 </install/u18>`,
-  :doc:`RHEL/CentOS 7 </install/rhel7>`, :doc:`RHEL/CentOS 8 </install/rhel8>`) and adapt them to
+  (:doc:`Ubuntu 18 </install/u18>`, :doc:`Ubuntu 20 </install/u20>`,
+  :doc:`RHEL/CentOS 7 </install/rhel7>`, :doc:`RHEL/RockyLinux/CentOS 8 </install/rhel8>`) and adapt them to
   your needs. Here's some `additional guidance
   <https://stackstorm.com/2017/02/10/installing-stackstorm-offline-systems/>`_ for setting up an
   internal mirror for the |st2| repos. 
@@ -49,15 +49,15 @@ Read the :doc:`/install/ewc` documentation for more.
 
 Grab a **clean** 64-bit Linux system that fits the :doc:`system requirements
 <system_requirements>`. Make sure that ``curl`` is up to date using ``sudo apt-get install curl``
-on Ubuntu, or ``sudo yum install curl nss`` on RHEL/CentOS. Then run this command:
+on Ubuntu, or ``sudo yum install curl nss`` on RHEL/RockyLinux/CentOS. Then run this command:
 
 .. code-block:: bash
 
-   curl -sSL https://stackstorm.com/packages/install.sh | bash -s -- --user=st2admin --password='Ch@ngeMe'
+   bash <(curl -sSL https://stackstorm.com/packages/install.sh) --user=st2admin --password=Ch@ngeMe
 
 This is an opinionated installation of |st2|. It will download and install all components, as per
 the :doc:`single host reference deployment <./overview>`. It assumes that you have a clean, basic
-installation of Ubuntu or RHEL/CentOS. 
+installation of Ubuntu or RHEL/RockyLinux/CentOS. 
 
 If you are trying to install |st2| on a server with other applications, or local customisations,
 you may run into problems. In that case, you should use one of the manual installation methods.
@@ -91,10 +91,10 @@ For more details on reference deployments, or OS-specific installation instructi
 
     Reference Deployment Overview <overview>
     system_requirements
-    Ubuntu 16.04 <u16>
     Ubuntu 18.04 <u18>
+    Ubuntu 20.04 <u20>
     RHEL 7 / CentOS 7 <rhel7>
-    RHEL 8 / CentOS 8 <rhel8>
+    RHEL 8 / RockyLinux 8 / CentOS 8 <rhel8>
     Vagrant / OVA <vagrant>
     Docker <docker>
     Ansible Playbooks <ansible>

@@ -4,8 +4,8 @@ StackStorm Runtime
 StackStorm Context
 ------------------
 
-During workflow execution, runtime information on the StackStorm action execution cooresponding to
-this workflow execution can be access via ``ctx().st2`` or ``ctx("st2")``. The following is a list
+During workflow execution, runtime information on the StackStorm action execution corresponding to
+this workflow execution can be accessed via ``ctx().st2`` or ``ctx("st2")``. The following is a list
 of attributes available under the st2 context. For example, to reference action_execution_id, use
 the expression ``ctx().st2.action_execution_id``.
 

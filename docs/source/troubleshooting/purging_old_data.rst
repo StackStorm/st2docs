@@ -13,7 +13,8 @@ The Garbage Collector service is designed to periodically remove old data (actio
 live action, action execution output, and trigger instance database objects). 
 
 The actual collection threshold is very user-specific because it depends on your requirements and
-policies. Therefore garbage collection is disabled by default.
+policies. Therefore garbage collection is disabled by default, with the exception of Real-Time Streaming
+Action Output.
 
 To enable it, configure a TTL (in days) for action executions and trigger instances in ``st2.conf``
 as shown below:
