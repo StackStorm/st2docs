@@ -18,7 +18,7 @@ a reference to layer on some HA deployment-specific details.
 
 .. note::
 
-    A reproducible blueprint of StackStorm HA cluster is available as a code based on Docker and Kubernetes, see :doc:`/install/k8s_ha`.
+    A reproducible blueprint of StackStorm HA cluster is available as a helm chart, which is based on Docker and Kubernetes. See :doc:`/install/k8s_ha`.
 
 
 Components
@@ -122,9 +122,10 @@ You have to have exactly one active ``st2timersengine`` process running to sched
 Having more than one active ``st2timersengine`` will result in duplicate timer events and therefore
 duplicate rule evaluations leading to duplicate workflows or actions.
 
-In HA deployments, external monitoring needs to setup and a new ``st2timersengine`` process needs
-to be spun up to address failover. Losing the ``st2timersengine`` will mean no timer events will be
-injected into |st2| and therefore no timer rules would be evaluated.
+To address failover in HA deployments, use external monitoring of the ``st2timersengine`` process to ensure
+one process is running, and to trigger spinning up a new ``st2timersengine`` process if it fails.
+Losing the ``st2timersengine`` will mean no timer events will be injected into |st2| and therefore
+no timer rules would be evaluated.
 
 st2workflowengine
 ^^^^^^^^^^^^^^^^^
@@ -289,8 +290,8 @@ Reference HA setup
 In this section we provide a highly opinionated and therefore prescriptive approach to deploying
 |st2| in HA. This deployment has 3 independent boxes which we categorize as "controller box" and
 "blueprint box." We'll call these boxes ``st2-multi-node-cntl``, ``st2-multi-node-1`` and
-``st2-multi-node-2``. For the sake of reference we will be using Ubuntu 16.04 as the base OS.
-Obviously you can also use RedHat/CentOS.
+``st2-multi-node-2``. For the sake of reference we will be using Ubuntu 18.04 as the base OS.
+Obviously you can also use RedHat/RockyLinux/CentOS.
 
 .. figure :: /_static/images/st2-deployment-multi-node.png
     :align: center
@@ -322,7 +323,7 @@ new home.
 `keepalived <http://www.keepalived.org/>`__ to maintain ``st2chatops`` in active-passive
 configuration is an option.
 
-Follow these steps to provision a controller box on Ubuntu 16.04:
+Follow these steps to provision a controller box on Ubuntu 18.04:
 
 Install Required Dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

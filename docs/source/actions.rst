@@ -71,6 +71,107 @@ To execute an action manually, you can use ``st2 run <action with parameters>`` 
    # If you want to add a trace tag to execution when you run it, you can use:
    st2 run core.local cmd=date --trace-tag="simple-date-check-`date +%s`"
 
+Modification in Action Delete API
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+|st2| offers functionality to delete actions/workflows by invoking API. Prior to 3.6 release
+this API was only de-registering actions from database. In the 3.6 release, with backward
+compatibility retained this API was modified to optionally delete related action files from disk as well.
+
+From CLI ``st2 action delete <pack>.<action>`` will delete only action database entry.
+From CLI ``st2 action delete --remove-files <pack>.<action>`` or ``st2 action delete -r <pack>.<action>``
+will delete action database entry along with files from disk.
+
+API action DELETE method with ``{"remove_files": true}`` argument in json body will remove database
+entry of action along with files from disk.
+API action DELETE method with ``{"remove_files": false}`` or no additional argument in json body will
+remove only action database entry.
+
+* Usage:
+
+.. code-block:: bash
+
+   st2 action delete [-h] [-t TOKEN] [--api-key API_KEY] [-j] [-y] [-r]
+                     ref-or-id
+
+* Positional arguments:
+
+.. code-block:: bash
+
+   # Reference or ID of the action
+   ref-or-id
+
+* Optional arguments:
+
+.. code-block:: bash
+
+   -h, --help            show this help message and exit
+   -t TOKEN, --token TOKEN
+                         Access token for user authentication. Get
+                         ST2_AUTH_TOKEN from the environment variables by
+                         default
+   --api-key API_KEY     Api Key for user authentication. Get ST2_API_KEY from
+                         the environment variables by default
+   -j, --json            Print output in JSON format
+   -y, --yaml            Print output in YAML format
+   -r, --remove-files    Delete action files from disk
+
+
+Cloning an Action
+~~~~~~~~~~~~~~~~~
+
+.. note::
+     The action clone feature is only available in |st2| v3.7.0 and above.
+
+Clone operation clones action from source pack to destination pack and renames them appropriately.
+This operation makes changes in destination action metadata files like action name, pack name,
+entry point name etc. Also, this operation registers the newly cloned action to the database.
+
+API endpoint ``/api/v1/actions/{ref_or_id}/clone`` takes ``ref_or_id`` of source action. Request
+method body ``{"dest_pack": "dest_pack_name", "dest_action": "dest_action_name"}`` takes destination
+pack and action name. Request method body also takes optional paramater ``overwrite`` which is of type
+boolean and ``false`` by default. Overwrite flag should be true (``overwrite: true``) in case of
+destination action already exists and to be overwritten.
+
+From CLI ``st2 action clone <ref_or_id> <dest_pack> <dest_action>`` takes source ``ref_or_id``,
+destination pack name and destination action name as mandatory arguments. In case destionation
+already exists then command takes optional arugument ``-f`` or ``--force`` to overwrite destination action.
+
+* Usage:
+
+.. code-block:: bash
+
+   st2 action clone [-h] [-t TOKEN] [--api-key API_KEY] [-j] [-y] [-f]
+                    source-ref-or-id dest-pack-name dest-action-name
+
+* Positional arguments:
+
+.. code-block:: bash
+
+   # Reference or ID of the source action
+   source-ref-or-id
+
+   # Destination pack name
+   dest-pack-name
+
+   # Destination action name
+   dest-action-name
+
+* Optional arguments:
+
+.. code-block:: bash
+
+   -h, --help            Show this help message and exit
+   -t TOKEN, --token TOKEN
+                         Access token for user authentication. Get
+                         ST2_AUTH_TOKEN from the environment variables by default
+   --api-key API_KEY     Api Key for user authentication. Get ST2_API_KEY from
+                         the environment variables by default
+   -j, --json            Print output in JSON format
+   -y, --yaml            Print output in YAML format
+   -f, --force           Overwrite action files on disk if destination exists.
+
+
 Action Runners
 --------------
 
@@ -761,6 +862,38 @@ pack:
   .. code-block:: bash
 
     st2 run core.http url="http://httpbin.org/get" method="GET" username=user1 password=pass1
+
+* ``core.announcement`` : This action broadcasts an announcement to all stream consumers.
+
+* ``core.ask`` : This action is for initiating an Inquiry (usually in a workflow)
+
+* ``core.echo`` : This action executes the Linux echo command on the localhost.
+
+* ``core.error`` : This action executes the Linux echo command (to stderr) on the localhost.
+
+* ``core.inject_trigger`` : This action injects a new trigger in the system.
+
+  This action allows loose coupling of independent workflows, where workflow1 will execute workflow2
+  indirectly through the IFTTT rule engine.
+
+* ``core.local_sudo`` : This action executes an arbitrary Linux command using sudo on the localhost.
+
+* ``core.noop`` : This action does nothing (No Operation).
+
+  The noop action can be used to implement conditional branches in Orquesta workflows without incurring
+  the cost of executing action code.  A YAQL/Jinja statement is general used to evaluate the criteria
+  to choose a path of execution in a workflow.
+
+* ``core.pause`` : This action  pauses the current thread of workflow/sub workflow.
+
+* ``core.sendmail`` : This action sends an email using the sendmail binary (requires sendmail to be configured).
+
+* ``core.uuid`` : This action generates a new UUID (default uuid4).
+
+* ``core.winrm_cmd`` : This action executes arbitrary Windows Command Prompt command remotely via WinRM.
+
+* ``core.winrm_ps_cmd`` : This action executes arbitrary Windows PowerShell command remotely via WinRM.
+
 
 To see all actions in the ``core`` pack:
 

@@ -37,15 +37,14 @@ ZooKeeper:
     url = kazoo://username:password@host:port
 
 Some of these coordination backends also require corresponding client libraries to be installed
-in |st2| virtualenv. We do not ship these libraries by default. As an example, to install the client
-library in |st2| virtualenv, run:
+in |st2| virtualenv. 
+Since |st2| v3.5 the redis client libraries are included with the st2 package, but for
+all other versions or coordination backends, we do not ship these libraries by default. 
+As an example, to install the client library in |st2| virtualenv, run:
 
 .. sourcecode:: bash
 
     sudo su
-
-    # Example when using redis backend
-    /opt/stackstorm/st2/bin/pip install redis
 
     # Example when using consul backend
     /opt/stackstorm/st2/bin/pip install consul

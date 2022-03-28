@@ -57,7 +57,7 @@ note the URLs that failed on retrieval should be ``https://packagecloud.io/Stack
     W: Failed to fetch https://packagecloud.io/StackStorm/stable/ubuntu/dists/xenial/InRelease  The following signatures couldn't be verified because the public key is not available: NO_PUBKEY C2E73424D59097AB
     W: Some index files failed to download. They have been ignored, or old ones used instead.
 
-For |st2| community version on RHEL/CentOS, run the following command to update the keys. If you
+For |st2| community version on RHEL/CentOS/RockyLinux, run the following command to update the keys. If you
 are running a non production version of StackStorm, then replace ``stable`` in the URL with the
 appropriate repository name.
 
@@ -75,7 +75,7 @@ repository name. Replace ``<license_key>`` with your enterprise license key.
     curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.rpm.sh | sudo bash
     curl -s https://<license_key>:@packagecloud.io/install/repositories/StackStorm/enterprise/script.rpm.sh | sudo bash
 
-If the new gpg keys are not setup in advanced on RHEL/CentOS, running ``yum update`` will auto-retrieve
+If the new gpg keys are not setup in advanced on RHEL/CentOS/RockyLinux, running ``yum update`` will auto-retrieve
 the new gpg key for appropriate respository. ``yum update`` will ask if you want to import the new gpg keys.
 Verify that the key is retrieved from ``https://packagecloud.io/StackStorm/stable/gpgkey`` for the |st2|
 community and enter ``y`` to confirm. For |st2| enterprise repo, an additional key needs to be retrieved from
@@ -134,7 +134,7 @@ This is the standard upgrade procedure:
 
       sudo apt-get install --only-upgrade st2 st2web st2chatops
 
-   RHEL/CentOS:
+   RHEL/CentOS/RockyLinux:
 
    .. sourcecode:: bash
 
@@ -172,6 +172,16 @@ The following sections call out the migration scripts that need to be run when u
 respective version. If you are upgrading across multiple versions, make sure you run the scripts for
 any skipped versions:
 
+v3.7
+''''
+*  *RockyLinux/RHEL/CentOS 8 only*. Due to the upgrade from python3.6 to python 3.8, all packs installed prior to upgrade will need to have their virtual environment re-created after upgrading |st2| packages (on all nodes which run st2actionrunner or st2sensorcontainer services), using the following command:
+
+.. sourcecode:: bash
+
+    sudo st2ctl reload --register-setup-recreate-virtualenvs
+
+* As ``_global`` is used for the global overrides file, if your |st2| uses a pack called _global then it will need to be renamed prior to upgrade.
+
 v3.5
 ''''
 * Node.js v14 is now used by ChatOps (previously v10 was used). The following procedure should be
@@ -184,7 +194,7 @@ v3.5
      curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
      sudo apt-get install --only-upgrade nodejs st2chatops
 
-  RHEL/CentOS:
+  RHEL/CentOS/RockyLinux:
 
   .. sourcecode:: bash
 
@@ -193,11 +203,31 @@ v3.5
      sudo rpm -e --nodeps nodejs
      sudo yum upgrade st2chatops
 
+* The default st2 nginx configuration has been updated to support only TLSv1.2 and v1.3 on nginx. The package upgrade does not update the deployed nginx configuration with the packaged version (/usr/share/doc/st2/conf/nginx/st2.conf), therefore the nginx ST2 configuration will need to be updated manually and nginx restarted:
+
+  .. sourcecode:: bash
+
+     sudo sed -i.bak 's|ssl_protocols.*|ssl_protocols             TLSv1.2 TLSv1.3;|g' /etc/nginx/conf.d/st2.conf
+     sudo systemctl restart nginx
+
+* The packaged st2.conf has been altered in this release to use redis for the coordination url, see point below.
+  Depending on your distribution, when the st2 package is upgraded it will either ask you which version to use,
+  or will save a copy of the new st2.conf.
+  You are advised to review the differences between your current st2.conf and the packaged st2.conf
+  to create a merged st2.conf for your particular installation.
+
 * Redis server is installed and configured as backend for the coordination service
   by default in the single node installation script to support workflows with multiple
-  branches and tasks with items. Upgrade requires coordination service to be setup
-  manually, For workflows to be executed properly, setup the coordination service
-  accordingly. See :doc:`../coordination` for setup instruction.
+  branches and tasks with items. Upgrade requires coordination server and service to be setup
+  manually. For workflows to be executed properly, setup the coordination service
+  accordingly. See :doc:`../coordination` for setup instructions.
+
+* If the ``st2ctl reload`` fails indicating problems with the packs due to duplicate keys, then the following command can be run to find all errors on the affected packs:
+
+  .. sourcecode:: bash
+
+     /opt/stackstorm/st2/bin/st2-validate-pack -p <path to pack>
+
 
 v3.4
 ''''
