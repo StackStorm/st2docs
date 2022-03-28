@@ -80,12 +80,12 @@ Testing an alias end to end
 
 To test an alias end to end (from matching to triggering an execution and formatting the result),
 you can use ``st2 action-alias test <message string>`` command which has been added in |st2|
-v3.4.0.
+v3.7.0.
 
 This command is useful for testing and developing aliases since it allows you to skip the chat
 layer and verify and adjust command matching and result formatting directly using the CLI. In the
 end you should of course still verify everything works end to end via the chat / hubot layer by
-executing a command on chat
+executing a command on chat.
 
 This command first checks if the provided command string matches any alias (same as the
 ``st2 action-alias match`` command) and if it does, it runs an execution for the matched
