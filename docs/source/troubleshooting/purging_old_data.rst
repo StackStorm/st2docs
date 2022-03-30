@@ -27,10 +27,13 @@ as shown below:
     action_executions_ttl = 30
     action_executions_output_ttl = 10
     trigger_instances_ttl = 40
+    traces_ttl = 20
+    rule_enforcements_ttl = 25
 
 In this case, action executions older than 30 days, action execution output
-objects older than 10 days and trigger instances older than 40 days will be
-automatically deleted.
+objects older than 10 days, trigger instances older than 40 days, trace
+objects older than 20 days and rule enforcement objects older than 25 days
+will be automatically deleted.
 
 The lowest supported TTL is 7 days. If you need to delete old data more frequently, check the
 manual purge scripts below.
