@@ -31,8 +31,8 @@ Here's an overview of the options:
   installing |st2|. Ideal for repeatable, consistent, idempotent installation of |st2|.
 * **Puppet Module:** For Puppet users, check this :doc:`/install/puppet` for
   installing StackStorm. A robust and idempotent method of installing and configuring StackStorm.
-* **High Availability** Entrusting business critical automation tasks to a system like StackStorm
-  leads to higher demands on that system. StackStorm can run in a HA mode to ensure these needs.
+* **Kubernetes (HA)** Entrusting business critical automation tasks to a system like StackStorm
+  leads to higher demands on that system. StackStorm can run in a High Availability mode to ensure these needs.
   :doc:`/install/k8s_ha` automates entire complex infrastructure as a reproducible blueprint.
 
 
