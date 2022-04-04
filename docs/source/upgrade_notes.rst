@@ -30,7 +30,7 @@ Upgrade Notes
 * On RockyLinux/CentOS/RHEL 8 the ST2 python version has changed from python 3.6 to python 3.8.
 
 * Additional garbage collection options are available to automatically delete rule enforcement,
-  and trace instances.
+  trace, workflow execution and task execution instances.
   See :doc:`purging old data documentation <troubleshooting/purging_old_data>` for further
   information.
 
