@@ -166,7 +166,7 @@ inside a screen/tmux session. For example:
 
     screen -d -m -S purge-instances /opt/stackstorm/st2/bin/st2-purge-workflows --config-file /etc/st2/st2.conf --timestamp="2015-11-25T21:45:00.000000Z"
 
-Purging Task Execution Instances Older than Some Timestamp
+Purging Workflow Task Execution Instances Older than Some Timestamp
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
