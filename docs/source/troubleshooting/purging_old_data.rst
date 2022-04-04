@@ -40,7 +40,7 @@ In this case, the following objects will be automatically deleted:
   * trace objects older than 20 days
   * rule enforcement objects older than 25 days
   * workflow execution objects older than 18 days
-  * task execution objects older than 19 days
+  * workflow task execution objects older than 19 days
 
 The lowest supported TTL is 7 days. If you need to delete old data more frequently, check the
 manual purge scripts below.
