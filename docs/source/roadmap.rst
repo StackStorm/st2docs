@@ -61,6 +61,7 @@ Release History
 
 .. rubric:: Done in v3.7
 
+* **Metadata Overrides:** Allow StackStorm administrator to “override” the default resource status that was specified by the pack owners.
 * **Action Clone:** Actions can be cloned via API, CLI, and web UI.
 * **Datastore RBAC:** Accessing datastore Key Value pairs can be restricted with RBAC.
 * **Action-Alias Testing:** Use ``st2 action-alias test <message string>`` to easily test action aliase matching and result formatting.
