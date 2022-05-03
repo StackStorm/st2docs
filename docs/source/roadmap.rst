@@ -63,7 +63,7 @@ Release History
 
 * **Action Clone:** Actions can be cloned via API, CLI, and web UI.
 * **Datastore RBAC:** Accessing datastore Key Value pairs can be restricted with RBAC.
-* **Action-Alias Testing:** Use ``st2 action-alias test <message string>``to easily test action aliase matching and result formatting.
+* **Action-Alias Testing:** Use ``st2 action-alias test <message string>`` to easily test action aliase matching and result formatting.
 * **Expanded Garbage Collection:** The garbage collector cleans up many more resources now.
 
 .. rubric:: Done in v3.6
