@@ -61,6 +61,7 @@ Release History
 
 .. rubric:: Done in v3.7
 
+* **RHEL/RockyLinux 8:** EL8 support continues, despite the deprecation of CentOS 8. We now use RockyLinux 8 to build for and test on EL8.
 * **Metadata Overrides:** Allow StackStorm administrator to “override” the default resource status that was specified by the pack owners.
 * **Action Clone:** Actions can be cloned via API, CLI, and web UI.
 * **Datastore RBAC:** Accessing datastore Key Value pairs can be restricted with RBAC.
