@@ -8,6 +8,15 @@ Upgrade Notes
 |st2| v3.7
 ----------
 
+* *RockyLinux/RHEL/CentOS 8 only*. Due to the upgrade from python3.6 to python 3.8, all
+  packs installed prior to upgrade will need to have their virtual environment re-created
+  after upgrading |st2| packages (on all nodes which run st2actionrunner or st2sensorcontainer
+  services), using the following command:
+
+  .. sourcecode:: bash
+
+      sudo st2ctl reload --register-recreate-virtualenvs
+
 * API will now set ``Secure`` and ``Samesite=lax`` cookie attribute for the auth cookie which
   is set when authenticating via auth token / API key in query parameter (this approach is
   primarily used by st2web).
