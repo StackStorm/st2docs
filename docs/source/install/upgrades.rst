@@ -178,7 +178,7 @@ v3.7
 
 .. sourcecode:: bash
 
-    sudo st2ctl reload --register-setup-recreate-virtualenvs
+    sudo st2ctl reload --register-recreate-virtualenvs
 
 * As ``_global`` is used for the global overrides file, if your |st2| uses a pack called _global then it will need to be renamed prior to upgrade.
 
@@ -282,7 +282,7 @@ v3.4
 
 .. sourcecode:: bash
 
-    sudo st2ctl reload --register-setup-recreate-virtualenvs
+    sudo st2ctl reload --register-recreate-virtualenvs
 
 
 v3.3
