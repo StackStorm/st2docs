@@ -89,8 +89,8 @@ Install MongoDB, RabbitMQ, and Redis:
 
 .. note::
 
-    RabbitMQ currently only has provisional support for Erlang 25, however it is available in the
-    RabbitMQ-Erlang repository. Problems have been encountered using RabbitMQ with Erlang 25, therefore
+    RabbitMQ currently only has preview support for Erlang 25, however it is available in the
+    RabbitMQ-Erlang repository. Whilst Erlang 25 support is in preview (https://www.rabbitmq.com/which-erlang.html)
     it is advised to install the latest Erlang 24 version instead.
 
 
