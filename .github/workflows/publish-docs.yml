@@ -17,6 +17,7 @@ jobs:
       run: |
         echo "which python"
         which python
+        alias python3.6='/usr/bin/python'
 
         make st2
         sudo apt-get update
