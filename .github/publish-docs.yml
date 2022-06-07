@@ -1,0 +1,30 @@
+name: Publish Docs
+
+on:
+  push:
+    branches: [ master, main, 1096-gh-pages ]
+    paths:
+      - "docs/**"
+      - ".github/workflows/publish-docs.yml"
+
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: |
+        make st2
+        sudo apt-get update
+        sudo apt install python3-dev
+        sudo apt install libldap2-dev 
+        sudo apt install libsasl2-dev
+        make docs
+    - name: Deploy to GitHub Pages
+      uses: crazy-max/ghaction-github-pages@v3
+      with:
+        target_branch: gh-pages
+        build_dir: docs/build/html
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
