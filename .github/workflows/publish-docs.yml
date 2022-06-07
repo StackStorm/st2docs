@@ -2,7 +2,7 @@ name: Publish Docs
 
 on:
   push:
-    branches: [ master, main, 1096-gh-pages ]
+    branches: [ master ]
     paths:
       - "docs/**"
       - ".github/workflows/publish-docs.yml"

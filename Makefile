@@ -53,6 +53,19 @@ docs: requirements orquesta .docs
 # RST table
 $(ST2_VIRTUALENV_DIR)/lib/$(PYTHON_VERSION)/site-packages/pytablewriter: $(ST2_VIRTUALENV_DIR)/done
 	. $(ST2_VIRTUALENV_DIR)/bin/activate; pip install pytablewriter
+	echo "DEBUGGING======"
+	echo "$(ST2_VIRTUALENV_DIR)"
+	ls $(ST2_VIRTUALENV_DIR)
+
+	echo "$(ST2_VIRTUALENV_DIR)/lib"
+	ls $(ST2_VIRTUALENV_DIR)/lib
+	
+	echo "$(ST2_VIRTUALENV_DIR)/lib/$(PYTHON_VERSION)"
+	ls $(ST2_VIRTUALENV_DIR)/lib/$(PYTHON_VERSION)
+	
+	echo "$(ST2_VIRTUALENV_DIR)/lib/$(PYTHON_VERSION)/site-packages"
+	ls $(ST2_VIRTUALENV_DIR)/lib/$(PYTHON_VERSION)/site-packages
+
 	touch $@
 
 .PHONY: .docs
