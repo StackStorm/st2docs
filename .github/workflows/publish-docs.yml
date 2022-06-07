@@ -15,10 +15,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build
       run: |
-        echo "which python"
-        which python
-        alias python3.6='/usr/bin/python'
-
         make st2
         sudo apt-get update
         # python3-dev is already available
