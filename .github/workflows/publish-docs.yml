@@ -21,7 +21,7 @@ jobs:
         # sudo apt install python3-dev
         sudo apt install libldap2-dev 
         sudo apt install libsasl2-dev
-        sudo apt install python-virtualenv
+        sudo pip3 install virtualenv
         make docs
     - name: Deploy to GitHub Pages
       uses: crazy-max/ghaction-github-pages@v3
