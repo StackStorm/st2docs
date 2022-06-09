@@ -12,6 +12,7 @@ jobs:
             make st2
       - restore_cache:
           key: v2-dependency-cache-{{ checksum "st2/requirements.txt" }}
+      - run: sudo apt-get update
       - run: sudo apt install python3-dev
       - run: sudo apt install libldap2-dev 
       - run: sudo apt install libsasl2-dev
