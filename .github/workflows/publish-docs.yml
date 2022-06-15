@@ -24,6 +24,9 @@ jobs:
         sudo apt install libsasl2-dev
         sudo pip3 install virtualenv
         make docs
+
+        # turn off jekyll so that url routing works properly with underscores
+        touch docs/build/html/.nojekyll
     - name: Deploy to GitHub Pages
       uses: crazy-max/ghaction-github-pages@v3
       with:
