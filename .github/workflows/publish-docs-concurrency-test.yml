@@ -1,0 +1,145 @@
+name: Publish Docs
+
+on:
+  push:
+    branches:
+      - master
+
+      # filter on version branches:
+      # circleci filtered on version branches like this:
+          # filters:
+          #   branches:
+          #     only:
+          #       - master
+          #       - /v[0-9]+\.[0-9]+/
+      # full regex filtering not supported: https://github.community/t/using-regex-for-filtering/16427
+      # subset filtering supported: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
+      - v[0-9]+.[0-9]+
+    paths:
+      - "docs/**"
+      - ".github/workflows/publish-docs.yml"
+      - "Makefile"
+
+
+jobs:
+
+  # publish GA if this is a GA publish
+  publish-ga:
+
+    # running a gh-pages publish while one is ongoing will result in the previous execution being cancelled in favor of the subsequent one
+    # use concurrency to ensure these jobs don't overwrite each other
+    concurrency:
+      group: gh-pages-build
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Determine if latest GA version
+      run: |
+        export BRANCH_OR_TAG_NAME=${GITHUB_REF##*/}
+        export IS_LATEST_GA_VERSION="0"
+
+        # GA_VER=$(curl -sSL https://stackstorm.com/packages/install.sh|grep ^BRANCH=|sed 's/[^0-9.]*//g') 
+        GA_VER=9.9
+        if [ "${BRANCH_OR_TAG_NAME}" = "v${GA_VER}" ]; then 
+          echo "Current GA Version. Deploy root"
+          IS_LATEST_GA_VERSION="1"
+        else 
+          echo "Not current GA version" 
+        fi 
+
+
+        # debug output
+        echo "BRANCH_OR_TAG_NAME: $BRANCH_OR_TAG_NAME"
+        echo "GA_VER: $GA_VER"
+        echo "IS_LATEST_GA_VERSION: $IS_LATEST_GA_VERSION"
+        
+        # set for next github action step
+        # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
+        echo "IS_LATEST_GA_VERSION=$IS_LATEST_GA_VERSION" >> $GITHUB_ENV
+
+    - name: Build
+      if: ${{ env.IS_LATEST_GA_VERSION == '1' }}
+      env:
+        python_version: python3.8
+      run: |
+        make st2
+        sudo apt-get update
+        # python3-dev is already available
+        # sudo apt install python3-dev
+        sudo apt install libldap2-dev 
+        sudo apt install libsasl2-dev
+        sudo pip3 install virtualenv
+        make docs
+
+        # turn off jekyll so that url routing works properly with underscores
+        touch docs/build/html/.nojekyll
+
+    # since deploying the root in gh pages will wipe away any other versioned subdirectories,
+    # deploy the latest ga version to a `ga` subdirectory, and use routing to point the root docs.stackstorm.com to `docs.stackstorm.com/ga`
+    - name: Deploy to Root GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: ${{ env.IS_LATEST_GA_VERSION == '1' }}
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs/build/html
+        destination_dir: "ga"
+
+
+  # publish the version or 'latest' subdirectory
+  publish-version:
+    concurrency:
+      group: gh-pages-build
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: extract version subdirectory
+      env:
+        DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+      run: |
+        export BRANCH_OR_TAG_NAME=${GITHUB_REF##*/}
+
+        # set up subdirectory path
+        #   `/latest` if default branch
+        #   branch name otherwise
+        if [ "${BRANCH_OR_TAG_NAME}" == "${DEFAULT_BRANCH}" ]; then
+          export PUBLISH_SUBDIRECTORY="latest"
+        else
+          # remove the preceeding "v"
+          export PUBLISH_SUBDIRECTORY=$(echo "${BRANCH_OR_TAG_NAME}" | sed 's/^v\(.*\)$/\1/')
+        fi
+
+        # debug output
+        echo "DEFAULT_BRANCH: ${DEFAULT_BRANCH}"
+        echo "BRANCH_OR_TAG_NAME: $BRANCH_OR_TAG_NAME"
+        echo "PUBLISH_SUBDIRECTORY: $PUBLISH_SUBDIRECTORY"
+        
+        # set for next github action step
+        # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
+        echo "PUBLISH_SUBDIRECTORY=$PUBLISH_SUBDIRECTORY" >> $GITHUB_ENV
+
+    - name: Build
+      env:
+        python_version: python3.8
+      run: |
+        make st2
+        sudo apt-get update
+        # python3-dev is already available
+        # sudo apt install python3-dev
+        sudo apt install libldap2-dev 
+        sudo apt install libsasl2-dev
+        sudo pip3 install virtualenv
+        make docs
+
+        # turn off jekyll so that url routing works properly with underscores
+        touch docs/build/html/.nojekyll
+
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs/build/html
+        destination_dir: ${{ env.PUBLISH_SUBDIRECTORY}}
