@@ -26,21 +26,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Build
-      env:
-        python_version: python3.8
-      run: |
-        make st2
-        sudo apt-get update
-        # python3-dev is already available
-        # sudo apt install python3-dev
-        sudo apt install libldap2-dev 
-        sudo apt install libsasl2-dev
-        sudo pip3 install virtualenv
-        make docs
-
-        # turn off jekyll so that url routing works properly with underscores
-        touch docs/build/html/.nojekyll
 
     - name: extract subdirectory
       env:
@@ -89,6 +74,21 @@ jobs:
         # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
         echo "IS_LATEST_GA_VERSION=$IS_LATEST_GA_VERSION" >> $GITHUB_ENV
 
+    - name: Build
+      env:
+        python_version: python3.8
+      run: |
+        make st2
+        sudo apt-get update
+        # python3-dev is already available
+        # sudo apt install python3-dev
+        sudo apt install libldap2-dev 
+        sudo apt install libsasl2-dev
+        sudo pip3 install virtualenv
+        make docs
+
+        # turn off jekyll so that url routing works properly with underscores
+        touch docs/build/html/.nojekyll
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
