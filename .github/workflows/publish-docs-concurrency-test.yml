@@ -1,24 +1,25 @@
 name: Publish Docs
 
-on:
-  push:
-    branches:
-      - master
+# TODO: this is commented out unless someone is testing with it
+# on:
+#   push:
+#     branches:
+#       - master
 
-      # filter on version branches:
-      # circleci filtered on version branches like this:
-          # filters:
-          #   branches:
-          #     only:
-          #       - master
-          #       - /v[0-9]+\.[0-9]+/
-      # full regex filtering not supported: https://github.community/t/using-regex-for-filtering/16427
-      # subset filtering supported: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
-      - v[0-9]+.[0-9]+
-    paths:
-      - "docs/**"
-      - ".github/workflows/publish-docs.yml"
-      - "Makefile"
+#       # filter on version branches:
+#       # circleci filtered on version branches like this:
+#           # filters:
+#           #   branches:
+#           #     only:
+#           #       - master
+#           #       - /v[0-9]+\.[0-9]+/
+#       # full regex filtering not supported: https://github.community/t/using-regex-for-filtering/16427
+#       # subset filtering supported: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
+#       - v[0-9]+.[0-9]+
+#     paths:
+#       - "docs/**"
+#       - ".github/workflows/publish-docs.yml"
+#       - "Makefile"
 
 
 jobs:
