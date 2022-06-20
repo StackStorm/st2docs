@@ -13,6 +13,9 @@ BINARIES := bin
 
 PYTHON_VERSION := ${python_version}
 
+# set python version if it is not set (i.e. python_version env var not provided)
+PYTHON_VERSION ?= python3.6
+
 # All components are prefixed by st2
 COMPONENTS := $(wildcard st2*)
 COMPONENTS_RUNNERS := $(wildcard st2/contrib/runners/*)
