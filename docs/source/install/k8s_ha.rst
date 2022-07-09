@@ -46,15 +46,58 @@ makes installing the complex StackStorm infrastructure as easy as:
   # Add Helm StackStorm repository
   helm repo add stackstorm https://helm.stackstorm.com/
 
-  helm install stackstorm/stackstorm-ha
+  # Update the StackStorm repository
+  helm repo update stackstorm
 
-Once the deployment is finished, it will show you the first steps to get started working with the new cluster via WebUI
-or ``st2`` CLI client:
+  # Install StackStorm HA with an automatically-generated release name to the default namespace
+  helm install --generate-name stackstorm/stackstorm-ha
 
-.. figure :: /_static/images/helm-chart-notes.png
-    :align: center
+  # Install StackStorm HA with a specified release name (stackstorm-1) to the default namespace
+  helm install stackstorm-1 stackstorm/stackstorm-ha
 
-.. todo:: Update this screenshot. It is out of date.
+  # Install StackStorm HA with an automatically-generated release name in the "stackstorm" namespace
+  helm install --generate-name --namespace stackstorm --create-namespace stackstorm/stackstorm-ha
+
+After the installation completes, it will display a message similar to the following:
+
+.. code-block:: bash
+
+  NAME: stackstorm-ha-1657376085
+  LAST DEPLOYED: Sat Jul  9 10:14:46 2022
+  NAMESPACE: stackstorm
+  STATUS: deployed
+  REVISION: 1
+  NOTES:
+  Congratulations! You have just deployed StackStorm HA!
+
+    ███████╗████████╗██████╗     ██╗  ██╗ █████╗      ██████╗ ██╗  ██╗
+    ██╔════╝╚══██╔══╝╚════██╗    ██║  ██║██╔══██╗    ██╔═══██╗██║ ██╔╝
+    ███████╗   ██║    █████╔╝    ███████║███████║    ██║   ██║█████╔╝
+    ╚════██║   ██║   ██╔═══╝     ██╔══██║██╔══██║    ██║   ██║██╔═██╗
+    ███████║   ██║   ███████╗    ██║  ██║██║  ██║    ╚██████╔╝██║  ██╗
+    ╚══════╝   ╚═╝   ╚══════╝    ╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═╝  ╚═╝
+
+  1. Get the StackStorm Web UI URL:
+
+  export ST2WEB_IP=$(minikube ip 2>/dev/null || kubectl get nodes --namespace stackstorm -o jsonpath="{.items[0].status.addresses[0].address}")
+  export ST2WEB_PORT="$(kubectl get --namespace stackstorm -o jsonpath="{.spec.ports[0].nodePort}" services stackstorm-ha-1657376085-st2web)"
+  echo http://${ST2WEB_IP}:${ST2WEB_PORT}/
+
+  2. Get the password needed to login:
+  kubectl get --namespace stackstorm -o jsonpath="{.data.ST2_AUTH_PASSWORD}" secret stackstorm-ha-1657376085-st2-auth | base64 --decode
+
+  3. Login with this username and the password retrieved above:
+  username: st2admin
+
+  4. Use st2 CLI:
+  export ST2CLIENT=$(kubectl get --namespace stackstorm pod -l app=st2client,release=stackstorm-ha-1657376085 -o jsonpath="{.items[0].metadata.name}")
+  kubectl exec -it ${ST2CLIENT} --namespace stackstorm -- st2 --version
+
+  -----------------------------------------------------
+  Thanks for trying StackStorm!
+  Need help?
+  * Forum: https://forum.stackstorm.com/
+  * Slack: https://stackstorm.com/#community
 
 The installation uses some unsafe defaults which we recommend you change for production use via Helm ``values.yaml``.
 
@@ -88,7 +131,7 @@ If not defined, these values are auto-generated on install and preserved across 
 - st2 auth secrets (ie: the password for the st2admin user)
 
 .. warning::
-    It's highly recommended to set your own secrets to replace the unsafe defaults for for the MongoDB and RabbitMQ subhcarts!
+    It's highly recommended to set your own secrets to replace the unsafe defaults for for the MongoDB and RabbitMQ subcharts!
 	If you disable the subcharts, make sure to secure the services and add the relevant secrets to st2.conf.
 
 Upgrading
@@ -254,7 +297,7 @@ ______
 This service hosts the REST API endpoints that serve requests from WebUI, CLI, ChatOps and other st2 components.
 K8s configuration consists of Pod Deployment with ``2`` default replicas for HA and ClusterIP Service accepting HTTP requests on port ``9101``.
 This is one of the most important |st2| services. We recommend increasing the number of replicas to distribute load
-if you are planning a high-volume environment. 
+if you are planning a high-volume environment.
 
 st2stream
 _________
