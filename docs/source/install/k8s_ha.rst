@@ -49,13 +49,10 @@ makes installing the complex StackStorm infrastructure as easy as:
   # Update the StackStorm repository
   helm repo update stackstorm
 
-  # Install StackStorm HA with an automatically-generated release name to the default namespace
-  helm install --generate-name stackstorm/stackstorm-ha
-
-  # Install StackStorm HA with a specified release name (stackstorm-1) to the default namespace
-  helm install stackstorm-1 stackstorm/stackstorm-ha
-
   # Install StackStorm HA with an automatically-generated release name in the "stackstorm" namespace
+  # (Replace "--generate-name" with a release name if you'd like to name the deployment, omit the
+  # "--namespace stackstorm" and "--create-namespace" flags if you'd like to deploy to the "default"
+  # namespace)
   helm install --generate-name --namespace stackstorm --create-namespace stackstorm/stackstorm-ha
 
 After the installation completes, it will display a message similar to the following:
