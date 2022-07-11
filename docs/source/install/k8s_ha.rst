@@ -50,10 +50,10 @@ makes installing the complex StackStorm infrastructure as easy as:
   helm repo update stackstorm
 
   # Install StackStorm HA with an automatically-generated release name in the "stackstorm" namespace
-  # (Replace "--generate-name" with a release name if you'd like to name the deployment, omit the
-  # "--namespace stackstorm" and "--create-namespace" flags if you'd like to deploy to the "default"
-  # namespace)
-  helm install --generate-name --namespace stackstorm --create-namespace stackstorm/stackstorm-ha
+  # Replace "--generate-name" with a release name if you would like to name the deployment
+  # Omit the "--namespace stackstorm" flag if you would like to deploy to the "default" namespace
+  # Add "--create-namespace" if the namespace that you are specifying needs to be created
+  helm install --generate-name --namespace stackstorm stackstorm/stackstorm-ha
 
 After the installation completes, it will display a message similar to the following:
 
