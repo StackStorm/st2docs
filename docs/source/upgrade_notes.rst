@@ -44,8 +44,8 @@ Upgrade Notes
   information.
 
 * As part of extending RBAC support to include protecting access to datastore operations, if
-  you have RBAC enabled and any sensors access the datastore, then the ``sensor_service`` will need to
-  be assigned an RBAC role with the appropriate key_value_pair permissions.  
+  you have RBAC enabled and any sensors access the datastore, then the ``sensor_service`` user will
+  need to be assigned an RBAC role with the appropriate key_value_pair permissions.  
   Further information can be found in the :doc:`RBAC documentation <rbac>`.
 
 .. _ref-upgrade-notes-v3-6:
