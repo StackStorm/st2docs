@@ -50,7 +50,7 @@ makes installing the complex StackStorm infrastructure as easy as:
   # Replace "--generate-name" with a release name if you would like to name the deployment
   # Omit the "--namespace stackstorm" flag if you would like to deploy to the "default" namespace
   # Add "--create-namespace" if the namespace that you are specifying needs to be created
-  helm install --generate-name --namespace stackstorm stackstorm/stackstorm-ha
+  helm install --generate-name stackstorm/stackstorm-ha
 
 After the installation completes, it will display a message similar to the following:
 
