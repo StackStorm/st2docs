@@ -54,44 +54,8 @@ makes installing the complex StackStorm infrastructure as easy as:
 
 After the installation completes, it will display a message similar to the following:
 
-.. code-block:: bash
-
-  NAME: stackstorm-ha-1657376085
-  LAST DEPLOYED: Sat Jul  9 10:14:46 2022
-  NAMESPACE: stackstorm
-  STATUS: deployed
-  REVISION: 1
-  NOTES:
-  Congratulations! You have just deployed StackStorm HA!
-
-    ███████╗████████╗██████╗     ██╗  ██╗ █████╗      ██████╗ ██╗  ██╗
-    ██╔════╝╚══██╔══╝╚════██╗    ██║  ██║██╔══██╗    ██╔═══██╗██║ ██╔╝
-    ███████╗   ██║    █████╔╝    ███████║███████║    ██║   ██║█████╔╝
-    ╚════██║   ██║   ██╔═══╝     ██╔══██║██╔══██║    ██║   ██║██╔═██╗
-    ███████║   ██║   ███████╗    ██║  ██║██║  ██║    ╚██████╔╝██║  ██╗
-    ╚══════╝   ╚═╝   ╚══════╝    ╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═╝  ╚═╝
-
-  1. Get the StackStorm Web UI URL:
-
-  export ST2WEB_IP=$(minikube ip 2>/dev/null || kubectl get nodes --namespace stackstorm -o jsonpath="{.items[0].status.addresses[0].address}")
-  export ST2WEB_PORT="$(kubectl get --namespace stackstorm -o jsonpath="{.spec.ports[0].nodePort}" services stackstorm-ha-1657376085-st2web)"
-  echo http://${ST2WEB_IP}:${ST2WEB_PORT}/
-
-  2. Get the password needed to login:
-  kubectl get --namespace stackstorm -o jsonpath="{.data.ST2_AUTH_PASSWORD}" secret stackstorm-ha-1657376085-st2-auth | base64 --decode
-
-  3. Login with this username and the password retrieved above:
-  username: st2admin
-
-  4. Use st2 CLI:
-  export ST2CLIENT=$(kubectl get --namespace stackstorm pod -l app=st2client,release=stackstorm-ha-1657376085 -o jsonpath="{.items[0].metadata.name}")
-  kubectl exec -it ${ST2CLIENT} --namespace stackstorm -- st2 --version
-
-  -----------------------------------------------------
-  Thanks for trying StackStorm!
-  Need help?
-  * Forum: https://forum.stackstorm.com/
-  * Slack: https://stackstorm.com/#community
+.. figure :: /_static/images/helm-chart-notes.png
+    :align: center
 
 The installation uses some unsafe defaults which we recommend you change for production use via Helm ``values.yaml``.
 
