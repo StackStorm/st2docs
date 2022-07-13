@@ -46,15 +46,17 @@ makes installing the complex StackStorm infrastructure as easy as:
   # Add Helm StackStorm repository
   helm repo add stackstorm https://helm.stackstorm.com/
 
-  helm install stackstorm/stackstorm-ha
+  # Install StackStorm HA with an automatically-generated release name in the "stackstorm" namespace
+  # Replace "--generate-name" with a release name if you would like to name the deployment
+  # Omit the "--namespace stackstorm" flag if you would like to deploy to the "default" namespace
+  # Add "--create-namespace" if the namespace that you are specifying needs to be created
+  helm install --generate-name stackstorm/stackstorm-ha
 
-Once the deployment is finished, it will show you the first steps to get started working with the new cluster via WebUI
+Once the deployment is finished, it will show you the first steps to get started with the new cluster via WebUI
 or ``st2`` CLI client:
 
 .. figure :: /_static/images/helm-chart-notes.png
     :align: center
-
-.. todo:: Update this screenshot. It is out of date.
 
 The installation uses some unsafe defaults which we recommend you change for production use via Helm ``values.yaml``.
 
@@ -88,7 +90,7 @@ If not defined, these values are auto-generated on install and preserved across 
 - st2 auth secrets (ie: the password for the st2admin user)
 
 .. warning::
-    It's highly recommended to set your own secrets to replace the unsafe defaults for for the MongoDB and RabbitMQ subhcarts!
+    It's highly recommended to set your own secrets to replace the unsafe defaults for for the MongoDB and RabbitMQ subcharts!
 	If you disable the subcharts, make sure to secure the services and add the relevant secrets to st2.conf.
 
 Upgrading
@@ -254,7 +256,7 @@ ______
 This service hosts the REST API endpoints that serve requests from WebUI, CLI, ChatOps and other st2 components.
 K8s configuration consists of Pod Deployment with ``2`` default replicas for HA and ClusterIP Service accepting HTTP requests on port ``9101``.
 This is one of the most important |st2| services. We recommend increasing the number of replicas to distribute load
-if you are planning a high-volume environment. 
+if you are planning a high-volume environment.
 
 st2stream
 _________
