@@ -32,6 +32,9 @@ roles.
 By default when a new |st2| user is created, this user has no roles assigned to it, meaning it
 doesn't have access to perform any API operation which is behind the RBAC wall.
 
+.. note::
+    ``sensor_service`` is the |st2| user which sensors run as.
+
 Role
 ~~~~
 
