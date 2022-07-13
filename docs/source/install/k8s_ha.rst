@@ -52,7 +52,8 @@ makes installing the complex StackStorm infrastructure as easy as:
   # Add "--create-namespace" if the namespace that you are specifying needs to be created
   helm install --generate-name stackstorm/stackstorm-ha
 
-After the installation completes, it will display a message similar to the following:
+Once the deployment is finished, it will show you the first steps to get started with the new cluster via WebUI
+or ``st2`` CLI client:
 
 .. figure :: /_static/images/helm-chart-notes.png
     :align: center
