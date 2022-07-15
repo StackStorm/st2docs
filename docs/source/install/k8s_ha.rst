@@ -46,9 +46,9 @@ makes installing the complex StackStorm infrastructure as easy as:
   # Add Helm StackStorm repository
   helm repo add stackstorm https://helm.stackstorm.com/
 
-  # Install StackStorm HA with an automatically-generated release name in the "stackstorm" namespace
+  # Install StackStorm HA with an automatically-generated release name in the "default" namespace
   # Replace "--generate-name" with a release name if you would like to name the deployment
-  # Omit the "--namespace stackstorm" flag if you would like to deploy to the "default" namespace
+  # Add the "--namespace stackstorm" flag and argument to deploy to the "stackstorm" namespace
   # Add "--create-namespace" if the namespace that you are specifying needs to be created
   helm install --generate-name stackstorm/stackstorm-ha
 
