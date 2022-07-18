@@ -305,7 +305,7 @@ In the example above, the ``to_number`` parameter contains the attribute ``secre
 
   Does your parameter only accept certain values? Use ``enum:`` with a list of allowed values. When the
   action is executed, it will only allow those specific values. And the in Web UI, it will be rendered
-  as a drop-down list. 
+  as a drop-down list.
 
   See the `examples.weather <https://github.com/StackStorm/st2/blob/master/contrib/examples/actions/weather.yaml#L16>`_
   action in the examples pack for how to use this.
@@ -328,18 +328,21 @@ You can define the schema as follows:
     ---
     ...
     output_schema:
+      type: object
+      properties:
         errors:
-           type: array
-           items:
-               type: string
-       output:
-           required: true
-           type: array
-           items:
-               type: number
-       status_code:
-           required: true
-           type: integer
+          type: array
+          items:
+            type: string
+        output:
+          required: true
+          type: array
+          items:
+            type: number
+        status_code:
+          required: true
+          type: integer
+      additionalProperties: false
 
 If the action output does not return the correct fields it will fail validation and the action
 itself will fail. This prevents propagating corrupt data to other actions in a workflow, which
@@ -347,13 +350,41 @@ could lead to unpredictable results. In future this information will be used for
 validation.
 
 Output schema validation is disabled by default in current versions of |st2|. To enable it, set
-``validate_output_schema = True`` under ``[system]`` in ``/etc/st2/st2.conf``. 
+``validate_output_schema = True`` under ``[system]`` in ``/etc/st2/st2.conf``.
 
 If an action does not define any output schema, no enforcement is done. This allows you to
 progressively update your actions, rather than doing them all at once.
 
 As with all other input and output schema definitions in Stackstorm, we leverage
-JSONschema to define ``output_schema``.
+JSONschema (draft 4) to define ``output_schema``. We extend JSONSchema with a ``secret`` parameter
+so that the entire output, or a single field of the output, can be marked as secret.
+If any part of the output is marked as a secret, the value of that secret will be masked in the
+|st2| service logs.
+
+For example, you have a python action that returns a secret token as a string.
+You can define the schema as follows:
+
+.. code-block:: yaml
+
+    ---
+    ...
+    output_schema:
+      type: string
+      secret: true
+
+Or the python action could return the secret token as an object field:
+
+.. code-block:: yaml
+
+    ---
+    ...
+    output_schema:
+      type: object
+      properties:
+        super-awesome-token:
+          type: string
+          secret: true
+      additionalProperties: false
 
 
 Parameters in Actions

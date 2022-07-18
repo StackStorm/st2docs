@@ -31,7 +31,8 @@ all the API responses which operate on the following system entities:
 in the action metadata file.
 
 Any action parameter that has the ``secret: true`` attribute will be treated as a secret for
-masking purposes.
+masking purposes. Action output, or part of it, will also be treated as a secret if it has
+``secret: true`` in its ``output_schema``.
 
 Masking can be disabled on a per-API request basis, by passing the ``?show_secrets=True`` query
 parameter to all of the supported API endpoints. This is only available to users with the admin
