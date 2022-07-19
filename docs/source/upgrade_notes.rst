@@ -12,12 +12,12 @@ Upgrade Notes
   If you have ``[system].validate_output_schema = True`` in st2.conf AND you have added
   ``output_schema`` to any of your packs, then you must update your action metadata.
 
-  ``output_schema`` must be a full jsonschema now. If a schema is not well-formed, we ignore it.
+  ``output_schema`` must be a full jsonschema now. If a schema is not well-formed, it will be ignored.
   Now, ``output`` can be types other than object such as list, bool, int, etc.
   This also means that all of an action's output can be masked as a secret.
 
   To get the same behavior, you'll need to update your output schema.
-  For example, this schema:
+  For example, this schema (used prior to 3.8.0):
 
   .. code-block:: yaml
 
