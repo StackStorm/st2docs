@@ -15,7 +15,7 @@ The source code for K8s resource templates (part of our Helm chart) is available
 
 .. warning::
     **Beta quality!**
-    As this deployment method available in beta version, documentation and code may be substantially modified and refactored.
+    This deployment method is in beta. Documentation and code may still be substantially modified and/or refactored.
 
 .. contents:: Contents
    :local:
@@ -58,7 +58,7 @@ or ``st2`` CLI client:
 .. figure :: /_static/images/helm-chart-notes.png
     :align: center
 
-The installation uses some unsafe defaults which we recommend you change for production use via Helm ``values.yaml``.
+This installation uses unsafe default values. We recommend changing them for production via Helm ``values.yaml``.
 
 Helm Values
 ___________
@@ -90,7 +90,7 @@ If not defined, these values are auto-generated on install and preserved across 
 - st2 auth secrets (ie: the password for the st2admin user)
 
 .. warning::
-    It's highly recommended to set your own secrets to replace the unsafe defaults for for the MongoDB and RabbitMQ subcharts!
+    It's highly recommended to set your own secrets to replace the unsafe defaults for the MongoDB and RabbitMQ subcharts!
 	If you disable the subcharts, make sure to secure the services and add the relevant secrets to st2.conf.
 
 Upgrading
@@ -377,9 +377,7 @@ As any other Helm dependency, it's possible to further configure it for specific
 
 Feedback Needed!
 ----------------
-As this deployment method new and beta is in progress, we ask you to try it and provide your feedback via
-
-bug reports, ideas, feature or pull requests in `StackStorm/stackstorm-ha <https://github.com/StackStorm/stackstorm-ha>`_,
+As this deployment method new and beta is in progress, we ask you to try it and provide your feedback via bug reports, ideas, feature or pull requests in `StackStorm/stackstorm-ha <https://github.com/StackStorm/stackstorm-ha>`_,
 and encourage discussions in `Slack <https://stackstorm.com/community-signup>`_ ``#k8s`` channel.
 
 
