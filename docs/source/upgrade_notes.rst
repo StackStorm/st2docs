@@ -26,8 +26,9 @@ Upgrade Notes
         type: bool
       property2:
         type: str
+        secret: true
 
-  should be updated like this:
+  should be updated to a full JSON Schema like this:
 
   .. code-block:: yaml
 
@@ -38,7 +39,16 @@ Upgrade Notes
           type: bool
         property2:
           type: str
+          secret: true
       additionalProperties: false
+
+  Invalid schemas are ignored, so we recommend coordinating your pack updates with the update
+  to StackStorm 3.8.0, especially if you rely on ``output_schema`` for secret masking
+  (via ``secret: true``). If you update packs to use the new ``output_schema`` before updating
+  to 3.8.0, then the schema will be ignored until the upgrade is complete. If you update to 3.8.0
+  before you update the packs, then the schemas will be ignored until the packs are updated.
+  You can also install pack updates during an upgrade, while StackStorm is not running, by using
+  the ``st2-pack-install`` utility: ``st2-pack-install <pack1> <pack2> <pack3>``.
 
 .. _ref-upgrade-notes-v3-7:
 
