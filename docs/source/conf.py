@@ -278,6 +278,8 @@ html_extra_path = ['_redirects']
 htmlhelp_basename = info.htmlhelp_basename
 
 # Variables to be used by templates
+html_context = {}
+
 if "READTHEDOCS" not in os.environ:
     html_context = {
         'github_user': info.github_user,
@@ -297,6 +299,10 @@ if "READTHEDOCS" not in os.environ:
             '_static/theme_overrides.css',
             ],
     }
+
+html_context["css_files"] = [
+    '_static/theme_overrides.css',
+]
 
 
 # -- Options for LaTeX output ---------------------------------------------
