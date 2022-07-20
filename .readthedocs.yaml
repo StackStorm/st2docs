@@ -30,7 +30,7 @@ build:
       - ./scripts/clone-st2.sh
       - ./scripts/clone-orquesta.sh
 
-    post_create_environment:
+    pre_install:
       # switch to version of pip from cloned copy of st2
       - >
         export PIP_VERSION=$(grep "PIP_VERSION ?= " st2/Makefile | awk "{ print \$3 }");
