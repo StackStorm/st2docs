@@ -32,6 +32,7 @@ build:
     post_create_environment:
       # switch to version of pip from cloned copy of st2
       - PIP_VERSION=${grep 'PIP_VERSION ?= ' st2/Makefile | awk '{ print $3 }')}
+      - which pip
       - pip install --upgrade "pip==${PIP_VERSION}"
 
     # install: see python.install above
