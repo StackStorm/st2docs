@@ -277,29 +277,25 @@ html_extra_path = ['_redirects']
 htmlhelp_basename = info.htmlhelp_basename
 
 # Variables to be used by templates
-html_context = {
-    'github_user': info.github_user,
-    'github_repo': info.github_repo,
-    'github_version': info.github_version,
-    'conf_py_path': '/docs/source/',
-    'display_github': True,
-    'source_suffix': source_suffix,
-    'css_files': [
-        '_static/theme_overrides.css',
-        ],
-}
-html_context_versions = {
-    'versions': [
-        ('latest', '%slatest' % info.base_url),
-        (version, '%s%s' % (info.base_url, version)),
-        (version_minus_1, '%s%s' % (info.base_url, version_minus_1)),
-        (version_minus_2, '%s%s' % (info.base_url, version_minus_2)),
-    ],
-    'current_version': version,
-}
-
 if "READTHEDOCS" not in os.environ:
-    html_context.extend(html_context_versions)
+    html_context = {
+        'github_user': info.github_user,
+        'github_repo': info.github_repo,
+        'github_version': info.github_version,
+        'conf_py_path': '/docs/source/',
+        'display_github': True,
+        'source_suffix': source_suffix,
+        'versions': [
+            ('latest', '%slatest' % info.base_url),
+            (version, '%s%s' % (info.base_url, version)),
+            (version_minus_1, '%s%s' % (info.base_url, version_minus_1)),
+            (version_minus_2, '%s%s' % (info.base_url, version_minus_2)),
+        ],
+        'current_version': version,
+        'css_files': [
+            '_static/theme_overrides.css',
+            ],
+    }
 
 
 # -- Options for LaTeX output ---------------------------------------------
