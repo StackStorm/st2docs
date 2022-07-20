@@ -30,12 +30,13 @@ build:
       - ./scripts/clone-st2.sh
       - ./scripts/clone-orquesta.sh
 
-    pre_install:
-      # switch to version of pip from cloned copy of st2
-      - >
-        export PIP_VERSION=$(grep "PIP_VERSION ?= " st2/Makefile | awk "{ print \$3 }");
-        echo PIP_VERSION=${PIP_VERSION};
-        pip install --upgrade "pip==${PIP_VERSION}";
+    # We can't control the version of pip installed because it is part of the `install` stage.
+    #pre_install:
+    #  # switch to version of pip from cloned copy of st2
+    #  - >
+    #    export PIP_VERSION=$(grep "PIP_VERSION ?= " st2/Makefile | awk "{ print \$3 }");
+    #    echo PIP_VERSION=${PIP_VERSION};
+    #    pip install --upgrade "pip==${PIP_VERSION}";
 
     # install: see python.install above
 
