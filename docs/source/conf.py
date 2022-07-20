@@ -284,6 +284,11 @@ html_context = {
     'conf_py_path': '/docs/source/',
     'display_github': True,
     'source_suffix': source_suffix,
+    'css_files': [
+        '_static/theme_overrides.css',
+        ],
+}
+html_context_versions = {
     'versions': [
         ('latest', '%slatest' % info.base_url),
         (version, '%s%s' % (info.base_url, version)),
@@ -291,10 +296,10 @@ html_context = {
         (version_minus_2, '%s%s' % (info.base_url, version_minus_2)),
     ],
     'current_version': version,
-    'css_files': [
-        '_static/theme_overrides.css',
-        ],
 }
+
+if "READTHEDOCS" not in os.environ:
+    html_context.extend(html_context_versions)
 
 
 # -- Options for LaTeX output ---------------------------------------------
