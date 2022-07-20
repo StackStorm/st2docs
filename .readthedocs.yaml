@@ -41,12 +41,12 @@ build:
       - cd ./st2; make virtualenv
       - cd ./st2; make requirements
       # generate-runner-parameters-documentation.py needs this in the st2 virtualenv
-	    - . st2/virtualenv/bin/activate; pip install pytablewriter
+      - . st2/virtualenv/bin/activate; pip install pytablewriter
 
     pre_build:
-	    - . st2/virtualenv/bin/activate; ./scripts/generate-runner-parameters-documentation.py
-	    - . st2/virtualenv/bin/activate; ./scripts/generate-internal-triggers-table.py
-	    - . st2/virtualenv/bin/activate; ./scripts/generate-available-permission-types-table.py
+      - . st2/virtualenv/bin/activate; ./scripts/generate-runner-parameters-documentation.py
+      - . st2/virtualenv/bin/activate; ./scripts/generate-internal-triggers-table.py
+      - . st2/virtualenv/bin/activate; ./scripts/generate-available-permission-types-table.py
 
 # Build documentation in the docs/ directory with Sphinx
 sphinx:
