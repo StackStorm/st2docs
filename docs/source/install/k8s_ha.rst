@@ -377,7 +377,8 @@ As any other Helm dependency, it's possible to further configure it for specific
 
 Feedback Needed!
 ----------------
-As this deployment method new and beta is in progress, we ask you to try it and provide your feedback via bug reports, ideas, feature or pull requests in `StackStorm/stackstorm-ha <https://github.com/StackStorm/stackstorm-ha>`_,
+As this deployment method is new and beta is in progress, we ask you to try it and provide your feedback via
+bug reports, ideas, feature or pull requests in `StackStorm/stackstorm-k8s <https://github.com/StackStorm/stackstorm-k8s>`_,
 and encourage discussions in `Slack <https://stackstorm.com/community-signup>`_ ``#k8s`` channel.
 
 
