@@ -211,6 +211,7 @@ else:
     # html_theme_options["style_nav_header_background"] = "#fb8225" # covered by rtd_theme_overrides.css
     html_theme_options["logo_only"] = True
     html_theme_options["display_version"] = True  # at the top of the sidebar
+    html_theme_options["style_external_links"] = True
     html_theme_options["vcs_pageview_mode"] = "blob"  # blob, edit, raw
 
 # html_baseurl = info.theme_base_url  # via html_theme_options is deprecated
