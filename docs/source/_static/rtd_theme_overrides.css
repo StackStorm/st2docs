@@ -50,6 +50,12 @@ body {
 .wy-menu-vertical header,.wy-menu-vertical p.caption {
   color: #fc9f57;
 }
+.wy-side-nav-search input[type=text] {
+  border-color: #fcd531;
+}
+.wy-nav-top {
+  background: #4d585a;
+}
 
 .wy-side-nav-search .wy-dropdown>a img.logo, .wy-side-nav-search>a img.logo {
   display: block;
@@ -57,4 +63,7 @@ body {
 
   /* svg defaults to fill: #000 */
   filter: invert(100%); /* effectively - fill: #fff */
+}
+.wy-side-nav-search>div.version {
+  color: rgba(255, 255, 255, 0.8);
 }
