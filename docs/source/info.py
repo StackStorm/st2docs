@@ -11,7 +11,7 @@ master_doc = 'index'
 
 project = u'StackStorm'
 copyright = u'2014 - %s, StackStorm' % (datetime.now().strftime("%Y"))
-author = u'Extreme Networks, Inc'
+author = u'The StackStorm Authors'
 
 base_url = u'https://docs.stackstorm.com/'
 htmlhelp_basename = 'StackStormDoc'
