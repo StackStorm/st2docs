@@ -30,11 +30,13 @@ for module_path in st2_components_paths:
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('./_themes'))
-
-from st2common import __version__
+if "READTHEDOCS" not in os.environ:
+    # use out-of-date in-repo version instead of the one in the sphinx_rtd_theme package
+    sys.path.insert(0, os.path.abspath('./_themes'))
 
 import sphinx_rtd_theme
+
+from st2common import __version__
 
 # -- General configuration ------------------------------------------------
 
