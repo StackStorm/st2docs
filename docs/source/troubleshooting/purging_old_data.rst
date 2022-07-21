@@ -31,6 +31,7 @@ as shown below:
     rule_enforcements_ttl = 25
     workflow_executions_ttl = 18
     task_executions_ttl = 19
+    tokens_ttl = 21
 
 In this case, the following objects will be automatically deleted:
 
@@ -41,6 +42,7 @@ In this case, the following objects will be automatically deleted:
   * rule enforcement objects older than 25 days
   * workflow execution objects older than 18 days
   * workflow task execution objects older than 19 days
+  * token objects whose expiry was older than 21 days
 
 The lowest supported TTL is 7 days. If you need to delete old data more frequently, check the
 manual purge scripts below.
@@ -190,3 +192,20 @@ inside a screen/tmux session. For example:
 .. code-block:: bash
 
     screen -d -m -S purge-instances /opt/stackstorm/st2/bin/st2-purge-task-executions --config-file /etc/st2/st2.conf --timestamp="2015-11-25T21:45:00.000000Z"
+
+Purging Token Instances whose Expiry is Older than Some Timestamp
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+    /opt/stackstorm/st2/bin/st2-purge-tokens --config-file /etc/st2/st2.conf --timestamp="2015-11-25T21:45:00.000000Z"
+
+Again, the timestamp provided is interpreted as a UTC timestamp. Please perform all necessary
+timezone conversions and specify time in UTC.
+
+This script may take some time to complete, depending on data volumes. We recommend running it
+inside a screen/tmux session. For example:
+
+.. code-block:: bash
+
+    screen -d -m -S purge-instances /opt/stackstorm/st2/bin/st2-purge-tokens --config-file /etc/st2/st2.conf --timestamp="2015-11-25T21:45:00.000000Z"
