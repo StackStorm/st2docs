@@ -324,7 +324,7 @@ html_context.update({
 if "READTHEDOCS" in os.environ:
     # updates from our out-of-date in-repo theme for the latest version
     # in the sphinx_rtd_theme package.
-    html_contxt["css_files"].append("_static/rtd_theme_overrides.css")
+    html_context["css_files"].append("_static/rtd_theme_overrides.css")
 
 
 # -- Options for LaTeX output ---------------------------------------------
