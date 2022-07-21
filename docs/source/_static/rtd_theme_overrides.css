@@ -44,3 +44,7 @@ body {
 .wy-side-nav-search {
   background-color: #fb8225; /* #2980b9 */
 }
+.wy-menu-vertical header,.wy-menu-vertical p.caption {
+  /* #fc9f57 is 10% lighter than #fb8225 */
+  color: #fc9f57; /* #55a5d9 or 15% lighter than wy-sid-enav-search */
+}
