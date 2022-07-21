@@ -238,6 +238,8 @@ if "READTHEDOCS" in os.environ:
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
 # html_favicon = "favicon.ico"
+if "READTHEDOCS" in os.environ:
+    html_favicon = "_static/images/favicon.ico"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
