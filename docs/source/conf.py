@@ -212,8 +212,6 @@ else:
     # html_theme_options["logo_only"] = True
     html_theme_options["display_version"] = True  # at the top of the sidebar
     html_theme_options["vcs_pageview_mode"] = "blob"  # blob, edit, raw
-    # always display the Edit on Github button
-    html_theme_options["display_github"] = True
 
 # html_baseurl = info.theme_base_url  # via html_theme_options is deprecated
 
@@ -303,7 +301,6 @@ if "READTHEDOCS" not in os.environ:
         'github_repo': info.github_repo,
         'github_version': info.github_version,
         'conf_py_path': '/docs/source/',
-        'display_github': True,
         'source_suffix': source_suffix,
         'versions': [
             ('latest', '%slatest' % info.base_url),
@@ -314,9 +311,12 @@ if "READTHEDOCS" not in os.environ:
         'current_version': version,
     }
 
-html_context["css_files"] = [
-    '_static/theme_overrides.css',
-]
+html_context.update({
+    "display_github": True,
+    "css_files": [
+        "_static/theme_overrides.css",
+    ],
+})
 
 
 # -- Options for LaTeX output ---------------------------------------------
