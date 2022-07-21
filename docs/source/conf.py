@@ -34,6 +34,8 @@ sys.path.insert(0, os.path.abspath('./_themes'))
 
 from st2common import __version__
 
+import sphinx_rtd_theme
+
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -196,15 +198,21 @@ html_theme = "sphinx_rtd_theme"
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
+html_theme_options = {
+    # see: https://sphinx-rtd-theme.readthedocs.io/en/stable/configuring.html
+}
 if "READTHEDOCS" not in os.environ:
-    html_theme_options = {
-        'base_url': info.theme_base_url,
-        'canonical_url': info.theme_base_url
-    }
+    # these are only needed with the very old in-repo copy of the theme
+    html_theme_options["base_url"] = info.theme_base_url
+    html_theme_options["canonical_url"] = info.theme_base_url
+
+# html_baseurl = info.theme_base_url  # via html_theme_options is deprecated
 
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
-html_theme_path = ["_themes", ]
+if "READTHEDOCS" not in os.environ:
+    # use out-of-date in-repo version instead of the one in the sphinx_rtd_theme package
+    html_theme_path = ["_themes", ]
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
