@@ -209,7 +209,7 @@ else:
     # we are using this instead of html_context below for the newer theme
     # see: https://sphinx-rtd-theme.readthedocs.io/en/stable/configuring.html
     html_theme_options["style_nav_header_background"] = "#fb8225"
-    # html_theme_options["logo_only"] = True
+    html_theme_options["logo_only"] = True
     html_theme_options["display_version"] = True  # at the top of the sidebar
     html_theme_options["vcs_pageview_mode"] = "blob"  # blob, edit, raw
 
@@ -231,6 +231,8 @@ if "READTHEDOCS" not in os.environ:
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
 # html_logo = None
+if "READTHEDOCS" in os.environ:
+    html_logo = "_static/images/logo.svg"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
