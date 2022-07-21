@@ -314,7 +314,7 @@ if "READTHEDOCS" not in os.environ:
             (version_minus_2, '%s%s' % (info.base_url, version_minus_2)),
         ],
         "css_files": [
-            "_static/theme_overrides.css",
+            "_static/css/theme_overrides.css",
         ],
         'current_version': version,
     }
@@ -325,11 +325,11 @@ if "READTHEDOCS" in os.environ:
     # updates from our out-of-date in-repo theme for the latest version
     # in the sphinx_rtd_theme package.
     html_css_files = [
-        "_static/theme_overrides.css",
-        "_static/rtd_theme_overrides.css",
+        "css/theme_overrides.css",
+        "css/rtd_theme_overrides.css",
     ]
     html_js_files = [
-        "_static/rtd_theme_overrides.js",
+        "js/rtd_theme_overrides.js",
     ]
 
 
