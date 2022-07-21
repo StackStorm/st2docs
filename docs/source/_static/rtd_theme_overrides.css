@@ -26,10 +26,13 @@ body {
   font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
-/* st2 background: #fb8225 */
+/**
+ * st2 background: #fb8225
+ * 10% lighter: #fc9f57
+ * 20% darker: #b75103
+ **/
 .wy-menu-vertical li.current a:hover {
-  background: #fb8225; /* #d6d6d6 */
-  color: #FFF;
+  color: #b75103;
 }
 .wy-menu-vertical li a:hover {
   color: #fb8225;
@@ -37,14 +40,9 @@ body {
 .wy-menu-vertical li.on a:hover, .wy-menu-vertical li.current > a:hover {
   background: #fb8225; /* #fcfcfc */
 }
-.wy-menu-vertical li.toctree-l2.current > a {
-  background: #fb8225; /* #c9c9c9 */
-  color:#FFF;
-}
 .wy-side-nav-search {
   background-color: #fb8225; /* #2980b9 */
 }
 .wy-menu-vertical header,.wy-menu-vertical p.caption {
-  /* #fc9f57 is 10% lighter than #fb8225 */
-  color: #fc9f57; /* #55a5d9 or 15% lighter than wy-sid-enav-search */
+  color: #fc9f57;
 }

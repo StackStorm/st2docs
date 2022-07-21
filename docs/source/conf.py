@@ -208,7 +208,7 @@ if "READTHEDOCS" not in os.environ:
 else:
     # we are using this instead of html_context below for the newer theme
     # see: https://sphinx-rtd-theme.readthedocs.io/en/stable/configuring.html
-    html_theme_options["style_nav_header_background"] = "#fb8225"
+    # html_theme_options["style_nav_header_background"] = "#fb8225" # covered by rtd_theme_overrides.css
     html_theme_options["logo_only"] = True
     html_theme_options["display_version"] = True  # at the top of the sidebar
     html_theme_options["vcs_pageview_mode"] = "blob"  # blob, edit, raw
