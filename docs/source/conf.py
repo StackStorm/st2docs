@@ -198,13 +198,20 @@ html_theme = "sphinx_rtd_theme"
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-html_theme_options = {
-    # see: https://sphinx-rtd-theme.readthedocs.io/en/stable/configuring.html
-}
+html_theme_options = {}
 if "READTHEDOCS" not in os.environ:
     # these are only needed with the very old in-repo copy of the theme
     html_theme_options["base_url"] = info.theme_base_url
     html_theme_options["canonical_url"] = info.theme_base_url
+else:
+    # we are using this instead of html_context below for the newer theme
+    # see: https://sphinx-rtd-theme.readthedocs.io/en/stable/configuring.html
+    html_theme_options["style_nav_header_background"] = "#fb8225"
+    # html_theme_options["logo_only"] = True
+    html_theme_options["display_version"] = True  # at the top of the sidebar
+    html_theme_options["vcs_pageview_mode"] = "blob"  # blob, edit, raw
+    # always display the Edit on Github button
+    html_theme_options["display_github"] = True
 
 # html_baseurl = info.theme_base_url  # via html_theme_options is deprecated
 
