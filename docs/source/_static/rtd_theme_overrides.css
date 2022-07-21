@@ -73,4 +73,9 @@ body {
 }
 .wy-side-nav-search>div.version {
   color: rgba(255, 255, 255, 0.8);
+  display: None;
+}
+
+.wy-breadcrumbs li a.icon-home:before {
+  content: "" /* drop the icon. js will add content */
 }

@@ -312,19 +312,24 @@ if "READTHEDOCS" not in os.environ:
             (version_minus_1, '%s%s' % (info.base_url, version_minus_1)),
             (version_minus_2, '%s%s' % (info.base_url, version_minus_2)),
         ],
+        "css_files": [
+            "_static/theme_overrides.css",
+        ],
         'current_version': version,
     }
 
-html_context.update({
-    "display_github": True,
-    "css_files": [
-        "_static/theme_overrides.css",
-    ],
-})
+html_context["display_github"] = True
+
 if "READTHEDOCS" in os.environ:
     # updates from our out-of-date in-repo theme for the latest version
     # in the sphinx_rtd_theme package.
-    html_context["css_files"].append("_static/rtd_theme_overrides.css")
+    html_css_files = [
+        "_static/theme_overrides.css",
+        "_static/rtd_theme_overrides.css",
+    ]
+    html_js_files = [
+        "_static/rtd_theme_overrides.js",
+    ]
 
 
 # -- Options for LaTeX output ---------------------------------------------
