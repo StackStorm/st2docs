@@ -1,3 +1,8 @@
+/* layout changes */
+.wy-nav-content {
+  max-width: none; /* was 800px */
+}
+
 /* $base-font-family: Lato,proxima-nova,Helvetica Neue,Arial,sans-serif; */
 .btn {
   font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
