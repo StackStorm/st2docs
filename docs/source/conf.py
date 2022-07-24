@@ -198,7 +198,15 @@ html_theme = "sphinx_rtd_theme"
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-html_theme_options = {}
+html_theme_options = {
+    # see: https://sphinx-rtd-theme.readthedocs.io/en/stable/configuring.html
+    "logo_only": True,
+}
+
+html_css_files = [
+    "css/theme_overrides.css",
+    "css/rtd_theme_overrides.css",
+]
 
 if "READTHEDOCS" not in os.environ:
     # set the canonical url to our custom domain unless testing on RTD
@@ -216,12 +224,12 @@ if "READTHEDOCS" not in os.environ:
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-# html_logo = None
+html_logo = "_static/images/logo.svg"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-# html_favicon = "favicon.ico"
+html_favicon = "_static/images/favicon.ico"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -293,9 +301,6 @@ html_context = {
         (version_minus_2, '%s%s' % (info.base_url, version_minus_2)),
     ],
     'current_version': version,
-    'css_files': [
-        '_static/css/theme_overrides.css',
-        ],
 }
 
 
