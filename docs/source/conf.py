@@ -201,11 +201,15 @@ html_theme = "sphinx_rtd_theme"
 html_theme_options = {
     # see: https://sphinx-rtd-theme.readthedocs.io/en/stable/configuring.html
     "logo_only": True,
+    "style_external_links": True,
 }
 
 html_css_files = [
     "css/theme_overrides.css",
     "css/rtd_theme_overrides.css",
+]
+html_js_files = [
+    "js/rtd_theme_overrides.js",
 ]
 
 if "READTHEDOCS" not in os.environ:
