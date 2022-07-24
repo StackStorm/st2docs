@@ -201,6 +201,8 @@ html_theme = "sphinx_rtd_theme"
 html_theme_options = {
     # see: https://sphinx-rtd-theme.readthedocs.io/en/stable/configuring.html
     "logo_only": True,
+    # display_version puts rtd slug/version at top of sidebar, but we use breadcrumbs instead
+    "display_version": False,
     "style_external_links": True,
 }
 
