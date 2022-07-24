@@ -16,6 +16,8 @@ import sys
 import os
 import glob
 
+import sphinx_rtd_theme
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, '../../st2'))
 
@@ -30,7 +32,7 @@ for module_path in st2_components_paths:
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('./_themes'))
+# sys.path.insert(0, os.path.abspath('./path/to/extension'))
 
 from st2common import __version__
 
@@ -203,7 +205,6 @@ html_theme_options = {
 
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
-html_theme_path = ["_themes", ]
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
