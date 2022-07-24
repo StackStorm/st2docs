@@ -303,14 +303,17 @@ html_context = {
     "github_version": info.github_version,
     'conf_py_path': '/docs/source/',
     'source_suffix': source_suffix,
-    'versions': [
+}
+
+if "READTHEDOCS" not in os.environ:
+    # READTHEDOCS handles versions for us. TODO: is this needed locally with the new theme?
+    html_context['versions'] = [
         ('latest', '%slatest' % info.base_url),
         (version, '%s%s' % (info.base_url, version)),
         (version_minus_1, '%s%s' % (info.base_url, version_minus_1)),
         (version_minus_2, '%s%s' % (info.base_url, version_minus_2)),
-    ],
-    'current_version': version,
-}
+    ]
+    html_context['current_version'] = version
 
 
 # -- Options for LaTeX output ---------------------------------------------
