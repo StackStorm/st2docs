@@ -205,6 +205,7 @@ html_theme_options = {
     # display_version puts rtd slug/version at top of sidebar, but we use breadcrumbs instead
     "display_version": False,
     "style_external_links": True,
+    "vcs_pageview_mode": "blob",  # blob, edit, raw
 }
 
 html_css_files = [
@@ -295,11 +296,12 @@ htmlhelp_basename = info.htmlhelp_basename
 
 # Variables to be used by templates
 html_context = {
-    'github_user': info.github_user,
-    'github_repo': info.github_repo,
-    'github_version': info.github_version,
+    # The github settings configure the "Edit on GitHub" link
+    "display_github": True,
+    "github_user": info.github_user,
+    "github_repo": info.github_repo,
+    "github_version": info.github_version,
     'conf_py_path': '/docs/source/',
-    'display_github': True,
     'source_suffix': source_suffix,
     'versions': [
         ('latest', '%slatest' % info.base_url),
