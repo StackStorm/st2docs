@@ -5,3 +5,7 @@
   /* svg defaults to fill: #000 */
   filter: invert(100%); /* effectively - fill: #fff */
 }
+
+.wy-breadcrumbs li a.icon-home:before {
+  content: "" /* drop the icon. js will add content */
+}
