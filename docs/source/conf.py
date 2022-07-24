@@ -200,6 +200,7 @@ html_theme = "sphinx_rtd_theme"
 # documentation.
 html_theme_options = {
     # see: https://sphinx-rtd-theme.readthedocs.io/en/stable/configuring.html
+    # "style_nav_header_background": "#fb8225",  # covered by rtd_theme_overrides.css
     "logo_only": True,
     # display_version puts rtd slug/version at top of sidebar, but we use breadcrumbs instead
     "display_version": False,
