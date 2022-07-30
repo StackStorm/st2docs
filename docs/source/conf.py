@@ -218,7 +218,7 @@ html_js_files = [
 
 if "READTHEDOCS" not in os.environ:
     # set the canonical url to our custom domain unless testing on RTD
-    html_base_url = info.base_url
+    html_baseurl = info.base_url
 
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
