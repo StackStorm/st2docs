@@ -43,9 +43,9 @@
   {% endif %}
 
   {# RTD hosts this file, so just load on non RTD builds #}
-  {# if not READTHEDOCS #}
+  {% if not READTHEDOCS %}
     <link rel="stylesheet" href="{{ pathto('_static/' + style, 1) }}" type="text/css" />
-  {# endif #}
+  {% endif %}
 
   {% for cssfile in css_files %}
     <link rel="stylesheet" href="{{ pathto(cssfile, 1) }}" type="text/css" />
@@ -184,9 +184,9 @@
   {% endif %}
 
   {# RTD hosts this file, so just load on non RTD builds #}
-  {# if not READTHEDOCS #}
+  {% if not READTHEDOCS %}
     <script type="text/javascript" src="{{ pathto('_static/js/theme.js', 1) }}"></script>
-  {# endif #}
+  {% endif %}
 
   {# STICKY NAVIGATION #}
   {% if theme_sticky_navigation %}
@@ -197,7 +197,7 @@
   </script>
   {% endif %}
 
-  <script type="text/javascript" src="{{ pathto('_static/js/versions.js', 1) }}"></script>
+  <script type="text/javascript" src="{{ pathto('/_static/js/versions.js', 1) }}"></script>
 
   {%- block footer %} {% endblock %}
 
