@@ -208,9 +208,12 @@ html_theme_options = {
     "vcs_pageview_mode": "blob",  # blob, edit, raw
 }
 
+# These paths are either relative to html_static_path
+# or fully qualified paths (eg. https://...)
 html_css_files = [
     "css/theme_overrides.css",
     "css/rtd_theme_overrides.css",
+    "https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic|Inconsolata:400,700",
 ]
 html_js_files = [
     "js/rtd_theme_overrides.js",
