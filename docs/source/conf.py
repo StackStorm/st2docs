@@ -53,8 +53,10 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.extlinks',
 
-    # Add theme as extension so sitemap.xml is generated
-    'sphinx_rtd_theme'
+    # theme is provided as an extension
+    "sphinx_rtd_theme",
+    # this generates sitemap.xml
+    "sphinx_sitemap",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -219,9 +221,11 @@ html_js_files = [
     "js/rtd_theme_overrides.js",
 ]
 
-if "READTHEDOCS" not in os.environ:
-    # set the canonical url to our custom domain unless testing on RTD
-    html_baseurl = info.base_url
+# set the canonical url to our custom domain (required for sitemap generation)
+html_baseurl = info.base_url
+sitemap_filename = "sitemap.xml"
+# sitemap_url_scheme = "{lang}{version}{link}"
+sitemap_url_scheme = "{version}{link}"
 
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
