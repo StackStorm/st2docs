@@ -2,6 +2,9 @@
 .wy-nav-content {
   max-width: none; /* was 800px */
 }
+.wy-nav-side {
+  padding-bottom: 2.75em;
+}
 
 /* $base-font-family: Lato,proxima-nova,Helvetica Neue,Arial,sans-serif; */
 .btn {
