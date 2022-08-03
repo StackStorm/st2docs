@@ -224,8 +224,10 @@ html_js_files = [
 # set the canonical url to our custom domain (required for sitemap generation)
 html_baseurl = info.base_url
 sitemap_filename = "sitemap.xml"
-# sitemap_url_scheme = "{lang}{version}{link}"
-sitemap_url_scheme = "{version}{link}"
+if "READTHEDOCS" in os.environ:
+    sitemap_url_scheme = "{lang}{version}{link}"
+else:
+    sitemap_url_scheme = "{version}{link}"
 
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
