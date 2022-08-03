@@ -226,6 +226,9 @@ html_baseurl = info.base_url
 sitemap_filename = "sitemap.xml"
 if "READTHEDOCS" in os.environ:
     sitemap_url_scheme = "{lang}{version}{link}"
+elif "dev" in version:
+    # use latest/ instead of 3.8dev/
+    sitemap_url_scheme = "latest/{link}"
 else:
     sitemap_url_scheme = "{version}{link}"
 
