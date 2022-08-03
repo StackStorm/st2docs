@@ -225,7 +225,13 @@ html_js_files = [
 html_baseurl = info.base_url
 sitemap_filename = "sitemap.xml"
 if "READTHEDOCS" in os.environ:
-    sitemap_url_scheme = "{lang}{version}{link}"
+    if "dev" in version and os.environ["READTHEDOCS_VERSION_TYPE"] != "external":
+        # use latest/ instead of 3.8dev/ unless this is external (ie a PR)
+        _sitemap_version = os.environ["READTHEDOCS_VERSION"] + "/"
+    else:
+        # prefer 3.7/ over stable/ in sitemap
+        _sitemap_version = "{version}"
+    sitemap_url_scheme = "{lang}" + _sitemap_version + "{link}"
 elif "dev" in version:
     # use latest/ instead of 3.8dev/
     sitemap_url_scheme = "latest/{link}"
