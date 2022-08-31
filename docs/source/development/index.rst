@@ -1,6 +1,8 @@
 Development
 ===========
 
+<!-- TODO: update to describe development using pantsbuild -->
+
 This page describes the |st2| development processes and contains general
 guidelines and information on how to contribute to the project.
 
