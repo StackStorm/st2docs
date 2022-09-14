@@ -49,13 +49,13 @@ Install MongoDB, RabbitMQ, and Redis:
 
   ## Provides modern Erlang/OTP releases
   ##
-  deb [signed-by=/usr/share/keyrings/io.cloudsmith.dl.rabbitmq.erlang.gpg] http://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu ${SUBTYPE} main
-  deb-src [signed-by=/usr/share/keyrings/io.cloudsmith.dl.rabbitmq.erlang.gpg] http://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu ${SUBTYPE} main
+  deb [signed-by=/usr/share/keyrings/io.cloudsmith.dl.rabbitmq.erlang.gpg] http://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu bionic main
+  deb-src [signed-by=/usr/share/keyrings/io.cloudsmith.dl.rabbitmq.erlang.gpg] http://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu bionic main
 
   ## Provides RabbitMQ
   ##
-  deb [signed-by=/usr/share/keyrings/io.cloudsmith.dl.rabbitmq.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu/ ${SUBTYPE} main
-  deb-src [signed-by=/usr/share/keyrings/io.cloudsmith.dl.rabbitmq.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu/ ${SUBTYPE} main
+  deb [signed-by=/usr/share/keyrings/io.cloudsmith.dl.rabbitmq.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu/ bionic main
+  deb-src [signed-by=/usr/share/keyrings/io.cloudsmith.dl.rabbitmq.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu/ bionic main
   EOF
 
   sudo tee /etc/apt/preferences.d/erlang <<EOF
