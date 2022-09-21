@@ -271,7 +271,7 @@ SSO Auth Backends
 The SSO architecture is pluggable, and different backends can be implemented to handle the login/user interaction, just like the **Standalone Auth Mode** and its backends.
 
 SAML2
-~~~~~
+-----
 
 You may use SAML2 as a SSO backend, which is implemented using the pysaml2 library, and the code is hosted at https://github.com/StackStorm/st2-auth-backend-sso-saml2
 
