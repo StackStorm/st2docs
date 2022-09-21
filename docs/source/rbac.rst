@@ -455,6 +455,108 @@ removed from LDAP they will still be able to use |st2| if they have a valid auth
 auth token expires. If you want user access to be revoked as soon as they are removed from LDAP,
 you can manually purge active auth tokens for a particular user from the user database.
 
+Automatically Granting Roles Based on SAML assertions
+------------------------------------------------------------
+
+.. note::
+
+   This functionality is only available in |st2| v3.8.0 and above, with the SAML auth backend
+   used for authentication.
+
+In addition to manually assigning roles to the users based on the definitions in the
+``/opt/stackstorm/rbac/assignments/`` directory, |st2| also supports automatically granting roles
+to users upon authentication, based on SAML ``Role`` attributes.
+
+This comes handy in enterprise environments and makes |st2| user provisioning easier and faster.
+It means administrators don't need to manually write and manage RBAC role assignment files on disk,
+because roles are automatically granted to the users based on their SAML assertions and
+mappings files in ``/opt/stackstorm/rbac/mappings/`` directory.
+
+To be able to utilize this feature you must be using the SAML backend. Adjust ``st2.conf`` by setting
+the following (be sure to change URLs accordingly).
+
+.. code-block:: ini
+
+  [auth]
+  api_url = http://st2api:9101/
+  sso = True
+  
+  sso_backend = saml2
+  sso_backend_kwargs = {
+      "entity_id": "http://localhost",
+      "metadata_url": "http://keycloak:3011/realms/StackStorm/protocol/saml/descriptor"
+   }
+  # you need the extra space above here to be able to use multiline strings :)
+  
+  [rbac]
+  enable = True
+
+After SAML is enabled, the |st2| administrator needs to write mapping files that tell |st2|
+which roles to automatically grant to users, based upon SAML assertion ``Role`` attributes.
+
+Each ``Role`` attribute specified in the SAML assertion will map to a ``group`` in the mapping file
+specification. Mapping files are located in the ``/opt/stackstorm/rbac/mappings/`` directory and 
+map a SAML ``Role`` to one or more |st2| roles.
+
+* ``/opt/stackstorm/rbac/mappings/admins.yaml``
+
+  .. code-block:: yaml
+
+    ---
+    group: stackstorm-admins
+    description: "Automatically grant admin role to all stackstorm-admin group members from SAML."
+    roles:
+      - "admin"
+
+  SAML assertion example:
+
+  .. code-block:: xml
+
+    ...
+    <saml:Attribute Name="Role" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+        <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">stackstorm-admins</saml:AttributeValue>
+    </saml:Attribute>
+    ...
+
+  Each user who has a role ``stackstorm-admins`` coming from the SAML assertion will
+  automatically be granted ``admin`` |st2| role when they successfully authenticate with |st2|.
+  <br/>
+
+* ``/opt/stackstorm/rbac/mappings/users.yaml``
+
+  .. code-block:: yaml
+
+    ---
+    group: stackstorm-users
+    description: "Automatically grant user role to all stackstorm-users group members from SAML."
+    roles:
+      - "observer"
+
+  SAML assertion example:
+
+  .. code-block:: xml
+
+    ...
+    <saml:Attribute Name="Role" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+        <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">stackstorm-users</saml:AttributeValue>
+    </saml:Attribute>
+    ...
+
+
+  Each user who has a role ``stackstorm-users`` coming from the SAML assertion will
+  automatically be granted ``observer`` |st2| role (read-only, basically) when they successfully 
+  authenticate with |st2|.
+
+.. note::
+
+  Please note the mapping will override any previous roles attributed to the given user via this
+  same feature to match the mapping and the roles coming from the latest SAML login. If you have 
+  manual roles assigned to particular users using ``/opt/stackstorm/rbac/assignments/`` files, that 
+  will not be affected.
+
+
 Restricting Users to Only View Resources They Own or Created
 ------------------------------------------------------------
 
