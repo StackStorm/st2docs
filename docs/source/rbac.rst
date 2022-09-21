@@ -460,7 +460,7 @@ Automatically Granting Roles Based on SAML assertions
 
 .. note::
 
-   This functionality is only available in |st2| v3.8.0 and above, with the SAML auth backend
+   This functionality is only available in |st2| v3.8.0 and above, with the SAML2 auth backend
    used for authentication.
 
 In addition to manually assigning roles to the users based on the definitions in the
