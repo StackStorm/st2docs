@@ -59,11 +59,6 @@ Install MongoDB, RabbitMQ, and Redis:
   EOF
 
   sudo tee /etc/apt/preferences.d/erlang <<EOF
-  # prefer packages erlang less than 25 repository
-  Package: erlang-*
-  Pin: version 1:24.*
-  Pin-Priority: 800
-  EOF
 
   sudo apt-get update
 
@@ -78,12 +73,6 @@ Install MongoDB, RabbitMQ, and Redis:
   sudo apt-get install rabbitmq-server -y --fix-missing
   sudo apt-get install -y redis-server
 
-.. note::
-
-    RabbitMQ currently only has preview support for Erlang 25, however it is available in the
-    RabbitMQ-Erlang repository. Whilst Erlang 25 support is in preview (https://www.rabbitmq.com/which-erlang.html)
-    it is advised to install the latest Erlang 24 version instead. This is achieved by setting the apt
-    preferences to prioritize erlang 24.
 
 For Ubuntu ``Bionic`` you may need to enable and start MongoDB.
 

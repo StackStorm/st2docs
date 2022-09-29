@@ -81,17 +81,11 @@ Install MongoDB, RabbitMQ, and Redis:
   curl -sL https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | sudo bash
   curl -sL https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash
   sudo yum makecache -y --disablerepo='*' --enablerepo='rabbitmq_rabbitmq-server'
-  sudo yum -y install erlang-24*
+  sudo yum -y install erlang-*
   sudo yum -y install rabbitmq-server
   sudo yum -y install redis
   sudo systemctl start mongod rabbitmq-server redis
   sudo systemctl enable mongod rabbitmq-server redis
-
-.. note::
-
-    RabbitMQ currently only has preview support for Erlang 25, however it is available in the
-    RabbitMQ-Erlang repository. Whilst Erlang 25 support is in preview (https://www.rabbitmq.com/which-erlang.html)
-    it is advised to install the latest Erlang 24 version instead.
 
 
 Setup Repositories
