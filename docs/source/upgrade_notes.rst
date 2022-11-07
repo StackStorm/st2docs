@@ -56,6 +56,10 @@ Upgrade Notes
   key_value_pair permissions.  
   Further information can be found in the :doc:`RBAC documentation <rbac>`.
 
+* Additional garbage collection options are available to automatically delete old tokens.
+  See :doc:`purging old data documentation <troubleshooting/purging_old_data>` for further
+  information.
+
 .. _ref-upgrade-notes-v3-7:
 
 |st2| v3.7
