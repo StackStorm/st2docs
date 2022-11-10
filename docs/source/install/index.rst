@@ -46,11 +46,6 @@ Here's an overview of the options:
 
 Choose the option that best suits your needs.
 
-Upgrading to |ewc|? This is installed as a set of additional packages on top of StackStorm. You
-can either install StackStorm + |ewc| in one go, or add the |ewc| packages to an existing
-StackStorm system. If you are using |ewc|, you can also add Network Automation Suites.
-Read the :doc:`/install/ewc` documentation for more.
-
 .. _ref-one-line-install:
 
 .. rubric:: Quick Install
