@@ -340,7 +340,7 @@ SAML2 settings used in this backend (pysaml2 client config):
   
 .. note::
 
-  You may reconfigure these settings if you'd like. More about that on the next session
+  You may reconfigure these settings if you'd like. More about that :ref:`here <ref-saml2-reconfig>`
 
 On top of these settings, you must have a claim called ``Username`` with no namespace. This will be the only claim used
 and it will tell which user is logging in.
@@ -383,8 +383,10 @@ This should enable the following SSO login button:
 Clicking the button will redirect the user the IDP login screen and then on successful login,
 the user will call back the stackstorm API with the proper response and be provided with a session.
 
+.. _ref-saml2-reconfig:
+
 Reconfiguring SAML2 settings
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If your SAML2 setup does not align with the **default configuration below**, you may also reconfigure it by adding parameters to the 
 ``sso_backend_kwargs`` in your auth configuration. 
@@ -448,7 +450,7 @@ Here's a reconfiguration example: (**note it's JSON**)
 Play around with these and you should be able to eventually get it working :)
 
 SAML2 IDP configuration example - AzureAD
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To help bootstrap your setup, here's a working example of AzureAD set up with |st2|.
 
