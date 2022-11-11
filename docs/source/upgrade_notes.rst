@@ -50,6 +50,16 @@ Upgrade Notes
   You can also install pack updates during an upgrade, while StackStorm is not running, by using
   the ``st2-pack-install`` utility: ``st2-pack-install <pack1> <pack2> <pack3>``.
 
+* As part of extending RBAC support to include protecting access to datastore operations, if
+  you have RBAC enabled and any workflows access the datastore, then any user with execute
+  permissions for those workflows will need to be assigned an RBAC role with the appropriate
+  key_value_pair permissions.  
+  Further information can be found in the :doc:`RBAC documentation <rbac>`.
+
+* Additional garbage collection options are available to automatically delete old tokens.
+  See :doc:`purging old data documentation <troubleshooting/purging_old_data>` for further
+  information.
+
 .. _ref-upgrade-notes-v3-7:
 
 |st2| v3.7
