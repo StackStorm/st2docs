@@ -460,7 +460,7 @@ Automatically Granting Roles Based on SAML assertions
 
 .. note::
 
-   This functionality is only available in |st2| v3.8.0 and above, with the SAML2 auth backend
+   This functionality is only available in |st2| v3.9.0 and above, with the SAML2 auth backend
    used for authentication.
 
 In addition to manually assigning roles to the users based on the definitions in the
@@ -521,7 +521,8 @@ map a SAML ``Role`` to one or more |st2| roles.
 
   Each user who has a role ``stackstorm-admins`` coming from the SAML assertion will
   automatically be granted ``admin`` |st2| role when they successfully authenticate with |st2|.
-  <br/>
+  
+  
 
 * ``/opt/stackstorm/rbac/mappings/users.yaml``
 
@@ -548,6 +549,11 @@ map a SAML ``Role`` to one or more |st2| roles.
   Each user who has a role ``stackstorm-users`` coming from the SAML assertion will
   automatically be granted ``observer`` |st2| role (read-only, basically) when they successfully 
   authenticate with |st2|.
+
+.. note::
+
+  |st2| roles ``observer`` and ``admin`` are default stackstorm roles which provide read-only 
+  and admin access respectively.
 
 .. note::
 

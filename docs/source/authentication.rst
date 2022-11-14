@@ -259,7 +259,7 @@ SSO
 
 .. note::
 
-  SSO is available starting on |st2| v3.8.0, with only SAML2 currently supported.
+  SSO is available starting on |st2| v3.9.0, with only SAML2 currently supported.
 
 To enable SSO, simply set ``sso`` to ``true`` under the ``[auth]`` section in your config.
 
@@ -376,11 +376,11 @@ To do that, set ``ssoEnabled: true`` in the st2web configuration file. For examp
       ssoEnabled: true
     });
 
-This should enable the following SSO login button:
+This should enable the following SSO login button: (be sure to clear cache if you have visited the portal before the change)
 
 .. figure:: /_static/images/sso-web-login-button.png
 
-Clicking the button will redirect the user the IDP login screen and then on successful login,
+Clicking the button will redirect the user to the IDP login screen and then on successful login,
 the user will call back the stackstorm API with the proper response and be provided with a session.
 
 .. _ref-saml2-reconfig:
