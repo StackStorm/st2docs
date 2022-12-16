@@ -56,9 +56,19 @@ Upgrade Notes
   key_value_pair permissions.  
   Further information can be found in the :doc:`RBAC documentation <rbac>`.
 
-* Additional garbage collection options are available to automatically delete old tokens.
+* Additional garbage collection options are available to automatically delete old tokens. 
+  New options include `tokens_ttl` to expire old tokens.
   See :doc:`purging old data documentation <troubleshooting/purging_old_data>` for further
   information.
+  
+ * StackStorm’s Workflow engine can now handle shutdown events more gracefully.
+   Two new configurations has been added to `st2.conf` in the `[workflow_engine]` section to have more granular control.
+   
+   .. code-block:: bash
+     # How long to wait for process (in seconds) to exit after receiving shutdown signal.
+     exit_still_active_check = 300
+     # Time interval between subsequent queries to check executions handled by WFE.
+     still_active_check_interval = 2
 
 .. _ref-upgrade-notes-v3-7:
 
