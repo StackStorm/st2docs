@@ -7,6 +7,14 @@ Ready to install |st2|? Here's an overview of how to get your system up and runn
 images. You can either use a script to automatically install and configure all components on a
 single system, or you can follow the manual instructions for your OS.
 
+.. warning::
+
+    StackStorm is developed and tested against the x86_64 architecture on the GNU/Linux platform using **Ubuntu** and **Rocky/CentOS**.
+
+    We would like to be able to support alternative architectures (arm, risc-v, mips etc.), platforms (Microsoft Windows, Apple OSX, FreeBSD)
+    and distributions (SuSe, Arch, Gentoo, etc), however we have a finite set of resources which prevents us from doing so.  If you build and operate
+    StackStorm using these alternatives, you accept the responsibility of addressing any issues encountered yourself and understand no official support is available.
+
 Here's an overview of the options:
 
 * **One-line Install:** Run our installation script for an opinionated install of all components
@@ -18,7 +26,7 @@ Here's an overview of the options:
   :doc:`RHEL/CentOS 7 </install/rhel7>`, :doc:`RHEL/RockyLinux/CentOS 8 </install/rhel8>`) and adapt them to
   your needs. Here's some `additional guidance
   <https://stackstorm.com/2017/02/10/installing-stackstorm-offline-systems/>`_ for setting up an
-  internal mirror for the |st2| repos. 
+  internal mirror for the |st2| repos.
 * **Vagrant / Virtual Appliance:** Vagrant / OVA is a quick and easy way to try StackStorm.
   It's already pre-installed, tested and shipped as a virtual image and so saves your time going
   through time-consuming installation and configuration steps. Works best as a testing,
@@ -38,11 +46,6 @@ Here's an overview of the options:
 
 Choose the option that best suits your needs.
 
-Upgrading to |ewc|? This is installed as a set of additional packages on top of StackStorm. You
-can either install StackStorm + |ewc| in one go, or add the |ewc| packages to an existing
-StackStorm system. If you are using |ewc|, you can also add Network Automation Suites.
-Read the :doc:`/install/ewc` documentation for more.
-
 .. _ref-one-line-install:
 
 .. rubric:: Quick Install
@@ -57,7 +60,7 @@ on Ubuntu, or ``sudo yum install curl nss`` on RHEL/RockyLinux/CentOS. Then run 
 
 This is an opinionated installation of |st2|. It will download and install all components, as per
 the :doc:`single host reference deployment <./overview>`. It assumes that you have a clean, basic
-installation of Ubuntu or RHEL/RockyLinux/CentOS. 
+installation of Ubuntu or RHEL/RockyLinux/CentOS.
 
 If you are trying to install |st2| on a server with other applications, or local customisations,
 you may run into problems. In that case, you should use one of the manual installation methods.
