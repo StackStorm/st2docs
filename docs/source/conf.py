@@ -103,6 +103,7 @@ def previous_version(ver):
 # The short versions of two previous releases, e.g. 0.8 and 0.7
 version_minus_1 = previous_version(version)
 version_minus_2 = previous_version(version_minus_1)
+version_minus_3 = previous_version(version_minus_2)
 
 # extlink configurator sphinx.ext.extlinks
 extlinks = {
@@ -318,13 +319,30 @@ html_context = {
 }
 
 if "READTHEDOCS" not in os.environ:
-    # READTHEDOCS handles versions for us. TODO: is this needed locally with the new theme?
-    html_context['versions'] = [
-        ('latest', '%slatest' % info.base_url),
-        (version, '%s%s' % (info.base_url, version)),
+    # This is for local and GHA builds. Otherwise READTHEDOCS handles versions.
+    # the versions menu should always be: dev, stable, stable-1, stable-2
+    versions = []
+    if "dev" in version:
+        # show the "3.9dev" in the menu, even though "latest" is in the URL.
+        versions.append((version, '%slatest' % info.base_url))
+    else:
+        _version = version.split(".")
+        dev_version = "%s.%sdev" % (_version[0], int(_version[1]) + 1)
+        versions.extend([
+            (dev_version, "%slatest" % info.base_url),
+            # this is the stable version
+            (version, "%s%s" % (info.base_url, version)),
+        ])
+
+    versions.extend([
         (version_minus_1, '%s%s' % (info.base_url, version_minus_1)),
         (version_minus_2, '%s%s' % (info.base_url, version_minus_2)),
-    ]
+    ])
+
+    if "dev" in version:
+        # this is the stable-2 version
+        versions.append((version_minus_3, '%s%s' % (info.base_url, version_minus_3)))
+    html_context['versions'] = versions
     html_context['current_version'] = version
 
 
