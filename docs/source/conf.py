@@ -16,6 +16,8 @@ import sys
 import os
 import glob
 
+import sphinx_rtd_theme
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, '../../st2'))
 
@@ -30,7 +32,7 @@ for module_path in st2_components_paths:
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('./_themes'))
+# sys.path.insert(0, os.path.abspath('./path/to/extension'))
 
 from st2common import __version__
 
@@ -51,8 +53,10 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.extlinks',
 
-    # Add theme as extension so sitemap.xml is generated
-    'sphinx_rtd_theme'
+    # theme is provided as an extension
+    "sphinx_rtd_theme",
+    # this generates sitemap.xml
+    "sphinx_sitemap",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -79,7 +83,7 @@ version = '.'.join(__version__.split('.')[:2])
 # The full version, including alpha/beta/rc tags.
 release = __version__
 # The complete list of current StackStorm versions.
-release_versions = ['3.7', '3.6', '3.5', '3.4', '3.3', '3.2', '3.1', '3.0', '2.10', '2.9', '2.8', '2.7', '2.6', '2.5', '2.4', '2.3', '2.2', '2.1', '2.0', '1.6', '1.5', '1.4', '1.3', '1.2', '1.1', '0.13', '0.12', '0.11', '0.9', '0.8']
+release_versions = ['3.8', '3.7', '3.6', '3.5', '3.4', '3.3', '3.2', '3.1', '3.0', '2.10', '2.9', '2.8', '2.7', '2.6', '2.5', '2.4', '2.3', '2.2', '2.1', '2.0', '1.6', '1.5', '1.4', '1.3', '1.2', '1.1', '0.13', '0.12', '0.11', '0.9', '0.8']
 
 # Some loveliness that we have to do to make this work.  Otherwise it defaults to contents.rst
 master_doc = info.master_doc
@@ -99,6 +103,7 @@ def previous_version(ver):
 # The short versions of two previous releases, e.g. 0.8 and 0.7
 version_minus_1 = previous_version(version)
 version_minus_2 = previous_version(version_minus_1)
+version_minus_3 = previous_version(version_minus_2)
 
 # extlink configurator sphinx.ext.extlinks
 extlinks = {
@@ -197,13 +202,45 @@ html_theme = "sphinx_rtd_theme"
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-    'base_url': info.theme_base_url,
-    'canonical_url': info.theme_base_url
+    # see: https://sphinx-rtd-theme.readthedocs.io/en/stable/configuring.html
+    # "style_nav_header_background": "#fb8225",  # covered by rtd_theme_overrides.css
+    "logo_only": True,
+    # display_version puts rtd slug/version at top of sidebar, but we use breadcrumbs instead
+    "display_version": False,
+    "style_external_links": True,
+    "vcs_pageview_mode": "blob",  # blob, edit, raw
 }
+
+# These paths are either relative to html_static_path
+# or fully qualified paths (eg. https://...)
+html_css_files = [
+    "css/theme_overrides.css",
+    "css/rtd_theme_overrides.css",
+    "https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic|Inconsolata:400,700",
+]
+html_js_files = [
+    "js/rtd_theme_overrides.js",
+]
+
+# set the canonical url to our custom domain (required for sitemap generation)
+html_baseurl = info.base_url
+sitemap_filename = "sitemap.xml"
+if "READTHEDOCS" in os.environ:
+    if "dev" in version and os.environ["READTHEDOCS_VERSION_TYPE"] != "external":
+        # use latest/ instead of 3.8dev/ unless this is external (ie a PR)
+        _sitemap_version = os.environ["READTHEDOCS_VERSION"] + "/"
+    else:
+        # prefer 3.7/ over stable/ in sitemap
+        _sitemap_version = "{version}"
+    sitemap_url_scheme = "{lang}" + _sitemap_version + "{link}"
+elif "dev" in version:
+    # use latest/ instead of 3.8dev/
+    sitemap_url_scheme = "latest/{link}"
+else:
+    sitemap_url_scheme = "{version}{link}"
 
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
-html_theme_path = ["_themes", ]
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -214,12 +251,12 @@ html_theme_path = ["_themes", ]
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-# html_logo = None
+html_logo = "_static/images/logo.svg"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-# html_favicon = "favicon.ico"
+html_favicon = "_static/images/favicon.ico"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -278,23 +315,41 @@ htmlhelp_basename = info.htmlhelp_basename
 
 # Variables to be used by templates
 html_context = {
-    'github_user': info.github_user,
-    'github_repo': info.github_repo,
-    'github_version': info.github_version,
+    # The github settings configure the "Edit on GitHub" link
+    "display_github": True,
+    "github_user": info.github_user,
+    "github_repo": info.github_repo,
+    "github_version": info.github_version,
     'conf_py_path': '/docs/source/',
-    'display_github': True,
     'source_suffix': source_suffix,
-    'versions': [
-        ('latest', '%slatest' % info.base_url),
-        (version, '%s%s' % (info.base_url, version)),
+}
+
+if "READTHEDOCS" not in os.environ:
+    # This is for local and GHA builds. Otherwise READTHEDOCS handles versions.
+    # the versions menu should always be: dev, stable, stable-1, stable-2
+    versions = []
+    if "dev" in version:
+        # show the "3.9dev" in the menu, even though "latest" is in the URL.
+        versions.append((version, '%slatest' % info.base_url))
+    else:
+        _version = version.split(".")
+        dev_version = "%s.%sdev" % (_version[0], int(_version[1]) + 1)
+        versions.extend([
+            (dev_version, "%slatest" % info.base_url),
+            # this is the stable version
+            (version, "%s%s" % (info.base_url, version)),
+        ])
+
+    versions.extend([
         (version_minus_1, '%s%s' % (info.base_url, version_minus_1)),
         (version_minus_2, '%s%s' % (info.base_url, version_minus_2)),
-    ],
-    'current_version': version,
-    'css_files': [
-        '_static/theme_overrides.css',
-        ],
-}
+    ])
+
+    if "dev" in version:
+        # this is the stable-2 version
+        versions.append((version_minus_3, '%s%s' % (info.base_url, version_minus_3)))
+    html_context['versions'] = versions
+    html_context['current_version'] = version
 
 
 # -- Options for LaTeX output ---------------------------------------------

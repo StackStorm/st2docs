@@ -1,0 +1,25 @@
+/* $code-font-family: SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,Courier,monospace; */
+.rst-content code, .rst-content tt, code {
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
+.rst-content footer span.commit tt, footer span.commit .rst-content tt, footer span.commit code {
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
+.rst-content pre.literal-block {
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
+.rst-content .linenodiv pre {
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
+.rst-content .linenodiv pre, .rst-content div[class^=highlight] pre, .rst-content pre.literal-block {
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
+.rst-content code, .rst-content tt {
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
+.rst-content kbd,.rst-content pre,.rst-content samp {
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
+html.writer-html4 .rst-content dl:not(.docutils) .descclassname,html.writer-html4 .rst-content dl:not(.docutils) .descname,html.writer-html4 .rst-content dl:not(.docutils) .sig-name,html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) .descclassname,html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) .descname,html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) .sig-name {
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
