@@ -44,7 +44,7 @@ In this case, the following objects will be automatically deleted:
   * workflow task execution objects older than 19 days
   * token objects whose expiry was older than 21 days
 
-The lowest supported TTL is 7 days. If you need to delete old data more frequently, check the
+The lowest supported TTL is 1 day. If you need to delete old data more frequently, check the
 manual purge scripts below.
 
 The garbage collector service also cleans up old Inquiries by marking them as "timed out".
