@@ -3,6 +3,63 @@
 Upgrade Notes
 =============
 
+.. _ref-upgrade-notes-v3-8:
+
+|st2| v3.8
+----------
+
+* For anyone that uses ``output_schema``, which is disabled by default:
+  If you have ``[system].validate_output_schema = True`` in st2.conf AND you have added
+  ``output_schema`` to any of your packs, then you must update your action metadata.
+
+  ``output_schema`` must be a full jsonschema now. If a schema is not well-formed, it will be ignored.
+  Now, ``output`` can be types other than object such as list, bool, int, etc.
+  This also means that all of an action's output can be masked as a secret.
+
+  To get the same behavior, you'll need to update your output schema.
+  For example, this schema (used prior to 3.8.0):
+
+  .. code-block:: yaml
+
+    output_schema:
+      property1:
+        type: bool
+      property2:
+        type: str
+        secret: true
+
+  should be updated to a full JSON Schema like this:
+
+  .. code-block:: yaml
+
+    output_schema:
+      type: object
+      properties:
+        property1:
+          type: bool
+        property2:
+          type: str
+          secret: true
+      additionalProperties: false
+
+  Invalid schemas are ignored, so we recommend coordinating your pack updates with the update
+  to StackStorm 3.8.0, especially if you rely on ``output_schema`` for secret masking
+  (via ``secret: true``). If you update packs to use the new ``output_schema`` before updating
+  to 3.8.0, then the schema will be ignored until the upgrade is complete. If you update to 3.8.0
+  before you update the packs, then the schemas will be ignored until the packs are updated.
+  You can also install pack updates during an upgrade, while StackStorm is not running, by using
+  the ``st2-pack-install`` utility: ``st2-pack-install <pack1> <pack2> <pack3>``.
+
+* As part of extending RBAC support to include protecting access to datastore operations, if
+  you have RBAC enabled and any workflows access the datastore, then any user with execute
+  permissions for those workflows will need to be assigned an RBAC role with the appropriate
+  key_value_pair permissions.  
+  Further information can be found in the :doc:`RBAC documentation <rbac>`.
+
+* Additional garbage collection options are available to automatically delete old tokens.
+  See :doc:`purging old data documentation <troubleshooting/purging_old_data>` for further
+  information.
+
 .. _ref-upgrade-notes-v3-7:
 
 |st2| v3.7
@@ -42,6 +99,11 @@ Upgrade Notes
   trace, workflow execution and task execution instances.
   See :doc:`purging old data documentation <troubleshooting/purging_old_data>` for further
   information.
+
+* As part of extending RBAC support to include protecting access to datastore operations, if
+  you have RBAC enabled and any sensors access the datastore, then the ``sensor_service`` user will
+  need to be assigned an RBAC role with the appropriate key_value_pair permissions.  
+  Further information can be found in the :doc:`RBAC documentation <rbac>`.
 
 .. _ref-upgrade-notes-v3-6:
 

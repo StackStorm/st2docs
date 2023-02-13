@@ -1,0 +1,86 @@
+/* layout changes */
+.wy-nav-content {
+  max-width: none; /* was 800px */
+}
+/* Fix for nav bottom padding with flyout */
+nav.wy-nav-side {
+    padding-bottom: 3em;
+}
+
+/* $base-font-family: Lato,proxima-nova,Helvetica Neue,Arial,sans-serif; */
+.btn {
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
+input[type="button"], input[type="reset"], input[type="submit"] {
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
+input[type="color"], input[type="date"], input[type="datetime-local"], input[type="datetime"], input[type="email"], input[type="month"], input[type="number"], input[type="password"], input[type="search"], input[type="tel"], input[type="text"], input[type="time"], input[type="url"], input[type="week"] {
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
+textarea {
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
+body {
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
+.rst-versions {
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* $custom-font-family: Roboto Slab,ff-tisa-web-pro,Georgia,Arial,sans-serif */
+.rst-content .toctree-wrapper>p.caption, h1, h2, h3, h4, h5, h6, legend {
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
+.rst-content .sidebar .sidebar-title {
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+/**
+ * st2 orange: #fb8225
+ * 5% lighter: #fb903e
+ * 20% darker: #b75103
+ *
+ * st2 gray: #4d585a
+ * 5% lighter: #596568
+ **/
+.wy-menu-vertical li.current a:hover {
+  color: #b75103;
+}
+.wy-menu-vertical li a:hover {
+  color: #fb8225;
+}
+.wy-menu-vertical li.on a:hover, .wy-menu-vertical li.current > a:hover {
+  color: #b75103;
+}
+.wy-menu-vertical li.toctree-l2.current>a {
+  background-color: #fb8225;
+  color: #FFF;
+}
+.wy-side-nav-search {
+  background-color: #fb8225;
+}
+.wy-menu-vertical header,.wy-menu-vertical p.caption {
+  color: #fb903e;
+}
+.wy-side-nav-search input[type=text] {
+  border-color: #fcd531;
+}
+
+.wy-menu-vertical a:hover {
+  background-color: #596568;
+}
+.wy-nav-top, .wy-nav-side {
+  background: #4d585a;
+}
+
+.wy-side-nav-search .wy-dropdown>a img.logo, .wy-side-nav-search>a img.logo {
+  display: block;
+  width: 160px;
+
+  /* svg defaults to fill: #000 */
+  filter: invert(100%); /* effectively - fill: #fff */
+}
+
+.wy-breadcrumbs li a.icon-home:before {
+  content: "" /* drop the icon. js will add content */
+}
