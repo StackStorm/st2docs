@@ -74,6 +74,11 @@ Install MongoDB, RabbitMQ, and Redis
 
   sudo yum -y install crudini
   sudo yum -y install mongodb-org
+
+  curl -sL https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | sudo bash
+  curl -sL https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash
+  sudo yum makecache -y --disablerepo='*' --enablerepo='rabbitmq_rabbitmq-server'
+  sudo yum -y install erlang
   sudo yum -y install rabbitmq-server
   sudo yum -y install redis
   sudo systemctl start mongod rabbitmq-server redis

@@ -117,6 +117,61 @@ remove only action database entry.
    -r, --remove-files    Delete action files from disk
 
 
+Cloning an Action
+~~~~~~~~~~~~~~~~~
+
+.. note::
+     The action clone feature is only available in |st2| v3.7.0 and above.
+
+Clone operation clones action from source pack to destination pack and renames them appropriately.
+This operation makes changes in destination action metadata files like action name, pack name,
+entry point name etc. Also, this operation registers the newly cloned action to the database.
+
+API endpoint ``/api/v1/actions/{ref_or_id}/clone`` takes ``ref_or_id`` of source action. Request
+method body ``{"dest_pack": "dest_pack_name", "dest_action": "dest_action_name"}`` takes destination
+pack and action name. Request method body also takes optional paramater ``overwrite`` which is of type
+boolean and ``false`` by default. Overwrite flag should be true (``overwrite: true``) in case of
+destination action already exists and to be overwritten.
+
+From CLI ``st2 action clone <ref_or_id> <dest_pack> <dest_action>`` takes source ``ref_or_id``,
+destination pack name and destination action name as mandatory arguments. In case destionation
+already exists then command takes optional arugument ``-f`` or ``--force`` to overwrite destination action.
+
+* Usage:
+
+.. code-block:: bash
+
+   st2 action clone [-h] [-t TOKEN] [--api-key API_KEY] [-j] [-y] [-f]
+                    source-ref-or-id dest-pack-name dest-action-name
+
+* Positional arguments:
+
+.. code-block:: bash
+
+   # Reference or ID of the source action
+   source-ref-or-id
+
+   # Destination pack name
+   dest-pack-name
+
+   # Destination action name
+   dest-action-name
+
+* Optional arguments:
+
+.. code-block:: bash
+
+   -h, --help            Show this help message and exit
+   -t TOKEN, --token TOKEN
+                         Access token for user authentication. Get
+                         ST2_AUTH_TOKEN from the environment variables by default
+   --api-key API_KEY     Api Key for user authentication. Get ST2_API_KEY from
+                         the environment variables by default
+   -j, --json            Print output in JSON format
+   -y, --yaml            Print output in YAML format
+   -f, --force           Overwrite action files on disk if destination exists.
+
+
 Action Runners
 --------------
 
@@ -250,7 +305,7 @@ In the example above, the ``to_number`` parameter contains the attribute ``secre
 
   Does your parameter only accept certain values? Use ``enum:`` with a list of allowed values. When the
   action is executed, it will only allow those specific values. And the in Web UI, it will be rendered
-  as a drop-down list. 
+  as a drop-down list.
 
   See the `examples.weather <https://github.com/StackStorm/st2/blob/master/contrib/examples/actions/weather.yaml#L16>`_
   action in the examples pack for how to use this.
@@ -273,18 +328,21 @@ You can define the schema as follows:
     ---
     ...
     output_schema:
+      type: object
+      properties:
         errors:
-           type: array
-           items:
-               type: string
-       output:
-           required: true
-           type: array
-           items:
-               type: number
-       status_code:
-           required: true
-           type: integer
+          type: array
+          items:
+            type: string
+        output:
+          required: true
+          type: array
+          items:
+            type: number
+        status_code:
+          required: true
+          type: integer
+      additionalProperties: false
 
 If the action output does not return the correct fields it will fail validation and the action
 itself will fail. This prevents propagating corrupt data to other actions in a workflow, which
@@ -292,13 +350,41 @@ could lead to unpredictable results. In future this information will be used for
 validation.
 
 Output schema validation is disabled by default in current versions of |st2|. To enable it, set
-``validate_output_schema = True`` under ``[system]`` in ``/etc/st2/st2.conf``. 
+``validate_output_schema = True`` under ``[system]`` in ``/etc/st2/st2.conf``.
 
 If an action does not define any output schema, no enforcement is done. This allows you to
 progressively update your actions, rather than doing them all at once.
 
 As with all other input and output schema definitions in Stackstorm, we leverage
-JSONschema to define ``output_schema``.
+JSONschema (draft 4) to define ``output_schema``. We extend JSONSchema with a ``secret`` parameter
+so that the entire output, or a single field of the output, can be marked as secret.
+If any part of the output is marked as a secret, the value of that secret will be masked in the
+|st2| service logs.
+
+For example, you have a python action that returns a secret token as a string.
+You can define the schema as follows:
+
+.. code-block:: yaml
+
+    ---
+    ...
+    output_schema:
+      type: string
+      secret: true
+
+Or the python action could return the secret token as an object field:
+
+.. code-block:: yaml
+
+    ---
+    ...
+    output_schema:
+      type: object
+      properties:
+        super-awesome-token:
+          type: string
+          secret: true
+      additionalProperties: false
 
 
 Parameters in Actions
@@ -807,6 +893,38 @@ pack:
   .. code-block:: bash
 
     st2 run core.http url="http://httpbin.org/get" method="GET" username=user1 password=pass1
+
+* ``core.announcement`` : This action broadcasts an announcement to all stream consumers.
+
+* ``core.ask`` : This action is for initiating an Inquiry (usually in a workflow)
+
+* ``core.echo`` : This action executes the Linux echo command on the localhost.
+
+* ``core.error`` : This action executes the Linux echo command (to stderr) on the localhost.
+
+* ``core.inject_trigger`` : This action injects a new trigger in the system.
+
+  This action allows loose coupling of independent workflows, where workflow1 will execute workflow2
+  indirectly through the IFTTT rule engine.
+
+* ``core.local_sudo`` : This action executes an arbitrary Linux command using sudo on the localhost.
+
+* ``core.noop`` : This action does nothing (No Operation).
+
+  The noop action can be used to implement conditional branches in Orquesta workflows without incurring
+  the cost of executing action code.  A YAQL/Jinja statement is general used to evaluate the criteria
+  to choose a path of execution in a workflow.
+
+* ``core.pause`` : This action  pauses the current thread of workflow/sub workflow.
+
+* ``core.sendmail`` : This action sends an email using the sendmail binary (requires sendmail to be configured).
+
+* ``core.uuid`` : This action generates a new UUID (default uuid4).
+
+* ``core.winrm_cmd`` : This action executes arbitrary Windows Command Prompt command remotely via WinRM.
+
+* ``core.winrm_ps_cmd`` : This action executes arbitrary Windows PowerShell command remotely via WinRM.
+
 
 To see all actions in the ``core`` pack:
 

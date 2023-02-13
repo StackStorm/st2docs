@@ -16,10 +16,11 @@ contributions. Here's our plans for the next releases.
     the feature. Pull Requests are open to anyone.
 
 
-3.6
+3.8
 ---
 
-* The roadmap for ``3.6`` is in the works, stay tuned!
+* **Output Schema:** Allow action/runner output schemas to cover all output types, not just JSON objects.
+* More will be added to the roadmap for ``3.8``. So, stay tuned!
 
 Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
 
@@ -57,6 +58,23 @@ Submit a PR!
 
 Release History
 ---------------
+
+.. rubric:: Done in v3.7
+
+* **RHEL/RockyLinux 8:** EL8 support continues, despite the deprecation of CentOS 8. We now use RockyLinux 8 to build for and test on EL8.
+* **Metadata Overrides:** Allow StackStorm administrator to “override” the default resource status that was specified by the pack owners.
+* **Action Clone:** Actions can be cloned via API, CLI, and web UI.
+* **Datastore RBAC:** Accessing datastore Key Value pairs can be restricted with RBAC.
+* **Action-Alias Testing:** Use ``st2 action-alias test <message string>`` to easily test action aliase matching and result formatting.
+* **Expanded Garbage Collection:** The garbage collector cleans up many more resources now.
+
+.. rubric:: Done in v3.6
+
+* **RabbitMQ:** Updated all OS to use latest RabbitMQ
+* **Security improvements:** Use Jinja sandbox to mitigate against CVE-2021-44657
+* **API changes:** Additional option to remove files when deleting packs
+* **Service configuration:** Changes made to simplify the service configuration to make it simpler to change ports used by services
+* **Profiling:** New flags to support debugging and profiling --enable-profiler and --enable-eventlet-blocking-detection
 
 .. rubric:: Done in v3.5
 

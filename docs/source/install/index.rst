@@ -7,6 +7,14 @@ Ready to install |st2|? Here's an overview of how to get your system up and runn
 images. You can either use a script to automatically install and configure all components on a
 single system, or you can follow the manual instructions for your OS.
 
+.. warning::
+
+    StackStorm is developed and tested against the x86_64 architecture on the GNU/Linux platform using **Ubuntu** and **Rocky/CentOS**.
+
+    We would like to be able to support alternative architectures (arm, risc-v, mips etc.), platforms (Microsoft Windows, Apple OSX, FreeBSD)
+    and distributions (SuSe, Arch, Gentoo, etc), however we have a finite set of resources which prevents us from doing so.  If you build and operate
+    StackStorm using these alternatives, you accept the responsibility of addressing any issues encountered yourself and understand no official support is available.
+
 Here's an overview of the options:
 
 * **One-line Install:** Run our installation script for an opinionated install of all components
@@ -15,10 +23,10 @@ Here's an overview of the options:
 * **Manual Installation:** Have custom needs? Maybe no Internet access from your servers? Or just
   don't like using scripted installs? Read the manual installation instructions for your OS
   (:doc:`Ubuntu 18 </install/u18>`, :doc:`Ubuntu 20 </install/u20>`,
-  :doc:`RHEL/CentOS 7 </install/rhel7>`, :doc:`RHEL/CentOS 8 </install/rhel8>`) and adapt them to
+  :doc:`RHEL/CentOS 7 </install/rhel7>`, :doc:`RHEL/RockyLinux/CentOS 8 </install/rhel8>`) and adapt them to
   your needs. Here's some `additional guidance
   <https://stackstorm.com/2017/02/10/installing-stackstorm-offline-systems/>`_ for setting up an
-  internal mirror for the |st2| repos. 
+  internal mirror for the |st2| repos.
 * **Vagrant / Virtual Appliance:** Vagrant / OVA is a quick and easy way to try StackStorm.
   It's already pre-installed, tested and shipped as a virtual image and so saves your time going
   through time-consuming installation and configuration steps. Works best as a testing,
@@ -31,17 +39,12 @@ Here's an overview of the options:
   installing |st2|. Ideal for repeatable, consistent, idempotent installation of |st2|.
 * **Puppet Module:** For Puppet users, check this :doc:`/install/puppet` for
   installing StackStorm. A robust and idempotent method of installing and configuring StackStorm.
-* **High Availability** Entrusting business critical automation tasks to a system like StackStorm
-  leads to higher demands on that system. StackStorm can run in a HA mode to ensure these needs.
+* **Kubernetes (HA)** Entrusting business critical automation tasks to a system like StackStorm
+  leads to higher demands on that system. StackStorm can run in a High Availability mode to ensure these needs.
   :doc:`/install/k8s_ha` automates entire complex infrastructure as a reproducible blueprint.
 
 
 Choose the option that best suits your needs.
-
-Upgrading to |ewc|? This is installed as a set of additional packages on top of StackStorm. You
-can either install StackStorm + |ewc| in one go, or add the |ewc| packages to an existing
-StackStorm system. If you are using |ewc|, you can also add Network Automation Suites.
-Read the :doc:`/install/ewc` documentation for more.
 
 .. _ref-one-line-install:
 
@@ -49,7 +52,7 @@ Read the :doc:`/install/ewc` documentation for more.
 
 Grab a **clean** 64-bit Linux system that fits the :doc:`system requirements
 <system_requirements>`. Make sure that ``curl`` is up to date using ``sudo apt-get install curl``
-on Ubuntu, or ``sudo yum install curl nss`` on RHEL/CentOS. Then run this command:
+on Ubuntu, or ``sudo yum install curl nss`` on RHEL/RockyLinux/CentOS. Then run this command:
 
 .. code-block:: bash
 
@@ -57,7 +60,7 @@ on Ubuntu, or ``sudo yum install curl nss`` on RHEL/CentOS. Then run this comman
 
 This is an opinionated installation of |st2|. It will download and install all components, as per
 the :doc:`single host reference deployment <./overview>`. It assumes that you have a clean, basic
-installation of Ubuntu or RHEL/CentOS. 
+installation of Ubuntu or RHEL/RockyLinux/CentOS.
 
 If you are trying to install |st2| on a server with other applications, or local customisations,
 you may run into problems. In that case, you should use one of the manual installation methods.
@@ -94,7 +97,7 @@ For more details on reference deployments, or OS-specific installation instructi
     Ubuntu 18.04 <u18>
     Ubuntu 20.04 <u20>
     RHEL 7 / CentOS 7 <rhel7>
-    RHEL 8 / CentOS 8 <rhel8>
+    RHEL 8 / RockyLinux 8 / CentOS 8 <rhel8>
     Vagrant / OVA <vagrant>
     Docker <docker>
     Ansible Playbooks <ansible>

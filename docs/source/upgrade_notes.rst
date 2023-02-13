@@ -3,10 +3,119 @@
 Upgrade Notes
 =============
 
+.. _ref-upgrade-notes-v3-8:
+
+|st2| v3.8
+----------
+
+* For anyone that uses ``output_schema``, which is disabled by default:
+  If you have ``[system].validate_output_schema = True`` in st2.conf AND you have added
+  ``output_schema`` to any of your packs, then you must update your action metadata.
+
+  ``output_schema`` must be a full jsonschema now. If a schema is not well-formed, it will be ignored.
+  Now, ``output`` can be types other than object such as list, bool, int, etc.
+  This also means that all of an action's output can be masked as a secret.
+
+  To get the same behavior, you'll need to update your output schema.
+  For example, this schema (used prior to 3.8.0):
+
+  .. code-block:: yaml
+
+    output_schema:
+      property1:
+        type: bool
+      property2:
+        type: str
+        secret: true
+
+  should be updated to a full JSON Schema like this:
+
+  .. code-block:: yaml
+
+    output_schema:
+      type: object
+      properties:
+        property1:
+          type: bool
+        property2:
+          type: str
+          secret: true
+      additionalProperties: false
+
+  Invalid schemas are ignored, so we recommend coordinating your pack updates with the update
+  to StackStorm 3.8.0, especially if you rely on ``output_schema`` for secret masking
+  (via ``secret: true``). If you update packs to use the new ``output_schema`` before updating
+  to 3.8.0, then the schema will be ignored until the upgrade is complete. If you update to 3.8.0
+  before you update the packs, then the schemas will be ignored until the packs are updated.
+  You can also install pack updates during an upgrade, while StackStorm is not running, by using
+  the ``st2-pack-install`` utility: ``st2-pack-install <pack1> <pack2> <pack3>``.
+
+* As part of extending RBAC support to include protecting access to datastore operations, if
+  you have RBAC enabled and any workflows access the datastore, then any user with execute
+  permissions for those workflows will need to be assigned an RBAC role with the appropriate
+  key_value_pair permissions.  
+  Further information can be found in the :doc:`RBAC documentation <rbac>`.
+
+* Additional garbage collection options are available to automatically delete old tokens.
+  See :doc:`purging old data documentation <troubleshooting/purging_old_data>` for further
+  information.
+
+.. _ref-upgrade-notes-v3-7:
+
+|st2| v3.7
+----------
+
+* *RockyLinux/RHEL/CentOS 8 only*. Due to the upgrade from python3.6 to python 3.8, all
+  packs installed prior to upgrade will need to have their virtual environment re-created
+  after upgrading |st2| packages (on all nodes which run st2actionrunner or st2sensorcontainer
+  services), using the following command:
+
+  .. sourcecode:: bash
+
+      sudo st2ctl reload --register-recreate-virtualenvs
+
+* API will now set ``Secure`` and ``Samesite=lax`` cookie attribute for the auth cookie which
+  is set when authenticating via auth token / API key in query parameter (this approach is
+  primarily used by st2web).
+
+  If you need to change those default values, you can do that using
+  ``api.auth_cookie_secure`` and ``api.auth_cookie_same_site`` config options.
+
+  To revert to the old behavior, you can set ``api.auth_cookie_secure = False`` and
+  ``api.auth_cookie_same_site = None``, but this is not recommended unless you have a valid
+  reason to not host StackStorm behind an HTTPs proxy such as nginx.
+
+  You can read more about those attribute on the following links:
+  https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite,
+  https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#restrict_access_to_cookies.
+
+* As part of introducing the override pack metadata functionality, the name ``_global`` is
+  reserved, and cannot be used for pack names or pack references, to avoid conflict between
+  the global override file and individual pack override files.
+
+* On RockyLinux/CentOS/RHEL 8 the ST2 python version has changed from python 3.6 to python 3.8.
+
+* Additional garbage collection options are available to automatically delete rule enforcement,
+  trace, workflow execution and task execution instances.
+  See :doc:`purging old data documentation <troubleshooting/purging_old_data>` for further
+  information.
+
+* As part of extending RBAC support to include protecting access to datastore operations, if
+  you have RBAC enabled and any sensors access the datastore, then the ``sensor_service`` user will
+  need to be assigned an RBAC role with the appropriate key_value_pair permissions.  
+  Further information can be found in the :doc:`RBAC documentation <rbac>`.
+
 .. _ref-upgrade-notes-v3-6:
 
 |st2| v3.6
 ----------
+
+* Prior to v3.5 the installation instructions for all OSes except for CentOS/RHEL 8
+  said to use the version of RabbitMQ available in the OS distribution. This version is
+  very old, and for 3.6 the installation instructions and simple install have been modified
+  to install the latest version of RabbitMQ. It is not a requirement to upgrade RabbitMQ
+  for installation of 3.6, but to keep compatibility with a clean installation, the RabbitMQ
+  cluster should be upgraded for non CentOS/RHEL 8 systems.
 
 * Retaining backwards compatibility, action delete API has been modified.
   The existing action delete command ``st2 action delete <pack>.<action>`` will delete
@@ -18,6 +127,13 @@ Upgrade Notes
   API action DELETE method with ``{"remove_files": false}`` or no additional argument
   in json body will remove only action database entry.
 
+* systemd generators for ``st2api``, ``st2auth`` and ``st2stream`` socket files have replaced
+  the static ``.socket`` files.  ``st2.conf`` has become the authoritative source for controlling
+  the IP address and port the service will listen on.  This gives a more consistent and intuitive
+  means of configuring these services.  If you previously configured these services by directly
+  modifying the ``.socket`` file or using the ``DAEMON_ARGS`` environment variable, they are no
+  longer referenced and ``st2.conf`` will need to be updated with the desired ip/port.
+
 .. _ref-upgrade-notes-v3-5:
 
 |st2| v3.5
@@ -25,15 +141,19 @@ Upgrade Notes
 
 * Node was upgraded from v10 to v14. Node 14 repository will be required to be
   setup, prior to upgrade of st2chatops.
+
 * Support for Ubuntu 16.04 (Xenial) was removed.
+
 * Redis server is installed and configured as backend for the coordination service
   by default to support workflows with multiple branches and tasks with items.
   Upgrade requires coordination service to be setup manually.
   For workflows to be executed properly, setup the coordination service
   accordingly.
+
 * Validation of action definitions are stricter. If an action definition has duplicate keys, |st2|
   will complain when ``st2ctl reload`` is performed at upgrade. Action/workflow definitions should be checked
   for duplicate keys before upgrade.
+
 * ``%`` interpolation in st2 configuration parameters is no longer supported. Update your configuration
   parameters to fix strings if you use ``%`` interpolation to lookup keys as part of your parameter.
   

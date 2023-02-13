@@ -291,7 +291,7 @@ In this section we provide a highly opinionated and therefore prescriptive appro
 |st2| in HA. This deployment has 3 independent boxes which we categorize as "controller box" and
 "blueprint box." We'll call these boxes ``st2-multi-node-cntl``, ``st2-multi-node-1`` and
 ``st2-multi-node-2``. For the sake of reference we will be using Ubuntu 18.04 as the base OS.
-Obviously you can also use RedHat/CentOS.
+Obviously you can also use RedHat/RockyLinux/CentOS.
 
 .. figure :: /_static/images/st2-deployment-multi-node.png
     :align: center

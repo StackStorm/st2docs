@@ -22,7 +22,7 @@ Samba client is available in standard APT and Yum repositories. To install it on
 
     sudo apt-get install smbclient
 
-To install on RHEL/CentOS, run:
+To install on RHEL/RockyLinux/CentOS, run:
 
 .. sourcecode:: bash
 
@@ -33,7 +33,7 @@ or obtain a pre-built binary.
 
 * **Ubuntu**: Instructions and binary packages for 14.04 and 16.04 are available `here <https://doublefault0.wordpress.com/2017/02/21/winexe-1-1-ubuntu-16-04/>`_.
 
-* **RHEL/CentOS**:  `These instructions <https://github.com/beardedeagle/winexe-rpm>`_ explain how to build RPMs for RHEL/CentOS systems.
+* **RHEL/RockyLinux/CentOS**:  `These instructions <https://github.com/beardedeagle/winexe-rpm>`_ explain how to build RPMs for RHEL/RockyLinux/CentOS systems.
 
 Supported Windows Versions
 --------------------------

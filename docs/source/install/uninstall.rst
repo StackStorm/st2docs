@@ -50,7 +50,7 @@ below. Only execute the instructions for your distribution.
     sudo service rabbitmq-server stop
     sudo service redis-server stop
 
-* RHEL/CentOS 7.x/8.x:
+* RHEL/CentOS/RockyLinux:
 
   .. sourcecode:: bash
 
@@ -84,7 +84,7 @@ below. Only execute the instructions for your distribution.
     sudo apt-get purge st2 st2chatops st2web bwc-ui st2flow
 
 
-* RHEL/CentOS 7.x/8.x:
+* RHEL/CentOS/RockyLinux:
 
   If you are using StackStorm only:
 
@@ -106,7 +106,7 @@ below. Only execute the instructions for your distribution.
 3. Remove |st2| System User
 ---------------------------
 
-* Ubuntu/RHEL/CentOS:
+* Ubuntu/RHEL/CentOS/RockyLinux:
 
   .. sourcecode:: bash
 
@@ -123,7 +123,7 @@ below. Only execute the instructions for your distribution.
 
     sudo apt-get purge mongodb-org* rabbitmq-server erlang* nginx nodejs redis-server
 
-* RHEL/CentOS:
+* RHEL/CentOS/RockyLinux:
 
   .. sourcecode:: bash
 
@@ -143,8 +143,9 @@ below. Only execute the instructions for your distribution.
 
     sudo rm -f /etc/apt/sources.list.d/mongo* /etc/apt/sources.list.d/nginx.list
     sudo rm -f /etc/apt/sources.list.d/StackStorm* /etc/apt/sources.list.d/nodesource* 
+    sudo rm -f /etc/apt/sources.list.d/rabbitmq*
 
-* RHEL/CentOS:
+* RHEL/CentOS/RockyLinux:
 
   .. sourcecode:: bash
 
@@ -169,7 +170,7 @@ last pieces.
     sudo rm -rf /etc/redis/redis.conf /var/lib/redis
     sudo userdel -r redis
 
-* RHEL/CentOS:
+* RHEL/CentOS/RockyLinux:
 
   .. sourcecode:: bash
 

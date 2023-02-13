@@ -2,7 +2,7 @@ Rules
 =====
 
 |st2| uses rules and workflows to capture operational patterns as automations. Rules map triggers
-to actions (or workflows), apply matching criteria and map trigger payloads to action inputs.
+to actions (or workflows), apply matching criteria, and map trigger payloads to action inputs.
 
 .. note::
    
@@ -103,7 +103,7 @@ Criteria
 --------
 
 Rule criteria are the rule(s) needed to be matched against (logical ``AND``). Criteria in the rule
-is expressed as:
+are expressed as:
 
 .. code-block:: yaml
 
@@ -118,7 +118,7 @@ is expressed as:
 
 .. note::
 
-    You can achieve logical ``OR`` behavior (either one of multiple criteria expressions needs to
+    You can achieve logical ``OR`` behavior (any one of multiple criteria expressions needs to
     match for the action execution to be triggered) by creating multiple independent rules (one per
     criteria expression).
 
@@ -177,16 +177,18 @@ unique. This sometimes becomes relevant when you want to apply different operato
 
 In this example, only the last of the duplicate keys in the criteria will be evaluated.
 
-As a workaround, you can use an alternative way to specify the criteria key that will specify the
-same trigger data:
+As a workaround, criteria tags can be used to refer to the same criteria key multiple times. Criteria tags make
+a key unique and can provide context to the criteria. To create a criteria tag, include a ``#`` symbol 
+and some text at the end of the criteria key. On evaluation the ``#`` and the text after the ``#`` will be ignored.
+(e.g. ``trigger.payload.level#upper``, ``trigger.payload.level#lower``):
 
 .. code-block:: yaml
 
     criteria:
-        trigger.payload.commit.tags:
+        trigger.payload.commit.tags#1:
           type: ncontains
           pattern: StackStorm
-        trigger.payload.commit['tags']:
+        trigger.payload.commit.tags#2:
           type: contains
           pattern: pull request
         trigger.payload.commit.message:
@@ -194,11 +196,11 @@ same trigger data:
           pattern: ST2
 
 In this example, since the criteria keys are all unique, all of them will be evaluated, even though
-``trigger.payload.commit.tags`` and ``trigger.payload.commit['tags']`` specify the same value in
+``trigger.payload.commit.tags#1`` and ``trigger.payload.commit.tags#2`` specify the same value in
 the trigger data.
 
-Critera Comparison
-------------------
+Criteria Comparison
+-------------------
 
 This section describes all the available operators which can be used in the criteria.
 
@@ -283,9 +285,10 @@ applies to each element of the search list.
 The ``condition`` parameter controls how the ``search`` operator matches the list.
 With the ``any`` condition, if *at least one* item in the trigger payload list matches
 all of the child criteria, the search operator will return a successful match.
-Conversely, with the ``all`` condition, every single item in the trigger payload list
+With the ``all`` condition, every single item in the trigger payload list
 must match all of the child criteria for the search operator to return a successful
-match.
+match. The ``any2any`` condition returns a successful match if any payload items matches any criteria items.
+Finally, the ``all2any`` condition, returns a successful match if all payload items matches any criteria items.
 
 Here's an example criteria that uses the ``search`` operator with the ``any`` condition:
 
@@ -295,20 +298,20 @@ Here's an example criteria that uses the ``search`` operator with the ``any`` co
     criteria:
       trigger.issue_fields:
         type: "search"
-          # Controls whether all items in the trigger payload must match the child criteria,
-          # or if any single item matching the child criteria is sufficient
-          condition: any  # <- *At least one* item must match all child patterns
-          pattern:
-            # Here our context is each item of the list
-            # All of these patterns must match the item for the item to be considered a match
-            # These are simply other operators applied to each item of the list
-            item.field_name:
-              type: "equals"
-              pattern: "Status"
+        # Controls whether all items in the trigger payload must match the child criteria,
+        # or if any single item matching the child criteria is sufficient
+        condition: any  # <- *At least one* item must match all child patterns
+        pattern:
+          # Here our context is each item of the list
+          # All of these patterns must match the item for the item to be considered a match
+          # These are simply other operators applied to each item of the list
+          item.field_name:
+            type: "equals"
+            pattern: "Status"
 
-            item.to_value:
-              type: "equals"
-              pattern: "Approved"
+          item.to_value:
+            type: "equals"
+            pattern: "Approved"
 
 This criteria would match the following trigger payload, because the ``Status`` field was
 changed to ``Approved``:
@@ -329,7 +332,7 @@ changed to ``Approved``:
       ]
     }
 
-The ``condition`` parameter can also be ``all``, in which case all of the items in the list
+Here's another example where the ``condition`` parameter is ``all``, in which case all of the items in the list
 must match all of the child pattern:
 
 .. code-block:: yaml
@@ -369,8 +372,151 @@ However, the following trigger payload would not match with the ``all`` conditio
       ]
     }
 
+Here's an example where the ``condition`` parameter is ``any2any``.
+This will return true in cases where any payload items match any part of the pattern.
+This example uses Criteria Tags described in the `Criteria`_ section above.
+
+.. code-block:: yaml
+
+    ---
+    criteria:
+      trigger.body.data.tank:
+        type: "search"
+        condition: any2any
+        pattern:
+          item.chemicalLevel#1:
+            type: "lessthan"
+            pattern: 40
+          item.chemicalLevel#2:
+            type: "greaterthan"
+            pattern: 50
+
+Payload:
+
+.. code-block:: json
+
+    {
+      "tanks": [
+        {
+          "id": 1,
+          "chemicalLevel": 43
+        }, {
+          "id": 2,
+          "chemicalLevel": 55
+        }
+      ]
+    }
+
+Since the second tank has a chemical level over 50, this criteria resolves to true
+and the action, such as a notification sent to the operator, will be triggered.
+If the second tank had a chemical level of 45, the criteria would resolve to false and no action
+would occur.
+
+Here's an example where the ``condition`` parameter is ``all2any``.
+This will return true in cases where all payload items match any part of the pattern:
+
+.. code-block:: yaml
+
+    ---
+    criteria:
+      trigger.body.data.equipment:
+        type: "search"
+        condition: all2any
+        pattern:
+          item.latitude.value#1:
+            type: "lessthan"
+            pattern: 40
+          item.latitude.value#2:
+            type: "greaterthan"
+            pattern: 50
+          item.longitude.value#1:
+            type: "lessthan"
+            pattern: -100
+          item.longitude.value#2:
+            type: "greaterthan"
+            pattern: -90
+
+Payload:
+
+.. code-block:: json
+
+    {
+    
+      "equipment": [
+        {
+          "latitude": {
+            "value": 43
+          }
+          "longitude": {
+            "value": -95
+          }
+        }, {
+          "latitude": {
+            "value": 44
+          }
+          "longitude": {
+            "value": -96
+          }
+        }
+      ]
+    }
+
+In this example all of the equipment coordinates are within the ranges specified by the criteria
+and no action would be taken. If the first equipment latitude were set to 53, there would still
+be no action. If say the second equipment longitude value were set to -106 then the action would
+trigger because ALL of the equipment would be violating at least one of the parts of the pattern.
+This could trigger a notification when the last equipment leaves an area.
+
+
+Single Payload Mode:
+If only a single element is expected in the payload the search parameter can still be used to test the criteria of a rule
+if the payload is a dictionary.
+
+Criteria:
+
+.. code-block:: yaml
+
+    ---
+    criteria:
+      trigger.body.data:
+        type: "search"
+        condition: all2any
+        pattern:
+          item.latitude.value#1:
+            type: "lessthan"
+            pattern: 40
+          item.latitude.value#2:
+            type: "greaterthan"
+            pattern: 50
+          item.longitude.value#1:
+            type: "lessthan"
+            pattern: -100
+          item.longitude.value#2:
+            type: "greaterthan"
+            pattern: -90
+
+Payload:
+
+.. code-block:: json
+
+    {
+      "data": {
+        "latitude": {
+          "value": 43
+        }
+        "longitude": {
+          "value": -95
+        }
+      }
+    }
+
+.. warning::
+
+    When using Single Payload Mode, all2any and any2any has the same result since picking all of one thing is the 
+    same as picking any of one thing.
+
 The search operator is very powerful, but more options for the ``condition`` parameter are
-possible. At this point, only the ``any`` and ``all`` conditions are implemented, but
+possible. At this point, only the ``any``, ``all``, ``any2any`` and ``all2any`` conditions are implemented, but
 future improvements could include:
 
 * ``count``
@@ -466,7 +612,7 @@ To deploy a rule, use the CLI command: ``st2 rule create ${PATH_TO_RULE}``,  for
 
     st2 rule create /usr/share/doc/st2/examples/rules/sample_rule_with_webhook.yaml
 
-To reload all the rules, use ``st2ctl reload --register-rules``.
+To reload all rules, use ``st2ctl reload --register-rules``.
 
 If a rule with the same name already exists, the above command will return an error:
 
@@ -475,7 +621,7 @@ If a rule with the same name already exists, the above command will return an er
     ERROR: 409 Client Error: Conflict
     MESSAGE: Tried to save duplicate unique keys (E11000 duplicate key error index: st2.rule_d_b.$uid_1  dup key: { : "rule:examples:sample_rule_with_webhook" })
 
-To update the rule, edit the rule definition file and run the command: ``st2 rule update``, as in
+To update a rule, edit the rule definition file and run the command: ``st2 rule update``, as in
 the following example:
 
 .. code-block:: bash
@@ -486,7 +632,7 @@ the following example:
 
     **Hint:** It is a good practice to always edit the original rule file, so that keep your infrastructure in code. You still can get the rule definition from the system by ``st2 rule get <rule name> -j``, update it, and load it back.
 
-To see all the rules, or to get an individual rule, use commands below:
+To see all rules, or to get an individual rule, use commands below:
 
 .. code-block:: bash
 
@@ -504,7 +650,7 @@ To undeploy a rule, run ``st2 rule delete ${RULE_NAME_OR_ID}``. For example, to 
 Rule Location
 -------------
 
-Custom rules can be placed in any accessible folder on local system. By convention, custom rules
+Custom rules can be placed in any accessible folder on the local system. By convention, custom rules
 are placed in the ``/opt/stackstorm/packs/<pack_name>/rules`` directory. 
 
 .. _testing-rules:
@@ -512,10 +658,10 @@ are placed in the ``/opt/stackstorm/packs/<pack_name>/rules`` directory.
 Testing Rules
 -------------
 
-To make testing rules easier we provide a ``st2-rule-tester`` tool which can evaluate rules against
+To make testing rules easier, we provide a ``st2-rule-tester`` tool which can evaluate rules against
 trigger instances without running any of the |st2| components.
 
-The tool works by taking a path to the file which contains rule definition and a file which
+The tool works by taking a path to the file which contains the rule definition and a file which
 contains a trigger instance definition:
 
 .. code-block:: bash

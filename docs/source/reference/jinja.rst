@@ -5,7 +5,7 @@ Jinja
 manipulate parameter values in |st2| by allowing you to refer to other parameters, applying filters
 or refer to system specific constructs (like datastore access). This document is here to help you
 with Jinja in the context of |st2|. Please refer to the `Jinja docs 
-<http://jinja.pocoo.org/docs/>`_ for Jinja-focused information.
+<https://jinja.palletsprojects.com/en/2.11.x//>`_ for Jinja-focused information.
 
 .. _applying-filters-with-jinja:
 
@@ -51,9 +51,9 @@ text templating language, all your input is converted to text and then manipulat
 value. The necessary casting at the end is done by |st2| based on information you provide in YAML
 (for example, ``type`` field in action parameters). The casting is a best-effort casting.
 
-|st2| supports `Jinja variable templating <http://jinja.pocoo.org/docs/dev/templates/#variables>`__
+|st2| supports `Jinja variable templating <https://jinja.palletsprojects.com/en/2.11.x/templates/#variables>`__
 in Rules, Action Chains, and Actions etc. Jinja templates support
-`filters <http://jinja.pocoo.org/docs/dev/templates/#list-of-builtin-filters>`__
+`filters <https://jinja.palletsprojects.com/en/2.11.x/templates/#list-of-builtin-filters>`__
 to allow some advanced capabilities in working with variables.
 
 .. _referencing-datastore-keys-in-jinja:
@@ -61,7 +61,7 @@ to allow some advanced capabilities in working with variables.
 Custom Jinja Filters
 --------------------
 
-In addition to the `standard filters <http://jinja.pocoo.org/docs/dev/
+In addition to the `standard filters <https://jinja.palletsprojects.com/en/2.11.x/
 templates/#builtin-filters>`_ available in Jinja, |st2| also comes with some custom filters.
 
 **For Developers:** These filters are defined in

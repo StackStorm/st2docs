@@ -32,6 +32,9 @@ roles.
 By default when a new |st2| user is created, this user has no roles assigned to it, meaning it
 doesn't have access to perform any API operation which is behind the RBAC wall.
 
+.. note::
+    ``sensor_service`` is the |st2| user which sensors run as.
+
 Role
 ~~~~
 
@@ -138,11 +141,15 @@ Permission grants can be applied to the following resource types:
 * executions
 * webhooks
 * inquiries
+* key value pairs
+
+.. note::
+    The support of key value pairs is only available in |st2| v3.7.0 and above.
 
 A resource is identified by a ``uid``, and referenced as such in permission grants. UID is an
 identifier which is unique for each resource in the |st2| installation. UIDs follow this format:
 ``<resource type>:<resource specific identifier value>`` (e.g. ``pack:libcloud``,
-``action:libcloud:list_vms``, etc.).
+``action:libcloud:list_vms``, ``key_value_pair:st2kv.system:key1``, ``key_value_pair:st2kv.user:key2`` etc.).
 
 You can retrieve the UID of a particular resource by listing all the resources of a particular
 type or by retrieving details of a single resource using either API or CLI.
@@ -227,7 +234,6 @@ There are some exceptions, described below:
 ``/aliasexecutions/``) using hubot is the |st2| user that is configured in hubot
 (``ST2_AUTH_USERNAME`` - by default that is ``chatops_bot``).
 
-
 Enabling RBAC
 -------------
 
@@ -309,6 +315,37 @@ In the example above we assign two roles to the user named ``user4``:
 
 * ``role_one`` (a custom role which needs to be defined as described above) and
 * ``observer`` (system role).
+
+Key Value Pairs
+~~~~~~~~~~~~~~~
+
+.. note::
+    This functionality is only available in |st2| v3.7.0 and above.
+
+Users with admin and system_admin roles have all access to system scoped KVPs. In v3.6.0
+and before, users with admin role have full access to other users' KVPs. This behavior is
+unchanged.
+
+By default, a user has access to his/her own user scoped KVPs without requiring specific
+permission grants. A non-admin user by default cannot access system scoped KVPs or other
+users' KVPs. A non-admin user can be explicitly granted permission to one or more system
+scoped KVPs similar to how access to other resources are granted to users. Currently, 
+there is no option or plan to grant non-admin user access to another user's set of KVPs. 
+
+The following is an example to assign a ``system scoped`` KVP to a role. 
+Create ``/opt/stackstorm/rbac/roles/key1_write_role.yaml`` with the
+following content. Assign this role to a user and then apply the RBAC definitions.
+
+.. sourcecode:: yaml
+
+    ---
+    name: key1_write_role
+    description: Role that allow users to set system key1
+    enabled: true
+    permission_grants:
+        - resource_uid: "key_value_pair:st2kv.system:key1"
+          permission_types:
+            - "key_value_pair_set"
 
 Applying RBAC Definitions
 -------------------------
@@ -604,9 +641,9 @@ Lets first make sure there is a pack ``example`` we can use to experiment.
     $ cd /opt/stackstorm/packs/
     $ mkdir example
     $ mkdir example/actions example/rules example/sensors
-    $ touch pack.yaml
+    $ touch example/pack.yaml
     $ touch /opt/stackstorm/configs/example.yaml
-    $ touch requirements.txt
+    $ touch example/requirements.txt
     $ cp core/icon.png example/icon.png
 
 Now we setup a role. Create ``/opt/stackstorm/rbac/roles/example_pack_owner.yaml`` with the
@@ -626,6 +663,18 @@ following content:
                - "sensor_type_all"
                - "rule_all"
                - "action_all"
+        # Note: To be able to create a rule, the user also needs to have an "action_execute" permission
+        # on the action used inside the rule. In this example, the rule created calls core.local action
+        -
+            resource_uid: "action:core:local"
+            permission_types:
+               - "action_execute"
+        # Need runner_type_list on relevant runners
+        -
+            resource_uid: "runner_type:local-shell-cmd"
+            permission_types:
+               - "runner_type_list"
+
 
 A ``pack owner`` role would require the user to be able to view, create, modify and delete all
 contents of a pack. Again, let's pick the pack ``example`` as the target of ownership.
@@ -671,7 +720,6 @@ Lets take this for a spin using the |st2| CLI.
   .. sourcecode:: bash
 
     $ st2 login rbac_user1 -p '<RBACU1_PASSWORD>'
-    $ st2 action list
 
 2. Validate rule visibility and creation:
 
@@ -681,8 +729,8 @@ Lets take this for a spin using the |st2| CLI.
     $ cp /usr/share/doc/st2/examples/rules/sample_rule_with_timer.yaml rules/
     $ sed -i 's/pack: "examples"/pack: "example"/g' rules/sample_rule_with_timer.yaml
     $ st2 rule create rules/sample_rule_with_timer.yaml
-    $ st2 rule get example.sample_rule_with_timer.yaml
-    $ st2 rule delete example.sample_rule_with_timer.yaml
+    $ st2 rule get example.sample_rule_with_timer
+    $ st2 rule delete example.sample_rule_with_timer
 
     # Expect Failure
     $ st2 rule get <EXISTING_RULE_REF>
@@ -700,5 +748,5 @@ Lets take this for a spin using the |st2| CLI.
     $ st2 action delete example.local-notify
 
     # Expect failure
-    $ st2 action get core.local
-    $ st2 run core.local hostname
+    $ st2 action get core.echo
+    $ st2 run core.echo hello
