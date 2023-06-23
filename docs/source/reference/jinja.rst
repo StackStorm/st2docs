@@ -1,7 +1,7 @@
 Jinja
 =====
 
-|st2| uses `Jinja <http://jinja.pocoo.org/>`_ extensively for templating. Jinja allows you to
+|st2| uses `Jinja <https://jinja.palletsprojects.com/en/2.11.x/>`_ extensively for templating. Jinja allows you to
 manipulate parameter values in |st2| by allowing you to refer to other parameters, applying filters
 or refer to system specific constructs (like datastore access). This document is here to help you
 with Jinja in the context of |st2|. Please refer to the `Jinja docs 
