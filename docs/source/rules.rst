@@ -577,7 +577,7 @@ Variable Interpolation
 
 Occasionally, it will be necessary to pass along context of a trigger to an action when a rule is \
 matched. The rules engine is able to interpolate variables by leveraging `Jinja templating syntax
-<http://jinja.pocoo.org/docs/dev/templates/>`__.
+<https://jinja.palletsprojects.com/en/2.11.x/templates/>`__.
 
 .. code-block:: yaml
 

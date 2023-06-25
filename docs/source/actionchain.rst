@@ -106,7 +106,7 @@ ActionChain definition:
       # ...
 
 ``action1_input`` has value ``{{input1}}``. This syntax is variable referencing as supported by
-`Jinja templating <http://jinja.pocoo.org/docs/dev/templates/>`__.
+`Jinja templating <https://jinja.palletsprojects.com/en/2.11.x/templates/>`__.
 
 Similar constructs are also used in :doc:`Rule </rules>` criteria and action fields.
 

@@ -199,6 +199,6 @@ Additional Tools and Resources
 
 * `YAQL documentation <https://yaql.readthedocs.io/en/latest/>`_ and `YAQL online evaluator
   <http://yaqluator.com/>`_
-* `Jinja2 template engine documentation <http://jinja.pocoo.org>`_ and `Jinja2 online evaluator
+* `Jinja2 template engine documentation <https://jinja.palletsprojects.com/en/2.11.x/>`_ and `Jinja2 online evaluator
   <http://jinja.quantprogramming.com/>`_
 * `Workflow visualization tool <http://www.orquestaedit.com/>`_
