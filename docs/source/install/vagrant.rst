@@ -32,7 +32,7 @@ Starting a StackStorm Vagrant VM is easy:
   vagrant ssh
 
 This will boot up a fresh StackStorm installation on Ubuntu 18.04 LTS.
-You can access Web UI at ``https://10.10.10.10/`` or SSH to the box ``vagrant ssh`` if you prefer st2 CLI.
+You can access Web UI at ``https://192.168.56.56/`` or SSH to the box ``vagrant ssh`` if you prefer st2 CLI.
 
 Virtual Appliance / OVA
 -----------------------
