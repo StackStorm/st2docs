@@ -33,8 +33,13 @@ RockyLinux/CentOS/RHEL
 ----------------------
 
 .. note::
-  For RHEL 7.x you may need to enable the optional server rpms repository to be able to install the python3-devel RPM
+  For Rocky Linux release 8.4 (Green Obsidian) and up, you will have to install the ``redhat-lsb-core`` package with the following command.
 
+.. code-block:: bash
+  dnf --enablerepo=devel install redhat-lsb-core
+
+.. note::
+  For RHEL 7.x you may need to enable the optional server rpms repository to be able to install the python3-devel RPM
 
 .. code-block:: bash
 
