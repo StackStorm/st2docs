@@ -231,11 +231,12 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
     # Create notification rule if not yet enabled
     st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml
 
-* Add `NodeJS v14 repository <https://nodejs.org/en/download/package-manager/>`_:
+* Add `NodeJS v20 repository <https://nodejs.org/en/download/package-manager/>`_:
 
   .. code-block:: bash
 
-    curl -sL https://rpm.nodesource.com/setup_14.x | sudo -E bash -
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+    nvm install 20
 
 * Install the ``st2chatops`` package:
 
@@ -266,11 +267,6 @@ A Note on Security
 ------------------
 
 .. include:: common/security_notes.rst
-
-Upgrade to |ewc|
-----------------
-
-.. include:: common/ewc_intro.rst
 
 .. rubric:: What's Next?
 
