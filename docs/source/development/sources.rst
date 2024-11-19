@@ -1,68 +1,278 @@
 :orphan:
 
 Run From Sources
-=================
+========================================================================
 
 Environment Prerequisites
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Requirements:
 
 -  git
--  python3.6 for Ubuntu 18.04 and CentOS/RHEL 7
--  python3.8 for Ubuntu 20.04 and RockyLinux/CentOS/RHEL 8
+-  tig(optional interactive tui for git commits)
+-  python3.8 for Ubuntu 20.04 and RockyLinux/RHEL 8
+-  python3.9 for RockyLinux/RHEL 9
+-  python3.10 for Ubuntu 22.04
 -  pip, virtualenv, tox
--  MongoDB (http://docs.mongodb.org/manual/installation)
--  RabbitMQ (http://www.rabbitmq.com/download.html)
--  screen
+-  MongoDB
+  - Ubuntu (https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/)
+  - RHEL (https://www.mongodb.com/docs/v4.4/tutorial/install-mongodb-on-red-hat/)
+-  RabbitMQ / Erlang 26.x
+  - Ubuntu (https://www.rabbitmq.com/docs/install-debian)
+  - RHEL (https://www.rabbitmq.com/docs/install-rpm)
+-  Redis Stack (https://redis.io/docs/install/install-stack/linux/)
+-  tmux
 
 Ubuntu
-------
+------------------------------------------------------------------------
 
-.. note::
-  For Ubuntu 20.04 replace with python3.8 equivalents
-
+Install required packages for python development.
 
 .. code-block:: bash
 
-    apt-get install python-pip python-virtualenv gcc git make realpath screen libffi-dev libssl-dev python3.6-dev libldap2-dev libsasl2-dev
-    apt-get install mongodb mongodb-server
-    apt-get install rabbitmq-server
+    apt-get install python3-pip python3-venv gcc git make tmux libffi-dev libssl-dev python3-dev libldap2-dev libsasl2-dev
 
-RockyLinux/CentOS/RHEL
-----------------------
+
+Install a supported version of MongoDB.
 
 .. note::
-  For RHEL 7.x you may need to enable the optional server rpms repository to be able to install the python3-devel RPM
-
+  Mongo provides packages for Ubuntu 22.04 LTS ("Jammy") starting from MongoDB 6.0.4.  Adapt installation instructions according.
 
 .. code-block:: bash
 
-    OSRELEASE_VERSION=`lsb_release -s -r | cut -d'.' -f 1`
+	apt-get install gnupg curl
+	curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/mongodb-server-4.4.gpg
+	sudo chmod 644 /etc/apt/trusted.gpg.d/mongodb-server-4.4.gpg
 
-    yum install python-pip python-virtualenv python-tox gcc-c++ git-all screen icu libicu libicu-devel openssl-devel openldap-devel python3-devel
+	export VERSION_CODENAME=$(source /etc/os-release; echo $VERSION_CODENAME)
+	export DISTRO_ID=$(source /etc/os-release; echo $ID)
+	sudo cat <<EOF >/etc/apt/sources.list.d/mongodb-org-4.4.list
+	deb [ arch=amd64 ] https://repo.mongodb.org/apt/${DISTRO_ID} ${VERSION_CODENAME}/mongodb-org/4.4 multiverse
+	EOF
+	cat /etc/apt/sources.list.d/mongodb-org-4.4.list
 
-    yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-${OSRELEASE_VERSION}.noarch.rpm
+	sudo apt update
+	sudo apt-get install -y mongodb-org-server mongodb-org-shell mongodb-org-tools
 
-    # Add key and repo for the latest stable MongoDB (4.0)
-    rpm --import https://www.mongodb.org/static/pgp/server-4.0.asc
-    sh -c "cat <<EOT > /etc/yum.repos.d/mongodb-org-4.repo
-    [mongodb-org-4]
-    name=MongoDB Repository
-    baseurl=https://repo.mongodb.org/yum/redhat/${OSRELEASE_VERSION}/mongodb-org/4.0/x86_64/
-    gpgcheck=1
-    enabled=1
-    gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc
-    EOT"
+Install a supported version of RabbitMQ / Erlang
+
+.. code-block:: bash
+
+	# configure repository
+	# install package
+
+Install a supported version of Redis
+
+.. code-block:: bash
+
+	apt-get install gnupg curl
+	curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/redis-archive-keyring.gpg
+	sudo chmod 644 /etc/apt/trusted.gpg.d/redis-archive-keyring.gpg
+	export VERSION_CODENAME=$(source /etc/os-release; echo $VERSION_CODENAME)
+	sudo cat <<EOF >/etc/apt/sources.list.d/redis.list
+	deb [ arch=amd64 ] https://packages.redis.io/deb $VERSION_CODENAME main
+	EOF
+	cat /etc/apt/sources.list.d/redis.list
+	sudo apt-get update
+	sudo apt-get install redis-stack-server
+
+	systemctl enable redis-stack-server
+	systemctl start redis-stack-server
+
+
+RockyLinux/RHEL
+------------------------------------------------------------------------
+
+.. code-block:: bash
+
+    dnf install python-pip gcc-c++ git-all tmux icu libicu libicu-devel openssl-devel openldap-devel python3-devel
+
+    OSRELEASE_VERSION=$(source /etc/os-release; echo ${VERSION_ID%.*})
+    dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-${OSRELEASE_VERSION}.noarch.rpm
+
+.. note::
+
+  virtualenv is not available on Rocky9 and by extension the python-tox package can't be installed.  Use venv module instead.
+  screen has been removed from Rocky9 and tmux is the recommended replacement.
+
+
+Install a supported version of MongoDB.
+
+.. code-block:: bash
+
+OSRELEASE_VERSION=$(source /etc/os-release; echo ${VERSION_ID%.*})
+cat <<EOF >/etc/yum.repos.d/mongodb-org-4.4.repo
+[mongodb-org-4.4]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/${OSRELEASE_VERSION}/mongodb-org/4.4/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://pgp.mongodb.com/server-4.4.asc
+EOF
 
     yum install crudini
-    yum install mongodb-org
-    yum install rabbitmq-server
-    systemctl start mongod rabbitmq-server
-    systemctl enable mongod rabbitmq-server
+    systemctl start mongod
+    systemctl enable mongod
+
+Install a supported version of RabbitMQ / Erlang
+
+.. code-block:: bash
+
+	rpm --import 'https://github.com/rabbitmq/signing-keys/releases/download/3.0/rabbitmq-release-signing-key.asc'
+	rpm --import 'https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-erlang.E495BB49CC4BBE5B.key'
+	rpm --import 'https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-server.9F4587F226208342.key'
+
+	cat <<EOF >/etc/yum.repos.d/rabbitmq.repo
+	##
+	## Zero dependency Erlang RPM
+	##
+
+	[modern-erlang]
+	name=modern-erlang-el9
+	# uses a Cloudsmith mirror @ yum.novemberain.com.
+	# Unlike Cloudsmith, it does not have any traffic quotas
+	baseurl=https://yum1.novemberain.com/erlang/el/9/\$basearch
+			https://yum2.novemberain.com/erlang/el/9/\$basearch
+			https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/rpm/el/9/\$basearch
+	repo_gpgcheck=1
+	enabled=1
+	gpgkey=https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-erlang.E495BB49CC4BBE5B.key
+	gpgcheck=1
+	sslverify=1
+	sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+	metadata_expire=300
+	pkg_gpgcheck=1
+	autorefresh=1
+	type=rpm-md
+
+	[modern-erlang-noarch]
+	name=modern-erlang-el9-noarch
+	# uses a Cloudsmith mirror @ yum.novemberain.com.
+	# Unlike Cloudsmith, it does not have any traffic quotas
+	baseurl=https://yum1.novemberain.com/erlang/el/9/noarch
+			https://yum2.novemberain.com/erlang/el/9/noarch
+			https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/rpm/el/9/noarch
+	repo_gpgcheck=1
+	enabled=1
+	gpgkey=https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-erlang.E495BB49CC4BBE5B.key
+		   https://github.com/rabbitmq/signing-keys/releases/download/3.0/rabbitmq-release-signing-key.asc
+	gpgcheck=1
+	sslverify=1
+	sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+	metadata_expire=300
+	pkg_gpgcheck=1
+	autorefresh=1
+	type=rpm-md
+
+	[modern-erlang-source]
+	name=modern-erlang-el9-source
+	# uses a Cloudsmith mirror @ yum.novemberain.com.
+	# Unlike Cloudsmith, it does not have any traffic quotas
+	baseurl=https://yum1.novemberain.com/erlang/el/9/SRPMS
+			https://yum2.novemberain.com/erlang/el/9/SRPMS
+			https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/rpm/el/9/SRPMS
+	repo_gpgcheck=1
+	enabled=1
+	gpgkey=https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-erlang.E495BB49CC4BBE5B.key
+		   https://github.com/rabbitmq/signing-keys/releases/download/3.0/rabbitmq-release-signing-key.asc
+	gpgcheck=1
+	sslverify=1
+	sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+	metadata_expire=300
+	pkg_gpgcheck=1
+	autorefresh=1
+
+
+	##
+	## RabbitMQ Server
+	##
+
+	[rabbitmq-el9]
+	name=rabbitmq-el9
+	baseurl=https://yum2.novemberain.com/rabbitmq/el/9/\$basearch
+			https://yum1.novemberain.com/rabbitmq/el/9/\$basearch
+			https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/rpm/el/9/\$basearch
+	repo_gpgcheck=1
+	enabled=1
+	# Cloudsmith's repository key and RabbitMQ package signing key
+	gpgkey=https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-server.9F4587F226208342.key
+		   https://github.com/rabbitmq/signing-keys/releases/download/3.0/rabbitmq-release-signing-key.asc
+	gpgcheck=1
+	sslverify=1
+	sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+	metadata_expire=300
+	pkg_gpgcheck=1
+	autorefresh=1
+	type=rpm-md
+
+	[rabbitmq-el9-noarch]
+	name=rabbitmq-el9-noarch
+	baseurl=https://yum2.novemberain.com/rabbitmq/el/9/noarch
+			https://yum1.novemberain.com/rabbitmq/el/9/noarch
+			https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/rpm/el/9/noarch
+	repo_gpgcheck=1
+	enabled=1
+	# Cloudsmith's repository key and RabbitMQ package signing key
+	gpgkey=https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-server.9F4587F226208342.key
+		   https://github.com/rabbitmq/signing-keys/releases/download/3.0/rabbitmq-release-signing-key.asc
+	gpgcheck=1
+	sslverify=1
+	sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+	metadata_expire=300
+	pkg_gpgcheck=1
+	autorefresh=1
+	type=rpm-md
+
+	[rabbitmq-el9-source]
+	name=rabbitmq-el9-source
+	baseurl=https://yum2.novemberain.com/rabbitmq/el/9/SRPMS
+			https://yum1.novemberain.com/rabbitmq/el/9/SRPMS
+			https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/rpm/el/9/SRPMS
+	repo_gpgcheck=1
+	enabled=1
+	gpgkey=https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-server.9F4587F226208342.key
+	gpgcheck=0
+	sslverify=1
+	sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+	metadata_expire=300
+	pkg_gpgcheck=1
+	autorefresh=1
+	type=rpm-md
+	EOF
+	cat /etc/yum.repos.d/rabbitmq.repo
+
+	dnf update -y
+
+	dnf install socat logrotate -y
+	dnf install -y erlang rabbitmq-server
+
+    systemctl start rabbitmq-server
+    systemctl enable rabbitmq-server
+
+
+Install a supported version of Redis
+
+.. code-block:: bash
+
+	cat <<EOF >/etc/yum.repos.d/redis.repo
+	[Redis]
+	name=Redis
+	baseurl=http://packages.redis.io/rpm/rhel7
+	enabled=1
+	gpgcheck=1
+	EOF
+
+	curl -fsSL https://packages.redis.io/gpg > /tmp/redis.key
+	sudo rpm --import /tmp/redis.key
+	sudo yum install epel-release
+	sudo yum install redis-stack-server
+
+	systemctl enable redis-stack-server
+	systemctl start redis-stack-server
+
 
 Project Requirements
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Once the environment is setup, clone the git repo, and make the project. This will create the
 Python virtual environment under StackStorm, download and install required dependencies, and run
@@ -78,7 +288,7 @@ tests:
     make requirements
 
 Configure System User
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Create a system user for executing SSH actions:
 
@@ -89,7 +299,7 @@ Create a system user for executing SSH actions:
     ssh-keygen -f /home/stanley/.ssh/stanley_rsa -t rsa -b 4096 -C "stanley@stackstorm.com" -N ''
     exit
 
-Specify a user for running local and remote SSH actions. See :ref:`config-configure-ssh`. In 
+Specify a user for running local and remote SSH actions. See :ref:`config-configure-ssh`. In
 ``st2/conf/st2.dev.conf``, change ``ssh_key_file`` to point to the user's key file:
 
 .. code-block:: ini
@@ -99,7 +309,7 @@ Specify a user for running local and remote SSH actions. See :ref:`config-config
     ssh_key_file = /home/[current user]/.ssh/stanley_rsa
 
 Running
-~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Activate the virtualenv before starting the services:
 
@@ -152,7 +362,7 @@ output:
 .. _setup-st2-cli:
 
 Install |st2| CLI
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The |st2| CLI client needs to be installed. It is not necessary to install this into the
 virtualenv. However, the client may need to be installed with sudo if not in the virtualenv:
@@ -163,7 +373,7 @@ virtualenv. However, the client may need to be installed with sudo if not in the
     python3 setup.py develop
 
 Verify Installation
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To make sure all the components are installed correctly:
 
@@ -175,7 +385,7 @@ To make sure all the components are installed correctly:
     st2 run core.local uname
 
 Additional Makefile targets
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  - ``make all`` creates virtualenv, installs dependencies, and runs tests
  - ``make tests`` runs all the tests
@@ -188,7 +398,7 @@ Additional Makefile targets
 
 
 Install |st2| Web UI
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Installing the st2 Web UI.
 
@@ -210,7 +420,7 @@ Installing the st2 Web UI.
 
 
 Default Credentials to Login
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
@@ -218,7 +428,7 @@ Default Credentials to Login
     password: testp
 
 Manual Testing
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you only need to test a specific module, it might be reasonable to call ``nosetests`` directly.
 Make sure your virtualenv is active then run:
