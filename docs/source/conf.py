@@ -55,7 +55,7 @@ extensions = [
     # theme is provided as an extension
     "sphinx_rtd_theme",
     # this generates sitemap.xml
-#    "sphinx_sitemap",
+    "sphinx_sitemap",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
