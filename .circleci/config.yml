@@ -15,8 +15,13 @@ jobs:
       - run:
           name: Install developer packages
           command: |
+            PKGS=(
+              python3-dev
+              libldap2-dev
+              libsasl2-dev
+            )
             sudo apt-get update
-            sudo apt install python3-dev libldap2-dev libsasl2-dev
+            sudo apt install ${PKGS[@]}
       - run: make docs
       - run:
           name: Store HTML docs in workspace dir
