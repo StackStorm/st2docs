@@ -15,11 +15,11 @@ Requirements:
 -  python3.10 for Ubuntu 22.04
 -  pip, virtualenv, tox
 -  MongoDB
-  - Ubuntu (https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/)
-  - RHEL (https://www.mongodb.com/docs/v4.4/tutorial/install-mongodb-on-red-hat/)
+   - Ubuntu (https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/)
+   - RHEL (https://www.mongodb.com/docs/v4.4/tutorial/install-mongodb-on-red-hat/)
 -  RabbitMQ / Erlang 26.x
-  - Ubuntu (https://www.rabbitmq.com/docs/install-debian)
-  - RHEL (https://www.rabbitmq.com/docs/install-rpm)
+   - Ubuntu (https://www.rabbitmq.com/docs/install-debian)
+   - RHEL (https://www.rabbitmq.com/docs/install-rpm)
 -  Redis Stack (https://redis.io/docs/install/install-stack/linux/)
 -  tmux
 
