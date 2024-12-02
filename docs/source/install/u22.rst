@@ -183,6 +183,7 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
   .. code-block:: bash
 
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+    source ~/.bashrc
     nvm install 20
 
 * Install the ``st2chatops`` package:

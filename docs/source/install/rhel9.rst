@@ -57,29 +57,26 @@ Install MongoDB, RabbitMQ, and Redis:
 
 .. code-block:: bash
 
-  sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+  sudo dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
 
-  # Add key and repo for the latest stable MongoDB (4.0)
-  sudo rpm --import https://www.mongodb.org/static/pgp/server-4.0.asc
-  sudo sh -c "cat <<EOT > /etc/yum.repos.d/mongodb-org-4.repo
-  [mongodb-org-4]
+  # Add key and repo for the latest stable MongoDB (7.0)
+  tee <<EOF /etc/yum.repos.d/mongodb-org-7.0.repo
+  [mongodb-org-7.0]
   name=MongoDB Repository
-  baseurl=https://repo.mongodb.org/yum/redhat/8/mongodb-org/4.0/x86_64/
+  baseurl=https://repo.mongodb.org/yum/redhat/9/mongodb-org/7.0/x86_64/
   gpgcheck=1
   enabled=1
-  gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc
-  EOT"
+  gpgkey=https://pgp.mongodb.com/server-7.0.asc
+  EOF
 
-  sudo yum -y install crudini
-  sudo yum -y install mongodb-org 
   curl -sL https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | sudo bash
   curl -sL https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash
   sudo yum makecache -y --disablerepo='*' --enablerepo='rabbitmq_rabbitmq-server'
-  sudo yum -y install erlang-*
-  sudo yum -y install rabbitmq-server
-  sudo yum -y install redis
-  sudo systemctl start mongod rabbitmq-server redis
+
+  sudo yum -y install crudini erlang-* rabbitmq-server redis mongodb-org
+
   sudo systemctl enable mongod rabbitmq-server redis
+  sudo systemctl start mongod rabbitmq-server redis
 
 
 Setup Repositories
@@ -193,8 +190,6 @@ the st2web configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
 
-.. _ref-rhel8-firewall:
-
 If you are unable to connect to the web browser, you may need to change the default firewall
 settings. You can do this with these commands:
 
@@ -230,6 +225,7 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
   .. code-block:: bash
 
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+    source ~/.bashrc
     nvm install 20
 
 * Install the ``st2chatops`` package:
