@@ -14,10 +14,9 @@ python:
 
 # Set the version of Python and other tools, and customize the build process
 build:
-  os: ubuntu-20.04
+  os: ubuntu-22.04
   tools:
-    # python: "3.6"
-    python: "3.8"
+    python: "3.10"
   apt_packages:
     - python3-dev
     - libldap2-dev

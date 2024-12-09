@@ -1,5 +1,5 @@
-RHEL 7/CentOS 7
-===============
+RHEL 9/Rocky 9
+========================================================================
 
 .. include:: common/intro.rst
 
@@ -7,17 +7,15 @@ RHEL 7/CentOS 7
    :local:
 
 System Requirements
--------------------
+------------------------------------------------------------------------
 
 Please check the :doc:`supported versions and system requirements <system_requirements>`.
 
 .. note::
-
-    |st2| on RHEL 7/CentOS 7 runs all services, actions and sensors using Python 3 **only**. It
-    does not support Python 2 actions. 
+    |st2| is verified on RHEL/RockyLinux ``9.x`` distributions, but our RPMs should be compatible with other RHEL``9.x`` derivatives, e.g. CentOS 9 Stream.
 
 Minimal Installation
---------------------
+------------------------------------------------------------------------
 
 Adjust SELinux Policies
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -37,7 +35,7 @@ you may want to tweak them according to your security practices.
   .. code-block:: bash
 
     # SELINUX management tools, not available for some minimal installations
-    sudo yum install -y policycoreutils-python
+    sudo yum install -y policycoreutils-python-utils
 
     # Allow network access for nginx
     sudo setsebool -P httpd_can_network_connect 1
@@ -55,56 +53,31 @@ Install Dependencies
 
 .. include:: __mongodb_note.rst
 
-Install MongoDB, RabbitMQ, and Redis
+Install MongoDB, RabbitMQ, and Redis:
 
 .. code-block:: bash
 
-  sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+  sudo dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
 
-  # Add key and repo for the latest stable MongoDB (4.0)
-  sudo rpm --import https://www.mongodb.org/static/pgp/server-4.0.asc
-  sudo sh -c "cat <<EOT > /etc/yum.repos.d/mongodb-org-4.repo
-  [mongodb-org-4]
+  # Add key and repo for the latest stable MongoDB (7.0)
+  tee <<EOF /etc/yum.repos.d/mongodb-org-7.0.repo
+  [mongodb-org-7.0]
   name=MongoDB Repository
-  baseurl=https://repo.mongodb.org/yum/redhat/7/mongodb-org/4.0/x86_64/
+  baseurl=https://repo.mongodb.org/yum/redhat/9/mongodb-org/7.0/x86_64/
   gpgcheck=1
   enabled=1
-  gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc
-  EOT"
-
-  sudo yum -y install crudini
-  sudo yum -y install mongodb-org
+  gpgkey=https://pgp.mongodb.com/server-7.0.asc
+  EOF
 
   curl -sL https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | sudo bash
   curl -sL https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash
   sudo yum makecache -y --disablerepo='*' --enablerepo='rabbitmq_rabbitmq-server'
-  sudo yum -y install erlang
-  sudo yum -y install rabbitmq-server
-  sudo yum -y install redis
-  sudo systemctl start mongod rabbitmq-server redis
+
+  sudo yum -y install crudini erlang-* rabbitmq-server redis mongodb-org
+
   sudo systemctl enable mongod rabbitmq-server redis
+  sudo systemctl start mongod rabbitmq-server redis
 
-The default python on CentOS/RHEL 7.x is python 2, |st2| uses python3 and requires the python3-devel package. The installation of the st2 package will automatically install python3-devel if it is available in an enabled repository. On CentOS distributions the relevant repository is typically enabled however on RHEL distributions it is provided by the rhel-7-server-optional-rpms repository (repository name dependant on RHEL distribution).
-
-The following steps in this section are only required on RHEL 7.x systems. On CentOS 7.x systems these steps can be ignored, and you can proceed to Setup Repositories.
-
-Use the following command to verify that the python3-devel package is available in an enabled repository:
-
-.. code-block:: bash
-
-  sudo yum info python3-devel
-
-If it is not available, locate the repository that contains the RPM. On RHEL 7.x it is located in the optional server RPMs repository (the name of that repository differs between RHEL distributions):
-
-.. code-block:: bash
-
-  sudo yum repolist disabled | grep optional | grep server
-
-Then either enable the optional repository using subscription-manager or yum-config-manager, or install python3-devel with a temporary repository enablement, e.g.:
-
-.. code-block:: bash
-
-  sudo yum install python3-devel --enablerepo <optional-server-rpm repo>
 
 Setup Repositories
 ~~~~~~~~~~~~~~~~~~
@@ -146,7 +119,7 @@ Verify
 .. include:: common/verify.rst
 
 Configure Authentication
-------------------------
+------------------------------------------------------------------------
 
 The reference deployment uses a file-based authentication provider for simplicity. Refer to
 :doc:`/authentication` to configure and use PAM or LDAP authentication backends.
@@ -165,7 +138,7 @@ To set up authentication with file-based provider:
 .. include:: common/configure_authentication.rst
 
 Install WebUI and Setup SSL Termination
----------------------------------------
+------------------------------------------------------------------------
 
 `NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS, provide
 SSL termination, and reverse-proxy st2auth and st2api API endpoints. To set it up: install the
@@ -217,8 +190,6 @@ the st2web configuration at ``/opt/stackstorm/static/webui/config.js``.
 
 Use your browser to connect to ``https://${ST2_HOSTNAME}`` and login to the WebUI.
 
-.. _ref-rhel7-firewall:
-
 If you are unable to connect to the web browser, you may need to change the default firewall
 settings. You can do this with these commands:
 
@@ -233,7 +204,7 @@ survive reboot.
 .. include:: common/api_access.rst
 
 Setup ChatOps
--------------
+------------------------------------------------------------------------
 
 If you already run a Hubot instance, you can install the `hubot-stackstorm plugin
 <https://github.com/StackStorm/hubot-stackstorm>`_ and configure |st2| environment variables, as
@@ -249,11 +220,13 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
     # Create notification rule if not yet enabled
     st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml
 
-* Add `NodeJS v14 repository <https://nodejs.org/en/download/package-manager/>`_:
+* Add `NodeJS v20 repository <https://nodejs.org/en/download/package-manager/>`_:
 
   .. code-block:: bash
 
-    curl -sL https://rpm.nodesource.com/setup_14.x | sudo -E bash -
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+    source ~/.bashrc
+    nvm install 20
 
 * Install the ``st2chatops`` package:
 
@@ -281,14 +254,9 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
 * That's it! Go to your Chat room and begin ChatOps-ing. Read more in the :doc:`/chatops/index` section.
 
 A Note on Security
-------------------
+------------------------------------------------------------------------
 
 .. include:: common/security_notes.rst
-
-Upgrade to |ewc|
-----------------
-
-.. include:: common/ewc_intro.rst
 
 .. rubric:: What's Next?
 

@@ -19,13 +19,13 @@ import glob
 import sphinx_rtd_theme
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, '../../st2'))
+ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, "../../st2"))
 
 sys.path.append(BASE_DIR)
 import info
 
 # Include Python modules for all the st2components
-st2_components_paths = glob.glob(ROOT_DIR + '/st2*')
+st2_components_paths = glob.glob(ROOT_DIR + "/st2*")
 for module_path in st2_components_paths:
     sys.path.append(module_path)
 
@@ -45,14 +45,13 @@ from st2common import __version__
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.coverage',
-    'sphinx.ext.ifconfig',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.todo',
-    'sphinx.ext.extlinks',
-
+    "sphinx.ext.autodoc",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.coverage",
+    "sphinx.ext.ifconfig",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.todo",
+    "sphinx.ext.extlinks",
     # theme is provided as an extension
     "sphinx_rtd_theme",
     # this generates sitemap.xml
@@ -60,10 +59,10 @@ extensions = [
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # The suffix of source filenames.
-source_suffix = '.rst'
+source_suffix = ".rst"
 
 # The encoding of source files.
 # source_encoding = 'utf-8-sig'
@@ -79,26 +78,59 @@ author = info.author
 #
 # the __version__ is 0.8.1 or 0.9dev
 # the version is short 0.8 version, to refer docs.
-version = '.'.join(__version__.split('.')[:2])
+version = ".".join(__version__.split(".")[:2])
 # The full version, including alpha/beta/rc tags.
 release = __version__
 # The complete list of current StackStorm versions.
-release_versions = ['3.8', '3.7', '3.6', '3.5', '3.4', '3.3', '3.2', '3.1', '3.0', '2.10', '2.9', '2.8', '2.7', '2.6', '2.5', '2.4', '2.3', '2.2', '2.1', '2.0', '1.6', '1.5', '1.4', '1.3', '1.2', '1.1', '0.13', '0.12', '0.11', '0.9', '0.8']
+release_versions = [
+    "3.8",
+    "3.7",
+    "3.6",
+    "3.5",
+    "3.4",
+    "3.3",
+    "3.2",
+    "3.1",
+    "3.0",
+    "2.10",
+    "2.9",
+    "2.8",
+    "2.7",
+    "2.6",
+    "2.5",
+    "2.4",
+    "2.3",
+    "2.2",
+    "2.1",
+    "2.0",
+    "1.6",
+    "1.5",
+    "1.4",
+    "1.3",
+    "1.2",
+    "1.1",
+    "0.13",
+    "0.12",
+    "0.11",
+    "0.9",
+    "0.8",
+]
 
 # Some loveliness that we have to do to make this work.  Otherwise it defaults to contents.rst
 master_doc = info.master_doc
 
 
 def previous_version(ver):
-    if ver.endswith('dev'):
+    if ver.endswith("dev"):
         return release_versions[0]
-    major_minor = '.'.join(ver.split('.')[:2])
+    major_minor = ".".join(ver.split(".")[:2])
     if major_minor in release_versions:
         idx = release_versions.index(major_minor)
         if idx + 1 < len(release_versions):
             return release_versions[idx + 1]
     # Better than broken return some value. Control flow should not reach this point.
     return "unknown"
+
 
 # The short versions of two previous releases, e.g. 0.8 and 0.7
 version_minus_1 = previous_version(version)
@@ -107,29 +139,30 @@ version_minus_3 = previous_version(version_minus_2)
 
 # extlink configurator sphinx.ext.extlinks
 extlinks = {
-    'github_st2': ('https://github.com/StackStorm/st2/tree/master/%s', None),
-    'github_exchange':
-        ('https://github.com/StackStorm-Exchange/%s', None),
-    'web_exchange':
-        ('https://exchange.stackstorm.org/#%s', None),
+    "github_st2": ("https://github.com/StackStorm/st2/tree/master/%s", None),
+    "github_exchange": ("https://github.com/StackStorm-Exchange/%s", None),
+    "web_exchange": ("https://exchange.stackstorm.org/#%s", None),
 }
 
 # Inserted at the bottom of all rst files.
 # Use for variables substitutions
 
-if tags.has('enterprise'):
+if tags.has("enterprise"):
     print("Building EWC docs")
     product_replace = "\n.. |st2| replace:: EWC\n.. |fullname| replace:: Extreme Workflow Composer"
 else:
     print("Building StackStorm docs")
     product_replace = "\n.. |st2| replace:: StackStorm\n.. |fullname| replace:: StackStorm"
 
-rst_epilog = """
+rst_epilog = (
+    """
 %s
 .. _exchange: https://exchange.stackstorm.org/
 .. |ewc| replace:: Extreme Workflow Composer
 .. |ipf| replace:: IP Fabric Automation Suite
-""" % product_replace
+"""
+    % product_replace
+)
 
 # Show or hide TODOs. See http://sphinx-doc.org/ext/todo.html
 todo_include_todos = True
@@ -148,12 +181,12 @@ todo_include_todos = True
 # directories to ignore when looking for source files.
 # dzimine: '**/._*' exclues files my Sublime creates on NFS mount.
 exclude_patterns = [
-    '**/._*',
-    '**/__*', '__*',  # Naming convension for include files
-    '_includes/*',  # includes files
-    'todo.rst',
-    'known_security_issues.rst',
-
+    "**/._*",
+    "**/__*",
+    "__*",  # Naming convension for include files
+    "_includes/*",  # includes files
+    "todo.rst",
+    "known_security_issues.rst",
 ]
 
 # The reST default role (used for this markup: `text`) to use for all
@@ -172,7 +205,7 @@ exclude_patterns = [
 # show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = "sphinx"
 
 # A list of ignored prefixes for module index sorting.
 # modindex_common_prefix = []
@@ -187,9 +220,10 @@ nitpicky = True
 
 # XXX: temp fix before we figure how to make autodocs work
 nitpick_ignore = [
-    ('py:class', 'st2actions.runners.pythonrunner.Action'),
-    ('py:class', 'st2common.runners.base_action.Action'),
-    ('py:class', 'KeyValuePair')]
+    ("py:class", "st2actions.runners.pythonrunner.Action"),
+    ("py:class", "st2common.runners.base_action.Action"),
+    ("py:class", "KeyValuePair"),
+]
 
 # -- Options for HTML output ----------------------------------------------
 
@@ -206,7 +240,7 @@ html_theme_options = {
     # "style_nav_header_background": "#fb8225",  # covered by rtd_theme_overrides.css
     "logo_only": True,
     # display_version puts rtd slug/version at top of sidebar, but we use breadcrumbs instead
-    "display_version": False,
+#    "display_version": False, # invalid theme, commented out.
     "style_external_links": True,
     "vcs_pageview_mode": "blob",  # blob, edit, raw
 }
@@ -261,13 +295,13 @@ html_favicon = "_static/images/favicon.ico"
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["_static"]
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
 # directly to the root of the documentation.
 # html_extra_path = []
-html_extra_path = ['_redirects']
+html_extra_path = ["_redirects"]
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -320,8 +354,8 @@ html_context = {
     "github_user": info.github_user,
     "github_repo": info.github_repo,
     "github_version": info.github_version,
-    'conf_py_path': '/docs/source/',
-    'source_suffix': source_suffix,
+    "conf_py_path": "/docs/source/",
+    "source_suffix": source_suffix,
 }
 
 if "READTHEDOCS" not in os.environ:
@@ -330,46 +364,47 @@ if "READTHEDOCS" not in os.environ:
     versions = []
     if "dev" in version:
         # show the "3.9dev" in the menu, even though "latest" is in the URL.
-        versions.append((version, '%slatest' % info.base_url))
+        versions.append((version, "%slatest" % info.base_url))
     else:
         _version = version.split(".")
         dev_version = "%s.%sdev" % (_version[0], int(_version[1]) + 1)
-        versions.extend([
-            (dev_version, "%slatest" % info.base_url),
-            # this is the stable version
-            (version, "%s%s" % (info.base_url, version)),
-        ])
+        versions.extend(
+            [
+                (dev_version, "%slatest" % info.base_url),
+                # this is the stable version
+                (version, "%s%s" % (info.base_url, version)),
+            ]
+        )
 
-    versions.extend([
-        (version_minus_1, '%s%s' % (info.base_url, version_minus_1)),
-        (version_minus_2, '%s%s' % (info.base_url, version_minus_2)),
-    ])
+    versions.extend(
+        [
+            (version_minus_1, "%s%s" % (info.base_url, version_minus_1)),
+            (version_minus_2, "%s%s" % (info.base_url, version_minus_2)),
+        ]
+    )
 
     if "dev" in version:
         # this is the stable-2 version
-        versions.append((version_minus_3, '%s%s' % (info.base_url, version_minus_3)))
-    html_context['versions'] = versions
-    html_context['current_version'] = version
+        versions.append((version_minus_3, "%s%s" % (info.base_url, version_minus_3)))
+    html_context["versions"] = versions
+    html_context["current_version"] = version
 
 
 # -- Options for LaTeX output ---------------------------------------------
 
 latex_elements = {
-     # The paper size ('letterpaper' or 'a4paper').
-     #
-     # 'papersize': 'letterpaper',
-
-     # The font size ('10pt', '11pt' or '12pt').
-     #
-     # 'pointsize': '10pt',
-
-     # Additional stuff for the LaTeX preamble.
-     #
-     # 'preamble': '',
-
-     # Latex figure (float) alignment
-     #
-     # 'figure_align': 'htbp',
+    # The paper size ('letterpaper' or 'a4paper').
+    #
+    # 'papersize': 'letterpaper',
+    # The font size ('10pt', '11pt' or '12pt').
+    #
+    # 'pointsize': '10pt',
+    # Additional stuff for the LaTeX preamble.
+    #
+    # 'preamble': '',
+    # Latex figure (float) alignment
+    #
+    # 'figure_align': 'htbp',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
@@ -440,6 +475,6 @@ texinfo_documents = info.texinfo_documents
 # texinfo_no_detailmenu = False
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/2': None}
+intersphinx_mapping = {"python": ('https://docs.python.org/3', None)}
 
-autoclass_content = 'both'
+autoclass_content = "both"

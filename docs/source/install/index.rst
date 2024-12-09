@@ -12,7 +12,7 @@ single system, or you can follow the manual instructions for your OS.
     StackStorm is developed and tested against the x86_64 architecture on the GNU/Linux platform using **Ubuntu** and **Rocky/CentOS**.
 
     We would like to be able to support alternative architectures (arm, risc-v, mips etc.), platforms (Microsoft Windows, Apple OSX, FreeBSD)
-    and distributions (SuSe, Arch, Gentoo, etc), however we have a finite set of resources which prevents us from doing so.  If you build and operate
+    and distributions (SUSE, Arch, Gentoo, etc), however we have a finite set of resources which prevents us from doing so.  If you build and operate
     StackStorm using these alternatives, you accept the responsibility of addressing any issues encountered yourself and understand no official support is available.
 
 Here's an overview of the options:
@@ -22,8 +22,8 @@ Here's an overview of the options:
   <ref-one-line-install>` section below for details.
 * **Manual Installation:** Have custom needs? Maybe no Internet access from your servers? Or just
   don't like using scripted installs? Read the manual installation instructions for your OS
-  (:doc:`Ubuntu 18 </install/u18>`, :doc:`Ubuntu 20 </install/u20>`,
-  :doc:`RHEL/CentOS 7 </install/rhel7>`, :doc:`RHEL/RockyLinux/CentOS 8 </install/rhel8>`) and adapt them to
+  (:doc:`Ubuntu 20 Focal </install/u20>`, :doc:`Ubuntu 22 Jammy </install/u22>`,
+  :doc:`Red Hat Enterprise Linux 8 and compatible distributions </install/rhel8>`, :doc:`Red Hat Enterprise Linux 9 and compatible distributions </install/rhel9>`) and adapt them to
   your needs. Here's some `additional guidance
   <https://stackstorm.com/2017/02/10/installing-stackstorm-offline-systems/>`_ for setting up an
   internal mirror for the |st2| repos.
@@ -79,9 +79,7 @@ If you're installing behind a proxy, just export the proxy ENV variables
 
 In case of MITM proxy, you may need to export additional ``proxy_ca_bundle_path``, see :ref:`packs-behind-proxy`.
 
-
-If you have problems accessing the Web UI on a RHEL 7/CentOS 7 system, check the
-:ref:`system firewall settings <ref-rhel7-firewall>`.
+If you have problems accessing the Web UI, check the system firewall settings.
 
 .. include:: __installer_passwords.rst
 
@@ -94,10 +92,10 @@ For more details on reference deployments, or OS-specific installation instructi
 
     Reference Deployment Overview <overview>
     system_requirements
-    Ubuntu 18.04 <u18>
     Ubuntu 20.04 <u20>
-    RHEL 7 / CentOS 7 <rhel7>
-    RHEL 8 / RockyLinux 8 / CentOS 8 <rhel8>
+    Ubuntu 22.04 <u22>
+    RHEL 8 and binary compatible clones <rhel8>
+    RHEL 9 and binary compatible clones <rhel9>
     Vagrant / OVA <vagrant>
     Docker <docker>
     Ansible Playbooks <ansible>

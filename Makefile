@@ -11,7 +11,7 @@ DOC_BUILD_DIR := docs/build
 
 BINARIES := bin
 
-PYTHON_VERSION := python3.6
+PYTHON_VERSION := python3.10
 
 # All components are prefixed by st2
 COMPONENTS := $(wildcard st2*)

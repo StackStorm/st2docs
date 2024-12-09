@@ -65,27 +65,24 @@ Install MongoDB, RabbitMQ, and Redis:
 
   sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 
-  # Add key and repo for the latest stable MongoDB (4.0)
-  sudo rpm --import https://www.mongodb.org/static/pgp/server-4.0.asc
-  sudo sh -c "cat <<EOT > /etc/yum.repos.d/mongodb-org-4.repo
-  [mongodb-org-4]
+  # Add key and repo for the latest stable MongoDB (7.0)
+  tee <<EOF /etc/yum.repos.d/mongodb-org-7.0.repo
+  [mongodb-org-7.0]
   name=MongoDB Repository
-  baseurl=https://repo.mongodb.org/yum/redhat/8/mongodb-org/4.0/x86_64/
+  baseurl=https://repo.mongodb.org/yum/redhat/8/mongodb-org/7.0/x86_64/
   gpgcheck=1
   enabled=1
-  gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc
-  EOT"
+  gpgkey=https://pgp.mongodb.com/server-7.0.asc
+  EOF
 
-  sudo yum -y install crudini
-  sudo yum -y install mongodb-org 
   curl -sL https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | sudo bash
   curl -sL https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash
   sudo yum makecache -y --disablerepo='*' --enablerepo='rabbitmq_rabbitmq-server'
-  sudo yum -y install erlang-*
-  sudo yum -y install rabbitmq-server
-  sudo yum -y install redis
-  sudo systemctl start mongod rabbitmq-server redis
+
+  sudo yum -y install crudini erlang-* rabbitmq-server redis mongodb-org
+
   sudo systemctl enable mongod rabbitmq-server redis
+  sudo systemctl start mongod rabbitmq-server redis
 
 
 Setup Repositories
@@ -231,11 +228,13 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
     # Create notification rule if not yet enabled
     st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml
 
-* Add `NodeJS v14 repository <https://nodejs.org/en/download/package-manager/>`_:
+* Add `NodeJS v20 repository <https://nodejs.org/en/download/package-manager/>`_:
 
   .. code-block:: bash
 
-    curl -sL https://rpm.nodesource.com/setup_14.x | sudo -E bash -
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+    source ~/.bashrc
+    nvm install 20
 
 * Install the ``st2chatops`` package:
 
@@ -266,11 +265,6 @@ A Note on Security
 ------------------
 
 .. include:: common/security_notes.rst
-
-Upgrade to |ewc|
-----------------
-
-.. include:: common/ewc_intro.rst
 
 .. rubric:: What's Next?
 

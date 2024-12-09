@@ -1,68 +1,68 @@
 :orphan:
 
 Run From Sources
-=================
+========================================================================
 
 Environment Prerequisites
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Requirements:
 
 -  git
--  python3.6 for Ubuntu 18.04 and CentOS/RHEL 7
--  python3.8 for Ubuntu 20.04 and RockyLinux/CentOS/RHEL 8
+-  tig(optional interactive tui for git commits)
+-  python3.8 for Ubuntu 20.04 and RockyLinux/RHEL 8
+-  python3.9 for RockyLinux/RHEL 9
+-  python3.10 for Ubuntu 22.04
 -  pip, virtualenv, tox
--  MongoDB (http://docs.mongodb.org/manual/installation)
--  RabbitMQ (http://www.rabbitmq.com/download.html)
--  screen
+-  MongoDB
+   - Ubuntu (https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/)
+   - RHEL (https://www.mongodb.com/docs/v4.4/tutorial/install-mongodb-on-red-hat/)
+-  RabbitMQ / Erlang 26.x
+   - Ubuntu (https://www.rabbitmq.com/docs/install-debian)
+   - RHEL (https://www.rabbitmq.com/docs/install-rpm)
+-  Redis Stack (https://redis.io/docs/install/install-stack/linux/)
+-  tmux
 
 Ubuntu
-------
+------------------------------------------------------------------------
 
-.. note::
-  For Ubuntu 20.04 replace with python3.8 equivalents
-
+Install required packages for python development.
 
 .. code-block:: bash
 
-    apt-get install python-pip python-virtualenv gcc git make realpath screen libffi-dev libssl-dev python3.6-dev libldap2-dev libsasl2-dev
-    apt-get install mongodb mongodb-server
-    apt-get install rabbitmq-server
+    apt-get install python3-pip python3-venv gcc git make tmux libffi-dev libssl-dev python3-dev libldap2-dev libsasl2-dev
 
-RockyLinux/CentOS/RHEL
-----------------------
 
-.. note::
-  For RHEL 7.x you may need to enable the optional server rpms repository to be able to install the python3-devel RPM
+Install a supported version of MongoDB, RabbitMQ / Erlang and Redis.
 
+`Ubuntu 20.04 Focal </install/u20#install-dependencies>`
+`Ubuntu 22.04 Jammy </install/u22#install-dependencies>`
+
+
+Rocky Linux / RedHat Enterprise Linux
+------------------------------------------------------------------------
 
 .. code-block:: bash
 
-    OSRELEASE_VERSION=`lsb_release -s -r | cut -d'.' -f 1`
+    dnf install python-pip gcc-c++ git-all tmux icu libicu libicu-devel openssl-devel openldap-devel python3-devel
 
-    yum install python-pip python-virtualenv python-tox gcc-c++ git-all screen icu libicu libicu-devel openssl-devel openldap-devel python3-devel
+    OSRELEASE_VERSION=$(source /etc/os-release; echo ${VERSION_ID%.*})
+    dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-${OSRELEASE_VERSION}.noarch.rpm
 
-    yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-${OSRELEASE_VERSION}.noarch.rpm
+.. note::
 
-    # Add key and repo for the latest stable MongoDB (4.0)
-    rpm --import https://www.mongodb.org/static/pgp/server-4.0.asc
-    sh -c "cat <<EOT > /etc/yum.repos.d/mongodb-org-4.repo
-    [mongodb-org-4]
-    name=MongoDB Repository
-    baseurl=https://repo.mongodb.org/yum/redhat/${OSRELEASE_VERSION}/mongodb-org/4.0/x86_64/
-    gpgcheck=1
-    enabled=1
-    gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc
-    EOT"
+  virtualenv is not available on Rocky9 and by extension the python-tox package can't be installed.  Use venv module instead.
+  screen has been removed from Rocky9 so developer tooling uses tmux instead.
 
-    yum install crudini
-    yum install mongodb-org
-    yum install rabbitmq-server
-    systemctl start mongod rabbitmq-server
-    systemctl enable mongod rabbitmq-server
+
+Install a supported version of MongoDB, RabbitMQ / Erlang and Redis.
+
+`Red Hat Enterprise Linux 8 and compatible distributions </install/rhel8#install-dependencies>`
+`Red Hat Enterprise Linux 9 and compatible distributions </install/rhel9#install-dependencies>`
+
 
 Project Requirements
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Once the environment is setup, clone the git repo, and make the project. This will create the
 Python virtual environment under StackStorm, download and install required dependencies, and run
@@ -78,7 +78,7 @@ tests:
     make requirements
 
 Configure System User
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Create a system user for executing SSH actions:
 
@@ -89,7 +89,7 @@ Create a system user for executing SSH actions:
     ssh-keygen -f /home/stanley/.ssh/stanley_rsa -t rsa -b 4096 -C "stanley@stackstorm.com" -N ''
     exit
 
-Specify a user for running local and remote SSH actions. See :ref:`config-configure-ssh`. In 
+Specify a user for running local and remote SSH actions. See :ref:`config-configure-ssh`. In
 ``st2/conf/st2.dev.conf``, change ``ssh_key_file`` to point to the user's key file:
 
 .. code-block:: ini
@@ -99,7 +99,7 @@ Specify a user for running local and remote SSH actions. See :ref:`config-config
     ssh_key_file = /home/[current user]/.ssh/stanley_rsa
 
 Running
-~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Activate the virtualenv before starting the services:
 
@@ -113,46 +113,54 @@ Run the following to start |st2|:
 
     ./tools/launchdev.sh start
 
-It will start |st2| components in ``screen`` sessions.
+It will start |st2| components in ``tmux`` sessions.
 
 Additional commands:
 
 .. code-block:: bash
 
-    source virtualenv/bin/activate  # Activates the Python virtual environment
+    source virtualenv/bin/activate   # Activates the Python virtual environment
     tools/launchdev.sh startclean    # Reset and launches all StackStorm services in screen sessions
     tools/launchdev.sh start         # Launches all StackStorm services in screen sessions
     tools/launchdev.sh stop          # Stops all StackStorm screen sessions and services
 
-If the services are started successfully, you will see the following
-output:
+If the services are started successfully, you will see the following output:
 
 .. code-block:: bash
 
-    Starting all st2 servers...
-    Changing working directory to /home/vagrant/st2/./tools/.....
-    Using st2 config file: /home/vagrant/st2/./tools/../conf/st2.dev.conf
-    Using content packs base dir: /opt/stackstorm/packs
-    No Sockets found in /var/run/screen/S-vagrant.
-
-    Starting screen session st2-api...
-    Starting screen session st2-actionrunner...
-        starting runner  1 ...
-    No screen session found.
-    Starting screen session st2-sensorcontainer
-    Starting screen session st2-rulesengine...
-    Starting screen session st2-resultstracker...
-    Starting screen session st2-notifier...
-
-    Registering sensors, actions, rules and aliases...
-    ...
+  ./tools/launchdev.sh start
+  Initialising system variables ...
+  Current user:group = root:root
+  Using virtualenv: /root/workspace/st2/virtualenv
+  Using python: /root/workspace/st2/virtualenv/bin/python (Python 3.10.12)
+  Log file location: /root/workspace/st2/./tools/../logs
+  Using st2 config file: /root/workspace/st2/conf/st2.dev.conf
+  Starting all st2 servers ...
+  Changing working directory to /root/workspace/st2/./tools/..
+  Using config base dir: /opt/stackstorm/configs
+  Using content packs base dir: /opt/stackstorm/packs
+  Starting st2-api using gunicorn ...
+  Starting st2-stream using gunicorn ...
+  Starting st2-workflow engine(s):
+     st2-workflow-1 ...
+  Starting st2-actionrunner(s):
+     st2-actionrunner-1 ...
+  Starting st2-garbagecollector ...
+  Starting st2-scheduler(s):
+     st2-scheduler-1 ...
+  Starting st2-sensorcontainer ...
+  Starting st2-rulesengine ...
+  Starting st2-timersengine ...
+  Starting st2-notifier ...
+  Starting st2-auth using gunicorn ...
+  ...
 
 |st2| can now be operated using the REST API, |st2| CLI, and the st2client Python client library.
 
 .. _setup-st2-cli:
 
 Install |st2| CLI
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The |st2| CLI client needs to be installed. It is not necessary to install this into the
 virtualenv. However, the client may need to be installed with sudo if not in the virtualenv:
@@ -163,7 +171,7 @@ virtualenv. However, the client may need to be installed with sudo if not in the
     python3 setup.py develop
 
 Verify Installation
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To make sure all the components are installed correctly:
 
@@ -175,7 +183,7 @@ To make sure all the components are installed correctly:
     st2 run core.local uname
 
 Additional Makefile targets
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  - ``make all`` creates virtualenv, installs dependencies, and runs tests
  - ``make tests`` runs all the tests
@@ -188,7 +196,7 @@ Additional Makefile targets
 
 
 Install |st2| Web UI
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Installing the st2 Web UI.
 
@@ -210,7 +218,7 @@ Installing the st2 Web UI.
 
 
 Default Credentials to Login
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
@@ -218,7 +226,7 @@ Default Credentials to Login
     password: testp
 
 Manual Testing
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you only need to test a specific module, it might be reasonable to call ``nosetests`` directly.
 Make sure your virtualenv is active then run:
