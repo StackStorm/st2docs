@@ -87,6 +87,53 @@ runner boxes, and add the following configuration lines in ``/etc/st2/st2.conf``
   use_ssh_config = True
   ssh_config_file_path = /home/stanley/.ssh/config
 
+Make sure your ssh config is in the same account as user running the st2actionrunner process. If root is running 
+st2actionrunner install it under ``/root/.ssh``. Wherever it is installed, make sure the config and identity files
+have proper permissions and ownership, or ``ssh`` will refuse to read them.
+ 
+.. code-block:: bash
+
+  chown -R stanley:stanley /home/stanley/.ssh/*
+  chmod 600 /home/stanley/.ssh/config
+  chmod 600 /home/stanley/.ssh/id_rsa
+
+If you are using--or planning to use--bastion forwarding to get to target hosts in your network, then you either
+need to pass the ``bastion_host`` parameter to each action, or configure ssh to automatically use bastion forwarding.
+In the latter case, you to validate that your ssh config file(s) are valid and they include the appropriate
+``IdentityFile`` definitions. For example, consider this ssh config file with different ssh keys for the bastion and the
+target hosts (``10.1.*`` in our example). This allows SSH to resolve automatically the correct keys based on hostname.
+
+.. code-block:: ini
+
+  Host 10.1.*
+    ProxyCommand ssh -o StrictHostKeyChecking=no bastion nc %h %p
+    IdentityFile ~/.ssh/id_rsa
+    User stanley
+
+  Host bastion
+    Hostname bastion.example.com
+    IdentityFile ~/.ssh/bastion_rsa
+    User stanley
+
+Example output of a successful setup that does not require the ``bastion_host`` parameter.
+
+.. code-block:: bash
+
+  $st2 run core.remote cmd=whoami hosts=10.1.1.2
+  .
+  id: 5e668e4a811a07014b1c48bd
+  status: succeeded
+  parameters: 
+  cmd: whoami
+  hosts: 10.1.1.2:
+  result: 
+    10.1.1.2:
+    failed: false
+    return_code: 0
+    stderr: ''
+    stdout: stanley
+    succeeded: true
+
 We do not recommend running actions as arbitrary user + private_key combinations. This
 would require you to setup private_key for the users on |st2| action runner boxes and
 the public keys of the users in target boxes. This increases the risk surface area and
