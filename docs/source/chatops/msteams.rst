@@ -1,6 +1,10 @@
 Using Microsoft Teams (with BotFramework)
 =========================================
 
+.. warning:: 
+
+    This is documentation assumes you are using st2chatops 3.8. Support for Microsoft Teams was removed in 3.9.
+
 Configurating st2chatops with Microsoft Teams is **much** more involved than configuring
 other chat providers.
 

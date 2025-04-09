@@ -373,6 +373,26 @@ depending on execution status:
 
 To disable the result message, you can use the ``enabled`` flag in the same way as in ``ack``.
 
+Threading Replies (Slack)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can configure the hubot ``ack`` and ``result`` messages to be sent as a threaded reply to the invoked command in slack. This defaults to false if not set.
+
+.. code-block:: yaml
+
+    ack:
+      extra:
+        slack:
+          thread_response: true
+      format: ":green-check: Querying those items for you..."
+      append_url: false
+    result:
+      extra:
+        slack:
+          thread_response: true
+      format: |
+        ```{{execution.result.output.results}}```
+
 Plaintext Messages (Slack)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
