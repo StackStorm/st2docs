@@ -50,32 +50,24 @@ Officially Supported Chat Providers
 
 We officially provide support for the following chat providers with hubot:
 
-* `Slack <https://github.com/slackapi/hubot-slack>`_
-* Microsoft Teams (via `BotFramework <https://github.com/Microsoft/BotFramework-Hubot>`_)
-* `Mattermost version 5 <https://github.com/loafoe/hubot-matteruser>`_
-* `Rocket.Chat <https://github.com/RocketChat/hubot-rocketchat>`_
-* `Cisco Spark <https://github.com/tonybaloney/hubot-spark>`_
+* `Slack <https://github.com/hubot-friends/hubot-slack>`_
 
 Officially Unsupported Chat Providers
 =====================================
 
-We do not provide support for the following adapters, but they are still bundled in the
-st2chatops package, can be configured in ``st2chatops.env``, and still work (as far as we
-know).
+We do not provide support for the following adapters as of st2chatops 3.9. They are still bundled in the
+st2chatops 3.8 package, and can be configured in ``st2chatops.env``, and may still work.
 
+* Microsoft Teams (via `BotFramework <https://github.com/Microsoft/BotFramework-Hubot>`_) See :doc:`3.8 documentation <msteams>`
+* `Mattermost version 5 <https://github.com/loafoe/hubot-matteruser>`_
+* `Rocket.Chat <https://github.com/RocketChat/hubot-rocketchat>`_
+* `Cisco Spark <https://github.com/tonybaloney/hubot-spark>`_
 * `Flowdock <https://github.com/flowdock/hubot-flowdock>`_
 * `XMPP <https://github.com/markstory/hubot-xmpp>`_
 * `IRC <https://github.com/nandub/hubot-irc>`_
 
 Configuration
 =============
-
-.. note::
-
-    Configuring st2chatops with Microsoft Teams is a more involved process. Please see
-    :doc:`our documentation <msteams>` specifically for that chat provider.
-    All other chat providers can be configured in ``st2chatops.env`` with the instructions
-    below.
 
 Package-based Install
 ~~~~~~~~~~~~~~~~~~~~~
@@ -84,7 +76,7 @@ If you installed |st2| following the :doc:`install docs </install/index>`, the `
 package will take care of `almost` everything for you. Hubot with the necessary adapters is already
 installed, and StackStorm :ref:`API keys <authentication-apikeys>` have been configured. 
 
-You just need to tell |st2| which Chat service to use - e.g. Slack, MatterMost, etc. You will also need
+You just need to tell |st2| which Chat service to use - e.g. Slack. You will also need
 to give it credentials. Your Chat service may also need configuration. For example, to configure Slack,
 you first need to add a new Hubot integration to Slack. You can do this through Slack's admin interface.
 Take note of the ``HUBOT_SLACK_TOKEN`` that Slack provides.
@@ -94,27 +86,25 @@ your adapter. For example, if you are configuring Slack, look for this section:
 
 .. code-block:: bash
 
-    # Slack settings (https://github.com/slackhq/hubot-slack):
-    #
+    # Slack App YAML settings (https://github.com/hubot-friends/hubot-slack?tab=readme-ov-file#sample-yaml)
+    # Confirm your existing Modern Slack App or a newly created Modern slack app has the above permissions
     # export HUBOT_ADAPTER=slack
-    # Obtain the Slack token from your app page at api.slack.com, it's the "Bot
-    # User OAuth Access Token" in the "OAuth & Permissions" section.
-    # export HUBOT_SLACK_TOKEN=xoxb-CHANGE-ME-PLEASE
-    # Uncomment the following line to force hubot to exit if disconnected from slack.
-    # export HUBOT_SLACK_EXIT_ON_DISCONNECT=1
+    # Obtain the Bot user OAuth Token on the Oauth & Permissions section
+    # export HUBOT_SLACK_BOT_TOKEN=xoxb-CHANGE-ME-PLEASE
+    # Obtain a App-Level Token on the Basic Information section, scopes required: connections:write
+    # export HUBOT_SLACK_APP_TOKEN=xapp-CHANGE-ME-PLEASE
 
 Edit this file so it looks something like this:
 
 .. code-block:: bash
 
-    # Slack settings (https://github.com/slackhq/hubot-slack):
-    #
+    # Slack App YAML settings (https://github.com/hubot-friends/hubot-slack?tab=readme-ov-file#sample-yaml)
+    # Confirm your existing Modern Slack App or a newly created Modern slack app has the above permissions
     export HUBOT_ADAPTER=slack
-    # Obtain the Slack token from your app page at api.slack.com, it's the "Bot
-    # User OAuth Access Token" in the "OAuth & Permissions" section.
-    export HUBOT_SLACK_TOKEN=xoxb-SUPER-SECRET-TOKEN
-    # Uncomment the following line to force hubot to exit if disconnected from slack.
-    export HUBOT_SLACK_EXIT_ON_DISCONNECT=1
+    # Obtain the Bot user OAuth Token on the Oauth & Permissions section
+    export HUBOT_SLACK_BOT_TOKEN=xoxb-####-####-####
+    # Obtain a App-Level Token on the Basic Information section, scopes required: connections:write
+    export HUBOT_SLACK_APP_TOKEN=xapp-####-####-####
 
 Your specific Chat service may require different settings. Any environment settings needed can be
 added to this file. 
@@ -144,8 +134,8 @@ Restart ``st2chatops`` after creating that file.
 Using an External Adapter
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``st2chatops`` package includes adapters for common chat services, but if an
-adapter for a service you use isn't bundled there, don't worry: you can install it manually.
+The ``st2chatops`` package includes adapters for Slack, but if an
+adapter for a service you use isn't bundled there, don't worry: you can install it manually or try st2chatops 3.8.
 
 For example, here's how to connect |st2| to Yammer using the ``hubot-yammer`` adapter:
 

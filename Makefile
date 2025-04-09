@@ -208,7 +208,7 @@ docker-build:
 	@echo
 	@echo "==================== Building st2docs Docker ===================="
 	@echo
-	docker build -t st2/st2docs -f Dockerfile .
+	docker build --platform=linux/amd64 -t st2/st2docs -f Dockerfile .
 
 .PHONY: docker-run
 docker-run:
