@@ -40,7 +40,7 @@ below. Only execute the instructions for your distribution.
 1. Stop Services
 ----------------
 
-* Ubuntu 18.04/20.04:
+* Ubuntu:
 
   .. sourcecode:: bash
 
@@ -69,7 +69,7 @@ below. Only execute the instructions for your distribution.
 2. Remove Packages
 ------------------
 
-* Ubuntu 18.04/20.04:
+* Ubuntu:
 
   If you are using StackStorm only:
 

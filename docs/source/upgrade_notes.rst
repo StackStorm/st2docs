@@ -3,6 +3,35 @@
 Upgrade Notes
 =============
 
+.. _ref-upgrade-notes-v3-9:
+
+|st2| v3.9
+----------
+
+ * Compatibility updates.
+   - Linux distribution support for Ubuntu 22.04 Jammy and RockyLinux 9 (RHEL9 compatible) has been added.  Support for Ubuntu 18.04 Focal and CentOS 7 has been removed.
+   - Python versions from ``3.8`` to ``3.11`` are supported along with the removal of ``3.6`` support.
+   - MongoDB compatibility ranges from ``4.x`` to ``v7.x`` for the official MongoDB database.
+
+ * Configuration updates required in ``st2.conf``.
+
+    Several ``st2.conf`` database options have been renamed or deprecated. Most of the options will continue to work using their old name.
+    However, if you use `[database].ssl_keyfile` and/or `[database].ssl_certfile`, you MUST migrate to `[database].tls_certificate_key_file`.
+    This new option expects the key and certificate in the same file.  Use something like the following to create that file from your old files:
+
+    .. code-block::
+
+    cat path/to/ssl_keyfile path/to/ssl_certfile > path/to/tls_certificate_key_file
+
+
+    Other options that were renamed under ``[database]`` are (more details available in ``st2.conf.sample``):
+
+    * ``ssl`` -> ``tls``
+    * ``ssl_cert_reqs`` -> ``tls_allow_invalid_certificates`` (opt type change: string -> boolean)
+    * ``ssl_ca_certs`` -> ``tls_ca_file``
+    * ``ssl_match_hostnames`` -> ``tls_allow_invalid_hostnames`` (meaning is inverted: the new option is the opposite of the old)
+
+
 .. _ref-upgrade-notes-v3-8:
 
 |st2| v3.8
@@ -53,7 +82,7 @@ Upgrade Notes
 * As part of extending RBAC support to include protecting access to datastore operations, if
   you have RBAC enabled and any workflows access the datastore, then any user with execute
   permissions for those workflows will need to be assigned an RBAC role with the appropriate
-  key_value_pair permissions.  
+  key_value_pair permissions.
   Further information can be found in the :doc:`RBAC documentation <rbac>`.
 
 * Additional garbage collection options are available to automatically delete old tokens.
@@ -102,7 +131,7 @@ Upgrade Notes
 
 * As part of extending RBAC support to include protecting access to datastore operations, if
   you have RBAC enabled and any sensors access the datastore, then the ``sensor_service`` user will
-  need to be assigned an RBAC role with the appropriate key_value_pair permissions.  
+  need to be assigned an RBAC role with the appropriate key_value_pair permissions.
   Further information can be found in the :doc:`RBAC documentation <rbac>`.
 
 .. _ref-upgrade-notes-v3-6:
@@ -156,10 +185,10 @@ Upgrade Notes
 
 * ``%`` interpolation in st2 configuration parameters is no longer supported. Update your configuration
   parameters to fix strings if you use ``%`` interpolation to lookup keys as part of your parameter.
-  
+
   Now ``%`` is a valid character in parameter values.
-  
-  This increases security because passwords with a ``%`` in it do no longer result into an error. 
+
+  This increases security because passwords with a ``%`` in it do no longer result into an error.
 
 * The underlying database field type for storing large values such as action execution result has
   changed for various database models (ActionExecutionDB, LiveActionDB, WorkflowExecutionDB,
@@ -288,11 +317,11 @@ Upgrade Notes
   the ``/opt/stackstorm/st2`` virtualenv. This is caused by the fact that the core ``st2``
   package no longer bundles in the ``pyasn1`` module, so it will be absent post-upgrade.
   Running following command will be necessary for ``st2auth`` to function again:
-  
+
   .. code-block:: bash
 
    /opt/stackstorm/st2/bin/pip install pyasn1
-  
+
 
 .. _ref-upgrade-notes-v3-0:
 
@@ -405,7 +434,7 @@ Upgrade Notes
   ``sudo st2ctl reload --register-runners`` command.
 
   Keep in mind that all the runners which are installed inside |st2| virtual environment are now
-  automatically loaded and registered on each |st2| service start up. You only need to run 
+  automatically loaded and registered on each |st2| service start up. You only need to run
   ``sudo st2ctl reload --register-runners`` if you are using runner outside the service context or
   if you didn't restart the services.
 
