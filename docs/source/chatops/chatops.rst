@@ -78,8 +78,9 @@ installed, and StackStorm :ref:`API keys <authentication-apikeys>` have been con
 
 You just need to tell |st2| which Chat service to use - e.g. Slack. You will also need
 to give it credentials. Your Chat service may also need configuration. For example, to configure Slack,
-you first need to add a new Hubot integration to Slack. You can do this through Slack's admin interface.
-Take note of the ``HUBOT_SLACK_TOKEN`` that Slack provides.
+you first need to add a new Hubot integration to Slack. You can do this through Slack's admin interface
+using the following `example bot yaml definition <https://github.com/hubot-friends/hubot-slack?tab=readme-ov-file#sample-yaml>`_.
+Take note of the ``HUBOT_SLACK_BOT_TOKEN`` and ``HUBOT_SLACK_APP_TOKEN`` that Slack provides.
 
 Then edit the file ``/opt/stackstorm/chatops/st2chatops.env``. Edit and uncomment the variables for 
 your adapter. For example, if you are configuring Slack, look for this section:

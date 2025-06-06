@@ -5,14 +5,5 @@
   update the ``ST2_API`` and ``ST2_AUTH_URL`` variables or just point to the correct host with
   ``ST2_HOSTNAME``.
 
-  The example configuration uses Slack. To set this up, go to the Slack web admin interface, create
-  a Bot, and copy the authentication token into ``HUBOT_SLACK_TOKEN``.
-
-  If you are using a different Chat Service, set the corresponding environment variables under the
-  ``Chat service adapter settings`` section in ``st2chatops.env``:
-  `Slack <https://github.com/slackhq/hubot-slack>`_,
-  `Flowdock <https://github.com/flowdock/hubot-flowdock>`_,
-  `IRC <https://github.com/nandub/hubot-irc>`_ ,
-  `Mattermost <https://github.com/loafoe/hubot-matteruser>`_,
-  `RocketChat <https://github.com/RocketChat/hubot-rocketchat>`_,
-  `XMPP <https://github.com/markstory/hubot-xmpp>`_.
+  The example configuration uses Slack. To see the full list of supported Chat Services and environmental
+  variables to configure see :ref:`chatops-configuration`.
