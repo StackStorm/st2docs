@@ -16,10 +16,12 @@ contributions. Here's our plans for the next releases.
     the feature. Pull Requests are open to anyone.
 
 
-3.8
+3.10
 ---
 
-* **Output Schema:** Allow action/runner output schemas to cover all output types, not just JSON objects.
+* **SSO:** Support SSO with SAML2 for |ewc| web UI (beta).
+* **Python ChatOps:** Convert ChatOps backend to Python
+
 * More will be added to the roadmap for ``3.8``. So, stay tuned!
 
 Monitor the `master branch <https://github.com/StackStorm/st2/>`_ to see how we're progressing.
@@ -29,12 +31,10 @@ Backlog
 
 Here's some more nice things on our list that we haven't scheduled yet:
 
-* **Python ChatOps:** Convert ChatOps backend to Python
 * **ChatOps:** Support RBAC.
 * **K8s/HA:** Graduate `K8s Helm chart <https://github.com/stackstorm/stackstorm-ha>`_ from beta to stable.
 * **Workflow runtime graph:** Runtime view of workflow execution in st2flow for |ewc|.
 * **Workflow dry run:** Ability to run unit tests on orquesta workflows for |ewc|.
-* **SSO:** Support SSO with SAML2 for |ewc| web UI (beta).
 * **Job Scheduling:** Job scheduling for ad-hoc jobs.
 * **Datastore viewer/editor:** Datastore viewer/editor at web UI.
 * **History and Audit service:** History view with advanced search over years worth of execution
@@ -58,6 +58,17 @@ Submit a PR!
 
 Release History
 ---------------
+
+.. rubric:: Done in v3.9
+
+* **MongoDB compatibility:** Support for versions greater than v4.x add with v7.x being actively tested.
+* **RHEL/RockyLinux 9:** is now supported which has replaced RHEL7 in the supported OS matrix.
+* **Ubuntu Jammy 22.04:** is now supported and has replaced Ubuntu Bionic 18.04
+* **Python 3.9, 3.10 & 3.11:** st2 is now tested against supported version of Python.  Python 3.6 support has been removed.
+
+.. rubric:: Done in v3.8
+
+* **Output Schema:** Allow action/runner output schemas to cover all output types, not just JSON objects.
 
 .. rubric:: Done in v3.7
 
