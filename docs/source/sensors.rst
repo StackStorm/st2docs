@@ -128,6 +128,18 @@ For example:
     self._logger = self.sensor_service.get_logger(name=self.__class__.__name__)
     self._logger.debug('Polling 3rd party system for information')
 
+2. get_user_info(name)
+~~~~~~~~~~~~~~~~~~~
+
+This method allows the sensor instance to retrieve the user can retrieve information
+about the user account which is used to perform datastore operations.
+
+For example:
+
+.. code-block:: python
+
+    username_info = self.sensor_service.get_user_info()
+
 .. _ref-sensors-datastore-management-operations:
 
 Datastore Management Operations
