@@ -503,7 +503,7 @@ the parameter definition:
         default: "{{ st2kv.system.username }}"
       password:
         type: string
-        default: "{{ st2kv.system.password | decrypt_kv }}"
+        default: "{{ st2kv('system.password', decrypt=true) }}"
         secret: true
       num_network_adapters:
         type: integer
@@ -630,16 +630,16 @@ only. To get plain text, please run the command with the ``--decrypt`` flag:
 
 If you are using system scoped (``st2kv.system``) or user scoped (``st2kv.user``) datastore items
 to store secrets, you can decrypt them and use as parameter values in rules or actions. This is
-supported via Jinja filter ``decrypt_kv`` (read more about :ref:`Jinja filters<applying-filters-with-jinja>`).
+supported with the ``decrypt=true`` argument.
 For example, to pass a decrypted password as a rule parameter, use:
 
 .. code-block:: YAML
 
-    aws_key: "{{st2kv.system.aws_key | decrypt_kv}}"
+    aws_key: "{{st2kv('system.aws_key', decrypt=true)}}"
 
 .. note::
 
-    When using ``decrypt_kv`` Jinja filter on a default value of an action parameter you should
+    When using the ``decrypt=true`` argument on a default value of an action parameter you should
     also mark that parameter as secret (``secret: true``). If you don't do that, every user who
     has permission to run (execution) that action will be able to view raw unencryted value of
     that datastore item when executing an action.
