@@ -24,7 +24,9 @@ Configuring the Service
 By default, the |st2| configuration file is located at ``/etc/st2/st2.conf``. The settings listed
 below are configured under the ``auth`` section in the configuration file. The service can be
 configured with different backends (i.e. PAM, LDAP, etc.) to handle authentication. If a backend is
-not specified, an htpasswd-compatible flat file authentication backend is used. 
+not specified, an htpasswd-compatible flat file authentication backend is used. In addition to the
+standard auth backend configuration, you may also configure SSO authentication and a dedicated backend
+for that separately. Currently only SAML2 is supported.
 
 We recommend that the service be configured to listen on https (``use_ssl`` option) and be
 accessible to st2 clients.
@@ -39,6 +41,9 @@ accessible to st2 clients.
   Please review the supported list of authentication backends below.
 * ``backend_kwargs`` JSON-serialized arguments which are passed to the authentication backend in
   standalone mode.
+* ``sso`` Defines whether SSO should be enabled or not (true/false)
+* ``sso_backend`` SSO authentication backend to use (currently only ``saml2`` is available)
+* ``sso_backend_kwargs`` JSON-serialized arguments which are passed to the SSO authentication backend.
 * ``token_ttl`` The token lifetime, in seconds. By default, the token expires in 24 hours.
 * ``api_url`` The authentication service also acts as a service catalog. It returns a URL to the
   API endpoint on successful authentication. This information is used by clients such as the CLI
@@ -248,6 +253,228 @@ If your LDAP server uses a different name for the user ID attribute, you can sim
 
 
 This will need customization for your environment - e.g. the LDAP server to bind to, and the ``cert`` and ``key`` paths if you are using SSL.
+
+SSO
+---
+
+.. note::
+
+  SSO is available starting on |st2| v3.9.0, with only SAML2 currently supported.
+
+To enable SSO, simply set ``sso`` to ``true`` under the ``[auth]`` section in your config.
+
+Additionaly, you will need to configure the SSO backend to use for authentication, and its configuration.
+
+SSO Auth Backends
+-----------------
+
+The SSO architecture is pluggable, and different backends can be implemented to handle 
+the login/user interaction, just like the **Standalone Auth Mode** and its backends.
+
+SAML2
+-----
+
+You may use SAML2 as a SSO backend, which is implemented using the pysaml2 library, 
+and the code is hosted at https://github.com/StackStorm/st2-auth-backend-sso-saml2
+
+The following is a list of configuration options for the SAML2 backend:
+
++-------------------------------+----------+---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|            option             | required | default |                                                                                                            description                                                                                                             |
++===============================+==========+=========+====================================================================================================================================================================================================================================+
+| entity_id                     | yes      |         | SAML entity ID to identify the service provider, i.e. your stackstorm URL (e.g. https://stackstorm.mycompany.com).                                                                                                                 |
++-------------------------------+----------+---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| metadata_url                  | yes      |         | URL where SAML metadata is available from the IDP (e.g. with keycloak http://keycloak:3011/realms/StackStorm/protocol/saml/descriptor)                                                                                             |
++-------------------------------+----------+---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| extra_pysaml2_sp_settings     | no       |         | Set of parameters which will be passed straight to the pysaml2 client config under the "sp" property (for better extensibility/handling of custom cases) - https://pysaml2.readthedocs.io/en/latest/howto/config.html#sp           |
++-------------------------------+----------+---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| extra_pysaml2_client_settings | no       |         | Set of parameters which will be passed straight to the pysaml2 client config at the root level (for better extensibility/handling of custom cases) - https://pysaml2.readthedocs.io/en/latest/howto/config.html#general-directives |
++-------------------------------+----------+---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| debug                         | no       |         | Whether to enable pysaml2's debug                                                                                                                                                                                                  |
++-------------------------------+----------+---------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+Here's an example of a working config:
+
+.. sourcecode:: ini
+
+    [auth]
+    sso = True
+
+    sso_backend = saml2
+    sso_backend_kwargs = {
+        "entity_id": "http://your.stackstorm.url",
+        "metadata_url": "http://your.idp.provider/metadata"
+     }
+    # you need the extra above space here to be able to use multiline strings :)
+
+Once the |st2| config is set, be sure to make your IDP comply to the standard 
+SAML2 settings used in this backend (pysaml2 client config):
+
+.. sourcecode:: python
+
+  {
+      "entityid": self.entity_id,
+      "metadata": {"inline": [self.saml_metadata.text]},
+      "service": {
+          "sp": {
+              "endpoints": {
+                  "assertion_consumer_service": [
+                      (self.https_acs_url, saml2.BINDING_HTTP_REDIRECT),
+                      (self.https_acs_url, saml2.BINDING_HTTP_POST),
+                  ],
+              },
+              # Don't verify that the incoming requests originate from us via
+              # the built-in cache for authn request ids in pysaml2
+              "allow_unsolicited": True,
+              # Don't sign authn requests, since signed requests only make
+              # sense in a situation where you control both the SP and IdP
+              "authn_requests_signed": False,
+              "logout_requests_signed": True,
+              "want_assertions_signed": True,
+              "want_response_signed": True,
+              **extra_pysaml2_sp_settings,
+          }
+      },
+      **extra_pysaml2_client_settings,
+  }
+  
+.. note::
+
+  You may reconfigure these settings if you'd like. More about that :ref:`here <ref-saml2-reconfig>`
+
+On top of these settings, you must have a claim called ``Username`` with no namespace. This will be the only claim used
+and it will tell which user is logging in.
+
+You will also need to update the st2web config so that it's aware that you want to 
+use SSO, and is able to redirect the user to the proper SSO endpoint.
+
+To do that, set ``ssoEnabled: true`` in the st2web configuration file. For example:
+
+.. sourcecode:: javascript
+
+  // ...
+  /* global angular */
+  angular.module('main')
+    .constant('st2Config', {
+
+      //show_version_in_header: true,
+
+      // hosts: [
+      //   {
+      //     name: 'Dev Env',
+      //     url: 'https://:443/api',
+      //     auth: 'https://:443/auth',
+      //     stream: 'https://:443/stream',
+      //   },
+      //   {
+      //     name: 'Express',
+      //     url: '//172.168.90.50:9101/api',
+      //     auth: '//172.168.90.50:9101/auth',
+      //   },
+      // ],
+
+      ssoEnabled: true
+    });
+
+This should enable the following SSO login button: (be sure to clear cache if you have visited the portal before the change)
+
+.. figure:: /_static/images/sso-web-login-button.png
+
+Clicking the button will redirect the user to the IDP login screen and then on successful login,
+the user will call back the stackstorm API with the proper response and be provided with a session.
+
+.. _ref-saml2-reconfig:
+
+Reconfiguring SAML2 settings
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If your SAML2 setup does not align with the **default configuration below**, you may also reconfigure it by adding parameters to the 
+``sso_backend_kwargs`` in your auth configuration. 
+
+.. sourcecode:: python
+
+  {
+      "entityid": self.entity_id,
+      "metadata": {"inline": [self.saml_metadata.text]},
+      "service": {
+          "sp": {
+              "endpoints": {
+                  "assertion_consumer_service": [
+                      (self.https_acs_url, saml2.BINDING_HTTP_REDIRECT),
+                      (self.https_acs_url, saml2.BINDING_HTTP_POST),
+                  ],
+              },
+              # Don't verify that the incoming requests originate from us via
+              # the built-in cache for authn request ids in pysaml2
+              "allow_unsolicited": True,
+              # Don't sign authn requests, since signed requests only make
+              # sense in a situation where you control both the SP and IdP
+              "authn_requests_signed": False,
+              "logout_requests_signed": True,
+              "want_assertions_signed": True,
+              "want_response_signed": True,
+              **extra_pysaml2_sp_settings,
+          }
+      },
+      **extra_pysaml2_client_settings,
+  }
+
+As you can see in the python code above, ``extra_pysaml2_sp_settings`` will configure the 
+pysaml2 library SP settings as described here (https://pysaml2.readthedocs.io/en/latest/howto/config.html#sp), 
+and ``extra_pysaml2_client_settings`` will configure the general pysaml2 library settings as 
+described here (https://pysaml2.readthedocs.io/en/latest/howto/config.html#general-directives). 
+
+Here's a reconfiguration example: (**note it's JSON**)
+
+.. sourcecode:: ini
+
+    [auth]
+    sso = True
+
+    sso_backend = saml2
+    sso_backend_kwargs = {
+        "entity_id": "http://your.stackstorm.url",
+        "metadata_url": "http://your.idp.provider/metadata",
+        "extra_pysaml2_sp_settings": {
+          "want_response_signed": false,
+          "want_assertions_signed": false
+        },
+        "extra_pysaml2_client_settings": {
+          "verify_ssl_cert": true,
+          "key_file": "my-key.pem",
+          "cert_file": "my-cert.pem"
+        }
+     }
+    # you need the extra above space here to be able to use multiline strings :)
+
+Play around with these and you should be able to eventually get it working :)
+
+SAML2 IDP configuration example - AzureAD
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To help bootstrap your setup, here's a working example of AzureAD set up with |st2|.
+
+SSO SAML configuration:
+
+- here you acquire the ``metadata_url``
+- here you should point ``entity_id`` to your stackstorm URL, which the end-user will use to access with the browser
+
+.. figure:: /_static/images/sso-sp-example-azuread-sso-page.png
+
+Then edit your claims to have a ``Username`` claim with no namespace:
+
+.. figure:: /_static/images/sso-sp-example-azuread-claims-page-1.png
+
+.. figure:: /_static/images/sso-sp-example-azuread-claims-page-2.png
+
+Lastly, make sure the signing config is as defined in the SAML config within 
+stackstorm (by default, "Sign SAML response and assertion"):
+
+
+.. figure:: /_static/images/sso-sp-example-azuread-signing-page.png
+
+That's it! This should have you set up using AzureAD!
+
 
 Running the Service
 -------------------
