@@ -6,7 +6,7 @@ box that fits the :doc:`system requirements <system_requirements>`, and run this
 
 .. code-block:: bash
 
-   curl -sSL https://stackstorm.com/packages/install.sh | bash -s -- --user=st2admin --password=Ch@ngeMe
+   curl -sSL https://stackstorm.com/packages/v2.0/install.sh | bash -s -- --user=st2admin --password=Ch@ngeMe
 
 It will install and configure the stable of StackStorm, per
 :doc:`single host reference deployment <./overview>`.
