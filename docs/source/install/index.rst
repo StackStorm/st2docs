@@ -50,7 +50,7 @@ on Ubuntu, or ``sudo yum install curl nss`` on RHEL/CentOS. Then run this comman
 
 .. code-block:: bash
 
-   curl -sSL https://stackstorm.com/packages/install.sh | bash -s -- --user=st2admin --password='Ch@ngeMe'
+   curl -sSL https://stackstorm.com/packages/v2.9/install.sh | bash -s -- --user=st2admin --password='Ch@ngeMe'
 
 This is an opinionated installation of |st2|. It will download and install all components, as per
 the :doc:`single host reference deployment <./overview>`. It assumes that you have a clean, basic
