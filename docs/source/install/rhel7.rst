@@ -10,7 +10,7 @@ That's OK! You're busy, we get it. How do you just get started? Get yourself a c
 
 ::
 
-   curl -sSL https://stackstorm.com/packages/install.sh | bash -s -- --user=st2admin --password=<CHANGEME>
+   curl -sSL https://stackstorm.com/packages/v1.5/install.sh | bash -s -- --user=st2admin --password=<CHANGEME>
 
 .. contents::
 
