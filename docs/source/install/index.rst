@@ -8,7 +8,7 @@ this command:
 
 .. code-block:: bash
 
-   curl -sSL https://stackstorm.com/packages/install.sh | bash -s -- --user=st2admin --password=Ch@ngeMe
+   curl -sSL https://stackstorm.com/v2.2/packages/install.sh | bash -s -- --user=st2admin --password=Ch@ngeMe
 
 It will install and configure the stable version of StackStorm, as per the
 :doc:`single host reference deployment <./overview>`.
