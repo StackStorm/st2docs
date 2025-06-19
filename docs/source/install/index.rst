@@ -8,7 +8,7 @@ this command:
 
 .. code-block:: bash
 
-   curl -sSL https://stackstorm.com/packages/install.sh | bash -s -- --user=st2admin --password='Ch@ngeMe'
+   curl -sSL https://stackstorm.com/packages/v2.3/install.sh | bash -s -- --user=st2admin --password='Ch@ngeMe'
 
 .. danger::
 
