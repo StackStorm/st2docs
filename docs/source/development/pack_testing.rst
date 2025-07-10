@@ -227,13 +227,13 @@ If you only want to run a specific test file or a method in a test method, you c
     # class name with the "test_poll" method.
 
     # Run all the tests inside that test file / module
-    st2-run-pack-tests -p /data/packs/docker/ -f test_sensor_docker_sensor
+    st2-run-pack-tests -p /data/packs/docker/ -f test_sensor_docker_sensor.py
 
     # Run all tests in a specific test class
-    st2-run-pack-tests -p /data/packs/docker/ -f test_sensor_docker_sensor:DockerSensorTestCase
+    st2-run-pack-tests -p /data/packs/docker/ -f test_sensor_docker_sensor.py::DockerSensorTestCase
 
     # Run a single test method from a specific test file
-    st2-run-pack-tests -p /data/packs/docker/ -f test_sensor_docker_sensor:DockerSensorTestCase.test_poll
+    st2-run-pack-tests -p /data/packs/docker/ -f test_sensor_docker_sensor.py::DockerSensorTestCase::test_poll
 
 As more tests are developed it is always a good idea to determine how much code has been covered by
 the tests and how much remains un-tested. Calculated test coverage can be printed out using the
