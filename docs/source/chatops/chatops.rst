@@ -252,5 +252,4 @@ Logging
 =======
 
 ChatOps logs are written to ``/var/log/st2/st2chatops.log`` on non systemd-based distros. For
-systemd-based distros (Ubuntu 18/20, RHEL/RockyLinux8+), you can access the logs via
-``journalctl --unit=st2chatops``
+systemd-based distros, you can access the logs via ``journalctl --unit=st2chatops``
