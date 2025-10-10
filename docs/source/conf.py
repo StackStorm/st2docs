@@ -82,7 +82,7 @@ version = ".".join(__version__.split(".")[:2])
 # The full version, including alpha/beta/rc tags.
 release = __version__
 # The complete list of current StackStorm versions.
-release_versions = [
+release_versions = ['3.9', 
     "3.8",
     "3.7",
     "3.6",
