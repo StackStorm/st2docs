@@ -31,6 +31,26 @@ A list of available triggers for each resource is included below:
 
 .. _ref-sensors-authoring-a-sensor:
 
+An example rule to use ``core.st2.key_value_pair.*`` triggers is included below:
+
+.. code-block:: yaml
+
+    trigger:
+      type: "core.st2.key_value_pair.create"
+
+    criteria:
+      trigger.object.name:
+        type: "eq"
+        pattern: "x"
+
+    action:
+      ref: "core.local"
+      parameters:
+        cmd: "echo {{ trigger.object }}"
+
+Above rule will execute whenever a new key-value pair with name ``x`` is created in the
+datastore. The action will print the details of the created key-value pair.
+
 Creating a Sensor
 -----------------
 
