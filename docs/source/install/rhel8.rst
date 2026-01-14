@@ -1,4 +1,4 @@
-RHEL 8/CentOS 8
+RHEL 8/RockyLinux 8
 ===============
 
 .. include:: common/intro.rst
@@ -10,12 +10,6 @@ System Requirements
 -------------------
 
 Please check the :doc:`supported versions and system requirements <system_requirements>`.
-
-.. note::
-
-    |st2| on RHEL 8/RockyLinux/CentOS 8 runs all services, actions and sensors using Python 3 **only**. It
-    does not support Python 2 actions. `More info about python in RHEL 8 and CentOS 8.
-    <https://developers.redhat.com/blog/2019/05/07/what-no-python-in-red-hat-enterprise-linux-8/>`_
 
 .. note::
     |st2| is verified on RHEL/RockyLinux ``8.x`` distributions, but our RPMs should be compatible with other RHEL``8.x`` derivatives, e.g. CentOS 8 Stream.

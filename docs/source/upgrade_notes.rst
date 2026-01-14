@@ -9,9 +9,10 @@ Upgrade Notes
 ----------
 
  * Compatibility updates.
-   - Linux distribution support for Ubuntu 22.04 Jammy and RockyLinux 9 (RHEL9 compatible) has been added.  Support for Ubuntu 18.04 Focal and CentOS 7 has been removed.
-   - Python versions from ``3.8`` to ``3.11`` are supported along with the removal of ``3.6`` support.
-   - MongoDB compatibility ranges from ``4.x`` to ``v7.x`` for the official MongoDB database.
+
+  * Linux distribution support for Ubuntu 22.04 Jammy and RockyLinux 9 (RHEL9 compatible) has been added.  Support for Ubuntu 18.04 Focal and CentOS 7 has been removed.
+  * Python versions from ``3.8`` to ``3.11`` are supported along with the removal of ``3.6`` support.
+  * MongoDB compatibility ranges from ``4.x`` to ``v7.x`` for the official MongoDB database.
 
  * Configuration updates required in ``st2.conf``.
 
@@ -21,7 +22,7 @@ Upgrade Notes
 
     .. code-block::
 
-    cat path/to/ssl_keyfile path/to/ssl_certfile > path/to/tls_certificate_key_file
+        cat path/to/ssl_keyfile path/to/ssl_certfile > path/to/tls_certificate_key_file
 
 
     Other options that were renamed under ``[database]`` are (more details available in ``st2.conf.sample``):
@@ -31,6 +32,45 @@ Upgrade Notes
     * ``ssl_ca_certs`` -> ``tls_ca_file``
     * ``ssl_match_hostnames`` -> ``tls_allow_invalid_hostnames`` (meaning is inverted: the new option is the opposite of the old)
 
+* YAQL `format` fucntion removed.
+
+    Due to security concerns related to potential unauthorised data access the `str().format()` function was removed.  Upstream developers
+    recommend to replace the use of `format` with string concatentation.  Users can replace the ``format`` function by the ``+`` operator and the ``str`` YAQL function.
+
+    ``format("{0}-{1}", a b)`` rewirtten as ``str(a) + '-' + str(b)``
+    Further details can be seen in the security issue https://bugs.launchpad.net/murano/+bug/2048114
+
+    In cases where the string is not controlled by the workflow directly, the `replace` function can be used.
+
+    *Workflow Context*
+
+    .. code-block:: yaml
+
+        {
+            "name": "hostname1",
+            "status": "Online",
+            "string_keywords": "Server {name} is {status}.",
+            "string_positional": "Server {0} is {1}."
+        }
+
+    *String using keyword*
+
+    .. code-block:: yaql
+
+        <% ctx(string_keywords).replace("{name}", ctx(name)).replace("{status}", ctx(status)) %>
+
+    *String using positional arguments*
+
+    .. code-block:: yaql
+
+        <% ctx(string_positional).replace("{0}", ctx(name)).replace("{1}", ctx(status)) %>
+
+    *Output*
+    ::
+
+        'Server hostname1 is Online.'
+
+    Use Jinja in cases where `replace` isn't optimal.
 
 .. _ref-upgrade-notes-v3-8:
 
