@@ -1,5 +1,5 @@
-RHEL 8/CentOS 8
-===============
+RHEL 8/RockyLinux 8
+========================================================================
 
 .. include:: common/intro.rst
 
@@ -7,24 +7,18 @@ RHEL 8/CentOS 8
    :local:
 
 System Requirements
--------------------
+------------------------------------------------------------------------
 
 Please check the :doc:`supported versions and system requirements <system_requirements>`.
-
-.. note::
-
-    |st2| on RHEL 8/RockyLinux/CentOS 8 runs all services, actions and sensors using Python 3 **only**. It
-    does not support Python 2 actions. `More info about python in RHEL 8 and CentOS 8.
-    <https://developers.redhat.com/blog/2019/05/07/what-no-python-in-red-hat-enterprise-linux-8/>`_
 
 .. note::
     |st2| is verified on RHEL/RockyLinux ``8.x`` distributions, but our RPMs should be compatible with other RHEL``8.x`` derivatives, e.g. CentOS 8 Stream.
 
 Minimal Installation
---------------------
+------------------------------------------------------------------------
 
 Adjust SELinux Policies
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If your system has SELinux in Enforcing mode, please follow these instructions to adjust SELinux
 policies. This is needed for successful installation. If you are not happy with these policies,
@@ -55,7 +49,7 @@ you may want to tweak them according to your security practices.
   adjust policy configurations when SELinux is disabled. You can ignore this error.
 
 Install Dependencies
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: __mongodb_note.rst
 
@@ -86,7 +80,7 @@ Install MongoDB, RabbitMQ, and Redis:
 
 
 Setup Repositories
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following script will detect your platform and architecture and setup the appropriate |st2|
 repository. It will also add the the GPG key used for package signing.
@@ -96,7 +90,7 @@ repository. It will also add the the GPG key used for package signing.
   curl -s https://packagecloud.io/install/repositories/StackStorm/stable/script.rpm.sh | sudo bash
 
 Install |st2| Components
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
@@ -105,27 +99,27 @@ Install |st2| Components
 .. include:: common/configure_components.rst
 
 Setup Datastore Encryption
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: common/datastore_crypto_key.rst
 
 Configure SSH and SUDO
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: common/configure_ssh_and_sudo.rst
 
 Start Services
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: common/start_services.rst
 
 Verify
-~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: common/verify.rst
 
 Configure Authentication
-------------------------
+------------------------------------------------------------------------
 
 The reference deployment uses a file-based authentication provider for simplicity. Refer to
 :doc:`/authentication` to configure and use PAM or LDAP authentication backends.
@@ -144,7 +138,7 @@ To set up authentication with file-based provider:
 .. include:: common/configure_authentication.rst
 
 Install WebUI and Setup SSL Termination
----------------------------------------
+------------------------------------------------------------------------
 
 `NGINX <http://nginx.org/>`_ is used to serve WebUI static files, redirect HTTP to HTTPS, provide
 SSL termination, and reverse-proxy st2auth and st2api API endpoints. To set it up: install the
@@ -212,7 +206,7 @@ survive reboot.
 .. include:: common/api_access.rst
 
 Setup ChatOps
--------------
+------------------------------------------------------------------------
 
 If you already run a Hubot instance, you can install the `hubot-stackstorm plugin
 <https://github.com/StackStorm/hubot-stackstorm>`_ and configure |st2| environment variables, as
@@ -262,7 +256,7 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
 * That's it! Go to your Chat room and begin ChatOps-ing. Read more in the :doc:`/chatops/index` section.
 
 A Note on Security
-------------------
+------------------------------------------------------------------------
 
 .. include:: common/security_notes.rst
 
