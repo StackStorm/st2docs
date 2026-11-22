@@ -220,13 +220,22 @@ is to use the `st2chatops <https://github.com/stackstorm/st2chatops/>`_ package.
     # Create notification rule if not yet enabled
     st2 rule get chatops.notify || st2 rule create /opt/stackstorm/packs/chatops/rules/notify_hubot.yaml
 
-* Add `NodeJS v20 repository <https://nodejs.org/en/download/package-manager/>`_:
+* Install Node.js 24 from the `NodeSource repository <https://github.com/nodesource/distributions>`_,
+  as the one-line installer does. ``st2chatops`` depends on the ``nodejs`` package, so a Node.js
+  installed with ``nvm`` doesn't satisfy it:
 
   .. code-block:: bash
 
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
-    source ~/.bashrc
-    nvm install 20
+    curl -fsSL https://rpm.nodesource.com/setup_24.x | sudo bash -
+    sudo dnf install -y nodejs
+
+  Alternatively, use the ``nodejs:24`` module from the RHEL/RockyLinux AppStream repository:
+
+  .. code-block:: bash
+
+    sudo dnf module reset -y nodejs
+    sudo dnf module enable -y nodejs:24
+    sudo dnf install -y nodejs
 
 * Install the ``st2chatops`` package:
 

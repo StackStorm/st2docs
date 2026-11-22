@@ -142,7 +142,8 @@ below. Only execute the instructions for your distribution.
   .. sourcecode:: bash
 
     sudo rm -f /etc/apt/sources.list.d/mongo* /etc/apt/sources.list.d/nginx.list
-    sudo rm -f /etc/apt/sources.list.d/StackStorm* /etc/apt/sources.list.d/nodesource* 
+    sudo rm -f /etc/apt/sources.list.d/StackStorm* /etc/apt/sources.list.d/nodesource*
+    sudo rm -f /etc/apt/sources.list.d/nodejs-* /etc/apt/preferences.d/nodejs.pref /etc/apt/preferences.d/nsolid.pref
     sudo rm -f /etc/apt/sources.list.d/rabbitmq*
 
 * RHEL/CentOS/RockyLinux:
@@ -151,6 +152,7 @@ below. Only execute the instructions for your distribution.
 
     sudo rm -f /etc/yum.repos.d/mongodb-org* /etc/yum.repos.d/StackStorm*
     sudo rm -f /etc/yum.repos.d/pgdg-94* /etc/yum.repos.d/nginx* /etc/yum.repos.d/nodesource*
+    sudo rm -f /etc/yum.repos.d/nodejs-* /etc/yum.repos.d/nsolid.repo
     sudo rm -f /etc/yum.repos.d/rabbitmq_erlang* /etc/yum.repos.d/*rabbitmq-server*
 
 

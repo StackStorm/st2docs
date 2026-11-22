@@ -172,6 +172,39 @@ The following sections call out the migration scripts that need to be run when u
 respective version. If you are upgrading across multiple versions, make sure you run the scripts for
 any skipped versions:
 
+v3.10
+'''''
+* Node.js v24 is now used by ChatOps (previously v20 was used). ``st2chatops`` requires it, so
+  upgrade Node.js together with ``st2chatops``. Choose the commands that match how Node.js was
+  installed:
+
+  Ubuntu (NodeSource, used by the one-line installer):
+
+  .. sourcecode:: bash
+
+     sudo rm -f /etc/apt/sources.list.d/nodejs-*.sources /etc/apt/sources.list.d/nodesource.*
+     curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash -
+     sudo apt-get install --only-upgrade nodejs st2chatops
+
+  RHEL/RockyLinux (NodeSource, used by the one-line installer):
+
+  .. sourcecode:: bash
+
+     sudo rm -f /etc/yum.repos.d/nodejs-*.repo /etc/yum.repos.d/nsolid.repo /etc/yum.repos.d/nodesource*.repo
+     curl -fsSL https://rpm.nodesource.com/setup_24.x | sudo bash -
+     sudo dnf upgrade -y nodejs st2chatops
+
+  RHEL/RockyLinux (``nodejs`` AppStream module):
+
+  .. sourcecode:: bash
+
+     sudo dnf module switch-to -y nodejs:24
+     sudo dnf upgrade -y st2chatops
+
+  ``dnf module switch-to`` upgrades Node.js in place. Don't remove the ``nodejs`` package
+  instead: that also removes ``st2chatops``, which saves your ``st2chatops.env`` as
+  ``st2chatops.env.rpmsave``.
+
 v3.7
 ''''
 *  *RockyLinux/RHEL/CentOS 8 only*. Due to the upgrade from python3.6 to python 3.8, all packs installed prior to upgrade will need to have their virtual environment re-created after upgrading |st2| packages (on all nodes which run st2actionrunner or st2sensorcontainer services), using the following command:
